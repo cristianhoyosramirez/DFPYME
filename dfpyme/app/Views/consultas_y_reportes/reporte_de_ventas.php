@@ -69,6 +69,7 @@ REPORTE DE VENTAS DIARIAS
                 <input type="text" placeholder="Buscar cliente por nombre o identificacion" class="form-control" id="cliente_reporte" onkeypress="limpiarErrorCliente()">
                 <span id="error_cliente_cartera" style="color:red;"></span>
             </div>
+
             <div style="display: none" id="entre_fechas" class="col-4 row">
                 <table>
                     <tr>
@@ -116,6 +117,7 @@ REPORTE DE VENTAS DIARIAS
                     <td>Saldo</td>
                     <td>Acción</td>
                 </thead>
+
                 <tbody id="t_body_consulta_ventas">
                     <?php $datos = model('facturaVentaModel')->por_defecto(date('Y-m-d'));
                     $valor_venta = model('facturaVentaModel')->valor_venta(date('Y-m-d'));
@@ -179,7 +181,7 @@ REPORTE DE VENTAS DIARIAS
                                 </td>
                             </tr>
                         <?php } ?>
-                    <?php } ?>
+
                 </tbody>
             </table>
         </div>
@@ -200,7 +202,7 @@ REPORTE DE VENTAS DIARIAS
 
 
         </div>
-
+    <?php } ?>
 
     </div>
 </div>

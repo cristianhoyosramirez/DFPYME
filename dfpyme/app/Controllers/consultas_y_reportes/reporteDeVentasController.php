@@ -30,6 +30,7 @@ class reporteDeVentasController extends BaseController
     public function index()
     {
         $estado_facturas = model('estadoModel')->find();
+
         return view('consultas_y_reportes/reporte_de_ventas', [
             'estado' => $estado_facturas,
         ]);
@@ -378,7 +379,7 @@ class reporteDeVentasController extends BaseController
         if (empty($tiene_cierre)) {
             $estado = "ABIERTA";
             $cierre = 'POR DEFINIR';
-        
+
             $efectivo = model('facturaFormaPagoModel')->ingresos_efectivo($fecha_y_hora_apertura['fecha_y_hora_apertura'], date('Y-m-d H:i:s'));
             if (empty($efectivo)) {
                 $ingresos_efectivo = 0;
@@ -400,19 +401,6 @@ class reporteDeVentasController extends BaseController
             } else if (!empty($devolucion_venta)) {
                 $devoluciones = $devolucion_venta[0]['total_devoluciones'];
             }
-
-            /*   $retiros = model('retiroModel')->findAll();
-
-            foreach ($retiros as $detalle) {
-                $data = [
-                    'fecha_y_hora_retiro_forma_pago' => $detalle['fecha'] . " " . $detalle['hora']
-                ];
-                $model = model('retiroFormaPagoModel');
-                $actualizar_retiro = $model->set($data);
-                $actualizar_retiro = $model->where('idretiro', $detalle['id']);
-                $actualizar_retiro = $model->update();
-            } */
-
             $total_retiros = model('retiroFormaPagoModel')->total_retiros($fecha_y_hora_apertura['fecha_y_hora_apertura'], date('Y-m-d H:i:s'));
 
             if (empty($total_retiros[0]['total_retiros'])) {
@@ -499,7 +487,6 @@ class reporteDeVentasController extends BaseController
             'retirosmasdevoluciones' => "$" . number_format($retiros + $devoluciones, 0, ",", "."),
             'saldo_caja' => "$" . number_format(($valor_apertura['valor'] + $ingresos_transaccion + $ingresos_efectivo) - ($retiros + $devoluciones), 0, ",", "."),
             'diferencia' => "$" . number_format($diferencia, 0, ",", "."),
-            // 'diferencia' => "$" . number_format(($efectivo_cierre + $transaccion_cierre) - (($ingresos_transaccion + $ingresos_efectivo) - ($retiros + $devoluciones)), 0, ",", "."),
             'id_apertura' => $ultimo_id
         ]);
     }
@@ -1389,7 +1376,7 @@ class reporteDeVentasController extends BaseController
         $fecha_final = $_REQUEST['fecha_final_agrupado'];
 
         $hora_final = $_REQUEST['hora_final_agrupado'];
-        
+
 
         $dompdf = new Dompdf();
 
@@ -1404,7 +1391,7 @@ class reporteDeVentasController extends BaseController
         $nombre_ciudad = model('municipiosModel')->select('nombreciudad')->where('idciudad', $datos_empresa[0]['idciudad'])->first();
         $nombre_departamento = model('departamentoModel')->select('nombredepartamento')->where('iddepartamento', $datos_empresa[0]['iddepartamento'])->first();
 
-        
+
         if (empty($hora_inicial) and empty($hora_final)) {
             $resultado = model('productoFacturaVentaModel')->resutado_suma_entre_fechas($fecha_inicial, $fecha_final);
 
@@ -1558,13 +1545,13 @@ class reporteDeVentasController extends BaseController
             }
         }
         if (!empty($hora_inicial) and !empty($hora_final)) {
-            
+
             $temp_fecha_inicial = $fecha_inicial;
             $temp_fecha_final = $fecha_final;
-  
+
             $resultado_fechas = model('productoFacturaVentaModel')->consulta_entre_fechas_con_hora_inicial_y_final($temp_fecha_inicial, $temp_fecha_final);
 
-           
+
             $validar_tabla_reporte_producto = model('reporteProductoModel')->findAll();
 
             if (empty($validar_tabla_reporte_producto)) {
@@ -1642,8 +1629,8 @@ class reporteDeVentasController extends BaseController
         $total_registros = model('facturaVentaModel')->selectCount('id')->where('fecha_factura_venta', $fecha_factura)->find();
 
         $porcentaje_iva = model('productoFacturaVentaModel')->iva($id_factura_primero[0]['id'], $id_factura_final[0]['id']);
-   
-    
+
+
         $valores_iva = array();
         foreach ($porcentaje_iva as $detalle) {
 
@@ -2005,4 +1992,3 @@ class reporteDeVentasController extends BaseController
         $dompdf->stream("Reporte de ventas de producto del " . $fecha_inicial . " al " . $fecha_final . " .pdf", array("Attachment" => true));
     }
 }
-

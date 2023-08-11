@@ -78,4 +78,20 @@ class aperturaModel extends Model
          ");
         return $datos->getResultArray();
     }
+
+    public function apertura()
+    {
+        $datos = $this->db->query("
+        SELECT
+            id,
+            fecha
+        FROM
+            apertura
+        ORDER BY
+            id
+        DESC
+        LIMIT 10
+         ");
+        return $datos->getResultArray();
+    }
 }

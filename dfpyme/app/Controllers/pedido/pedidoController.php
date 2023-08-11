@@ -179,12 +179,12 @@ class pedidoController extends BaseController
 
     public function cerrar_venta()
     {
-        /*   $numero_de_pedido = 5;
+        /*    $numero_de_pedido = 35882;
         $efectivo = 200000;
         $transaccion = 200000;
         $valor_venta = 400000;
         $nit_cliente = 22222222;
-        $id_usuario = 6;
+        $id_usuario = 8;
         $estado = 1;
         $descuento = 0;
         $propina = 0;  */
@@ -192,6 +192,7 @@ class pedidoController extends BaseController
 
 
         $numero_de_pedido = $_POST['numero_de_pedido'];
+
         $efectivo = $_POST['efectivo'];
         $transaccion = $_POST['transaccion'];
         $valor_venta = $_POST['valor_venta'];
@@ -1046,7 +1047,7 @@ class pedidoController extends BaseController
                     "id_factura" => $id_factura,
                     "resultado" => 1,
                     "efectivo" => number_format($efectivo, 0, ",", "."),
-                    "cambio" => number_format($efectivo - (($valorfactura_forma_pago['valor_total']-$descuento)+$propina), 0, ",", "."),
+                    "cambio" => number_format($efectivo - (($valorfactura_forma_pago['valor_total'] - $descuento) + $propina), 0, ",", "."),
                     //"total" =>  number_format($valorfactura_forma_pago['valor_total'], 0, ",", "."),
                     "id_regimen" => 2,
                     "Sub_total" => number_format($sub_totales, 0, ",", "."),
@@ -1231,6 +1232,8 @@ class pedidoController extends BaseController
             }
         }
     }
+
+
     public function nota_de_pedido()
     {
         $numero_pedido = $_POST['numero_pedido'];
@@ -1672,7 +1675,7 @@ class pedidoController extends BaseController
                 'valor_ico' => 0,
                 'impuesto_al_consumo' => 0,
                 'iva' => 0,
-                'id_iva'=>0,
+                'id_iva' => 0,
                 'aplica_ico' => false,
                 'valor_total_producto' => $detalle['valor_unitario'],
                 //'fecha_y_hora_venta' => date("Y-m-d H:i:s"),
@@ -1906,7 +1909,7 @@ class pedidoController extends BaseController
                     'valor_ico' => $valor_imco,  //Deberia de ser el 8 
                     'impuesto_al_consumo' => $impuesto_al_consumo,
                     'iva' => 0,
-                    'id_iva'=>$id_iva['idiva'],
+                    'id_iva' => $id_iva['idiva'],
                     'aplica_ico' => true,
 
                 ];
@@ -2000,7 +2003,7 @@ class pedidoController extends BaseController
                     'valor_ico' => $valor_imco, //
                     'impuesto_al_consumo' => 0,
                     'iva' => $iva,
-                    'id_iva'=>$id_iva['id_iva'],
+                    'id_iva' => $id_iva['id_iva'],
                     'aplica_ico' => false
                 ];
 
@@ -2035,18 +2038,11 @@ class pedidoController extends BaseController
 
 
                         $resultado = $cantidad_inventario['cantidad_inventario'] - $descontar_de_inventario;
-                        //echo $resultado;
 
-
-                        /*   $data = [
-                            'cantidad_inventario' => $cantidad_inventario['cantidad_inventario'] - $descontar_de_inventario,
-
-                        ]; */
                         $data = [
                             'cantidad_inventario' => $resultado,
 
                         ];
-                        // exit('hola mundo');
 
                         $model = model('inventarioModel');
                         $actualizar = $model->set($data);
@@ -2068,14 +2064,7 @@ class pedidoController extends BaseController
         $returnData = array(
             "id_factura" => $id_factura,
             "resultado" => 1,
-            // "efectivo" => number_format($efectivo_sin_punto, 0, ",", "."),
-            // "cambio" => number_format($transaccion_sin_punto - $valorfactura_forma_pago['valor_total'], 0, ",", "."),
-            // "total" =>  number_format($valorfactura_forma_pago['valor_total'], 0, ",", "."),
-            // "id_regimen" => 1,
-            // "Sub_total" => number_format($sub_totales, 0, ",", "."),
-            // "iva" => number_format($total_iva, 0, ",", "."),
-            // "impuesto_al_consumo" => number_format($total_ico, 0, ",", "."),
-            // "total" => $total[0]['total']
+
             "tabla" => view('factura_pos/tabla_reset_factura')
         );
         $borrar_pedido = model('pedidoPosModel')->where('fk_usuario', $id_usuario);

@@ -253,7 +253,6 @@ class productoController extends BaseController
                         'codigo_categoria' => $codigo_categoria['codigocategoria'],
                         'codigointernoproducto' => $codigo_interno_producto,
                         'numero_productos_impresos_en_comanda' => 0
-
                     ];
 
 

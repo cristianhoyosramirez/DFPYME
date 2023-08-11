@@ -265,4 +265,141 @@ class facturaVentaModel extends Model
          ");
         return $datos->getResultArray();
     }
+
+
+    function factura_venta(
+        $numero_factura,
+        $nit_cliente,
+        $id_usuario,
+        $estado,
+        $hora,
+        $fecha,
+        $serie,
+        $id_resolucion,
+        $observaciones,
+        $fk_usuario_mesero,
+        $saldo,
+        $valor_total,
+        $fk_mesa,
+        $numero_pedido,
+        $fecha_y_hora,
+        $descuento,
+        $propina
+
+    ) {
+        $data = [
+            'numerofactura_venta' =>  $numero_factura,
+            'nitcliente' => $nit_cliente,
+            'idusuario_sistema' => $id_usuario,
+            'idcaja' => 1,
+            'idestado' => $estado,
+            'fecha_factura_venta' => $fecha,
+            'horafactura_venta' => $hora,
+            'descuentofactura_venta' => 0,
+            'fechalimitefactura_venta' => $fecha,
+            'aplica_descuento' => false,
+            'estado' => true,
+            'serie' => $serie,
+            'id_resolucion_dian' => $id_resolucion,
+            'observaciones_generales' => $observaciones,
+            'fk_usuario_mesero' => $fk_usuario_mesero,
+            'saldo' => $saldo,
+            'valor_factura' => $valor_total,
+            'fk_mesa' => $fk_mesa,
+            'numero_pedido' => $numero_pedido,
+            'fecha_y_hora_factura_venta' => $fecha_y_hora,
+            'descuento' => $descuento,
+            'propina' => $propina
+
+        ];
+
+        $factura_venta = $this->db->table('factura_venta');
+        $factura_venta->insert($data);
+        return $this->db->insertID();
+    }
+
+    function por_defecto($fecha)
+    {
+        $datos = $this->db->query("
+            SELECT
+                factura_venta.id,
+                factura_venta.idestado,
+                factura_venta.nitcliente,
+                cliente.nombrescliente,
+                descripcionestado,
+                numerofactura_venta,
+                fecha_factura_venta,
+                fechalimitefactura_venta,
+                valor_factura,
+                saldo
+            FROM
+                factura_venta
+            INNER JOIN cliente ON factura_venta.nitcliente = cliente.nitcliente
+            INNER JOIN estado ON estado.idestado = factura_venta.idestado
+            WHERE
+                fecha_factura_venta = '$fecha'
+         ");
+        return $datos->getResultArray();
+    }
+    function valor_venta($fecha)
+    {
+        $datos = $this->db->query("
+        SELECT
+        SUM(valor_factura) as valor_venta
+    FROM
+        factura_venta
+    WHERE
+        fecha_factura_venta = '$fecha'
+         ");
+        return $datos->getResultArray();
+    }
+    function valor_saldo($fecha)
+    {
+        $datos = $this->db->query("
+        SELECT
+        SUM(saldo) as saldo_venta
+    FROM
+        factura_venta
+    WHERE
+        fecha_factura_venta = '$fecha'
+         ");
+        return $datos->getResultArray();
+    }
+
+    function consultar_por_fecha($fecha_inicial,$fecha_final,$id_estado)
+    {
+        $datos = $this->db->query("
+        SELECT
+            factura_venta.nitcliente
+        FROM
+            factura_venta
+        WHERE
+            fecha_factura_venta BETWEEN '$fecha_inicial' AND '$fecha_final' AND idestado = $id_estado
+         ");
+        return $datos->getResultArray();
+    }
+    function saldo_factura($fecha_inicial,$fecha_final,$id_estado)
+    {
+        $datos = $this->db->query("
+        SELECT
+            sum(saldo) as saldo
+        FROM
+            factura_venta
+        WHERE
+            fecha_factura_venta BETWEEN '$fecha_inicial' AND '$fecha_final' AND idestado = $id_estado
+         ");
+        return $datos->getResultArray();
+    }
+    function total_saldo_factura($fecha_inicial,$fecha_final,$id_estado)
+    {
+        $datos = $this->db->query("
+        SELECT
+            sum(saldo) as saldo
+        FROM
+            factura_venta
+        WHERE
+            fecha_factura_venta BETWEEN '$fecha_inicial' AND '$fecha_final' AND idestado = $id_estado
+         ");
+        return $datos->getResultArray();
+    }
 }

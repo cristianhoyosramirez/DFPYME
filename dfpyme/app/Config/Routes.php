@@ -215,6 +215,10 @@ $routes->group('clientes', ['namespace' => 'App\Controllers\clientes', 'filter' 
     $routes->get('add', 'clientesController::agregar_cliente');
 });
 
+$routes->group('factura_electronica', ['namespace' => 'App\Controllers\factura_electronica', 'filter' => \App\Filters\Auth::class], function ($routes) {
+    $routes->post('pre_factura', 'FacturaElectronica::pre_factura');
+});
+
 
 $routes->group('factura_directa', ['namespace' => 'App\Controllers\factura_pos', 'filter' => \App\Filters\Auth::class], function ($routes) {
     $routes->post('facturacion', 'facturaDirectaController::facturacion');
@@ -329,6 +333,7 @@ $routes->group('consultas_y_reportes', ['namespace' => 'App\Controllers\consulta
     $routes->post('consultar_por_documento', 'Documento::consultar_por_documento');
     $routes->post('consultar_por_cliente', 'Documento::consultar_por_cliente');
     $routes->post('consulta_de_cartera', 'Documento::consulta_de_cartera');
+    $routes->post('aperturas', 'Documento::aperturas');
 });
 
 $routes->group('devolucion', ['namespace' => 'App\Controllers\devolucion', 'filter' => \App\Filters\Auth::class], function ($routes) {

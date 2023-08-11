@@ -174,4 +174,27 @@ class facturaFormaPagoModel extends Model
     ");
         return $datos->getResultArray();
     }
+
+
+    function factura_forma_pago($numero_factura, $id_usuario, $id_forma_pago, $fecha, $hora, $valor_pago, $efectivo, $id_factura, $fecha_y_hora)
+    {
+        $data = [
+
+            'numerofactura_venta' =>  $numero_factura,
+            'idusuario' => $id_usuario,
+            'idcaja' => 1,
+            'idforma_pago' => $id_forma_pago,
+            'fechafactura_forma_pago' => $fecha,
+            'hora' => $hora,
+            'valorfactura_forma_pago' => $valor_pago,
+            'idturno' => 1,
+            'valor_pago' => $efectivo,
+            'id_factura' => $id_factura,
+            'fecha_y_hora_forma_pago' => $fecha_y_hora
+        ];
+
+        $factura_forma_pago = $this->db->table('factura_forma_pago');
+        $factura_forma_pago->insert($data);
+        return $this->db->insertID();
+    }
 }

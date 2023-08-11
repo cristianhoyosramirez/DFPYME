@@ -20,60 +20,13 @@ class facturacionConImpuestosController extends BaseController
     public function factura_pos()
     {
 
+        $productos = "";
         $id_usuario = $_POST['id_usuario'];
-
         $id_fact = model('facturaVentaModel')->selectMax('id')->where('idusuario_sistema', $id_usuario)->first();
-
-
         $id_factura = $id_fact['id'];
-
         if ($id_factura != NULL) {
             $movimientos_transaccion = model('facturaformaPagoModel')->forma_pago_transaccion($id_factura);
         }
-
-        /*  if (!empty($movimientos_transaccion)) {
-            $fecha_factura_venta = model('facturaVentaModel')->select('fecha_factura_venta')->where('id', $id_factura)->first();
-            $hora_factura_venta = model('facturaVentaModel')->select('horafactura_venta')->where('id', $id_factura)->first();
-            $numero_factura = model('facturaVentaModel')->select('numerofactura_venta')->where('id', $id_factura)->first();
-
-            $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario)->first();
-            $datos_empresa = model('empresaModel')->datosEmpresa();
-            $total = model('productoFacturaVentaModel')->selectSum('total')->where('id_factura', $id_factura)->find();
-            $connector = new WindowsPrintConnector('FACTURACION');
-            $printer = new Printer($connector);
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->setTextSize(1, 1);
-            $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
-            //$printer->text($datos_empresa[0]['representantelegalempresa'] . "\n");
-            $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
-            $printer->text($datos_empresa[0]['direccionempresa'] . "\n");
-            $printer->text($datos_empresa[0]['telefonoempresa'] . "\n");
-            $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
-            $printer->text("\n");
-
-            $printer->setJustification(Printer::JUSTIFY_LEFT);
-            $printer->setTextSize(1, 1);
-            $printer->text("FACTURA DE VENTA:" . $numero_factura['numerofactura_venta'] . "\n");
-            $printer->text("FECHA:" . " " . $fecha_factura_venta['fecha_factura_venta'] . "  " . $hora_factura_venta['horafactura_venta'] . "\n");
-            $printer->text("FECHA:" . " " . $fecha_factura_venta['fecha_factura_venta'] . "  " . $hora_factura_venta['horafactura_venta'] . "\n");
-            $printer->text("CAJA 1:" . "   " . "CAJERO: " . $nombre_usuario['nombresusuario_sistema'] . "\n\n");
-            $printer->setTextSize(2, 1);
-            $printer->text("TOTAL :" . "$" . number_format($total[0]['total'], 0, ",", ".") . "\n");
-            if (!empty($movimientos_efectivo[0]['valorfactura_forma_pago'])) {
-                $printer->text("EFECTIVO :" . "$" . number_format($movimientos_efectivo[0]['valorfactura_forma_pago'], 0, ",", ".") . "\n");
-            }
-            $printer->text("TRANSACCION :" . "$" . number_format($movimientos_transaccion[0]['valorfactura_forma_pago'], 0, ",", ".") . "\n\n\n");
-            $printer->setTextSize(1, 1);
-            $printer->text("Nombre : \n\n");
-            $printer->text("Identificación: \n\n");
-            $printer->text("Teléfono :\n\n");
-
-
-            $printer->feed(1);
-            $printer->cut();
-            $printer->pulse();
-            $printer->close();
-        } */
 
         $apertura_caja = model('aperturaRegistroModel')->select('numero')->first();
 
@@ -92,64 +45,35 @@ class facturacionConImpuestosController extends BaseController
                 $clasificacion_cliente = model('clasificacionClienteModel')->select('*')->find();
                 $departamento = model('departamentoModel')->select('*')->where('idpais', 49)->find();
 
-
-                $tiene_pedido = model('pedidoPosModel')->select('fk_usuario')->where('fk_usuario', $id_usuario)->first();
+                $numero_pedido = model('pedidoPosModel')->select('id')->where('fk_usuario', $id_usuario)->first();
+                if (!empty($numero_pedido)) {
+                    $productos = model('productoPedidoPosModel')->productos_pedido_pos($numero_pedido['id']);
+                }
+                
 
                 $id_departamento_empresa = model('empresaModel')->select('iddepartamento')->first();
-                if (empty($tiene_pedido)) {
+                $id_ciudad_empresa = model('empresaModel')->select('idciudad')->first();
+                $ciudad = model('municipiosModel')->select('nombreciudad')->where('idciudad', $id_ciudad_empresa['idciudad'])->first();
+                $id_regimen_no_responsable_iva = model('regimenModel')->select('idregimen')->where('idregimen', 2)->first();
 
-
-
-                    $id_departamento_empresa = model('empresaModel')->select('iddepartamento')->first();
-                    $id_ciudad_empresa = model('empresaModel')->select('idciudad')->first();
-                    $ciudad = model('municipiosModel')->select('nombreciudad')->where('idciudad', $id_ciudad_empresa['idciudad'])->first();
-                    $id_regimen_no_responsable_iva = model('regimenModel')->select('idregimen')->where('idregimen', 2)->first();
-
-                    return view('factura_pos/factura_pos_sin_productos', [
-                        "clientes" => $clientes,
-                        "estado" => $estado,
-                        "regimen" => $regimen,
-                        "tipo_cliente" => $tipo_cliente,
-                        "clasificacion_cliente" => $clasificacion_cliente,
-                        "departamentos" => $departamento,
-                        "tiene_producto" => 0,
-                        "valor_total" => 0,
-                        "id_departamento" => $id_departamento_empresa['iddepartamento'],
-                        "id_ciudad" => $id_ciudad_empresa['idciudad'],
-                        "ciudad" => $ciudad['nombreciudad'],
-                        "id_regimen" => $id_regimen_no_responsable_iva['idregimen'],
-                        "apertura" => 0,
-                        "lista_precios" => $lista_precios['requiere_lista_de_precios'],
-                        "caja_general" => 0
-                    ]);
-                } else if (!empty($tiene_pedido)) {
-                    $numero_pedido = model('pedidoPosModel')->select('id')->where('fk_usuario', $id_usuario)->first();
-                    $productos = model('productoPedidoPosModel')->productos_pedido_pos($numero_pedido['id']);
-                    $total = model('pedidoPosModel')->select('valor_total')->where('id', $numero_pedido['id'])->first();
-
-                    $id_departamento_empresa = model('empresaModel')->select('iddepartamento')->first();
-                    $id_ciudad_empresa = model('empresaModel')->select('idciudad')->first();
-                    $ciudad = model('municipiosModel')->select('nombreciudad')->where('idciudad', $id_ciudad_empresa['idciudad'])->first();
-                    // $id_regimen_no_responsable_iva = model('regimenModel')->select('idregimen')->where('nombreregimen', 'NO RESPONSABLE DE IVA')->first();
-                    $id_regimen_no_responsable_iva = model('regimenModel')->select('idregimen')->where('idregimen', 2)->first();
-                    return view('factura_pos/factura_pos', [
-                        "clientes" => $clientes,
-                        "estado" => $estado,
-                        "regimen" => $regimen,
-                        "tipo_cliente" => $tipo_cliente,
-                        "clasificacion_cliente" => $clasificacion_cliente,
-                        "departamentos" => $departamento,
-                        "productos" => $productos,
-                        "tiene_producto" => 1,
-                        "valor_total" => number_format($total['valor_total'], 0, ",", "."),
-                        "id_departamento" => $id_departamento_empresa['iddepartamento'],
-                        "id_ciudad" => $id_ciudad_empresa['idciudad'],
-                        "ciudad" => $ciudad['nombreciudad'],
-                        "id_regimen" => $id_regimen_no_responsable_iva['idregimen'],
-                        "apertura" => 0,
-                        "lista_precios" => $lista_precios['requiere_lista_de_precios']
-                    ]);
-                }
+                return view('factura_pos/factura_pos_sin_productos', [
+                    "clientes" => $clientes,
+                    "estado" => $estado,
+                    "regimen" => $regimen,
+                    "tipo_cliente" => $tipo_cliente,
+                    "clasificacion_cliente" => $clasificacion_cliente,
+                    "departamentos" => $departamento,
+                    "tiene_producto" => 0,
+                    "valor_total" => 0,
+                    "id_departamento" => $id_departamento_empresa['iddepartamento'],
+                    "id_ciudad" => $id_ciudad_empresa['idciudad'],
+                    "ciudad" => $ciudad['nombreciudad'],
+                    "id_regimen" => $id_regimen_no_responsable_iva['idregimen'],
+                    "apertura" => 0,
+                    "lista_precios" => $lista_precios['requiere_lista_de_precios'],
+                    "caja_general" => 0,
+                    "productos" => $productos
+                ]);
             } else {
                 $session = session();
                 $session->setFlashdata('iconoMensaje', 'error');
@@ -849,34 +773,7 @@ class facturacionConImpuestosController extends BaseController
             }
         }
         return redirect()->to(base_url('pedido/pedidos_para_facturar'))->with('mensaje', 'Impresión de factura correcto');
-        /*    $clientes = model('clientesModel')->orderBy('id', 'asc')->findAll();
-        $estado = model('estadoModel')->findAll();
-        $regimen = model('regimenModel')->select('*')->find();
-        $tipo_cliente = model('tipoClienteModel')->select('*')->find();
-        $clasificacion_cliente = model('clasificacionClienteModel')->select('*')->find();
-        $departamento = model('departamentoModel')->select('*')->where('idpais', 49)->find();
-
-        $id_departamento_empresa = model('empresaModel')->select('iddepartamento')->first();
-        $id_ciudad_empresa = model('empresaModel')->select('idciudad')->first();
-
-        $ciudad = model('municipiosModel')->select('nombreciudad')->where('idciudad', $id_ciudad_empresa['idciudad'])->first();
-        $id_regimen_no_responsable_iva = model('regimenModel')->select('idregimen')->where('nombreregimen', 'NO RESPONSABLE DE IVA')->first();
-
-        return view('factura_pos/factura_pos_sin_productos', [
-            "clientes" => $clientes,
-            "estado" => $estado,
-            "regimen" => $regimen,
-            "tipo_cliente" => $tipo_cliente,
-            "clasificacion_cliente" => $clasificacion_cliente,
-            "departamentos" => $departamento,
-            "tiene_producto" => 0,
-            "valor_total" => 0,
-            "id_departamento" => $id_departamento_empresa['iddepartamento'],
-            "id_ciudad" => $id_ciudad_empresa['idciudad'],
-            "ciudad" => $ciudad['nombreciudad'],
-            "id_regimen" => $id_regimen_no_responsable_iva['idregimen'],
-            "apertura" => 0
-        ]); */
+     
     }
 
     public function facturacion_pos()
@@ -912,7 +809,7 @@ class facturacionConImpuestosController extends BaseController
     function modulo_facturacion()
     {
         //$id_factura = 70398;
-        $id_factura = $_REQUEST['id_factura']; 
+        $id_factura = $_REQUEST['id_factura'];
         $id_usuario = model('facturaVentaModel')->select('idusuario_sistema')->where('id', $id_factura)->first();
         $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['idusuario_sistema'])->first();
 

@@ -41,6 +41,22 @@
     </div>
     <!-- Libs JS -->
 
+    <!-- Modal -->
+    <div class="modal fade" id="modal_informe_fiscal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="titulo_reporte">Reporte fiscal de ventas </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="datos_informe"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
 
     <!-- Tabler Core -->
     <script src="<?= base_url() ?>/Assets/js/tabler.min.js"></script>
@@ -1301,7 +1317,149 @@
         element.value = formatNumber(value);
       });
     </script>
+    <script>
+      $(document).ready(function() {
+        //let url = document.getElementById("url").value;
+        let url = 'http://localhost/dfpyme/';
 
+        /*  $('#aperturas').DataTable({
+             serverSide: true,
+             processing: true,
+             "language": {
+                 "decimal": "",
+                 "emptyTable": "No hay datos",
+                 "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                 "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                 "infoFiltered": "(Filtro de _MAX_ total registros)",
+                 "infoPostFix": "",
+                 "thousands": ",",
+                 "lengthMenu": "Mostrar _MENU_ registros",
+                 "loadingRecords": "Cargando...",
+                 "processing": "Procesando...",
+                 "search": "Buscar",
+                 "zeroRecords": "No se encontraron coincidencias",
+                 "paginate": {
+                     "first": "Primero",
+                     "last": "Ultimo",
+                     "next": "Próximo",
+                     "previous": "Anterior"
+                 },
+                 "aria": {
+                     "sortAscending": ": Activar orden de columna ascendente",
+                     "sortDescending": ": Activar orden de columna desendente"
+                 }
+
+             },
+             ajax: {
+
+                 url: url + 'consultas_y_reportes/aperturas',
+                 type: 'post',
+             },
+
+         }); */
+        $.ajax({
+          url: url + "/" + "consultas_y_reportes/aperturas",
+          type: "POST",
+          success: function(resultado) {
+            var resultado = JSON.parse(resultado);
+            if (resultado.resultado == 1) {
+
+              $('#aperturas').html(resultado.aperturas)
+
+            }
+          },
+        });
+      });
+    </script>
+
+    <script>
+      function movimiento(id) {
+        let url = 'http://localhost/dfpyme/';
+
+        $.ajax({
+          data: {
+            id
+          },
+          url: url + "/" + "consultas_y_reportes/detalle_movimiento_de_caja",
+          type: "POST",
+          success: function(resultado) {
+            var resultado = JSON.parse(resultado);
+            if (resultado.resultado == 1) {
+
+              $('#valor_apertura').html(resultado.valor_apertura)
+              $('#valor_efectivo').html(resultado.ingresos_efectivo)
+              $('#valor_transferencia').html(resultado.ingresos_transaccion)
+              $('#total_ingresos').html(resultado.total_ingresos)
+              $('#retiros').html(resultado.retiros)
+              $('#devoluciones').html(resultado.devoluciones)
+              $('#ret_dev').html(resultado.retirosmasdevoluciones)
+              $('#saldo_caja').html(resultado.saldo_caja)
+              $('#cierre_efectivo').html(resultado.efectivo_cierre)
+              $('#cierre_bancos').html(resultado.transaccion_cierre)
+              $('#total_cierre').html(resultado.total_cierre)
+              $('#diferencia').html(resultado.diferencia)
+              $('#fecha_apertura').html(resultado.fecha_apertura)
+              $('#fecha_cierre').html(resultado.fecha_cierre)
+              $('#id_apertura').val(resultado.id_apertura)
+              $('#id_aperturas').val(resultado.id_apertura)
+
+            }
+          },
+        });
+
+      }
+    </script>
+
+
+    <script>
+      function fiscal() {
+
+        let url = 'http://localhost/dfpyme/';
+        var id_apertura = document.getElementById("id_aperturas").value;
+        $.ajax({
+          data: {
+            id_apertura
+          },
+          url: url + "/" + "consultas_y_reportes/informe_fiscal_desde_caja",
+          type: "POST",
+          success: function(resultado) {
+            var resultado = JSON.parse(resultado);
+            if (resultado.resultado == 1) {
+
+              $("#datos_informe").html(resultado.datos);
+              $("#modal_informe_fiscal").modal("show");
+            }
+          },
+        });
+
+      }
+    </script>
+
+    <script>
+      function reporte_ventas() {
+
+        let url = 'http://localhost/dfpyme/';
+        var id_apertura = document.getElementById("id_apertura").value;
+        $.ajax({
+          data: {
+            id_apertura
+          },
+          url: url + "/" + "consultas_y_reportes/reporte_de_ventas",
+          type: "POST",
+          success: function(resultado) {
+            var resultado = JSON.parse(resultado);
+            if (resultado.resultado == 1) {
+
+              $("#datos_informe").html(resultado.datos);
+              $("#titulo_reporte").html('INFORME DE VENTAS');
+              $("#modal_informe_fiscal").modal("show");
+              $("#modal_informe_fiscal").modal("show");
+            }
+          },
+        });
+
+      }
+    </script>
 
 
 </body>

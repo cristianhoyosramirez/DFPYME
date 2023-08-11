@@ -1,9 +1,4 @@
-<?php $user_session = session(); ?>
-<?= $this->extend('template/consultas_reportes') ?>
-<?= $this->section('title') ?>
-REPORTE DE VENTAS DIARIAS
-<?= $this->endSection('title') ?>
-<?= $this->section('content') ?>
+
 <div class="card container">
     <div class="card-body">
         <div class="row">
@@ -240,4 +235,3 @@ REPORTE DE VENTAS DIARIAS
 
     </div>
 </div>
-<?= $this->endSection('content') ?>

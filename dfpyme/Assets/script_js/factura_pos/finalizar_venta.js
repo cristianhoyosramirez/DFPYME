@@ -7,281 +7,351 @@ function finalizar_venta() {
 
   var date1 = new Date(fecha_limite);
   var date2 = new Date();
-  if (estado == 2 || estado == 3 || estado == 6) {
-    if (fecha_limite == "" && estado == 2) {
-      $("#error_fecha_limite").html("Falta definir una fecha ");
-    } else if (date1 < date2) {
-      $("#error_fecha_limite").html(
-        "La fecha no puede ser menor a la fecha actual "
-      );
-    }
-    if (nit_cliente != 22222222) {
-      if (date1 >= date2) {
+
+  if (estado == 8) {
+
+    Swal.fire({
+      title: '¿Va a realizar una transacción de facturación electrónica?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#2AA13D',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Facturar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
         $.ajax({
-          data: { usuario, estado, nit_cliente },
-          url: url + "/" + "pedido/forma_pago",
+          data: {
+            usuario,
+            nit_cliente,
+          },
+          url: url + "/" + "factura_electronica/pre_factura",
           type: "POST",
           success: function (resultado) {
             var resultado = JSON.parse(resultado);
-
+            if (resultado.resultado == 0) {
+              Swal.fire({
+                icon: "error",
+                title: "Error en la cantidad",
+                confirmButtonText: "Aceptar",
+                confirmButtonColor: "#2AA13D",
+              });
+            }
             if (resultado.resultado == 1) {
-              swal
-                .fire({
-                  title:
-                    "Va a realizar una transacción  " +
-                    resultado.estado +
-                    " por un valor de " +
-                    resultado.valor_total +
-                    " al señor(a) " +
-                    resultado.nombres_clientes,
-                  icon: "info",
-                  showCancelButton: true,
-                  confirmButtonText: "Aceptar ",
-                  confirmButtonColor: "#2AA13D",
-                  cancelButtonText: "Cancelar",
-                  cancelButtonColor: "#C13333",
-                  //reverseButtons: true,
-                })
-                .then((result) => {
-                  if (result.isConfirmed) {
-                    var url = document.getElementById("url").value;
-                    $.ajax({
-                      data: { nit_cliente, usuario, estado },
-                      url: url + "/" + "pedido/facturar_credito",
-                      type: "POST",
-                      success: function (resultado) {
-                        var resultado = JSON.parse(resultado);
+              //$('#formulario_devolucion')[0].reset();
+              document.getElementById("facturacion").reset();
+              document.getElementById("buscar_producto").focus();
+              //$("#estado_pos").select2("val", "");
+              //$('#estado_pos').val(null).trigger("change");
+              $("#estado_pos").select2("val", "1");
+              $("#productos_factura_rapida").html('')
+              $("#total_pedido_pos").val(0)
 
-                        if (resultado.resultado == 1) {
-                          $("#estado_pos").val("1"); // Select the option with a value of '1'
-                          $("#estado_pos").trigger("change");
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
 
-                          document.getElementById(
-                            "id_cliente_factura_pos"
-                          ).value = 22222222;
-                          document.getElementById(
-                            "clientes_factura_pos"
-                          ).value = "CLIENTE GENERAL";
-
-                          // crea un nuevo objeto `Date`
-                          var today = new Date();
-
-                          // `getDate()` devuelve el día del mes (del 1 al 31)
-                          var day = today.getDate();
-
-                          // `getMonth()` devuelve el mes (de 0 a 11)
-                          var month = today.getMonth() + 1;
-
-                          // `getFullYear()` devuelve el año completo
-                          var year = today.getFullYear();
-
-                          // muestra la fecha de hoy en formato `MM/DD/YYYY`
-                          // console.log(`${month}/${day}/${year}`);
-
-                          document.getElementById("fecha_limite").value = `${year}/${month}/${day}`;
-                          document.getElementById("total_pedido_pos").value = 0;
-                          //$("#productos_de_pedido_pos").empty();
-                          $("#tablaProductos").html(resultado.tabla);
-
-                          document.getElementById("buscar_producto").autofocus;
-                          Swal.fire({
-                            icon: "success",
-                            title: "Factura crédito grabada con éxito",
-                            confirmButtonText: "Imprimir factura crédito",
-                            confirmButtonColor: "#2AA13D",
-                            showDenyButton: true,
-                            denyButtonText: `No imprimir`,
-                            denyButtonColor: "#C13333",
-                            reverseButtons: true,
-                          }).then((result) => {
-                            /* Read more about isConfirmed, isDenied below */
-                            if (result.isConfirmed) {
-                              (numero_de_factura = resultado.id_factura),
-                                $.ajax({
-                                  data: {
-                                    numero_de_factura,
-                                  },
-                                  url:
-                                    url + "/" + "factura_pos/imprimir_factura",
-                                  type: "POST",
-                                  success: function (resultado) {
-                                    var resultado = JSON.parse(resultado);
-
-                                    if (resultado.resultado == 0) {
-                                      $("#creacion_cliente_factura_pos").modal(
-                                        "hide"
-                                      );
-                                      Swal.fire({
-                                        icon: "success",
-                                        title: "Cliente agregado",
-                                      });
-                                    }
-                                    if (resultado.resultado == 1) {
-                                      const Toast = Swal.mixin({
-                                        toast: true,
-                                        position: 'top-end',
-                                        showConfirmButton: false,
-                                        timer: 3000,
-                                        timerProgressBar: true,
-                                        didOpen: (toast) => {
-                                          toast.addEventListener('mouseenter', Swal.stopTimer)
-                                          toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                        }
-                                      })
-
-                                      Toast.fire({
-                                        icon: 'success',
-                                        title: 'Impresón de factura correcta'
-                                      })
-                                    }
-                                  },
-                                });
-                            } else if (result.isDenied) {
-                              Swal.fire({
-                                icon: "info",
-                                confirmButtonText: "Aceptar",
-                                confirmButtonColor: "#2AA13D",
-                                title: "No se imprime la factura crédito",
-                              });
-                            }
-                          });
-                        }
-                        if (resultado.resultado == 0) {
-                          Swal.fire({
-                            icon: "warning",
-                            title: "No se pudo eliminar",
-                            confirmButtonText: "ACEPTAR",
-                          });
-                        }
-                      },
-                    });
-                  } else if (result.isCancel) {
-                    alert("cancelacion de pedido222");
-                  }
-                });
+              Toast.fire({
+                icon: 'success',
+                title: 'Prefactura electrónica generada exitosamente'
+              })
             }
           },
         });
       }
-    } else if (nit_cliente == 22222222) {
-      $("#error_cliente").html(
-        "Documento requiere tercero válido"
-      );
+    })
+
+
+
+
+  } else if (estado != 8) {
+
+
+
+    if (estado == 2 || estado == 3 || estado == 6) {
+      if (fecha_limite == "" && estado == 2) {
+        $("#error_fecha_limite").html("Falta definir una fecha ");
+      } else if (date1 < date2) {
+        $("#error_fecha_limite").html(
+          "La fecha no puede ser menor a la fecha actual "
+        );
+      }
+      if (nit_cliente != 22222222) {
+        if (date1 >= date2) {
+          $.ajax({
+            data: { usuario, estado, nit_cliente },
+            url: url + "/" + "pedido/forma_pago",
+            type: "POST",
+            success: function (resultado) {
+              var resultado = JSON.parse(resultado);
+
+              if (resultado.resultado == 1) {
+                swal
+                  .fire({
+                    title:
+                      "Va a realizar una transacción  " +
+                      resultado.estado +
+                      " por un valor de " +
+                      resultado.valor_total +
+                      " al señor(a) " +
+                      resultado.nombres_clientes,
+                    icon: "info",
+                    showCancelButton: true,
+                    confirmButtonText: "Aceptar ",
+                    confirmButtonColor: "#2AA13D",
+                    cancelButtonText: "Cancelar",
+                    cancelButtonColor: "#C13333",
+                    //reverseButtons: true,
+                  })
+                  .then((result) => {
+                    if (result.isConfirmed) {
+                      var url = document.getElementById("url").value;
+                      $.ajax({
+                        data: { nit_cliente, usuario, estado },
+                        url: url + "/" + "pedido/facturar_credito",
+                        type: "POST",
+                        success: function (resultado) {
+                          var resultado = JSON.parse(resultado);
+
+                          if (resultado.resultado == 1) {
+                            $("#estado_pos").val("1"); // Select the option with a value of '1'
+                            $("#estado_pos").trigger("change");
+
+                            document.getElementById(
+                              "id_cliente_factura_pos"
+                            ).value = 22222222;
+                            document.getElementById(
+                              "clientes_factura_pos"
+                            ).value = "CLIENTE GENERAL";
+
+                            // crea un nuevo objeto `Date`
+                            var today = new Date();
+
+                            // `getDate()` devuelve el día del mes (del 1 al 31)
+                            var day = today.getDate();
+
+                            // `getMonth()` devuelve el mes (de 0 a 11)
+                            var month = today.getMonth() + 1;
+
+                            // `getFullYear()` devuelve el año completo
+                            var year = today.getFullYear();
+
+                            // muestra la fecha de hoy en formato `MM/DD/YYYY`
+                            // console.log(`${month}/${day}/${year}`);
+
+                            document.getElementById("fecha_limite").value = `${year}/${month}/${day}`;
+                            document.getElementById("total_pedido_pos").value = 0;
+                            //$("#productos_de_pedido_pos").empty();
+                            $("#tablaProductos").html(resultado.tabla);
+
+                            document.getElementById("buscar_producto").autofocus;
+                            Swal.fire({
+                              icon: "success",
+                              title: "Factura crédito grabada con éxito",
+                              confirmButtonText: "Imprimir factura crédito",
+                              confirmButtonColor: "#2AA13D",
+                              showDenyButton: true,
+                              denyButtonText: `No imprimir`,
+                              denyButtonColor: "#C13333",
+                              reverseButtons: true,
+                            }).then((result) => {
+                              /* Read more about isConfirmed, isDenied below */
+                              if (result.isConfirmed) {
+                                (numero_de_factura = resultado.id_factura),
+                                  $.ajax({
+                                    data: {
+                                      numero_de_factura,
+                                    },
+                                    url:
+                                      url + "/" + "factura_pos/imprimir_factura",
+                                    type: "POST",
+                                    success: function (resultado) {
+                                      var resultado = JSON.parse(resultado);
+
+                                      if (resultado.resultado == 0) {
+                                        $("#creacion_cliente_factura_pos").modal(
+                                          "hide"
+                                        );
+                                        Swal.fire({
+                                          icon: "success",
+                                          title: "Cliente agregado",
+                                        });
+                                      }
+                                      if (resultado.resultado == 1) {
+                                        const Toast = Swal.mixin({
+                                          toast: true,
+                                          position: 'top-end',
+                                          showConfirmButton: false,
+                                          timer: 3000,
+                                          timerProgressBar: true,
+                                          didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                          }
+                                        })
+
+                                        Toast.fire({
+                                          icon: 'success',
+                                          title: 'Impresón de factura correcta'
+                                        })
+                                      }
+                                    },
+                                  });
+                              } else if (result.isDenied) {
+                                Swal.fire({
+                                  icon: "info",
+                                  confirmButtonText: "Aceptar",
+                                  confirmButtonColor: "#2AA13D",
+                                  title: "No se imprime la factura crédito",
+                                });
+                              }
+                            });
+                          }
+                          if (resultado.resultado == 0) {
+                            Swal.fire({
+                              icon: "warning",
+                              title: "No se pudo eliminar",
+                              confirmButtonText: "ACEPTAR",
+                            });
+                          }
+                        },
+                      });
+                    } else if (result.isCancel) {
+                      alert("cancelacion de pedido222");
+                    }
+                  });
+              }
+            },
+          });
+        }
+      } else if (nit_cliente == 22222222) {
+        $("#error_cliente").html(
+          "Documento requiere tercero válido"
+        );
+      }
+    } else if (estado == 1 || estado == 7) {
+      var url = document.getElementById("url").value;
+
+      $.ajax({
+        data: { usuario },
+        url: url + "/" + "pedido/valor_pedido",
+        type: "POST",
+        success: function (resultado) {
+          var resultado = JSON.parse(resultado);
+
+          if (resultado.resultado == 1) {
+            document.getElementById("valor_a_pagar").value = resultado.valor_total;
+            document.getElementById("base_impuestos_pos").value = resultado.base;
+            document.getElementById("impuesto_iva_pos").value = resultado.iva;
+            document.getElementById("impuesto_al_consumo_pos").value = resultado.ico;
+
+            $('#pago_con_efectivo').select()
+
+            let descuento = document.getElementById("total_descuento%").value;
+            document.getElementById("descuento_factura").value = descuento;
+
+            let propina = document.getElementById("total_descuento_propina").value;
+            document.getElementById("propina_factura").value = propina;
+
+            let tot = resultado.valor_total
+            total = tot.replace(/[.]/g, "")
+            gran_total = parseInt(total) - (parseInt(descuento))
+            gran_totalizado = parseInt(gran_total) + parseInt(propina)
+
+            text = gran_totalizado.toLocaleString('en-EN')
+
+            const number = gran_totalizado;
+
+            document.getElementById("total_factura").value = gran_totalizado.toLocaleString();
+
+
+            myModal = new bootstrap.Modal(
+              document.getElementById("finalizar_venta"),
+              {}
+            );
+            myModal.show();
+          }
+          if (resultado.resultado == 2) {
+            //$("#base_impuestos_pos").hide();
+            document.getElementById("impuestos_pos").style.display = "none";
+            document.getElementById("valor_a_pagar").value = resultado.valor_total;
+
+            let descuento = document.getElementById("total_descuento%").value;
+            document.getElementById("descuento_factura").value = descuento;
+
+            let propina = document.getElementById("total_descuento_propina").value;
+            document.getElementById("propina_factura").value = propina;
+
+            let tot = resultado.valor_total
+            total = tot.replace(/[.]/g, "")
+            gran_total = parseInt(total) - (parseInt(descuento))
+            gran_totalizado = parseInt(gran_total) + parseInt(propina)
+
+            text = gran_totalizado.toLocaleString('en-EN')
+
+            const number = gran_totalizado;
+
+            //console.log(new Intl.NumberFormat('es-En').format(number));
+            let esNum = new Intl.NumberFormat("en-US");
+            //console.log(esNum.format(gran_totalizado))
+
+
+            document.getElementById("total_factura").value = gran_totalizado.toLocaleString();
+
+            myModal = new bootstrap.Modal(
+              document.getElementById("finalizar_venta"),
+              {}
+            );
+            myModal.show();
+          }
+
+          if (resultado.resultado == 3) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'info',
+              title: 'No hay productos para facturar'
+            })
+          }
+          if (resultado.resultado == 4) {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'error',
+              title: 'No hay apertura de caja '
+            })
+          }
+        },
+      });
     }
-  } else if (estado == 1 || estado == 7) {
-    var url = document.getElementById("url").value;
-
-    $.ajax({
-      data: { usuario },
-      url: url + "/" + "pedido/valor_pedido",
-      type: "POST",
-      success: function (resultado) {
-        var resultado = JSON.parse(resultado);
-
-        if (resultado.resultado == 1) {
-          document.getElementById("valor_a_pagar").value = resultado.valor_total;
-          document.getElementById("base_impuestos_pos").value = resultado.base;
-          document.getElementById("impuesto_iva_pos").value = resultado.iva;
-          document.getElementById("impuesto_al_consumo_pos").value = resultado.ico;
-         
-          $('#pago_con_efectivo').select()
-        
-          let descuento = document.getElementById("total_descuento%").value;
-          document.getElementById("descuento_factura").value = descuento;
-
-          let propina = document.getElementById("total_descuento_propina").value;
-          document.getElementById("propina_factura").value = propina;
-
-          let tot = resultado.valor_total
-          total = tot.replace(/[.]/g, "")
-          gran_total = parseInt(total) - (parseInt(descuento))
-          gran_totalizado = parseInt(gran_total) + parseInt(propina)
-
-          text = gran_totalizado.toLocaleString('en-EN')
-
-          const number = gran_totalizado;
-
-          document.getElementById("total_factura").value = gran_totalizado.toLocaleString();
-
-
-          myModal = new bootstrap.Modal(
-            document.getElementById("finalizar_venta"),
-            {}
-          );
-          myModal.show();
-        }
-        if (resultado.resultado == 2) {
-          //$("#base_impuestos_pos").hide();
-          document.getElementById("impuestos_pos").style.display = "none";
-          document.getElementById("valor_a_pagar").value = resultado.valor_total;
-
-          let descuento = document.getElementById("total_descuento%").value;
-          document.getElementById("descuento_factura").value = descuento;
-
-          let propina = document.getElementById("total_descuento_propina").value;
-          document.getElementById("propina_factura").value = propina;
-
-          let tot = resultado.valor_total
-          total = tot.replace(/[.]/g, "")
-          gran_total = parseInt(total) - (parseInt(descuento))
-          gran_totalizado = parseInt(gran_total) + parseInt(propina)
-
-          text = gran_totalizado.toLocaleString('en-EN')
-
-          const number = gran_totalizado;
-
-          //console.log(new Intl.NumberFormat('es-En').format(number));
-          let esNum = new Intl.NumberFormat("en-US");
-          //console.log(esNum.format(gran_totalizado))
-
-
-          document.getElementById("total_factura").value = gran_totalizado.toLocaleString();
-
-          myModal = new bootstrap.Modal(
-            document.getElementById("finalizar_venta"),
-            {}
-          );
-          myModal.show();
-        }
-
-        if (resultado.resultado == 3) {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
-
-          Toast.fire({
-            icon: 'info',
-            title: 'No hay productos para facturar'
-          })
-        }
-        if (resultado.resultado == 4) {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
-
-          Toast.fire({
-            icon: 'error',
-            title: 'No hay apertura de caja '
-          })
-        }
-      },
-    });
   }
 }
 /**
@@ -1160,7 +1230,7 @@ function llamar_ventana_de_finalizar_venta_pos(e) {
       );
     }
   }
-} 
+}
 
 function reset_inputs_factura_pos() {
   document.getElementById("pago_con_efectivo").value = "0";

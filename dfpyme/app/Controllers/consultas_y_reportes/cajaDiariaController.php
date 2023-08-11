@@ -976,9 +976,7 @@ class cajaDiariaController extends BaseController
     function detalle_movimiento_de_caja()
     {
 
-
-
-        $ultimo_apertura = $this->request->getPost('id_apertura');
+        $ultimo_apertura = $this->request->getPost('id');
 
         $estado = "";
         $movimientos = "";
@@ -1001,7 +999,7 @@ class cajaDiariaController extends BaseController
 
         if (empty($tiene_cierre)) {
             $estado = "ABIERTA";
-            $cierre = 'POR DEFINIR';
+            $fecha_cierre = 'POR DEFINIR';
             $efectivo = model('facturaFormaPagoModel')->ingresos_efectivo($fecha_y_hora_apertura['fecha_y_hora_apertura'], date('Y-m-d H:i:s'));
             if (empty($efectivo)) {
                 $ingresos_efectivo = 0;
@@ -1053,8 +1051,8 @@ class cajaDiariaController extends BaseController
         }
         if (!empty($tiene_cierre)) {
             $estado = 'CERRADA';
-            $fecha_cierre = model('cierreModel')->select('fecha')->where('idapertura', $ultimo_apertura)->first();
-            $cierre = $fecha_cierre['fecha'];
+            $fecha_cierr = model('cierreModel')->select('fecha')->where('idapertura', $ultimo_apertura)->first();
+            $fecha_cierre = $fecha_cierr['fecha'];
 
             $fecha_y_hora_cierre = model('cierreModel')->select('fecha_y_hora_cierre')->where('idapertura', $ultimo_apertura)->first();
             $efectivo = model('facturaFormaPagoModel')->ingresos_efectivo($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre['fecha_y_hora_cierre']);
@@ -1111,7 +1109,7 @@ class cajaDiariaController extends BaseController
             $saldo_caja = $ingresos - $egresos;
             $diferencia = $cierre - $saldo_caja;
         }
-        return view('consultas_y_reportes/datos_consultas_caja', [
+        /*  return view('consultas_y_reportes/datos_consultas_caja', [
             'estado' => $estado,
             'fecha_apertura' => $fecha_apertura['fecha'],
             'fecha_cierre' => $cierre,
@@ -1129,7 +1127,29 @@ class cajaDiariaController extends BaseController
             'diferencia' => "$" . number_format($diferencia, 0, ",", "."),
             // 'diferencia' => "$" . number_format(($efectivo_cierre + $transaccion_cierre) - (($ingresos_transaccion + $ingresos_efectivo) - ($retiros + $devoluciones)), 0, ",", "."),
             'id_apertura' => $ultimo_apertura
-        ]);
+        ]); */
+
+        $returnData = array(
+            "resultado" => 1,
+            'estado' => $fecha_cierre,
+            'fecha_apertura' => "Fecha apertura: " . $fecha_apertura['fecha'],
+            'fecha_cierre' => "Fecha cierre: " . $fecha_cierre,
+            'valor_apertura' => "$" . number_format($valor_apertura['valor'], 0, ",", "."),
+            'ingresos_efectivo' =>  "$" . number_format($ingresos_efectivo, 0, ",", "."),
+            'ingresos_transaccion' =>  "$" . number_format($ingresos_transaccion, 0, ",", "."),
+            'total_ingresos' =>  "$" . number_format($ingresos_transaccion + $ingresos_efectivo, 0, ",", "."),
+            'efectivo_cierre' => "$" . number_format($efectivo_cierre, 0, ",", "."),
+            'transaccion_cierre' => "$" . number_format($transaccion_cierre, 0, ",", "."),
+            'total_cierre' => "$" . number_format($efectivo_cierre + $transaccion_cierre, 0, ",", "."),
+            'devoluciones' => "$" . number_format($devoluciones, 0, ",", "."),
+            'retiros' => "$" . number_format($retiros, 0, ",", "."),
+            'retirosmasdevoluciones' => "$" . number_format($retiros + $devoluciones, 0, ",", "."),
+            'saldo_caja' => "$" . number_format(($valor_apertura['valor'] + $ingresos_transaccion + $ingresos_efectivo) - ($retiros + $devoluciones), 0, ",", "."),
+            'diferencia' => "$" . number_format($diferencia, 0, ",", "."),
+            // 'diferencia' => "$" . number_format(($efectivo_cierre + $transaccion_cierre) - (($ingresos_transaccion + $ingresos_efectivo) - ($retiros + $devoluciones)), 0, ",", "."),
+            'id_apertura' => $ultimo_apertura
+        );
+        echo  json_encode($returnData);
     }
 
     function reporte_de_ventas()
@@ -1182,18 +1202,38 @@ class cajaDiariaController extends BaseController
             $total_devoluciones = model('devolucionModel')->total_con_hora_final_y_final($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
             $categorias = model('productoFacturaVentaModel')->categorias($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
-            return view('producto/datos_consultar_agrupado', [
-                'datos_productos' => $resultado_fechas,
-                'fecha_inicial' => $fecha_y_hora_apertura['fecha_y_hora_apertura'],
-                'fecha_final' => $fecha_y_hora_cierre,
-                //'total' => "$" . number_format($total[0]['total'], 0, ",", "."),
-                'devoluciones' => $devoluciones,
-                'total_devoluciones' => "$" . number_format($total_devoluciones[0]['total'], 0, ",", "."),
-                'hora_inicial' => $hora_apertura,
-                'hora_final' => $hora_cierre,
-                'categorias' => $categorias,
-                'id_apertura' => $id_apertura
-            ]);
+
+            //echo  date("g:i a", strtotime($fecha_y_hora_apertura['fecha_y_hora_apertura'])); exit();
+            $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
+            $fecha_cierre = "";
+            $fecha_cierr = model('cierreModel')->select('fecha')->where('idapertura', $id_apertura)->first();
+            if (empty($fecha_cierr)) {
+                $fecha_cierre = "Sin cierre";
+            }
+            if (!empty($fecha_cierr)) {
+                $fecha_cierre = $fecha_cierr['fecha'];
+            }
+
+            $returnData = [
+                'resultado' => 1,
+                'datos' =>  view('consultas_y_reportes/reporte_ventas_producto', [
+                    'datos_productos' => $resultado_fechas,
+                    'fecha_inicial' => $fecha_y_hora_apertura['fecha_y_hora_apertura'],
+                    'fecha_apertura' => $fecha_apertura['fecha'],
+                    'fecha_inicial_format' =>  date("g:i a", strtotime($fecha_y_hora_apertura['fecha_y_hora_apertura'])),
+                    'fecha_final' => $fecha_y_hora_cierre,
+                    'fecha_final_format' =>  date("g:i a", strtotime($fecha_y_hora_cierre)),
+                    'fecha_cierre' => $fecha_cierre,
+                    //'total' => "$" . number_format($total[0]['total'], 0, ",", "."),
+                    'devoluciones' => $devoluciones,
+                    'total_devoluciones' => "$" . number_format($total_devoluciones[0]['total'], 0, ",", "."),
+                    'hora_inicial' => $hora_apertura,
+                    'hora_final' => $hora_cierre,
+                    'categorias' => $categorias,
+                    'id_apertura' => $id_apertura
+                ])
+            ];
+            echo json_encode($returnData);
         }
         if (!empty($validar_tabla_reporte_producto)) {
 
@@ -1202,18 +1242,23 @@ class cajaDiariaController extends BaseController
             $total_devoluciones = model('devolucionModel')->total_con_hora_final_y_final($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
             $categorias = model('productoFacturaVentaModel')->categorias_con_horas($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
-            return view('producto/datos_consultar_agrupado', [
-                'datos_productos' => $resultado_fechas,
-                'fecha_inicial' => $fecha_y_hora_apertura['fecha_y_hora_apertura'],
-                'fecha_final' => $fecha_y_hora_cierre,
-                //'total' => "$" . number_format($total[0]['total'], 0, ",", "."),
-                'devoluciones' => $devoluciones,
-                'total_devoluciones' => "$" . number_format($total_devoluciones[0]['total'], 0, ",", "."),
-                'hora_inicial' => $hora_apertura,
-                'hora_final' => $hora_cierre,
-                'categorias' => $categorias,
-                'id_apertura' => $id_apertura
-            ]);
+            $returnData = [
+                'resultado' => 1, //No hay resultados
+                'datos' => view('consultas_y_reportes/reporte_ventas_producto', [
+                    'datos_productos' => $resultado_fechas,
+                    //'fecha_inicial' => $fecha_y_hora_apertura['fecha_y_hora_apertura'],
+                    'fecha_inicial' => date("g:i a", strtotime($fecha_y_hora_apertura['fecha_y_hora_venta'])),
+                    'fecha_final' => $fecha_y_hora_cierre,
+                    //'total' => "$" . number_format($total[0]['total'], 0, ",", "."),
+                    'devoluciones' => $devoluciones,
+                    'total_devoluciones' => "$" . number_format($total_devoluciones[0]['total'], 0, ",", "."),
+                    'hora_inicial' => $hora_apertura,
+                    'hora_final' => $hora_cierre,
+                    'categorias' => $categorias,
+                    'id_apertura' => $id_apertura
+                ])
+            ];
+            echo json_encode($returnData);
         }
     }
     function detalle_retiros()
@@ -1675,7 +1720,9 @@ class cajaDiariaController extends BaseController
 
     function informe_fiscal_desde_caja()
     {
+
         $id_apertura = $this->request->getPost('id_apertura');
+        //$id_apertura = 15;
         $fecha_y_hora_cierre = "";
         $ventas_credito = "";
 
@@ -1850,52 +1897,60 @@ class cajaDiariaController extends BaseController
                 $actualizar = $model->update();
             }
             $consecutivo_fiscal = model('consecutivoInformeModel')->select('numero')->where('fecha', $fecha_apertura['fecha'])->first();
-            return view('consultas_y_reportes/informe_fiscal_ventas', [
-                "nombre_comercial" => $datos_empresa[0]['nombrecomercialempresa'],
-                "nombre_juridico" => $datos_empresa[0]['nombrejuridicoempresa'],
-                "nit" => $datos_empresa[0]['nitempresa'],
-                "nombre_regimen" => $regimen['nombreregimen'],
-                "direccion" => $datos_empresa[0]['direccionempresa'],
-                "nombre_ciudad" => $nombre_ciudad['nombreciudad'],
-                "nombre_departamento" => $nombre_departamento['nombredepartamento'],
-                "registro_inicial" => $registro_inicial[0]['regitro_inicial'],
-                "registro_final" => $registro_final[0]['regitro_final'],
-                "total_registros" => $total_registros[0]['total_registros'],
-                "iva" => $array_iva,
-                "ico" => $array_ico,
-                "vantas_contado" => $vantas_contado[0]['total_ventas_contado'],
-                "iva_devolucion" => $array_devoluciones_iva,
-                "ico_devolucion" => $array_devoluciones_ico,
-                //"consecutivo" => $consecutivo_caja['consecutivo'],
-                "consecutivo" => $consecutivo_fiscal['numero'],
-                "fecha_apertura" => $fecha_apertura['fecha'],
-                "id_apertura" => $id_apertura
+            $returnData = array(
+                "resultado" => 1, //Falta plata 
+                "datos" => view('consultas_y_reportes/informe_fiscal_ventas', [
+                    "nombre_comercial" => $datos_empresa[0]['nombrecomercialempresa'],
+                    "nombre_juridico" => $datos_empresa[0]['nombrejuridicoempresa'],
+                    "nit" => $datos_empresa[0]['nitempresa'],
+                    "nombre_regimen" => $regimen['nombreregimen'],
+                    "direccion" => $datos_empresa[0]['direccionempresa'],
+                    "nombre_ciudad" => $nombre_ciudad['nombreciudad'],
+                    "nombre_departamento" => $nombre_departamento['nombredepartamento'],
+                    "registro_inicial" => $registro_inicial[0]['regitro_inicial'],
+                    "registro_final" => $registro_final[0]['regitro_final'],
+                    "total_registros" => $total_registros[0]['total_registros'],
+                    "iva" => $array_iva,
+                    "ico" => $array_ico,
+                    "vantas_contado" => $vantas_contado[0]['total_ventas_contado'],
+                    "iva_devolucion" => $array_devoluciones_iva,
+                    "ico_devolucion" => $array_devoluciones_ico,
+                    //"consecutivo" => $consecutivo_caja['consecutivo'],
+                    "consecutivo" => $consecutivo_fiscal['numero'],
+                    "fecha_apertura" => $fecha_apertura['fecha'],
+                    "id_apertura" => $id_apertura
 
-            ]);
+                ])
+            );
+            echo  json_encode($returnData);
         } else if (!empty($existe_fecha_informe['fecha'])) {
             $consecutivo_fiscal = model('consecutivoInformeModel')->select('numero')->where('fecha', $fecha_apertura['fecha'])->first();
-            return view('consultas_y_reportes/informe_fiscal_ventas', [
-                "nombre_comercial" => $datos_empresa[0]['nombrecomercialempresa'],
-                "nombre_juridico" => $datos_empresa[0]['nombrejuridicoempresa'],
-                "nit" => $datos_empresa[0]['nitempresa'],
-                "nombre_regimen" => $regimen['nombreregimen'],
-                "direccion" => $datos_empresa[0]['direccionempresa'],
-                "nombre_ciudad" => $nombre_ciudad['nombreciudad'],
-                "nombre_departamento" => $nombre_departamento['nombredepartamento'],
-                "registro_inicial" => $registro_inicial[0]['regitro_inicial'],
-                "registro_final" => $registro_final[0]['regitro_final'],
-                "total_registros" => $total_registros[0]['total_registros'],
-                "iva" => $array_iva,
-                "ico" => $array_ico,
-                "vantas_contado" => $vantas_contado[0]['total_ventas_contado'],
-                "iva_devolucion" => $array_devoluciones_iva,
-                "ico_devolucion" => $array_devoluciones_ico,
-                //"consecutivo" => $consecutivo_caja['consecutivo'],
-                "consecutivo" => $consecutivo_fiscal['numero'],
-                "fecha_apertura" => $fecha_apertura['fecha'],
-                "id_apertura" => $id_apertura
 
-            ]);
+            $returnData = array(
+                "resultado" => 1, //Falta plata
+                "datos" => view('consultas_y_reportes/informe_fiscal_ventas', [
+                    "nombre_comercial" => $datos_empresa[0]['nombrecomercialempresa'],
+                    "nombre_juridico" => $datos_empresa[0]['nombrejuridicoempresa'],
+                    "nit" => $datos_empresa[0]['nitempresa'],
+                    "nombre_regimen" => $regimen['nombreregimen'],
+                    "direccion" => $datos_empresa[0]['direccionempresa'],
+                    "nombre_ciudad" => $nombre_ciudad['nombreciudad'],
+                    "nombre_departamento" => $nombre_departamento['nombredepartamento'],
+                    "registro_inicial" => $registro_inicial[0]['regitro_inicial'],
+                    "registro_final" => $registro_final[0]['regitro_final'],
+                    "total_registros" => $total_registros[0]['total_registros'],
+                    "iva" => $array_iva,
+                    "ico" => $array_ico,
+                    "vantas_contado" => $vantas_contado[0]['total_ventas_contado'],
+                    "iva_devolucion" => $array_devoluciones_iva,
+                    "ico_devolucion" => $array_devoluciones_ico,
+                    //"consecutivo" => $consecutivo_caja['consecutivo'],
+                    "consecutivo" => $consecutivo_fiscal['numero'],
+                    "fecha_apertura" => $fecha_apertura['fecha'],
+                    "id_apertura" => $id_apertura
+                ])
+            );
+            echo  json_encode($returnData);
         }
     }
 }

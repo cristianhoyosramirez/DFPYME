@@ -28,7 +28,7 @@ FACTURA
             </nav>
         </div>
         <div class="col-lg-auto ms-lg-auto">
-            <p class="text-primary h3">FACTURACIÓN DE PEDIDOS </p>
+            <p class="text-primary h3">FACTURACIÓN DE PEDIDOSff </p>
         </div>
         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
             <a class="nav-link" href="<?= base_url('home') ?>"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" title="Sección anterior"></a>

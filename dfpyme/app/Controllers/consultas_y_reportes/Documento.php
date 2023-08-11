@@ -105,7 +105,9 @@ class Documento extends BaseController
         if ($tipo_documento == 1 or $tipo_documento == 7) {
 
             $saldo = model('facturaVentaModel')->saldo_factura($fecha_inicial, $fecha_final, $tipo_documento);
+
             $total_saldo = model('facturaVentaModel')->total_saldo_factura($fecha_inicial, $fecha_final, $tipo_documento);
+
             $temp_sql_count = "SELECT
                         COUNT(factura_venta.id) AS total
                     FROM
@@ -608,7 +610,7 @@ class Documento extends BaseController
 
         $dibuja_DataTable = $this->request->getPost('dibuja_DataTable');
 
-        
+
         $nit_cliente = $this->request->getPost('nit_cliente');
         //$nit_cliente = '1088537435';
 
@@ -1101,5 +1103,110 @@ class Documento extends BaseController
             );
             echo  json_encode($returnData);
         }
+    }
+
+
+    /*  function aperturas()
+    {
+
+        //$valor_buscado = $_POST['search']['value'];;
+        $valor_buscado = '';
+
+        $table_map = [
+            0 => 'id',
+            1 => 'fecha'
+        ];
+
+        $sql_count = "SELECT count(id) as total from apertura";
+
+        $sql_data = "SELECT id,fecha FROM apertura  ";
+        $condition = "";
+
+
+        if (!empty($valor_buscado)) {
+
+            $condition .= "'%" . $valor_buscado . "%'";
+        }
+
+        $sql_count = $sql_count . $condition;
+        $sql_data = $sql_data . $condition;
+
+        $total_count = $this->db->query($sql_count)->getRow();
+
+        $sql_data .= " ORDER BY " . $table_map[$_POST['order'][0]['column']] . " " . $_POST['order'][0]['dir'] . " " . "LIMIT " . $_POST['length'] . " OFFSET " . $_POST['start'];
+
+        $datos = $this->db->query($sql_data)->getResultArray();
+
+        foreach ($datos as $detalle) {
+
+            $sub_array = array();
+
+            $fecha_cierre = model('cierreModel')->select('fecha')->where('idapertura', $detalle['id'])->first();
+            if (!empty($fecha_cierre)) {
+
+                // $sub_array[] = $detalle['fecha'];
+                $sub_array[] =  '<p onclick="detalle_apertura(' . $detalle['id'] . ')" class="cursor-pointer" >' . $detalle['fecha'] . ''; //Fecha apertura
+                $sub_array[] =  '<p onclick="detalle_apertura(' . $detalle['id'] . ')" class="cursor-pointer" >' . $fecha_cierre['fecha'] . '';//Fecha cierre
+
+                $data[] = $sub_array;
+            }
+            if (empty($fecha_cierre)) {
+
+                $sub_array[] = '<p onclick="detalle_apertura(' . $detalle['id'] . ')" class="cursor-pointer" >' . $detalle['fecha'] . '';
+                $sub_array[] = '<p onclick="detalle_apertura(' . $detalle['id'] . ')" class="cursor-pointer" > Sin cierre';
+
+                $data[] = $sub_array;
+            }
+        }
+
+
+        $json_data = [
+            'draw' => intval($this->request->getPost(index: 'draw')),
+            'recordsTotal' => $total_count->total,
+            'recordsFiltered' => $total_count->total,
+            'data' => $data,
+
+        ];
+        echo  json_encode($json_data);
+    } */
+
+    function aperturas()
+    {
+
+        $id_apertura = model('aperturaModel')->apertura();
+        
+        foreach ($id_apertura as $detalle) {
+
+            $sub_array = array();
+
+            $fecha_cierre = model('cierreModel')->select('fecha')->where('idapertura', $detalle['id'])->first();
+           // d($fecha_cierre);
+            if (!empty($fecha_cierre['fecha'])) {
+
+                // $sub_array[] = $detalle['fecha'];
+                $sub_array[] =  $detalle['id']; //Fecha apertura
+                $sub_array[] =  $detalle['fecha']; //Fecha apertura
+                $sub_array[] =   $fecha_cierre['fecha']; //Fecha cierre
+
+                $data[] = $sub_array;
+            }
+            if (empty($fecha_cierre['fecha'])) {
+
+                $sub_array[] =  $detalle['id'];
+                $sub_array[] =  $detalle['fecha'];
+                $sub_array[] = 'Sin cierre';
+
+                $data[] = $sub_array;
+            }
+        }
+    
+        $returnData = array(
+            "resultado" => 1,
+            "aperturas" => view('caja/historial_aperturas', [
+                'datos'=>$data
+            ])
+
+        );
+        echo  json_encode($returnData);
     }
 }
