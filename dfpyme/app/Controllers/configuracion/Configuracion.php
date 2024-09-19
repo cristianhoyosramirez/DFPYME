@@ -747,7 +747,9 @@ class Configuracion extends BaseController
             model('kardexModel')->where('id_factura',$detalle['id'])->delete();
         }
 
-
+        $session = session();
+        $session->setFlashdata('iconoMensaje', 'success');
+        return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa ');
 
     }
 }
