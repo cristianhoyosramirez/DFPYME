@@ -411,13 +411,22 @@ class Boletas extends BaseController
         $actualizar = $model->update();
 
 
-        $valor_unitario =model('productoPedidoModel')->select('valor_unitario')->where('id',$id_producto)->first();
+        $valor_unitario = model('productoPedidoModel')->select('valor_unitario')->where('id', $id_producto)->first();
+        $valor_total = model('productoPedidoModel')->select('valor_total')->where('id', $id_producto)->first();
+        $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido['numero_de_pedido'])->first();
+        $propina = model('pedidoModel')->select('propina')->where('id', $numero_pedido['numero_de_pedido'])->first();
+
+        $sub_total =$total_pedido['valor_total']-$propina['propina'];
 
 
 
         $returnData = array(
             "resultado" => 1,
-            'valor_unitario'=>"$ ".$valor_unitario['valor_unitario']
+            'valor_unitario' => "$ " . number_format($valor_unitario['valor_unitario'], 0, ",", "."),
+            'valor_total' => "$ " . number_format($valor_total['valor_total'], 0, ",", "."),
+            'total_pedido' => "$ " . number_format($total_pedido['valor_total'], 0, ",", "."),
+            'sub_total'=>"$ " . number_format($sub_total, 0, ",", "."),
+            'id'=> $id_producto
 
         );
         echo  json_encode($returnData);

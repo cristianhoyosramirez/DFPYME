@@ -1120,7 +1120,10 @@
 
 
                         sweet_alert('success', 'Asignación de precio correcta ')
-                        
+                        $("#val_uni"+resultado.id).html(resultado.valor_unitario)
+                        $("#total_producto"+resultado.id).html(resultado.valor_total)
+                        $("#subtotal_pedido").val(resultado.sub_total)
+                        $("#valor_pedido").html(resultado.total_pedido)
                         $("#agregar_nota").modal("hide");
                     }
                 },

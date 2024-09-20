@@ -37,7 +37,7 @@
             </div>
 
             <div class="col col-md-3 col-lg-2">
-                <span><?php echo "$ " . number_format($detalle['valor_unitario'], 0, ",", "."); ?></span>
+                <span id="val_uni<?php echo $detalle['id_tabla_producto'] ?>"><?php echo "$ " . number_format($detalle['valor_unitario'], 0, ",", "."); ?></span>
             </div>
 
             <div class="col col-md-4 col-lg-3">

@@ -488,7 +488,7 @@ class kardexModel extends Model
     public function get_total_factura($id_factura)
     {
         $datos = $this->db->query("
-        select valor from pagos where id_factura= $id_factura and id_estado = 8
+        select total_documento as  valor from pagos where id_factura= $id_factura and id_estado = 8
         ");
         return $datos->getResultArray();
     }

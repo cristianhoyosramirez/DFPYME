@@ -1,0 +1,9 @@
+CRITICAL - 2024-09-20 14:44:47 --> number_format(): Argument #1 ($num) must be of type float, string given
+#0 C:\xampp\htdocs\dfpyme\app\Libraries\impresion.php(629): number_format('$ 55,800', 0, ',', '.')
+#1 C:\xampp\htdocs\dfpyme\app\Libraries\impresion.php(638): App\Libraries\formatValue('SUB TOTAL:     ', '$ 55,800', 0, ',', '.')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(479): App\Libraries\impresion->impresion_factura_electronica(32)
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->impresion_factura_electronica()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
