@@ -1115,10 +1115,12 @@
                 success: function(resultado) {
                     var resultado = JSON.parse(resultado);
                     if (resultado.resultado == 1) {
+                        
+
 
 
                         sweet_alert('success', 'Asignación de precio correcta ')
-
+                        
                         $("#agregar_nota").modal("hide");
                     }
                 },

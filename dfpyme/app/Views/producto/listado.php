@@ -137,7 +137,7 @@ LISTADO DE PRODUCTOS
                         </div>
                         <div class="card-body">
                             <?php $categorias = model('categoriasModel')->where('estadocategoria', 'true')->findAll(); ?>
-                            <select name="categorias" id="imprimir_categoria" class="form-select" >
+                            <select name="categorias" id="imprimir_categoria" class="form-select">
                                 <option value=""></option>
                                 <?php foreach ($categorias as $detalle): ?>
                                     <option value="<?php echo $detalle['codigocategoria'] ?>"><?php echo $detalle['nombrecategoria'] ?></option>
@@ -163,259 +163,260 @@ LISTADO DE PRODUCTOS
             </div>
         </div>
     </div>
+</div>
 
 
-    <?= $this->include('modal_producto/crear_producto') ?>
-    <?= $this->include('modal_producto/edicion_de_producto') ?>
-    <?= $this->include('producto/modal_categoria') ?>
+<?= $this->include('modal_producto/crear_producto') ?>
+<?= $this->include('modal_producto/edicion_de_producto') ?>
+<?= $this->include('producto/modal_categoria') ?>
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="productos_eliminados" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="eliminados"></div>
-                </div>
-
+<!-- Modal -->
+<div class="modal fade" id="productos_eliminados" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+                <div id="eliminados"></div>
+            </div>
+
         </div>
     </div>
+</div>
 
-    <script>
-        function imprimir_categorias_sin_cantidades() {
+<script>
+    function imprimir_categorias_sin_cantidades() {
 
-            let url = document.getElementById("url").value;
-            let categorias = document.getElementById("imprimir_categoria").value;
-            
-            $.ajax({
-                data: {
-                    categorias
-                },
-                url: url + "/" + "pedidos/imprimir_categoria_sin_cantidades",
-                type: "POST",
-                success: function(resultado) {
-                    var resultado = JSON.parse(resultado);
-                    if (resultado.resultado == 1) {
+        let url = document.getElementById("url").value;
+        let categorias = document.getElementById("imprimir_categoria").value;
 
-                        $("#staticBackdrop").modal("hide");
+        $.ajax({
+            data: {
+                categorias
+            },
+            url: url + "/" + "pedidos/imprimir_categoria_sin_cantidades",
+            type: "POST",
+            success: function(resultado) {
+                var resultado = JSON.parse(resultado);
+                if (resultado.resultado == 1) {
 
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-start',
-                            showConfirmButton: false,
-                            timer: 900,
-                            timerProgressBar: false,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseleave', Swal.resumeTimer);
-                            }
-                        });
+                    $("#staticBackdrop").modal("hide");
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Registros encontrados'
-                        });
-                    }
-                },
-            });
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-start',
+                        showConfirmButton: false,
+                        timer: 900,
+                        timerProgressBar: false,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
 
-        }
-    </script>
-    <script>
-        function imprimir_categorias_con_cantidades() {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Registros encontrados'
+                    });
+                }
+            },
+        });
 
-            let url = document.getElementById("url").value;
-            let categorias = document.getElementById("imprimir_categoria").value;
-            
-            $.ajax({
-                data: {
-                    categorias
-                },
-                url: url + "/" + "pedidos/imprimir_categoria_con_cantidades",
-                type: "POST",
-                success: function(resultado) {
-                    var resultado = JSON.parse(resultado);
-                    if (resultado.resultado == 1) {
+    }
+</script>
+<script>
+    function imprimir_categorias_con_cantidades() {
 
-                        $("#staticBackdrop").modal("hide");
+        let url = document.getElementById("url").value;
+        let categorias = document.getElementById("imprimir_categoria").value;
 
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-start',
-                            showConfirmButton: false,
-                            timer: 900,
-                            timerProgressBar: false,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseleave', Swal.resumeTimer);
-                            }
-                        });
+        $.ajax({
+            data: {
+                categorias
+            },
+            url: url + "/" + "pedidos/imprimir_categoria_con_cantidades",
+            type: "POST",
+            success: function(resultado) {
+                var resultado = JSON.parse(resultado);
+                if (resultado.resultado == 1) {
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Registros encontrados'
-                        });
-                    }
-                },
-            });
+                    $("#staticBackdrop").modal("hide");
 
-        }
-    </script>
-    <script>
-        function imprimir_categorias_con_cantidades() {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-start',
+                        showConfirmButton: false,
+                        timer: 900,
+                        timerProgressBar: false,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
 
-            let url = document.getElementById("url").value;
-            let categorias = document.getElementById("imprimir_categoria").value;
-            
-            $.ajax({
-                data: {
-                    categorias
-                },
-                url: url + "/" + "pedidos/imprimir_categoria_con_cantidades",
-                type: "POST",
-                success: function(resultado) {
-                    var resultado = JSON.parse(resultado);
-                    if (resultado.resultado == 1) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Registros encontrados'
+                    });
+                }
+            },
+        });
 
-                        $("#staticBackdrop").modal("hide");
+    }
+</script>
+<script>
+    function imprimir_categorias_con_cantidades() {
 
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-start',
-                            showConfirmButton: false,
-                            timer: 900,
-                            timerProgressBar: false,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseleave', Swal.resumeTimer);
-                            }
-                        });
+        let url = document.getElementById("url").value;
+        let categorias = document.getElementById("imprimir_categoria").value;
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Registros encontrados'
-                        });
-                    }
-                },
-            });
+        $.ajax({
+            data: {
+                categorias
+            },
+            url: url + "/" + "pedidos/imprimir_categoria_con_cantidades",
+            type: "POST",
+            success: function(resultado) {
+                var resultado = JSON.parse(resultado);
+                if (resultado.resultado == 1) {
 
-        }
-    </script>
-    <script>
-        function imprimir_inventario_sin_cant() {
+                    $("#staticBackdrop").modal("hide");
 
-            let url = document.getElementById("url").value;
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-start',
+                        showConfirmButton: false,
+                        timer: 900,
+                        timerProgressBar: false,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
 
-            $.ajax({
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Registros encontrados'
+                    });
+                }
+            },
+        });
 
-                url: url + "/" + "pedidos/imprimir_inventario_sin_cantidades",
-                type: "GET",
-                success: function(resultado) {
-                    var resultado = JSON.parse(resultado);
-                    if (resultado.resultado == 1) {
+    }
+</script>
+<script>
+    function imprimir_inventario_sin_cant() {
 
-                        $("#staticBackdrop").modal("hide");
+        let url = document.getElementById("url").value;
 
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-start',
-                            showConfirmButton: false,
-                            timer: 900,
-                            timerProgressBar: false,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseleave', Swal.resumeTimer);
-                            }
-                        });
+        $.ajax({
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Registros encontrados'
-                        });
-                    }
-                },
-            });
+            url: url + "/" + "pedidos/imprimir_inventario_sin_cantidades",
+            type: "GET",
+            success: function(resultado) {
+                var resultado = JSON.parse(resultado);
+                if (resultado.resultado == 1) {
 
-        }
-    </script>
+                    $("#staticBackdrop").modal("hide");
 
-    <script>
-        function imprimir_inventario() {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-start',
+                        showConfirmButton: false,
+                        timer: 900,
+                        timerProgressBar: false,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
 
-            let url = document.getElementById("url").value;
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Registros encontrados'
+                    });
+                }
+            },
+        });
 
-            $.ajax({
+    }
+</script>
 
-                url: url + "/" + "pedidos/imprimir_inventario",
-                type: "GET",
-                success: function(resultado) {
-                    var resultado = JSON.parse(resultado);
-                    if (resultado.resultado == 1) {
+<script>
+    function imprimir_inventario() {
 
-                        $("#staticBackdrop").modal("hide");
+        let url = document.getElementById("url").value;
 
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-start',
-                            showConfirmButton: false,
-                            timer: 900,
-                            timerProgressBar: false,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseleave', Swal.resumeTimer);
-                            }
-                        });
+        $.ajax({
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Registros encontrados'
-                        });
-                    }
-                },
-            });
-        }
-    </script>
-    <script>
-        function productos_eliminandos() {
+            url: url + "/" + "pedidos/imprimir_inventario",
+            type: "GET",
+            success: function(resultado) {
+                var resultado = JSON.parse(resultado);
+                if (resultado.resultado == 1) {
 
-            let url = document.getElementById("url").value;
+                    $("#staticBackdrop").modal("hide");
 
-            $.ajax({
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-start',
+                        showConfirmButton: false,
+                        timer: 900,
+                        timerProgressBar: false,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
 
-                url: url + "/" + "reportes/ver_productos_eliminanados",
-                type: "GET",
-                success: function(resultado) {
-                    var resultado = JSON.parse(resultado);
-                    if (resultado.resultado == 1) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Registros encontrados'
+                    });
+                }
+            },
+        });
+    }
+</script>
+<script>
+    function productos_eliminandos() {
 
-                        $('#eliminados').html(resultado.productos);
-                        $("#productos_eliminados").modal("show");
+        let url = document.getElementById("url").value;
 
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-start',
-                            showConfirmButton: false,
-                            timer: 900,
-                            timerProgressBar: false,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseleave', Swal.resumeTimer);
-                            }
-                        });
+        $.ajax({
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Registros encontrados'
-                        });
-                    }
-                },
-            });
-        }
-    </script>
+            url: url + "/" + "reportes/ver_productos_eliminanados",
+            type: "GET",
+            success: function(resultado) {
+                var resultado = JSON.parse(resultado);
+                if (resultado.resultado == 1) {
 
-    <?= $this->endSection('content') ?>
-    <!-- end row -->
-    <script>
-        function informacion_tributaria() {
+                    $('#eliminados').html(resultado.productos);
+                    $("#productos_eliminados").modal("show");
 
-        }
-    </script>
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-start',
+                        showConfirmButton: false,
+                        timer: 900,
+                        timerProgressBar: false,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Registros encontrados'
+                    });
+                }
+            },
+        });
+    }
+</script>
+
+<?= $this->endSection('content') ?>
+<!-- end row -->
+<script>
+    function informacion_tributaria() {
+
+    }
+</script>

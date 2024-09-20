@@ -410,8 +410,14 @@ class Boletas extends BaseController
         $actualizar = $model->where('id',  $numero_pedido['numero_de_pedido']);
         $actualizar = $model->update();
 
+
+        $valor_unitario =model('productoPedidoModel')->select('valor_unitario')->where('id',$id_producto)->first();
+
+
+
         $returnData = array(
-            "resultado" => 1, //Falta plata 
+            "resultado" => 1,
+            'valor_unitario'=>"$ ".$valor_unitario['valor_unitario']
 
         );
         echo  json_encode($returnData);
