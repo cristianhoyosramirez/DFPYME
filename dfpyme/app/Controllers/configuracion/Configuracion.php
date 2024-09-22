@@ -738,7 +738,6 @@ class Configuracion extends BaseController
 
     function borrado_masivo(){
     
-
         $borrar_f_e=model('facturaElectronicaModel')->select('id')->where('id_status',1)->findAll();
 
         foreach($borrar_f_e as $detalle){
@@ -750,6 +749,9 @@ class Configuracion extends BaseController
         $session = session();
         $session->setFlashdata('iconoMensaje', 'success');
         return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa ');
+    }
 
+    function productos_impuestos(){
+        return view('configuracion/impuestos');
     }
 }

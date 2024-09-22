@@ -330,7 +330,7 @@ class impresion
 
             $printer->setTextSize(1, 1);
             $printer->text("Cod." . $productos['codigo'] . "      " . $productos['descripcion'] . "\n");
-            $printer->text("Cant. " . $productos['cantidad'] . "      " . "$" . number_format($productos['neto'], 0, ',', '.') . "                   " . "$" . number_format($productos['total'], 0, ',', '.') . "\n");
+            $printer->text("Cant. " . $productos['cantidad'] . "      " . "$" . number_format($productos['precio_unitario'], 0, ',', '.') . "                   " . "$" . number_format($productos['precio_unitario']*$productos['cantidad'], 0, ',', '.') . "\n");
             if (!empty($productos['nota_producto'])) {
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text("NOTAS:\n");

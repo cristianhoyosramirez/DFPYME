@@ -5,6 +5,7 @@ namespace App\Controllers\Boletas;
 use App\Controllers\BaseController;
 use App\Libraries\data_table;
 use App\Libraries\tipo_consulta;
+use App\Libraries\Propina;
 
 
 require APPPATH . "Controllers/phpqrcode/qrlib.php";
@@ -240,10 +241,13 @@ class Boletas extends BaseController
         $temp_precio_2 = ($descto_mayor['descto_mayor'] * $valor_venta['valorventaproducto']) / 100;
         $precio_2 = $valor_venta['valorventaproducto'] - $temp_precio_2;
 
+         $precio_3 = model('productoModel')->select('precio_3')->where('codigointernoproducto', $codigo_interno['codigointernoproducto'])->first();
+
         $returnData = array(
             "resultado" => 1, //Falta plata 
             "precio_1" => "$ " . number_format($valor_venta['valorventaproducto'], 0, ',', '.'),
-            "precio_2" => "$ " . number_format($precio_2, 0, ',', '.')
+            "precio_2" => "$ " . number_format($precio_2, 0, ',', '.'),
+            "precio_3" => "$ " . number_format($precio_3['precio_3'], 0, ',', '.'),
         );
         echo  json_encode($returnData);
     }
@@ -377,7 +381,9 @@ class Boletas extends BaseController
     {
 
         $valor = $this->request->getPost('valor');
+        //$valor = 50000;
         $id_producto = $this->request->getPost('id_producto_pedido');
+        //$id_producto = 287;
         $codigo_interno = model('productoPedidoModel')->select('codigointernoproducto')->where('id', $id_producto)->first();
 
         $valor_venta = model('productoModel')->select('valorventaproducto')->where('codigointernoproducto', $codigo_interno['codigointernoproducto'])->first();
@@ -414,9 +420,14 @@ class Boletas extends BaseController
         $valor_unitario = model('productoPedidoModel')->select('valor_unitario')->where('id', $id_producto)->first();
         $valor_total = model('productoPedidoModel')->select('valor_total')->where('id', $id_producto)->first();
         $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido['numero_de_pedido'])->first();
-        $propina = model('pedidoModel')->select('propina')->where('id', $numero_pedido['numero_de_pedido'])->first();
 
-        $sub_total =$total_pedido['valor_total']-$propina['propina'];
+
+        $tem_id = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_producto)->first();
+        $id_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $tem_id['numero_de_pedido'])->first();
+
+        $temp_propina = new Propina();
+        $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+        $sub_total = $total_pedido['valor_total'] - $propina['propina'];
 
 
 
@@ -425,8 +436,9 @@ class Boletas extends BaseController
             'valor_unitario' => "$ " . number_format($valor_unitario['valor_unitario'], 0, ",", "."),
             'valor_total' => "$ " . number_format($valor_total['valor_total'], 0, ",", "."),
             'total_pedido' => "$ " . number_format($total_pedido['valor_total'], 0, ",", "."),
-            'sub_total'=>"$ " . number_format($sub_total, 0, ",", "."),
-            'id'=> $id_producto
+            'sub_total' => "$ " . number_format($sub_total, 0, ",", "."),
+            'id' => $id_producto,
+            'propina' =>  "$ " . number_format($propina['propina'], 0, ",", ".")
 
         );
         echo  json_encode($returnData);

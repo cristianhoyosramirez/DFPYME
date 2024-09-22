@@ -184,7 +184,7 @@
                 allowClear: false,
                 dropdownParent: $('#staticBackdrop'),
                 placeholder: "Seleccionar categoria ",
-                
+
                 language: {
                     noResults: function() {
                         return "No hay resultado";
@@ -445,24 +445,56 @@
                             return "Buscando..";
                         }
                     },
-                    /*  ajax: {
-                         //url: "tipos_formulacion",
-                         url: url + "/producto/marcas",
-                         type: "post",
-                         dataType: 'json',
-                         delay: 200,
-                         data: function(params) {
-                             return {
-                                 palabraClave: params.term // search term
-                             };
-                         },
-                         processResults: function(response) {
-                             return {
-                                 results: response
-                             };
-                         },
-                         cache: true
-                     } */
+
+
+                });
+                $("#select_imp").select2({
+                    width: "50%",
+                    placeholder: "Selecionar impuesto ",
+                    language: "es",
+                    theme: "bootstrap-5",
+                    allowClear: true,
+                    dropdownParent: $('#crear_producto'),
+                    minimumResultsForSearch: Infinity // Esto quita el buscador
+
+
+                });
+                $("#opc_imp").select2({
+                    width: "50%",
+                    placeholder: "Impuesto ",
+                    language: "es",
+                    theme: "bootstrap-5",
+                    allowClear: true,
+                    dropdownParent: $('#crear_producto'),
+                    minimumResultsForSearch: Infinity ,// Esto quita el buscador
+                    language: {
+                        noResults: function() {
+                            return "No hay seleccionado tipo de impuesto ";
+                        },
+                        searching: function() {
+                            return "Buscando..";
+                        }
+                    },
+
+
+                });
+                $("#categoria_product").select2({
+                    width: "50%",
+                    placeholder: "Buscar categoria  ",
+                    language: "es",
+                    theme: "bootstrap-5",
+                    allowClear: true,
+                    dropdownParent: $('#crear_producto'),
+                    
+                    language: {
+                        noResults: function() {
+                            return "No hay seleccionado tipo de impuesto ";
+                        },
+                        searching: function() {
+                            return "Buscando..";
+                        }
+                    },
+
 
                 });
 

@@ -1116,13 +1116,11 @@
                     var resultado = JSON.parse(resultado);
                     if (resultado.resultado == 1) {
                         
-
-
-
                         sweet_alert('success', 'Asignación de precio correcta ')
                         $("#val_uni"+resultado.id).html(resultado.valor_unitario)
                         $("#total_producto"+resultado.id).html(resultado.valor_total)
                         $("#subtotal_pedido").val(resultado.sub_total)
+                        $("#propina_del_pedido").val(resultado.propina)
                         $("#valor_pedido").html(resultado.total_pedido)
                         $("#agregar_nota").modal("hide");
                     }
@@ -1233,6 +1231,7 @@
                         lista_precios.style.display = "block";
                         $('#precio_1').html(resultado.precio_1)
                         $('#precio_2').html(resultado.precio_2)
+                        $('#precio_3').html(resultado.precio_3)
 
 
                     }

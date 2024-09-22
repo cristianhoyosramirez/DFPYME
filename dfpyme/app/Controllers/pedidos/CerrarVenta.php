@@ -11,8 +11,8 @@ require APPPATH . "Controllers/mike42/autoload.php";
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
-
-
+use App\Libraries\Inventario;
+use App\Libraries\Propina;
 
 class CerrarVenta extends BaseController
 {
@@ -537,35 +537,13 @@ class CerrarVenta extends BaseController
     {
 
         $id_mesa = $this->request->getPost('id_mesa');
-
-        //$id_mesa = 301;
-
-        $valor_pedido = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
-
-        $tipo_propina = model('configuracionPedidoModel')->select('propina')->first();
-        $temp_porcentaje_propina = model('configuracionPedidoModel')->select('valor_defecto_propina')->first();
-
-        $porcentaje_propina = $temp_porcentaje_propina['valor_defecto_propina'] / 100;
-        if ($tipo_propina['propina'] == 1) {
-            $temp_propina = $valor_pedido['valor_total'] *  $porcentaje_propina;
-            // Redondear la propina al valor más cercano a mil
-            $propina = round($temp_propina / 1000) * 1000;
-        }
-        if ($tipo_propina['propina'] == 0) {
-            $propina = $valor_pedido['valor_total'] *  $porcentaje_propina;
-        }
-
-
-
-        $model = model('pedidoModel');
-        $actualizar = $model->set('propina', $propina);
-        $actualizar = $model->where('fk_mesa', $id_mesa);
-        $actualizar = $model->update();
+        $temp_propina = new Propina();
+        $propina = $temp_propina->calcularPropina($id_mesa);
 
         $returnData = array(
             "resultado" => 1,
-            "propina" => number_format($propina, 0, ",", "."),
-            "total_pedido" => number_format($propina + $valor_pedido['valor_total'], 0, ",", ".")
+            "propina" => number_format($propina['propina'], 0, ",", "."),
+            "total_pedido" => number_format($propina['propina'] + $propina['valor_pedido'], 0, ",", ".")
         );
         echo  json_encode($returnData);
     }

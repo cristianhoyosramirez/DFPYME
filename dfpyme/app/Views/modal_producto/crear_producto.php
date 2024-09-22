@@ -30,13 +30,13 @@
 
 
 
-          <div class="col-md-2">
+          <div class="col-md-1">
             <label for="inputEmail4" class="form-label">Códido</label>
-            <input type="text" class="form-control" id="crear_producto_codigo_interno" name="crear_producto_codigo_interno" readonly>
+            <input type="text" class="form-control" id="crear_producto_codigo_interno" name="crear_producto_codigo_interno">
             <span class="text-danger error-text crear_producto_codigo_interno_error"></span>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="inputEmail4" class="form-label">Código de barras</label>
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon1">
@@ -57,7 +57,7 @@
             </div>
           </div>
 
-          <div class="col-md-5">
+          <div class="col-md-3">
             <label for="inputPassword4" class="form-label">Nombre producto</label>
             <input type="text" class="form-control" id="crear_producto_nombre" name="crear_producto_nombre" onkeyup="saltar_creacion_producto(event,'categoria_producto'),minusculasAmayusculas()">
             <span class="text-danger error-text crear_producto_nombre_error"></span>
@@ -67,28 +67,30 @@
 
 
           <div class="col-md-3">
-            <label for="">Categoria</label>
-            <select class="form-select" id="categoria_product" name="categoria_producto" onchange="sub_categorias_productos(this.value)" onkeyup="saltar_creacion_producto(event,'marca_producto')">
-              <option value="">Seleccione una categoria</option>
-              <?php foreach ($categorias as $valor) { ?>
-
-                <option value="<?php echo $valor['codigocategoria'] ?>"><?php echo $valor['nombrecategoria'] ?> </option>
-
-              <?php } ?>
-
-            </select>
-
+            <label for="categoria_product" class="form-label">Categoria</label>
+            <div class="input-group">
+              <select class="form-select" id="categoria_product" name="categoria_producto"
+                onchange="sub_categorias_productos(this.value)"
+                onkeyup="saltar_creacion_producto(event,'marca_producto')">
+                <option value="">Seleccione una categoria</option>
+                <?php foreach ($categorias as $valor) { ?>
+                  <option value="<?php echo $valor['codigocategoria'] ?>">
+                    <?php echo $valor['nombrecategoria'] ?>
+                  </option>
+                <?php } ?>
+              </select>
+              <button type="button" class="btn btn-success btn-icon" title="Agregar categoria" data-bs-toggle="modal" data-bs-target="#agregar_categoria">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </button>
+            </div>
             <span class="text-danger error-text categoria_producto_error"></span>
           </div>
-          <div class="col-sm">
-            <br>
-            <button type="button" class="btn btn-success btn-icon" title="Agregar categoria" data-bs-toggle="modal" data-bs-target="#agregar_categoria">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg></button>
-          </div>
+
+
 
           <div class="col-md-3" id="div_sub_categoria" style="display:none">
             <input type="hidden" id="requiere_categoria" value=0>
@@ -108,7 +110,7 @@
 
 
 
-          <div class="col-md-3">
+          <div class="col-md-3" style="display:none">
             <label for="">Marca</label>
             <select class="form-select" id="marca_product" name="marca_producto">
 
@@ -122,7 +124,7 @@
             </select>
             <span class="text-danger error-text marca_producto_error"></span>
           </div>
-          <div class="col-sm">
+          <div class="col-sm" style="display:none">
             <br>
             <button type="button" class="btn btn-success btn-icon" title="Agregar marca"><!-- Download SVG icon from http://tabler-icons.io/i/plus -->
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -132,13 +134,13 @@
               </svg></button>
           </div>
 
-          <div class="col-md-2"><br>
+          <div class="col-md-2"><br><br>
             <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="impresion_en_comanda" name="impresion_en_comanda" onkeyup="saltar_creacion_producto(event,'permitir_descuento')">
               <label class="form-check-label" for="flexSwitchCheckDefault">Imprimir comanda</label>
             </div>
           </div>
-          <div class="col-md-2"><br>
+          <div class="col-md-2" style="display:none"><br>
             <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="permitir_descuento" name="permitir_descuento" onkeyup="saltar_creacion_producto(event,'informacion_tributaria')">
               <label class="form-check-label" for="flexSwitchCheckDefault">Descuento</label>
@@ -148,7 +150,8 @@
           <div class="hr-text hr-text-left">
             <p class="h4 text-green">Información de precio</p>
           </div>
-          <div class="col-3">
+
+          <div class="col-2">
             <label for="inputAddress2" class="form-label">Valor costo</label>
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon1">
@@ -160,60 +163,37 @@
                   <path d="M12 6v2m0 8v2" />
                 </svg>
               </span>
-              <input type="text" class="form-control" id="valor_costo_producto" name="valor_costo_producto" onkeyup="saltar_creacion_producto(event,'valor_venta_producto')">
+              <input type="text" class="form-control" id="valor_costo_producto" name="valor_costo_producto" onkeyup="saltar_creacion_producto(event,'valor_venta_producto')" value=0>
             </div>
             <span class="text-danger error-text valor_costo_producto_error"></span>
           </div>
-          <div class="col-md-2">
+          <!-- <div class="col-md-2">
             <label for="inputPassword4" class="form-label">Información tributaria</label>
             <select class="form-select" id="informacion_tributaria" name="informacion_tributaria" onchange="mostrar_informacion_tributaria()">
               <option value="1">Impuesto Nacional al Consumo (ICO)</option>
               <option value="2">Impuesto al Valor Agregado (IVA)</option>
             </select>
             <span class="text-danger error-text informacion_tributaria_error"></span>
-          </div>
-
-          <div class="col-md-1" style="display: none" id="informacion_triburaria_iva">
-            <label for="inputPassword4" class="form-label">Valor IVA </label>
-            <select class="form-select" id="valor_iv" name="valor_iva">
-              <?php foreach ($iva as $detalle) { ?>
-                <option value="<?php echo $detalle['idiva'] ?>"><?php echo $detalle['valoriva'] . "-" . $detalle['conceptoiva'] ?></option>
-              <?php } ?>
-            </select>
-          </div>
-
-
-
-
-          <div class="col-md-1" style="display: block" id="informacion_tributaria_ico">
-            <label for="inputPassword4" class="form-label">Valor ICO</label>
-            <select class="form-select" id="valor_ico" name="valor_ico">
-              <?php foreach ($ico as $detalle) { ?>
-                <option value="<?php echo $detalle['id_ico'] ?>"><?php echo $detalle['valor_ico'] ?></option>
-              <?php } ?>
-            </select>
-          </div>
-
-
-
-          <!--     <div class="col-md-3">
-            <label for="inputPassword4" class="form-label">Tipo impuesto saludable </label>
-            <select class="form-select" id="impuesto_saludable" name="impuesto_saludable">
-
-              <?php foreach ($impuesto_saludable as $impuesto_saludable) { ?>
-
-                <option value="<?php echo $impuesto_saludable['id']  ?>"><?php echo $impuesto_saludable['nombre'] ?></option>
-
-              <?php } ?>
-
-            </select>
-          </div>
-
-          <div class="col-md-2">
-            <label for="inputPassword4" class="form-label">Valor impuesto saludable</label>
-            <input type="text" class="form-control" id="valor_impuesto_saludable" name="valor_impuesto_saludable">
           </div> -->
 
+          <div class="col-md-4">
+            <div id="info_tribuitaria">
+              <label for="inputPassword4" class="form-label">Información tributaria</label>
+              <div class="input-group mb-3">
+
+                <select class="form-select" id="select_imp">
+                  <option value=""></option>
+                  <option value="1">Impuesto Nacional al Consumo (INC)</option>
+                  <option value="2">Impuesto al Valor Agregado (IVA)</option>
+                </select>
+                <select class="form-select" id="opc_imp">
+
+                  <option></option>
+
+                </select>
+              </div>
+            </div>
+          </div>
 
 
           <div class="col-2">
@@ -228,12 +208,12 @@
                   <path d="M12 6v2m0 8v2" />
                 </svg>
               </span>
-              <input type="text" class="form-control" id="valor_venta_producto" name="valor_venta_producto" onkeyup="saltar_creacion_producto(event,'precio_2')">
+              <input type="text" class="form-control" id="valor_venta_producto" name="valor_venta_producto" onkeyup="saltar_creacion_producto(event,'precio_2')" value=0>
             </div>
             <span class="text-danger error-text valor_venta_producto_error"></span>
           </div>
 
-          <div class="col-3">
+          <div class="col-2">
             <label for="inputAddress2" class="form-label">Precio 2 </label>
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon1">
@@ -245,12 +225,28 @@
                   <path d="M12 6v2m0 8v2" />
                 </svg>
               </span>
-              <input type="text" class="form-control" id="precio_2" name="precio_2" onkeyup="saltar_creacion_producto(event,'btn_crear_producto'),hablilitar_boton(event)" value=0>
+              <input type="text" class="form-control" id="precio_2" name="precio_2" onkeyup="saltar_creacion_producto(event,'precio_3'),hablilitar_boton(event)" value=0>
+            </div>
+            <span class="text-danger error-text precio_2_error"></span>
+          </div>
+          <div class="col-2">
+            <label for="inputAddress2" class="form-label">Precio 3 </label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">
+                <!-- Download SVG icon from http://tabler-icons.io/i/coin -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1 -1.8 -1" />
+                  <path d="M12 6v2m0 8v2" />
+                </svg>
+              </span>
+              <input type="text" class="form-control" id="precio_3" name="precio_3" onkeyup="saltar_creacion_producto(event,'btn_crear_producto'),hablilitar_boton(event)" value=0>
             </div>
             <span class="text-danger error-text precio_2_error"></span>
           </div>
 
-          <div class="col-8">
+          <div class="col-5">
           </div>
           <div class="col-4">
             <button type="button" class="btn btn-success" id="btn_crear_producto" onclick="mandar()">Guardar </button>

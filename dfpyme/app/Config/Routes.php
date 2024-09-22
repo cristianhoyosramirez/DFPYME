@@ -594,6 +594,7 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('actualizar_pie', 'Configuracion::actualizar_pie');
     $routes->post('actualizar_favorito', 'Configuracion::actualizar_favorito');
     $routes->get('borrado_masivo', 'Configuracion::borrado_masivo');
+    $routes->get('productos_impuestos', 'Configuracion::productos_impuestos');
 });
 
 /*

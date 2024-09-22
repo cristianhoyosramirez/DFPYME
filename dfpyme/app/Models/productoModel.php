@@ -52,7 +52,8 @@ class productoModel extends Model
         'id_impuesto_saludable',
         'valor_impuesto_saludable',
         'id_subcategoria', 
-        'favorito'
+        'favorito', 
+        'precio_3'
     ];
 
     public function autoComplete($valor)

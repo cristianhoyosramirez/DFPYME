@@ -474,7 +474,7 @@ class FacturaElectronica extends BaseController
                     'fecha' => date('Y-m-d'),
                     'hora' => date("H:i:s"),
                     'documento' => $id_factura,
-                    'valor' => $valor_venta - $propina,
+                    'valor' => $valor_total['valor_total'],
                     'propina' => $propina,
                     'total_documento' => $valor_venta,
                     'efectivo' => $valor_pago_efectivo,
