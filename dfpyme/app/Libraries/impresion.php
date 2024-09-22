@@ -388,17 +388,9 @@ class impresion
         $printer->text("\n");
         $printer->setTextSize(1, 1);
 
-        /* if ($efectivo[0]['recibido_efectivo'] > 0) {
-            $printer->text("Efectivo:" . "$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", ".")  . "\n");
-        }
-        if ($transferencia[0]['recibido_transferencia'] > 0) {
-            $printer->text("Transferencia:" . "$ " . number_format($transferencia[0]['recibido_transferencia'], 0, ",", ".") . "\n");
-        }
+ 
 
-        $printer->text("Cambio:"."$ ".$cambio['cambio'] ."\n");
- */
-
-        if ($efectivo[0]['recibido_efectivo'] > 0) {
+      /*   if ($efectivo[0]['recibido_efectivo'] > 0) {
             $printer->text(str_pad("PAGO EFECTIVO ", 15) . ": " . str_pad("$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
         }
 
@@ -407,7 +399,7 @@ class impresion
         }
 
         $printer->text(str_pad("CAMBIO", 15) . ": " . str_pad("$ " . number_format($cambio['cambio'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
-
+ */
         $temp_encabezado = model('ConfiguracionPedidoModel')->select('encabezado_factura')->first();
         $encabezado = $temp_encabezado['encabezado_factura'];
         //$printer->text("$encabezado \n");
@@ -649,7 +641,7 @@ class impresion
         $printer->text("\n");
         $printer->setTextSize(1, 1);
 
-        $printer->text(str_pad("PAGO EFECTIVO:", 40, " ")  . "$ ".number_format($efectivo[0]['recibido_efectivo'], 0, ",", ".") . "\n");
+      /*   $printer->text(str_pad("PAGO EFECTIVO:", 40, " ")  . "$ ".number_format($efectivo[0]['recibido_efectivo'], 0, ",", ".") . "\n");
 
         if ($transferencia[0]['recibido_transferencia'] > 0) {
             $printer->text(str_pad("PAGO TRANSFERENCIA :", 40, " ") . "$ " . number_format($transferencia[0]['recibido_transferencia'], 0, ",", ".") . "\n");
@@ -657,7 +649,7 @@ class impresion
 
         $cambio = model('kardexModel')->cambio($id_factura);
 
-        $printer->text(str_pad("CAMBIO:", 40, " ") . "$ ".number_format($cambio[0]['cambio'], 0, ",", ".") . "\n");
+        $printer->text(str_pad("CAMBIO:", 40, " ") . "$ ".number_format($cambio[0]['cambio'], 0, ",", ".") . "\n"); */
 
 
         $printer->text("_______________________________________________ \n\n");

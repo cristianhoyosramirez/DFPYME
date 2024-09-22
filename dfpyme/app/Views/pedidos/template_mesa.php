@@ -1115,10 +1115,10 @@
                 success: function(resultado) {
                     var resultado = JSON.parse(resultado);
                     if (resultado.resultado == 1) {
-                        
+
                         sweet_alert('success', 'Asignación de precio correcta ')
-                        $("#val_uni"+resultado.id).html(resultado.valor_unitario)
-                        $("#total_producto"+resultado.id).html(resultado.valor_total)
+                        $("#val_uni" + resultado.id).html(resultado.valor_unitario)
+                        $("#total_producto" + resultado.id).html(resultado.valor_total)
                         $("#subtotal_pedido").val(resultado.sub_total)
                         $("#propina_del_pedido").val(resultado.propina)
                         $("#valor_pedido").html(resultado.total_pedido)
@@ -1863,6 +1863,29 @@
             $('#pago').html("Valor pago : " + total.toLocaleString('es-CO'))
             $('#efectivo').val(total.toLocaleString('es-CO'))
 
+
+            let url = document.getElementById("url").value;
+            let id_mesa = document.getElementById("id_mesa_pedido").value;
+
+
+            $.ajax({
+                data: {
+                    id_mesa,
+                },
+                url: url + "/" + "pedidos/propinas",
+                type: "POST",
+                success: function(resultado) {
+                    var resultado = JSON.parse(resultado);
+                    if (resultado.resultado == 1) {
+
+                        $('#propina_del_pedido').val(resultado.propina)
+                        $('#valor_pedido').html(resultado.total_pedido)
+                        $('#val_pedido').html(resultado.total_pedido)
+
+                    }
+                },
+            });
+
         }
     </script>
 
@@ -1871,6 +1894,27 @@
 
             var criterio_propina = document.getElementById("criterio_propina_final").value;
             var subtotal = document.getElementById("valor_total_a_pagar").value;
+            var id_mesa = document.getElementById("id_mesa_pedido").value;
+            var url = document.getElementById("url").value;
+
+
+            $.ajax({
+                data: {
+                    id_mesa,
+                },
+                url: url + "/" + "pedidos/propinas",
+                type: "POST",
+                success: function(resultado) {
+                    var resultado = JSON.parse(resultado);
+                    if (resultado.resultado == 1) {
+
+                        $('#propina_del_pedido').val(resultado.propina)
+                        $('#valor_pedido').html(resultado.total_pedido)
+                        $('#val_pedido').html(resultado.total_pedido)
+
+                    }
+                },
+            });
 
 
             temp_propina = 0;
@@ -1929,6 +1973,7 @@
                 $('#valor_pedido').html(total.toLocaleString('es-ES'))
 
             }
+
 
 
         }
