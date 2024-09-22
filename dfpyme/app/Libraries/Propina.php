@@ -31,7 +31,7 @@ class Propina
         }
 
         $model = model('pedidoModel');
-        $actualizar = $model->set('valor_total', $valor_pedido['valor_total']+$propina);
+        //$actualizar = $model->set('valor_total', $valor_pedido['valor_total']+$propina);
         $actualizar = $model->set('propina', $propina);
         $actualizar = $model->where('fk_mesa', $id_mesa);
         $actualizar = $model->update();

@@ -39,7 +39,7 @@
                             <div class="text-center">
                                 <strong style="font-size: 12px;"><?php echo $detalle['nombre'] ?></strong>
                             </div>
-                            <div class="text-center"><strong style="font-size: 12px;"><?php echo "$" . number_format($tiene_pedido[0]['valor_total'] , 0, ",", ".") ?></strong></div>
+                            <div class="text-center"><strong style="font-size: 12px;"><?php echo "$" . number_format($tiene_pedido[0]['valor_total'] + $tiene_pedido[0]['propina'], 0, ",", ".") ?></strong></div>
                             <div class="text-center"><strong style="font-size: 12px; height: 1em; overflow: hidden;"><?php echo substr($tiene_pedido[0]['nombresusuario_sistema'], 0, 10) ?>...</strong></div>
                         </div>
                     </div>

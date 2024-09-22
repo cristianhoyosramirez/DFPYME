@@ -713,8 +713,9 @@ class Mesas extends BaseController
             "productos_pedido" => view('pedidos/productos_pedido', [
                 "productos" => $productos_pedido,
             ]),
-            "sub_total" =>  "$" . number_format($total_pedido['valor_total']-$propina['propina'], 0, ',', '.'),
-            "total_pedido" =>  "$" . number_format($total_pedido['valor_total'], 0, ',', '.'),
+           // "sub_total" =>  "$" . number_format($total_pedido['valor_total']-$propina['propina'], 0, ',', '.'),
+            "sub_total" =>  "$" . number_format($total_pedido['valor_total'], 0, ',', '.'),
+            "total_pedido" =>  "$" . number_format($total_pedido['valor_total']+$propina['propina'], 0, ',', '.'),
             "propina" =>   number_format($propina['propina'], 0, ',', '.'),
             //"cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos']
             "nota_pedido" => $nota_pedido['nota_pedido'],

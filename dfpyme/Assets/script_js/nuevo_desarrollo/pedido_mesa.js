@@ -71,7 +71,7 @@ function pedido_mesa(id_mesa, nombre_mesa) {
                 $('#nombre_mesero').html('Vendedor: ' + resultado.nombre_mesero)
                 $('#id_mesa_pedido').val(resultado.id_mesa)
                 //$('#pedido_mesa').html('Pedido: ' + resultado.numero_pedido)
-                $('#valor_pedido').html(resultado.total_propina)
+                $('#valor_pedido').html(resultado.total_pedido)
                 $('#nota_pedido').val(resultado.nota_pedido)
                 $('#subtotal_pedido').val(resultado.sub_total)
                 $('#propina_del_pedido').val(resultado.propina)

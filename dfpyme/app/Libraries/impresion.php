@@ -330,7 +330,7 @@ class impresion
 
             $printer->setTextSize(1, 1);
             $printer->text("Cod." . $productos['codigo'] . "      " . $productos['descripcion'] . "\n");
-            $printer->text("Cant. " . $productos['cantidad'] . "      " . "$" . number_format($productos['precio_unitario'], 0, ',', '.') . "                   " . "$" . number_format($productos['precio_unitario']*$productos['cantidad'], 0, ',', '.') . "\n");
+            $printer->text("Cant. " . $productos['cantidad'] . "      " . "$" . number_format($productos['precio_unitario'], 0, ',', '.') . "                   " . "$" . number_format($productos['precio_unitario'] * $productos['cantidad'], 0, ',', '.') . "\n");
             if (!empty($productos['nota_producto'])) {
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text("NOTAS:\n");
@@ -357,7 +357,7 @@ class impresion
         $transferencia =  model('kardexModel')->get_recibido_transferencia($id_factura);
         $efectivo =  model('kardexModel')->get_recibido_efectivo($id_factura);
 
-        $sub_total = ($total[0]['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva']))-$propina['propina'];
+        $sub_total = ($total[0]['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva'])) - $propina['propina'];
 
 
 
@@ -388,9 +388,9 @@ class impresion
         $printer->text("\n");
         $printer->setTextSize(1, 1);
 
- 
 
-      /*   if ($efectivo[0]['recibido_efectivo'] > 0) {
+
+        if ($efectivo[0]['recibido_efectivo'] > 0) {
             $printer->text(str_pad("PAGO EFECTIVO ", 15) . ": " . str_pad("$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
         }
 
@@ -399,7 +399,7 @@ class impresion
         }
 
         $printer->text(str_pad("CAMBIO", 15) . ": " . str_pad("$ " . number_format($cambio['cambio'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
- */
+
         $temp_encabezado = model('ConfiguracionPedidoModel')->select('encabezado_factura')->first();
         $encabezado = $temp_encabezado['encabezado_factura'];
         //$printer->text("$encabezado \n");
@@ -611,14 +611,14 @@ class impresion
         $efectivo =  model('kardexModel')->get_recibido_efectivo($id_factura);
         $propina =  model('pagosModel')->select('propina')->where('id_factura', $id_factura)->first();
 
-        $sub_total = ($total[0]['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva']))-$propina['propina'];
+        $sub_total = ($total[0]['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva'])) - $propina['propina'];
 
         function formatValue($label, $value)
         {
             // Ajusta el tamaño de la etiqueta para que sea uniforme
             $label = str_pad($label, 15, ' ', STR_PAD_RIGHT);
             // Formatea el valor como moneda
-            $formatted_value =  "$ ".number_format($value, 0, ",", ".");
+            $formatted_value =  "$ " . number_format($value, 0, ",", ".");
             // Calcula el espacio necesario para alinear los valores
             $spaces = str_repeat(' ', 40 - strlen($label) - strlen($formatted_value));
             return $label . $spaces . $formatted_value . "\n";
@@ -641,7 +641,7 @@ class impresion
         $printer->text("\n");
         $printer->setTextSize(1, 1);
 
-      /*   $printer->text(str_pad("PAGO EFECTIVO:", 40, " ")  . "$ ".number_format($efectivo[0]['recibido_efectivo'], 0, ",", ".") . "\n");
+        $printer->text(str_pad("PAGO EFECTIVO:", 40, " ")  . "$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", ".") . "\n");
 
         if ($transferencia[0]['recibido_transferencia'] > 0) {
             $printer->text(str_pad("PAGO TRANSFERENCIA :", 40, " ") . "$ " . number_format($transferencia[0]['recibido_transferencia'], 0, ",", ".") . "\n");
@@ -649,7 +649,7 @@ class impresion
 
         $cambio = model('kardexModel')->cambio($id_factura);
 
-        $printer->text(str_pad("CAMBIO:", 40, " ") . "$ ".number_format($cambio[0]['cambio'], 0, ",", ".") . "\n"); */
+        $printer->text(str_pad("CAMBIO:", 40, " ") . "$ " . number_format($cambio[0]['cambio'], 0, ",", ".") . "\n");
 
 
         $printer->text("_______________________________________________ \n\n");

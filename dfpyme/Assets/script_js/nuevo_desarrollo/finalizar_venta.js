@@ -33,8 +33,8 @@ function finalizar_venta() {
 
                     //console.log(propina_pedido_limpio)
 
-                    //totales = parseInt(resultado.valor_total) + parseInt(propina_pedido_limpio)
-                    totales = parseInt(resultado.valor_total) 
+                    totales = parseInt(resultado.valor_total) + parseInt(propina_pedido_limpio)
+                    //totales = parseInt(resultado.valor_total) 
                 
                     $('#valor_total_a_pagar').val(totales)
 

@@ -427,7 +427,7 @@ class Boletas extends BaseController
 
         $temp_propina = new Propina();
         $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
-        $sub_total = $total_pedido['valor_total'] - $propina['propina'];
+        $sub_total = $total_pedido['valor_total'];
 
 
 

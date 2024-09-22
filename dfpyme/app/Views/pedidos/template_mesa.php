@@ -1862,6 +1862,7 @@
             $('#total_pedido').html("Total: " + total.toLocaleString('es-CO'))
             $('#pago').html("Valor pago : " + total.toLocaleString('es-CO'))
             $('#efectivo').val(total.toLocaleString('es-CO'))
+            $('#valor_total_a_pagar').val(total)
 
 
             let url = document.getElementById("url").value;
