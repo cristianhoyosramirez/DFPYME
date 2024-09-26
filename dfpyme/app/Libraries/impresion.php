@@ -455,22 +455,23 @@ class impresion
         }
 
 
-        /*    $printer->text("_______________________________________________ \n");
-        $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->text("ACTIVIDAD ECONÓMICA 1063;4719 \n");
-        $printer->text("NO CONTRIBUYENTES DE RENTA  \n");
-        $printer->text("NO SUJETO A RETENCIÓN  \n");
-        $printer->text("GRAN CONTRIBUYENTE  \n");
-        $printer->text("AGENTE RETENEDOR IVA \n");
-        $printer->text("DOMICILIO PRINCIPAL: CALLE 73 NO. 8 - 13  \n");
-        $printer->text("BOGOTÁ - COLOMBIA. \n"); */
-        $printer->text("_______________________________________________ \n");
+
+        $printer->text("_______________________________________________ \n\n");
+        $nota = model('facturaElectronicaModel')->select('nota')->where('id', $id_factura)->first();
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("Nota:" . $nota['nota']);
+        $printer->text("\n");
+        $printer->text("\n");
         $total = model('facturaElectronicaModel')->select('total')->where('id', $id_factura)->first();
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setTextSize(1, 1);
-        $printer->text("IMPRESO POR SOFTWARE DFPYME INTREDETE. \n");
-        $printer->text("NIT: 901448365-5\n");
+        $printer->text("SOFTWARE DFPYME INTREDETE. \n");
+        $printer->text("INTREDETE 901448365\n");
+        $printer->text("Proveedor tecnológico\n");
+        $printer->text("DATAICO SAS 901223648\n");
         $printer->text("\n");
+
+        $printer->text("*GRACIAS POR SER NUESTROS CLIENTES* \n");
 
         $printer->feed(1);
         $printer->cut();
@@ -613,43 +614,41 @@ class impresion
 
         $sub_total = ($total[0]['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva'])) - $propina['propina'];
 
-        function formatValue($label, $value)
-        {
-            // Ajusta el tamaño de la etiqueta para que sea uniforme
-            $label = str_pad($label, 15, ' ', STR_PAD_RIGHT);
-            // Formatea el valor como moneda
-            $formatted_value =  "$ " . number_format($value, 0, ",", ".");
-            // Calcula el espacio necesario para alinear los valores
-            $spaces = str_repeat(' ', 40 - strlen($label) - strlen($formatted_value));
-            return $label . $spaces . $formatted_value . "\n";
-        }
-        $id_regimen = model('empresaModel')->select('idregimen')->first();
 
-
+        $printer->setJustification(Printer::JUSTIFY_RIGHT);
         $printer->text("_______________________________________________ \n");
-        $printer->text(formatValue("SUB TOTAL:", $sub_total));
-        if ($id_regimen['idregimen'] == 1) {
-            $printer->setJustification(Printer::JUSTIFY_RIGHT);
-            $printer->text(formatValue("INC:", $inc[0]['total_inc']));
-            $printer->text(formatValue("IVA :", $iva[0]['total_iva']));
-        }
-        $printer->text(formatValue("PROPINA :", $propina['propina']));
-        $printer->text("\n");
-        $printer->setTextSize(2, 1);
+        $id_regimen = model('empresaModel')->select('idregimen')->first();
+        $printer->text(str_pad("SUB TOTAL", 15) . ": " . str_pad("$ " . number_format($sub_total, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
 
-        $printer->text("TOTAL:      " . "$ " . number_format($total[0]['valor'], 0, ",", ".") . "\n");
+        if ($id_regimen['idregimen'] == 1) {
+            $printer->text(str_pad("INC", 15) . ": " . str_pad("$ " . number_format($inc[0]['total_inc'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("IVA", 15) . ": " . str_pad("$ " . number_format($iva[0]['total_iva'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+        }
+        //$printer->text("\n");
+        $printer->text(str_pad("PROPINA", 15) . ": " . str_pad("$ " . number_format($propina['propina'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+        $printer->text("\n");
+        $printer->setTextSize(1, 2);
+        $printer->setEmphasis(true); // Negrita (resaltado)
+        $printer->text(str_pad(" TOTAL", 15) . ":" . "$ " . number_format($total[0]['valor'], 0, ",", ".") . "\n");
+        $printer->setEmphasis(false); // Desactiva la negrita
+        $printer->text("\n");
+        $printer->setTextSize(1, 1);
         $printer->text("\n");
         $printer->setTextSize(1, 1);
 
-        $printer->text(str_pad("PAGO EFECTIVO:", 40, " ")  . "$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", ".") . "\n");
 
-        if ($transferencia[0]['recibido_transferencia'] > 0) {
-            $printer->text(str_pad("PAGO TRANSFERENCIA :", 40, " ") . "$ " . number_format($transferencia[0]['recibido_transferencia'], 0, ",", ".") . "\n");
-        }
 
         $cambio = model('kardexModel')->cambio($id_factura);
+        if ($efectivo[0]['recibido_efectivo'] > 0) {
+            $printer->text(str_pad("PAGO EFECTIVO ", 15) . ": " . str_pad("$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+        }
 
-        $printer->text(str_pad("CAMBIO:", 40, " ") . "$ " . number_format($cambio[0]['cambio'], 0, ",", ".") . "\n");
+        if ($transferencia[0]['recibido_transferencia'] > 0) {
+            $printer->text(str_pad("PAGO TRANSFERENCIA", 15) . ": " . str_pad("$ " . number_format($transferencia[0]['recibido_transferencia'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+        }
+
+        $printer->text(str_pad("CAMBIO", 15) . ": " . str_pad("$ " . number_format($cambio[0]['cambio'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+
 
 
         $printer->text("_______________________________________________ \n\n");
@@ -700,12 +699,7 @@ class impresion
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text("** DISCRIMINACIÓN DE TARIFAS DE IVA **   \n");
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
-                /*   $printer->text("TARIFA          BASE/INC          VENTA   \n");
 
-             foreach($inc_tarifa as $detalle ){
-                $inc = model('kardexModel')->get_tarifa_ico($id_factura,$detalle['valor_ico']);
-                $printer->text($inc_tarifa[0]['valor_ico']." %        ".  number_format(($total['total']-$inc[0]['inc']   ), 0, ",", ".").  "   " .number_format($total['total'], 0, ",", ".").   "\n");
-             } */
 
                 $printer->text(str_pad("TARIFA", 10, " ") . str_pad("BASE", 10, " ") . str_pad("IVA", 10, " ") . "VENTA\n");
 
@@ -758,6 +752,12 @@ class impresion
         $printer->text("$pie \n");
         $printer->text("\n");
 
+        $nota = model('facturaElectronicaModel')->select('nota')->where('id', $id_factura)->first();
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("Nota:" . $nota['nota']);
+        $printer->text("\n");
+        $printer->text("\n");
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->text("SOFTWARE DFPYME \n");
         $printer->text("INTREDETE 901448365 \n");
         $printer->text("Proveedor tecnológico \n");

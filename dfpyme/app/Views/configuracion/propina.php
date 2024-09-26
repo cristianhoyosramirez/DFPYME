@@ -24,6 +24,23 @@ Configuración
                     <div class="text-danger"><?= session('errors.porcentaje') ?></div>
                 </div>
 
+                <div class="col-md-4">
+                    <label for="inputState" class="form-label">Calculo áutomatico </label>
+                    <select id="inputState" class="form-select" name="calculo_automatico" id="calculo_automatico">
+                        <?php $propina = model('configuracionPedidoModel')->select('calculo_propina')->first(); ?>
+
+                        <?php if ($propina['calculo_propina'] === 't'): ?>
+                            <option value="true" selected>Si </option>
+                            <option value="false">No </option>
+                        <?php endif ?>
+                        <?php if ($propina['calculo_propina'] === 'f'): ?>
+                            <option value="true" >Si </option>
+                            <option value="false" selected>No </option>
+                        <?php endif ?>
+
+                    </select>
+                </div>
+
             </div>
             <br>
             <div class="row">

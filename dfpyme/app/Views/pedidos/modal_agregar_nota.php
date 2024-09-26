@@ -352,7 +352,7 @@
                             </a> 
 
                         </div>
-                        <div class="col-4 col-md-4 cursor-pointer" onclick="asignar_p1(2)" id="2">
+                        <div class="col-4 col-md-4 cursor-pointer" onclick="asignar_p1(3)"  id="3">
                             <!-- <div class="card card-inactive">
                                 <div class="card-body">
                                     <p class="text-center h4 text-dark">Precio 2 </p>
@@ -361,7 +361,7 @@
                             </div> -->
 
                             <label for="inputEmail4" class="form-label">Precio 3 </label>
-                            <a href="#" class="btn btn-outline-primary w-100" id="precio_3">
+                            <a href="#" class="btn btn-outline-primary w-100" id="precio_3" >
                                 $ 0
                             </a> 
 

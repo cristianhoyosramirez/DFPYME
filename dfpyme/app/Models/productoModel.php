@@ -51,8 +51,8 @@ class productoModel extends Model
         'aplica_descuento',
         'id_impuesto_saludable',
         'valor_impuesto_saludable',
-        'id_subcategoria', 
-        'favorito', 
+        'id_subcategoria',
+        'favorito',
         'precio_3'
     ];
 
@@ -73,19 +73,11 @@ class productoModel extends Model
       INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
       WHERE
           codigobarrasproducto ilike '%$valor%' 
-          AND id_tipo_inventario = '3'
           OR codigointernoproducto ilike '%$valor%'
-          AND id_tipo_inventario = '3'
           OR nombreproducto ilike '%$valor%'
-          AND id_tipo_inventario = '3' AND permitir_categoria = 'true' and estadoproducto='true'
+           AND permitir_categoria = 'true' and estadoproducto='true'
               
-          OR codigobarrasproducto ilike '%$valor'
-          AND id_tipo_inventario = '1' 
-          OR codigointernoproducto ilike '%$valor%' 
-          AND id_tipo_inventario = '1'
-          OR nombreproducto ilike '%$valor%' 
-          AND id_tipo_inventario = '1' 
-          AND permitir_categoria = 'true' and estadoproducto='true'
+          
         ");
         return $datos->getResultArray();
     }

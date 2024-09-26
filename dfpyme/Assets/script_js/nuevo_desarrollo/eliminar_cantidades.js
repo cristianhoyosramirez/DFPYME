@@ -1,7 +1,9 @@
 function eliminar_cantidades(event, id_tabla_producto) {
 
     let url = document.getElementById("url").value
+
     let id_usuario = document.getElementById("id_usuario").value
+
     let id_tabla = id_tabla_producto
     event.stopPropagation();
 
@@ -21,7 +23,8 @@ function eliminar_cantidades(event, id_tabla_producto) {
                 $("#mesa_productos").html(resultado.productos);
                 $("#valor_pedido").html(resultado.total);
                 $("#val_pedido").html(resultado.total);
-                $("#subtotal_pedido").val(resultado.total);
+                $("#subtotal_pedido").val(resultado.sub_total);
+                $("#propina_del_pedido").val(resultado.propina);
 
 
             }

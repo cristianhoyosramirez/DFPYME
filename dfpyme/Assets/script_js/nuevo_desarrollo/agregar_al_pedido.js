@@ -40,8 +40,9 @@ function agregar_al_pedido(id_producto) {
                 $('#valor_pedido').html(resultado.total_pedido)
                 $('#val_pedido').html(resultado.total_pedido)
 
-                $('#subtotal_pedido').val(resultado.total_pedido)
+                $('#subtotal_pedido').val(resultado.sub_total)
                 $('#id_mesa_pedido').val(resultado.id_mesa)
+                $("#propina_del_pedido").val(resultado.propina);
                 //$('#mesa_pedido').html('VENTAS DE MOSTRADOR')
                 $('#producto').focus();
 

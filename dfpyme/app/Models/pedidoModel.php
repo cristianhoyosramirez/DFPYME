@@ -10,7 +10,7 @@ class pedidoModel extends Model
     // Uncomment below if you want add primary key
     // protected $primaryKey = 'id';
     protected $allowedFields = ['fk_mesa', 'fk_usuario', 'valor_total', 'nota_pedido', 'cantidad_de_productos', 'fecha', 'numero_factura', 'base_iva', 'impuesto_iva', 'base_ico', 
-    'impuesto_ico','consulta_valor_pedido','propina'];
+    'impuesto_ico','consulta_valor_pedido','propina','propina_parcial'];
 
     protected $useTimestamps = true;
     // protected $createdField  = 'created_at';

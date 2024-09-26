@@ -56,6 +56,13 @@
         <script src="<?php echo base_url(); ?>/Assets/plugin/select2/select2.min.js"></script>
 
 
+        <script>
+            function actualizarPrecios(valor) {
+                document.getElementById('precio_2').value = valor;
+                document.getElementById('precio_3').value = valor;
+            }
+        </script>
+
 
         <!-- 
         <script>
@@ -449,7 +456,7 @@
 
                 });
                 $("#select_imp").select2({
-                    width: "50%",
+                    width: "100%",
                     placeholder: "Selecionar impuesto ",
                     language: "es",
                     theme: "bootstrap-5",
@@ -459,14 +466,14 @@
 
 
                 });
-                $("#opc_imp").select2({
-                    width: "50%",
+                $("#opci_imp").select2({
+                    width: "100%",
                     placeholder: "Impuesto ",
                     language: "es",
                     theme: "bootstrap-5",
                     allowClear: true,
                     dropdownParent: $('#crear_producto'),
-                    minimumResultsForSearch: Infinity ,// Esto quita el buscador
+                    minimumResultsForSearch: Infinity, // Esto quita el buscador
                     language: {
                         noResults: function() {
                             return "No hay seleccionado tipo de impuesto ";
@@ -478,6 +485,7 @@
 
 
                 });
+
                 $("#categoria_product").select2({
                     width: "50%",
                     placeholder: "Buscar categoria  ",
@@ -485,7 +493,7 @@
                     theme: "bootstrap-5",
                     allowClear: true,
                     dropdownParent: $('#crear_producto'),
-                    
+
                     language: {
                         noResults: function() {
                             return "No hay seleccionado tipo de impuesto ";
@@ -659,6 +667,20 @@
             });
         </script>
 
+        <script>
+            const precio_3 = document.querySelector("#precio_3");
+
+            function formatNumber(n) {
+                n = String(n).replace(/\D/g, "");
+                return n === "" ? n : Number(n).toLocaleString();
+            }
+            precio_3.addEventListener("keyup", (e) => {
+                const element = e.target;
+                const value = element.value;
+                element.value = formatNumber(value);
+            });
+        </script>
+
 
 
 
@@ -717,6 +739,14 @@
                                 $(".valor_venta_producto_error").html("");
                                 $('#categoria_producto').val(null).trigger('change');
                                 $('#marca_producto').val(null).trigger('change');
+                                $("#favorito").val("false");
+                                $("#conf_fav").html(data.favorito);
+                                $("#select_imp").html(data.select_info_tri);
+                                $("#opc_imp").html(data.select_info_tri);
+                                $("#tributo_producto").html("Tipo impuesto");
+                                $("#categoria_product").html(data.categorias);
+
+
 
                                 var favorito = document.getElementById("favorito");
                                 var favoritoBtn = document.getElementById("favorito-btn");
@@ -732,11 +762,11 @@
                                 }
 
 
-                                var informacion_tribuitaria = document.getElementById("informacion_tributaria").value;
-                                if (informacion_tribuitaria == 2) {
-                                    ico.style.display = 'block';
-                                    iva.style.display = 'none';
-                                }
+                                /*  var informacion_tribuitaria = document.getElementById("informacion_tributaria").value;
+                                 if (informacion_tribuitaria == 2) {
+                                     ico.style.display = 'block';
+                                     iva.style.display = 'none';
+                                 } */
                                 $(form)[0].reset();
 
                                 var buttonElement = document.getElementById("btn_crear_producto");

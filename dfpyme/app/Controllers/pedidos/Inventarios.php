@@ -49,7 +49,7 @@ class Inventarios extends BaseController
         if ($actualizar) {
             $session = session();
             $session->setFlashdata('iconoMensaje', 'success');
-            return redirect()->to(base_url('inventario/ingreso'))->with('mensaje', 'Ingreso de producto éxitoso');
+            return redirect()->to(base_url('inventario/salida'))->with('mensaje', 'Salida de inventario éxitoso ');
         }
     }
 

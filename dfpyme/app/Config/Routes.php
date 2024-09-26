@@ -595,6 +595,13 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('actualizar_favorito', 'Configuracion::actualizar_favorito');
     $routes->get('borrado_masivo', 'Configuracion::borrado_masivo');
     $routes->get('productos_impuestos', 'Configuracion::productos_impuestos');
+    $routes->get('impuestos', 'Configuracion::productos_impuestos');
+    $routes->get('select_impuestos', 'Configuracion::select_impuestos');
+    $routes->get('actualizar_impuestos', 'Configuracion::actualizar_impuestos');
+    $routes->get('reset_producto', 'Configuracion::reset_producto');
+    $routes->post('validar_pin', 'Configuracion::validar_pin');
+    $routes->post('eliminacion_masiva', 'Configuracion::eliminacion_masiva');
+    $routes->post('propina_parcial', 'Configuracion::propina_parcial');
 });
 
 /*

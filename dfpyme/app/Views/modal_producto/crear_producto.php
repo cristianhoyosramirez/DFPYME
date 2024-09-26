@@ -10,15 +10,13 @@
 
 
 
-        <div class="text-end">
-
+        <div class="text-end" id="conf_fav">
           <a href="#" id="favorito-btn" class="btn btn-outline-warning btn-icon " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Agregar a favoritos" onclick="favorito()">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
               <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
             </svg>
           </a>
-
         </div>
 
         <form class="row g-1" action="<?= base_url('producto/creacion_producto'); ?>" method="post" id="producto_agregar" autocomplete="off">
@@ -167,34 +165,29 @@
             </div>
             <span class="text-danger error-text valor_costo_producto_error"></span>
           </div>
-          <!-- <div class="col-md-2">
-            <label for="inputPassword4" class="form-label">Información tributaria</label>
-            <select class="form-select" id="informacion_tributaria" name="informacion_tributaria" onchange="mostrar_informacion_tributaria()">
-              <option value="1">Impuesto Nacional al Consumo (ICO)</option>
-              <option value="2">Impuesto al Valor Agregado (IVA)</option>
-            </select>
-            <span class="text-danger error-text informacion_tributaria_error"></span>
-          </div> -->
 
-          <div class="col-md-4">
-            <div id="info_tribuitaria">
+          <?php $impuesto = model('configuracionPedidoModel')->select('impuesto')->first(); ?>
+          <?php if ($impuesto['impuesto'] == "t"):  ?>
+            <div class="col-2">
               <label for="inputPassword4" class="form-label">Información tributaria</label>
-              <div class="input-group mb-3">
+              <select class="form-select w-100" id="select_imp" name="informacion_tributaria" onchange="selectImpuesto(this.value)">
+                <option value=""></option>
+                <option value="1">Impuesto Nacional al Consumo (INC)</option>
+                <option value="2">Impuesto al Valor Agregado (IVA)</option>
+              </select>
+              <span class="text-danger error-text informacion_tributaria_error"></span>
+            </div>
 
-                <select class="form-select" id="select_imp">
-                  <option value=""></option>
-                  <option value="1">Impuesto Nacional al Consumo (INC)</option>
-                  <option value="2">Impuesto al Valor Agregado (IVA)</option>
-                </select>
-                <select class="form-select" id="opc_imp">
+            <div class="col-2">
+              <label for="inputPassword4" class="form-label" id="tributo_producto">Tipo de impuesto </label>
 
-                  <option></option>
+              <div id="opc_imp">
+              <select class="form-select" id="opci_imp" >
 
-                </select>
+              </select>
               </div>
             </div>
-          </div>
-
+          <?php endif ?>
 
           <div class="col-2">
             <label for="inputAddress2" class="form-label">Precio 1 </label>
@@ -208,8 +201,12 @@
                   <path d="M12 6v2m0 8v2" />
                 </svg>
               </span>
-              <input type="text" class="form-control" id="valor_venta_producto" name="valor_venta_producto" onkeyup="saltar_creacion_producto(event,'precio_2')" value=0>
-            </div>
+<!--               <input type="text" class="form-control" id="valor_venta_producto" name="valor_venta_producto" onkeyup="saltar_creacion_producto(event,'precio_2')" value=0>
+ -->            
+
+ <input type="text" class="form-control" id="valor_venta_producto" name="valor_venta_producto" onkeyup="saltar_creacion_producto(event,'precio_2'); actualizarPrecios(this.value);" value="0">
+
+</div>
             <span class="text-danger error-text valor_venta_producto_error"></span>
           </div>
 
@@ -260,6 +257,43 @@
 </div>
 
 <script>
+  $('#select_imp').on('select2:clearing', function() {
+    clearInput();
+  });
+
+  function clearInput() {
+    $('#opc_imp').val(null).trigger('change'); // Limpiar el input
+  }
+</script>
+
+<script>
+  function selectImpuesto(opcion) {
+
+    var url = document.getElementById("url").value;
+    $.ajax({
+      data: {
+        opcion
+      },
+      url: url +
+        "/" +
+        "configuracion/select_impuestos",
+      type: "get",
+      success: function(resultado) {
+        var resultado = JSON.parse(resultado);
+        if (resultado.resultado == 1) {
+
+          $('#opc_imp').html(resultado.impuesto)
+          $('#tributo_producto').html(resultado.tipo_impuesto)
+
+
+        }
+      },
+    });
+
+  }
+</script>
+
+<script>
   function favorito() {
     var favorito = document.getElementById("favorito");
     var favoritoBtn = document.getElementById("favorito-btn");
@@ -274,8 +308,10 @@
       favoritoBtn.classList.add("btn-outline-warning");
     }
 
+    $("#favorito_pr").val('')
+
     // Actualizar el texto de estado
-    document.getElementById("status-value").textContent = favorito.value;
+    //document.getElementById("status-value").textContent = favorito.value;
   }
 </script>
 
@@ -338,9 +374,30 @@
     $('#valor_costo_producto').val('');
     $('#valor_venta_producto').val('');
     $('#precio_2').val('0');
+    $('#precio_3').val('0');
     $('#informacion_tributaria').val('1');
     $('#valor_iv').val('');
     $('#valor_ico').val('');
+
+
+    let url = document.getElementById("url").value;
+    $.ajax({
+      url: url + "/" + "configuracion/reset_producto",
+      type: "get",
+      success: function(resultado) {
+        var resultado = JSON.parse(resultado);
+        // Aquí puedes manejar el resultado como desees
+        if (resultado.resultado == 1) {
+          $("#favorito").val("false");
+          $("#conf_fav").html(resultado.favorito);
+          $("#select_imp").html(resultado.select_info_tri);
+          $("#opc_imp").html(resultado.select_info_tri);
+          $("#tributo_producto").html("Tipo impuesto");
+          $("#categoria_product").html(resultado.categorias);
+        }
+      },
+
+    });
   }
 </script>
 

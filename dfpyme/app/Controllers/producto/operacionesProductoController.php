@@ -194,12 +194,12 @@ class operacionesProductoController extends BaseController
                         'required' => 'Dato necesarios',
                     ],
                 ],
-                'informacion_tributaria' => [
+               /*  'informacion_tributaria' => [
                     'rules' => 'required',
                     'errors' => [
                         'required' => 'Dato necesario',
                     ],
-                ],
+                ], */
             ])
         ) {
             $errors = $this->validator->getErrors();
@@ -227,10 +227,17 @@ class operacionesProductoController extends BaseController
             if ($valor_venta == 0) {
                 $val_venta_producto = 1;
                 $valor_venta_producto = 0;
+                $precio_2=0;
             }
             if ($valor_venta > 0) {
                 $valor_venta_producto = $valor_venta;
+                $pre_2 = (str_replace('.', '', $this->request->getPost('precio_2')) * 100) / $valor_venta_producto;
+                $precio_2 = 100 - $pre_2;
             }
+    
+
+           // exit($valor_venta_producto);
+
 
             $precio_costo = str_replace('.', '', $this->request->getPost('valor_costo_producto'));
 
@@ -239,8 +246,8 @@ class operacionesProductoController extends BaseController
             $temp_precio_2 = $this->request->getPost('precio_2');
 
 
-            $pre_2 = (str_replace('.', '', $this->request->getPost('precio_2')) * 100) / $valor_venta_producto;
-            $precio_2 = 100 - $pre_2;
+            //$pre_2 = (str_replace('.', '', $this->request->getPost('precio_2')) * 100) / $valor_venta_producto;
+           //$precio_2 = 100 - $pre_2;
 
 
             $valorImpuestoSaludable = $this->request->getPost('valor_impuesto_saludable');
@@ -310,9 +317,11 @@ class operacionesProductoController extends BaseController
                     'valor_impuesto_saludable' => 0,
                     //'id_subcategoria'=>$this->request->getPost('sub_categoria')
                     'id_subcategoria' => $id_categoria,
-                    'favorito' => $this->request->getPost('favorito')
+                    'favorito' => $this->request->getPost('favorito'),
+                    'precio_3' => str_replace('.', '',$this->request->getPost('precio_3'))
                 ];
 
+              
                 $insert = model('productoModel')->insert($data);
 
 
@@ -348,7 +357,25 @@ class operacionesProductoController extends BaseController
 
                     $inventario = model('inventarioModel')->insert($inventario);
 
-                    echo json_encode(['code' => 1, 'msg' => 'Usuario creado']);
+
+                    $favorito = view('configuracion/configuracion_favoritos');
+                    $select_info_tri = view('configuracion/select_info_tri');
+                    $tipo_impuesto = view('configuracion/tipo_impuesto');
+                    $categorias = view('configuracion/categorias');
+
+                    echo json_encode(
+                        [
+                            'code' => 1,
+                            'msg' => 'Usuario creado',
+                            'favorito' => $favorito,
+                            'select_info_tri' => $select_info_tri,
+                            'tipo_impuesto' => $tipo_impuesto,
+                            'categorias' =>  $categorias,
+                        ],
+
+                    );
+
+                    //echo json_encode(['code' => 1, 'msg' => 'Usuario creado']);
                 } else {
                     echo json_encode(['code' => 0, 'msg' => 'No se pudo crear ']);
                 }
@@ -399,7 +426,8 @@ class operacionesProductoController extends BaseController
                     //'id_subcategoria' => $this->request->getPost('sub_categoria')
                     //'id_subcategoria' => 0,
                     'id_subcategoria' => $id_categoria,
-                    'favorito' => $this->request->getPost('favorito')
+                    'favorito' => $this->request->getPost('favorito'),
+                    'precio_3' => str_replace('.', '',$this->request->getPost('precio_3'))
 
                 ];
 
@@ -435,7 +463,126 @@ class operacionesProductoController extends BaseController
 
                     $inventario = model('inventarioModel')->insert($inventario);
 
-                    echo json_encode(['code' => 1, 'msg' => 'Usuario creado']);
+                    $favorito = view('configuracion/configuracion_favoritos');
+                    $select_info_tri = view('configuracion/select_info_tri');
+                    $tipo_impuesto = view('configuracion/tipo_impuesto');
+                    $categorias = view('configuracion/categorias');
+
+                    echo json_encode(
+                        [
+                            'code' => 1,
+                            'msg' => 'Usuario creado',
+                            'favorito' => $favorito,
+                            'select_info_tri' => $select_info_tri,
+                            'tipo_impuesto' => $tipo_impuesto,
+                            'categorias' =>  $categorias,
+                        ],
+
+                    );
+                } else {
+                    echo json_encode(['code' => 0, 'msg' => 'No se pudo crear ']);
+                }
+            }
+
+            if (empty($this->request->getPost('informacion_tributaria'))) {
+
+                $data = [
+                    'codigointernoproducto' => $this->request->getPost('crear_producto_codigo_interno'),
+                    'codigobarrasproducto' => $this->request->getPost('crear_producto_codigo_de_barras'),
+                    'referenciaproducto' => '',
+                    'nombreproducto' => $this->request->getPost('crear_producto_nombre'),
+                    'descripcionproducto' => '',
+                    'codigocategoria' => $this->request->getPost('categoria_producto'),
+                    'idmarca' => $this->request->getPost('marca_producto'),
+                    'utilidadporcentualproducto' => 1,
+                    'valorventaproducto' => $valor_venta_producto,
+                    'aplicaprecioporcentaje' => false,
+                    'idiva' => 1,
+                    'unidadventaproducto' => 1,
+                    'cantidadminimaproducto' => 0,
+                    'cantidadmaximaproducto' => 0,
+                    'estadoproducto' => true,
+                    'aplicatalla' => false,
+                    'aplicacolor' => false,
+                    'cantidad_decimal' => false,
+                    'precio_costo' => $precio_costo,
+                    'descto_mayor' => $precio_2,
+                    'descto_distribuidor' => 0,
+                    'idiva_temp' => 1,
+                    'utilidad_2' => 0,
+                    'utilidad_3' => 0,
+                    'codigo_2' => '',
+                    'codigo_3' => '',
+                    'codigo_4' => '',
+                    'codigo_5' => '',
+                    'codigo_6' => '',
+                    'codigo_7' => '',
+                    'descto_3' => 0,
+                    'inicial' => true,
+                    'impoconsumo' => 0,
+                    'id_tipo_inventario' => 1,
+                    'id_ico_producto' => 2,
+                    'aplica_ico' => false,
+                    'se_imprime' => $impresion_comanda,
+                    'aplica_descuento' => $aplica_descuento,
+                    'id_impuesto_saludable' => $this->request->getPost('impuesto_saludable'),
+                    'valor_impuesto_saludable' => $valorImpuestoSaludable,
+                    //'id_subcategoria' => $this->request->getPost('sub_categoria')
+                    //'id_subcategoria' => 0,
+                    'id_subcategoria' => $id_categoria,
+                    'favorito' => $this->request->getPost('favorito'),
+                    'precio_3' => str_replace('.', '',$this->request->getPost('precio_3'))
+
+                ];
+
+                $insert = model('productoModel')->insert($data);
+
+                if ($insert) {
+                    $consecutivo_producto = model('consecutivosModel')->select('numeroconsecutivo')->where(' idconsecutivos', 2)->first();
+
+                    $codigo_producto = [
+                        'numeroconsecutivo' => $consecutivo_producto['numeroconsecutivo'] + 1
+                    ];
+
+                    $model = model('consecutivosModel');
+                    $actualizar = $model->set($codigo_producto);
+                    $actualizar = $model->where(' idconsecutivos', 2);
+                    $actualizar = $model->update();
+
+                    $producto_medida = [
+                        'codigointernoproducto' => $this->request->getPost('crear_producto_codigo_interno'),
+                        'idvalor_unidad_medida' => 3
+
+                    ];
+
+                    $insertar = model('productoMedidaModel')->insert($producto_medida);
+
+                    $inventario = [
+                        'codigointernoproducto' => $this->request->getPost('crear_producto_codigo_interno'),
+                        'idvalor_unidad_medida' => 3,
+                        'idcolor' => 0,
+                        'cantidad_inventario' => 0
+
+                    ];
+
+                    $inventario = model('inventarioModel')->insert($inventario);
+
+                    $favorito = view('configuracion/configuracion_favoritos');
+                    $select_info_tri = view('configuracion/select_info_tri');
+                    $tipo_impuesto = view('configuracion/tipo_impuesto');
+                    $categorias = view('configuracion/categorias');
+
+                    echo json_encode(
+                        [
+                            'code' => 1,
+                            'msg' => 'Usuario creado',
+                            'favorito' => $favorito,
+                            'select_info_tri' => $select_info_tri,
+                            'tipo_impuesto' => $tipo_impuesto,
+                            'categorias' =>  $categorias,
+                        ],
+
+                    );
                 } else {
                     echo json_encode(['code' => 0, 'msg' => 'No se pudo crear ']);
                 }
@@ -460,7 +607,7 @@ class operacionesProductoController extends BaseController
 
     function editar_precios()
     {
-        $id_producto = $this->request->getPost('id_producto'); 
+        $id_producto = $this->request->getPost('id_producto');
         //$id_producto = '6';
 
         $iva = model('ivaModel')->orderBy('idiva', 'DESC')->findAll();
@@ -482,6 +629,7 @@ class operacionesProductoController extends BaseController
         $impuesto_saludable = model('impuestoSaludableModel')->findAll();
         $valor_impuesto_saludable = model('productoModel')->select('valor_impuesto_saludable')->where('codigointernoproducto', $id_producto)->first();
         $codigo_barras = model('productoModel')->select('codigobarrasproducto')->where('codigointernoproducto', $id_producto)->first();
+        $precio_3 = model('productoModel')->select('precio_3')->where('codigointernoproducto', $id_producto)->first();
 
         //$sub_categoria = model('categoriasModel')->select('subcategoria')->where('codigocategoria', $id_categoria['codigocategoria'])->first();
         $sub_categoria = model('productoModel')->select('id_subcategoria')->where('codigointernoproducto', $id_producto)->first();
@@ -512,7 +660,8 @@ class operacionesProductoController extends BaseController
                 'codigo_barras' => $codigo_barras['codigobarrasproducto'],
                 //'sub_categoria' => $sub_categoria['subcategoria'],
                 'sub_categoria' => $sub_categoria['id_subcategoria'],
-                'sub_categorias' => $sub_categorias
+                'sub_categorias' => $sub_categorias,
+                'precio_3'=>number_format($precio_3['precio_3'], 0, ",", "."),
 
             ])
         );
@@ -547,12 +696,12 @@ class operacionesProductoController extends BaseController
                         'required' => 'Dato necesarios',
                     ],
                 ],
-                'informacion_tributaria' => [
+              /*   'informacion_tributaria' => [
                     'rules' => 'required',
                     'errors' => [
                         'required' => 'Dato necesario',
                     ],
-                ],
+                ], */
                 'editar_valor_venta_producto' => [
                     'rules' => 'required',
                     'errors' => [
@@ -590,13 +739,20 @@ class operacionesProductoController extends BaseController
 
             $aplica_ico = "";
 
-            if ($this->request->getPost('informacion_tributaria') == 1) {
+            if ($this->request->getPost('informacion_tributaria') == 1) {  //Tiene INC
                 $aplica_ico = "t";
-                $id_iva = 31;
+                $id_iva = 1;
+                $id_ico=$this->request->getPost('informacion_tributaria');
             }
-            if ($this->request->getPost('informacion_tributaria') == 2) {
+            if ($this->request->getPost('informacion_tributaria') == 2) { // Tiene IVA 
                 $aplica_ico = "f";
                 $id_iva = $this->request->getPost('valor_iva');
+                $id_ico= 1;
+            }
+            if (empty($this->request->getPost('informacion_tributaria') )) {
+                $aplica_ico = "f";
+                $id_iva = 1;
+                $id_ico= 1;
             }
 
             $temp_precio_2 = $this->request->getPost('precio_2');
@@ -619,12 +775,13 @@ class operacionesProductoController extends BaseController
                 'descto_mayor' => $precio_2,
                 'se_imprime' => $imprimir_comanda,
                 //'se_imprime' => $imprimir_comanda,
-                'id_ico_producto' => $this->request->getPost('valor_ico'),
+                'id_ico_producto' => $id_ico,
                 'aplica_ico' => $aplica_ico,
                 'aplica_descuento' => $permite_descuento,
                 'valor_impuesto_saludable' => $this->request->getPost('edicion_de_valor_costo_producto'),
                 'id_subcategoria' => $this->request->getPost('sub_categoria'),
-                'favorito' => $this->request->getPost('favorito_editar')
+                'favorito' => $this->request->getPost('favorito_editar'),
+                'precio_3' =>  str_replace('.', '', $this->request->getPost('editar_precio_3')),
             ];
 
             $model = model('productoModel');

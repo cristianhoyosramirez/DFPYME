@@ -241,7 +241,7 @@ class Boletas extends BaseController
         $temp_precio_2 = ($descto_mayor['descto_mayor'] * $valor_venta['valorventaproducto']) / 100;
         $precio_2 = $valor_venta['valorventaproducto'] - $temp_precio_2;
 
-         $precio_3 = model('productoModel')->select('precio_3')->where('codigointernoproducto', $codigo_interno['codigointernoproducto'])->first();
+        $precio_3 = model('productoModel')->select('precio_3')->where('codigointernoproducto', $codigo_interno['codigointernoproducto'])->first();
 
         $returnData = array(
             "resultado" => 1, //Falta plata 
@@ -383,12 +383,13 @@ class Boletas extends BaseController
         $valor = $this->request->getPost('valor');
         //$valor = 50000;
         $id_producto = $this->request->getPost('id_producto_pedido');
-        //$id_producto = 287;
+        //$id_producto = 509;
         $codigo_interno = model('productoPedidoModel')->select('codigointernoproducto')->where('id', $id_producto)->first();
 
         $valor_venta = model('productoModel')->select('valorventaproducto')->where('codigointernoproducto', $codigo_interno['codigointernoproducto'])->first();
         $descto_mayor = model('productoModel')->select('descto_mayor')->where('codigointernoproducto', $codigo_interno['codigointernoproducto'])->first();
         $cantidad = model('productoPedidoModel')->select('cantidad_producto')->where('id', $id_producto)->first();
+        $precio_3 = model('productoModel')->select('precio_3')->where('codigointernoproducto', $codigo_interno['codigointernoproducto'])->first();
 
 
         $temp_precio_2 = ($descto_mayor['descto_mayor'] * $valor_venta['valorventaproducto']) / 100;
@@ -409,6 +410,13 @@ class Boletas extends BaseController
             $actualizar = $model->where('id',  $id_producto);
             $actualizar = $model->update();
         }
+        if ($valor == 3) {
+
+            $actualizar = $model->set('valor_unitario', $precio_3['precio_3']);
+            $actualizar = $model->set('valor_total', $precio_3['precio_3'] * $cantidad['cantidad_producto']);
+            $actualizar = $model->where('id',  $id_producto);
+            $actualizar = $model->update();
+        }
 
         $total_pedido = model('productoPedidoModel')->selectSum('valor_total')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->findAll();
         $model = model('pedidoModel');
@@ -425,10 +433,34 @@ class Boletas extends BaseController
         $tem_id = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_producto)->first();
         $id_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $tem_id['numero_de_pedido'])->first();
 
-        $temp_propina = new Propina();
-        $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
-        $sub_total = $total_pedido['valor_total'];
 
+        $configuracion_propina = model('configuracionPedidoModel')->select('calculo_propina')->first();
+
+
+
+        /*   $temp_propina = new Propina();
+        $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+        $sub_total = $total_pedido['valor_total']; */
+
+        if ($configuracion_propina['calculo_propina'] == 't') {
+
+            $temp_propina = new Propina();
+            $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+            $sub_total = $total_pedido['valor_total'];
+
+            $model = model('pedidoModel');
+            $configuracion = $model->set('propina', $propina['propina']);
+            $actualizar = $model->where('id', $numero_pedido['id']);
+            $configuracion = $model->update();
+
+            $propina_final = $propina['propina'];
+        }
+
+        if ($configuracion_propina['calculo_propina'] == 'f') {
+
+            $sub_total = $total_pedido['valor_total'];
+            $propina_final = 0;
+        }
 
 
         $returnData = array(
@@ -438,7 +470,7 @@ class Boletas extends BaseController
             'total_pedido' => "$ " . number_format($total_pedido['valor_total'], 0, ",", "."),
             'sub_total' => "$ " . number_format($sub_total, 0, ",", "."),
             'id' => $id_producto,
-            'propina' =>  "$ " . number_format($propina['propina'], 0, ",", ".")
+            'propina' =>  "$ " . number_format($propina_final, 0, ",", ".")
 
         );
         echo  json_encode($returnData);
@@ -913,7 +945,8 @@ class Boletas extends BaseController
         if ($pedido) {
             $returnData = array(
                 "resultado" => 1,  // Se actulizo el registro 
-                "total" => number_format($valor_pedido['valor_total'], 0, ",", ".")
+                "total" => number_format($valor_pedido['valor_total'], 0, ",", "."),
+                "total_sin_formato" => $valor_pedido['valor_total']
 
             );
             echo  json_encode($returnData);

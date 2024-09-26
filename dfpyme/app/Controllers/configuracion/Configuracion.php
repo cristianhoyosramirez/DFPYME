@@ -49,8 +49,10 @@ class Configuracion extends BaseController
     function propina()
     {
         $porcentaje = model('configuracionPedidoModel')->select('valor_defecto_propina')->first();
+        $propina = model('configuracionPedidoModel')->select('calculo_propina')->first();
         return view('configuracion/propina', [
-            'porcetaje_propina' => $porcentaje['valor_defecto_propina']
+            'porcetaje_propina' => $porcentaje['valor_defecto_propina'],
+            'propina' => $propina['calculo_propina']
         ]);
     }
 
@@ -75,6 +77,7 @@ class Configuracion extends BaseController
         $model = model('configuracionPedidoModel');
         $configuracion = $model->set('propina', $valor);
         $configuracion = $model->set('valor_defecto_propina', $this->request->getPost('porcentaje'));
+        $configuracion = $model->set('calculo_propina', $this->request->getPost('calculo_automatico'));
         $configuracion = $model->update();
 
         $session = session();
@@ -138,11 +141,11 @@ class Configuracion extends BaseController
     function crear_sub_categoria()
     {
         $sub_categorias = model('subCategoriaModel')->findAll();
-        
+
 
         $categorias = model('categoriasModel')->where('permitir_categoria', 'true')->orderBy('nombrecategoria', 'asc')->findAll();
 
-        
+
         $id_categorias = model('categoriasModel')->sub_categorias();
 
 
@@ -678,9 +681,9 @@ class Configuracion extends BaseController
     function productos_favoritos()
     {
 
-        $favoritos=model('configuracionPedidoModel')->select('producto_favoroitos')->first();
-        return view('configuracion/favoritos',[
-           'favorito' =>$favoritos['producto_favoroitos']
+        $favoritos = model('configuracionPedidoModel')->select('producto_favoroitos')->first();
+        return view('configuracion/favoritos', [
+            'favorito' => $favoritos['producto_favoroitos']
         ]);
     }
 
@@ -736,14 +739,192 @@ class Configuracion extends BaseController
         }
     }
 
-    function borrado_masivo(){
-    
-        $borrar_f_e=model('facturaElectronicaModel')->select('id')->where('id_status',1)->findAll();
+    function borrado_masivo()
+    {
+        /* 
+        $borrar_f_e = model('facturaElectronicaModel')->select('id')->where('id_status', 1)->findAll();
 
-        foreach($borrar_f_e as $detalle){
-            model('facturaElectronicaModel')->where('id',$detalle['id'])->delete();
-            model('pagosModel')->where('id_factura',$detalle['id'])->delete();
-            model('kardexModel')->where('id_factura',$detalle['id'])->delete();
+        foreach ($borrar_f_e as $detalle) {
+            model('facturaElectronicaModel')->where('id', $detalle['id'])->delete();
+            model('pagosModel')->where('id_factura', $detalle['id'])->delete();
+            model('kardexModel')->where('id_factura', $detalle['id'])->delete();
+        }
+
+        $session = session();
+        $session->setFlashdata('iconoMensaje', 'success');
+        return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa '); */
+
+
+        return view('configuracion/borrado_masivo');
+    }
+
+    function productos_impuestos()
+    {
+        return view('configuracion/impuestos');
+    }
+
+
+    /*   function select_impuestos()
+    {
+
+        $opcion = $this->request->getPost('opcion');
+        //$opcion = 2;
+
+        if ($opcion == 1) {
+            $inc = model('icoConsumoModel')->findAll();
+            $tipo_impuesto = "INC";
+            $impuesto = view('impuestos/inc', [
+                'inc' => $inc
+            ]);
+            $returnData = array(
+                "resultado" => 1, //Falta plata 
+                "impuesto" => $impuesto,
+                "tipo_impuesto" => $tipo_impuesto
+
+            );
+            echo  json_encode($returnData);
+        }
+        if ($opcion == 2) {
+            $iva = model('ivaModel')->findAll();
+            $tipo_impuesto = "IVA";
+            $impuesto = view('impuestos/iva', [
+                'iva' => $iva
+            ]);
+            $returnData = array(
+                "resultado" => 1, //Falta plata 
+                "impuesto" => $impuesto,
+                "tipo_impuesto" => $tipo_impuesto
+
+            );
+            echo  json_encode($returnData);
+        }
+        //echo $impuesto; exit();
+
+    } */
+
+    public function select_impuestos()
+    {
+        $opcion = $this->request->getGet('opcion'); // Obtener el valor de 'opcion' desde la solicitud
+
+        // Verificar si la opción es válida
+        if ($opcion == 1) {
+            $inc = model('icoConsumoModel')->findAll();  // Obtener los datos del modelo
+            $tipo_impuesto = "INC";
+
+            // Generar la vista parcial con los datos del modelo
+            $impuesto = view('impuestos/inc', ['inc' => $inc]);
+
+            // Preparar los datos para retornar
+            $returnData = array(
+                "resultado" => 1,
+                "impuesto" => $impuesto,
+                "tipo_impuesto" => $tipo_impuesto
+            );
+
+            // Retornar la respuesta en formato JSON utilizando json_encode()
+            echo json_encode($returnData);
+        } elseif ($opcion == 2) {
+            $iva = model('ivaModel')->where('conceptoiva', 'GENERAL')->findAll();  // Obtener los datos del modelo
+            $tipo_impuesto = "IVA";
+
+            // Generar la vista parcial con los datos del modelo
+            $impuesto = view('impuestos/iva', ['iva' => $iva]);
+
+            // Preparar los datos para retornar
+            $returnData = array(
+                "resultado" => 1,
+                "impuesto" => $impuesto,
+                "tipo_impuesto" => $tipo_impuesto
+            );
+
+            // Retornar la respuesta en formato JSON utilizando json_encode()
+            echo json_encode($returnData);
+        } else {
+            // Si no se recibe una opción válida, retornar un mensaje de error
+            $returnData = array(
+                "resultado" => 0,
+                "error" => "Opción no válida"
+            );
+
+            // Retornar la respuesta de error en formato JSON
+            echo json_encode($returnData);
+            return; // Asegurarse de finalizar la ejecución
+        }
+    }
+
+    function actualizar_impuestos()
+    {
+        $opcion = $this->request->getGet('opcion');
+
+        if ($opcion == 1) {
+
+            $model = model('configuracionPedidoModel');
+            $actualizar = $model->set('impuesto', false);
+            $actualizar = $model->update();
+        }
+        if ($opcion == 0) {
+            $model = model('configuracionPedidoModel');
+            $actualizar = $model->set('impuesto', true);
+            $actualizar = $model->update();
+        }
+
+        $returnData = array(
+            "resultado" => 1,
+            "error" => "Opción no válida"
+        );
+
+        // Retornar la respuesta de error en formato JSON
+        echo json_encode($returnData);
+    }
+
+    function reset_producto()
+    {
+
+
+        $returnData = array(
+            "resultado" => 1,
+            "favorito" => view('configuracion/configuracion_favoritos'),
+            "select_info_tri" => view('configuracion/select_info_tri'),
+            "tipo_impuesto" => view('configuracion/tipo_impuesto'),
+            "categorias" => view('configuracion/categorias'),
+
+        );
+
+        // Retornar la respuesta de error en formato JSON
+        echo json_encode($returnData);
+    }
+
+    function validar_pin()
+    {
+
+        $pin = $this->request->getPost('pin');
+
+        $pin_confi = model('configuracionPedidoModel')->select('eliminar_factura_electronica')->first();
+
+
+        if ($pin == $pin_confi['eliminar_factura_electronica']) {
+            $returnData = array(
+                "resultado" => 1,
+            );
+            echo  json_encode($returnData);
+        }
+        if ($pin != $pin_confi['eliminar_factura_electronica']) {
+            $returnData = array(
+                "resultado" => 0,
+            );
+            echo  json_encode($returnData);
+        }
+    }
+
+    function eliminacion_masiva()
+    {
+
+        $borrar_f_e = model('facturaElectronicaModel')->select('id')->where('id_status', 1)->findAll();
+
+        foreach ($borrar_f_e as $detalle) {
+            model('facturaElectronicaModel')->where('id', $detalle['id'])->delete();
+            model('pagosModel')->where('id_factura', $detalle['id'])->delete();
+            model('kardexModel')->where('id_factura', $detalle['id'])->delete();
         }
 
         $session = session();
@@ -751,7 +932,48 @@ class Configuracion extends BaseController
         return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa ');
     }
 
-    function productos_impuestos(){
-        return view('configuracion/impuestos');
+    function propina_parcial()
+    {
+
+        $id_mesa = $this->request->getPost('id_mesa');
+        //$id_mesa = 3; 
+
+        $numero_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
+
+
+        $valor_pedido = model('partirFacturaModel')->select('valor_total')->where('numero_de_pedido', $numero_pedido['id'])->findAll();
+
+        // Obtener la configuración de la propina
+        $tipo_propina = model('configuracionPedidoModel')->select('propina')->first();
+        $temp_porcentaje_propina = model('configuracionPedidoModel')->select('valor_defecto_propina')->first();
+
+        // Calcular el porcentaje de propina
+        $porcentaje_propina = $temp_porcentaje_propina['valor_defecto_propina'] / 100;
+
+        // Calcular la propina según el tipo configurado
+        if ($tipo_propina['propina'] == 1) {
+            $temp_propina = $valor_pedido[0]['valor_total'] * $porcentaje_propina;
+            // Redondear la propina al valor más cercano a mil
+            $propina = round($temp_propina / 1000) * 1000;
+        } else {
+            $propina = $valor_pedido[0]['valor_total'] * $porcentaje_propina;
+        }
+
+        /* $model = model('pedidoModel');
+        //$actualizar = $model->set('valor_total', $valor_pedido['valor_total']+$propina);
+        $actualizar = $model->set('propina_parcial', $propina);
+        $actualizar = $model->where('id', $numero_pedido['id']);
+        $actualizar = $model->update(); */
+
+
+
+        $returnData = array(
+            "resultado" => 1,
+            "valor_pedido" => number_format($valor_pedido[0]['valor_total'], 0, ",", "."),
+            "propina" => number_format($propina, 0, ",", "."),
+            "valor_total" => number_format($propina + $valor_pedido[0]['valor_total'], 0, ",", "."),
+            "total" => $propina + $valor_pedido[0]['valor_total']
+        );
+        echo  json_encode($returnData);
     }
 }

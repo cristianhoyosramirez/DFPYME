@@ -95,7 +95,7 @@
                     <?php $estados = model('estadoModel')->estados(); ?>
 
                     <div class="col-sm-8">
-                      <div id="documentos_factura"> 
+                      <div id="documentos_factura">
                         <select class="form-select" id="documento" name="documento" onchange="habilitarBotonPago()">
                           <?php foreach ($estados as $detalle) { ?>
                             <option value="<?php echo $detalle['idestado'] ?>"><?php echo $detalle['descripcionestado'] ?></option>
@@ -163,7 +163,16 @@
                         <!-- <label for="" class="col-sm-4 col-form-label" style="width: 100px;">Propina</label>-->
                         <input type="text" value=0 class="form-control" onkeyup="calcular_propina_final(this.value)" id="propina_pesos_final" placeholder="%">
                         <input type="text" class="form-control" id="total_propina" onkeyup="total_pedido_final(this.value)" placeholder="$" value=0>
-
+                        <a href="#" class="btn btn-outline-warning text-center" onclick="borrar_propina()" title="Eliminar propina" style="width: 1px;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-placement="bottom"> <!-- Download SVG icon from http://tabler-icons.io/i/mood-happy -->
+                          <!-- Download SVG icon from http://tabler-icons.io/i/trash -->&nbsp;&nbsp;
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon text-center" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <line x1="4" y1="7" x2="20" y2="7" />
+                            <line x1="10" y1="11" x2="10" y2="17" />
+                            <line x1="14" y1="11" x2="14" y2="17" />
+                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                          </svg></a>
                       </div>
                     </div>
                   </div>

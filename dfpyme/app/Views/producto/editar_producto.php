@@ -46,15 +46,15 @@
 </div>
 
 <form class="row g-1" action="<?= base_url('producto/actualizar_precio_producto'); ?>" method="post" id="cambiar_datos_de_producto" autocomplete="off">
-    <input type="hidden"  id="favorito_editar" name="favorito_editar" value="<?php echo $favorito ?>">
+    <input type="hidden" id="favorito_editar" name="favorito_editar" value="<?php echo $favorito ?>">
     <input type="hidden" id="codigo_interno_producto_editar" value="<?php echo $codigo_interno_producto ?>" name="codigo_interno_producto_editar">
-    <div class="col-md-2">
-        <label for="inputEmail4" class="form-label">Código interno </label>
+    <div class="col-md-1">
+        <label for="inputEmail4" class="form-label">Código </label>
         <input type="text" class="form-control" id="crear_producto_codigo_interno" name="crear_producto_codigo_interno" value="<?php echo $codigo_interno_producto ?>" readonly>
         <span class="text-danger error-text crear_producto_codigo_interno_error"></span>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <label for="inputEmail4" class="form-label">Código de barras</label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">
@@ -75,16 +75,18 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-3">
         <label for="inputPassword4" class="form-label">Nombre producto</label>
         <input type="text" class="form-control" id="crear_producto_nombre" name="crear_producto_nombre" onkeyup="saltar_creacion_producto(event,'categoria_producto'),minusculasAmayusculas()" value="<?php echo $nombre_producto ?>">
         <span class="text-danger error-text crear_producto_nombre_error"></span>
     </div>
 
 
-    <div class="row g-1">
-        <div class="col-md-3">
-            <label for="">Categoria</label>
+    <div class="col-md-3">
+        <label for="" class="form-label">Categoria</label>
+
+
+        <div class="input-group">
             <select class="form-select" id="editar_categoria_producto" name="edicion_de_categoria_producto" onkeyup="saltar_creacion_producto(event,'marca_producto')" onchange="categoria(this.value)">
 
                 <?php foreach ($categorias as $detalle) { ?>
@@ -93,51 +95,51 @@
 
                 <?php } ?>
             </select>
-
-            <span class="text-danger error-text categoria_producto_error"></span>
-        </div>
-        <div class="col-sm">
-            <br>
             <button type="button" class="btn btn-success btn-icon" title="Agregar categoria" data-bs-toggle="modal" data-bs-target="#agregar_categoria">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <line x1="12" y1="5" x2="12" y2="19" />
                     <line x1="5" y1="12" x2="19" y2="12" />
-                </svg></button>
+                </svg>
+            </button>
         </div>
 
-        <?php if ($sub_categoria != 0 ) : ?>
+        <span class="text-danger error-text categoria_producto_error"></span>
+    </div>
 
-            <?php $id_sub_categoria = model('productoModel')->select('id_subcategoria')->where('codigointernoproducto', $codigo_interno_producto)->first();
 
-            ?>
+    <?php if ($sub_categoria != 0) : ?>
 
-            <div class="col-md-3" id="div_sub_categoria">
-                <input type="hidden" id="requiere_categoria" value=0>
-                <label for="">Sub categoria</label>
-                <select class="form-select" id="sub_categoria" name="sub_categoria">
-                    <option value="">Seleccione una sub categoria </option>
-                    <?php foreach ($sub_categorias as $valor) { ?>
+        <?php $id_sub_categoria = model('productoModel')->select('id_subcategoria')->where('codigointernoproducto', $codigo_interno_producto)->first();
 
-                        <option value="<?php echo $valor['id'] ?>" <?php if ($valor['id'] == $id_sub_categoria['id_subcategoria']) : ?>selected <?php endif; ?>><?php echo $valor['nombre'] ?> </option>
+        ?>
 
-                    <?php } ?>
-                </select>
+        <div class="col-md-3" id="div_sub_categoria">
+            <input type="hidden" id="requiere_categoria" value=0>
+            <label for="">Sub categoria</label>
+            <select class="form-select" id="sub_categoria" name="sub_categoria">
+                <option value="">Seleccione una sub categoria </option>
+                <?php foreach ($sub_categorias as $valor) { ?>
 
-                <span class="text-danger " id="error_sub_categoria"></span>
-            </div>
-        <?php endif ?>
+                    <option value="<?php echo $valor['id'] ?>" <?php if ($valor['id'] == $id_sub_categoria['id_subcategoria']) : ?>selected <?php endif; ?>><?php echo $valor['nombre'] ?> </option>
 
-        <div class="col-md-3">
-            <label for="">Marca</label>
-            <select class="form-select" id="editar_marca_producto" name="editar_marca_producto">
-
-                <?php foreach ($marcas as $detalle) { ?>
-                    <option value="<?php echo $detalle['idmarca'] ?>"><?php echo $detalle['nombremarca'] ?></option>
                 <?php } ?>
             </select>
-            <span class="text-danger error-text editar_marca_producto_error"></span>
+
+            <span class="text-danger " id="error_sub_categoria"></span>
         </div>
+    <?php endif ?>
+
+    <div class="col-md-3" style="display: none;">
+        <label for="">Marca</label>
+        <select class="form-select" id="editar_marca_producto" name="editar_marca_producto">
+
+            <?php foreach ($marcas as $detalle) { ?>
+                <option value="<?php echo $detalle['idmarca'] ?>"><?php echo $detalle['nombremarca'] ?></option>
+            <?php } ?>
+        </select>
+        <span class="text-danger error-text editar_marca_producto_error"></span>
+
         <div class="col-sm">
             <br>
             <button type="button" class="btn btn-success btn-icon" title="Agregar marca"><!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -147,40 +149,41 @@
                     <line x1="5" y1="12" x2="19" y2="12" />
                 </svg></button>
         </div>
-
-        <div class="col-md-2"><br>
-            <?php if ($impresion_en_comanda == 'f') { ?>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" value="false" id="editar_impresion_en_comanda" name="editar_impresion_en_comanda" onkeyup="saltar_creacion_producto(event,'permitir_descuento')">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Imprimir comanda</label>
-                </div>
-            <?php } ?>
-            <?php if ($impresion_en_comanda == 't') { ?>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="editar_impresion_en_comanda" name="editar_impresion_en_comanda" checked>
-                    <label class="form-check-label" for="flexSwitchCheckChecked">Imprimir en comanda</label>
-                </div>
-            <?php } ?>
-        </div>
-        <div class="col-md-2"><br>
-            <?php if ($permite_descuento == 'f') { ?>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="editar_descuento" name="editar_descuento" onkeyup="saltar_creacion_producto(event,'permitir_descuento')">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Descuento</label>
-                </div>
-            <?php } ?>
-            <?php if ($permite_descuento == 't') { ?>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="editar_descuento" name="editar_descuento" checked>
-                    <label class="form-check-label" for="flexSwitchCheckChecked">Descuento</label>
-                </div>
-            <?php } ?>
-        </div>
-
-
     </div>
 
-    <div class="col-3">
+    <div class="col-md-2"><br><br>
+        <?php if ($impresion_en_comanda == 'f') { ?>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" value="false" id="editar_impresion_en_comanda" name="editar_impresion_en_comanda" onkeyup="saltar_creacion_producto(event,'permitir_descuento')">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Imprimir comanda</label>
+            </div>
+        <?php } ?>
+        <?php if ($impresion_en_comanda == 't') { ?>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="editar_impresion_en_comanda" name="editar_impresion_en_comanda" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Imprimir en comanda</label>
+            </div>
+        <?php } ?>
+    </div>
+    <div class="col-md-2" style="display: none;"><br>
+        <?php if ($permite_descuento == 'f') { ?>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="editar_descuento" name="editar_descuento" onkeyup="saltar_creacion_producto(event,'permitir_descuento')">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Descuento</label>
+            </div>
+        <?php } ?>
+        <?php if ($permite_descuento == 't') { ?>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="editar_descuento" name="editar_descuento" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Descuento</label>
+            </div>
+        <?php } ?>
+    </div>
+
+
+
+
+    <div class="col-2">
         <label for="inputAddress2" class="form-label">Valor costo</label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">
@@ -197,6 +200,8 @@
         <span class="text-danger error-text edicion_de_valor_costo_producto_error"></span>
     </div>
 
+    <?php $impuesto = model('configuracionPedidoModel')->select('impuesto')->first(); ?>
+    <?php if ($impuesto['impuesto'] == "t"):  ?>
     <div class="col-md-2">
         <label for="inputPassword4" class="form-label">Información tributaria</label>
         <select class="form-select" id="editar_informacion_tributaria" name="informacion_tributaria" onchange="cambiar_informacion_tributaria()">
@@ -254,6 +259,8 @@
         </div>
     <?php } ?>
 
+    <?php endif ?>
+
     <!--     <div class="col-md-3">
         <label for="inputPassword4" class="form-label">Tipo impuesto saludable </label>
         <select class="form-select" id="impuesto_saludable" name="impuesto_saludable">
@@ -275,7 +282,7 @@
 
 
 
-    <div class="col-3">
+    <div class="col-2">
         <label for="inputAddress2" class="form-label">Precio 1 </label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">
@@ -292,7 +299,7 @@
         <span class="text-danger error-text editar_valor_venta_producto_error"></span>
     </div>
 
-    <div class="col-3">
+    <div class="col-2">
         <label for="inputAddress2" class="form-label">Precio 2 </label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">
@@ -308,8 +315,24 @@
         </div>
         <span class="text-danger error-text precio_2_error"></span>
     </div>
+    <div class="col-2">
+        <label for="inputAddress2" class="form-label">Precio 3 </label>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">
+                <!-- Download SVG icon from http://tabler-icons.io/i/coin -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1 -1.8 -1" />
+                    <path d="M12 6v2m0 8v2" />
+                </svg>
+            </span>
+            <input type="text" class="form-control" id="editar_precio_3" name="editar_precio_3" onkeyup="saltar_creacion_producto(event,'btn_crear_producto'),hablilitar_boton(event)" value="<?php echo $precio_3 ?>">
+        </div>
+        <span class="text-danger error-text precio_2_error"></span>
+    </div>
 
-    <div class="col-6">
+    <div class="col-5">
 
     </div>
     <div class="col-6">
@@ -317,6 +340,56 @@
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
     </div>
 </form>
+
+
+<script>
+    /**
+     * Formato edicion costo producto 
+     */
+    const editar_precio_2 = document.querySelector("#editar_precio_2");
+
+    function formatNumber(n) {
+        n = String(n).replace(/\D/g, "");
+        return n === "" ? n : Number(n).toLocaleString();
+    }
+    editar_precio_2.addEventListener("keyup", (e) => {
+        const element = e.target;
+        const value = element.value;
+        element.value = formatNumber(value);
+    });
+</script>
+<script>
+    /**
+     * Formato edicion costo producto 
+     */
+    const editar_precio_3 = document.querySelector("#editar_precio_3");
+
+    function formatNumber(n) {
+        n = String(n).replace(/\D/g, "");
+        return n === "" ? n : Number(n).toLocaleString();
+    }
+    editar_precio_3.addEventListener("keyup", (e) => {
+        const element = e.target;
+        const value = element.value;
+        element.value = formatNumber(value);
+    });
+</script>
+<script>
+    /**
+     * Formato edicion costo producto 
+     */
+    const editar_costo = document.querySelector("#edicion_de_valor_costo_producto");
+
+    function formatNumber(n) {
+        n = String(n).replace(/\D/g, "");
+        return n === "" ? n : Number(n).toLocaleString();
+    }
+    editar_costo.addEventListener("keyup", (e) => {
+        const element = e.target;
+        const value = element.value;
+        element.value = formatNumber(value);
+    });
+</script>
 
 <script>
     function favorito_editar() {
@@ -338,22 +411,7 @@
     }
 </script>
 
-<script>
-    /**
-     * Formato edicion costo producto 
-     */
-    const editar_costo = document.querySelector("#edicion_de_valor_costo_producto");
 
-    function formatNumber(n) {
-        n = String(n).replace(/\D/g, "");
-        return n === "" ? n : Number(n).toLocaleString();
-    }
-    editar_costo.addEventListener("keyup", (e) => {
-        const element = e.target;
-        const value = element.value;
-        element.value = formatNumber(value);
-    });
-</script>
 
 <script>
     /**

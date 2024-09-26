@@ -743,6 +743,11 @@
 
                         $('#propina_pesos').val(0)
                         $('#propina_del_pedido').val(0)
+                        $('#propina_pesos_final').val(0)
+                        $('#total_propina').val(0)
+                        $('#valor_total_a_pagar').val(resultado.total_sin_formato)
+                        $('#efectivo').val(resultado.total)
+                        $('#total_pedido').html(resultado.total)
                         $('#valor_pedido').html('$' + resultado.total)
 
                         sweet_alert_start('success', 'Propina borrada  ');
@@ -1847,7 +1852,7 @@
 
     <script>
         function calculo_propina_parcial() {
-            var subtotal = document.getElementById("valor_total_a_pagar").value;
+            /* var subtotal = document.getElementById("valor_total_a_pagar").value;
 
 
             var propina = subtotal * 0.10; // 10% en forma decimal
@@ -1862,30 +1867,58 @@
             $('#total_pedido').html("Total: " + total.toLocaleString('es-CO'))
             $('#pago').html("Valor pago : " + total.toLocaleString('es-CO'))
             $('#efectivo').val(total.toLocaleString('es-CO'))
-            $('#valor_total_a_pagar').val(total)
+            $('#valor_total_a_pagar').val(total) */
 
 
             let url = document.getElementById("url").value;
             let id_mesa = document.getElementById("id_mesa_pedido").value;
+            let criterio_propina = document.getElementById("criterio_propina_final").value;
 
 
-            $.ajax({
-                data: {
-                    id_mesa,
-                },
-                url: url + "/" + "pedidos/propinas",
-                type: "POST",
-                success: function(resultado) {
-                    var resultado = JSON.parse(resultado);
-                    if (resultado.resultado == 1) {
+            if (criterio_propina == 1) {
 
-                        $('#propina_del_pedido').val(resultado.propina)
-                        $('#valor_pedido').html(resultado.total_pedido)
-                        $('#val_pedido').html(resultado.total_pedido)
+                $.ajax({
+                    data: {
+                        id_mesa,
+                    },
+                    url: url + "/" + "pedidos/propinas",
+                    type: "POST",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
 
-                    }
-                },
-            });
+                            $('#propina_del_pedido').val(resultado.propina)
+                            $('#valor_pedido').html(resultado.total_pedido)
+                            $('#val_pedido').html(resultado.total_pedido)
+
+                        }
+                    },
+                });
+            }
+
+            if (criterio_propina == 0) {
+
+                $.ajax({
+                    data: {
+                        id_mesa,
+                    },
+                    url: url + "/" + "configuracion/propina_parcial",
+                    type: "POST",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
+
+                            $('#total_propina').val(resultado.propina)
+                            //$('#valor_pedido').html(resultado.total_pedido)
+                            //$('#val_pedido').html(resultado.total_pedido)
+
+                           
+
+                        }
+                    },
+                });
+            }
+
 
         }
     </script>

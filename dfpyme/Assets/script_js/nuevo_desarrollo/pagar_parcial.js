@@ -39,6 +39,7 @@ function pagar_parcial() {
                     $('#valor_total_a_pagar').val(resultado.valor_total)
                     $('#requiere_factura_electronica').val(resultado.requiere_factura_electronica)
                     $('#total_propina').val(0)
+                    $('#criterio_propina_final').val(0)
                     let total = resultado.valor_total
                     $('#efectivo').val(total.toLocaleString('es-CO'))
                     $('#efectivo').select()
