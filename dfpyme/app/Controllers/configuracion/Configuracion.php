@@ -956,7 +956,7 @@ class Configuracion extends BaseController
         if ($tipo_propina['propina'] == 1) {
             $temp_propina = $valor_pedido[0]['valor_total'] * $porcentaje_propina;
             // Redondear la propina al valor más cercano a mil
-            $propina = round($temp_propina / 1000) * 1000;
+            $propina = round($temp_propina ) ;
         } else {
             $propina = $valor_pedido[0]['valor_total'] * $porcentaje_propina;
         }

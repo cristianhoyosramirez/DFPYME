@@ -42,7 +42,11 @@ function pagar() {
         var subtotal_propina = document.getElementById("total_propina").value;
         subtotal_propina = propina.replace(/[.]/g, "");
 
-        valor_venta = parseInt(subtotal_propina) + parseInt(subtotal_venta)
+        //valor_venta = parseInt(subtotal_propina) + parseInt(subtotal_venta)
+
+        //console.log(valor_venta)
+
+        valor_venta=subtotal_venta
     }
 
 

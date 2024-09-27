@@ -730,32 +730,67 @@
         function borrar_propina() {
             var url = document.getElementById("url").value;
             let id_mesa = document.getElementById("id_mesa_pedido").value;
+            let criterio_propina = document.getElementById("criterio_propina_final").value;
 
-            $.ajax({
-                data: {
-                    id_mesa,
-                },
-                url: url + "/" + "eventos/borrar_propina",
-                type: "POST",
-                success: function(resultado) {
-                    var resultado = JSON.parse(resultado);
-                    if (resultado.resultado == 1) {
+            if (criterio_propina == 1) {
+                $.ajax({
+                    data: {
+                        id_mesa,
+                    },
+                    url: url + "/" + "eventos/borrar_propina",
+                    type: "POST",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
 
-                        $('#propina_pesos').val(0)
-                        $('#propina_del_pedido').val(0)
-                        $('#propina_pesos_final').val(0)
-                        $('#total_propina').val(0)
-                        $('#valor_total_a_pagar').val(resultado.total_sin_formato)
-                        $('#efectivo').val(resultado.total)
-                        $('#total_pedido').html(resultado.total)
-                        $('#valor_pedido').html('$' + resultado.total)
+                            $('#propina_pesos').val(0)
+                            $('#propina_del_pedido').val(0)
+                            $('#propina_pesos_final').val(0)
+                            $('#total_propina').val(0)
+                            $('#valor_total_a_pagar').val(resultado.total_sin_formato)
+                            $('#efectivo').val(resultado.total)
+                            $('#total_pedido').html("Valor pago: " + resultado.total)
+                            $('#valor_pedido').html('$' + resultado.total)
 
-                        sweet_alert_start('success', 'Propina borrada  ');
+                            sweet_alert_start('success', 'Propina borrada  ');
 
 
-                    }
-                },
-            });
+                        }
+                    },
+                });
+            }
+
+            if (criterio_propina == 0) {
+
+                $.ajax({
+                    data: {
+                        id_mesa,
+                    },
+                    url: url + "/" + "eventos/borrar_propina_parcial",
+                    type: "POST",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
+
+                            $('#propina_pesos').val(0)
+                            $('#propina_del_pedido').val(0)
+                            $('#propina_pesos_final').val(0)
+                            $('#total_propina').val(0)
+                            
+                            $('#efectivo').val(resultado.total)
+                            $('#total_pedido').html("Valor pago: " + resultado.total)
+                            $('#valor_pedido').html('$' + resultado.total)
+                            $('#valor_total_a_pagar').val(resultado.total_pedido)
+
+
+                            sweet_alert_start('success', 'Propina borrada  ');
+
+
+                        }
+                    },
+                });
+
+            }
 
         }
     </script>
@@ -1890,6 +1925,11 @@
                             $('#propina_del_pedido').val(resultado.propina)
                             $('#valor_pedido').html(resultado.total_pedido)
                             $('#val_pedido').html(resultado.total_pedido)
+                            $('#total_propina').val(resultado.propina)
+                            $('#efectivo').val(resultado.total_pedido)
+                            $('#total_pedido').html("Valor pago:  " + resultado.total_pedido)
+                            $('#valor_total_a_pagar').val(resultado.val_pedido)
+
 
                         }
                     },
@@ -1909,10 +1949,11 @@
                         if (resultado.resultado == 1) {
 
                             $('#total_propina').val(resultado.propina)
-                            $('#total_pedido').html(resultado.valor_total)
+                            $('#total_pedido').html("Valor pago: " + resultado.valor_total)
                             $('#valor_total_a_pagar').val(resultado.total)
+                            $('#efectivo').val(resultado.valor_total)
 
-                           
+
 
                         }
                     },

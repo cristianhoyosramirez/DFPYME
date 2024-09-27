@@ -537,13 +537,17 @@ class CerrarVenta extends BaseController
     {
 
         $id_mesa = $this->request->getPost('id_mesa');
+        //$id_mesa = 1;
         $temp_propina = new Propina();
         $propina = $temp_propina->calcularPropina($id_mesa);
 
+    
         $returnData = array(
             "resultado" => 1,
             "propina" => number_format($propina['propina'], 0, ",", "."),
-            "total_pedido" => number_format($propina['propina'] + $propina['valor_pedido'], 0, ",", ".")
+            "total_pedido" => number_format($propina['propina'] + $propina['valor_pedido'], 0, ",", "."),
+            "valor_pedido" => $propina['valor_pedido'],
+            "val_pedido" => $propina['valor_pedido']+ $propina['propina'],
         );
         echo  json_encode($returnData);
     }

@@ -5,6 +5,7 @@ function cancelar_pagar() {
     $('#total_propina').val(0)
     $('#propina_pesos_fina').val(0)
     $('#tipo_pago').val(1)
+    $('#criterio_propina_final').val(1)
     $('#pago').html('Valor pago: 0')
     $('#faltante').html('Faltante: 0')
     $('#cambio').html('Cambio: 0')

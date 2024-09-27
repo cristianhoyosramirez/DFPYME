@@ -523,6 +523,7 @@ $routes->group('eventos', ['namespace' => 'App\Controllers\Boletas', 'filter' =>
     $routes->post('editar_precio', 'Boletas::editar_precio');
     $routes->post('eliminar_f_e', 'Boletas::eliminar_f_e');
     $routes->post('validar_pass', 'Boletas::validar_pass');
+    $routes->post('borrar_propina_parcial', 'Boletas::borrar_propina_parcial');
 });
 
 

@@ -1483,4 +1483,20 @@ class Boletas extends BaseController
             echo  json_encode($returnData);
         }
     }
+
+    function borrar_propina_parcial()
+    {
+        $id_mesa = $this->request->getPost('id_mesa');
+
+        $numero_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
+
+        $total = model('partirFacturaModel')->propina_partida($numero_pedido['id']);
+
+        $returnData = array(
+            "resultado" => 1, //Falta plata 
+            "total" => number_format($total[0]['valor_total'], 0, ',', '.'),
+            "total_pedido" => $total[0]['valor_total'],
+        );
+        echo  json_encode($returnData);
+    }
 }

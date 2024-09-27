@@ -21,14 +21,15 @@ class Propina
         // Calcular el porcentaje de propina
         $porcentaje_propina = $temp_porcentaje_propina['valor_defecto_propina'] / 100;
 
-        // Calcular la propina según el tipo configurado
-        if ($tipo_propina['propina'] == 1) {
+
+        
+        if ($tipo_propina['propina'] == 1) {  // Calcular la propina con redondeo 
             $temp_propina = $valor_pedido['valor_total'] * $porcentaje_propina;
             // Redondear la propina al valor más cercano a mil
-            $propina = round($temp_propina / 1000) * 1000;
-        } else {
+            $propina = round($temp_propina ) ;
+        } else {   // Calcular la propina sin  redondeo 
             $temp_propina = $valor_pedido['valor_total'] * $porcentaje_propina;
-            $propina = round($temp_propina / 1000) * 1000;
+            $propina =$temp_propina ;
         }
 
         $model = model('pedidoModel');
