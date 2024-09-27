@@ -1909,8 +1909,8 @@
                         if (resultado.resultado == 1) {
 
                             $('#total_propina').val(resultado.propina)
-                            //$('#valor_pedido').html(resultado.total_pedido)
-                            //$('#val_pedido').html(resultado.total_pedido)
+                            $('#total_pedido').html(resultado.valor_total)
+                            $('#valor_total_a_pagar').val(resultado.total)
 
                            
 

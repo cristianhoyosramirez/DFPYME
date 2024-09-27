@@ -941,7 +941,9 @@ class Configuracion extends BaseController
         $numero_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
 
 
-        $valor_pedido = model('partirFacturaModel')->select('valor_total')->where('numero_de_pedido', $numero_pedido['id'])->findAll();
+        $valor_pedido = model('partirFacturaModel')->propina_partida($numero_pedido['id']);
+
+        //dd($valor_pedido);
 
         // Obtener la configuración de la propina
         $tipo_propina = model('configuracionPedidoModel')->select('propina')->first();

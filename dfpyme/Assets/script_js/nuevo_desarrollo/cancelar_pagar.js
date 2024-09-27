@@ -16,7 +16,7 @@ function cancelar_pagar() {
     let tipo_pago = document.getElementById("tipo_pago").value;
 
 
-    if (tipo_pago == 0) {
+    
         $.ajax({
             type: 'post',
             url: url + "/" + "pedidos/cancelar_pago_parcial ", // Cambia esto a tu script PHP para insertar en la base de datos
@@ -35,5 +35,5 @@ function cancelar_pagar() {
                 }
             },
         });
-    }
+    
 }

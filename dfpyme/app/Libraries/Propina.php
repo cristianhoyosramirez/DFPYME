@@ -27,7 +27,8 @@ class Propina
             // Redondear la propina al valor más cercano a mil
             $propina = round($temp_propina / 1000) * 1000;
         } else {
-            $propina = $valor_pedido['valor_total'] * $porcentaje_propina;
+            $temp_propina = $valor_pedido['valor_total'] * $porcentaje_propina;
+            $propina = round($temp_propina / 1000) * 1000;
         }
 
         $model = model('pedidoModel');

@@ -68,7 +68,7 @@ class PartirFactura extends BaseController
         //$id_usuario = 6; 
 
         $rol = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
-        if ($rol['idtipo'] == 1 or $rol['idtipo'] ==0 ) {
+        if ($rol['idtipo'] == 1 or $rol['idtipo'] == 0) {
             $tiene_apertura = model('aperturaRegistroModel')->select('id')->first();
 
             $estado_licencia = model('configuracionPedidoModel')->select('estado_licencia')->first();
@@ -246,19 +246,21 @@ class PartirFactura extends BaseController
         $id_mesa = $this->request->getPost('id_mesa');
         $numero_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
 
+        /*   $model = model('partirFacturaModel');
+        $borrar = $model->truncate(); */
+/* 
         $model = model('partirFacturaModel');
-        $borrar = $model->truncate();
-
-        /*  $model = model('partirFacturaModel');
         $borrar = $model->where('numero_de_pedido', $numero_pedido['id']);
         $borrar = $model->delete(); */
 
-        if ($borrar) {
+        $truncate = model('partirFacturaModel')->truncate();
+
+        
             $returnData = array(
                 "resultado" => 1,
             );
             echo  json_encode($returnData);
-        }
+    
     }
 
     function valor_pago_parcial()

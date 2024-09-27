@@ -1429,6 +1429,8 @@ class Mesas extends BaseController
 
             if ($borrarPedido && $borrar) {
 
+                $truncate=model('partirFacturaModel')->truncate();
+
                 $returnData = array(
                     "resultado" => 1,
                     "mesas" => view('pedidos/todas_las_mesas_lista', [
@@ -1770,7 +1772,8 @@ class Mesas extends BaseController
     function productos_pedido()
     {
 
-        $model = model('partirFacturaModel')->truncate();
+        //$model = model('partirFacturaModel')->truncate();
+        $truncate=model('partirFacturaModel')->truncate();
 
         $apertura_registro = model('aperturaRegistroModel')->first();
 
