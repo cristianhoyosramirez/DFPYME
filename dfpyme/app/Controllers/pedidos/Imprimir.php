@@ -373,7 +373,7 @@ class Imprimir extends BaseController
             $printer->text("---------------------------------------------" . "\n");
 
             $printer->setTextSize(2, 2);
-            $printer->text("TOTAL      :" . "$" . number_format($total['valor_total'], 0, ",", ".") . "\n");
+            $printer->text("TOTAL      :" . "$" . number_format($total['valor_total']+$propina, 0, ",", ".") . "\n");
             $printer->setTextSize(1, 1);
             $printer->text("---------------------------------------------" . "\n");
 

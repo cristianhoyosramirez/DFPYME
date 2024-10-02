@@ -1151,9 +1151,16 @@ class impresion
 
 
 
-        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("**REPORTE DE VENTAS** \n\n");
 
+        $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
+        $hora_apertura = model('aperturaModel')->select('hora')->where('id', $id_apertura)->first();
+        $fecha_cierre = model('cierreModel')->select('fecha')->where('idapertura', $id_apertura)->first();
+        $hora_cierre = model('cierreModel')->select('hora')->where('idapertura', $id_apertura)->first();
+        $printer->text("Fecha de apertura:     " . $fecha_apertura['fecha'] . "   " . $hora_apertura['hora'] . "\n");
+        $printer->text("Fecha de cierre:       " .     $fecha_cierre['fecha'] . "   " . $hora_cierre['hora'] . "\n");
+        $printer->text("Fecha de impresion:    " . date('Y-m-d') . "\n");
 
 
 
@@ -1187,8 +1194,10 @@ class impresion
             $printer->text("      Gran total     $"  . number_format($valor_total_categoria[0]['total_categoria'], 0, ",", ".") .  "\n\n");
         }
 
-
-
+        $total = model('kardexModel')->selectSum('total')->where('id_apertura', $id_apertura)->findAll();
+        $printer->setJustification(Printer::JUSTIFY_RIGHT);
+        $printer->setTextSize(1, 2);
+        $printer->text(" TOTAL VENTAS     $"  . number_format($total[0]['total'], 0, ",", ".") .  "\n\n");
 
         $printer->text("\n");
 

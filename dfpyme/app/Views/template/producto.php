@@ -56,49 +56,74 @@
         <script src="<?php echo base_url(); ?>/Assets/plugin/select2/select2.min.js"></script>
 
 
-        <script>
+        <!-- <script>
             function actualizarPrecios(valor) {
                 document.getElementById('precio_2').value = valor;
                 document.getElementById('precio_3').value = valor;
             }
+        </script>  -->
+
+
+        <script>
+            // Función para eliminar cualquier formato (como separadores de miles) y dejar solo el número
+            function limpiarNumero(valor) {
+                return valor.replace(/\./g, ''); // Elimina los puntos (separadores de miles)
+            }
+
+            // Función para formatear el número con separadores de miles
+            function formatNumber(n) {
+                n = n.replace(/\D/g, ""); // Elimina cualquier carácter que no sea un número
+                return n === "" ? n : parseFloat(n).toLocaleString('es-CO'); // Formatear el número con separador de miles
+            }
+
+            // Función para actualizar los precios
+            function actualizarPrecios(valor) {
+                // Limpiar el número antes de asignarlo
+                let valorLimpio = limpiarNumero(valor);
+
+                // Formatear el número con separadores de miles antes de mostrarlo
+                let valorFormateado = formatNumber(valorLimpio);
+
+                // Asignar el valor formateado a los campos
+                document.getElementById('precio_2').value = valorFormateado;
+                document.getElementById('precio_3').value = valorFormateado;
+            }
+
+            // Evento para formatear el campo 'precio_2' al ingresar un número
+            const precio_2 = document.querySelector("#precio_2");
+            precio_2.addEventListener("input", (e) => {
+                const element = e.target;
+                const value = element.value;
+                element.value = formatNumber(value); // Formatea el número con separador de miles
+            });
+
+            // Evento para formatear el campo 'precio_3' al ingresar un número
+            const precio_3 = document.querySelector("#precio_3");
+            precio_3.addEventListener("input", (e) => {
+                const element = e.target;
+                const value = element.value;
+                element.value = formatNumber(value); // Formatea el número con separador de miles
+            });
         </script>
+
+
+
+
+
 
 
         <!-- 
         <script>
-            $(function() {
-                var formatoFecha = "dd-mm-yy"; // Cambia el formato de fecha a "yy-mm-dd"
+            function actualizarPrecios(valor) {
+                // Eliminar los puntos decimales del valor
+                let valorSinPuntos = valor.replace(/\./g, '');
 
-                var desde = $("#fecha_inicial").datepicker({
-                    changeMonth: true,
-                    numberOfMonths: 1,
-                    changeYear: true,
-                    dateFormat: formatoFecha, // Establece el nuevo formato de fecha
-                    onClose: function(selectedDate) {
-                        hasta.datepicker("option", "minDate", selectedDate);
-                    }
-                });
-
-                var hasta = $("#fecha_final").datepicker({
-                    changeMonth: true,
-                    numberOfMonths: 1,
-                    changeYear: true,
-                    dateFormat: formatoFecha, // Establece el nuevo formato de fecha
-                    onClose: function(selectedDate) {
-                        desde.datepicker("option", "maxDate", selectedDate);
-                    }
-                });
-
-                // Funcionalidad para exportar a Excel y PDF
-                $('#exportarExcelBtn').click(function() {
-                    // Agrega tu código para exportar a Excel aquí
-                });
-
-                $('#exportarPdfBtn').click(function() {
-                    // Agrega tu código para exportar a PDF aquí
-                });
-            });
+                // Asignar el valor sin puntos a los campos de precios
+                document.getElementById('precio_2').value = valorSinPuntos;
+                document.getElementById('precio_3').value = valorSinPuntos;
+            }
         </script> -->
+
 
         <script>
             $(function() {
@@ -667,7 +692,7 @@
             });
         </script>
 
-        <script>
+        <!--    <script>
             const precio_3 = document.querySelector("#precio_3");
 
             function formatNumber(n) {
@@ -680,7 +705,7 @@
                 element.value = formatNumber(value);
             });
         </script>
-
+ -->
 
 
 

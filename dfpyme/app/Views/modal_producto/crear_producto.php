@@ -453,7 +453,7 @@
   }
 </script>
 
-<script>
+<!--  <script>
   const precio_2 = document.querySelector("#precio_2");
 
   function formatNumber(n) {
@@ -468,7 +468,7 @@
     const value = element.value;
     element.value = formatNumber(value);
   });
-</script>
+</script>  -->
 <script>
   const impuesto_saludable = document.querySelector("#valor_impuesto_saludable");
 

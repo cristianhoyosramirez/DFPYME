@@ -977,7 +977,7 @@ class Mesas extends BaseController
 
         $tipo_usuario = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
         $numero_pedido = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_tabla_producto)->first();
-
+        $configuracion_propina = model('configuracionPedidoModel')->select('calculo_propina')->first();
 
         $cantidad_producto = model('productoPedidoModel')->select('cantidad_producto')->where('id', $id_tabla_producto)->first();
         $codigo_interno_producto = model('productoPedidoModel')->select('codigointernoproducto')->where('id', $id_tabla_producto)->first();
@@ -1038,19 +1038,25 @@ class Mesas extends BaseController
                         "pedido" => $numero_pedido['numero_de_pedido']
                     ]);
 
-
+                    if ($configuracion_propina['calculo_propina'] == 't') {
                     $temp_propina = new Propina();
                     $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
                     $sub_total = $total_pedido['valor_total'];
+                    $propina_final=$propina['propina'];
+                    }
+                    if ($configuracion_propina['calculo_propina'] == 'f') {
+
+                        $propina_final = 0;
+                    }
 
                     $returnData = array(
                         "resultado" => 1,  // Se actulizo el registro 
                         "productos" => $productos_del_pedido,
-                        "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + $propina['propina'], 0, ',', '.'),
+                        "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + $propina_final, 0, ',', '.'),
                         "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
                         "mensaje" => "Eliminacion de  "  . $nombre_producto['nombreproducto'],
                         "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
-                        "propina" => number_format($propina['propina'], 0, ',', '.'),
+                        "propina" => number_format($propina_final, 0, ',', '.'),
                     );
                     echo  json_encode($returnData);
                 }
@@ -1096,18 +1102,29 @@ class Mesas extends BaseController
                     "pedido" => $numero_pedido['numero_de_pedido']
                 ]);
 
-                $temp_propina = new Propina();
+                /* $temp_propina = new Propina();
                 $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
-                $sub_total = $total_pedido['valor_total'];
+                $sub_total = $total_pedido['valor_total']; */
+
+                if ($configuracion_propina['calculo_propina'] == 't') {
+                    $temp_propina = new Propina();
+                    $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+                    $sub_total = $total_pedido['valor_total'];
+                    $propina_final=$propina['propina'];
+                    }
+                    if ($configuracion_propina['calculo_propina'] == 'f') {
+
+                        $propina_final = 0;
+                    }
 
                 $returnData = array(
                     "resultado" => 1,  // Se actulizo el registro 
                     "productos" => $productos_del_pedido,
-                    "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + $propina['propina'], 0, ',', '.'),
+                    "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + $propina_final, 0, ',', '.'),
                     "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
                     "mensaje" => "Eliminacion de  "  . $nombre_producto['nombreproducto'],
                     "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
-                    "propina" =>  number_format($propina['propina'], 0, ',', '.'),
+                    "propina" =>  number_format($propina_final, 0, ',', '.'),
                 );
                 echo  json_encode($returnData);
             }
@@ -1160,18 +1177,29 @@ class Mesas extends BaseController
                             "pedido" => $numero_pedido['numero_de_pedido']
                         ]);
 
-                        $temp_propina = new Propina();
+                        /* $temp_propina = new Propina();
                         $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
-                        $sub_total = $total_pedido['valor_total'];
+                        $sub_total = $total_pedido['valor_total']; */
+
+                        if ($configuracion_propina['calculo_propina'] == 't') {
+                            $temp_propina = new Propina();
+                            $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+                            $sub_total = $total_pedido['valor_total'];
+                            $propina_final=$propina['propina'];
+                            }
+                            if ($configuracion_propina['calculo_propina'] == 'f') {
+        
+                                $propina_final = 0;
+                            }
 
                         $returnData = array(
                             "resultado" => 1,  // Se actulizo el registro 
                             "productos" => $productos_del_pedido,
-                            "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + $propina['propina'], 0, ',', '.'),
+                            "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + $propina_final, 0, ',', '.'),
                             "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
                             "mensaje" => "Eliminacion de  "  . $nombre_producto['nombreproducto'],
                             "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
-                            "propina" => number_format($propina['propina'], 0, ',', '.'),
+                            "propina" => number_format($propina_final, 0, ',', '.'),
                         );
                         echo  json_encode($returnData);
                     }
@@ -1236,9 +1264,20 @@ class Mesas extends BaseController
                             "pedido" => $numero_pedido['numero_de_pedido']
                         ]);
 
-                        $temp_propina = new Propina();
+                    /*     $temp_propina = new Propina();
                         $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
-                        $sub_total = $total_pedido['valor_total'];
+                        $sub_total = $total_pedido['valor_total']; */
+
+                        if ($configuracion_propina['calculo_propina'] == 't') {
+                            $temp_propina = new Propina();
+                            $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+                            $sub_total = $total_pedido['valor_total'];
+                            $propina_final=$propina['propina'];
+                            }
+                            if ($configuracion_propina['calculo_propina'] == 'f') {
+        
+                                $propina_final = 0;
+                            }
 
                         $returnData = array(
                             "resultado" => 1,  // Se actulizo el registro 
@@ -1247,7 +1286,7 @@ class Mesas extends BaseController
                             "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
                             "mensaje" => "Eliminación correcta",
                             "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
-                            "propina" => number_format($propina['propina'], 0, ',', '.'),
+                            "propina" => number_format($propina_final, 0, ',', '.'),
                         );
                         echo  json_encode($returnData);
                     }
