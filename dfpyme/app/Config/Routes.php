@@ -469,6 +469,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->get('imprimir_inventario_sin_cantidades', 'Imprimir::imprimir_inventario_sin_cantidades');
     $routes->post('imprimir_categoria_con_cantidades', 'Imprimir::imprimir_categoria_con_cantidades');
     $routes->post('imprimir_categoria_sin_cantidades', 'Imprimir::imprimir_categoria_sin_cantidades');
+    $routes->post('mesas_de_salon', 'Mesas::mesas_de_salon');
 });
 
 $routes->group('inventario', ['namespace' => 'App\Controllers\pedidos', 'filter' => \App\Filters\Auth::class], function ($routes) {

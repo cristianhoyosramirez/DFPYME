@@ -228,8 +228,38 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/header_mesa.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/impresion_factura_electronica.js"></script>
 
+ 
 
+    <script>
+        function buscar_mesa_salon(id) {
 
+            let url = document.getElementById("url").value;
+
+            $.ajax({
+                data: {
+                    id
+                },
+                url: url + "/" + "pedidos/mesas_de_salon",
+                type: "POST",
+                success: function(resultado) {
+                    var resultado = JSON.parse(resultado);
+                    // Aquí puedes manejar el resultado como desees
+                    var tarjetas = document.querySelectorAll('.card-link'); // Seleccionar todas las tarjetas
+
+                    tarjetas.forEach(function(tarjeta) {
+                        tarjeta.classList.remove('bg-indigo-lt'); // Quitar la clase de todas las tarjetas
+                    });
+                    $('#mesas_all').html(resultado.mesas)
+                    var tarjetaSeleccionada = document.getElementById('card' + resultado.id);
+                    tarjetaSeleccionada.classList.add('bg-indigo-lt');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la solicitud AJAX:", status, error);
+                }
+            });
+
+        }
+    </script>
 
 
     <script>
@@ -776,7 +806,7 @@
                             $('#propina_del_pedido').val(0)
                             $('#propina_pesos_final').val(0)
                             $('#total_propina').val(0)
-                            
+
                             $('#efectivo').val(resultado.total)
                             $('#total_pedido').html("Valor pago: " + resultado.total)
                             $('#valor_pedido').html('$' + resultado.total)

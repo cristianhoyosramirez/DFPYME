@@ -1039,10 +1039,10 @@ class Mesas extends BaseController
                     ]);
 
                     if ($configuracion_propina['calculo_propina'] == 't') {
-                    $temp_propina = new Propina();
-                    $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
-                    $sub_total = $total_pedido['valor_total'];
-                    $propina_final=$propina['propina'];
+                        $temp_propina = new Propina();
+                        $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+                        $sub_total = $total_pedido['valor_total'];
+                        $propina_final = $propina['propina'];
                     }
                     if ($configuracion_propina['calculo_propina'] == 'f') {
 
@@ -1110,12 +1110,12 @@ class Mesas extends BaseController
                     $temp_propina = new Propina();
                     $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
                     $sub_total = $total_pedido['valor_total'];
-                    $propina_final=$propina['propina'];
-                    }
-                    if ($configuracion_propina['calculo_propina'] == 'f') {
+                    $propina_final = $propina['propina'];
+                }
+                if ($configuracion_propina['calculo_propina'] == 'f') {
 
-                        $propina_final = 0;
-                    }
+                    $propina_final = 0;
+                }
 
                 $returnData = array(
                     "resultado" => 1,  // Se actulizo el registro 
@@ -1185,12 +1185,12 @@ class Mesas extends BaseController
                             $temp_propina = new Propina();
                             $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
                             $sub_total = $total_pedido['valor_total'];
-                            $propina_final=$propina['propina'];
-                            }
-                            if ($configuracion_propina['calculo_propina'] == 'f') {
-        
-                                $propina_final = 0;
-                            }
+                            $propina_final = $propina['propina'];
+                        }
+                        if ($configuracion_propina['calculo_propina'] == 'f') {
+
+                            $propina_final = 0;
+                        }
 
                         $returnData = array(
                             "resultado" => 1,  // Se actulizo el registro 
@@ -1264,7 +1264,7 @@ class Mesas extends BaseController
                             "pedido" => $numero_pedido['numero_de_pedido']
                         ]);
 
-                    /*     $temp_propina = new Propina();
+                        /*     $temp_propina = new Propina();
                         $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
                         $sub_total = $total_pedido['valor_total']; */
 
@@ -1272,12 +1272,12 @@ class Mesas extends BaseController
                             $temp_propina = new Propina();
                             $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
                             $sub_total = $total_pedido['valor_total'];
-                            $propina_final=$propina['propina'];
-                            }
-                            if ($configuracion_propina['calculo_propina'] == 'f') {
-        
-                                $propina_final = 0;
-                            }
+                            $propina_final = $propina['propina'];
+                        }
+                        if ($configuracion_propina['calculo_propina'] == 'f') {
+
+                            $propina_final = 0;
+                        }
 
                         $returnData = array(
                             "resultado" => 1,  // Se actulizo el registro 
@@ -1468,7 +1468,7 @@ class Mesas extends BaseController
 
             if ($borrarPedido && $borrar) {
 
-                $truncate=model('partirFacturaModel')->truncate();
+                $truncate = model('partirFacturaModel')->truncate();
 
                 $returnData = array(
                     "resultado" => 1,
@@ -1684,19 +1684,18 @@ class Mesas extends BaseController
                         $temp_propina = new Propina();
                         $propina = $temp_propina->calcularPropina($id_mesa);
                         $sub_total = $valor_pedido[0]['valor_total'];
-        
+
                         $model = model('pedidoModel');
                         $configuracion = $model->set('propina', $propina['propina']);
                         $actualizar = $model->where('id', $numero_pedido['id']);
                         $configuracion = $model->update();
-        
-                        $propina_final=$propina['propina'];
+
+                        $propina_final = $propina['propina'];
                     }
-        
+
                     if ($configuracion_propina['calculo_propina'] == 'f') {
-        
-                        $propina_final=0;
-        
+
+                        $propina_final = 0;
                     }
 
 
@@ -1711,7 +1710,7 @@ class Mesas extends BaseController
                             "productos" => $productos_pedido,
                             "pedido" => $numero_pedido['numero_de_pedido'],
                         ]),
-                        "sub_total" => number_format($valor_pedido[0]['valor_total']+$propina_final, 0, ",", "."),
+                        "sub_total" => number_format($valor_pedido[0]['valor_total'] + $propina_final, 0, ",", "."),
                         "propina" => number_format($propina_final, 0, ",", "."),
                         "total" => number_format($valor_pedido[0]['valor_total'], 0, ",", "."),
                     );
@@ -1812,7 +1811,7 @@ class Mesas extends BaseController
     {
 
         //$model = model('partirFacturaModel')->truncate();
-        $truncate=model('partirFacturaModel')->truncate();
+        $truncate = model('partirFacturaModel')->truncate();
 
         $apertura_registro = model('aperturaRegistroModel')->first();
 
@@ -1996,5 +1995,28 @@ class Mesas extends BaseController
             );
             echo  json_encode($returnData);
         }
+    }
+
+    function mesas_de_salon()
+    {
+
+        $id_salon = $this->request->getPost('id');
+
+        if ($id_salon != "todas") {
+            $mesas = model('mesasModel')->where('fk_salon', $id_salon)->find();
+        }
+        if ($id_salon === "todas") {
+            $mesas = model('mesasModel')->where('estado',0)->findAll();
+        }
+
+        $returnData = array(
+            "resultado" => 1,
+            "mesas" => view('pedidos/lista_mesas', [
+                'mesas' => $mesas
+
+            ]),
+            "id" => $id_salon
+        );
+        echo  json_encode($returnData);
     }
 }

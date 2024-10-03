@@ -164,10 +164,9 @@ class operacionesProductoController extends BaseController
                     ],
                 ],
                 'crear_producto_nombre' => [
-                    'rules' => 'required|is_unique[producto.nombreproducto]',
+                    'rules' => 'required',
                     'errors' => [
                         'required' => 'Dato necesario',
-                        'is_unique' => 'Nombre ya existe',
                     ],
                 ],
                 'categoria_producto' => [

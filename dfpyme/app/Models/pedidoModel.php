@@ -78,7 +78,8 @@ class pedidoModel extends Model
             id,
             propina,
             usuario_sistema.nombresusuario_sistema,
-            nota_pedido
+            nota_pedido,
+            fecha_creacion
         FROM
             pedido
         INNER JOIN usuario_sistema ON usuario_sistema.idusuario_sistema = pedido.fk_usuario
