@@ -78,7 +78,7 @@
                         <!-- Tarjeta fija "Todas las mesas" -->
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
                             <a href="#" id="cardtodas" class="card card-link" onclick="buscar_mesa_salon('todas')">
-                                <div class="card-body">Todas las mesas</div>
+                                <div class="card-body">TODAS LAS MESAS </div>
                             </a>
                         </div>
 
