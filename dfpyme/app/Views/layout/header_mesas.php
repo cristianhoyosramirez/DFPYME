@@ -411,9 +411,53 @@
                   </svg>
                   Productos con impuestos
                 </a>
+                <a class="dropdown-item text-green" href="<?= base_url() ?>/actualizacion/Bd">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-database">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 6m-8 0a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" />
+                    <path d="M4 6v6a8 3 0 0 0 16 0v-6" />
+                    <path d="M4 12v6a8 3 0 0 0 16 0v-6" />
+                  </svg>
+                  Sincronización
+                </a>
               </div>
           </li>
         <?php } ?>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#navbar-url" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+            <span class="text-purple">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-link">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 15l6 -6" />
+                <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" />
+                <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
+              </svg>
+            </span>
+            <span class="nav-link-title">
+              URL
+            </span>
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="<?= base_url() ?>/configuracion/sincronizar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-rotate-clockwise">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M4.05 11a8 8 0 1 1 .5 4m-.5 5v-5h5" />
+              </svg>
+              Sincronizar
+            </a>
+            <a class="dropdown-item" href="<?= base_url() ?>/configuracion/asignar">
+              <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Asignar
+            </a>
+          </div>
+        </li>
+
 
         <?php if ($user_session->tipo == 0 || $user_session->tipo == 1) { ?>
           <li class="nav-item dropdown">
@@ -452,6 +496,16 @@
             <?php endif ?>
             <div class="dropdown-menu">
 
+              <a class="dropdown-item" href="<?= base_url() ?>/pedidos/mesas">
+                <!-- Download SVG icon from http://tabler-icons.io/i/cup -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M5 11h14v-3h-14z" />
+                  <path d="M17.5 11l-1.5 10h-8l-1.5 -10" />
+                  <path d="M6 8v-1a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v1" />
+                  <path d="M15 5v-2" />
+                </svg> Dispositivos moviles
+              </a>
               <a class="dropdown-item" href="<?= base_url() ?>/pedidos/mesas">
                 <!-- Download SVG icon from http://tabler-icons.io/i/cup -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -955,7 +1009,7 @@
           </li>
         <?php } ?>
 
-        <!--  <?php if ($user_session->tipo == 0) { ?>
+<!--         <?php if ($user_session->tipo == 0) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
               <span class="text-blue">

@@ -228,7 +228,7 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/header_mesa.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/impresion_factura_electronica.js"></script>
 
- 
+
 
     <script>
         function buscar_mesa_salon(id) {
@@ -597,60 +597,6 @@
     </script>
 
 
-    <!-- 
-    <script>
-        function agregar_al_pedido_celular(id_producto,id_input) {
-
-            let url = document.getElementById("url").value;
-            let id_mesa = document.getElementById("id_mesa_pedido").value;
-            let id_usuario = document.getElementById("id_usuario").value;
-            let mesero = document.getElementById("mesero").value;
-            let cantidad = document.getElementById(id_input).value;
-
-
-
-            $.ajax({
-                data: {
-                    id_producto,
-                    id_mesa,
-                    id_usuario,
-                    mesero,
-                    cantidad
-                },
-                url: url + "/" + "pedidos/agregar_producto_celular",
-                type: "POST",
-                success: function(resultado) {
-                    var resultado = JSON.parse(resultado);
-                    if (resultado.resultado == 1) {
-
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-start',
-                            showConfirmButton: false,
-                            timer: 900,
-                            timerProgressBar: false,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseleave', Swal.resumeTimer);
-                            }
-                        });
-
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Agregado'
-                        });
-
-                        $('#mesa_productos').html(resultado.productos_pedido)
-                        $('#valor_pedido').html(resultado.total_pedido)
-                        $('#val_pedido').html(resultado.total_pedido)
-                        $('#pedido_mesa').html('Pedido: ' + resultado.numero_pedido)
-                        $('#subtotal_pedido').val(resultado.total_pedido)
-                        $('#input_cantidad').val(1)
-                    }
-                },
-            });
-
-        }
-    </script> -->
 
 
 
@@ -1917,29 +1863,11 @@
 
     <script>
         function calculo_propina_parcial() {
-            /* var subtotal = document.getElementById("valor_total_a_pagar").value;
-
-
-            var propina = subtotal * 0.10; // 10% en forma decimal
-
-            // Formatea la propina con separador de miles y coloca el resultado en un input
-            var inputPropina = document.getElementById("total_propina");
-            inputPropina.value = propina.toLocaleString('es-CO'); // Separador de miles 
-
-            var total = parseInt(subtotal) + parseInt(propina);
-
-
-            $('#total_pedido').html("Total: " + total.toLocaleString('es-CO'))
-            $('#pago').html("Valor pago : " + total.toLocaleString('es-CO'))
-            $('#efectivo').val(total.toLocaleString('es-CO'))
-            $('#valor_total_a_pagar').val(total) */
-
 
             let url = document.getElementById("url").value;
             let id_mesa = document.getElementById("id_mesa_pedido").value;
             let criterio_propina = document.getElementById("criterio_propina_final").value;
-
-
+            
             if (criterio_propina == 1) {
 
                 $.ajax({
@@ -1997,6 +1925,7 @@
     <script>
         function calcular_propina_final(propina) {
 
+         
             var criterio_propina = document.getElementById("criterio_propina_final").value;
             var subtotal = document.getElementById("valor_total_a_pagar").value;
             var id_mesa = document.getElementById("id_mesa_pedido").value;

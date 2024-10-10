@@ -10,6 +10,11 @@ use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
+require APPPATH . "Controllers/phpqrcode/qrlib.php";
+
+use QRcode;
+use SimpleSoftwareIO\QrCode\Generator;
+
 
 class Configuracion extends BaseController
 {
@@ -741,19 +746,6 @@ class Configuracion extends BaseController
 
     function borrado_masivo()
     {
-        /* 
-        $borrar_f_e = model('facturaElectronicaModel')->select('id')->where('id_status', 1)->findAll();
-
-        foreach ($borrar_f_e as $detalle) {
-            model('facturaElectronicaModel')->where('id', $detalle['id'])->delete();
-            model('pagosModel')->where('id_factura', $detalle['id'])->delete();
-            model('kardexModel')->where('id_factura', $detalle['id'])->delete();
-        }
-
-        $session = session();
-        $session->setFlashdata('iconoMensaje', 'success');
-        return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa '); */
-
 
         return view('configuracion/borrado_masivo');
     }
@@ -927,9 +919,14 @@ class Configuracion extends BaseController
             model('kardexModel')->where('id_factura', $detalle['id'])->delete();
         }
 
-        $session = session();
+        /*  $session = session();
         $session->setFlashdata('iconoMensaje', 'success');
-        return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa ');
+        return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa '); */
+
+        $returnData = array(
+            "resultado" => 1,
+        );
+        echo  json_encode($returnData);
     }
 
     function propina_parcial()
@@ -956,7 +953,7 @@ class Configuracion extends BaseController
         if ($tipo_propina['propina'] == 1) {
             $temp_propina = $valor_pedido[0]['valor_total'] * $porcentaje_propina;
             // Redondear la propina al valor más cercano a mil
-            $propina = round($temp_propina ) ;
+            $propina = round($temp_propina);
         } else {
             $propina = $valor_pedido[0]['valor_total'] * $porcentaje_propina;
         }
@@ -977,5 +974,49 @@ class Configuracion extends BaseController
             "total" => $propina + $valor_pedido[0]['valor_total']
         );
         echo  json_encode($returnData);
+    }
+
+    function sincronizar()
+    {
+        $url = model('configuracionPedidoModel')->select('url')->first();
+
+        if (!empty($url)) {
+            $qrcode = new Generator;
+            $qrCodes = [];
+            $qrCodes['simple'] = $qrcode->size(120)->generate($url['url']);
+            /* $qrCodes['changeColor'] = $qrcode->size(120)->color(255, 0, 0)->generate('https://www.binaryboxtuts.com/');
+        $qrCodes['changeBgColor'] = $qrcode->size(120)->color(0, 0, 0)->backgroundColor(255, 0, 0)->generate('https://www.binaryboxtuts.com/');
+          
+        $qrCodes['styleDot'] = $qrcode->size(120)->color(0, 0, 0)->backgroundColor(255, 255, 255)->style('dot')->generate('https://www.binaryboxtuts.com/');
+        $qrCodes['styleSquare'] = $qrcode->size(120)->color(0, 0, 0)->backgroundColor(255, 255, 255)->style('square')->generate('https://www.binaryboxtuts.com/');
+        $qrCodes['styleRound'] = $qrcode->size(120)->color(0, 0, 0)->backgroundColor(255, 255, 255)->style('round')->generate('https://www.binaryboxtuts.com/'); */
+
+            //$qrCodes['withImage'] = $qrcode->size(200)->format('png')->merge('img/logo.png', .4)->generate('https://www.binaryboxtuts.com/');
+            return view('qr/qr', $qrCodes);
+        }
+        if (empty($url)) {
+            $qrCodes = [];
+            $qrCodes['simple'] = "No se ha configurado la url para conectar dispositivos móviles";
+        }
+    }
+
+    function asignar(){
+
+        $url=model('configuracionPedidoModel')->select('url')->first();
+        return view('qr/asignar',[
+            'url'=>$url['url']
+        ]);
+    }
+
+    function actualizar_url(){
+        $url=$this->request->getPost('url_conexion');
+
+        $confi = model('configuracionPedidoModel')->set('url',$url)->update();
+
+        $returnData = array(
+            "resultado" => 1, //Falta plata  
+        );
+        echo  json_encode($returnData);
+        
     }
 }

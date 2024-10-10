@@ -159,7 +159,7 @@ Bienvenido DFpyme
                         </div>
                     </div>
                 <?php endif ?>
-                <?php $alturaCalc = "25rem + 10px"; // Calcula la altura 
+                <?php $alturaCalc = "30rem + 10px"; // Calcula la altura 
                 ?>
                 <?php # $venta_multiple = model('configuracionPedidoModel')->select('requiere_mesa')->first(); 
                 ?>

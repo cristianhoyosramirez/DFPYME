@@ -232,10 +232,19 @@ class kardexModel extends Model
     public function get_tarifa_iva($id_factura, $valor_iva)
     {
         $datos = $this->db->query("
-        select sum (iva) as iva from kardex where id_factura = $id_factura and valor_iva = $valor_iva
+        select sum (iva) as iva from kardex where id_factura = $id_factura and valor_iva = $valor_iva and id_estado = 8 
         ");
         return $datos->getResultArray();
     }
+
+    public function get_base_iva($id_factura, $valor_iva)
+    {
+        $datos = $this->db->query("
+        select sum (total) as total_iva from kardex where id_factura = $id_factura and valor_iva = $valor_iva and id_estado = 8 
+        ");
+        return $datos->getResultArray();
+    }
+    
     public function get_productos_factura($id_factura)
     {
         $datos = $this->db->query("

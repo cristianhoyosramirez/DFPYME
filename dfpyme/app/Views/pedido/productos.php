@@ -50,9 +50,9 @@
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
+            <br>
 
-    
         </div>
     <?php endforeach; ?>
 </div>

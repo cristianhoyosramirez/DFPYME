@@ -482,6 +482,7 @@ class Imprimir extends BaseController
             $impresion = $imp->imprimir_factura_electronica($id_factura);
         }
     }
+    
     function impresion_factura_electronica()
     {
 

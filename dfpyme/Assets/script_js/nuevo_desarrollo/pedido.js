@@ -62,4 +62,30 @@ function pedido(id_mesa, nombre_mesa) {
     $('#mesa_pedido').html(nombre_mesa);
     $("#producto").attr("readonly", false);
     $("#producto").focus();
+
+
+    let url = document.getElementById("url").value;
+
+    $.ajax({
+        data:{id_mesa},
+        url: url + "/" + "salones/consultar_mesa",
+        type: "POST",
+        success: function (resultado) {
+            var resultado = JSON.parse(resultado);
+            // Aquí puedes manejar el resultado como desees
+            if (resultado.resultado==1){
+                $('#mesa_productos').html(resultado.productos_pedido)
+                $('#valor_pedido').html(resultado.total_pedido)
+                $('#subtotal_pedido').val(resultado.sub_total)
+                $('#propina_del_pedido').val(resultado.propina)
+                $('#propina_pesos_final').val(resultado.propina)
+                sweet_alert_start('success','Venta con pedido')
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", status, error);
+        }
+    });
+
+
 }

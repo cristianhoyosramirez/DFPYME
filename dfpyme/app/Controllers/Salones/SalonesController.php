@@ -3,6 +3,7 @@
 namespace App\Controllers\Salones;
 
 use App\Controllers\BaseController;
+use App\Libraries\Propina;
 
 class SalonesController extends BaseController
 {
@@ -136,7 +137,7 @@ class SalonesController extends BaseController
         $nombre = model('salonesModel')->select('nombre')->where('id =', $id)->first();
         $existe_nombre = model('salonesModel')->select('nombre')->where('id !=', $id)->find();
 
-      /*   foreach ($existe_nombre as $detalle) {
+        /*   foreach ($existe_nombre as $detalle) {
             if ($detalle['nombre'] == $nombre['nombre']) {
                 $session = session();
                 $session->setFlashdata('iconoMensaje', 'error');
@@ -159,6 +160,81 @@ class SalonesController extends BaseController
             $session = session();
             $session->setFlashdata('iconoMensaje', 'error');
             return redirect()->to(base_url('salones/listado'))->with('mensaje', 'HUBO ERRORES DURANTE LA ACTUALIZACIÓN');
+        }
+    }
+
+
+    function consultar_mesa()
+    {
+        $id_mesa = $this->request->getPost('id_mesa');
+        //$id_mesa = 1;
+
+        $tiene_pedido = model('pedidoModel')->select('fk_mesa')->where('fk_mesa', $id_mesa)->first();
+
+
+        if (!empty($tiene_pedido)) {
+            $id_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
+            /*  $nombre = model('mesasModel')->select('nombre')->where('id', $id_mesa)->first();
+            $valor_pedido = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
+            $propina = model('pedidoModel')->select('propina')->where('fk_mesa', $id_mesa)->first();
+            $id_usuario = model('pedidoModel')->select('fk_usuario')->where('fk_mesa', $id_mesa)->first();
+            $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['fk_usuario'])->first();
+            $returnData = array(
+                "resultado" => 1,
+                "mesa" => view('gestion_mesas/mesas', [
+                    'id_mesa' => $id_mesa,
+                    'nombre' => $nombre['nombre'],
+                    'valor_pedido' => $valor_pedido['valor_total'],
+                    'propina' => $propina['propina'],
+                    'usuario'=>$nombre_usuario['nombresusuario_sistema']
+                ]),
+                'id'=>$id_mesa
+            ); */
+
+            $productos_pedido = model('productoPedidoModel')->producto_pedido($id_pedido['id']);
+            $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $id_pedido['id'])->first();
+            $propina = model('pedidoModel')->select('propina')->where('id', $id_pedido['id'])->first();
+
+            $configuracion_propina = model('configuracionPedidoModel')->select('calculo_propina')->first();
+
+            if ($configuracion_propina['calculo_propina'] == 't') {
+
+                $temp_propina = new Propina();
+                $propina = $temp_propina->calcularPropina($id_mesa);
+                $sub_total = $total_pedido['valor_total'];
+
+                $model = model('pedidoModel');
+                $configuracion = $model->set('propina', $propina['propina']);
+                $actualizar = $model->where('id', $id_pedido['id']);
+                $configuracion = $model->update();
+
+                $propina_final = $propina['propina'];
+            }
+
+            if ($configuracion_propina['calculo_propina'] == 'f') {
+
+                $propina_final = 0;
+            }
+
+            $returnData = array(
+                "resultado" => 1,
+                "productos_pedido" => view('pedidos/productos_pedido', [
+                    "productos" => $productos_pedido,
+                ]),
+                'id' => $id_mesa,
+                "sub_total" => number_format($total_pedido['valor_total'] + $propina_final, 0, ',', '.'),
+                "propina" => number_format($propina_final, 0, ',', '.'),
+                "total_pedido" =>  "$" . number_format($total_pedido['valor_total'], 0, ',', '.'),
+
+            );
+            echo  json_encode($returnData);
+        }
+
+        if (empty($tiene_pedido)) {
+            $returnData = array(
+                "resultado" => 0,
+            );
+            echo  json_encode($returnData);
         }
     }
 }

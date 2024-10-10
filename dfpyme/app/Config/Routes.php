@@ -41,6 +41,7 @@ $routes->group('salones', ['namespace' => 'App\Controllers\Salones', 'filter' =>
     $routes->post('save', 'salonesController::save');
     $routes->post('edit', 'salonesController::editar');
     $routes->post('update', 'salonesController::actualizar');
+    $routes->post('consultar_mesa', 'salonesController::consultar_mesa');
 });
 
 $routes->group('login', ['namespace' => 'App\Controllers\login'], function ($routes) {
@@ -491,7 +492,7 @@ $routes->group('inventario', ['namespace' => 'App\Controllers\pedidos', 'filter'
 
 $routes->group('eventos', ['namespace' => 'App\Controllers\Boletas', 'filter' => \App\Filters\Auth::class], function ($routes) {
     $routes->get('boletas', 'Boletas::boletas');
-    $routes->post('set_boletas', 'Boletas::set_boletas');
+    $routes->get('set_boletas', 'Boletas::set_boletas');
     $routes->get('consultar_boleta', 'Boletas::consultar_boleta');
     $routes->post('cliente', 'Boletas::cliente');
     $routes->post('actualizar_producto_porcentaje', 'Boletas::actualizar_producto_porcentaje');
@@ -604,7 +605,17 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('validar_pin', 'Configuracion::validar_pin');
     $routes->post('eliminacion_masiva', 'Configuracion::eliminacion_masiva');
     $routes->post('propina_parcial', 'Configuracion::propina_parcial');
+    $routes->get('sincronizar', 'Configuracion::sincronizar');
+    $routes->get('asignar','Configuracion::asignar');
+    $routes->post('update_url','Configuracion::actualizar_url');
 });
+
+
+$routes->group('actualizacion', ['namespace' => 'App\Controllers\actualizaciones', 'filter' => \App\Filters\Auth::class], function ($routes) {
+    $routes->get('Bd', 'ActualizacionesController::Bd'); 
+});
+
+$routes->get('/qr-codes', 'QrCodeGeneratorController::index');
 
 /*
  * --------------------------------------------------------------------
