@@ -980,7 +980,9 @@ class Configuracion extends BaseController
     {
         $url = model('configuracionPedidoModel')->select('url')->first();
 
-        if (!empty($url)) {
+    
+
+        if (!empty($url['url'])) {
             $qrcode = new Generator;
             $qrCodes = [];
             $qrCodes['simple'] = $qrcode->size(120)->generate($url['url']);
@@ -994,9 +996,10 @@ class Configuracion extends BaseController
             //$qrCodes['withImage'] = $qrcode->size(200)->format('png')->merge('img/logo.png', .4)->generate('https://www.binaryboxtuts.com/');
             return view('qr/qr', $qrCodes);
         }
-        if (empty($url)) {
+        if (empty($url['url'])) {
             $qrCodes = [];
-            $qrCodes['simple'] = "No se ha configurado la url para conectar dispositivos móviles";
+            $qrCodes['simple'] = "No se ha configurado la url para conectar dispositivos móviles";return view('qr/qr', $qrCodes);
+
         }
     }
 
