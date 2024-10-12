@@ -228,6 +228,53 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/header_mesa.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/impresion_factura_electronica.js"></script>
 
+    <script>
+        function actualizar_mesas_pedido() {
+            let url = document.getElementById("url").value;
+            $.ajax({
+
+                url: url + "/" + "reportes/actualizacion_estado_mesas",
+                type: "get",
+                success: function(resultado) {
+                    var resultado = JSON.parse(resultado);
+                    if (resultado.resultado == 1) {
+
+                        let mesas = resultado.mesas;
+
+                        mesas.forEach(function(mesa) {
+
+                            let card = `
+                                    <div class="cursor-pointer card card_mesas text-white bg-red-lt" onclick="pedido_mesa('${mesa.fk_mesa}', '${mesa.nombre}')" style="height: auto;">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <span class="avatar">
+                                                    <img src="${url}/Assets/img/ocupada.png" width="110" height="32" alt="${mesa.nombre}" class="navbar-brand-image">
+                                                </span>
+                                            </div>
+                                            <div class="col">
+                                                <div class="text-center">
+                                                    <strong style="font-size: 12px;">${mesa.nombre}</strong>
+                                                </div>
+                                                <div class="text-center"><strong style="font-size: 12px;">$${mesa.valor_total + mesa.propina}</strong></div>
+                                                <div class="text-center"><strong style="font-size: 12px; height: 1em; overflow: hidden;">${mesa.nombresusuario_sistema.substr(0, 10)}...</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+
+                            $('#UpdateMesa' + mesa.fk_mesa).html(card)
+                        });
+
+                        // Asumiendo que tienes una tabla con un cuerpo de tabla con el id "tabla-mesas"
+
+
+                    }
+                },
+            });
+        }
+        setInterval(actualizar_mesas_pedido, 1000);
+    </script>
+
+
 
 
     <script>
@@ -1867,7 +1914,7 @@
             let url = document.getElementById("url").value;
             let id_mesa = document.getElementById("id_mesa_pedido").value;
             let criterio_propina = document.getElementById("criterio_propina_final").value;
-            
+
             if (criterio_propina == 1) {
 
                 $.ajax({
@@ -1925,7 +1972,7 @@
     <script>
         function calcular_propina_final(propina) {
 
-         
+
             var criterio_propina = document.getElementById("criterio_propina_final").value;
             var subtotal = document.getElementById("valor_total_a_pagar").value;
             var id_mesa = document.getElementById("id_mesa_pedido").value;

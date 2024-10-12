@@ -13,4 +13,4 @@
             <div class="text-center"><strong style="font-size: 12px; height: 1em; overflow: hidden;"><?php echo substr($usuario, 0, 10) ?>...</strong></div>
         </div>
     </div>
-</div>>
+</div>

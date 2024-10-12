@@ -759,4 +759,32 @@ class ReportesController extends BaseController
             }
         }
     }
+
+    function  actualizacion_estado_mesas()
+    {
+        $mesas = model('pedidoModel')->update_mesa();
+
+     /*    foreach ($mesas as $detalle) {
+
+            $returnData = array(
+                "resultado" => 1,
+                "mesa" => view('gestion_mesas/mesas', [
+                    'id_mesa' => $detalle['fk_mesa'],
+                    'nombre' => $detalle['nombre'],
+                    'valor_pedido' => $detalle['valor_total'],
+                    'propina' => $detalle['propina'],
+                    'usuario' => $detalle['nombresusuario_sistema']
+                ]),
+                'id_mesa' => $detalle['fk_mesa']
+            );
+
+            echo  json_encode($returnData);
+        } */
+        $returnData = array(
+            "resultado" => 1,
+             "mesas"=>$mesas
+        );
+
+        echo  json_encode($returnData);
+    }
 }

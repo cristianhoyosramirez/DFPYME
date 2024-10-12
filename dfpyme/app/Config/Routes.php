@@ -565,6 +565,7 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->get('reporte_de_ventas_fecha', 'ReportesController::reporte_de_ventas_fecha');
     $routes->post('comprobar_fechas', 'ReportesController::comprobar_fechas');
     $routes->post('actualizar_fechas', 'ReportesController::actualizar_fechas');
+    $routes->get('actualizacion_estado_mesas', 'ReportesController::actualizacion_estado_mesas');
 });
 
 $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -613,6 +614,9 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
 
 $routes->group('actualizacion', ['namespace' => 'App\Controllers\actualizaciones', 'filter' => \App\Filters\Auth::class], function ($routes) {
     $routes->get('Bd', 'ActualizacionesController::Bd'); 
+    $routes->get('parametrizacion', 'ParametrizacionController::parametrizacion'); 
+    $routes->post('actualizar_codigo', 'ParametrizacionController::actualizar_codigo'); 
+    $routes->post('actualizar_altura', 'ParametrizacionController::actualizar_altura'); 
 });
 
 $routes->get('/qr-codes', 'QrCodeGeneratorController::index');

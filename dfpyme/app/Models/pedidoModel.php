@@ -88,4 +88,22 @@ class pedidoModel extends Model
         ");
         return $datos->getResultArray();
     }
+    public function update_mesa()
+    {
+        $datos = $this->db->query("
+        SELECT
+            fk_mesa,
+            mesas.nombre,
+            pedido.fk_usuario,
+            usuario_sistema.nombresusuario_sistema,
+            valor_total,
+            propina
+            
+        FROM
+            pedido
+        INNER JOIN mesas ON mesas.id = pedido.fk_mesa
+        INNER JOIN usuario_sistema ON usuario_sistema.idusuario_sistema = pedido.fk_usuario
+        ");
+        return $datos->getResultArray();
+    }
 }

@@ -3,21 +3,23 @@
         <?php $tiene_pedido = model('pedidoModel')->pedido_mesa($detalle['id']); ?>
         <?php if (empty($tiene_pedido)) : ?>
             <li>
-                <div id="mesa<?php $detalle['id'] ?> "class="cursor-pointer card card_mesas text-white bg-green-lt" onclick="pedido('<?php echo $detalle['id'] ?>','<?php echo $detalle['nombre'] ?>')">
-                    <div class="row">
-                        <div class="col-3">
-                            <span class="avatar">
-                                <img src="<?php echo base_url(); ?>/Assets/img/libre.png" width="110" height="32" alt="Macondo" class="navbar-brand-image">
-                            </span>
-                        </div>
-                        <div class="col">
-                            <div class="text-center">
-                                <strong><?php echo $detalle['nombre'] ?></strong>
-                                <span id="datos"></span>
+                <div id="UpdateMesa<?php echo $detalle['id'] ?>">
+                    <div id="mesa<?php echo $detalle['id'] ?>" class="cursor-pointer card card_mesas text-white bg-green-lt" onclick="pedido('<?php echo $detalle['id'] ?>','<?php echo $detalle['nombre'] ?>')">
+                        <div class="row">
+                            <div class="col-3">
+                                <span class="avatar">
+                                    <img src="<?php echo base_url(); ?>/Assets/img/libre.png" width="110" height="32" alt="Macondo" class="navbar-brand-image">
+                                </span>
+                            </div>
+                            <div class="col">
+                                <div class="text-center">
+                                    <strong><?php echo $detalle['nombre'] ?></strong>
+                                    <span id="datos"></span>
+                                </div>
+
                             </div>
 
                         </div>
-
                     </div>
                 </div>
             </li>
@@ -28,7 +30,7 @@
 
 
             <li>
-                <div class="cursor-pointer card card_mesas text-white bg-red-lt" onclick="pedido_mesa('<?php echo $detalle['id'] ?>','<?php echo $detalle['nombre'] ?>')" style="height: auto;">
+                <div class="cursor-pointer card card_mesas text-white bg-red-lt" id="mesa<?php echo $detalle['id'] ?>" onclick="pedido_mesa('<?php echo $detalle['id'] ?>','<?php echo $detalle['nombre'] ?>')" style="height: auto;">
                     <div class="row">
                         <div class="col-3">
                             <span class="avatar">

@@ -153,8 +153,8 @@
                     <rect x="7" y="13" width="10" height="8" rx="2" />
                   </svg> Impresoras
                 </a>
-                <a class="dropdown-item" href="<?= base_url() ?>/configuracion/estacion_trabajo">
-                  <!-- Download SVG icon from http://tabler-icons.io/i/receipt-tax -->
+                <!-- <a class="dropdown-item" href="<?= base_url() ?>/configuracion/estacion_trabajo">
+                  
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <line x1="9" y1="14" x2="15" y2="8" />
@@ -162,7 +162,7 @@
                     <circle cx="14.5" cy="13.5" r=".5" fill="currentColor" />
                     <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2" />
                   </svg> Estación de trabajo
-                </a>
+                </a> -->
 
                 <!--
                  <a class="dropdown-item" href="<?= base_url() ?>/pre_factura/impresora">
@@ -212,8 +212,9 @@
                     <path d="M12 16l1 1l3 -3" />
                   </svg>Lista precios
                 </a> -->
-                <a class="dropdown-item" href="<?= base_url() ?>/devolucion/listado">
-                  <!-- Download SVG icon from http://tabler-icons.io/i/clipboard -->
+
+               <!--  <a class="dropdown-item" href="<?= base_url() ?>/devolucion/listado">
+                  
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
@@ -221,14 +222,15 @@
                   </svg>Cuentas retiro de dinero
                 </a>
                 <a class="dropdown-item" href="<?= base_url() ?>/devolucion/rubros_listado">
-                  <!-- Download SVG icon from http://tabler-icons.io/i/clipboard -->
+                  
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
                     <rect x="9" y="3" width="6" height="4" rx="2" />
                   </svg>
                   Rubros cuenta retiro
-                </a>
+                </a> -->
+
                 <a class="dropdown-item" href="<?= base_url() ?>/empresa/datos">
                   <!-- Download SVG icon from http://tabler-icons.io/i/businessplan -->
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -355,6 +357,14 @@
                   </svg>
                   Gestión
                 </a>
+                <a class="dropdown-item" href="<?= base_url() ?>/actualizacion/parametrizacion">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M19 19h-11l-4 -4a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9 9" />
+                    <line x1="18" y1="12.3" x2="11.7" y2="6" />
+                  </svg>
+                  Gestión de pedidos 
+                </a>
                 <a class="dropdown-item" href="<?= base_url() ?>/configuracion/comanda">
                   <!-- Download SVG icon from http://tabler-icons.io/i/list-details -->
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -420,6 +430,7 @@
                   </svg>
                   Sincronización
                 </a>
+               
               </div>
           </li>
         <?php } ?>

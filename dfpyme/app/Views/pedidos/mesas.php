@@ -159,7 +159,12 @@ Bienvenido DFpyme
                         </div>
                     </div>
                 <?php endif ?>
-                <?php $alturaCalc = "30rem + 10px"; // Calcula la altura 
+                <?php
+
+                $temp_altura = model('configuracionPedidoModel')->select('altura')->first();
+                $altura = $temp_altura['altura'];
+                //$alturaCalc = "30rem + 10px"; // Calcula la altura 
+                $alturaCalc = $altura . "rem + 10px";
                 ?>
                 <?php # $venta_multiple = model('configuracionPedidoModel')->select('requiere_mesa')->first(); 
                 ?>
@@ -176,7 +181,7 @@ Bienvenido DFpyme
                                         <li>
                                             <button type="button" class="btn btn-outline-indigo btn-pill btn-sm" id="categoria_<?php #echo $detalle['codigocategoria'] 
                                                                                                                                 ?>" onclick="productos_categoria(<?php #echo $detalle['codigocategoria'] 
-                                                                                                                                                                                                        ?>)">
+                                                                                                                                                                    ?>)">
                                                 <?php #echo $detalle['nombrecategoria'] 
                                                 ?>
                                             </button>
@@ -485,9 +490,11 @@ Bienvenido DFpyme
                                             Pago parcial
                                         </a>
                                     </div>
-                                    
+
                                     <a href="#" class="card card-link card-link-pop">
-                                        <div class="card-body"><p class="text-primary bold" id="ventas_electronicas">Total ventas electrónicas:</p></div>
+                                        <div class="card-body">
+                                            <p class="text-primary bold" id="ventas_electronicas">Total ventas electrónicas:</p>
+                                        </div>
                                     </a>
                                 <?php endif ?>
                             </div>

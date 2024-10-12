@@ -159,8 +159,15 @@ class productoController extends BaseController
                     $cantidad = $cantidad_producto['cantidad_inventario'];
                 }
 
+                $codigo_pantalla = model('configuracionPedidoModel')->select('codigo_pantalla')->first();
 
-                $data['value'] =  $row['codigointernoproducto'] . " " . "/" . " " . $row['nombreproducto'];
+                //$data['value'] =  $row['codigointernoproducto'] . " " . "/" . " " . $row['nombreproducto'];
+                if ($codigo_pantalla['codigo_pantalla'] == 't') {
+                    $data['value'] =  $row['codigointernoproducto'] . " " . "/" . " " . $row['nombreproducto'] . "  " . "$ " . number_format($row['valorventaproducto'], 0, ",", ".");
+                }
+                if ($codigo_pantalla['codigo_pantalla'] == 'f') {
+                    $data['value'] =  $row['nombreproducto'] . "  " . "$ " . number_format($row['valorventaproducto'], 0, ",", ".");
+                }
                 $data['id_producto'] = $row['codigointernoproducto'];
                 $data['nombre_producto'] = $row['nombreproducto'];
                 $data['valor_venta'] = $row['valorventaproducto'];

@@ -19,7 +19,7 @@
 </style>
 
 <?php $id_tipo = model('empresaModel')->select('fk_tipo_empresa')->first() ?>
-
+<?php $codigo_pantalla = model('configuracionPedidoModel')->select('codigo_pantalla')->first(); ?>
 
 <?php foreach ($productos as $detalle) {  ?>
 
@@ -30,7 +30,14 @@
         <?php if ($id_tipo['fk_tipo_empresa'] == 1) : ?>
 
             <div class="col-3 col-md-12 col-lg-3">
-                <?php echo $detalle['nombreproducto'] . "  "; ?>
+                <?php if ($codigo_pantalla['codigo_pantalla'] == "t"): ?>
+                    <?php echo "Código " . $detalle['codigointernoproducto'] . "</br>";
+                    echo $detalle['nombreproducto'] . "  "; ?>
+                <?php endif ?>
+                <?php if ($codigo_pantalla['codigo_pantalla'] == "f"): ?>
+                    <?php echo $detalle['nombreproducto']; ?>
+                <?php endif ?>
+
                 <?php if (!empty($detalle['nota_producto'])) { ?>
                     <p class="text-primary fw-bold"><?php echo $detalle['nota_producto'] ?></p>
                 <?php } ?>
@@ -104,7 +111,16 @@
 
             <div class="row">
                 <div class="col-12 col-sm-5 col-md-4 col-lg-6">
-                    <?php echo $detalle['nombreproducto'] . "  "; ?>
+
+                    <?php if ($codigo_pantalla['codigo_pantalla'] == "t"): ?>
+                        <?php echo "Código " . $detalle['codigointernoproducto'] . "</br>";
+                        echo $detalle['nombreproducto'] . "  "; ?>
+                    <?php endif ?>
+                    <?php if ($codigo_pantalla['codigo_pantalla'] == "f"): ?>
+                        <?php echo $detalle['nombreproducto']; ?>
+                    <?php endif ?>
+
+
                     <?php if (!empty($detalle['nota_producto'])) { ?>
                         <p class="text-primary fw-bold"><?php echo $detalle['nota_producto'] ?></p>
                     <?php } ?>
@@ -158,7 +174,17 @@
 
             <div class="row">
                 <div class="col-12 col-sm-5 col-md-4 col-lg-4">
-                    <?php echo $detalle['nombreproducto'] . "  "; ?>
+
+
+                    <?php if ($codigo_pantalla['codigo_pantalla'] == "t"): ?>
+                        <?php echo "Código " . $detalle['codigointernoproducto'] . "</br>";
+                        echo $detalle['nombreproducto'] . "  "; ?>
+                    <?php endif ?>
+                    <?php if ($codigo_pantalla['codigo_pantalla'] == "f"): ?>
+                        <?php echo $detalle['nombreproducto']; ?>
+                    <?php endif ?>
+
+
                     <?php if (!empty($detalle['nota_producto'])) { ?>
                         <p class="text-primary fw-bold"><?php echo $detalle['nota_producto'] ?></p>
                     <?php } ?>
@@ -306,7 +332,7 @@
     function precio_manual(precio, id) {
 
         let url = document.getElementById("url").value;
-        let cantidad = $('#input_cantidad'+id).val();
+        let cantidad = $('#input_cantidad' + id).val();
         valor = precio.trim() === '' ? 0 : parseInt(precio.replace(/\./g, ''));
 
         $.ajax({
