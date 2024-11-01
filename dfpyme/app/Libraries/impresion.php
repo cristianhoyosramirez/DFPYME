@@ -255,7 +255,7 @@ class impresion
 
     function imprimir_factura_electronica($id_factura)  // Cuando es prefactura 
     {
-        
+
         $id_factura = $id_factura;
         //$id_factura = 24;
         $id_impresora = model('cajaModel')->select('id_impresora')->first();
@@ -328,7 +328,7 @@ class impresion
 
             $printer->setTextSize(1, 1);
             $printer->text("Cod." . $productos['codigo'] . "      " . $productos['descripcion'] . "\n");
-            $printer->text("Cant. " . $productos['cantidad'] . "      " . "$" . number_format($productos['neto'], 0, ',', '.') . "                   " . "$" . number_format($productos['neto'] * $productos['cantidad'], 0, ',', '.') . "\n");
+            $printer->text("Cant. " . $productos['cantidad'] . "      " . "$" . number_format($productos['neto'] / $productos['cantidad'], 0, ',', '.') . "                   " . "$" . number_format($productos['neto'], 0, ',', '.') . "\n");
             if (!empty($productos['nota_producto'])) {
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text("NOTAS:\n");
@@ -439,7 +439,7 @@ class impresion
 
                 $printer->text(str_pad("TARIFA", 10, " ") . str_pad("BASE", 10, " ") . str_pad("IVA", 10, " ") . "VENTA\n");
 
-              /*   foreach ($iva_tarifa as $detalle) {
+                /*   foreach ($iva_tarifa as $detalle) {
                     $iva = model('kardexModel')->get_tarifa_iva($id_factura, $detalle['valor_iva']);
 
                     $tarifa = $detalle['valor_iva'] . " %";
@@ -470,7 +470,9 @@ class impresion
         $printer->text("_______________________________________________ \n\n");
         $nota = model('facturaElectronicaModel')->select('nota')->where('id', $id_factura)->first();
         $printer->setJustification(Printer::JUSTIFY_LEFT);
-        $printer->text("Nota:" . $nota['nota']);
+        if (!empty($nota['nota'])) {
+            $printer->text("Nota:" . $nota['nota']);
+        }
         $printer->text("\n");
         $printer->text("\n");
         $total = model('facturaElectronicaModel')->select('total')->where('id', $id_factura)->first();
@@ -705,8 +707,8 @@ class impresion
                 }
             }
 
-           
-        
+
+
             if (!empty($iva_tarifa)) {
 
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -769,7 +771,9 @@ class impresion
 
         $nota = model('facturaElectronicaModel')->select('nota')->where('id', $id_factura)->first();
         $printer->setJustification(Printer::JUSTIFY_LEFT);
-        $printer->text("Nota:" . $nota['nota']);
+        if (!empty($nota['nota'])) {
+            $printer->text("Nota:" . $nota['nota']);
+        }
         $printer->text("\n");
         $printer->text("\n");
         $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -1174,7 +1178,11 @@ class impresion
         $fecha_cierre = model('cierreModel')->select('fecha')->where('idapertura', $id_apertura)->first();
         $hora_cierre = model('cierreModel')->select('hora')->where('idapertura', $id_apertura)->first();
         $printer->text("Fecha de apertura:     " . $fecha_apertura['fecha'] . "   " . $hora_apertura['hora'] . "\n");
-        $printer->text("Fecha de cierre:       " .     $fecha_cierre['fecha'] . "   " . $hora_cierre['hora'] . "\n");
+
+        if (!empty($fecha_cierre['fecha'])) {
+            $printer->text("Fecha de cierre:       " .     $fecha_cierre['fecha'] . "   " . $hora_cierre['hora'] . "\n");
+        }
+
         $printer->text("Fecha de impresion:    " . date('Y-m-d') . "\n");
 
 

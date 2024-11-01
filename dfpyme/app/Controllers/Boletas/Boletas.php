@@ -1499,4 +1499,93 @@ class Boletas extends BaseController
         );
         echo  json_encode($returnData);
     }
+
+    public function consultar_entradas()
+    {
+
+        $valor_buscado = $_GET['search']['value'];
+
+        /**
+         * Tipo de busqueda
+         * Al cargar la tabla se hace un busqueda de todas las compras 
+         * hay otro criterio que es entre fechas , por fechas y proveedor y solo proveedor 
+         */
+
+        $busqueda = $this->request->getGet('buscar_por');
+
+        if ($busqueda == "general") {
+            $sql = new tipo_consulta();
+            $temp_sql = $sql->getAllCompras();
+        }
+
+        //$sql_count = '';
+        //$sql_data = '';
+
+        $sql_count = $temp_sql['sql_count'];
+        $sql_data = $temp_sql['sql_data'];
+
+
+        $table_map = [
+            0 => 'id',
+            1 => 'fecha_ingreso',
+            2 => 'nitproveedor',
+            3 => 'usuario',
+            4 => 'nombre_proveedor',
+
+        ];
+
+
+        $condition = "";
+
+        if (!empty($valor_buscado)) {
+            $condition .= " AND cliente.nitcliente ILIKE '%" . $valor_buscado . "%'";
+            $condition .= " OR cliente.nombrescliente ILIKE '%" . $valor_buscado . "%'";
+            $condition .= " OR documento ILIKE '%" . $valor_buscado . "%'";
+        }
+
+        $sql_count .= $condition;
+        $sql_data .= $condition;
+
+        $total_count = $this->db->query($sql_count)->getRow();
+
+        $sql_data .= " ORDER BY " . $table_map[$_GET['order'][0]['column']] . " " . $_GET['order'][0]['dir'] . " " . "LIMIT " . $_GET['length'] . " OFFSET " . $_GET['start'];
+
+        $datos = $this->db->query($sql_data)->getResultArray();
+
+
+
+
+        foreach ($datos as $detalle) {
+            $sub_array = array();
+
+            $total = model('ComprasModel')->total_compra($detalle['id']);
+
+            $sub_array[] =  $detalle['fecha_ingreso'];
+            $sub_array[] =  $detalle['nombre_proveedor'];
+            $sub_array[] =  $detalle['nitproveedor'];
+            $sub_array[] =  number_format($total[0]['total_compra'], 0, ',', '.');
+            $sub_array[] =  $detalle['usuario'];
+            $sub_array[] =  $sub_array[] = '
+                <a  class="btn btn-outline-success btn-icon " title="Imprimir compra " onclick="imprimir_compra(' . $detalle['id'] . ')" >
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" /><path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" /><rect x="7" y="13" width="10" height="8" rx="2" /></svg>
+                </a>
+
+              <a  class="btn bg-outline-muted-lt btn-icon " title="Ver productos" onclick="detalle_compra(' . $detalle['id'] . ')"  ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
+               </a>
+               ';
+
+            $data[] = $sub_array;
+        }
+
+        $json_data = [
+            'draw' => intval($this->request->getGEt(index: 'draw')),
+            'recordsTotal' => $total_count->total,
+            'recordsFiltered' => $total_count->total,
+            'data' => $data,
+
+        ];
+
+        echo  json_encode($json_data);
+    }
 }

@@ -323,8 +323,6 @@ class ReportesController extends BaseController
         $temp_token = model('credencialesWebServerModel')->select('auth_token')->first();
         $auth_token = $temp_token['auth_token'];
 
-        // token
-
         // UUID
         $temp_uui = model('facturaElectronicaModel')->select('transaccion_id')->where('id', $id_factura)->first();
         $uuid = $temp_uui['transaccion_id'];
@@ -344,7 +342,6 @@ class ReportesController extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            //URLOPT_URL => 'https://api.dataico.com/direct/dataico_api/v2/invoices/01917fc9-9f67-89c9-b7e5-75a873d4d679',
             CURLOPT_URL => "https://api.dataico.com/direct/dataico_api/v2/invoices/" . $uuid,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
@@ -368,7 +365,6 @@ class ReportesController extends BaseController
 }',
             CURLOPT_HTTPHEADER => array(
                 'Content-type: application/json',
-                //'Auth-token: a2a9e4f80af0247afca0361a1dc7598b',
                 "Auth-token: $auth_token",
                 'Cookie: AWSALBAPP-0=_remove_; AWSALBAPP-1=_remove_; AWSALBAPP-2=_remove_; AWSALBAPP-3=_remove_; AWSALBTG=uMZLBK0WU1PwqbynnHdko4gx+9nQg8DtBGFWnLxkXe8Pp1rojcX4mD0eZkSXIhO4c8Xu/HkZIVSMldORtc+68wrPva0RmlTFv04i8Esll/36I4e2Hem/XxBVX9gP9wCk6c0saPYN7WisNLXasHRjbMAS4CvGWJpYuFlTELKDwUb/0Pjn280=; AWSALBTGCORS=uMZLBK0WU1PwqbynnHdko4gx+9nQg8DtBGFWnLxkXe8Pp1rojcX4mD0eZkSXIhO4c8Xu/HkZIVSMldORtc+68wrPva0RmlTFv04i8Esll/36I4e2Hem/XxBVX9gP9wCk6c0saPYN7WisNLXasHRjbMAS4CvGWJpYuFlTELKDwUb/0Pjn280='
             ),
@@ -378,10 +374,8 @@ class ReportesController extends BaseController
         $err = curl_error($curl);
 
         curl_close($curl);
-        //echo $response;
 
         if ($err) {
-            //echo "cURL Error #:" . $err;
 
             $returnData = array(
                 "resultado" => 2,  // Se actulizo el registro 
@@ -392,16 +386,10 @@ class ReportesController extends BaseController
             // Decodifica el JSON a un array asociativo
             $responseData = json_decode($response, true);
 
-            //echo $responseData['invoice']['payment_means_type'];
-
 
             $id_status = "";
 
             $responseData = json_decode($response, true);
-
-            //echo $responseData['qrcode'];
-
-            //$pattern = '/QRCode=([^\s]+)/';
             $pattern = '/QRCode=([^?]+)\?documentkey=([^\s]+)/';
             $matches = array();
 
@@ -409,10 +397,8 @@ class ReportesController extends BaseController
 
                 $baseUrl = $matches[1];
                 $documentKey = $matches[2];
-                //echo "QR Code URL: " . $qrCodeUrl;
+
                 $completeUrl = $baseUrl  . $documentKey;
-                //echo "QR Code URL completa: "."?documentkey=". $completeUrl;
-                // echo  $baseUrl . "?documentkey=" . $documentKey;  ESTA ES LA VALIDA 
             } else {
                 echo "QRCode no encontrado.";
             }
@@ -764,25 +750,167 @@ class ReportesController extends BaseController
     {
         $mesas = model('pedidoModel')->update_mesa();
 
-     /*    foreach ($mesas as $detalle) {
 
-            $returnData = array(
-                "resultado" => 1,
-                "mesa" => view('gestion_mesas/mesas', [
-                    'id_mesa' => $detalle['fk_mesa'],
-                    'nombre' => $detalle['nombre'],
-                    'valor_pedido' => $detalle['valor_total'],
-                    'propina' => $detalle['propina'],
-                    'usuario' => $detalle['nombresusuario_sistema']
-                ]),
-                'id_mesa' => $detalle['fk_mesa']
-            );
-
-            echo  json_encode($returnData);
-        } */
         $returnData = array(
             "resultado" => 1,
-             "mesas"=>$mesas
+            "mesas" => $mesas
+        );
+
+        echo  json_encode($returnData);
+    }
+
+    function productos_pedido()
+    {
+        $id_mesa = $this->request->getPost('id_mesa');
+        $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
+        $total_pedido = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
+        $propina = model('pedidoModel')->select('propina')->where('fk_mesa', $id_mesa)->first();
+
+        $productos_pedido = model('productoPedidoModel')->producto_pedido($pedido['id']);
+
+        $returnData = array(
+            "resultado" => 1,
+            "productos_pedido" => view('pedidos/productos_pedido', [
+                "productos" => $productos_pedido,
+            ]),
+            "total_pedido" =>  "$" . number_format($total_pedido['valor_total'], 0, ',', '.'),
+            "sub_total" => number_format($total_pedido['valor_total'] + $propina['propina'], 0, ',', '.'),
+            "propina" => number_format($propina['propina'], 0, ',', '.'),
+
+        );
+        echo  json_encode($returnData);
+    }
+
+    function reporte_movimiento()
+    {
+
+        $truncate = model('TempMovModel')->truncate();
+        $codigo_producto = $this->request->getPost('producto');
+        $movimiento = $this->request->getPost('movimiento');
+        $fecha_inicial = $this->request->getPost('fecha_inicial');
+        $fecha_final = $this->request->getPost('fecha_final');
+        $usuario_consulta = $this->request->getPost('id_usuario');
+
+
+
+        /* $codigo_producto = 88;
+        $movimiento = 3;
+        $fecha_inicial = date('Y-m-d');
+        $fecha_final = date('Y-m-d');
+        $usuario_consulta = 6; */
+
+
+
+
+
+        // Mapeo de movimientos
+        $operaciones = [
+            1 => 1, // Entradas
+            2 => 2, // Salidas
+            3 => null // Todas las operaciones
+        ];
+        //Determinar la operación según el movimiento
+        $id_operacion = isset($operaciones[$movimiento]) ? $operaciones[$movimiento] : null;
+
+        // Obtener los movimientos
+        if ($id_operacion !== null) {
+            //$movimientos = model('EntradasSalidasModel')->where('id_operacion', $id_operacion)->findAll();
+            $movimientos = model('EntradasSalidasModel')->getMovimientos($movimiento, $fecha_inicial, $fecha_final);
+        } else {
+            $movimientos = model('EntradasSalidasModel')->findAll();
+        }
+
+        $datosParaInsertar = [];
+
+
+        foreach ($movimientos as $detalle) {
+
+            switch ($detalle['tabla']) {
+                case $detalle['tabla'] == 'factura_proveedor':
+                    $fecha = $detalle['fecha'];
+                    $movimiento = 'Compra proveedor';
+                    $usuario = model('FacturaCompraModel')->getUsuario($detalle['id_documento']);
+                    $documento = model('FacturaCompraModel')->select('numerofactura_proveedor')->where('numeroconsecutivofactura_proveedor', $detalle['id_documento'])->first();
+                    $nota = model('FacturaCompraModel')->select('nota')->where('numeroconsecutivofactura_proveedor', $detalle['id_documento'])->first();
+                    $datos = model('ComprasModel')->getProductosCompra($detalle['id_documento']);
+                    foreach ($datos  as $key) {
+                        $data_temp = [
+
+                            'movimiento' => $movimiento,
+                            'producto' => $key['nombreproducto'],
+                            'cantidad_inicial' => $key['inventario_anterior'],
+                            'cantidad_final' => $key['inventario_actual'],
+                            'usuario' => $usuario[0]['nombresusuario_sistema'],
+                            'id_usuario' => 6,
+                            'cantidad_movi' => $key['cantidad_movimiento'],
+                            'fecha' => $fecha,
+                            'documento' => $documento['numerofactura_proveedor'],
+                            'nota' => $nota['nota'],
+                        ];
+                        $insert_temp = model('TempMovModel')->insert($data_temp);
+                    }
+                    break;
+                case $detalle['tabla'] == 'entradas_salidas_manuales':
+
+
+                    $fecha = $detalle['fecha'];
+                    //$ids = model('EntradasSalidasManualesModel')->select('id_concepto,id_usuario')->where('id', $detalle['id_documento'])->first();
+                    $datos = model('EntradasSalidasModel')->Entradas_salidas($detalle['id_documento']);
+                    //$movimiento=model('KardexConceptoModel')->select('nombre')->where('id',$ids['id_concepto'])->first();
+
+                    $usuario = $datos[0]['usuario'];
+                    $concepto_kardex = $datos[0]['concepto_kardex'];
+
+
+                    $data_temp = [
+
+                        'movimiento' => $concepto_kardex,
+                        'producto' => $datos[0]['nombreproducto'],
+                        'cantidad_inicial' => $datos[0]['inventario_anterior'],
+                        'cantidad_final' => $datos[0]['inventario_actual'],
+                        'usuario' => $datos[0]['usuario'],
+                        'id_usuario' => 6,
+                        'cantidad_movi' => $datos[0]['cantidad'],
+                        'fecha' => $datos[0]['fecha'],
+                        'documento' => $datos[0]['id'],
+                        'nota' => $datos[0]['nota']
+                    ];
+                    $insert_temp = model('TempMovModel')->insert($data_temp);
+                    break;
+                case $detalle['tabla'] == 'documento_electronico':
+
+                    $movimientos_electronicos = model('EntradasSalidasModel')->getDatosVentas($codigo_producto, $detalle['id_documento']);
+
+                    $id_usuario = model('pagosModel')->select('id_usuario_facturacion')->where('id_factura', $detalle['id_documento'])->where('id_estado', 8)->first();
+                    $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['id_usuario_facturacion'])->first();
+
+                    if (!empty($movimientos_electronicos)) {
+                        $data_temp = [
+                            'movimiento' => 'VENTAS',
+                            'producto' => $movimientos_electronicos[0]['nombreproducto'],
+                            'cantidad_inicial' => $movimientos_electronicos[0]['inventario_anterior'],
+                            'cantidad_final' => $movimientos_electronicos[0]['inventario_actual'],
+                            'usuario' => $nombre_usuario['nombresusuario_sistema'],
+                            'id_usuario' => 6,
+                            'cantidad_movi' => $movimientos_electronicos[0]['cantidad'],
+                            'fecha' => $movimientos_electronicos[0]['fecha'],
+                            'documento' => $movimientos_electronicos[0]['numero'],
+                            'nota' => ''
+                        ];
+                        $insert_temp = model('TempMovModel')->insert($data_temp);
+                    }
+
+                    break;
+            }
+        }
+
+
+
+        $datos_finales = model('TempMovModel')->where('id_usuario', $usuario_consulta)->findAll();
+
+        $returnData = array(
+            "resultado" => 1,
+            "datos" => $datos_finales
         );
 
         echo  json_encode($returnData);

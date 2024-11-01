@@ -100,4 +100,125 @@ class impresionFacturaController extends BaseController
             return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Antes de realizar esta accion primero se deben de cerrar los pedidos actuales ');
         }
     }
+
+    function proveedor()
+    {
+
+
+        $proveedores = model('ProveedorModel')->select('id, nombrecomercialproveedor, nitproveedor, direccionproveedor, telefonoproveedor')->orderBy('id', 'desc')->findAll();
+
+        return view('proveedor/proveedor', [
+            'proveedores' => $proveedores
+        ]);
+    }
+
+    function crear_proveedor()
+    {
+
+
+        $json = file_get_contents('php://input');
+
+        // Decodifica el JSON a un array asociativo
+        $data = json_decode($json, true);
+
+        $nit = $data['nit'];
+        $nombre = $data['nombre'];
+        $direccion = $data['direccion'];
+        $telefono = $data['telefono'];
+
+
+        $consecutivo = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 1)->first();
+
+        $data = [
+            'codigointernoproveedor' => $consecutivo['numeroconsecutivo'],
+            //'codigointernoproveedor' => '2',
+            'nitproveedor' => $nit,
+            'idregimen' => 1,
+            'razonsocialproveedor' => $nombre,
+            'nombrecomercialproveedor' => $nombre,
+            'descripcionproveedor' => $nombre,
+            'direccionproveedor' => $direccion,
+            'idciudad' => 319,
+            'telefonoproveedor' => $telefono,
+            'celularproveedor' => $telefono,
+            'faxproveedor' => '00',
+            'emailproveedor' => "",
+            'webproveedor' => "",
+            'estadoproveedor' => true,
+
+        ];
+        $insert = model('ProveedorModel')->insert($data);
+        $proveedores = model('ProveedorModel')->select('id, nombrecomercialproveedor, nitproveedor, direccionproveedor, telefonoproveedor')->orderBy('id', 'desc')->findAll();
+
+        if ($insert) {
+
+            $nuevo_consecutivo = model('consecutivosModel')
+                ->set('numeroconsecutivo', $consecutivo['numeroconsecutivo'] + 1)
+                ->where('idconsecutivos', 1)
+                ->update();
+
+
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Datos guardados exitosamente',
+                'proveedores' => $proveedores
+            ]);
+        }
+    }
+
+    function editar_proveedor()
+    {
+        $id = $this->request->getPost('id');
+
+        $datos = $proveedores = model('ProveedorModel')->select('id, nombrecomercialproveedor, nitproveedor, direccionproveedor, telefonoproveedor')->where('id', $id)->first();
+
+        $returnData = array(
+            "resultado" => 1,
+            "id" =>  $id,
+            "nombre" => $datos['nombrecomercialproveedor'],
+            "nit" => $datos['nitproveedor'],
+            "direccion" => $datos['direccionproveedor'],
+            "telefono" => $datos['telefonoproveedor']
+        );
+
+        echo  json_encode($returnData);
+    }
+
+    function actualizar_proveedor()
+    {
+
+
+        $id = $this->request->getPost('id');
+        $nombre = $this->request->getPost('nombre');
+        $nit = $this->request->getPost('nit');
+        $direccion = $this->request->getPost('direccion');
+        $telefono = $this->request->getPost('telefono');
+
+        $data = [
+
+            'nitproveedor' => $nit,
+            'razonsocialproveedor' => $nombre,
+            'nombrecomercialproveedor' => $nombre,
+            'direccionproveedor' => $direccion,
+            'telefonoproveedor' => $telefono,
+            'celularproveedor' => $telefono,
+
+        ];
+
+        $update = model('ProveedorModel')->set($data)->where('id', $id)->update();
+
+        if ($update) {
+            $datos = $proveedores = model('ProveedorModel')->select('id, nombrecomercialproveedor, nitproveedor, direccionproveedor, telefonoproveedor')->where('id', $id)->first();
+            $returnData = array(
+                "resultado" => 1,
+                "id" =>  $id,
+                "nombre" => $datos['nombrecomercialproveedor'],
+                "nit" => $datos['nitproveedor'],
+                "direccion" => $datos['direccionproveedor'],
+                "telefono" => $datos['telefonoproveedor']
+            );
+
+            echo  json_encode($returnData);
+        }
+    }
 }

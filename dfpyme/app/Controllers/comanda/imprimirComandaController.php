@@ -71,7 +71,7 @@ class imprimirComandaController extends BaseController
                 }
 
 
-          
+
 
                 $returnData = array(
                     "resultado" => 1,
@@ -114,8 +114,8 @@ class imprimirComandaController extends BaseController
         $id_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido)->first();
         $nombre_mesa = model('mesasModel')->select('nombre')->where('id', $id_mesa['fk_mesa'])->first();
         $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario)->first();
- 
-      
+
+
 
         $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
         $printer = new Printer($connector);
@@ -130,13 +130,13 @@ class imprimirComandaController extends BaseController
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->setTextSize(1, 1);
         $printer->text("Pedido N°" . $numero_pedido . "Mesa N°" . $nombre_mesa['nombre'] . "\n");
-       
+
         $printer->text("Mesero: " . $nombre_usuario['nombresusuario_sistema'] . "\n");
 
-        $printer->text("Fecha :" . "   " . date('d/m/Y ') ."Hora  :" . "   " . date('h:i:s a', time()) . "\n\n");
-        
+        $printer->text("Fecha :" . "   " . date('d/m/Y ') . "Hora  :" . "   " . date('h:i:s a', time()) . "\n\n");
+
         $printer->setJustification(Printer::JUSTIFY_LEFT);
-       
+
 
         foreach ($items as $productos) {
 
@@ -530,5 +530,161 @@ class imprimirComandaController extends BaseController
             );
             echo  json_encode($returnData);
         }
+    }
+
+    function imprimir_compra()
+    {
+
+        $id = $this->request->getPost('id');
+
+        /**
+         * Datos del proveedor y productos de la compra con el total 
+         */
+        $codigo_proveedor = model('ComprasModel')->codigo_proveedor($id);
+        $fecha_compra = model('ComprasModel')->fecha_compra($id);
+        $nombre_proveedor = model('ProveedorModel')->select('nombrecomercialproveedor')->where('codigointernoproveedor', $codigo_proveedor[0]['codigointernoproveedor'])->first();
+        $productos = model('ComprasModel')->productos_compra($id);
+
+        $total = model('ComprasModel')->total_productos_compra($id);
+
+        /**
+         * Datos de la empresa 
+         */
+        $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+
+        $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
+
+        $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
+        $printer = new Printer($connector);
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(1, 1);
+        $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
+        $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
+        $printer->text($datos_empresa[0]['direccionempresa'] . "  " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento'] . "\n");
+        $printer->text("TELEFONO:" . $datos_empresa[0]['telefonoempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
+        $printer->text("\n");
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("**IMPRESIÓN DE COMPRA ** \n");
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("PROVEEDOR: " . $nombre_proveedor['nombrecomercialproveedor'] . "\n");
+        $printer->text("FECHA    : " . $fecha_compra[0]['fecha_factura'] . "\n\n");
+
+
+
+        $printer->text("---------------------------------------------" . "\n");
+        $printer->text("CODIGO    DESCRIPCION   VALOR UNITARIO    TOTAL" . "\n");
+        $printer->text("---------------------------------------------" . "\n\n");
+
+        foreach ($productos as $detalle) {
+
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text("Cod." . $detalle['codigointernoproducto'] . "      " . $detalle['nombreproducto'] . "\n");
+            $printer->text("Cant. " . $detalle['cantidad'] . "      " . "$" . number_format($detalle['valor_unitario'], 0, ',', '.') . "                   " . "$" . number_format($detalle['cantidad'] * $detalle['valor_unitario'], 0, ',', '.') . "\n");
+            $printer->text("---------------------------------------------" . "\n");
+        }
+
+        $printer->setJustification(Printer::JUSTIFY_RIGHT);
+        $printer->setTextSize(1, 2);
+        $printer->text("TOTAL  $" . number_format($total[0]['total_factura'], 0, ',', '.') . "\n");
+
+
+        $nota = model('FacturaCompraModel')->select('nota')->where('numeroconsecutivofactura_proveedor', $id)->first();
+
+        if (!empty($nota['nota'])) {
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->setTextSize(1, 1);
+            $printer->text( "\n");
+            $printer->text("NOTA: " . $nota['nota'] . "\n");
+        }
+
+        $printer->text("\n");
+
+        $printer->feed(1);
+        $printer->cut();
+
+        $printer->close();
+        $json_data = [
+            'resultado' => 1
+
+        ];
+
+        echo  json_encode($json_data);
+    }
+
+    function impresion_compra()
+    {
+
+        $id_usuario = $this->request->getPost('id_usuario');
+        //$id_usuario = 6;
+
+        /**
+         * Datos del proveedor y productos de la compra con el total 
+         */
+
+
+        $productos = model('ProductoCompraModel')->productos_compra($id_usuario);
+        $total = model('ProductoCompraModel')->total_compra($id_usuario);
+
+        /**
+         * Datos de la empresa 
+         */
+        $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+
+        $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
+
+        $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
+        $printer = new Printer($connector);
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(1, 1);
+        $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
+        $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
+        $printer->text($datos_empresa[0]['direccionempresa'] . "  " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento'] . "\n");
+        $printer->text("TELEFONO:" . $datos_empresa[0]['telefonoempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
+        $printer->text("\n");
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("**IMPRESIÓN DE COMPRA ** \n");
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+
+
+
+
+        $printer->text("---------------------------------------------" . "\n");
+        $printer->text("CODIGO    DESCRIPCION   VALOR UNITARIO    TOTAL" . "\n");
+        $printer->text("---------------------------------------------" . "\n\n");
+
+        foreach ($productos as $detalle) {
+
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text("Cod." . $detalle['codigointernoproducto'] . "      " . $detalle['nombreproducto'] . "\n");
+            $printer->text("Cant. " . $detalle['cantidad'] . "      " . "$" . number_format($detalle['valor_unitario'], 0, ',', '.') . "                   " . "$" . number_format($detalle['cantidad'] * $detalle['valor_unitario'], 0, ',', '.') . "\n");
+            $printer->text("---------------------------------------------" . "\n");
+        }
+
+        $printer->setJustification(Printer::JUSTIFY_RIGHT);
+        $printer->setTextSize(1, 2);
+        $printer->text("TOTAL  $" . number_format($total[0]['total_factura'], 0, ',', '.') . "\n");
+
+        $printer->text("\n");
+
+        $printer->feed(1);
+        $printer->cut();
+
+        $printer->close();
+        $json_data = [
+            'resultado' => 1
+
+        ];
+
+        echo  json_encode($json_data);
     }
 }

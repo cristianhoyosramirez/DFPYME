@@ -59,8 +59,8 @@
                         </a>
                     </div>
                     <input type="hidden" class="form-control" value="<?php echo $detalle['cantidad_producto'] ?>">
-                    <!-- <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" onclick="detener_propagacion(event),abrir_modal_editar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)" onkeypress="return valideKey(event)" min="1" max="100"> -->
-                    <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)" min="1" max="100" id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
+                    <!-- <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" onclick="detener_propagacion(event),abrir_modal_editar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)" onkeypress="return valideKey(event)" > -->
+                    <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)"  id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
                     <div class="input-group-append">
                         <a href="#" class="btn bg-muted-lt btn-icon" onclick="actualizar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')" title="Agregar producto">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -216,8 +216,8 @@
                             </a>
                         </div>
                         <input type="hidden" class="form-control" value="<?php echo $detalle['cantidad_producto'] ?>" id="cant_prod<?php echo $detalle['id_tabla_producto'] ?>" required>
-                        <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)" min="1" max="100" id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
-                        <!--                        <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" onclick="detener_propagacion(event),abrir_modal_editar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)" onkeypress="return valideKey(event)" min="1" max="100">
+                        <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)"  id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
+                        <!--                        <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" onclick="detener_propagacion(event),abrir_modal_editar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)" onkeypress="return valideKey(event)" >
  -->
                         <div class="input-group-append">
                             <a href="#" class="btn bg-muted-lt btn-icon" onclick="actualizar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')" title="Agregar producto">

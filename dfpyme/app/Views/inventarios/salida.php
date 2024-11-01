@@ -24,6 +24,9 @@
     <link href="<?php echo base_url() ?>/Assets/plugin/jquery-ui/jquery-ui.css" rel="stylesheet">
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?php echo base_url(); ?>/Assets/img/favicon.png">
+    <!-- Select 2 -->
+    <link href="<?php echo base_url(); ?>/Assets/plugin/select2/select2.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>/Assets/plugin/select2/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
     <style>
         /* CSS para desactivar el resaltado de selección de texto */
         body {
@@ -71,7 +74,21 @@
                 <div class="card-body">
                     <form action="<?= base_url('inventario/salida_inventario') ?>" method="POST">
                         <input type="hidden" value="<?php echo $user_session->id_usuario; ?>" name="id_usuario">
-                        <div class="row">
+                        <div class="row mb-3">
+
+
+                            <div class="col">
+                                <label class="form-label">Concepto</label>
+                                <?php $concepto = model('KardexConceptoModel')->where('idoperacion', 1)->findAll(); ?>
+
+                                <select name="concepto_kardex" id="concepto_kardex" class="form-select" required>
+                                    <option value=""></option>
+                                    <?php foreach ($concepto as $detalle): ?>
+                                        <option value="<?php echo $detalle['id'] ?>"><?php echo $detalle['nombre'] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+
+                            </div>
                             <div class="col-md-3">
 
                                 <input type="hidden" value="<?php echo base_url() ?>" id="url">
@@ -79,7 +96,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Producto</label>
                                     <div class="input-group input-group-flat">
-                                        <input type="text" class="form-control" name="producto" id="producto" placeholder="Buscar por nombre, código interno o codigo de barras ">
+                                        <input type="text" class="form-control" name="producto" id="producto" placeholder="Buscar por nombre, código interno o codigo de barras " required>
                                         <span class="input-group-text">
                                             <a href="#" class="link-secondary" title="Limpiar campo" data-bs-toggle="tooltip" onclick="limpiar_campo()"><!-- Download SVG icon from http://tabler-icons.io/i/x -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -111,6 +128,12 @@
                                 <div class="text-danger"><?= session('errors.nombre') ?></div>
                             </div>
 
+                            <div class="col-md-3">
+                                <label for="inputEmail4" class="form-label">Nota </label>
+                                <textarea name="nota" id="nota" class="form-select" required></textarea>
+                                <div class="text-danger"><?= session('errors.nombre') ?></div>
+                            </div>
+
 
 
 
@@ -139,6 +162,19 @@
     <script src="<?php echo base_url() ?>/Assets/plugin/jquery-ui/jquery-ui.js"></script>
     <!-- Sweet alert -->
     <script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
+    <!--select2 -->
+    <script src="<?php echo base_url(); ?>/Assets/plugin/select2/select2.min.js"></script>
+
+    <script>
+        $("#concepto_kardex").select2({
+            width: "100%",
+            placeholder: "Seleccionar un concepto para el ingreso ",
+            language: "es",
+            theme: "bootstrap-5",
+            allowClear: true,
+            //minimumResultsForSearch: -1,
+        });
+    </script>
 
     <script>
         let mensaje = "<?php echo $user_session->getFlashdata('mensaje'); ?>";

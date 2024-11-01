@@ -32,9 +32,38 @@ class Inventarios extends BaseController
         $actualizar = model('inventarioModel')->set('cantidad_inventario', $cantidad_inventario['cantidad_inventario'] + $cantidad)->where('codigointernoproducto', $codigo_producto)->update();
 
         if ($actualizar) {
-            $session = session();
-            $session->setFlashdata('iconoMensaje', 'success');
-            return redirect()->to(base_url('inventario/ingreso'))->with('mensaje', 'Ingreso de producto éxitoso');
+            $id_producto = model('productoModel')->select('id')->where('codigointernoproducto', $codigo_producto)->first();
+            $data_manual = [
+                'id_producto' => $id_producto['id'],
+                'cantidad' => $cantidad,
+                'nota' => $this->request->getPost('nota'),
+                'id_usuario' => $this->request->getPost('id_usuario'),
+                'fecha' => date('Y-m-d'),
+                'hora' => date('H:i:s'),
+                'id_concepto'=>$this->request->getPost('concepto_kardex'),
+                'inventario_anterior' => $cantidad_inventario['cantidad_inventario'],
+                'inventario_actual' => $cantidad_inventario['cantidad_inventario'] + $cantidad
+
+            ];
+
+            $insertar = model('EntradasSalidasManualesModel')->insert($data_manual);
+
+
+            if ($insertar) {
+                $UltimoID = model('EntradasSalidasManualesModel')->insertID();
+                $data = [
+                    'id_documento' => $UltimoID,
+                    'id_operacion' => 1,
+                    'fecha' => date('Y-m-d'),
+                    'tabla' => 'entradas_salidas_manuales'
+                ];
+
+                $insert = model('EntradasSalidasModel')->insert($data);
+
+                $session = session();
+                $session->setFlashdata('iconoMensaje', 'success');
+                return redirect()->to(base_url('inventario/ingreso'))->with('mensaje', 'Ingreso de producto éxitoso');
+            }
         }
     }
     function salida_inventario()
@@ -42,14 +71,47 @@ class Inventarios extends BaseController
         $codigo_producto = $this->request->getPost('id_producto');
         $cantidad = $this->request->getPost('cantidad_entrada');
 
+
+
         $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $codigo_producto)->first();
 
         $actualizar = model('inventarioModel')->set('cantidad_inventario', $cantidad_inventario['cantidad_inventario'] - $cantidad)->where('codigointernoproducto', $codigo_producto)->update();
 
         if ($actualizar) {
-            $session = session();
-            $session->setFlashdata('iconoMensaje', 'success');
-            return redirect()->to(base_url('inventario/salida'))->with('mensaje', 'Salida de inventario éxitoso ');
+            $id_producto = model('productoModel')->select('id')->where('codigointernoproducto', $codigo_producto)->first();
+            $data_manual = [
+                'id_producto' => $id_producto['id'],
+                'cantidad' => $cantidad,
+                'nota' => $this->request->getPost('nota'),
+                //'tipo_movimiento' => 1,
+                'id_usuario' => $this->request->getPost('id_usuario'),
+                'fecha' => date('Y-m-d'),
+                'hora' => date('H:i:s'),
+                'id_concepto' => $this->request->getPost('concepto_kardex'),
+                'inventario_anterior' => $cantidad_inventario['cantidad_inventario'],
+                'inventario_actual' => $cantidad_inventario['cantidad_inventario'] - $cantidad
+            ];
+
+            $insertar = model('EntradasSalidasManualesModel')->insert($data_manual);
+            if ($insertar) {
+
+                $UltimoID = model('EntradasSalidasManualesModel')->insertID();
+
+                $data = [
+
+                    'id_documento' => $UltimoID,
+                    'id_operacion' => 2,
+                    'fecha' => date('Y-m-d'),
+                    //'inventario_anterior' => $cantidad_inventario['cantidad_inventario']
+                    'tabla' => 'entradas_salidas_manuales'
+                ];
+
+                $insert = model('EntradasSalidasModel')->insert($data);
+
+                $session = session();
+                $session->setFlashdata('iconoMensaje', 'success');
+                return redirect()->to(base_url('inventario/salida'))->with('mensaje', 'Salida de inventario éxitoso ');
+            }
         }
     }
 
@@ -133,7 +195,7 @@ class Inventarios extends BaseController
     function productos_subcategoria()
     {
 
-       // $productos = model('subCategoriaModel')->get_productos($this->request->getPost('id_subcategoria'));
+        // $productos = model('subCategoriaModel')->get_productos($this->request->getPost('id_subcategoria'));
         $productos = model('subCategoriaModel')->get_productos_sub_categoria($this->request->getPost('id_subcategoria'));
 
         $items = view('pedido/productos_sub_categoria', [
@@ -407,13 +469,14 @@ class Inventarios extends BaseController
         } else if (empty($resultado)) {
             $returnData = [
                 'resultado' => 2,
-                
+
             ];
             echo json_encode($returnData);
         }
     }
 
-    function export_pdf(){
+    function export_pdf()
+    {
 
         $dompdf = new Dompdf();
 
@@ -422,7 +485,7 @@ class Inventarios extends BaseController
         $options->set(array('isRemoteEnable' => true));
         $dompdf->setOptions($options);
 
-        $id_categoria=model('reporteProductoModel')->categorias();
+        $id_categoria = model('reporteProductoModel')->categorias();
 
         $datos_empresa = model('empresaModel')->find();
         $id_regimen = $datos_empresa[0]['idregimen'];
@@ -430,24 +493,548 @@ class Inventarios extends BaseController
         $nombre_ciudad = model('ciudadModel')->select('nombreciudad')->where('idciudad', $datos_empresa[0]['idciudad'])->first();
         $nombre_departamento = model('departamentoModel')->select('nombredepartamento')->where('iddepartamento', $datos_empresa[0]['iddepartamento'])->first();
 
-       //dd($datos_empresa);
+        //dd($datos_empresa);
 
         $dompdf->loadHtml(view('reportes/pdf_producto', [
-            'categorias'=>$id_categoria,
+            'categorias' => $id_categoria,
             'datos_empresa' => $datos_empresa,
             'regimen' => $regimen['nombreregimen'],
             'nombre_ciudad' => $nombre_ciudad['nombreciudad'],
             'nombre_departamento' => $nombre_departamento['nombredepartamento'],
-            'nombre_comercial'=>$datos_empresa[0]['nombrecomercialempresa'],
-            'nombre_juridico'=>$datos_empresa[0]['nombrejuridicoempresa'],
-            'nit'=>$datos_empresa[0]['nitempresa'],
-            'nombre_regimen'=>$regimen['nombreregimen'],
-            'direccion'=>$datos_empresa[0]['direccionempresa'],
+            'nombre_comercial' => $datos_empresa[0]['nombrecomercialempresa'],
+            'nombre_juridico' => $datos_empresa[0]['nombrejuridicoempresa'],
+            'nit' => $datos_empresa[0]['nitempresa'],
+            'nombre_regimen' => $regimen['nombreregimen'],
+            'direccion' => $datos_empresa[0]['direccionempresa'],
         ]));
-        
+
         $options = $dompdf->getOptions();
         $dompdf->setPaper('letter');
         $dompdf->render();
         $dompdf->stream("Reporte de producto.pdf", array("Attachment" => true));
+    }
+
+    public function producto_entrada()
+    {
+        $returnData = array();
+        $valor = $this->request->getVar('term');
+        //$valor = 'a';
+
+        $resultado = model('productoModel')->autoComplete($valor);
+
+        if (!empty($resultado)) {
+            foreach ($resultado as $row) {
+                $cantidad_producto = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $row['codigointernoproducto'])->first();
+
+
+
+
+                $data['value'] =  $row['codigointernoproducto'] . " / " . $row['nombreproducto'];
+                $data['codigo'] = $row['codigointernoproducto'];
+                $data['nombre_producto'] = $row['nombreproducto'];
+                $data['valor_venta'] = $row['valorventaproducto'];
+                //$data['cantidad'] = $cantidad_producto['cantidad_inventario'];
+                $data['cantidad'] = $cantidad_producto['cantidad_inventario'];
+                $data['id_inventario'] = $row['id_tipo_inventario'];
+                $data['precio_costo'] = number_format($row['precio_costo'], 0, ",", ".");
+
+                array_push($returnData, $data);
+            }
+            echo json_encode($returnData);
+        } else {
+            $data['value'] = "No hay resultados";
+            array_push($returnData, $data);
+            echo json_encode($returnData);
+        }
+    }
+
+    public function proveedor()
+    {
+        $returnData = array();
+        $valor = $this->request->getVar('term');
+        //$valor = 'a';
+
+        $resultado = model('ProveedorModel')->autoComplete($valor);
+
+        if (!empty($resultado)) {
+            foreach ($resultado as $row) {
+
+
+
+
+                $data['value'] =   $row['nombrecomercialproveedor'];
+                $data['codigo'] = $row['codigointernoproveedor'];
+                $data['nombre_proveedor'] = $row['nitproveedor'] . " / " . $row['nombrecomercialproveedor'];
+
+                array_push($returnData, $data);
+            }
+            echo json_encode($returnData);
+        } else {
+            $data['value'] = "No hay resultados";
+            array_push($returnData, $data);
+            echo json_encode($returnData);
+        }
+    }
+
+    function ingresar_entrada()
+    {
+        $codigo_producto = $this->request->getPost('codigo');
+        $precio = $this->request->getPost('precio');
+        $cantidad = $this->request->getPost('cantidad');
+        $id_usuario = $this->request->getPost('id_usuario');
+
+        /*  $codigo_producto = '2';
+        $precio = 10.000;
+        $cantidad = 1;
+        $id_usuario = 6; */
+
+        $datos = [
+            'idfactura' => 1,
+            'codigo_producto' => $codigo_producto,
+            'idmedida' => 1,
+            'idcolor' => 0,
+            'idlote' => 1,
+            'cantidad' => $cantidad,
+            'valor' => str_replace('.', '', $precio),
+            'iva' => 0,
+            'descuento' => 0,
+            'descuento_2' => 0,
+            'id_usuario' => $id_usuario,
+        ];
+
+
+        $insert = model('ComprasModel')->insertar($datos);
+
+        if ($insert) {
+
+            $productos = model('ComprasModel')->productos($id_usuario);
+            $total_articulos = model('ComprasModel')->numero_articulos($id_usuario);
+            $total = model('ComprasModel')->total($id_usuario);
+
+            $returnData = array(
+                "resultado" => 1,
+                "productos" => view('compras/productos_compra', [
+                    'productos' => $productos
+                ]),
+                "total_articulos" => $total_articulos[0]['total_productos'],
+                "total" => number_format($total[0]['total'], 0, ",", ".")
+
+            );
+            echo  json_encode($returnData);
+        }
+    }
+
+    function eliminar_producto_compra()
+    {
+        $id = $this->request->getPost('id');
+        $id_usuario = $this->request->getPost('id_usuario');
+
+        $del = [
+
+            'id' => $id
+        ];
+
+        $borrar_producto = model('ComprasModel')->eliminar($del);
+
+        if ($borrar_producto) {
+
+            $total_articulos = model('ComprasModel')->numero_articulos($id_usuario);
+            $total = model('ComprasModel')->total($id_usuario);
+
+            $returnData = array(
+                "resultado" => 1,
+                "id" => $id,
+                "total_articulos" => $total_articulos[0]['total_productos'],
+                "total" => number_format($total[0]['total'], 0, ",", ".")
+
+            );
+            echo  json_encode($returnData);
+        }
+    }
+
+    function actualizar_producto_compra()
+    {
+        $precio = str_replace('.', '', $this->request->getPost('precio'));
+        //$precio =str_replace('.', '',2.000);
+        $id = $this->request->getPost('id');
+        //$id= 44;
+        $id_usuario = $this->request->getPost('id_usuario');
+        //$id_usuario =6;
+
+        $data = [
+            'valor' => $precio
+
+        ];
+
+        $actualizar = model('ComprasModel')->actualizar_producto($data, $id);
+
+        if ($actualizar) {
+
+            $productos = model('ComprasModel')->productos($id_usuario);
+            $total_articulos = model('ComprasModel')->numero_articulos($id_usuario);
+            $total = model('ComprasModel')->total($id_usuario);
+            $cantidad = model('ComprasModel')->cantidad($id);
+
+            $returnData = array(
+                "resultado" => 1,
+                "total" => number_format($total[0]['total'], 0, ",", "."),
+                "total_producto" => number_format($precio * $cantidad[0]['cantidad'], 0, ",", "."),
+                "precio" => number_format($precio, 0, ",", "."),
+                "id" => $id
+
+            );
+            echo  json_encode($returnData);
+        }
+    }
+
+    function usuario_producto_compra()
+    {
+        $id_usuario = $this->request->getPost('id_usuario');
+        $productos = model('ComprasModel')->productos($id_usuario);
+
+
+        if (!empty($productos)) {
+            $total = model('ComprasModel')->total($id_usuario);
+            $numero_articulos = model('ComprasModel')->numero_articulos($id_usuario);
+            $returnData = array(
+                "resultado" => 1,
+                "total" => number_format($total[0]['total'], 0, ",", "."),
+                "numero_articulos" => $numero_articulos[0]['total_productos'],
+                "productos" => view('compras/productos_compra', [
+                    'productos' => $productos
+                ]),
+
+            );
+            echo  json_encode($returnData);
+        }
+        if (empty($productos)) {
+            $returnData = array(
+                "resultado" => 0,
+
+            );
+            echo  json_encode($returnData);
+        }
+    }
+
+    function buscar_por_codigo()
+    {
+
+        $codigo = $this->request->getPost('producto');
+
+        $producto = model('ComprasModel')->buscar_por_codigo($codigo);
+
+        if (!empty($producto)) {
+
+            $returnData = array(
+                "resultado" => 1,
+                "nombre_producto" => $producto[0]['nombreproducto'],
+                "codigo" => $producto[0]['codigointernoproducto'],
+                "id_tipo_inventario" => $producto[0]['id_tipo_inventario'],
+                "precio_costo" => $producto[0]['precio_costo']
+
+            );
+            echo  json_encode($returnData);
+        }
+        if (empty($producto)) {
+
+            $returnData = array(
+                "resultado" => 0,
+                ""
+
+            );
+            echo  json_encode($returnData);
+        }
+    }
+
+    function actualizacion_cantidades_compra()
+    {
+        $id = $this->request->getPost('id');
+        $cantidad = $this->request->getPost('cantidad');
+        $id_usuario = $this->request->getPost('id_usuario');
+
+        $data = [
+            'cantidad' => $cantidad
+
+        ];
+
+        $actualizar = model('ComprasModel')->actualizar_producto($data, $id);
+
+
+        $total_articulos = model('ComprasModel')->numero_articulos($id_usuario);
+        $total = model('ComprasModel')->total($id_usuario);
+        $valor_unitario = model('ComprasModel')->valor_unitario($id);
+        $numero_articulos = model('ComprasModel')->numero_articulos($id_usuario);
+
+
+        $returnData = array(
+            "resultado" => 1,
+            "total" => number_format($total[0]['total'], 0, ",", "."),
+            "total_producto" => number_format($valor_unitario[0]['valor'] * $cantidad, 0, ",", "."),
+            "id" => $id,
+            "numero_articulos" => $numero_articulos[0]['total_productos']
+
+        );
+        echo  json_encode($returnData);
+    }
+
+    function procesar_compra()
+    {
+        /*  $id_usuario = 6;
+        $nota ="";
+        $proveedor = 3;
+        $fecha_factura = date('Y-m-d');
+        $productos = model('ComprasModel')->productos($id_usuario); */
+        
+        $id_usuario = $this->request->getPost('id_usuario');
+        $nota = $this->request->getPost('nota');
+        $proveedor = $this->request->getPost('proveedor');
+        $fecha_factura = $this->request->getPost('fecha_factura');
+        $productos = model('ComprasModel')->productos($id_usuario);
+
+        //var_dump($this->request->getPost()); exit();
+
+        if (!empty($productos)) {
+
+            $data = [
+
+                'codigointernoproveedor' => $proveedor,
+                'idestado' => 1,
+                'idcaja' => 1,
+                'idusuario_sistema' => $id_usuario,
+                'numerofactura_proveedor' => '1',
+                'limitepagofactura_proveedor' => date('Y-m-d'),
+                'fechaingresofactura_proveedor' => date('Y-m-d'),
+                'estadofactura_proveedor' => true,
+                'descuento' => 1,
+                'cancel' => true,
+                'esfactura' => true,
+                'valor_ajuste' => 0,
+                //'fecha_factura' => date('Y-m-d'),
+                'fecha_factura' => $fecha_factura,
+                'nota' => $nota
+
+            ];
+
+            //NSERT INTO public.factura_proveedor (codigointernoproveedor, idestado, idcaja, idusuario_sistema, numerofactura_proveedor, limitepagofactura_proveedor, fechaingresofactura_proveedor, estadofactura_proveedor, descuento, cancel, esfactura, valor_ajuste, fecha_factura, nota) VALUES ( 1, 1, 1, 6, '1', '2024-10-16', '2024-10-16', true, 0, true, true, 0, '2024-10-16', NULL);
+
+            $entrada_invetario = model('FacturaCompraModel')->insert($data);
+            $ultimo_id = model('FacturaCompraModel')->insertID();
+
+            /**
+             * Se realiza una compra el id_operacion es 1 por lo tanto para buscar los movimientos se deben de buscar en la tabla factura_proveedor 
+             */
+            $data_entrada = [
+                // 'tipo_movimiento' => 8,
+                'id_documento' => $ultimo_id,
+                //'movimiento' => 'entrada',
+                'id_operacion' => 1,
+                'fecha' => date('Y-m-d'),
+                'tabla' => 'factura_proveedor'
+            ];
+
+
+            $entrada = model('EntradasSalidasModel')->insert($data_entrada);
+
+            $id_compra = model('FacturaCompraModel')->where('idusuario_sistema', $id_usuario)->insertID;
+
+            if ($entrada_invetario) {
+
+                foreach ($productos as $detalle) {
+                    $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
+                    $data_pro = [
+
+                        'numeroconsecutivofactura_proveedor' => $id_compra,
+                        'codigointernoproducto' => $detalle['codigointernoproducto'],
+                        'idvalor_unidad_medida' => 1,
+                        'idcolor' => 0,
+                        'idlote' => 1,
+                        'cantidadproducto_factura_proveedor' => $detalle['cantidad'],
+                        'valoringresoproducto_factura_proveedor' => $detalle['valor'],
+                        'ivaproducto_factura_proveedor' => 0,
+                        'descuento' => 0,
+                        'impoconsumo' => 0,
+                        'inventario_anterior' => $cantidad_inventario['cantidad_inventario'],
+                        'inventario_actual' => $cantidad_inventario['cantidad_inventario'] + $detalle['cantidad']
+                    ];
+                    $productos = model('ComprasModel')->insert($data_pro);
+
+
+                    /**
+                     * Actualización de inventario 
+                     */
+                    $pro = model('inventarioModel');
+                    $inv = $pro->set('cantidad_inventario', $cantidad_inventario['cantidad_inventario'] + $detalle['cantidad']);
+                    $inv = $pro->where('codigointernoproducto', $detalle['codigointernoproducto']);
+                    $inv = $pro->update();
+
+                    /**
+                     * Actualización de costo 
+                     */
+
+                    $prod = model('productoModel');
+                    $inve = $prod->set('precio_costo', $detalle['valor']);
+                    $inve = $prod->where('codigointernoproducto', $detalle['codigointernoproducto']);
+                    $inve = $prod->update();
+                }
+
+                $data_eli = [
+                    'id_usuario' => $id_usuario
+                ];
+                //$total_compra = model('ComprasModel')->selectSum('cantidadproducto_factura_proveedor * cantidadproducto_factura_proveedor')->where('numeroconsecutivofactura_proveedor', $id_compra)->findAll();
+                $total_compra = model('ComprasModel')->total_compra_proveedor($id_compra);
+
+                $proveedores = model('ProveedorModel')->select('nombrecomercialproveedor,codigointernoproveedor')->orderBy('nombrecomercialproveedor', 'asc')->findAll();
+
+                $returnData = array(
+                    "resultado" => 1,
+                    "select" => view('compras/select_proveedor', [
+                        'proveedor' => $proveedores
+                    ]),
+                    'id_compra' => $ultimo_id,
+                    "total_compra" => "TOTAL COMPRA: " . number_format($total_compra[0]['total_compra'], 0, ',', '.')
+                );
+
+                echo  json_encode($returnData);
+            }
+        } else if (empty($productos)) {
+
+            $proveedores = model('ProveedorModel')->select('nombrecomercialproveedor,codigointernoproveedor')->orderBy('nombrecomercialproveedor', 'asc')->findAll();
+
+            $returnData = array(
+                "resultado" => 0,
+                "select" => view('compras/select_proveedor', [
+                    'proveedor' => $proveedores
+                ])
+
+            );
+
+            echo  json_encode($returnData);
+        }
+    }
+
+
+
+    function consultar_compras()
+    {
+
+        $proveedores = model('ProveedorModel')->select('nombrecomercialproveedor,id')->orderBy('nombrecomercialproveedor', 'asc')->findAll();
+
+
+        return view('compras/consultar_entradas', [
+            'proveedores' => $proveedores,
+            'provee' => $proveedores
+        ]);
+    }
+
+    function consultar_productos_compra()
+    {
+
+
+        $id = $this->request->getPost('id');
+        //$id = 27;
+
+        $codigo_proveedor = model('ComprasModel')->codigo_proveedor($id);
+        $fecha_compra = model('ComprasModel')->fecha_compra($id);
+        $nombre_proveedor = model('ProveedorModel')->select('nombrecomercialproveedor')->where('codigointernoproveedor', $codigo_proveedor[0]['codigointernoproveedor'])->first();
+        $productos = model('ComprasModel')->productos_compra($id);
+
+        $total = model('ComprasModel')->total_productos_compra($id);
+        /* 
+        dd($productos);
+
+        foreach ($productos as $detalle) {
+            echo $detalle['cantidad'] . "</br>";
+        }
+
+        exit(); */
+
+        $returnData = array(
+            "resultado" => 1,
+            "productos" => view('compras/productos_factura_proveedor', [
+                'productos' => $productos,
+                'fecha' => $fecha_compra[0]['fecha_factura'],
+                'proveedor' => $nombre_proveedor['nombrecomercialproveedor'],
+                "total" => number_format($total[0]['total_factura'], 0, ',', '.')
+            ]),
+        );
+
+        echo  json_encode($returnData);
+    }
+
+    function consultar_entradas_salida()
+    {
+        //$entradas = model('EntradasSalidasModel')->datos();
+        $conceptos = model('KardexConceptoModel')->findAll();
+        return view('inventarios/consultas', [
+            'conceptos' => $conceptos
+        ]);
+    }
+
+    function actualizacion_producto_compra()
+    {
+        $id = $this->request->getPost('id');
+        //$id = 164;
+
+        $datos = model('ComprasModel')->cantidad_producto_compra($id);
+
+
+
+        $actualizar = model('ProductoCompraModel')->set('cantidad', $datos[0]['cantidad'] + 1)->where('id', $id)->update();
+        $total_compra = model('ComprasModel')->total($datos[0]['id_usuario']);
+        $total_articulos = model('ComprasModel')->numero_articulos($datos[0]['id_usuario']);
+
+        $returnData = array(
+            "resultado" => 1,
+            "cantidad" => $datos[0]['cantidad'] + 1,
+            "total_compra" => number_format($total_compra[0]['total'], 0, ',', '.'),
+            "total_producto" => number_format(($datos[0]['cantidad'] + 1) * $datos[0]['valor'], 0, ',', '.'),
+            "id" => $id,
+            "total_articulos" => $total_articulos[0]['total_productos']
+        );
+
+        echo  json_encode($returnData);
+    }
+    function eliminacion_producto_compra()
+    {
+        $id = $this->request->getPost('id');
+        //$id = 164;
+
+        $datos = model('ComprasModel')->cantidad_producto_compra($id);
+
+
+        if ($datos[0]['cantidad'] >= 0) {
+            $actualizar = model('ProductoCompraModel')->set('cantidad', $datos[0]['cantidad'] - 1)->where('id', $id)->update();
+            $total_compra = model('ComprasModel')->total($datos[0]['id_usuario']);
+            $total_articulos = model('ComprasModel')->numero_articulos($datos[0]['id_usuario']);
+
+            $returnData = array(
+                "resultado" => 1,
+                "cantidad" => $datos[0]['cantidad'] - 1,
+                "total_compra" => number_format($total_compra[0]['total'], 0, ',', '.'),
+                "total_producto" => number_format(($datos[0]['cantidad'] - 1) * $datos[0]['valor'], 0, ',', '.'),
+                "id" => $id,
+                "total_articulos" => $total_articulos[0]['total_productos']
+            );
+
+            echo  json_encode($returnData);
+        }
+    }
+
+    function borrar_compra()
+    {
+
+        $id_usuario = $this->request->getPost('id_usuario');
+
+        $delete = model('ProductoCompraModel')->where('id_usuario', $id_usuario)->delete();
+
+        if ($delete) {
+
+            $returnData = array(
+                "resultado" => 1,
+
+            );
+
+            echo  json_encode($returnData);
+        }
     }
 }

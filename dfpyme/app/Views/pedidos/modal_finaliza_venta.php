@@ -240,7 +240,7 @@
                         </div>
                       </label>
                     </div>
-
+                    <input type="hidden" id="medio_de_pago" value="1">
                     <div class="col-5">
                       <div class="form-floating ">
                         <input type="hidden" name="banco" id="banco" value=1>

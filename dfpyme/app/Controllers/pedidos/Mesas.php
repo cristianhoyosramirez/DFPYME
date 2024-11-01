@@ -413,11 +413,15 @@ class Mesas extends BaseController
          * Datos recibidos por ajax desde la vista de mesas 
          */
         //$id_mesa = 1;
-        if (empty($this->request->getPost('id_mesa'))) {
+
+        /* 
+       *  Esta validacion se habia realizado para hacer ventas directas sin necesidad de seleccionar mesas 
+         if (empty($this->request->getPost('id_mesa'))) {
             $temp_id_mesa = model('mesasModel')->select('id')->where('estado', 1)->first();
             $id_mesa = $temp_id_mesa['id'];
-        }
+        } */
 
+        
         if (!empty($this->request->getPost('id_mesa'))) {
 
             $id_mesa = $this->request->getPost('id_mesa');
@@ -867,7 +871,7 @@ class Mesas extends BaseController
 
     function get_mesas_tiempo_real()
     {
-        $mesas = model('mesasModel')->where('estado',0)->orderBy('id', 'ASC')->findAll();
+        $mesas = model('mesasModel')->where('estado', 0)->orderBy('id', 'ASC')->findAll();
 
         $returnData = array(
             "resultado" => 1,
@@ -1559,13 +1563,13 @@ class Mesas extends BaseController
                         'valor_total' => $valor_pedido[0]['valor_total'],
 
                     ];
-                     
+
                     $model = model('pedidoModel');
                     $actualizar_cantidad = $model->set($valor_total_pedido);
                     $actualizar_cantidad = $model->where('id', $numero_pedido['numero_de_pedido']);
                     $actualizar_cantidad = $model->update();
 
-                   /* $temp_propina = new Propina();
+                    /* $temp_propina = new Propina();
                     $propina = $temp_propina->calcularPropina($id_mesa);
                     $sub_total = $valor_pedido[0]['valor_total']; 
                     
@@ -2006,7 +2010,7 @@ class Mesas extends BaseController
             $mesas = model('mesasModel')->where('fk_salon', $id_salon)->find();
         }
         if ($id_salon === "todas") {
-            $mesas = model('mesasModel')->where('estado',0)->findAll();
+            $mesas = model('mesasModel')->where('estado', 0)->findAll();
         }
 
         $returnData = array(

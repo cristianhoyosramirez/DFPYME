@@ -25,7 +25,7 @@ class FacturaElectronica extends BaseController
     {
         //var_dump($this->request->getPost());
         $id_mesa = $this->request->getPost('id_mesa');
-        // $id_mesa = 2;
+        //$id_mesa = 1;
 
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
         $numero_pedido = $pedido['id'];
@@ -36,7 +36,7 @@ class FacturaElectronica extends BaseController
         $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido)->first();
 
         //if ($validar_pedido[0]['total'] == 0 and $suma_pedido[0]['total'] == $total_pedido['valor_total']) {
-        if ($validar_pedido[0]['total'] == 0 ) {
+        if ($validar_pedido[0]['total'] == 0) {
             $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
             $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
             $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
@@ -49,7 +49,7 @@ class FacturaElectronica extends BaseController
             $impuestos = new Impuestos();
             $inventario = new Inventario();
 
-            $tipo_pago = $this->request->getPost('tipo_pago');        // Tipo de pago 1 = pago completo; 0 pago parcial
+          /*  $tipo_pago = $this->request->getPost('tipo_pago');        // Tipo de pago 1 = pago completo; 0 pago parcial
             $id_usuario = $this->request->getPost('id_usuario');      // Tipo de pago 1 = pago completo; 0 pago parcial
             $efectivo = $this->request->getPost('efectivo');         // Tipo de pago 1 = pago completo; 0 pago parcial
             $transaccion = $this->request->getPost('transaccion');  // Tipo de pago 1 = pago completo; 0 pago parcial
@@ -58,18 +58,22 @@ class FacturaElectronica extends BaseController
             $estado = $this->request->getPost('estado');
             $pago_total = $this->request->getPost('pago_total');
             $propina = $this->request->getPost('propina_format');
+            $medio_de_pago = strval($this->request->getPost('medio_de_pago'));
+            $nota = model('pedidoModel')->select('nota_pedido')->where('fk_mesa', $id_mesa)->first(); */
+ 
+
+
+            /*   $id_mesa = 1;*/
+            $tipo_pago = 1;         // Tipo de pago 1 = pago completo; 0 pago parcial
+            $id_usuario = 6;      // Tipo de pago 1 = pago completo; 0 pago parcial
+            $efectivo = 100000;         // Tipo de pago 1 = pago completo; 0 pago parcial
+            $transaccion = 0;  // Tipo de pago 1 = pago completo; 0 pago parcial
+            $valor_venta = 100000; // Tipo de pago 1 = pago completo; 0 pago parcial
+            $nit_cliente = 222222222222;
+            $estado = 8;
+            $pago_total = 200000;
+            $propina = 0;
             $nota = model('pedidoModel')->select('nota_pedido')->where('fk_mesa', $id_mesa)->first();
-            /* 
-         $id_mesa = 1;
-        $tipo_pago = 1;         // Tipo de pago 1 = pago completo; 0 pago parcial
-        $id_usuario = 6;      // Tipo de pago 1 = pago completo; 0 pago parcial
-        $efectivo = 100000;         // Tipo de pago 1 = pago completo; 0 pago parcial
-        $transaccion = 0;  // Tipo de pago 1 = pago completo; 0 pago parcial
-        $valor_venta = 100000; // Tipo de pago 1 = pago completo; 0 pago parcial
-        $nit_cliente = 222222222222;
-        $estado = 8;
-        $pago_total = 200000;
-        $propina =0;   */
 
 
 
@@ -82,7 +86,21 @@ class FacturaElectronica extends BaseController
 
 
             $id_regimen = model('empresaModel')->select('idregimen')->first();
-            $valor_total = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
+
+
+
+            if ($tipo_pago == 1) {
+                $tem_valor_total = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
+                $valor_total = $tem_valor_total['valor_total'];
+            }
+            if ($tipo_pago == 0) {
+                //$tem_valor_parcial = model('partirFacturaModel')->selectSum('valor_total')->where('numero_de_pedido', $numero_pedido)->first();
+                $tem_valor_parcial = model('partirFacturaModel')->propina_partida($numero_pedido);
+                $valor_total = $tem_valor_parcial[0]['valor_total'];
+            }
+
+
+
             $id_resolucion = model('resolucionElectronicaModel')->select('id')->first();
 
             $fecha = DateTime::createFromFormat('U.u', microtime(TRUE));
@@ -109,12 +127,15 @@ class FacturaElectronica extends BaseController
                 'hora' => date("H:i:s"),
                 'fecha_limite' => date('Y-m-d'),
                 'numero_items' => 0,
-                'total' => $valor_total['valor_total'],
-                'neto' => $valor_total['valor_total'],
+                //'total' => $valor_total['valor_total'],
+                'total' => $valor_total,
+                //'neto' => $valor_total['valor_total'],
+                'neto' => $valor_total,
                 'moneda' => 'COP',
                 'id_resolucion' => 0,
                 'metodo_pago' => 1,
-                'medio_pago' => '10',
+                //'medio_pago' => '10',
+                'medio_pago' => 1,
                 'fecha_pago' => date('Y-m-d'),
                 'version_ubl' => 'UBL 2.1',
                 'version_dian' => 'DIAN 2.1',
@@ -131,16 +152,30 @@ class FacturaElectronica extends BaseController
 
             $insert = model('facturaElectronicaModel')->insertar($data);
 
+            
+         
+
 
             $id_fact = model('facturaElectronicaModel')->selectMax('id')->first();
 
             $id_factura = $id_fact['id'];
 
+            $data = [
+               
+                'id_documento' => $id_factura,
+                'id_operacion' => 1,
+                'fecha' => date('Y-m-d'),
+                //'inventario_anterior' => $cantidad_inventario['cantidad_inventario']
+                'tabla'=>'documento_electronico'
+            ];
 
+            $insert = model('EntradasSalidasModel')->insert($data);
+
+            
             $id_mesero = model('pedidoModel')->select('fk_usuario')->where('id', $id_mesa)->first();
 
 
-
+      
             $mesero = "";
 
             if (empty($id_mesero)) {
@@ -165,10 +200,8 @@ class FacturaElectronica extends BaseController
             ];
 
             $propina_factura = model('FacturaPropinaModel')->insert($data);
-
+           
             $numero_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
-
-
 
             $item = array();
             $valor_antes_de_ico = "";
@@ -184,8 +217,9 @@ class FacturaElectronica extends BaseController
             if ($tipo_pago == 0) {
                 $productos = model('partirFacturaModel')->get_productos_pago_parcial($numero_pedido['id']); // Tipo de pago 0 = pago parcial; los productos salen de la tabla partirFactura 
             }
-
+        
             if ($id_regimen['idregimen'] == 1) {  // Empresa con impuestos 
+             
 
                 if ($insert) {
 
@@ -197,10 +231,10 @@ class FacturaElectronica extends BaseController
                         $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
                         $costo = model('productoModel')->select('precio_costo')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
                         $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
-
+                   
                         if ($aplica_ico['aplica_ico'] == 't') { // El producto tiene IMPUESTO DE BARES Y RESTAURANTES   
 
-
+                    
                             $id_ico_producto = model('productoModel')->select('id_ico_producto')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
                             $porcentaje_ico = model('icoConsumoModel')->select('valor_ico')->where('id_ico', $id_ico_producto)->first();
                             $valor_ico = ($porcentaje_ico['valor_ico'] / 100) + 1;
@@ -211,7 +245,7 @@ class FacturaElectronica extends BaseController
 
                             $insertar = model('itemFacturaElectronicaModel')->set_item_factura($id_factura, $detalle['codigointernoproducto'], $nombre_producto, $detalle['cantidad_producto'], $costo, $iva, $ico, $precio_unitario, $detalle['valor_unitario'], $numero_pedido);
                             //$id_factura, $codigo_interno, $nombre_producto, $cantidad, $costo, $iva, $ico, $precio_unitario, $total
-
+                      
 
                         } else if ($aplica_ico['aplica_ico'] == 'f') {  // El producto no tiene INC pero hay que calcularle el IVA 
 
@@ -226,17 +260,18 @@ class FacturaElectronica extends BaseController
                             $insertar = model('itemFacturaElectronicaModel')->set_item_factura($id_factura, $detalle['codigointernoproducto'], $nombre_producto, $detalle['cantidad_producto'], $costo, $iva, $ico, $valor_antes_de_iva, $detalle['valor_unitario'], $numero_pedido);
                         }
 
-
+                   
 
                         $calculo = $impuestos->calcular_impuestos($detalle['codigointernoproducto'], $detalle['valor_total'], $detalle['valor_unitario'], $detalle['cantidad_producto']);
 
-
-
-
-
                         $codigo_categoria = model('productoModel')->select('codigocategoria')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
                         $id_pedido = model('kardexModel')->select('id_pedido')->where('id_pedido', $detalle['id'])->first();
+                        $id_tipo_inventario = model('productoModel')->select('id_tipo_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
+                        $actualizar_inventario = $inventario->actualizar_inventario($detalle['codigointernoproducto'], $id_tipo_inventario['id_tipo_inventario'], $detalle['cantidad_producto'],'documento_electronico',$id_fact);
                         //if (empty($id_pedido['id_pedido'])) {
+
+                        $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
+                        $inventario_final = $cantidad_inventario['cantidad_inventario'] - $detalle['cantidad_producto'];
                         $data = [
                             'idcompra' => 0,
                             'codigo' => $detalle['codigointernoproducto'],
@@ -261,49 +296,16 @@ class FacturaElectronica extends BaseController
                             'valor_iva' => $calculo[0]['valor_iva'],
                             'aplica_ico' => $calculo[0]['aplica_ico'],
                             //'id_pedido'=>$numero_pedido
+                            'saldo_anterior' => $cantidad_inventario,
+                            'nuevo_saldo' => $inventario_final
                         ];
 
                         $insertar = model('kardexModel')->insert($data);
 
-
-                        $id_tipo_inventario = model('productoModel')->select('id_tipo_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
-                        $actualizar_inventario = $inventario->actualizar_inventario($detalle['codigointernoproducto'], $id_tipo_inventario['id_tipo_inventario'], $detalle['cantidad_producto']);
-                        //}
-
-                        /*  if ($tipo_pago == 0) {
-
-                            $data = [
-                                'idcompra' => 0,
-                                'codigo' => $detalle['codigointernoproducto'],
-                                'idusuario' => $id_usuario,
-                                'idconcepto' => 10,
-                                'numerodocumento' => $id_factura,
-                                'fecha' => date('Y-m-d'),
-                                'hora' => date('H:i:s'),
-                                'cantidad' => $detalle['cantidad_producto'],
-                                'valor' => $detalle['valor_unitario'],
-                                'total' => $detalle['valor_total'],
-                                'fecha_y_hora_factura_venta' => $fecha_y_hora,
-                                'id_categoria' => $codigo_categoria['codigocategoria'],
-                                'id_apertura' => $apertura['numero'],
-                                'valor_unitario' => $detalle['valor_unitario'],
-                                'id_factura' => $id_factura,
-                                'costo' => round($costo['precio_costo'] * $detalle['cantidad_producto']),
-                                'ico' => $calculo[0]['ico'],
-                                'iva' => $calculo[0]['iva'],
-                                'id_estado' => 8,
-                                'valor_ico' => $calculo[0]['valor_ico'],
-                                'valor_iva' => $calculo[0]['valor_iva'],
-                                'aplica_ico' => $calculo[0]['aplica_ico'],
-                                //'id_pedido'=>$numero_pedido
-                            ];
-
-                            $insertar = model('kardexModel')->insert($data);
-                        } */
                     }
                 }
             } else if (($id_regimen['idregimen'] == 2)) {  //Empresa no responsabel de impuestos 
-
+                
                 $valor_antes_de_ico = 0;
                 $impuesto_al_consumo = 0;
                 $ico = 0;
@@ -317,7 +319,13 @@ class FacturaElectronica extends BaseController
                     $insertar = model('itemFacturaElectronicaModel')->set_item_factura($id_factura, $detalle['codigointernoproducto'], $nombre_producto, $detalle['cantidad_producto'], $costo, $iva, $ico, $detalle['valor_unitario'], $detalle['valor_total']);
                     $id_pedido = model('kardexModel')->select('id_pedido')->where('id_pedido', $detalle['id'])->first();
 
-                    //if (empty($id_pedido['id_pedido'])) {
+                    $id_tipo_inventario = model('productoModel')->select('id_tipo_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
+                  
+                    $actualizar_inventario = $inventario->actualizar_inventario($detalle['codigointernoproducto'], $id_tipo_inventario['id_tipo_inventario'], $detalle['cantidad_producto'],'documento_electronico',$id_fact);
+
+                    $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
+                    $inventario_final = $cantidad_inventario['cantidad_inventario'] - $detalle['cantidad_producto'];
+                    
                     $data = [
                         'idcompra' => 0,
                         'codigo' => $detalle['codigointernoproducto'],
@@ -341,48 +349,13 @@ class FacturaElectronica extends BaseController
                         'valor_ico' => 0,
                         'valor_iva' => 0,
                         'aplica_ico' => 'false',
+                        'saldo_anterior' => $cantidad_inventario,
+                        'nuevo_saldo' => $inventario_final
 
                     ];
 
 
                     $insertar = model('kardexModel')->insert($data);
-
-                    $id_tipo_inventario = model('productoModel')->select('id_tipo_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
-                    $actualizar_inventario = $inventario->actualizar_inventario($detalle['codigointernoproducto'], $id_tipo_inventario['id_tipo_inventario'], $detalle['cantidad_producto']);
-
-
-                    /* if ($tipo_pago == 0) {
-
-
-                        $data = [
-                            'idcompra' => 0,
-                            'codigo' => $detalle['codigointernoproducto'],
-                            'idusuario' => $id_usuario,
-                            'idconcepto' => 10,
-                            'numerodocumento' => $id_factura,
-                            'fecha' => date('Y-m-d'),
-                            'hora' => date('H:i:s'),
-                            'cantidad' => $detalle['cantidad_producto'],
-                            'valor' => $detalle['valor_unitario'],
-                            'total' => $detalle['valor_total'],
-                            'fecha_y_hora_factura_venta' => $fecha_y_hora,
-                            'id_categoria' => $codigo_categoria['codigocategoria'],
-                            'id_apertura' => $apertura['numero'],
-                            'valor_unitario' => $detalle['valor_unitario'],
-                            'id_factura' => $id_factura,
-                            'costo' => $costo['precio_costo'] * $detalle['cantidad_producto'],
-                            'ico' => 0,
-                            'iva' => 0,
-                            'id_estado' => 8,
-                            'valor_ico' => 0,
-                            'valor_iva' => 0,
-                            'aplica_ico' => 'false',
-
-                        ];
-
-
-                        $insertar = model('kardexModel')->insert($data);
-                    } */
                 }
             }
             if ($insert) {
@@ -475,7 +448,7 @@ class FacturaElectronica extends BaseController
                     'hora' => date("H:i:s"),
                     'documento' => $id_factura,
                     //'valor' => $valor_total['valor_total']-$propina,
-                    'valor' => $valor_total['valor_total'],
+                    'valor' => $valor_total,
                     'propina' => $propina,
                     'total_documento' => $valor_venta,
                     //'total_documento' => $valor_total['valor_total'],
@@ -542,7 +515,7 @@ class FacturaElectronica extends BaseController
                     $mesas = model('mesasModel')->where('estado', 0)->orderBy('id', 'ASC')->findAll();
                     $categorias = model('categoriasModel')->where('permitir_categoria', 'true')->findAll();
 
-                    $total_ventas_electronicas=model('pagosModel')->get_total_ventas_electronicas($id_apertura['numero']);
+                    $total_ventas_electronicas = model('pagosModel')->get_total_ventas_electronicas($id_apertura['numero']);
 
                     $returnData = array(
                         "resultado" => 1, //Falta plata
@@ -558,7 +531,7 @@ class FacturaElectronica extends BaseController
                         ]),
                         "id_factura" => $id_factura,
                         "documentos" => view('pedidos/documento'),
-                        'ventas_electronicas'=>"$ " . number_format($total_ventas_electronicas[0]['total_electronicas'], 0, ",", ".")
+                        'ventas_electronicas' => "$ " . number_format($total_ventas_electronicas[0]['total_electronicas'], 0, ",", ".")
                     );
                     echo  json_encode($returnData);
                 }
@@ -664,8 +637,8 @@ class FacturaElectronica extends BaseController
                     $model = model('partirFacturaModel');
                     $borrar = $model->truncate();
 
-                    $total_ventas_electronicas=model('pagosModel')->get_total_ventas_electronicas($id_apertura['numero']);
-                    
+                    $total_ventas_electronicas = model('pagosModel')->get_total_ventas_electronicas($id_apertura['numero']);
+
                     $returnData = array(
                         "id_factura" => $id_factura,
                         "resultado" => 1,
@@ -686,7 +659,7 @@ class FacturaElectronica extends BaseController
                         "pedido" => $numero_pedido['id'],
                         "nombre_mesa" => $nombre_mesa['nombre'],
                         "documentos" => view('pedidos/documento'),
-                        'ventas_electronicas'=>"$ " . number_format($total_ventas_electronicas[0]['total_electronicas'], 0, ",", ".")
+                        'ventas_electronicas' => "$ " . number_format($total_ventas_electronicas[0]['total_electronicas'], 0, ",", ".")
                     );
                     echo  json_encode($returnData);
                 }

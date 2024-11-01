@@ -375,4 +375,9 @@ class edicionEliminacionFacturaPedidoController extends BaseController
             }
         }
     }
+
+    function ingresar_compra(){
+
+        return view('compras/entrada');
+    }
 }

@@ -1,7 +1,7 @@
 
 function pagar() {
 
-   
+
     let requiere_factura_electronica = document.getElementById("requiere_factura_electronica").value; // Determinar si se requiere factura electronica o no  
     let estado = document.getElementById("documento").value; // Tipo de documento 
 
@@ -14,16 +14,14 @@ function pagar() {
     valor_t_Format = valor_t.replace(/[.]/g, "");
     // Asigna un valor predeterminado de cero si "valor" está vacío
     let transaccion = valor_t_Format === "" ? 0 : parseInt(valor_t_Format); //Pago electronico 
-    let banco = document.getElementById("banco").value; // Banco con el se registra un pago por pagos electronicos 
+    //let banco = document.getElementById("banco").value; // Banco con el se registra un pago por pagos electronicos 
     let nit_cliente = document.getElementById("nit_cliente").value; // nit cliente  
     let id_mesa = document.getElementById("id_mesa_pedido").value; // id de la mesa 
     let url = document.getElementById("url").value; // url base
     let id_usuario = document.getElementById("id_usuario").value; // id del usuario 
     let pago_total = parseInt(efectivo) + parseInt(transaccion);
     let tipo_pago = document.getElementById("tipo_pago").value; // Tipo de pago 1 = pago completo; 2 pago parcial
-
-
-
+    let medio_de_pago = document.getElementById("medio_de_pago").value; // Tipo de pago 1 = pago completo; 2 pago parcial
 
     let valor_venta = "";
 
@@ -46,7 +44,7 @@ function pagar() {
 
         //console.log(valor_venta)
 
-        valor_venta=subtotal_venta
+        valor_venta = subtotal_venta
     }
 
 
@@ -57,7 +55,7 @@ function pagar() {
 
         if (estado == 8 || estado == 11) {    // Validacion de que este seleccionada la factura electronica 
 
-            factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta, tipo_pago, efectivo, transaccion, id_usuario, propina_Format)
+            factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta, tipo_pago, efectivo, transaccion, id_usuario, propina_Format, medio_de_pago)
         } else if (estado != 8 || estado != 11) {
             $('#error_documento').html('! Para continuar por favor seleccione Factura electrónica !')
         }
@@ -68,7 +66,7 @@ function pagar() {
 
         if (estado == 8) {
             if (pago_total >= parseInt(valor_venta)) {
-                factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta, tipo_pago, efectivo, transaccion, id_usuario, propina_Format)
+                factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta, tipo_pago, efectivo, transaccion, id_usuario, propina_Format, medio_de_pago)
                 if (pago_total < parseInt(valor_venta)) {
                     $('#valor_pago_error').html('¡ Pago insuficiente !')
                 }
@@ -141,9 +139,9 @@ function pagar() {
                                 mesas.style.display = "block";
                             }
                             //mesas.style.display = "block";
-                            
+
                             header_pedido();
-   
+
                             Swal.fire({
                                 title: 'Resumen',
                                 showDenyButton: true,

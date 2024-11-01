@@ -194,6 +194,8 @@ $routes->group('comanda', ['namespace' => 'App\Controllers\comanda', 'filter' =>
     $routes->post('imprimir_comanda_desde_pedido', 'imprimirComandaController::imprimir_comanda_desde_pedido');
     $routes->post('re_imprimir_comanda', 'imprimirComandaController::re_imprimir_comanda');
     $routes->post('directa', 'imprimirComandaController::directa');
+    $routes->post('imprimir_compra', 'imprimirComandaController::imprimir_compra');
+    $routes->post('impresion_compra', 'imprimirComandaController::impresion_compra');
 });
 
 $routes->group('clientes', ['namespace' => 'App\Controllers\cliente', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -242,6 +244,10 @@ $routes->group('administracion_impresora', ['namespace' => 'App\Controllers\admi
     $routes->post('asignar_impresora_facturacion', 'impresionFacturaController::asignar_impresora_facturacion');
     $routes->get('configuracion_pedido', 'impresionFacturaController::configuracion_pedido');
     $routes->post('actualizar_configuracion_pedido', 'impresionFacturaController::actualizar_configuracion_pedido');
+    $routes->get('proveedor', 'impresionFacturaController::proveedor');
+    $routes->post('crear_proveedor', 'impresionFacturaController::crear_proveedor');
+    $routes->post('editar_proveedor', 'impresionFacturaController::editar_proveedor');
+    $routes->post('actualizar_proveedor', 'impresionFacturaController::actualizar_proveedor');
 });
 
 
@@ -254,6 +260,7 @@ $routes->group('edicion_eliminacion_factura_pedido', ['namespace' => 'App\Contro
     $routes->post('eliminar_producto_pedido', 'edicionEliminacionFacturaPedidoController::eliminar_producto_pedido');
     $routes->post('borrar_producto', 'edicionEliminacionFacturaPedidoController::borrar_producto');
     $routes->post('actualizar_registro_factura_directa', 'edicionEliminacionFacturaPedidoController::actualizar_registro_factura_directa');
+    $routes->get('ingresar_compra', 'edicionEliminacionFacturaPedidoController::ingresar_compra');
 });
 
 
@@ -488,6 +495,21 @@ $routes->group('inventario', ['namespace' => 'App\Controllers\pedidos', 'filter'
     $routes->get('reporte_categoria', 'Inventarios::reporte_categoria');
     $routes->post('reporte_ventas', 'Inventarios::reporte_ventas');
     $routes->post('export_pdf', 'Inventarios::export_pdf');
+    $routes->post('producto_entrada', 'Inventarios::producto_entrada');
+    $routes->post('ingresar_entrada', 'Inventarios::ingresar_entrada');
+    $routes->post('eliminar_producto_compra', 'Inventarios::eliminar_producto_compra');
+    $routes->post('actualizar_producto_compra', 'Inventarios::actualizar_producto_compra');
+    $routes->post('usuario_producto_compra', 'Inventarios::usuario_producto_compra');
+    $routes->post('buscar_por_codigo', 'Inventarios::buscar_por_codigo');
+    $routes->post('actualizacion_cantidades_compra', 'Inventarios::actualizacion_cantidades_compra');
+    $routes->post('procesar_compra', 'Inventarios::procesar_compra');
+    $routes->get('consultar_compras', 'Inventarios::consultar_compras');
+    $routes->post('consultar_productos_compra', 'Inventarios::consultar_productos_compra');
+    $routes->get('consultar_entrada_salida', 'Inventarios::consultar_entradas_salida');
+    $routes->post('actualizacion_producto_compra', 'Inventarios::actualizacion_producto_compra');
+    $routes->post('eliminacion_producto_compra', 'Inventarios::eliminacion_producto_compra');
+    $routes->post('borrar_compra', 'Inventarios::borrar_compra');
+    $routes->post('proveedor', 'Inventarios::proveedor');
 });
 
 $routes->group('eventos', ['namespace' => 'App\Controllers\Boletas', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -526,6 +548,7 @@ $routes->group('eventos', ['namespace' => 'App\Controllers\Boletas', 'filter' =>
     $routes->post('eliminar_f_e', 'Boletas::eliminar_f_e');
     $routes->post('validar_pass', 'Boletas::validar_pass');
     $routes->post('borrar_propina_parcial', 'Boletas::borrar_propina_parcial');
+    $routes->get('consultar_entradas', 'Boletas::consultar_entradas');
 });
 
 
@@ -566,6 +589,8 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->post('comprobar_fechas', 'ReportesController::comprobar_fechas');
     $routes->post('actualizar_fechas', 'ReportesController::actualizar_fechas');
     $routes->get('actualizacion_estado_mesas', 'ReportesController::actualizacion_estado_mesas');
+    $routes->post('productos_pedido', 'ReportesController::productos_pedido');
+    $routes->post('reporte_movimiento', 'ReportesController::reporte_movimiento');
 });
 
 $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion', 'filter' => \App\Filters\Auth::class], function ($routes) {

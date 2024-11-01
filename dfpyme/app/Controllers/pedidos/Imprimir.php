@@ -104,10 +104,10 @@ class Imprimir extends BaseController
 
             if (empty($productos_pedido)) {
 
-               //echo $comanda['comanda']; 
+                //echo $comanda['comanda']; 
 
 
-         /*       if ($impresion_comanda['comanda']==="f"){
+                /*       if ($impresion_comanda['comanda']==="f"){
                 echo "Es falso ";
                }
                if ($impresion_comanda['comanda']==="t"){
@@ -180,7 +180,8 @@ class Imprimir extends BaseController
                 );
                 echo  json_encode($returnData);
             } */
-            } if ($impresion_comanda['comanda']==="f") {
+            }
+            if ($impresion_comanda['comanda'] === "f") {
                 $returnData = array(
                     "resultado" => 0
                 );
@@ -373,7 +374,7 @@ class Imprimir extends BaseController
             $printer->text("---------------------------------------------" . "\n");
 
             $printer->setTextSize(2, 2);
-            $printer->text("TOTAL      :" . "$" . number_format($total['valor_total']+$propina, 0, ",", ".") . "\n");
+            $printer->text("TOTAL      :" . "$" . number_format($total['valor_total'] + $propina, 0, ",", ".") . "\n");
             $printer->setTextSize(1, 1);
             $printer->text("---------------------------------------------" . "\n");
 
@@ -482,7 +483,7 @@ class Imprimir extends BaseController
             $impresion = $imp->imprimir_factura_electronica($id_factura);
         }
     }
-    
+
     function impresion_factura_electronica()
     {
 
@@ -610,9 +611,14 @@ class Imprimir extends BaseController
     function reporte_ventas()
     {
         $id_apertura = $this->request->getPost('id_apertura');
+        //$id_apertura = 12;
         $id_cierre = $this->request->getPost('id_cierre');
 
-        if (!empty($id_apertura)) {
+        $imp = new impresion();
+        $impresion = $imp->imp_reporte_ventas($id_apertura);
+
+
+        /*   if (!empty($id_apertura)) {
             $imp = new impresion();
             $impresion = $imp->imp_reporte_ventas($id_apertura);
         }
@@ -620,7 +626,7 @@ class Imprimir extends BaseController
             $apertura = model('cierreModel')->select('idapertura')->where('id', $id_cierre)->first();
             $imp = new impresion();
             $impresion = $imp->imp_reporte_ventas($apertura['idapertura']);
-        }
+        } */
     }
 
     function imprimir_fiscal()

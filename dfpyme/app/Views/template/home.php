@@ -41,7 +41,7 @@
                 <?= $this->include('modal_abono_factura/abono') ?>
 
 
-              
+
 
             </div>
             <?= $this->include('layout/footer') ?>
@@ -57,20 +57,159 @@
         <!-- jQuery-ui -->
         <script src="<?php echo base_url() ?>/Assets/plugin/jquery-ui/jquery-ui.js"></script>
 
+
+
         <!--select2 -->
         <script src="<?php echo base_url(); ?>/Assets/plugin/select2/select2.min.js"></script>
 
         <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/nueva_factura.js"></script>
         <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/detalle_f_e.js"></script>
         <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_start.js"></script>
+        <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
         <script src="<?= base_url() ?>/Assets/script_js/duplicado_factura/imprimir_duplicado_factura.js"></script>
         <script src="<?= base_url() ?>/Assets/script_js/duplicado_factura/detalle_factura.js"></script>
+        <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/saltar_factura_pos.js"></script>
 
 
         <!-- Data tables -->
         <script src="<?= base_url() ?>/Assets/plugin/data_tables/jquery.dataTables.min.js"></script>
         <script src="<?= base_url() ?>/Assets/plugin/data_tables/dataTables.bootstrap5.min.js"></script>
 
+        <script>
+            function validacion(movimiento, producto, fecha_inicial, fecha_final) {
+
+                if (movimiento == "" && producto == "" && fecha_inicial == "" && fecha_final == "") {
+
+                    $('#error_concepto_busqueda').html('Falta el concepto')
+                    return false;
+                } else if (!movimiento && !producto && !fecha_inicial && fecha_final) {
+                    return 0;
+                } else if (!movimiento && !producto && fecha_inicial && !fecha_final) {
+                    return 0;
+                } else if (!movimiento && !producto && fecha_inicial && fecha_final) {
+                    return 0;
+                } else if (!movimiento && producto && !fecha_inicial && !fecha_final) {
+                    return 0;
+                } else if (!movimiento && producto && !fecha_inicial && fecha_final) {
+                    return 0;
+                } else if (!movimiento && producto && fecha_inicial && !fecha_final) {
+                    return 0;
+                } else if (!movimiento && producto && fecha_inicial && fecha_final) {
+                    return 0;
+                } else if (movimiento && !producto && !fecha_inicial && !fecha_final) {
+                    return 0;
+                } else if (movimiento && !producto && !fecha_inicial && fecha_final) {
+                    return 0;
+                } else if (movimiento && !producto && fecha_inicial && !fecha_final) {
+                    return 0;
+                } else if (movimiento && !producto && fecha_inicial && fecha_final) {
+                    return 0;
+                } else if (movimiento && producto && !fecha_inicial && !fecha_final) {
+                    return 0;
+                } else if (movimiento && producto && !fecha_inicial && fecha_final) {
+                    return 0;
+                } else if (movimiento && producto && fecha_inicial && !fecha_final) {
+                    return 0;
+                } else if (movimiento && producto && fecha_inicial && fecha_final) {
+                    return 1;
+                }
+            }
+
+            // Ejemplo de uso
+            //validarCondicion(true, true, true, true); // Verifica la salida para el caso 1111
+        </script>
+
+        <script>
+            function buscar_resultados() {
+
+                var url = document.getElementById("url").value;
+                var movimiento = document.getElementById("concepto_busqueda").value;
+                var producto = document.getElementById("id_producto").value;
+                var fecha_inicial = document.getElementById("fecha_inicial").value;
+                var fecha_final = document.getElementById("fecha_final").value;
+                let id_usuario = document.getElementById("id_usuario").value;
+
+                //validacion(movimiento, producto, fecha_inicial, fecha_inicial);
+
+                //console.log(validacion);
+
+
+
+
+                //if (validacion == 1) {
+                $.ajax({
+                    data: {
+                        movimiento,
+                        producto,
+                        fecha_inicial,
+                        fecha_final,
+                        id_usuario
+                    },
+                    url: url + "/reportes/reporte_movimiento",
+                    type: "post",
+                    success: function(response) {
+                        // Parsea la respuesta JSON
+                        var resultado = JSON.parse(response);
+
+                        // Verifica si el resultado es exitoso
+                        if (resultado.resultado == 1) {
+                            // Variable para acumular las filas
+                            let rows = '';
+
+                            // Itera sobre los datos recibidos
+                            resultado.datos.forEach(item => {
+                                // Agrega cada fila a la cadena
+                                rows += `<tr>
+                    <td>${item.fecha}</td>
+                    <td>${item.movimiento}</td>
+                    <td>${item.producto}</td>
+                    <td>${item.cantidad_inicial}</td>
+                    <td>${item.cantidad_movi}</td>
+                    <td>${item.cantidad_final}</td>
+                    <td>${item.documento}</td>
+                    <td>${item.usuario}</td>
+                    <td>${item.nota}</td>
+                </tr>`;
+                            });
+
+                            // Inserta todas las filas acumuladas de una sola vez en el tbody
+                            document.getElementById('res_producto').innerHTML = rows;
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Error en la solicitud:", error);
+                    }
+                });
+
+                //}
+            }
+        </script>
+
+        <script>
+            $("#producto").autocomplete({
+                source: function(request, response) {
+                    var url = document.getElementById("url").value;
+                    $.ajax({
+                        type: "POST",
+                        url: url + "/" + "producto/entrada_salida",
+                        data: request,
+                        success: response,
+                        dataType: "json",
+                    });
+                },
+            }, {
+                minLength: 1,
+            }, {
+                select: function(event, ui) {
+
+
+                    $('#id_producto').val(ui.item.id_producto)
+                    $('#cantidad_inventario').val(ui.item.cantidad)
+
+
+                },
+            });
+        </script>
 
 
         <script>
@@ -530,6 +669,83 @@
 
         <script>
             $(document).ready(function() {
+                $('#consulta_compras').DataTable({
+                    serverSide: true,
+                    processing: true,
+                    searching: true,
+                    order: [
+                        [0, 'desc']
+                    ],
+                    language: {
+                        decimal: "",
+                        emptyTable: "No hay datos",
+                        info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                        infoFiltered: "(Filtro de _MAX_ total registros)",
+                        infoPostFix: "",
+                        thousands: ",",
+                        lengthMenu: "Mostrar _MENU_ registros",
+                        loadingRecords: "Cargando...",
+                        processing: "Procesando...",
+                        search: "Buscar",
+                        zeroRecords: "No se encontraron coincidencias",
+                        paginate: {
+                            first: "Primero",
+                            last: "Ultimo",
+                            next: "Próximo",
+                            previous: "Anterior"
+                        },
+                        aria: {
+                            sortAscending: ": Activar orden de columna ascendente",
+                            sortDescending: ": Activar orden de columna desendente"
+                        }
+                    },
+                    ajax: {
+                        url: '<?php echo base_url() ?>' + "/eventos/consultar_entradas",
+
+                        data: function(d) {
+                            let buscar_por = document.getElementById("buscar_por").value;
+                            return $.extend({}, d, {
+
+                                buscar_por: buscar_por
+
+                            });
+                        },
+                        dataSrc: function(json) {
+                            //$('#saldo_total').html(json.total);
+                            $('#saldo').html(json.saldo_pendiente_por_cobrar);
+                            $('#abonos').html(json.abonos);
+                            $('#total_documentos').html(json.total);
+                            $('#total_ventas').html(json.titulo);
+                            $('#dian_no_enviado').html(json.dian_no_enviado);
+                            $('#dian_aceptado').html(json.dian_aceptado);
+                            $('#dian_rechazado').html(json.dian_rechazado);
+                            $('#dian_error').html(json.dian_error);
+
+                            if (json.abonos_sin_punto > 0) {
+                                var div = document.getElementById("pagos_recibidos");
+                                div.style.display = "block";
+                            }
+                            if (json.saldo_pendiente_por_cobrar_sin_punto > 0) {
+                                var div = document.getElementById("saldo_pendiente_pago");
+                                div.style.display = "block";
+                            }
+
+
+                            return json.data;
+                        }
+                    },
+                    columnDefs: [{
+                        targets: [4],
+                        orderable: false
+                    }]
+                });
+            });
+        </script>
+
+
+        <script>
+            $(document).ready(function() {
                 $('#consulta_ventas').DataTable({
                     serverSide: true,
                     processing: true,
@@ -630,9 +846,42 @@
             });
         </script>
 
-
+        <script>
+            $("#concepto_busqueda").select2({
+                width: "100%",
+                placeholder: "Seleccionar un movimiento",
+                language: "es",
+                theme: "bootstrap-5",
+                allowClear: true,
+                minimumResultsForSearch: -1,
+            });
+        </script>
 
         <script>
+            $("#fecha_proveed").select2({
+                width: "100%",
+                placeholder: "Seleccionar un proveedor",
+                language: "es",
+                theme: "bootstrap-5",
+                allowClear: true,
+                //minimumResultsForSearch: -1,
+            });
+            $("#proveedor").select2({
+                width: "100%",
+                placeholder: "Seleccionar un proveedor",
+                language: "es",
+                theme: "bootstrap-5",
+                allowClear: true,
+                //minimumResultsForSearch: -1,
+            });
+            $("#select_proveedor").select2({
+                width: "100%",
+                placeholder: "Seleccionar un proveedor",
+                language: "es",
+                theme: "bootstrap-5",
+                allowClear: true,
+                //minimumResultsForSearch: -1,
+            });
             $("#periodo_tiempo").select2({
                 width: "100%",
                 //placeholder: "Definir el periodo de tiempo",

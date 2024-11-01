@@ -257,6 +257,8 @@ Bienvenido DFpyme
                 $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa['id'])->first();
                 ?>
 
+
+
                 <!--Pedido-->
                 <div class="col-md-6" id="productos" style="display: block">
                     <input type="hidden" id="id_mesa_pedido">

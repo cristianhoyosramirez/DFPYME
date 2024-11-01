@@ -2,7 +2,10 @@ function limpiar_todo() {
 
     var radio_transaccion = document.getElementById("radio_transaccion");
     // Desmarca el elemento
-    radio_transaccion.checked = false;
+    
+    if (radio_transaccion) {
+        radio_transaccion.checked = false;
+    }
 
     var radio_efectivo = document.getElementById("radio_efectivo");
     // Desmarca el elemento

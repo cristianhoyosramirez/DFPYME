@@ -12,7 +12,7 @@ class kardexModel extends Model
     protected $allowedFields = [
         'idcompra', 'codigo', 'idusuario', 'idconcepto', 'numerodocumento', 'fecha', 'hora',
         'cantidad', 'valor', 'total', 'fecha_y_hora_factura_venta', 'id_categoria', 'id_apertura', 'valor_unitario', 'id_factura', 'costo',
-        'ico', 'iva', 'id_estado', 'valor_ico', 'valor_iva', 'aplica_ico', 'id_pedido'
+        'ico', 'iva', 'id_estado', 'valor_ico', 'valor_iva', 'aplica_ico', 'id_pedido','saldo_anterior','nuevo_saldo'
     ];
 
     public function get_productos($id_apertura)

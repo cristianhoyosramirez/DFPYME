@@ -25,11 +25,15 @@ class itemFacturaElectronicaModel extends Model
         'total',
         'code_standar',
         'item_standar',
+        'inventario_anterior',
+        'inventario_actual'
     ];
 
     function set_item_factura($id_factura, $codigo_interno, $nombre_producto, $cantidad, $costo, $iva, $ico, $precio_unitario, $total)
     {
+        $inventario=model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto',$codigo_interno)->first();
 
+    
         $data = [
             'id_de' => $id_factura,
             'numero' => 1,
@@ -46,6 +50,8 @@ class itemFacturaElectronicaModel extends Model
             'total' => $total*$cantidad,
             'code_standar' => $codigo_interno,
             'item_standar' => '999',
+            'inventario_anterior'=>$inventario['cantidad_inventario'],
+            'inventario_actual'=>$inventario['cantidad_inventario']+$cantidad
 
         ];
 

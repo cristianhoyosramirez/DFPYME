@@ -67,7 +67,8 @@ class productoModel extends Model
           id_tipo_inventario,
           nombreproducto,
           valorventaproducto,
-          aplica_descuento
+          aplica_descuento,
+          precio_costo
       FROM
           public.producto
       INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria

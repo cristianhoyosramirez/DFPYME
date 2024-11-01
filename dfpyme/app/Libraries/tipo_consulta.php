@@ -45,4 +45,26 @@ class tipo_consulta
         $consulta = $this->consulta($fecha_inicial, $fecha_final, $tipo_documento, $nit_cliente);
         return $consulta;
     }
+
+
+    public function getAllCompras(){
+
+        $sql_count = "SELECT COUNT(numeroconsecutivofactura_proveedor) AS total FROM factura_proveedor";
+
+        $sql_data = "SELECT 
+                        numeroconsecutivofactura_proveedor as id, 
+                        nombrecomercialproveedor as nombre_proveedor, 
+                        nombresusuario_sistema as usuario, 
+                        fechaingresofactura_proveedor as fecha_ingreso,
+                        nitproveedor
+                     FROM 
+                        factura_proveedor 
+                     INNER JOIN proveedor ON proveedor.codigointernoproveedor = factura_proveedor.codigointernoproveedor
+                     INNER JOIN usuario_sistema ON usuario_sistema.idusuario_sistema = factura_proveedor.idusuario_sistema
+                        
+                    ";
+
+        return array('sql_count' => $sql_count, 'sql_data' => $sql_data);
+
+    }
 }

@@ -228,6 +228,81 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/header_mesa.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/impresion_factura_electronica.js"></script>
 
+
+
+
+    <!-- <script>
+        function actualizacion_productos_pedido() {
+            let url = document.getElementById("url").value;
+            let id_mesa = document.getElementById("id_mesa_pedido").value;
+
+            if (id_mesa != "") {
+
+                $.ajax({
+                    data: {
+                        id_mesa
+                    },
+                    url: url + "/" + "reportes/productos_pedido",
+                    type: "get",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
+
+                            let mesas = resultado.mesas;
+
+                            
+
+                            // Asumiendo que tienes una tabla con un cuerpo de tabla con el id "tabla-mesas"
+
+                        }
+                    },
+                });
+
+                setInterval(actualizacion_productos_pedido, 1000);
+
+            }
+
+        }
+    </script> -->
+
+
+    <script>
+        function actualizacion_productos_pedido() {
+            let url = document.getElementById("url").value;
+            let id_mesa = document.getElementById("id_mesa_pedido").value;
+
+            if (id_mesa != "") {
+
+                $.ajax({
+                    data: {
+                        id_mesa
+                    },
+                    url: url + "/" + "reportes/productos_pedido",
+                    type: "post",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
+                            $('#mesa_productos').html(resultado.productos_pedido)
+                            $('#valor_pedido').html(resultado.total_pedido)
+                            $('#subtotal_pedido').val(resultado.sub_total)
+                            $('#propina_del_pedido').val(resultado.propina)
+                            // Aquí puedes actualizar la tabla u otros elementos
+                        }
+                    },
+                });
+            }
+        }
+
+        // Ejecutar cada segundo solo si id_mesa tiene valor
+        /*  setInterval(function() {
+             let id_mesa = document.getElementById("id_mesa_pedido").value;
+             if (id_mesa != "") {
+                 actualizacion_productos_pedido();
+             }
+         }, 3000);  */
+    </script>
+
+
     <script>
         function actualizar_mesas_pedido() {
             let url = document.getElementById("url").value;
@@ -266,12 +341,11 @@
 
                         // Asumiendo que tienes una tabla con un cuerpo de tabla con el id "tabla-mesas"
 
-
                     }
                 },
             });
         }
-        setInterval(actualizar_mesas_pedido, 1000);
+        //setInterval(actualizar_mesas_pedido, 1000);
     </script>
 
 
@@ -327,7 +401,7 @@
         }
 
         // Ejecuta la función total_venta_electronicas cada 5 segundos
-        setInterval(total_venta_electronicas, 5000); // 5000 ms = 5 segundos
+        //setInterval(total_venta_electronicas, 5000); // 5000 ms = 5 segundos
     </script>
 
 
@@ -1534,6 +1608,7 @@
                     if (resultado.resultado == 1) {
 
                         $('#lista_completa_mesas').html(resultado.mesas)
+
                         $('#producto').val();
 
                     }
