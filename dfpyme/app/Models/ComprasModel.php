@@ -197,7 +197,7 @@ WHERE
     }
 
 
-    public function getProductosCompra($id)
+    public function getProductosCompra($id, $codigo)
     {
         $compra = $this->db->query("
                                   SELECT
@@ -210,7 +210,7 @@ WHERE
                 producto_factura_proveedor
                         INNER JOIN producto ON producto.codigointernoproducto = producto_factura_proveedor.codigointernoproducto
                         WHERE
-                            numeroconsecutivofactura_proveedor = $id
+                            numeroconsecutivofactura_proveedor = $id and producto_factura_proveedor.codigointernoproducto='$codigo'
         ");
         return $compra->getResultArray();
     }

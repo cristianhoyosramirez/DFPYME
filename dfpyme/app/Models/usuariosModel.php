@@ -9,9 +9,19 @@ class usuariosModel extends Model
     protected $table      = 'usuario_sistema';
     // Uncomment below if you want add primary key
     // protected $primaryKey = 'id';
-    protected $allowedFields = ['idtipo','cedulausuario_sistema','nombresusuario_sistema','usuariousuario_sistema','contraseniausuario_sistema','estadousuario_sistema',
-    'telefonousuario_sistema','direccion_sistema',
-    'pinusuario_sistema', 'estadousuario_sistema', 'nombresusuario_sistema'];
+    protected $allowedFields = [
+        'idtipo',
+        'cedulausuario_sistema',
+        'nombresusuario_sistema',
+        'usuariousuario_sistema',
+        'contraseniausuario_sistema',
+        'estadousuario_sistema',
+        'telefonousuario_sistema',
+        'direccion_sistema',
+        'pinusuario_sistema',
+        'estadousuario_sistema',
+        'nombresusuario_sistema'
+    ];
 
     public function id_usuario($pin_eliminacion)
     {
@@ -82,6 +92,13 @@ class usuariosModel extends Model
         FROM
             usuario_sistema
         INNER JOIN tipo ON tipo.idtipo = usuario_sistema.idtipo WHERE estadousuario_sistema='true'
+        ");
+        return $datos->getResultArray();
+    }
+    public function nombre_usuario($id)
+    {
+        $datos = $this->db->query("
+            select nombresusuario_sistema from usuario_sistema where idusuario_sistema=$id
         ");
         return $datos->getResultArray();
     }

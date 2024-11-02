@@ -793,7 +793,7 @@ class ReportesController extends BaseController
 
 
 
-        /* $codigo_producto = 88;
+        /*   $codigo_producto = 16;
         $movimiento = 3;
         $fecha_inicial = date('Y-m-d');
         $fecha_final = date('Y-m-d');
@@ -832,7 +832,8 @@ class ReportesController extends BaseController
                     $usuario = model('FacturaCompraModel')->getUsuario($detalle['id_documento']);
                     $documento = model('FacturaCompraModel')->select('numerofactura_proveedor')->where('numeroconsecutivofactura_proveedor', $detalle['id_documento'])->first();
                     $nota = model('FacturaCompraModel')->select('nota')->where('numeroconsecutivofactura_proveedor', $detalle['id_documento'])->first();
-                    $datos = model('ComprasModel')->getProductosCompra($detalle['id_documento']);
+                    $datos = model('ComprasModel')->getProductosCompra($detalle['id_documento'], $codigo_producto);
+
                     foreach ($datos  as $key) {
                         $data_temp = [
 
@@ -879,18 +880,26 @@ class ReportesController extends BaseController
                     break;
                 case $detalle['tabla'] == 'documento_electronico':
 
+                    //echo  $detalle['id_documento']."</br>";
                     $movimientos_electronicos = model('EntradasSalidasModel')->getDatosVentas($codigo_producto, $detalle['id_documento']);
 
-                    $id_usuario = model('pagosModel')->select('id_usuario_facturacion')->where('id_factura', $detalle['id_documento'])->where('id_estado', 8)->first();
-                    $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['id_usuario_facturacion'])->first();
+                    $id_usuario = model('pagosModel')->select('id_usuario_facturacion')->where('id', $detalle['id_documento'])->where('id_estado', 8)->first();
+
+
+                    //$nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['id_usuario_facturacion'])->first();
+
+                    $nombre_usuario = model('usuariosModel')->nombre_usuario(6);
+
 
                     if (!empty($movimientos_electronicos)) {
+
                         $data_temp = [
                             'movimiento' => 'VENTAS',
                             'producto' => $movimientos_electronicos[0]['nombreproducto'],
                             'cantidad_inicial' => $movimientos_electronicos[0]['inventario_anterior'],
                             'cantidad_final' => $movimientos_electronicos[0]['inventario_actual'],
-                            'usuario' => $nombre_usuario['nombresusuario_sistema'],
+                            //'usuario' => $nombre_usuario['nombresusuario_sistema'],
+                            'usuario' => 'Administrador',
                             'id_usuario' => 6,
                             'cantidad_movi' => $movimientos_electronicos[0]['cantidad'],
                             'fecha' => $movimientos_electronicos[0]['fecha'],

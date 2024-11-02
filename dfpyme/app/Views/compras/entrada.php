@@ -960,7 +960,7 @@ COMPRAS-ENTRADA
             minLength: 1, // Número mínimo de caracteres para iniciar la búsqueda
             select: function(event, ui) {
                 // Maneja la selección de un elemento de la lista
-                if (ui.item.id_inventario == 3) {
+                if (ui.item.id_inventario == 1) {
                     $("#display").val(ui.item.value); // Asigna el nombre del producto
                     $('#producto_compra').val(''); // Limpiar
                     $("#id_producto").val(ui.item.codigo); // Asigna el código del producto 
@@ -977,7 +977,7 @@ COMPRAS-ENTRADA
 
                     $("#nuevo").val(total); // Asigna el total al input con id 'nuevo'
 
-                } else if (ui.item.id_inventario == 1) {
+                } else if (ui.item.id_inventario == 3) {
                     $('#error_producto').html('Este producto es una receta y no se puede ingresar por compras ');
                 }
             }

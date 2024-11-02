@@ -40,7 +40,7 @@ class Inventarios extends BaseController
                 'id_usuario' => $this->request->getPost('id_usuario'),
                 'fecha' => date('Y-m-d'),
                 'hora' => date('H:i:s'),
-                'id_concepto'=>$this->request->getPost('concepto_kardex'),
+                'id_concepto' => $this->request->getPost('concepto_kardex'),
                 'inventario_anterior' => $cantidad_inventario['cantidad_inventario'],
                 'inventario_actual' => $cantidad_inventario['cantidad_inventario'] + $cantidad
 
@@ -780,11 +780,11 @@ class Inventarios extends BaseController
     function procesar_compra()
     {
         /*  $id_usuario = 6;
-        $nota ="";
+        $nota = "";
         $proveedor = 3;
         $fecha_factura = date('Y-m-d');
         $productos = model('ComprasModel')->productos($id_usuario); */
-        
+
         $id_usuario = $this->request->getPost('id_usuario');
         $nota = $this->request->getPost('nota');
         $proveedor = $this->request->getPost('proveedor');
@@ -884,6 +884,12 @@ class Inventarios extends BaseController
                 $total_compra = model('ComprasModel')->total_compra_proveedor($id_compra);
 
                 $proveedores = model('ProveedorModel')->select('nombrecomercialproveedor,codigointernoproveedor')->orderBy('nombrecomercialproveedor', 'asc')->findAll();
+
+
+                $model = model('TempMovModel');
+                $borrarPedido = $model->where('id_usuario', $id_usuario);
+                $borrarPedido = $model->delete();
+
 
                 $returnData = array(
                     "resultado" => 1,

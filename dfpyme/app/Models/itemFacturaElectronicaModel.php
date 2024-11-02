@@ -51,7 +51,7 @@ class itemFacturaElectronicaModel extends Model
             'code_standar' => $codigo_interno,
             'item_standar' => '999',
             'inventario_anterior'=>$inventario['cantidad_inventario'],
-            'inventario_actual'=>$inventario['cantidad_inventario']+$cantidad
+            'inventario_actual'=>$inventario['cantidad_inventario']-$cantidad
 
         ];
 
