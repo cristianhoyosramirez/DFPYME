@@ -471,7 +471,7 @@ class pagosModel extends Model
         }
     }
 
-    public function total_costo($id_apertura)
+    public function total_costo($idInicial , $IdFinal)
     {
 
         $datos = $this->db->query("
@@ -480,7 +480,7 @@ class pagosModel extends Model
     FROM
         kardex
     WHERE
-        id_apertura = $id_apertura;");
+        fecha between '$idInicial' and '$IdFinal'");
         return $datos->getResultArray();
     }
 
@@ -508,6 +508,19 @@ class pagosModel extends Model
         FROM   documento_electronico
         WHERE  id_apertura = $id_apertura
         AND id_status = 2 ");
+        return $datos->getResultArray();
+    }
+    public function get_total_ventas ($fecha_inicial, $fecha_final)
+    {
+
+        $datos = $this->db->query("
+        SELECT 
+        SUM(valor) AS valor
+        FROM 
+            pagos
+        WHERE 
+            fecha BETWEEN '$fecha_inicial' AND '$fecha_final';
+        ");
         return $datos->getResultArray();
     }
     public function getSaldo ($id_factura)

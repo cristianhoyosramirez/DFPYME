@@ -811,7 +811,8 @@ class Inventarios extends BaseController
                 'valor_ajuste' => 0,
                 //'fecha_factura' => date('Y-m-d'),
                 'fecha_factura' => $fecha_factura,
-                'nota' => $nota
+                'nota' => $nota,
+                'hora' => date('H:i:s')
 
             ];
 
@@ -970,6 +971,7 @@ class Inventarios extends BaseController
     function consultar_entradas_salida()
     {
         //$entradas = model('EntradasSalidasModel')->datos();
+        $truncate = model('TempMovModel')->truncate();
         $conceptos = model('KardexConceptoModel')->findAll();
         return view('inventarios/consultas', [
             'conceptos' => $conceptos

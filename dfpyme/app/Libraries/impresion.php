@@ -1082,7 +1082,7 @@ class impresion
         }
     }
 
-    function imprimir_comprobnate_transferencia($id_factura, $transferencia, $efectivo, $total)
+    /*  function imprimir_comprobnate_transferencia($id_factura, $transferencia, $efectivo, $total)
     {
 
         $id_impresora = model('cajaModel')->select('id_impresora')->first();
@@ -1143,6 +1143,91 @@ class impresion
         $printer->pulse();
         $printer->close();
     }
+ */
+    function imprimir_comprobnate_transferencia($id_factura, $transferencia, $efectivo, $total)
+    {
+
+        $id_impresora = model('cajaModel')->select('id_impresora')->first();
+        $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
+
+        $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
+
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+        $id_impresora = model('cajaModel')->select('id_impresora')->first();
+
+        $id_factura = $id_factura;
+
+        $numero_factura = model('pagosModel')->select('documento')->where('id', $id_factura)->first();
+
+        $fecha_factura_venta = model('pagosModel')->select('fecha')->where('id', $id_factura)->first();
+        //$hora_factura_venta = model('pagosModel')->select('hora')->where('id', $id_factura)->first();
+        $id_usuario = model('pagosModel')->select('id_usuario_facturacion')->where('id', $id_factura)->first();
+
+        $printer = new Printer($connector);
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(1, 1);
+        $printer->text("SOPORTE TRANSFERENCIA\n");
+        $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
+        //$printer->text($datos_empresa[0]['representantelegalempresa'] . "\n");
+        $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
+
+        $printer->text("\n");
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setTextSize(1, 1);
+        $printer->text("FACTURA DE VENTA:   " .  $numero_factura['documento'] . "\n");
+        $printer->text("FECHA:             " . " " . $fecha_factura_venta['fecha'] . "\n\n");
+        $temp_total = model('pagosModel')->select('total_documento')->where('id', $id_factura)->first();
+
+        //$printer->text("TOTAL TRANSACCION :" . " $" . number_format($temp_total['total_documento'], 0, ",", ".") . "\n\n");
+
+        $temp_efectivo = model('pagosModel')->select('recibido_efectivo')->where('id', $id_factura)->first();
+        $temp_transferencia = model('pagosModel')->select('transferencia')->where('id', $id_factura)->first();
+        $cambio = model('pagosModel')->select('cambio')->where('id', $id_factura)->first();
+
+        /*   $printer->setJustification(Printer::JUSTIFY_CENTER);
+    $printer->text("_________________________________________\n\n");
+    $printer->text("FORMA DE PAGO   " . "\n");
+    $printer->text("_________________________________________\n\n"); */
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setTextSize(1, 1);
+        /*    $printer->text("Pago efectivo  :" . "    $" . number_format($temp_efectivo['efectivo'], 0, ",", ".") . "\n");
+    $printer->text("Pago transferencia :" . "$" . number_format($temp_transferencia['transferencia'], 0, ",", ".") . "\n");
+    $printer->text("TOTAL FORMA PAGO :" . "$" . number_format($temp_transferencia['transferencia']+$temp_efectivo['efectivo'], 0, ",", ".") . "\n");
+    $printer->text("Cambio :" . "            $" . number_format($cambio['cambio'], 0, ",", ".") . "\n\n\n");
+*/
+
+        /*  $printer->text(
+        str_pad("Pago efectivo :", 20) .
+            str_pad("$" . number_format($temp_efectivo['recibido_efectivo'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n"
+    ); */
+        $printer->setTextSize(1, 2);
+        $printer->text(
+            str_pad("Pago transferencia :", 20) .
+                str_pad("$" . number_format($temp_transferencia['transferencia'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n"
+        );
+
+        /*  $total_forma_pago = $temp_transferencia['transferencia'] + $temp_efectivo['recibido_efectivo'];
+    $printer->text(
+        str_pad("TOTAL FORMA PAGO :", 20) .
+            str_pad("$" . number_format($total_forma_pago, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n"
+    ); */
+        $printer->text("\n\n");
+        $printer->setTextSize(1, 1);
+
+        $printer->text("Nota:____________________________________" . "\n\n");
+        $printer->setTextSize(1, 1);
+        $printer->text("Nombre:_________________________________ \n\n");
+        $printer->text("Identificación:__________________________ \n\n");
+        $printer->text("Teléfono:________________________________\n\n");
+
+
+        $printer->feed(1);
+        $printer->cut();
+        $printer->pulse();
+        $printer->close();
+    }
+
 
 
     function imprimir_comanda() {}

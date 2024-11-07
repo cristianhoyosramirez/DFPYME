@@ -121,7 +121,7 @@
                     </div>
                   </div>
 
-                  <div class="row mb-2">
+                  <!--       <div class="row mb-2">
 
                     <div class="col-sm-12">
                       <div class="input-group">
@@ -137,7 +137,27 @@
                         <input type="text" value=0 class="form-control" disabled>
                       </div>
                     </div>
+                  </div> -->
+
+
+
+                  <div class="col-sm-12">
+                    <?php $medios_pago = model('medioPagoModel')->where('estado', 'true')->findAll();  ?>
+                    <div class="input-group mb-3">
+                      <label class="input-group-text" for="inputGroupSelect01">Medio de pago </label>
+                      <select class="form-select" id="medio_de_pago" name="medio_de_pago">
+                        <?php foreach ($medios_pago as $detalle_me): ?>
+                          <option value="<?php echo $detalle_me['codigo']; ?>"
+                            <?php echo ($detalle_me['codigo'] == 10) ? 'selected' : ''; ?>>
+                            <?php echo $detalle_me['nombre_comercial']; ?>
+                          </option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
                   </div>
+
+
+
                   <div class="row mb-2">
 
                     <div class="col-sm-12">

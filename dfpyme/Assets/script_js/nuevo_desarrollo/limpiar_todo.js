@@ -7,9 +7,9 @@ function limpiar_todo() {
         radio_transaccion.checked = false;
     }
 
-    var radio_efectivo = document.getElementById("radio_efectivo");
+    //var radio_efectivo = document.getElementById("radio_efectivo");
     // Desmarca el elemento
-    radio_efectivo.checked = true;
+    //radio_efectivo.checked = true;
 
 
     $('#nit_cliente').val('222222222222')

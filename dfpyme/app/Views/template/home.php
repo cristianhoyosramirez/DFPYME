@@ -132,8 +132,9 @@
                 //validacion(movimiento, producto, fecha_inicial, fecha_inicial);
 
                 //console.log(validacion);
+                
 
-
+                document.getElementById("barra_progreso").style.display = "block"
 
 
                 //if (validacion == 1) {
@@ -154,26 +155,36 @@
                         // Verifica si el resultado es exitoso
                         if (resultado.resultado == 1) {
                             // Variable para acumular las filas
+
                             let rows = '';
 
                             // Itera sobre los datos recibidos
                             resultado.datos.forEach(item => {
                                 // Agrega cada fila a la cadena
                                 rows += `<tr>
-                    <td>${item.fecha}</td>
-                    <td>${item.movimiento}</td>
-                    <td>${item.producto}</td>
-                    <td>${item.cantidad_inicial}</td>
-                    <td>${item.cantidad_movi}</td>
-                    <td>${item.cantidad_final}</td>
-                    <td>${item.documento}</td>
-                    <td>${item.usuario}</td>
-                    <td>${item.nota}</td>
-                </tr>`;
+                                    <td>${item.fecha}</td>
+                                    <td>${item.hora}</td>
+                                    <td>${item.movimiento}</td>
+                                    <td>${item.producto}</td>
+                                    <td>${item.cantidad_inicial}</td>
+                                    <td>${item.cantidad_movi}</td>
+                                    <td>${item.cantidad_final}</td>
+                                    <td>${item.documento}</td>
+                                    <td>${item.usuario}</td>
+                                    <td>${item.nota}</td>
+                                </tr>`;
                             });
 
                             // Inserta todas las filas acumuladas de una sola vez en el tbody
                             document.getElementById('res_producto').innerHTML = rows;
+                            document.getElementById("barra_progreso").style.display = "none";
+                        }
+
+                        if (resultado.resultado == 0) {
+
+                            sweet_alert_centrado('warning', 'No hay registros para la consulta ')
+                            document.getElementById("barra_progreso").style.display = "none";
+
                         }
                     },
                     error: function(error) {
@@ -205,6 +216,7 @@
 
                     $('#id_producto').val(ui.item.id_producto)
                     $('#cantidad_inventario').val(ui.item.cantidad)
+                    $('#prod_selec').val(ui.item.nombre_producto)
 
 
                 },

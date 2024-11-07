@@ -61,6 +61,7 @@ class devolucionController extends BaseController
                     $actualizar = $model->set($data);
                     $actualizar = $model->where('codigointernoproducto', $codigo_producto_devolucion);
                     $actualizar = $model->update();
+                    
                 } elseif ($id_tipo_inventario['id_tipo_inventario'] == 3) {
 
                     $producto_fabricado = model('productoFabricadoModel')->select('*')->where('prod_fabricado', $codigo_producto_devolucion)->find();

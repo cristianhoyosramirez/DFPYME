@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 
 use App\Libraries\Impuestos;
 use App\Libraries\Propina;
+use IntlDateFormatter;
 
 class Mesas extends BaseController
 {
@@ -421,7 +422,7 @@ class Mesas extends BaseController
             $id_mesa = $temp_id_mesa['id'];
         } */
 
-        
+
         if (!empty($this->request->getPost('id_mesa'))) {
 
             $id_mesa = $this->request->getPost('id_mesa');
@@ -448,7 +449,7 @@ class Mesas extends BaseController
         //$id_producto = 2;
         //$id_producto = '207';
         //$id_producto = '10';
-        $id_producto = (string) $this->request->getPost('id_producto');
+       $id_producto = (string) $this->request->getPost('id_producto');
 
         /**
          * Datos del producto
@@ -818,6 +819,9 @@ class Mesas extends BaseController
         $id_mesa = $this->request->getPost('id_mesa');
 
         $numero_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
+
+        $fecha_pedido = model('pedidoModel')->select('fecha_creacion')->where('fk_mesa', $id_mesa)->first();
+
         $total_pedido = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
         $nota_pedido = model('pedidoModel')->select('nota_pedido')->where('fk_mesa', $id_mesa)->first();
         $propina = model('pedidoModel')->select('propina')->where('fk_mesa', $id_mesa)->first();
@@ -833,10 +837,27 @@ class Mesas extends BaseController
         }
 
         $productos_pedido = model('productoPedidoModel')->producto_pedido($numero_pedido['id']);
+        $locale = 'es_ES';
+
+        // Crear el objeto IntlDateFormatter
+        $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
+
+        // Establecer que la fecha se muestre con día, mes, año y hora
+       // $formatter->setPattern('EEEE d ' . "'de'" . ' MMMM ' . "'de'" . ' yyyy, h:mm a');
+       $formatter->setPattern( 'h:mm a');
+
+        // Fecha original
+        $fecha = $fecha_pedido['fecha_creacion'];
+
+        // Convertir la fecha a timestamp
+        $timestamp = strtotime($fecha);
+
+        // Formatear la fecha en español
+        $fecha_formato = $formatter->format($timestamp);
         $returnData = array(
             "resultado" => 1,
             "id_mesa" => $id_mesa,
-            "numero_pedido" => $numero_pedido['id'],
+            "numero_pedido" => $numero_pedido['id']."  ".$fecha_formato,
             "productos_pedido" => view('pedidos/productos_pedido', [
                 "productos" => $productos_pedido,
             ]),
@@ -848,7 +869,8 @@ class Mesas extends BaseController
             "nota_pedido" => $nota_pedido['nota_pedido'],
             //"total_propina" => number_format($propina['propina'] + $total_pedido['valor_total'], 0, ',', '.'),
             "total_propina" => number_format($total_pedido['valor_total'], 0, ',', '.'),
-            "nombre_mesero" => $nombre_mesero['nombresusuario_sistema']
+            "nombre_mesero" => $nombre_mesero['nombresusuario_sistema'],
+            'fecha'=>$fecha_formato
 
         );
         echo  json_encode($returnData);

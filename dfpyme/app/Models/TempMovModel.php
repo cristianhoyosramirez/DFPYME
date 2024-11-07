@@ -19,7 +19,23 @@ class TempMovModel extends Model
         'cantidad_movi',
         'fecha',
         'documento',
-        'nota'
+        'nota',
+        'hora',
+        'componente'
 
     ];
+
+
+
+
+
+public function get_productos($id_usuario)
+    {
+        $datos = $this->db->query("
+        SELECT *
+        FROM tem_mov
+        WHERE id_usuario = $id_usuario group by tem_mov.id order by hora desc
+        ");
+        return $datos->getResultArray();
+    }
 }

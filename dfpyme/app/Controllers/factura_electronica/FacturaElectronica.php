@@ -7,6 +7,7 @@ use App\Libraries\Impuestos;
 use App\Libraries\Inventario;
 use \DateTime;
 use \DateTimeZone;
+use App\Libraries\impresion;
 
 require APPPATH . "Controllers/mike42/autoload.php";
 
@@ -29,7 +30,7 @@ class FacturaElectronica extends BaseController
 
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
         $numero_pedido = $pedido['id'];
-
+        $imprime_boucher = model('cajaModel')->select('imp_comprobante_transferencia')->where('numerocaja', 1)->first();
         $validar_pedido = model('productoPedidoModel')->validar_pedido($numero_pedido);
 
         $suma_pedido = model('productoPedidoModel')->total_pedido($numero_pedido);
@@ -135,7 +136,7 @@ class FacturaElectronica extends BaseController
                 'id_resolucion' => 0,
                 'metodo_pago' => 1,
                 //'medio_pago' => '10',
-                'medio_pago' => 1,
+                'medio_pago' => $medio_de_pago,
                 'fecha_pago' => date('Y-m-d'),
                 'version_ubl' => 'UBL 2.1',
                 'version_dian' => 'DIAN 2.1',
@@ -163,7 +164,7 @@ class FacturaElectronica extends BaseController
             $data = [
 
                 'id_documento' => $id_factura,
-                'id_operacion' => 1,
+                'id_operacion' => 2,
                 'fecha' => date('Y-m-d'),
                 //'inventario_anterior' => $cantidad_inventario['cantidad_inventario']
                 'tabla' => 'documento_electronico'
@@ -519,6 +520,22 @@ class FacturaElectronica extends BaseController
 
                     $total_ventas_electronicas = model('pagosModel')->get_total_ventas_electronicas($id_apertura['numero']);
 
+
+                    if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
+
+                        $idUlt = model('pagosModel')->insertID;
+
+                        $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
+                        $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);
+
+
+                        if (!empty($movimientos_transaccion)) {
+                            $imp = new impresion();
+                            $imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $movimientos_efectivo[0]['recibido_efectivo'], $movimientos_efectivo[0]['total_pago']);
+                        }
+                    }
+
+
                     $returnData = array(
                         "resultado" => 1, //Falta plata
                         "total" => "$ " . number_format($valor_venta, 0, ",", "."),
@@ -640,6 +657,21 @@ class FacturaElectronica extends BaseController
                     $borrar = $model->truncate();
 
                     $total_ventas_electronicas = model('pagosModel')->get_total_ventas_electronicas($id_apertura['numero']);
+
+                    if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
+
+                        $idUlt = model('pagosModel')->insertID;
+
+                        $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
+                        $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);
+
+
+                        if (!empty($movimientos_transaccion)) {
+                            $imp = new impresion();
+                            $imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $movimientos_efectivo[0]['recibido_efectivo'], $movimientos_efectivo[0]['total_pago']);
+                        }
+                    }
+
 
                     $returnData = array(
                         "id_factura" => $id_factura,

@@ -23,7 +23,8 @@ class FacturaCompraModel extends Model
         'esfactura',
         'valor_ajuste',
         'fecha_factura',
-        'nota'
+        'nota',
+        'hora'
     ];
 
     public function getUsuario($id)

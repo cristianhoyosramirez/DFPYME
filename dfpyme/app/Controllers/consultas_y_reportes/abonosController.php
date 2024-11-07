@@ -9,6 +9,8 @@ use App\Controllers\BaseController;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 use \DateTime;
 use \DateTimeZone;
@@ -34,55 +36,17 @@ class AbonosController extends BaseController
         );
         echo  json_encode($returnData);
     }
-    /*   public function saldo_factura()
-    {
-    
-        $id_factura = $this->request->getPost('id_factura');
-        $tipo_factura = model('facturaVentaModel')->select('idestado')->where('id', $id_factura)->first();
-
-        if ($tipo_factura['idestado'] == 2 or  $tipo_factura['idestado'] == 6) {
-
-            $saldo = model('facturaVentaModel')->select('saldo')->where('id', $id_factura)->first();
-            $valor_factura = model('facturaVentaModel')->select('valor_factura')->where('id', $id_factura)->first();
-            $numero_factura = model('facturaVentaModel')->select('numerofactura_venta')->where('id', $id_factura)->first();
-
-            if ($saldo['saldo'] > 0) {
-
-                $returnData = array(
-                    "saldo" => number_format($saldo['saldo'], 0, ",", "."),
-                    "valor_factura" => number_format($valor_factura['valor_factura'], 0, ",", "."),
-                    "numero_factura" => $numero_factura['numerofactura_venta'],
-                    "id_factura" => $id_factura,
-                    "resultado" => 1,
-                );
-                echo  json_encode($returnData);
-            } else if ($saldo['saldo'] == 0) {
-                $returnData = array(
-                    "resultado" => 1
-                );
-                echo  json_encode($returnData);
-            }
-        }
-
-        if ($tipo_factura['idestado'] == 1 or  $tipo_factura['idestado'] == 7) {
-            $returnData = array(
-                "resultado" => 1
-            );
-            echo  json_encode($returnData);
-        }
-    } */
-
 
     function actualizar_saldo()
     {
 
         $efectivo = $this->request->getPost('efectivo');
         $transaccion = $this->request->getPost('transaccion');
-         $id_factura = $this->request->getPost('id_factura'); 
+        $id_factura = $this->request->getPost('id_factura');
         $abono = $this->request->getPost('abono');
         // $saldo = $this->request->getPost('saldo');
         $saldo = model('pagosModel')->select('saldo')->where('id_factura', $id_factura)->first();
-        
+
         $id_usuario = $this->request->getPost('id_usuario');
 
 
@@ -269,5 +233,106 @@ class AbonosController extends BaseController
         $printer->cut();
 
         $printer->close();
+    }
+
+
+    function excel_mov()
+    {
+
+        $movimientos = model('TempMovModel')->findAll();
+
+        //dd($movimientos);
+
+
+        $file_name = 'Movimiento producto.xlsx';
+
+        $spreadsheet = new Spreadsheet();
+
+        $sheet = $spreadsheet->getActiveSheet();
+
+
+        // Establecer el estilo de las celdas del encabezado
+        $headerStyle = [
+            'font' => [
+                'bold' => true,           // Negrita
+                'size' => 12,             // Tamaño de fuente
+                'color' => ['argb' => 'FFFFFF'], // Color de fuente blanco
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Alineación centrada
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,   // Alineación centrada vertical
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Relleno sólido
+                'startColor' => ['argb' => '4F81BD'], // Color de fondo (puedes cambiarlo)
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN, // Bordes finos
+                    'color' => ['argb' => '000000'], // Color de borde negro
+                ],
+            ],
+        ];
+
+        // Aplicar estilo a las celdas A1:J1
+        $sheet->getStyle('A1:J1')->applyFromArray($headerStyle);
+
+        $sheet->setCellValue('A1', 'Fecha');
+
+        $sheet->setCellValue('B1', 'Hora');
+
+        $sheet->setCellValue('C1', 'Movimiento');
+
+        $sheet->setCellValue('D1', 'Producto');
+
+        $sheet->setCellValue('E1', 'Cantidad inicial ');
+        $sheet->setCellValue('F1', 'Cantidad movimiento ');
+        $sheet->setCellValue('G1', 'Cantidad final ');
+        $sheet->setCellValue('H1', 'Documento ');
+        $sheet->setCellValue('I1', 'Usuario ');
+        $sheet->setCellValue('J1', 'Notal ');
+
+        $count = 2;
+
+
+        foreach ($movimientos as $row) {
+            $sheet->setCellValue('A' . $count, $row['fecha']);
+
+            $sheet->setCellValue('B' . $count, $row['hora']);
+
+            $sheet->setCellValue('C' . $count, $row['movimiento']);
+
+            $sheet->setCellValue('D' . $count, $row['producto']);
+            $sheet->setCellValue('E' . $count, $row['cantidad_inicial']);
+            $sheet->setCellValue('F' . $count, $row['cantidad_movi']);
+            $sheet->setCellValue('G' . $count, $row['cantidad_final']);
+            $sheet->setCellValue('H' . $count, $row['documento']);
+            $sheet->setCellValue('I' . $count, $row['usuario']);
+            $sheet->setCellValue('J' . $count, $row['nota']);
+
+            $count++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+
+        $writer->save($file_name);
+
+        header("Content-Type: application/vnd.ms-excel");
+
+        header('Content-Disposition: attachment; filename="' . basename($file_name) . '"');
+
+        header('Expires: 0');
+
+        header('Cache-Control: must-revalidate');
+
+        header('Pragma: public');
+
+        header('Content-Length:' . filesize($file_name));
+
+        flush();
+
+        readfile($file_name);
+
+        exit;
     }
 }

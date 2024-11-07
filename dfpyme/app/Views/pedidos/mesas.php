@@ -78,6 +78,7 @@ Bienvenido DFpyme
             </div>
         </div>
     </div>
+    
 
     <div class="page-wrapper">
         <!-- Page body -->
@@ -296,6 +297,7 @@ Bienvenido DFpyme
                                         </tr>
                                     </table>
                                 </div>
+                                <span id="info_pedido"></span>
                             </div>
                         </div>
                         <div class="card-body card-body-scrollable card-body-scrollable-shadow">

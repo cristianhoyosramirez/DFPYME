@@ -124,7 +124,7 @@ WHERE
         $compra = $this->db->query("SELECT sum(cantidadproducto_factura_proveedor*valoringresoproducto_factura_proveedor) as total_compra FROM producto_factura_proveedor where numeroconsecutivofactura_proveedor=$id_factura");
         return $compra->getResultArray();
     }
- 
+
 
     public function productos_compra($id_entrada)
     {
@@ -200,17 +200,27 @@ WHERE
     public function getProductosCompra($id, $codigo)
     {
         $compra = $this->db->query("
-                                  SELECT
-                    cantidadproducto_factura_proveedor,
-                    nombreproducto,
-                    inventario_anterior,
-                    inventario_actual,
-                    cantidadproducto_factura_proveedor as cantidad_movimiento
-                            FROM
-                producto_factura_proveedor
-                        INNER JOIN producto ON producto.codigointernoproducto = producto_factura_proveedor.codigointernoproducto
-                        WHERE
-                            numeroconsecutivofactura_proveedor = $id and producto_factura_proveedor.codigointernoproducto='$codigo'
+                   SELECT
+    producto_factura_proveedor.cantidadproducto_factura_proveedor,
+    producto.nombreproducto,
+    producto_factura_proveedor.inventario_anterior,
+    producto_factura_proveedor.inventario_actual,
+    producto_factura_proveedor.cantidadproducto_factura_proveedor AS cantidad_movimiento,
+    factura_proveedor.hora
+FROM
+    producto_factura_proveedor
+INNER JOIN 
+    producto 
+ON 
+    producto.codigointernoproducto = producto_factura_proveedor.codigointernoproducto
+INNER JOIN 
+    factura_proveedor 
+ON 
+    factura_proveedor.numeroconsecutivofactura_proveedor = producto_factura_proveedor.numeroconsecutivofactura_proveedor
+WHERE
+    producto_factura_proveedor.numeroconsecutivofactura_proveedor = $id 
+    AND producto_factura_proveedor.codigointernoproducto = '$codigo';
+
         ");
         return $compra->getResultArray();
     }

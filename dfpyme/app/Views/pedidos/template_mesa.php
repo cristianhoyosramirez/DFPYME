@@ -231,6 +231,65 @@
 
 
 
+    <script>
+        function cambiarValorfrmPago(idFrmPago,valor) {
+
+
+            var idFrmPago = idFrmPago;
+
+            const dynamicId = idFrmPago;
+        
+            const input = document.querySelector("#frmPago" + dynamicId);
+            // Verificar si se encontró el input
+            if (!input) {
+                console.error("Input con ID '" + id + "' no encontrado.");
+                return;
+            }
+            // Definir la función para formatear el número
+            function format(n) {
+                // Elimina cualquier carácter que no sea un número
+                n = n.replace(/\D/g, "");
+                // Formatea el número
+                return n === "" ? n : parseFloat(n).toLocaleString('es-CO');
+            }
+            // Agregar el evento "input" al input
+            input.addEventListener("input", (e) => {
+                const element = e.target;
+                const value = element.value;
+                element.value = format(value);
+            });
+
+
+            let url = document.getElementById("url").value;
+            let id_mesa = document.getElementById("id_mesa_pedido").value;
+
+            $.ajax({
+                    data: {
+                        id_mesa
+                    },
+                    url: url + "/" + "reportes/productos_pedido",
+                    type: "get",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
+
+                            let mesas = resultado.mesas;
+
+                            
+
+                            // Asumiendo que tienes una tabla con un cuerpo de tabla con el id "tabla-mesas"
+
+                        }
+                    },
+                });
+
+
+        }
+    </script>
+
+
+
+
     <!-- <script>
         function actualizacion_productos_pedido() {
             let url = document.getElementById("url").value;
@@ -345,7 +404,7 @@
                 },
             });
         }
-        //setInterval(actualizar_mesas_pedido, 1000);
+        setInterval(actualizar_mesas_pedido, 1000);
     </script>
 
 
@@ -401,7 +460,7 @@
         }
 
         // Ejecuta la función total_venta_electronicas cada 5 segundos
-        //setInterval(total_venta_electronicas, 5000); // 5000 ms = 5 segundos
+        setInterval(total_venta_electronicas, 5000); // 5000 ms = 5 segundos
     </script>
 
 
@@ -616,6 +675,9 @@
 
         }
     </script>
+
+
+
     <script>
         function cambiar_precio(valor, id_producto) {
 

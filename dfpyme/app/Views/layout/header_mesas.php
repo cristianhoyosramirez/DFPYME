@@ -907,14 +907,7 @@
                   <path d="M12 3v3m0 12v3" />
                 </svg>Egresos
               </a>
-              <a class="dropdown-item" href="<?= base_url() ?>/inventario/consultar_entrada_salida">
-                <!-- Download SVG icon from http://tabler-icons.io/i/brand-producthunt -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M10 16v-8h2.5a2.5 2.5 0 1 1 0 5h-2.5" />
-                  <circle cx="12" cy="12" r="9" />
-                </svg>Movimiento de producto
-              </a>
+
               <!-- <a class="dropdown-item" href="<?= base_url() ?>/consultas_y_reportes/ventas_de_mesero">
                 Download SVG icon from http://tabler-icons.io/i/user-check 
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -1024,6 +1017,15 @@
 
                 </div>
               </div>
+
+              <a class="dropdown-item" href="<?= base_url() ?>/inventario/consultar_entrada_salida">
+                <!-- Download SVG icon from http://tabler-icons.io/i/brand-producthunt -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M10 16v-8h2.5a2.5 2.5 0 1 1 0 5h-2.5" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>Movimiento de producto
+              </a>
 
             </div>
           </li>

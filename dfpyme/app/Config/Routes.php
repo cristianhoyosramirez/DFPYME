@@ -196,6 +196,7 @@ $routes->group('comanda', ['namespace' => 'App\Controllers\comanda', 'filter' =>
     $routes->post('directa', 'imprimirComandaController::directa');
     $routes->post('imprimir_compra', 'imprimirComandaController::imprimir_compra');
     $routes->post('impresion_compra', 'imprimirComandaController::impresion_compra');
+    $routes->post('imprimir_movimiento', 'imprimirComandaController::imprimir_movimiento');
 });
 
 $routes->group('clientes', ['namespace' => 'App\Controllers\cliente', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -351,6 +352,7 @@ $routes->group('consultas_y_reportes', ['namespace' => 'App\Controllers\consulta
     $routes->get('ventas_de_mesero', 'Documento::ventas_de_mesero');
     $routes->post('expotar_informe_electronico_pdf', 'informeFiscalVentasController::expotar_informe_electronico_pdf');
     $routes->post('reporte_de_ventas_excel', 'informeFiscalVentasController::reporte_de_ventas_excel');
+    $routes->get('excel_mov', 'AbonosController::excel_mov');
 });
 
 $routes->group('devolucion', ['namespace' => 'App\Controllers\devolucion', 'filter' => \App\Filters\Auth::class], function ($routes) {

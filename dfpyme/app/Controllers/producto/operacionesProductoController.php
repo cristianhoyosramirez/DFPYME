@@ -741,7 +741,7 @@ class operacionesProductoController extends BaseController
             if ($this->request->getPost('informacion_tributaria') == 1) {  //Tiene INC
                 $aplica_ico = "t";
                 $id_iva = 1;
-                $id_ico=$this->request->getPost('informacion_tributaria');
+                $id_ico=$this->request->getPost('valor_ico');
             }
             if ($this->request->getPost('informacion_tributaria') == 2) { // Tiene IVA 
                 $aplica_ico = "f";

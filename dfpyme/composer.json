@@ -13,6 +13,7 @@
         "dompdf/dompdf": "^2.0",
         "kint-php/kint": "^4.0",
         "laminas/laminas-escaper": "^2.9",
+        "phpoffice/phpspreadsheet": "*",
         "psr/log": "^1.1",
         "simplesoftwareio/simple-qrcode": "^4.2"
     },

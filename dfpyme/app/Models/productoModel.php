@@ -230,6 +230,17 @@ class productoModel extends Model
         return $datos->getResultArray();
     }
 
+    public function getTipoInventario($codigo)
+    {
+        $datos = $this->db->query("
+          SELECT 
+             id_tipo_inventario
+          FROM PRODUCTO
+            WHERE CODIGOINTERNOPRODUCTO = '$codigo'
+        ");
+        return $datos->getResultArray();
+    }
+
     public function tipoInventario($id_categoria)
     {
         $datos = $this->db->query("
@@ -456,6 +467,15 @@ class productoModel extends Model
 
         $datos = $this->db->query("
             SELECT * FROM  producto where estadoproducto = 'false'
+   
+        ");
+        return $datos->getResultArray();
+    }
+    function getIdProducto($codigointernoproducto)
+    {
+
+        $datos = $this->db->query("
+           select id from producto where codigointernoproducto = '$codigointernoproducto'
    
         ");
         return $datos->getResultArray();

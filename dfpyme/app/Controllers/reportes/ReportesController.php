@@ -5,7 +5,9 @@ namespace App\Controllers\reportes;
 use App\Controllers\BaseController;
 use App\Libraries\data_table;
 use App\Libraries\tipo_consulta;
+
 use \DateTime;
+use \DateTimeZone;
 use App\Libraries\estado_factura;
 
 class ReportesController extends BaseController
@@ -785,6 +787,48 @@ class ReportesController extends BaseController
     {
 
         $truncate = model('TempMovModel')->truncate();
+        /*         if (!$this->validate([
+            'producto' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Dato necesario',
+
+                ]
+            ],
+            'movimiento' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Dato necesario',
+                ]
+            ],
+            'fecha_inicial' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Dato necesario',
+                ]
+            ],
+            'fecha_final' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Dato necesario',
+                ]
+            ],
+            'id_usuario' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Dato necesario',
+                ]
+            ],
+
+        ])) {
+
+            $returnData = array(
+                "resultado" => 2,
+
+            );
+            echo  json_encode($returnData);
+        }
+ */
         $codigo_producto = $this->request->getPost('producto');
         $movimiento = $this->request->getPost('movimiento');
         $fecha_inicial = $this->request->getPost('fecha_inicial');
@@ -792,16 +836,14 @@ class ReportesController extends BaseController
         $usuario_consulta = $this->request->getPost('id_usuario');
 
 
-
-        /*   $codigo_producto = 16;
-        $movimiento = 3;
-        $fecha_inicial = date('Y-m-d');
+        /*  $codigo_producto = 223;
+        $movimiento = 2;
+        $fecha_inicial = '2024-11-01';
         $fecha_final = date('Y-m-d');
         $usuario_consulta = 6; */
 
-
-
-
+        $id_producto = model('productoModel')->getIdProducto($codigo_producto);
+        $tipo_inventario = model('productoModel')->getTipoInventario($codigo_producto);
 
         // Mapeo de movimientos
         $operaciones = [
@@ -817,10 +859,12 @@ class ReportesController extends BaseController
             //$movimientos = model('EntradasSalidasModel')->where('id_operacion', $id_operacion)->findAll();
             $movimientos = model('EntradasSalidasModel')->getMovimientos($movimiento, $fecha_inicial, $fecha_final);
         } else {
-            $movimientos = model('EntradasSalidasModel')->findAll();
+            $movimientos = model('EntradasSalidasModel')->getMovimientosAll($fecha_inicial, $fecha_final);
         }
 
         $datosParaInsertar = [];
+
+
 
 
         foreach ($movimientos as $detalle) {
@@ -835,10 +879,12 @@ class ReportesController extends BaseController
                     $datos = model('ComprasModel')->getProductosCompra($detalle['id_documento'], $codigo_producto);
 
                     foreach ($datos  as $key) {
+
+
                         $data_temp = [
 
                             'movimiento' => $movimiento,
-                            'producto' => $key['nombreproducto'],
+                            'producto' =>  $codigo_producto . "/" . $key['nombreproducto'],
                             'cantidad_inicial' => $key['inventario_anterior'],
                             'cantidad_final' => $key['inventario_actual'],
                             'usuario' => $usuario[0]['nombresusuario_sistema'],
@@ -847,6 +893,7 @@ class ReportesController extends BaseController
                             'fecha' => $fecha,
                             'documento' => $documento['numerofactura_proveedor'],
                             'nota' => $nota['nota'],
+                            'hora' => date("g:i A", strtotime($key['hora']))
                         ];
                         $insert_temp = model('TempMovModel')->insert($data_temp);
                     }
@@ -855,73 +902,111 @@ class ReportesController extends BaseController
 
 
                     $fecha = $detalle['fecha'];
-                    //$ids = model('EntradasSalidasManualesModel')->select('id_concepto,id_usuario')->where('id', $detalle['id_documento'])->first();
-                    $datos = model('EntradasSalidasModel')->Entradas_salidas($detalle['id_documento']);
-                    //$movimiento=model('KardexConceptoModel')->select('nombre')->where('id',$ids['id_concepto'])->first();
+                    $datos = model('EntradasSalidasModel')->Entradas_salidas($detalle['id_documento'], $id_producto[0]['id']);
 
-                    $usuario = $datos[0]['usuario'];
-                    $concepto_kardex = $datos[0]['concepto_kardex'];
+                    if (!empty($datos)) {
+                        foreach ($datos  as $keyDatos) {
 
+                            $data_temp = [
 
-                    $data_temp = [
-
-                        'movimiento' => $concepto_kardex,
-                        'producto' => $datos[0]['nombreproducto'],
-                        'cantidad_inicial' => $datos[0]['inventario_anterior'],
-                        'cantidad_final' => $datos[0]['inventario_actual'],
-                        'usuario' => $datos[0]['usuario'],
-                        'id_usuario' => 6,
-                        'cantidad_movi' => $datos[0]['cantidad'],
-                        'fecha' => $datos[0]['fecha'],
-                        'documento' => $datos[0]['id'],
-                        'nota' => $datos[0]['nota']
-                    ];
-                    $insert_temp = model('TempMovModel')->insert($data_temp);
+                                'movimiento' => $keyDatos['concepto_kardex'],
+                                'producto' =>  $codigo_producto . "/" . $keyDatos['nombreproducto'],
+                                'cantidad_inicial' => $keyDatos['inventario_anterior'],
+                                'cantidad_final' => $keyDatos['inventario_actual'],
+                                'usuario' => $keyDatos['usuario'],
+                                'id_usuario' => 6,
+                                'cantidad_movi' => $keyDatos['cantidad'],
+                                'fecha' => $keyDatos['fecha'],
+                                'documento' => $keyDatos['id'],
+                                'nota' => $keyDatos['nota'],
+                                //'hora'=>$keyDatos['hora']
+                                'hora' => date("g:i A", strtotime($keyDatos['hora']))
+                            ];
+                            $insert_temp = model('TempMovModel')->insert($data_temp);
+                        }
+                    }
                     break;
                 case $detalle['tabla'] == 'documento_electronico':
 
-                    //echo  $detalle['id_documento']."</br>";
-                    $movimientos_electronicos = model('EntradasSalidasModel')->getDatosVentas($codigo_producto, $detalle['id_documento']);
+                    if ($tipo_inventario[0]['id_tipo_inventario'] == 1 or $tipo_inventario[0]['id_tipo_inventario'] == 3) {  // En el caso de que el producto sea solo para la venta
 
-                    $id_usuario = model('pagosModel')->select('id_usuario_facturacion')->where('id', $detalle['id_documento'])->where('id_estado', 8)->first();
+                        $movimientos_electronicos = model('EntradasSalidasModel')->getDatosVentas($codigo_producto, $detalle['id_documento']);
 
-
-                    //$nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['id_usuario_facturacion'])->first();
-
-                    $nombre_usuario = model('usuariosModel')->nombre_usuario(6);
+                        $nombre_usuario = model('MovimientoInsumosModel')->idUsuario($detalle['id_documento']);
 
 
-                    if (!empty($movimientos_electronicos)) {
+                        foreach ($movimientos_electronicos as $keyMov) {
+                            $data_temp = [
 
-                        $data_temp = [
-                            'movimiento' => 'VENTAS',
-                            'producto' => $movimientos_electronicos[0]['nombreproducto'],
-                            'cantidad_inicial' => $movimientos_electronicos[0]['inventario_anterior'],
-                            'cantidad_final' => $movimientos_electronicos[0]['inventario_actual'],
-                            //'usuario' => $nombre_usuario['nombresusuario_sistema'],
-                            'usuario' => 'Administrador',
-                            'id_usuario' => 6,
-                            'cantidad_movi' => $movimientos_electronicos[0]['cantidad'],
-                            'fecha' => $movimientos_electronicos[0]['fecha'],
-                            'documento' => $movimientos_electronicos[0]['numero'],
-                            'nota' => ''
-                        ];
-                        $insert_temp = model('TempMovModel')->insert($data_temp);
+                                'movimiento' => "Factuta venta electrónica ",
+                                'producto' =>   $codigo_producto . "/" . $keyMov['nombreproducto'],
+                                'cantidad_inicial' => $keyMov['inventario_anterior'],
+                                'cantidad_final' => $keyMov['inventario_actual'],
+                                'usuario' => $nombre_usuario[0]['nombresusuario_sistema'],
+                                'id_usuario' => $usuario_consulta,
+                                'cantidad_movi' =>  $keyMov['inventario_anterior'] - $keyMov['inventario_actual'],
+                                'fecha' => $keyMov['fecha'],
+                                'documento' => $keyMov['numero'],
+                                'nota' => 'Producto venta',
+                                'hora' => date("g:i A", strtotime($keyMov['hora']))
+                            ];
+                            $insert_temp = model('TempMovModel')->insert($data_temp);
+                        }
                     }
 
+                    if ($tipo_inventario[0]['id_tipo_inventario'] == 4) {
+
+                        $item = model('MovimientoInsumosModel')->producto($detalle['id_documento'], $id_producto[0]['id']);
+                        $nombre_usuario = model('MovimientoInsumosModel')->idUsuario($detalle['id_documento']);
+
+                        if (!empty($item)) {
+                            foreach ($item as $keyProducto) {
+
+                                $componente = model('productoModel')->select('nombreproducto')->where('id', $keyProducto['id_pro_prin'])->first();
+
+                                $data_temp = [
+
+                                    'movimiento' => "Venta",
+                                    'producto' =>  $codigo_producto . "/" . $keyProducto['nombreproducto'],
+                                    'cantidad_inicial' => $keyProducto['inventario_anterior'],
+                                    'cantidad_final' => $keyProducto['inventario_actual'],
+                                    'usuario' => $nombre_usuario[0]['nombresusuario_sistema'],
+                                    'id_usuario' => 6,
+                                    'cantidad_movi' =>  $keyProducto['inventario_anterior'] - $keyProducto['inventario_actual'],
+                                    'fecha' => $keyProducto['fecha'],
+                                    'documento' => $keyProducto['numero'],
+                                    'nota' => 'INSUMO DE: ' . $componente['nombreproducto'],
+                                    'hora' => date("g:i A", strtotime($keyProducto['hora']))
+                                ];
+                                $insert_temp = model('TempMovModel')->insert($data_temp);
+                            }
+                        }
+                    }
+
+                    $id_usuario = model('pagosModel')->select('id_usuario_facturacion')->where('id', $detalle['id_documento'])->where('id_estado', 8)->first();
                     break;
             }
         }
 
+        $datos_finales = model('TempMovModel')->get_productos($usuario_consulta);
 
+        if (!empty($datos_finales)) {
 
-        $datos_finales = model('TempMovModel')->where('id_usuario', $usuario_consulta)->findAll();
+            $returnData = array(
+                "resultado" => 1,
+                "datos" => $datos_finales
+            );
 
-        $returnData = array(
-            "resultado" => 1,
-            "datos" => $datos_finales
-        );
+            echo  json_encode($returnData);
+        }
+        if (empty($datos_finales)) {
 
-        echo  json_encode($returnData);
+            $returnData = array(
+                "resultado" => 0,
+
+            );
+
+            echo  json_encode($returnData);
+        }
     }
 }

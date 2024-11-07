@@ -598,7 +598,7 @@ class imprimirComandaController extends BaseController
         if (!empty($nota['nota'])) {
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->setTextSize(1, 1);
-            $printer->text( "\n");
+            $printer->text("\n");
             $printer->text("NOTA: " . $nota['nota'] . "\n");
         }
 
@@ -673,6 +673,84 @@ class imprimirComandaController extends BaseController
         $printer->setJustification(Printer::JUSTIFY_RIGHT);
         $printer->setTextSize(1, 2);
         $printer->text("TOTAL  $" . number_format($total[0]['total_factura'], 0, ',', '.') . "\n");
+
+        $printer->text("\n");
+
+        $printer->feed(1);
+        $printer->cut();
+
+        $printer->close();
+        $json_data = [
+            'resultado' => 1
+
+        ];
+
+        echo  json_encode($json_data);
+    }
+
+    function imprimir_movimiento()
+    {
+
+        $id_usuario = $this->request->getPost('id_usuario');
+        //$id_usuario = 6;
+
+        /**
+         * Datos del proveedor y productos de la compra con el total 
+         */
+
+
+        $productos = model('TempMovModel')->where('id_usuario', $id_usuario)->findAll();
+
+
+        /**
+         * Datos de la empresa 
+         */
+        $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+
+        $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
+
+        $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
+        $printer = new Printer($connector);
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(1, 1);
+        $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
+        $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
+        $printer->text($datos_empresa[0]['direccionempresa'] . "  " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento'] . "\n");
+        $printer->text("TELEFONO:" . $datos_empresa[0]['telefonoempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
+        $printer->text("\n");
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("**MOVIMIENTO DE PRODUCTO  ** \n\n");
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+
+
+        $printer->setTextSize(1, 1);
+        foreach($productos as $detalle){
+
+           
+            //$printer->text("Producto:        " . str_pad($detalle['producto'], 20) . "\n");
+            //$printer->text("Fecha:           " . str_pad($detalle['fecha'], 20) . "\n");
+            $printer->text("Movimiento:      " . str_pad($detalle['movimiento'], 20) . "\n");
+            $printer->text("Cantidad inicial:" . str_pad($detalle['cantidad_inicial'], 20, " ") . "\n");
+            $printer->text("Cantidad movi:   " . str_pad($detalle['cantidad_movi'], 20, " ") . "\n");
+            $printer->text("Cantidad final:  " . str_pad($detalle['cantidad_final'], 20, " ") . "\n");
+            $printer->text("Documento:       " . str_pad($detalle['documento'], 20) . "\n");
+            $printer->text("Usuario:         " . str_pad($detalle['usuario'], 20) . "\n");
+            $printer->text("Nota:            " . str_pad($detalle['nota'], 20) . "\n");
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text("---------------------------------\n");
+             
+        }
+       
+
+
+
+
+        
 
         $printer->text("\n");
 

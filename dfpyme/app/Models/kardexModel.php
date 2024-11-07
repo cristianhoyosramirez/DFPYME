@@ -654,6 +654,21 @@ class kardexModel extends Model
         return $datos->getResultArray();
     }
 
+    public function get_distinct_iva($fecha_inicial,$fecha_final)
+    {
+        $datos = $this->db->query("
+          select distinct (valor_iva) as tarifa_iva from kardex where id between $fecha_inicial and $fecha_final and aplica_ico='false';
+        ");
+        return $datos->getResultArray();
+    }
+    public function get_distinct_inc($fecha_inicial,$fecha_final)
+    {
+        $datos = $this->db->query("
+          select distinct (valor_ico) as tarifa_inc from kardex where id between $fecha_inicial and $fecha_final and aplica_ico='true';
+        ");
+        return $datos->getResultArray();
+    }
+
 
 
 }

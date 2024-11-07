@@ -8,8 +8,8 @@ class EntradasSalidasModel extends Model
 {
     protected $table      = 'entradas_salidas';
     // Uncomment below if you want add primary key
-   // protected $primaryKey = 'id';
-    protected $allowedFields = ['id_documento','id_concepto_kardex','id_operacion','fecha','inventario_anterior','tabla'];
+    // protected $primaryKey = 'id';
+    protected $allowedFields = ['id_documento', 'id_concepto_kardex', 'id_operacion', 'fecha', 'inventario_anterior', 'tabla'];
 
     public function datos()
     {
@@ -41,7 +41,7 @@ INNER JOIN
 
 
 
-    public function Entradas_salidas($id)
+    public function Entradas_salidas($id,$id_producto)
     {
         $datos = $this->db->query("
         
@@ -54,7 +54,8 @@ INNER JOIN
                 cantidad,
                 fecha,
                 entradas_salidas_manuales.id,
-                nota
+                nota,
+                hora
             FROM 
                 entradas_salidas_manuales
             INNER JOIN 
@@ -64,7 +65,7 @@ INNER JOIN
             INNER JOIN 
                 producto ON producto.id = entradas_salidas_manuales.id_producto
             WHERE 
-                entradas_salidas_manuales.id = $id;
+                entradas_salidas_manuales.id = $id and id_producto=$id_producto;
         
 
 
@@ -73,7 +74,7 @@ INNER JOIN
         return $datos->getResultArray();
     }
 
-    public function getDatosVentas($codigo,$id)
+    public function getDatosVentas($codigo, $id)
     {
         $datos = $this->db->query("
         
@@ -85,7 +86,8 @@ INNER JOIN
                 documento_electronico.fecha, 
                 item_documento_electronico.cantidad, 
                 documento_electronico.numero, 
-                documento_electronico.nota 
+                documento_electronico.nota,
+                documento_electronico.hora 
         FROM 
             item_documento_electronico 
         INNER JOIN 
@@ -100,7 +102,7 @@ INNER JOIN
         return $datos->getResultArray();
     }
 
-    public function getMovimientos($operacion,$fecha_inicial, $fecha_final)
+    public function getMovimientos($operacion, $fecha_inicial, $fecha_final)
     {
         $datos = $this->db->query("
         
@@ -113,6 +115,16 @@ INNER JOIN
        ");
         return $datos->getResultArray();
     }
+    public function getMovimientosAll($fecha_inicial, $fecha_final)
+    {
+        $datos = $this->db->query("
+        
+       SELECT * 
+        FROM entradas_salidas 
+        WHERE fecha BETWEEN '$fecha_inicial' AND '$fecha_final';
+    
 
-   
+       ");
+        return $datos->getResultArray();
+    }
 }
