@@ -24,11 +24,12 @@ class Ventas extends BaseController
     {
 
         $id_apertura = $this->request->getPost('id_apertura');
-        //$id_apertura = 56;
+        //$id_apertura = 61;
         $movimientos = model('pagosModel')->where('id_apertura', $id_apertura)->orderBy('id', 'desc')->findAll();
         $ventas_pos = model('pagosModel')->set_ventas_pos($id_apertura);
 
         $ventas_electronicas = model('pagosModel')->set_ventas_electronicas($id_apertura);
+        //dd($ventas_electronicas);
         $propinas = model('pagosModel')->selectSum('propina')->where('id_apertura', $id_apertura)->findAll();
         $efectivo = model('pagosModel')->selectSum('recibido_efectivo')->where('id_apertura', $id_apertura)->findAll();
         $transferencia = model('pagosModel')->selectSum('recibido_transferencia')->where('id_apertura', $id_apertura)->findAll();

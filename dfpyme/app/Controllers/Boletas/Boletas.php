@@ -1062,7 +1062,8 @@ class Boletas extends BaseController
             $abonos = 0;
         }
         if (!empty($temp_abonos)) {
-            $abonos = $temp_abonos[0]['pagos_recibidos'];
+            //$abonos = $temp_abonos[0]['pagos_recibidos'];
+            $abonos = 0;
         }
         $total_ventas = model('pagosModel')->total_venta($id_apertura[0]['id']);
 

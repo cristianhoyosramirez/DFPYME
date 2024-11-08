@@ -520,7 +520,7 @@ class Inventarios extends BaseController
         $valor = $this->request->getVar('term');
         //$valor = 'a';
 
-        $resultado = model('productoModel')->autoComplete($valor);
+        $resultado = model('productoModel')->autoCompletePro($valor);
 
         if (!empty($resultado)) {
             foreach ($resultado as $row) {

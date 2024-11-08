@@ -83,6 +83,33 @@ class productoModel extends Model
         return $datos->getResultArray();
     }
 
+    public function autoCompletePro($valor)
+    {
+
+        $datos = $this->db->query("
+        SELECT
+        categoria.codigocategoria,
+         codigointernoproducto,
+          codigobarrasproducto,
+          id_tipo_inventario,
+          nombreproducto,
+          valorventaproducto,
+          aplica_descuento,
+          precio_costo
+      FROM
+          public.producto
+      INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
+      WHERE
+          codigobarrasproducto ilike '%$valor%' 
+          OR codigointernoproducto ilike '%$valor%'
+          OR nombreproducto ilike '%$valor%'
+           and estadoproducto='true'
+              
+          
+        ");
+        return $datos->getResultArray();
+    }
+
     public function inventario($valor)
     {
 

@@ -324,7 +324,7 @@ class FacturaElectronica extends BaseController
 
                     $actualizar_inventario = $inventario->actualizar_inventario($detalle['codigointernoproducto'], $id_tipo_inventario['id_tipo_inventario'], $detalle['cantidad_producto'], 'documento_electronico', $id_fact);
 
-                    $insertar = model('itemFacturaElectronicaModel')->set_item_factura($id_factura, $detalle['codigointernoproducto'], $nombre_producto, $detalle['cantidad_producto'], $costo, $iva, $ico, $detalle['valor_unitario'], $detalle['valor_total']);
+                    $insertar = model('itemFacturaElectronicaModel')->set_item_factura($id_factura, $detalle['codigointernoproducto'], $nombre_producto, $detalle['cantidad_producto'], $costo, $iva, $ico, $detalle['valor_unitario'], $detalle['valor_unitario']);
 
                     $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
                     $inventario_final = $cantidad_inventario['cantidad_inventario'] - $detalle['cantidad_producto'];

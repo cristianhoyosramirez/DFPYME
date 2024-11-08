@@ -835,12 +835,12 @@ class ReportesController extends BaseController
         $fecha_final = $this->request->getPost('fecha_final');
         $usuario_consulta = $this->request->getPost('id_usuario');
 
-
-        /*  $codigo_producto = 223;
-        $movimiento = 2;
+        /* 
+         $codigo_producto = 65;
+        $movimiento = 3;
         $fecha_inicial = '2024-11-01';
         $fecha_final = date('Y-m-d');
-        $usuario_consulta = 6; */
+        $usuario_consulta = 6;  */
 
         $id_producto = model('productoModel')->getIdProducto($codigo_producto);
         $tipo_inventario = model('productoModel')->getTipoInventario($codigo_producto);
@@ -863,7 +863,6 @@ class ReportesController extends BaseController
         }
 
         $datosParaInsertar = [];
-
 
 
 
