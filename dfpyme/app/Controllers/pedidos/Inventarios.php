@@ -401,8 +401,8 @@ class Inventarios extends BaseController
         $fecha_inicial = $this->request->getPost('fecha_inicial');
         $fecha_final = $this->request->getPost('fecha_final');
 
-        // $fecha_inicial = "2024-03-01";
-        //$fecha_final = "2024-03-30";
+        //$fecha_inicial = "2024-08-01";
+        //$fecha_final = "2024-11-08";
 
         $inicial = $fecha_inicial;
         $final = $fecha_final;
@@ -421,6 +421,8 @@ class Inventarios extends BaseController
 
         $resultado = model('kardexModel')->resultado_suma_entre_fechas($inicial, $final);
 
+
+
         if (!empty($resultado)) {
 
             $validar_tabla_reporte_producto = model('reporteProductoModel')->findAll();
@@ -433,15 +435,19 @@ class Inventarios extends BaseController
             if (empty($validar_tabla_reporte_producto)) {
 
                 foreach ($resultado as $detalle) {
-                    $productos_suma = model('kardexModel')->reporte_suma_cantidades($inicial, $final, $detalle['total'], $detalle['codigo']);
+                    $productos_suma = model('kardexModel')->reporte_suma_cant($inicial, $final, $detalle['valor'], $detalle['codigo']);
+
+                    
                     $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $detalle['codigo'])->first();
                     $codigocategoria = model('productoModel')->select('codigocategoria')->where('codigointernoproducto', $detalle['codigo'])->first();
 
                     $data = [
                         'cantidad' => round($productos_suma[0]['cantidad']),
                         'nombre_producto' => $nombre_producto['nombreproducto'],
-                        'precio_venta' => round($productos_suma[0]['total'] / $productos_suma[0]['cantidad']),
-                        'valor_total' => $productos_suma[0]['total'],
+                        //'precio_venta' => round($productos_suma[0]['valor_unitario'] ),
+                        'precio_venta' => $detalle['valor'],
+                        //'valor_total' => $productos_suma[0]['total']* $productos_suma[0]['cantidad'],
+                        'valor_total' => $productos_suma[0]['valor_total'],
                         'id_categoria' => $codigocategoria['codigocategoria'],
                         'codigo_interno_producto' => $detalle['codigo']
                     ];
@@ -887,9 +893,9 @@ class Inventarios extends BaseController
                 $proveedores = model('ProveedorModel')->select('nombrecomercialproveedor,codigointernoproveedor')->orderBy('nombrecomercialproveedor', 'asc')->findAll();
 
 
-                $model = model('TempMovModel');
-                $borrarPedido = $model->where('id_usuario', $id_usuario);
-                $borrarPedido = $model->delete();
+                $model = model('ComprasModel')->borrado($id_usuario);
+                //$borrarPedido = $model->where('id_usuario', $id_usuario);
+                //$borrarPedido = $model->delete();
 
 
                 $returnData = array(

@@ -132,7 +132,7 @@
                 //validacion(movimiento, producto, fecha_inicial, fecha_inicial);
 
                 //console.log(validacion);
-                
+
 
                 document.getElementById("barra_progreso").style.display = "block"
 
@@ -159,21 +159,67 @@
                             let rows = '';
 
                             // Itera sobre los datos recibidos
+                            /*    resultado.datos.forEach(item => {
+                                   // Agrega cada fila a la cadena
+                                   rows += `<tr>
+                                       <td>${item.fecha}</td>
+                                       <td>${item.hora}</td>
+                                       <td>${item.movimiento}</td>
+                                       <td>${item.producto}</td>
+                                       <td>${item.cantidad_inicial}</td>
+                                       <td>${item.cantidad_movi}</td>
+                                       <td>${item.cantidad_final}</td>
+                                       <td>${item.documento}</td>
+                                       <td>${item.usuario}</td>
+                                       <td>${item.nota}</td>
+                                   </tr>`;
+                               }); */
+
                             resultado.datos.forEach(item => {
+                                // Determina el icono y el color según el tipo de movimiento
+                                let Entrada = `
+  <!-- Download SVG icon from http://tabler-icons.io/i/arrow-big-left -->
+	<svg xmlns="http://www.w3.org/2000/svg" class="icon text" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z" /></svg>`;
+
+                                let Salida = `
+  <!-- Download SVG icon from http://tabler-icons.io/i/arrow-big-right -->
+	<span class="text-red"> <svg xmlns="http://www.w3.org/2000/svg" class="icon " width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 9h8v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z" /></svg></span>`;
+
+
+
                                 // Agrega cada fila a la cadena
+                                /*                          rows += `<tr>
+        <td>${item.fecha}</td>
+        <td>${item.hora}</td>
+        <td>${item.movimiento}</td>
+        <td>${item.producto}</td>
+        <td>${item.cantidad_inicial}</td>
+
+        <td>${item.movimiento === "Factuta venta electrónica" ? `${Salida} ${item.cantidad_movi}` : item.cantidad_movi}</td>
+
+
+
+        <td>${item.cantidad_final}</td>
+        <td>${item.documento}</td>
+        <td>${item.usuario}</td>
+        <td>${item.nota}</td>
+    </tr>`; */
+
                                 rows += `<tr>
-                                    <td>${item.fecha}</td>
-                                    <td>${item.hora}</td>
-                                    <td>${item.movimiento}</td>
-                                    <td>${item.producto}</td>
-                                    <td>${item.cantidad_inicial}</td>
-                                    <td>${item.cantidad_movi}</td>
-                                    <td>${item.cantidad_final}</td>
-                                    <td>${item.documento}</td>
-                                    <td>${item.usuario}</td>
-                                    <td>${item.nota}</td>
-                                </tr>`;
+        <td>${item.fecha}</td>
+        <td>${item.hora}</td>
+        <td>${item.movimiento}</td>
+        <td>${item.producto}</td>
+        <td>${item.cantidad_inicial}</td>
+        <td>${item.cantidad_movi}</td>
+        
+        <td>${item.cantidad_final}</td>
+        <td>${item.documento}</td>
+        <td>${item.usuario}</td>
+        <td>${item.nota}</td>
+    </tr>`;
                             });
+
 
                             // Inserta todas las filas acumuladas de una sola vez en el tbody
                             document.getElementById('res_producto').innerHTML = rows;

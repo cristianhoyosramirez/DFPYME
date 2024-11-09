@@ -960,7 +960,7 @@ COMPRAS-ENTRADA
             minLength: 1, // Número mínimo de caracteres para iniciar la búsqueda
             select: function(event, ui) {
                 // Maneja la selección de un elemento de la lista
-                if (ui.item.id_inventario == 1) {
+                if (ui.item.id_inventario == 1 || ui.item.id_inventario==4 ) {
                     $("#display").val(ui.item.value); // Asigna el nombre del producto
                     $('#producto_compra').val(''); // Limpiar
                     $("#id_producto").val(ui.item.codigo); // Asigna el código del producto 

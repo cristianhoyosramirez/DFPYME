@@ -835,13 +835,15 @@ class ReportesController extends BaseController
         $fecha_final = $this->request->getPost('fecha_final');
         $usuario_consulta = $this->request->getPost('id_usuario');
 
-        /* 
-         $codigo_producto = 65;
+
+
+
+        /*     $codigo_producto = 226;
         $movimiento = 3;
         $fecha_inicial = '2024-11-01';
-        $fecha_final = date('Y-m-d');
-        $usuario_consulta = 6;  */
-
+        $fecha_final = '2024-11-08';
+        $usuario_consulta = 6;
+ */
         $id_producto = model('productoModel')->getIdProducto($codigo_producto);
         $tipo_inventario = model('productoModel')->getTipoInventario($codigo_producto);
 
@@ -882,7 +884,8 @@ class ReportesController extends BaseController
 
                         $data_temp = [
 
-                            'movimiento' => $movimiento,
+                            //'movimiento' => $movimiento,
+                            'movimiento' => 'Factura proveedor',
                             'producto' =>  $codigo_producto . "/" . $key['nombreproducto'],
                             'cantidad_inicial' => $key['inventario_anterior'],
                             'cantidad_final' => $key['inventario_actual'],
@@ -934,6 +937,7 @@ class ReportesController extends BaseController
                         $nombre_usuario = model('MovimientoInsumosModel')->idUsuario($detalle['id_documento']);
 
 
+
                         foreach ($movimientos_electronicos as $keyMov) {
                             $data_temp = [
 
@@ -941,7 +945,8 @@ class ReportesController extends BaseController
                                 'producto' =>   $codigo_producto . "/" . $keyMov['nombreproducto'],
                                 'cantidad_inicial' => $keyMov['inventario_anterior'],
                                 'cantidad_final' => $keyMov['inventario_actual'],
-                                'usuario' => $nombre_usuario[0]['nombresusuario_sistema'],
+                                //'usuario' => $nombre_usuario[0]['nombresusuario_sistema'],
+                                'usuario' => 'Usuario facturacion',
                                 'id_usuario' => $usuario_consulta,
                                 'cantidad_movi' =>  $keyMov['inventario_anterior'] - $keyMov['inventario_actual'],
                                 'fecha' => $keyMov['fecha'],
@@ -963,6 +968,12 @@ class ReportesController extends BaseController
 
                                 $componente = model('productoModel')->select('nombreproducto')->where('id', $keyProducto['id_pro_prin'])->first();
 
+                                if (!empty($componente['nota'])) {
+                                    $nota = 'INSUMO DE: ' . $componente['nombreproducto'];
+                                } else if (empty($componente['nota'])) {
+                                    $nota = "Producto insumo";
+                                }
+
                                 $data_temp = [
 
                                     'movimiento' => "Venta",
@@ -974,7 +985,7 @@ class ReportesController extends BaseController
                                     'cantidad_movi' =>  $keyProducto['inventario_anterior'] - $keyProducto['inventario_actual'],
                                     'fecha' => $keyProducto['fecha'],
                                     'documento' => $keyProducto['numero'],
-                                    'nota' => 'INSUMO DE: ' . $componente['nombreproducto'],
+                                    'nota' => $nota,
                                     'hora' => date("g:i A", strtotime($keyProducto['hora']))
                                 ];
                                 $insert_temp = model('TempMovModel')->insert($data_temp);

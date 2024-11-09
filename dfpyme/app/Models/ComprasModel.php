@@ -48,6 +48,13 @@ class ComprasModel extends Model
          ");
         return $datos->getResultArray();
     }
+    public function borrado($id_usuario)
+    {
+        $datos = $this->db->query("
+            delete from producto_factura_proveedor_temp where id_usuario=$id_usuario
+         ");
+        //return $datos->getResultArray();
+    }
     public function total_compra_proveedor($id_compra)
     {
         $datos = $this->db->query("

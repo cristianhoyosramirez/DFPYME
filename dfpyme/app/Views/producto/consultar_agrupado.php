@@ -130,21 +130,11 @@ PRODUCTO
         <div class="card-body">
 
             <div class="row">
-                <div class="col-3">
-                    <label for="" class="form-label">Período</label>
-                    <select class="form-select" id="periodo" onchange="rango(this.value)">
-                        <option value=""></option>
-                        <option value="1">Desde el inicio</option>
-                        <option value="2">Fecha </option>
-                        <option value="3">Período</option>
-                    </select>
-                </div>
-
 
 
                 <input type="hidden" value="<?php echo base_url(); ?>" id="url">
 
-                <div class="col-md-3" id="inicial" style="display:none">
+                <div class="col">
                     <label for="inputEmail4" class="form-label">Desde </label>
                     <div class="input-group mb-2">
                         <input type="text" class="form-control" id="fecha_inicial" value="<?php echo date('Y-m-d'); ?>">
@@ -164,7 +154,8 @@ PRODUCTO
                     <span id="error_fecha_inicial"></span>
                 </div>
 
-                <div class="col-3" id="final" style="display:none">
+
+                <div class="col">
                     <label for="inputAddress" class="form-label">hasta </label>
                     <div class="input-group mb-2">
                         <input type="text" class="form-control" id="fecha_final" value="<?php echo date('Y-m-d'); ?>">
@@ -182,8 +173,10 @@ PRODUCTO
                         </span>
                     </div>
                     <span id="error_fecha_final"></span>
-
                 </div>
+
+
+
                 <div class="col">
                     <label for="" class="form-label"></label><br>
                     <button type="button" id="buscar_producto_agrupado" onclick="reporte_venta()" class="btn btn-outline-primary">Buscar</button>
@@ -194,9 +187,9 @@ PRODUCTO
                         <button type="submit" class="btn btn-outline-danger btn-icon">Pdf</button>
                     </form>
                     &nbsp;&nbsp;
-                    <form action="<?= base_url('caja/exportar_a_excel_reporte_categorias') ?>" method="POST">
+                   <!--  <form action="<?= base_url('caja/exportar_a_excel_reporte_categorias') ?>" method="POST">
                         <button type="submit" class="btn btn-outline-success btn-icon">Excel</button>
-                    </form>
+                    </form> -->
                 </div>
 
 
@@ -236,101 +229,62 @@ PRODUCTO
 
 
     <script>
-        function reporte_venta() {
+    function reporte_venta() {
+        var url = document.getElementById("url").value;
 
-            periodo = document.getElementById("periodo").value;
+        // Mostrar el modal o div de búsqueda de datos
+        document.getElementById('buscando_datos').style.display = 'block';
 
-            if (periodo === "") {
+        // Definir las variables de fecha (asegúrate de tener los elementos con estos IDs en el HTML)
+        var fecha_inicial = document.getElementById("fecha_inicial").value;
+        var fecha_final = document.getElementById("fecha_final").value;
 
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
+        $.ajax({
+            data: {
+                fecha_inicial: fecha_inicial,
+                fecha_final: fecha_final
+            },
+            url: url + "/inventario/reporte_ventas",
+            type: "POST",
+            success: function(resultado) {
+                var parsedResult = JSON.parse(resultado);
 
-                Toast.fire({
+                if (parsedResult.resultado === 0) {
+                    $('#datos').html(parsedResult.datos);
+                    document.getElementById('buscando_datos').style.display = 'none';
+                } else if (parsedResult.resultado === 2) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'No hay datos para la consulta'
+                    });
+
+                    document.getElementById('buscando_datos').style.display = 'none';
+                }
+            },
+            error: function() {
+                document.getElementById('buscando_datos').style.display = 'none';
+                Swal.fire({
                     icon: 'error',
-                    title: 'No hay período valido '
-                })
-
-            } else if (periodo != "") {
-
-                if (periodo == 1) {
-                    fecha_inicial = "";
-                    fecha_final = "";
-                }
-
-                if (periodo == 2) {
-                    fecha_inicial = document.getElementById("fecha_inicial").value
-                    fecha_final = document.getElementById("fecha_inicial").value
-                }
-                if (periodo == 3) {
-                    fecha_inicial = document.getElementById("fecha_inicial").value
-                    fecha_final = document.getElementById("fecha_final").value
-                }
-
-
-                var url = document.getElementById("url").value;
-
-                //$("#buscando_datos").modal("show");
-                document.getElementById('buscando_datos').style.display = 'block';
-
-                $.ajax({
-                    data: {
-                        fecha_inicial,
-                        fecha_final,
-                    },
-                    url: url + "/" + "inventario/reporte_ventas",
-
-                    type: "POST",
-                    success: function(resultado) {
-                        var resultado = JSON.parse(resultado);
-
-                        if (resultado.resultado == 0) {
-                            $('#datos').html(resultado.datos);
-                            //$("#buscando_datos").modal("hide");
-                            document.getElementById('buscando_datos').style.display = 'none';
-                        }
-                        if (resultado.resultado == 2) {
-                            //$('#datos').html(resultado.datos);
-
-
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
-
-                            Toast.fire({
-                                icon: 'error',
-                                title: 'No hay datos para la consulta '
-                            })
-
-                            document.getElementById('buscando_datos').style.display = 'none';
-
-                            //$("#buscando_datos").modal("hide");
-                        }
-
-                    }
-
-
+                    title: 'Error',
+                    text: 'Hubo un problema con la solicitud.'
                 });
             }
+        });
+    }
+</script>
 
-        }
-    </script>
 
     <script>
         function rango(opcion) {

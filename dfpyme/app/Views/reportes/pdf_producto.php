@@ -48,7 +48,7 @@
         <tr>
             <td style="text-align:left; font: oblique bold 80% cursive; border:none "><?php echo $nombre_regimen ?></td>
             <td style="text-align:left; font: oblique bold 80% cursive; border:none "></td>
-            
+
         </tr>
         <tr>
             <td style="text-align:left; font: oblique bold 80% cursive; border:none "><?php echo $direccion . " " . $nombre_ciudad . " " . $nombre_departamento ?></td>
@@ -111,3 +111,24 @@
         <?php } ?>
     </tbody>
 </table>
+
+
+<?php $total = model('reporteProductoModel')->selectSum('valor_total')->findAll(); ?>
+<style>
+        .total-venta {
+            text-align: right; /* Alinea el texto a la derecha */
+            font-size: 24px; /* Tamaño de la fuente */
+            font-weight: bold; /* Negrita */
+            color: #007bff; /* Color de texto azul */
+            padding: 10px; /* Espaciado alrededor */
+            background-color: #f8f9fa; /* Fondo gris claro */
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+            max-width: 300px; /* Ancho máximo */
+            margin: 20px auto; /* Centrado en la página */
+        }
+    </style>
+
+<p class="total-venta">
+    Total venta : <?php echo "$ " . number_format($total[0]['valor_total'], 0, ",", ".") ?>
+</p>

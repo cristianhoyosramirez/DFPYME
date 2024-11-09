@@ -335,4 +335,13 @@ class AbonosController extends BaseController
 
         exit;
     }
+
+    function impuestos()
+    {
+        return view('impuestos/reporte_impuestos');
+    }
+    function reporte_impuestos()
+    {
+        
+    }
 }
