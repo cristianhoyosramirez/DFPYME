@@ -1091,3 +1091,12 @@ LINE 6:             WHERE  fecha_venta BETWEEN '' AND ''
 #8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
 #9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
 #10 {main}
+CRITICAL - 2024-11-08 21:40:15 --> Print connector was not finalized. Did you forget to close the printer?
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(1024, 'Print connector...', 'C:\\xampp\\htdocs...', 164)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(164): trigger_error('Print connector...', 1024)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(534): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->__destruct()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}

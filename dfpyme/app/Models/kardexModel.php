@@ -470,25 +470,7 @@ GROUP BY
         ");
         return $datos->getResultArray();
     }
-    /*    public function reporte_suma_cant($fecha_inicial, $fecha_final, $valor_unitario, $codigointernoproducto)
-    {
-        $datos = $this->db->query("
-        SELECT 
-    SUM(valor) AS valor_total,
-    SUM(cantidad) AS cantidad,
-    total
-FROM 
-    kardex
-WHERE 
-    fecha BETWEEN '$fecha_inicial' AND '$fecha_final'
-    AND total = $valor_unitario
-    AND codigo = '$codigointernoproducto' 
-GROUP BY 
-    total;
-
-        ");
-        return $datos->getResultArray();
-    } */
+ 
     public function reporte_suma_cant($fecha_inicial, $fecha_final, $valor_unitario, $codigointernoproducto)
     {
         $datos = $this->db->query("
@@ -728,6 +710,36 @@ WHERE
     {
         $datos = $this->db->query("
           select distinct (valor_ico) as tarifa_inc from kardex where id between $fecha_inicial and $fecha_final and aplica_ico='true';
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function get_valor_inc($fecha_inicial,$tarifa)
+    {
+        $datos = $this->db->query("
+          select sum (ico) as inc from kardex where fecha = '$fecha_inicial' and valor_ico = $tarifa and aplica_ico='true';
+        ");
+        return $datos->getResultArray();
+    }
+    public function get_base_inc($fecha_inicial,$tarifa)
+    {
+        $datos = $this->db->query("
+          select sum (total) as total from kardex where fecha = '$fecha_inicial' and valor_ico = $tarifa and aplica_ico='true';
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function get_valor_iva($fecha_inicial,$tarifa)
+    {
+        $datos = $this->db->query("
+          select sum (iva) as iva from kardex where fecha = '$fecha_inicial' and valor_iva = $tarifa and aplica_ico='false';
+        ");
+        return $datos->getResultArray();
+    }
+    public function get_tot_iva($fecha_inicial,$tarifa)
+    {
+        $datos = $this->db->query("
+          select sum (total) as total_iva from kardex where fecha = '$fecha_inicial' and valor_iva = $tarifa and aplica_ico='false';
         ");
         return $datos->getResultArray();
     }

@@ -75,6 +75,8 @@
         <script src="<?= base_url() ?>/Assets/plugin/data_tables/jquery.dataTables.min.js"></script>
         <script src="<?= base_url() ?>/Assets/plugin/data_tables/dataTables.bootstrap5.min.js"></script>
 
+       
+
         <script>
             function validacion(movimiento, producto, fecha_inicial, fecha_final) {
 

@@ -530,4 +530,31 @@ class pagosModel extends Model
             select saldo from pagos where id_estado = 8 and id_factura = $id_factura ");
         return $datos->getResultArray();
     }
+    public function fechas_impuestos ($fecha_inicial, $fecha_final)
+    {
+        $datos = $this->db->query("
+            
+            SELECT DISTINCT fecha FROM pagos where fecha between '$fecha_inicial' and '$fecha_final' order by fecha desc;
+            
+            ");
+        return $datos->getResultArray();
+    }
+    public function fechas_inc ($fecha_inicial, $fecha_final)
+    {
+        $datos = $this->db->query("
+            
+            SELECT DISTINCT valor_ico FROM kardex where fecha between '$fecha_inicial' and '$fecha_final' ;
+            
+            ");
+        return $datos->getResultArray();
+    }
+    public function fechas_iva ($fecha_inicial, $fecha_final)
+    {
+        $datos = $this->db->query("
+            
+            SELECT DISTINCT valor_iva FROM kardex where fecha between '$fecha_inicial' and '$fecha_final';
+            
+            ");
+        return $datos->getResultArray();
+    }
 }

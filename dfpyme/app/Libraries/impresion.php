@@ -7,6 +7,8 @@ require APPPATH . "Controllers/mike42/autoload.php";
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use \DateTime;
+use \DateTimeZone;
 
 class impresion
 {
@@ -430,25 +432,11 @@ class impresion
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text("** DISCRIMINACIÓN DE TARIFAS DE IVA **   \n");
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
-                /*   $printer->text("TARIFA          BASE/INC          VENTA   \n");
 
-             foreach($inc_tarifa as $detalle ){
-                $inc = model('kardexModel')->get_tarifa_ico($id_factura,$detalle['valor_ico']);
-                $printer->text($inc_tarifa[0]['valor_ico']." %        ".  number_format(($total['total']-$inc[0]['inc']   ), 0, ",", ".").  "   " .number_format($total['total'], 0, ",", ".").   "\n");
-             } */
 
                 $printer->text(str_pad("TARIFA", 10, " ") . str_pad("BASE", 10, " ") . str_pad("IVA", 10, " ") . "VENTA\n");
 
-                /*   foreach ($iva_tarifa as $detalle) {
-                    $iva = model('kardexModel')->get_tarifa_iva($id_factura, $detalle['valor_iva']);
 
-                    $tarifa = $detalle['valor_iva'] . " %";
-                    $base_iva = number_format(($total['total'] - $iva[0]['iva']), 0, ",", ".");
-                    $iva = number_format($iva[0]['iva'], 0, ",", ".");
-                    $venta = number_format($total['total'], 0, ",", ".");
-
-                    $printer->text(str_pad($tarifa, 10, " ") . str_pad($base_iva, 10, " ") . str_pad($iva, 10, " ") . $venta . "\n");
-                } */
                 foreach ($iva_tarifa as $detalle) {
                     $iva = model('kardexModel')->get_tarifa_iva($id_factura, $detalle['valor_iva']);  //Esto es el valor total del iva 
                     $venta_total_iva = model('kardexModel')->get_base_iva($id_factura, $detalle['valor_iva']); // Esto es el valor total de la venta 
@@ -612,15 +600,8 @@ class impresion
         $inc = model('kardexModel')->get_total_inc($id_factura);
         $iva = model('kardexModel')->get_total_iva($id_factura);
 
-
-
-        //$total =  model('pagosModel')->select('valor')->where('id_factura', $id_factura)->first();
-
         $total =  model('kardexModel')->get_total_factura($id_factura);
 
-
-        //$total =  model('pagosModel')->select('total_documento')->where('id_factura', $id_factura)->first();
-        //$transferencia =  model('pagosModel')->select('recibido_transferencia')->where('id_factura', $id_factura)->first();
         $transferencia =  model('kardexModel')->get_recibido_transferencia($id_factura);
         $efectivo =  model('kardexModel')->get_recibido_efectivo($id_factura);
         $propina =  model('pagosModel')->select('propina')->where('id_factura', $id_factura)->first();
@@ -685,12 +666,7 @@ class impresion
             if (!empty($inc_tarifa)) {
                 $printer->text("** DISCRIMINACIÓN DE TARIFAS DE INC **   \n");
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
-                /*   $printer->text("TARIFA          BASE/INC          VENTA   \n");
 
-             foreach($inc_tarifa as $detalle ){
-                $inc = model('kardexModel')->get_tarifa_ico($id_factura,$detalle['valor_ico']);
-                $printer->text($inc_tarifa[0]['valor_ico']." %        ".  number_format(($total['total']-$inc[0]['inc']   ), 0, ",", ".").  "   " .number_format($total['total'], 0, ",", ".").   "\n");
-             } */
 
                 $printer->text(str_pad("TARIFA", 10, " ") . str_pad("BASE", 12, " ") . str_pad("INC", 12, " ") . "VENTA\n");
 
@@ -1160,8 +1136,15 @@ class impresion
         $numero_factura = model('pagosModel')->select('documento')->where('id', $id_factura)->first();
 
         $fecha_factura_venta = model('pagosModel')->select('fecha')->where('id', $id_factura)->first();
-        //$hora_factura_venta = model('pagosModel')->select('hora')->where('id', $id_factura)->first();
+        $hora_factura = model('pagosModel')->select('hora')->where('id', $id_factura)->first();
         $id_usuario = model('pagosModel')->select('id_usuario_facturacion')->where('id', $id_factura)->first();
+
+        $dateTime = new DateTime($hora_factura['horas']);
+        $hora_am_pm = $dateTime->format('h:i A'); // 'h' para 12 horas y 'A' para AM/PM
+
+        // Imprimir la fecha y la hora en formato AM/PM
+       // $printer->text("FECHA:             " . " " . $fecha . "   " . $hora_am_pm . "\n\n");
+
 
         $printer = new Printer($connector);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -1176,7 +1159,7 @@ class impresion
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->setTextSize(1, 1);
         $printer->text("FACTURA DE VENTA:   " .  $numero_factura['documento'] . "\n");
-        $printer->text("FECHA:             " . " " . $fecha_factura_venta['fecha'] . "\n\n");
+        $printer->text("FECHA:             " . " " . $fecha_factura_venta['fecha'] . "   " . $hora_factura['hora'] . "\n\n");
         $temp_total = model('pagosModel')->select('total_documento')->where('id', $id_factura)->first();
 
         //$printer->text("TOTAL TRANSACCION :" . " $" . number_format($temp_total['total_documento'], 0, ",", ".") . "\n\n");
@@ -1216,10 +1199,7 @@ class impresion
         $printer->setTextSize(1, 1);
 
         $printer->text("Nota:____________________________________" . "\n\n");
-        $printer->setTextSize(1, 1);
-        $printer->text("Nombre:_________________________________ \n\n");
-        $printer->text("Identificación:__________________________ \n\n");
-        $printer->text("Teléfono:________________________________\n\n");
+        
 
 
         $printer->feed(1);

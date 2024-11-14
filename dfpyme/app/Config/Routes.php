@@ -52,8 +52,7 @@ $routes->group('login', ['namespace' => 'App\Controllers\login'], function ($rou
 $routes->get('home', 'Home::index');
 
 
-$routes->group('home', ['Home::index', 'filter' => \App\Filters\Auth::class], function ($routes) {
-});
+$routes->group('home', ['Home::index', 'filter' => \App\Filters\Auth::class], function ($routes) {});
 
 
 
@@ -595,6 +594,7 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->get('actualizacion_estado_mesas', 'ReportesController::actualizacion_estado_mesas');
     $routes->post('productos_pedido', 'ReportesController::productos_pedido');
     $routes->post('reporte_movimiento', 'ReportesController::reporte_movimiento');
+    $routes->post('reporte_impuestos', 'ReportesController::reporte_impuestos');
 });
 
 $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -636,16 +636,16 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('eliminacion_masiva', 'Configuracion::eliminacion_masiva');
     $routes->post('propina_parcial', 'Configuracion::propina_parcial');
     $routes->get('sincronizar', 'Configuracion::sincronizar');
-    $routes->get('asignar','Configuracion::asignar');
-    $routes->post('update_url','Configuracion::actualizar_url');
+    $routes->get('asignar', 'Configuracion::asignar');
+    $routes->post('update_url', 'Configuracion::actualizar_url');
 });
 
 
 $routes->group('actualizacion', ['namespace' => 'App\Controllers\actualizaciones', 'filter' => \App\Filters\Auth::class], function ($routes) {
-    $routes->get('Bd', 'ActualizacionesController::Bd'); 
-    $routes->get('parametrizacion', 'ParametrizacionController::parametrizacion'); 
-    $routes->post('actualizar_codigo', 'ParametrizacionController::actualizar_codigo'); 
-    $routes->post('actualizar_altura', 'ParametrizacionController::actualizar_altura'); 
+    $routes->get('Bd', 'ActualizacionesController::Bd');
+    $routes->get('parametrizacion', 'ParametrizacionController::parametrizacion');
+    $routes->post('actualizar_codigo', 'ParametrizacionController::actualizar_codigo');
+    $routes->post('actualizar_altura', 'ParametrizacionController::actualizar_altura');
 });
 
 $routes->get('/qr-codes', 'QrCodeGeneratorController::index');

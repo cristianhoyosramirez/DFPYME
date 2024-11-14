@@ -17,70 +17,191 @@ Entradas de productos
                 <div class="row mb-3">
                     <div class="col-3">
                         <label for="" class="form-label">Fecha incial </label>
-                        <input type="text" class="form-control" id="fecha_inicial" value="<?php echo date('Y-m-d') ?>">
+                        <input type="date" class="form-control" id="fecha_inicial" value="<?php echo date('Y-m-d') ?>">
                     </div>
                     <div class="col-3">
                         <label for="" class="form-label">Fecha final </label>
-                        <input type="text" class="form-control" id="fecha_inicial" value="<?php echo date('Y-m-d') ?>">
+                        <input type="date" class="form-control" id="fecha_final" value="<?php echo date('Y-m-d') ?>">
                     </div>
                     <div class="col-3">
                         <label for="" class="form-label text-light">Fecha final </label>
-                        <a href="#" class="btn btn-outline-success active w-100">
+                        <a href="#" class="btn btn-outline-success active w-100" onclick="obtenerReporte()">
                             Buscar
                         </a>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-3">
-                        <label for="" class="form-label">Factura inicial</label>
+                        <span id="fact_ini" class="text-primary h3"></span>
                     </div>
                     <div class="col-3">
-                        <label for="" class="form-label">Factura final</label>
+                        <span id="fact_fin" class="text-primary h3"></span>
                     </div>
                     <div class="col-6 d-flex justify-content-end">
                         <button class="btn btn-outline-success">EXCEL</button>
                     </div>
                 </div>
 
+                <input type="hidden" value="<?php echo base_url() ?>" id="url">
+                <div class="table-responsive" style="max-height: 65vh; overflow-y: auto;">
+                    <table class="table" id="tableImpuestos">
+                        <thead class="table-dark">
+                            <tr>
+                                <td scope="col">Dia </th>
+                                <td scope="col">Fecha </th>
+                                <td scope="col">Base INC 8 </th>
+                                <td scope="col">INC 8 </th>
+                               <!--  <td scope="col">Venta INC</th> -->
+                                <td scope="col">Base IVA 0 </th>
+                                <td scope="col">IVA 0 </th>
+                               <!--  <td scope="col">Venta IVA 0 </th> -->
+                                <td scope="col"> Base IVA 5 </th>
+                                <td scope="col"> IVA 5 </th>
+                                <!-- <td scope="col"> Venta IVA 5 </th> -->
+                                <td scope="col">Base 19 </th>
+                                <td scope="col">IVA 19 </th>
+                                <!-- <td scope="col">Venta IVA 19 </th> -->
+                                <td scope="col">Total </th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultados">
 
-                <table class="table">
-                    <thead class="table-dark">
-                        <tr>
-                            <td scope="col">Dia </th>
-                            <td scope="col">Fecha </th>
-                            <td scope="col">Base INC </th>
-                            <td scope="col">INC 8 </th>
-                            <td scope="col">Base IVA 5 </th>
-                            <td scope="col"> IVA 5 </th>
-                            <td scope="col">Base 19 </th>
-                            <td scope="col">IVA 19 </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                        </tr>
-
-
-                    </tbody>
-                </table>
-
+                        </tbody>
+                    </table>
+                </div>
+                <p id="total_venta" class="text-end h2 text-primary">total venta</p>
 
             </div>
         </div>
     </div>
 </div>
 
+<!-- 
+<script>
+    var url = document.getElementById("url").value;
+    var fecha_inicial = document.getElementById("fecha_inicial").value;
+    var fecha_final = document.getElementById("fecha_final").value;
+    $.ajax({
+        data: {
+            fecha_inicial,
+            fecha_final
+        },
+        url: url +
+            "/" +
+            "eventos/numero_documento",
+        type: "post",
+        success: function(resultado) {
+            var resultado = JSON.parse(resultado);
+            if (resultado.resultado == 1) {
+
+               
+
+            }
+        },
+    });
+</script>
+ -->
+
+<!-- J QUERY -->
+<script src="<?= base_url() ?>/Assets/js/jquery-3.5.1.js"></script>
+<script>
+    $(document).ready(function() {
+        var url = document.getElementById("url").value;
+        var fecha_inicial = document.getElementById("fecha_inicial").value;
+        var fecha_final = document.getElementById("fecha_final").value;
+
+        $.ajax({
+            data: {
+                fecha_inicial,
+                fecha_final
+            },
+            url: url + "/reportes/reporte_impuestos",
+            type: "post",
+            success: function(resultado) {
+                var resultado = JSON.parse(resultado);
+                if (resultado.resultado == 1) {
+                    var rows = ""; // Inicializamos la variable `rows`
+                    resultado.datos.forEach(item => {
+                        rows += `<tr>
+                            <td>${item.dia}</td>
+                            <td>${item.fecha}</td>
+                            <td>${item.base_inc}</td>
+                            <td>${item.inc}</td>
+                            <td>${item.venta_inc}</td>
+                            <td>${item.base_iva_0}</td>
+                            <td>${item.iva_0}</td>
+                            <td>${item.venta_iva_0}</td>
+                            <td>${item.base_iva_5}</td>
+                            <td>${item.iva_5}</td>
+                            <td>${item.total_iva_5}</td>
+                            <td>${item.base_iva_19}</td>
+                            <td>${item.iva_19}</td>
+                            <td>${item.total_iva_19}</td>
+                        </tr>`;
+
+                    });
+                    // Actualizamos el contenido de `#resultados` solo una vez, después de completar el bucle
+                    document.getElementById('resultados').innerHTML = rows;
+                    document.getElementById('fact_ini').innerHTML = resultado.primer_factura;
+                    document.getElementById('fact_fin').innerHTML = resultado.ultima_factura;
+                    document.getElementById('total_venta').innerHTML = resultado.total_venta;
+                }
+
+                if (resultado.resultado == 0) {
+                    sweet_alert_centrado('warning', 'No hay resultados debe seleccionar otro rango de fechas ')
+                }
+            },
+        });
+    });
+</script>
 
 <script>
+    function obtenerReporte() {
+        var url = document.getElementById("url").value;
+        var fecha_inicial = document.getElementById("fecha_inicial").value;
+        var fecha_final = document.getElementById("fecha_final").value;
 
+        $.ajax({
+            data: {
+                fecha_inicial,
+                fecha_final
+            },
+            url: url + "/reportes/reporte_impuestos",
+            type: "post",
+            success: function(resultado) {
+                var resultado = JSON.parse(resultado);
+                if (resultado.resultado == 1) {
+                    var rows = ""; // Inicializamos la variable `rows`
+                    resultado.datos.forEach(item => {
+                        rows += `<tr>
+                            <td>${item.dia}</td>
+                            <td>${item.fecha}</td>
+                            <td>${item.base_inc}</td>
+                            <td>${item.inc}</td>
+                            <td>${item.venta_inc}</td>
+                            <td>${item.base_iva_0}</td>
+                            <td>${item.iva_0}</td>
+                            <td>${item.venta_iva_0}</td>
+                            <td>${item.base_iva_5}</td>
+                            <td>${item.iva_5}</td>
+                            <td>${item.total_iva_5}</td>
+                            <td>${item.base_iva_19}</td>
+                            <td>${item.iva_19}</td>
+                            <td>${item.total_iva_19}</td>
+                        </tr>`;
+                    });
+                    // Actualizamos el contenido de `#resultados` solo una vez, después de completar el bucle
+                    document.getElementById('resultados').innerHTML = rows;
+                    document.getElementById('fact_ini').innerHTML = resultado.primer_factura;
+                    document.getElementById('fact_fin').innerHTML = resultado.ultima_factura;
+                }
+
+                if (resultado.resultado == 0) {
+                    sweet_alert_centrado('warning', 'No hay resultados debe seleccionar otro rango de fechas ')
+                }
+            },
+        });
+    }
 </script>
 
 
