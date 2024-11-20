@@ -152,17 +152,36 @@
 
             <tbody>
 
-                <?php foreach ($iva_devolucion as $iva_devolucion) { ?>
+               <!--  <?php foreach ($iva_devolucion as $iva_devolucion) { ?>
                     <tr>
-                        <th style="text-align:left; font:  bold 80% cursive; border:none ">Factura General</th> <!-- TARIFA ICO  -->
-                        <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo $iva_devolucion['tarifa'] ?>%</th> <!-- TARIFA ICO  -->
+                        <th style="text-align:left; font:  bold 80% cursive; border:none ">Factura General</th>
+                        <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo $iva_devolucion['tarifa'] ?>%</th> 
 
-                        <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo "$" . number_format($iva_devolucion['base'], 0, ",", ".") ?></th> <!-- TARIFA ICO  -->
-                        <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo "$" . number_format($iva_devolucion['impuesto'], 0, ",", ".") ?></th> <!-- TARIFA ICO  -->
-                        <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo "$" . number_format($iva_devolucion['total'], 0, ",", ".") ?></th> <!-- TARIFA ICO  -->
+                        <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo "$" . number_format($iva_devolucion['base'], 0, ",", ".") ?></th> 
+                        <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo "$" . number_format($iva_devolucion['impuesto'], 0, ",", ".") ?></th> 
+                        <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo "$" . number_format($iva_devolucion['total'], 0, ",", ".") ?></th> 
 
                     </tr>
-                <?php } ?>
+                <?php } ?> -->
+                <?php if (!empty($iva_devolucion)): ?>
+                    <?php foreach ($iva_devolucion as $item): ?>
+                        <tr>
+                            <th style="text-align:left; font:  bold 80% cursive; border:none" >Factura General</th> <!-- TARIFA ICO -->
+                            <th style="text-align:left; font:  bold 80% cursive; border:none" ><?php echo $item['tarifa']; ?>%</th> <!-- TARIFA ICO -->
+                            <th style="text-align:left; font:  bold 80% cursive; border:none" ><?php echo "$" . number_format($item['base'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
+                            <th style="text-align:left; font:  bold 80% cursive; border:none" ><?php echo "$" . number_format($item['impuesto'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
+                            <th style="text-align:left; font:  bold 80% cursive; border:none" ><?php echo "$" . number_format($item['total'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <th style="text-align:left; font:  bold 80% cursive; border:none">Factura General</th>
+                        <th style="text-align:left; font:  bold 80% cursive; border:none">0%</th>
+                        <th style="text-align:left; font:  bold 80% cursive; border:none">$0</th>
+                        <th style="text-align:left; font:  bold 80% cursive; border:none">$0</th>
+                        <th style="text-align:left; font:  bold 80% cursive; border:none">$0</th>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
 

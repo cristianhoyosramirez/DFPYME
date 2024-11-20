@@ -1943,7 +1943,7 @@ class cajaDiariaController extends BaseController
 
 
         $id_apertura = $this->request->getPost('id_apertura');
-        //$id_apertura = 34;
+        //$id_apertura = 68;
 
         //$id_apertura = 41;
         $fecha_y_hora_cierre = "";
@@ -1991,19 +1991,19 @@ class cajaDiariaController extends BaseController
 
 
 
-        //$reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_min['id_factura'])->first();
+        $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_min['id_factura'])->first();
         // $reg_final = model('pagosModel')->select('documento')->where('id', $id_final[0]['id'])->first();
-        //$reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_max['id_factura'])->first();
+        $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_max['id_factura'])->first();
 
-        $registro_ini_final = model('facturaElectronicaModel')->inicial_final($id_factura_min['id_factura'], $id_factura_max['id_factura']);
+        //$registro_ini_final = model('facturaElectronicaModel')->inicial_final($id_factura_min['id_factura'], $id_factura_max['id_factura']);
 
-        //echo  $registro_ini_final[0]['primer_registro'];
+
 
         //dd($registro_ini_final);
 
 
 
-        if (empty( $registro_ini_final[0]['primer_registro'])) {
+       /*  if (empty($registro_ini_final[0]['primer_registro'])) {
             $registro_inicial = "";
         }
         if (!empty($registro_ini_final[0]['primer_registro'])) {
@@ -2016,7 +2016,7 @@ class cajaDiariaController extends BaseController
         if (!empty($registro_ini_final[0]['ultimo_registro'])) {
             //$registro_final = $reg_final['numero'];
             $registro_final = $registro_ini_final[0]['ultimo_registro'];
-        }
+        } */
 
 
 
@@ -2109,14 +2109,19 @@ class cajaDiariaController extends BaseController
         /**
          *Devoluciones 
          */
+        //$iva_devolucion = model('devolucionModel')->tarifa_iva($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+
         $iva_devolucion = model('devolucionModel')->tarifa_iva($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
         $array_devoluciones_iva = array();
-        if (!empty($iva_devolucion)) {
+        // if (!empty($iva_devolucion)) {
 
-            foreach ($iva_devolucion as $detalle) {
+        foreach ($iva_devolucion as $detalle) {
 
-                $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+            $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
+
+            if ($aplica_ico['aplica_ico'] == 't') {
+                $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre, $detalle['codigo']);
 
                 $temp_porcentaje = $detalle['iva'] / 100;
                 $sub_total = $iva_devolucion[0]['base'] * $temp_porcentaje;
@@ -2129,14 +2134,15 @@ class cajaDiariaController extends BaseController
                 $data_devo_iva['total'] = $total;
                 array_push($array_devoluciones_iva, $data_devo_iva);
             }
-        } else if (empty($iva_devolucion)) {
+        }
+        /* } else if (empty($iva_devolucion)) {
 
             $data_devo_iva['base'] =  0;
             $data_devo_iva['tarifa'] = 0;
             $data_devo_iva['impuesto'] = 0;
             $data_devo_iva['total'] = 0;
             array_push($array_devoluciones_iva, $data_devo_iva);
-        }
+        } */
 
         $ico_devolucion = model('devolucionModel')->tarifa_ico($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
@@ -2185,9 +2191,9 @@ class cajaDiariaController extends BaseController
                 "nombre_departamento" => $nombre_departamento['nombredepartamento'],
 
                 //"registro_inicial" => $registro_inicial[0]['id'],
-                "registro_inicial" => $registro_inicial,
+                "registro_inicial" => $reg_inicial['numero'],
                 // "registro_final" => $registro_final[0]['id'],
-                "registro_final" => $registro_final,
+                "registro_final" => $reg_final['numero'],
                 "total_registros" => $total_registros[0]['total_registros'],
                 "iva" => $array_iva,
                 "ico" => $array_ico,

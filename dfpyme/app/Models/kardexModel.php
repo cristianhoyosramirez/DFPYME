@@ -721,6 +721,32 @@ WHERE
         ");
         return $datos->getResultArray();
     }
+
+    public function get_total_inc_fecha($fecha)
+    {
+        $datos = $this->db->query("
+          select sum (ico) as inc from kardex where fecha ='$fecha' and aplica_ico='true';
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function get_total_iva_fecha($fecha)
+    {
+        $datos = $this->db->query("
+          select sum (iva) as iva from kardex where fecha ='$fecha' and aplica_ico='false';
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function get_total_fecha($fecha)
+    {
+        $datos = $this->db->query("
+          select sum (total) as total from kardex where fecha ='$fecha';
+        ");
+        return $datos->getResultArray();
+    }
+
+
     public function get_base_inc($fecha_inicial,$tarifa)
     {
         $datos = $this->db->query("
@@ -740,6 +766,21 @@ WHERE
     {
         $datos = $this->db->query("
           select sum (total) as total_iva from kardex where fecha = '$fecha_inicial' and valor_iva = $tarifa and aplica_ico='false';
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function get_iva_reporte($fecha_inicial, $fecha_final)
+    {
+        $datos = $this->db->query("
+            select sum (iva) as iva from kardex where fecha BETWEEN '$fecha_inicial' and '$fecha_final' and aplica_ico='false'
+        ");
+        return $datos->getResultArray();
+    }
+    public function get_ico_reporte($fecha_inicial, $fecha_final)
+    {
+        $datos = $this->db->query("
+            select sum (ico) as ico from kardex where fecha BETWEEN '$fecha_inicial' and '$fecha_final' and aplica_ico='true'
         ");
         return $datos->getResultArray();
     }

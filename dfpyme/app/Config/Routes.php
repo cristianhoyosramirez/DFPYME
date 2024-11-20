@@ -353,7 +353,7 @@ $routes->group('consultas_y_reportes', ['namespace' => 'App\Controllers\consulta
     $routes->post('reporte_de_ventas_excel', 'informeFiscalVentasController::reporte_de_ventas_excel');
     $routes->get('excel_mov', 'AbonosController::excel_mov');
     $routes->get('impuestos', 'AbonosController::impuestos');
-    $routes->post('reporte_impuestos', 'AbonosController::reporte_impuestos');
+    $routes->get('reporte_impuestos', 'AbonosController::reporte_impuestos');
 });
 
 $routes->group('devolucion', ['namespace' => 'App\Controllers\devolucion', 'filter' => \App\Filters\Auth::class], function ($routes) {

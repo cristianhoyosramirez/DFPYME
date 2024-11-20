@@ -399,11 +399,11 @@ class pagosModel extends Model
 
         $datos = $this->db->query("
         SELECT
-        *
+        recibido_transferencia
     FROM
         pagos
     WHERE
-        id_factura = $id_factura AND recibido_transferencia > 0
+        id = $id_factura AND recibido_transferencia > 0
                                  ");
         return $datos->getResultArray();
     }
@@ -534,7 +534,7 @@ class pagosModel extends Model
     {
         $datos = $this->db->query("
             
-            SELECT DISTINCT fecha FROM pagos where fecha between '$fecha_inicial' and '$fecha_final' order by fecha desc;
+            SELECT DISTINCT fecha FROM pagos where fecha between '$fecha_inicial' and '$fecha_final' order by fecha asc;
             
             ");
         return $datos->getResultArray();

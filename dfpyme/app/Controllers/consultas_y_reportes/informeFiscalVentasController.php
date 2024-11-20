@@ -828,8 +828,10 @@ class informeFiscalVentasController extends BaseController
 
         //$registro_inicial = model('pagosModel')->get_min_id($id_apertura);
         //$registro_final = model('pagosModel')->get_max_id($id_apertura);
+        
 
         $id_inicial = model('pagosModel')->get_min_id_electronico($id_apertura);
+        
         // $registro_final = model('pagosModel')->get_max_id($id_apertura);
         $id_final = model('pagosModel')->get_max_id_electronico($id_apertura);
 
@@ -840,9 +842,9 @@ class informeFiscalVentasController extends BaseController
 
 
 
-       // $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_min['id_factura'])->first();
+        // $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_min['id_factura'])->first();
         // $reg_final = model('pagosModel')->select('documento')->where('id', $id_final[0]['id'])->first();
-       // $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_max['id_factura'])->first();
+        // $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_max['id_factura'])->first();
 
         $total_registros = model('pagosModel')->get_total_registros_electronicos($id_apertura);
 
@@ -850,11 +852,11 @@ class informeFiscalVentasController extends BaseController
 
         //echo  $registro_ini_final[0]['primer_registro'];
 
-       //dd($registro_ini_final);
+        //dd($registro_ini_final);
 
 
 
-        if (empty( $registro_ini_final[0]['primer_registro'])) {
+        if (empty($registro_ini_final[0]['primer_registro'])) {
             $registro_inicial = "";
         }
         if (!empty($registro_ini_final[0]['primer_registro'])) {
@@ -869,9 +871,9 @@ class informeFiscalVentasController extends BaseController
             $registro_final = $registro_ini_final[0]['ultimo_registro'];
         }
 
-        
-        
-      /*   $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_min['id_factura'])->first();
+
+
+        $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_min['id_factura'])->first();
         // $reg_final = model('pagosModel')->select('documento')->where('id', $id_final[0]['id'])->first();
         $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura_max['id_factura'])->first();
 
@@ -886,7 +888,7 @@ class informeFiscalVentasController extends BaseController
         }
         if (!empty($reg_final)) {
             $registro_final = $reg_final['numero'];
-        } */
+        }
 
 
 
@@ -1005,7 +1007,7 @@ class informeFiscalVentasController extends BaseController
 
             foreach ($iva_devolucion as $detalle) {
 
-                $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+                /*   $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
                 $temp_porcentaje = $detalle['iva'] / 100;
                 $sub_total = $iva_devolucion[0]['base'] * $temp_porcentaje;
@@ -1016,16 +1018,33 @@ class informeFiscalVentasController extends BaseController
                 $data_devo_iva['base'] =  $iva_devolucion[0]['base'];
                 $data_devo_iva['impuesto'] = $impuesto;
                 $data_devo_iva['total'] = $total;
-                array_push($array_devoluciones_iva, $data_devo_iva);
+                array_push($array_devoluciones_iva, $data_devo_iva); */
+
+                $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
+
+                if ($aplica_ico['aplica_ico'] == 't') {
+                    $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre, $detalle['codigo']);
+
+                    $temp_porcentaje = $detalle['iva'] / 100;
+                    $sub_total = $iva_devolucion[0]['base'] * $temp_porcentaje;
+                    $total = $iva_devolucion[0]['base'] + $sub_total;
+                    $impuesto = $total - $iva_devolucion[0]['base'];
+
+                    $data_devo_iva['tarifa'] = $detalle['iva'];
+                    $data_devo_iva['base'] =  $iva_devolucion[0]['base'];
+                    $data_devo_iva['impuesto'] = $impuesto;
+                    $data_devo_iva['total'] = $total;
+                    array_push($array_devoluciones_iva, $data_devo_iva);
+                }
             }
-        } else if (empty($iva_devolucion)) {
+        } /* else if (empty($iva_devolucion)) {
 
             $data_devo_iva['base'] =  0;
             $data_devo_iva['tarifa'] = 0;
             $data_devo_iva['impuesto'] = 0;
             $data_devo_iva['total'] = 0;
             array_push($array_devoluciones_iva, $data_devo_iva);
-        }
+        } */
 
         $ico_devolucion = model('devolucionModel')->tarifa_ico($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
@@ -1196,7 +1215,7 @@ class informeFiscalVentasController extends BaseController
             "consecutivo" => $movimientos['consecutivo'],
             //"consecutivo" => $consecutivo_informe['numero'],
             "fecha" => $fecha,
-            "titulo"=>"Informe fiscal de ventas electrónicas "
+            "titulo" => "Informe fiscal de ventas electrónicas "
 
         ]));
 
@@ -1218,15 +1237,15 @@ class informeFiscalVentasController extends BaseController
 
         $id = model('pagosModel')->select('id')->where('id_apertura', $id_apertura)->findAll();
 
-        $total_ventas=model('pagosModel')->selectSum('total_documento')->where('id_apertura',$id_apertura)->findAll();
+        $total_ventas = model('pagosModel')->selectSum('total_documento')->where('id_apertura', $id_apertura)->findAll();
 
         return view('producto/ventas_excel', [
             'datos_empresa' => $datos_empresa,
             'regimen' => $regimen['nombreregimen'],
             'nombre_ciudad' => $nombre_ciudad['nombreciudad'],
             'nombre_departamento' => $nombre_departamento['nombredepartamento'],
-            'id'=>$id,
-            'total'=>$total_ventas[0]['total_documento']
+            'id' => $id,
+            'total' => $total_ventas[0]['total_documento']
         ]);
     }
 }

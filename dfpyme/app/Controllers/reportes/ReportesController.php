@@ -1023,11 +1023,13 @@ class ReportesController extends BaseController
 
     public function reporte_impuestos()
     {
+        $borrado = model('ReporteImpuestosModel')->truncate();
+
         //$valor_buscado = $_GET['search']['value'];
-        //$fecha_inicial = $this->request->getPost('fecha_inicial');
-        $fecha_inicial = '2024-11-13';
-        //$fecha_final = $this->request->getPost('fecha_final');
-        $fecha_final = '2024-11-13';
+        $fecha_inicial = $this->request->getPost('fecha_inicial');
+        //$fecha_inicial = '2024-11-01';
+        $fecha_final = $this->request->getPost('fecha_final');
+        //$fecha_final = '2024-11-18';
 
         $ids = model('facturaElectronicaModel')->id_inicial_final($fecha_inicial, $fecha_final);
 
@@ -1036,7 +1038,7 @@ class ReportesController extends BaseController
 
         $fechas = model('pagosModel')->fechas_impuestos($fecha_inicial, $fecha_final);
 
-        $data = [
+        /*   $data = [
             'dia' => "",
             'fecha' => "",
             'base_inc' => "",
@@ -1046,7 +1048,7 @@ class ReportesController extends BaseController
             'iva_5' => "",
             'base_iva_19' => "",
             'iva_19' => "",
-        ];
+        ]; */
 
         $inc = model('pagosModel')->fechas_inc($fecha_inicial, $fecha_final);
         $iva = model('pagosModel')->fechas_iva($fecha_inicial, $fecha_final);
@@ -1055,84 +1057,215 @@ class ReportesController extends BaseController
         $data = []; // Array acumulativo para almacenar todos los resultados
         $contador_dia = 1; // Iniciar el contador en 1
 
+
         foreach ($fechas as $keyFechas) {  //Todos los dias comprendidos entre la fecha inicial y la fecha final 
 
 
-            foreach ($inc as $detalleInc) {  //la variable $inc contiene los valores de  la tarifa del impuesto al consumo 
 
-                if (!empty($detalleInc['valor_ico']) && $detalleInc['valor_ico'] !== "null" && $detalleInc['valor_ico'] !== null && $keyFechas['fecha'] !== null) {
+            $data_fecha = [
+                'base_inc_0' => 0,
+                'inc_0' => 0,
+                'base_iva_0' => 0,
+                'iva_0' => 0,
+                'base_iva_5' => 0,
+                'iva_5' => 0,
+                'base_iva_19' => 0,
+                'iva_19' => 0,
+                'fecha' => $keyFechas['fecha'],
+                'total_inc' => 0,
+                'total_iva' => 0,
+                'total_venta' => 0,
+                'dia_proceso' => $contador_dia,
+                'base_inc_8' => 0,
+                'inc_8' => 0,
+            ];
 
-                    $ico = model('kardexModel')->get_valor_inc($keyFechas['fecha'], $detalleInc['valor_ico']);   // el impuesto al consumo 
-                    $base = model('kardexModel')->get_base_inc($keyFechas['fecha'], $detalleInc['valor_ico']);   // el impuesto al consumo 
+            $insert = model('ReporteImpuestosModel')->insert($data_fecha);
+            /*   foreach ($inc as $detalleInc) {  //la variable $inc contiene los valores de  la tarifa del impuesto al consumo 
 
-                    if (!empty($ico)) {
-                        $data[] = [
-                            'dia' => $contador_dia,
-                            'fecha' => $keyFechas['fecha'],
-                            'base_inc' => number_format($base[0]['total'] - $ico[0]['inc'], 0, ",", "."),
-                            'inc' => number_format($ico[0]['inc'], 0, ",", "."),
-                            'venta_inc' => number_format($base[0]['total'] + $ico[0]['inc'], 0, ",", "."),
-                            'base_iva_0' =>  0,
-                            'iva_0' =>  0,
-                            'venta_iva_0' =>  0,
-                            'base_iva_5' => number_format(0, 0, ",", ".") ?? 0,
-                            'iva_5' => number_format(0, 0, ",", ".") ?? 0,
-                            'total_iva_5' => number_format(0, 0, ",", ".") ?? 0,
-                            'base_iva_19' => number_format(0, 0, ",", ".") ?? 0,
-                            'iva_19' => number_format(0, 0, ",", ".") ?? 0,
-                            'total_iva_19' => number_format(0, 0, ",", ".") ?? 0,
-                        ];
-                    }
+
+
+                if (!empty($detalleInc['valor_ico'])) {
+                    $inc = model('kardexModel')->get_valor_inc($keyFechas['fecha'], $detalleInc['valor_ico']);   // Impuesto al consumo 
+                    $total_inc = model('kardexModel')->get_base_inc($keyFechas['fecha'], $detalleInc['valor_ico']);   // Total de ventas com impuesto al consumo
                 }
-            }
 
-            if (!empty($iva)) {
+                if (!empty($inc[0]['inc']) and !empty($detalleInc['valor_ico']) and $detalleInc['valor_ico'] == 0) {
+
+                    $data = [
+                        'base_inc_0' => $total_inc[0]['total'] - $inc[0]['inc'],
+                        'inc_0' => $inc[0]['inc'],
+                    ];
+
+                    $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data, $keyFechas['fecha'], $contador_dia);
+                }
+                if (!empty($inc[0]['inc']) and !empty($detalleInc['valor_ico']) and $detalleInc['valor_ico'] == 8) {
+
+
+
+                    $data = [
+                        'base_inc_8' => number_format($total_inc[0]['total'] - $inc[0]['inc'], 0, ",", "."),
+                        'inc_8' => number_format($inc[0]['inc'], 0, ",", "."),
+                    ];
+                   
+
+                    $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data, $keyFechas['fecha'], $contador_dia);
+                }
+            }  */
+
+            /*  if (!empty($iva)) {
                 foreach ($iva as $detalleIva) {
-                    
+
                     if (!empty($detalleIva['valor_iva'])) {
 
                         $temp_iva = model('kardexModel')->get_valor_iva($keyFechas['fecha'], $detalleIva['valor_iva']); //Valor del IVA 
-                        $total_iva = model('kardexModel')->get_tot_iva($keyFechas['fecha'], $detalleIva['valor_iva']); 
+                        $total_iva = model('kardexModel')->get_tot_iva($keyFechas['fecha'], $detalleIva['valor_iva']);
 
-                        if (!empty($temp_iva[0]['iva'] > 0)) {
 
-                            $data[] = [
-                                'dia' => $contador_dia,
-                                'fecha' => $keyFechas['fecha'],
-                                'base_inc' => 0,
-                                'inc' => 0,
-                                'venta_inc' => 0,
-                                'base_iva_0' =>  0,
-                                'iva_0' =>  0,
-                                'venta_iva_0' =>  0,
-                                'base_iva_5' => number_format($total_iva[0]['total_iva'], 0, ",", ".") ?? 0,
-                                'iva_5' => number_format($temp_iva[0]['iva'], 0, ",", ".") ?? 0,
-                                'total_iva_5' => number_format(0, 0, ",", ".") ?? 0,
-                                'base_iva_19' => number_format(0, 0, ",", ".") ?? 0,
-                                'iva_19' => number_format(0, 0, ",", ".") ?? 0,
-                                'total_iva_19' => number_format(0, 0, ",", ".") ?? 0,
-                            ];
+                        if ($detalleIva['valor_iva'] == 0) {
+                            if (!empty($temp_iva[0]['iva'] > 0)) {
+
+                                $data = [
+                                    'base_iva_0' => number_format($total_iva[0]['total_iva'], 0, ",", "."),
+                                    'iva_0' => number_format($temp_iva[0]['iva'], 0, ",", "."),
+                                ];
+
+                                $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data, $keyFechas['fecha'], $contador_dia);
+                            }
+                        }
+                        if ($detalleIva['valor_iva'] == 5) {
+                            if (!empty($temp_iva[0]['iva'] > 0)) {
+
+                                $data = [
+                                    'base_iva_5' => number_format($total_iva[0]['total_iva'] - $temp_iva[0]['iva'], 0, ",", "."),
+                                    'iva_5' => number_format($temp_iva[0]['iva'], 0, ",", "."),
+                                ];
+
+                                $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data, $keyFechas['fecha'], $contador_dia);
+                            }
+                        }
+                        if ($detalleIva['valor_iva'] == 19) {
+                            if (!empty($temp_iva[0]['iva'] > 0)) {
+
+                                $data = [
+                                    'base_iva_19' => number_format($total_iva[0]['total_iva'], 0, ",", "."),
+                                    'iva_19' => number_format($temp_iva[0]['iva'], 0, ",", "."),
+                                ];
+
+                                $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data, $keyFechas['fecha'], $contador_dia);
+                            }
                         }
                     }
                 }
+            } */
+
+            /**
+             * Impuesto al conusmo 0 
+             */
+            $inc_0 = model('kardexModel')->get_valor_inc($keyFechas['fecha'], 0);   // Impuesto al consumo 
+            $total_inc_0 = model('kardexModel')->get_base_inc($keyFechas['fecha'], 0);
+
+            $data_0 = [
+                'base_inc_0' => number_format($total_inc_0[0]['total'] - $inc_0[0]['inc'], 0, ",", "."),
+                'inc_0' => number_format($inc_0[0]['inc'], 0, ",", "."),
+            ];
+
+            $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data_0, $keyFechas['fecha'], $contador_dia);
+            /**
+             * Impuesto al conusmo 0 
+             */
+
+            /**
+             * Impuesto al conusmo 8 
+             */
+            $inc_8 = model('kardexModel')->get_valor_inc($keyFechas['fecha'], 8);   // Impuesto al consumo 
+            $total_inc_8 = model('kardexModel')->get_base_inc($keyFechas['fecha'], 8);
+
+            $data_8 = [
+                'base_inc_8' => number_format($total_inc_8[0]['total'] - $inc_8[0]['inc'], 0, ",", "."),
+                'inc_8' => number_format($inc_8[0]['inc'], 0, ",", "."),
+            ];
+
+            $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data_8, $keyFechas['fecha'], $contador_dia);
+            /**
+             * Impuesto al conusmo 8 
+             */
+
+
+            $temp_iva_0 = model('kardexModel')->get_valor_iva($keyFechas['fecha'], 0); //Valor del IVA 
+            $total_iva_0 = model('kardexModel')->get_tot_iva($keyFechas['fecha'], 0);
+
+            if (!empty($temp_iva_0[0]['iva'] > 0)) {
+
+                $data_iva_0 = [
+                    'base_iva_0' => number_format($total_iva_0[0]['total_iva'], 0, ",", "."),
+                    'iva_0' => number_format($temp_iva_0[0]['iva'], 0, ",", "."),
+                ];
+
+                $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data_iva_0, $keyFechas['fecha'], $contador_dia);
             }
+            $temp_iva_5 = model('kardexModel')->get_valor_iva($keyFechas['fecha'], 5); //Valor del IVA 
+            $total_iva_5 = model('kardexModel')->get_tot_iva($keyFechas['fecha'], 5);
+
+            if (!empty($temp_iva_5[0]['iva'] > 0)) {
+
+                $data_iva_5 = [
+                    'base_iva_5' => number_format($total_iva_5[0]['total_iva'], 0, ",", "."),
+                    'iva_5' => number_format($temp_iva_5[0]['iva'], 0, ",", "."),
+                ];
+
+                $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data_iva_5, $keyFechas['fecha'], $contador_dia);
+            }
+
+            $temp_iva_19 = model('kardexModel')->get_valor_iva($keyFechas['fecha'], 19); //Valor del IVA 
+            $total_iva_19 = model('kardexModel')->get_tot_iva($keyFechas['fecha'], 19);
+
+            if (!empty($temp_iva_19[0]['iva'] > 0)) {
+
+                $data_iva_19 = [
+                    'base_iva_19' => number_format($total_iva_19[0]['total_iva'], 0, ",", "."),
+                    'iva_19' => number_format($temp_iva_19[0]['iva'], 0, ",", "."),
+                ];
+
+                $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data_iva_19, $keyFechas['fecha'], $contador_dia);
+            }
+
+
+            $total_inc = model('kardexModel')->get_total_inc_fecha($keyFechas['fecha']);
+            $total_iva = model('kardexModel')->get_total_iva_fecha($keyFechas['fecha']);
+            $total_venta = model('kardexModel')->get_total_fecha($keyFechas['fecha']);
+
+            $data = [
+                'total_inc' => number_format($total_inc[0]['inc'], 0, ",", "."),
+                'total_iva' => number_format($total_iva[0]['iva'], 0, ",", "."),
+                'total_venta' => number_format($total_venta[0]['total'], 0, ",", "."),
+            ];
+
+            $actualizar = model('ReporteImpuestosModel')->actualizar_tabla($data, $keyFechas['fecha'], $contador_dia);
 
             $contador_dia++; // Incrementar el contador después de cada fecha
         }
 
-        if (!empty($data)) {
+        $datos = model('ReporteImpuestosModel')->getValores();
+
+        if (!empty($datos)) {
             $total_venta = model('facturaElectronicaModel')->total_venta($fecha_inicial, $fecha_final);
+            $total_IVA = model('kardexModel')->get_iva_reporte($fecha_inicial, $fecha_final);
+            $total_INC = model('kardexModel')->get_ico_reporte($fecha_inicial, $fecha_final);
+
             $returnData = array(
                 "resultado" => 1,
-                "datos" => $data,
+                "datos" => $datos,
                 'primer_factura' => "Primer factura " . $primer_factura['numero'],
                 'ultima_factura' => "Última factura " . $ultima_factura['numero'],
-                'total_venta' => "$ " . number_format($total_venta[0]['total_venta'], 0, ",", ".")
+                'total_venta' => "Total venta  $ " . number_format($total_venta[0]['total_venta'], 0, ",", "."),
+                'total_iva' => "Total IVA $ " . number_format($total_IVA[0]['iva'], 0, ",", "."),
+                'total_inc' => "Total INC " . number_format($total_INC[0]['ico'], 0, ",", "."),
             );
 
             echo  json_encode($returnData);
         }
-        if (empty($data)) {
+        if (empty($datos)) {
             $returnData = array(
                 "resultado" => 0
             );
