@@ -544,7 +544,7 @@ class productoPedidoModel extends Model
         return $datos->getResultArray();
     }
 
-    public function productos_impresora($id_impresora,)
+    public function productos_impresora($id_impresora)
     {
         $datos = $this->db->query("
         SELECT
@@ -561,6 +561,26 @@ class productoPedidoModel extends Model
              producto_pedido
         INNER JOIN producto ON producto_pedido.codigointernoproducto = producto.codigointernoproducto
         where id_impresora=$id_impresora  and se_imprime_en_comanda='true' and  numero_productos_impresos_en_comanda < cantidad_producto  order by id asc;
+        ");
+        return $datos->getResultArray();
+    }
+    public function productosReImpresion($id_impresora)
+    {
+        $datos = $this->db->query("
+        SELECT
+             producto_pedido.id as id,
+             producto.nombreproducto,
+             producto.valorventaproducto,
+             valor_total,
+             cantidad_producto,
+             nota_producto,
+             valor_unitario,
+             producto_pedido.codigointernoproducto,
+             numero_productos_impresos_en_comanda
+        FROM
+             producto_pedido
+        INNER JOIN producto ON producto_pedido.codigointernoproducto = producto.codigointernoproducto
+        where id_impresora=$id_impresora  and se_imprime_en_comanda='true'  order by id asc;
         ");
         return $datos->getResultArray();
     }

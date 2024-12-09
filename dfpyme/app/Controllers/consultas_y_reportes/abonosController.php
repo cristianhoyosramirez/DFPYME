@@ -580,6 +580,7 @@ class AbonosController extends BaseController
 
 
         $inventario = model('inventarioModel')->findAll();
+        $cruce = model('inventarioModel')->cruce_inventario();
 
         $datos_empresa = model('empresaModel')->datosEmpresa();
         $file_name = 'Cruce de inventarios  .xlsx';
@@ -674,16 +675,32 @@ class AbonosController extends BaseController
         $sheet->setCellValue('G7', 'Valor venta ');
 
         $count = 8;
+
         foreach ($inventario as $row) {
 
-            $sheet->setCellValue('A' . $count, $row['codigointernoproducto']);
-            $sheet->setCellValue('B' . $count, $row['nombreproducto']);
+            $producto = model('inventarioModel')->conteo_manual($row['codigointernoproducto']);
+
+            /*  $sheet->setCellValue('A' . $count, $row['codigointernoproducto']);
+            $nombreProducto=model('productoModel')->select('nombreproducto')->where('codigointernoproducto',$row['codigointernoproducto'])->first();
+            $sheet->setCellValue('B' . $count, $nombreProducto['nombreproducto']);
             $sheet->setCellValueExplicit('C' . $count, $row['cantidad_inventario_fisico'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->setCellValueExplicit('D' . $count, $row['cantidad_inventario'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->setCellValueExplicit('E' . $count, $row['diferencia'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->setCellValueExplicit('F' . $count, $row['valor_costo'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->setCellValueExplicit('G' . $count, $row['valor_venta'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $count++;
+            $count++; */
+
+            if (!empty($producto)) {
+
+                $sheet->setCellValue('A' . $count, $producto[0]['codigointernoproducto']);
+                $sheet->setCellValue('B' . $count, $producto[0]['nombreproducto']);
+                $sheet->setCellValueExplicit('C' . $count, $producto[0]['cantidad_inventario_fisico'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->setCellValueExplicit('D' . $count, $producto[0]['cantidad_inventario'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->setCellValueExplicit('E' . $count, $producto[0]['diferencia'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->setCellValueExplicit('F' . $count, number_format($producto[0]['valor_costo'], 0, ",", "."), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->setCellValueExplicit('G' . $count, number_format($producto[0]['valor_venta'], 0, ",", "."), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $count++;
+            }
         }
 
         //$total_venta=model('inventarioModel')->selectSum()
@@ -880,7 +897,7 @@ class AbonosController extends BaseController
         $cruce = model('inventarioModel')->cruce_inventario();
 
         $datos_empresa = model('empresaModel')->datosEmpresa();
-        $file_name = 'Productos sobrantes.xlsx';
+        $file_name = 'Productos faltantes.xlsx';
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -1025,7 +1042,7 @@ class AbonosController extends BaseController
 
         exit;
     }
- /*    function reporte_faltantes()
+    /*    function reporte_faltantes()
     {
 
         $cruce = model('inventarioModel')->faltantes();

@@ -116,7 +116,7 @@ class ReportesController extends BaseController
         $iva = model('kardexModel')->get_iva_reportes($apertura);
         $inc = model('kardexModel')->get_inc_reportes($apertura);
 
-        $costo = model('pagosModel')->total_costo($apertura);
+        //$costo = model('pagosModel')->total_costo($apertura);
         $json_data = [
             'draw' => intval($this->request->getGEt(index: 'draw')),
             'recordsTotal' => $total_count->total,

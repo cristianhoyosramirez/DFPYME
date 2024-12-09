@@ -111,17 +111,32 @@ ORDER BY
          ");
         return $datos->getResultArray();
     }
-    public function conteo_manual($codigoPrpducto)
+    public function conteo_manual($codigoProducto)
     {
         $datos = $this->db->query("
 SELECT 
     cantidad_inventario_fisico,
     inventario_fisico.codigointernoproducto,
     nombreproducto,
-    (cantidad_inventario_fisico - cantidad_inventario) AS diferencia,
+    (cantidad_inventario_fisico - 
+        CASE 
+            WHEN cantidad_inventario < 0 THEN -cantidad_inventario 
+            ELSE cantidad_inventario 
+        END
+    ) AS diferencia,
     cantidad_inventario,
-    (cantidad_inventario_fisico - cantidad_inventario) * precio_costo AS valor_costo,
-    (cantidad_inventario_fisico - cantidad_inventario) * valorventaproducto AS valor_venta
+    (cantidad_inventario_fisico - 
+        CASE 
+            WHEN cantidad_inventario < 0 THEN -cantidad_inventario 
+            ELSE cantidad_inventario 
+        END
+    ) * precio_costo AS valor_costo,
+    (cantidad_inventario_fisico - 
+        CASE 
+            WHEN cantidad_inventario < 0 THEN -cantidad_inventario 
+            ELSE cantidad_inventario 
+        END
+    ) * valorventaproducto AS valor_venta
 FROM 
     inventario_fisico
 INNER JOIN 
@@ -132,10 +147,11 @@ INNER JOIN
     ON inventario.codigointernoproducto = inventario_fisico.codigointernoproducto
 WHERE 
     corte_inventario_fisico = 'false' 
-    AND inventario_fisico.codigointernoproducto='$codigoPrpducto'
+    AND inventario_fisico.codigointernoproducto = '$codigoProducto'
 ORDER BY 
     nombreproducto DESC;
 ;
+
 
          ");
         return $datos->getResultArray();

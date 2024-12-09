@@ -35,58 +35,51 @@ HOME
     <div class="card">
         <div class="car-body">
 
-            <table class="table">
-                <thead class="table-dark">
-                    <tr>
-                        <td scope="col">Codigo </td>
-                        <td scope="col">Producto </td>
-                        <td scope="col">Cantidad conteo </td>
-                        <td scope="col">Cantidad sistema </td>
-                        <td scope="col">Diferencia inventario </td>
-                        <td scope="col">Valor costo </td>
-                        <td scope="col">Valor venta </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($conteo_manual)): ?>
-                        <?php foreach ($inventario_sistema as $KeyInventarioFisico): ?>
+            <div style="height: calc(100vh - 150px); overflow-y: auto;">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
+                        <tr>
+                            <td scope="col">Codigo</td>
+                            <td scope="col">Producto</td>
+                            <td scope="col">Cantidad conteo</td>
+                            <td scope="col">Cantidad sistema</td>
+                            <td scope="col">Diferencia inventario</td>
+                            <td scope="col">Valor costo</td>
+                            <td scope="col">Valor venta</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($conteo_manual)): ?>
+                            <?php foreach ($inventario_sistema as $KeyInventarioFisico): ?>
+                                <?php $producto = model('inventarioModel')->conteo_manual($KeyInventarioFisico['codigointernoproducto']); ?>
+                                <?php if (!empty($producto)): ?>
+                                    <tr>
+                                        <td><?php echo $producto[0]['codigointernoproducto']; ?></td>
+                                        <td><?php echo $producto[0]['nombreproducto']; ?></td>
+                                        <td><?php echo $producto[0]['cantidad_inventario_fisico']; ?></td>
+                                        <td><?php echo $producto[0]['cantidad_inventario']; ?></td>
+                                        <td><?php echo $producto[0]['diferencia']; ?></td>
+                                        <td><?php echo number_format($producto[0]['valor_costo'], 0, ",", "."); ?></td>
+                                        <td><?php echo number_format($producto[0]['valor_venta'], 0, ",", "."); ?></td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php $dato_producto = model('inventarioModel')->getProducto($KeyInventarioFisico['codigointernoproducto']); ?>
+                                    <tr>
+                                        <td><?php echo $KeyInventarioFisico['codigointernoproducto']; ?></td>
+                                        <td><?php echo $dato_producto[0]['nombreproducto']; ?></td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td><?php echo number_format($dato_producto[0]['precio_costo'], 0, ",", "."); ?></td>
+                                        <td><?php echo number_format($dato_producto[0]['valorventaproducto'], 0, ",", "."); ?></td>
+                                    </tr>
+                                <?php endif ?>
+                            <?php endforeach ?>
+                        <?php endif ?>
+                    </tbody>
+                </table>
+            </div>
 
-                            <?php $producto = model('inventarioModel')->conteo_manual($KeyInventarioFisico['codigointernoproducto']); //d($producto);
-                            ?>
-
-                            <?php if (!empty($producto)): ?>
-
-                                <tr>
-                                    <td><?php echo $producto[0]['codigointernoproducto'];  ?></td>
-                                    <td><?php echo $producto[0]['nombreproducto'];  ?></td>
-                                    <td><?php echo $producto[0]['cantidad_inventario_fisico'];  ?></td>
-                                    <td><?php echo $producto[0]['cantidad_inventario'];  ?></td>
-                                    <td><?php echo $producto[0]['diferencia'];  ?></td>
-                                    <td><?php echo number_format($producto[0]['valor_costo'], 0, ",", ".");  ?></td>
-                                    <td><?php echo number_format($producto[0]['valor_venta'], 0, ",", ".");  ?></td>
-                                </tr>
-
-                            <?php endif ?>
-                            <?php if (empty($producto)): ?>
-
-                                <?php $dato_producto = model('inventarioModel')->getProducto($KeyInventarioFisico['codigointernoproducto']); ?>
-                                <tr>
-                                    <td><?php echo $KeyInventarioFisico['codigointernoproducto'];  ?></td>
-                                    <td><?php echo $dato_producto[0]['nombreproducto'];  ?></td>
-                                    <td> 0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td><?php echo number_format($dato_producto[0]['precio_costo'], 0, ",", ".");  ?></td>
-                                    <td><?php echo number_format($dato_producto[0]['valorventaproducto'], 0, ",", ".");  ?></td>
-                                </tr>
-
-                            <?php endif ?>
-
-
-                        <?php endforeach ?>
-                    <?php endif ?>
-                </tbody>
-            </table>
             <?php if (empty($conteo_manual)): ?>
 
                 <p class="text-center text-primary h3">No productos para hacer cruce de inventario </p>
@@ -103,7 +96,7 @@ HOME
 
 <!-- Modal -->
 <div class="modal fade" id="sobrantes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl  modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Reporte de productos sobrantes en el inventario</h5>
@@ -159,7 +152,7 @@ HOME
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <form action="<?php echo base_url() ?>/consultas_y_reportes/reporte_sobrantes">
-                    <button class="btn btn-outline-danger ms-2" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver faltantes">Exportar PDF</button>
+                    <button class="btn btn-outline-success ms-2" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver faltantes">Exportar EXCEL</button>
                 </form>
             </div>
         </div>
@@ -167,7 +160,7 @@ HOME
 </div>
 <!-- Modal -->
 <div class="modal fade" id="faltantes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-xl  modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Reporte de productos faltantes en el inventario</h5>
@@ -217,7 +210,7 @@ HOME
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <form action="<?php echo base_url() ?>/consultas_y_reportes/reporte_faltantes">
-                    <button class="btn btn-outline-danger ms-2" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver faltantes">Exportar PDF</button>
+                    <button class="btn btn-outline-success ms-2" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver faltantes">Exportar EXCEL</button>
                 </form>
             </div>
         </div>

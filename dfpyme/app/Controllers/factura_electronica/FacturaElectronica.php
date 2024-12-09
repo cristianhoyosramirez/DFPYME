@@ -26,7 +26,7 @@ class FacturaElectronica extends BaseController
     {
         //var_dump($this->request->getPost());
         $id_mesa = $this->request->getPost('id_mesa');
-        //$id_mesa = 1;
+        // $id_mesa = 6;
 
         //var_dump($this->request->getPost());
 
@@ -531,13 +531,24 @@ class FacturaElectronica extends BaseController
                         $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
                         $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);
 
-                        //dd($movimientos_transaccion);
+                        if (empty($movimientos_efectivo[0]['recibido_efectivo'])){
+                            $efectivo=0;
+                        }else if (empty($movimientos_efectivo[0]['recibido_efectivo'])){
+                            $efectivo=$movimientos_efectivo[0]['recibido_efectivo'];
+                        }
+
+                        if (empty($movimientos_efectivo[0]['total_pago'])){
+                            $total_efectivo=0;
+                        }else if (empty($movimientos_efectivo[0]['total_pago'])){
+                            $total_efectivo=$movimientos_efectivo[0]['total_pago'];
+                        }
 
                         if (!empty($movimientos_transaccion)) {
                             if ($movimientos_transaccion[0]['recibido_transferencia'] > 0) {
                                 $imp = new impresion();
 
-                                $imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $movimientos_efectivo[0]['recibido_efectivo'], $movimientos_efectivo[0]['total_pago']);
+                                //$imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $movimientos_efectivo[0]['recibido_efectivo'], $movimientos_efectivo[0]['total_pago']);
+                                $imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $efectivo, $total_efectivo);
                             }
                         }
                     }
