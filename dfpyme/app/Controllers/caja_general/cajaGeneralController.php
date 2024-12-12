@@ -9,6 +9,11 @@ use App\Controllers\BaseController;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Font;
+
 
 class cajaGeneralController extends BaseController
 {
@@ -72,7 +77,7 @@ class cajaGeneralController extends BaseController
 
             $get_fechacierre_valorcierre = model('cajaGeneralModel')->get_fechacierre_valorcierre($ultimo_id['id']);
 
-        
+
             if (empty($get_fechacierre_valorcierre[0]['fecha_cierre']) && empty($get_fechacierre_valorcierre[0]['valor_cierre'])) {
                 $session = session();
                 $session->setFlashdata('iconoMensaje', 'error');
@@ -738,4 +743,209 @@ class cajaGeneralController extends BaseController
         );
         echo  json_encode($returnData);
     }
+
+ /*      function exportCostoExcel()
+    {
+
+        $fecha_inicial = $this->request->getPost('fecha_inicial');
+        $fecha_final = $this->request->getPost('fecha_final');
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+
+        $file_name = 'Reporte de costos de ' . $fecha_inicial . ' al ' . $fecha_final . '.xlsx';
+
+        $spreadsheet = new Spreadsheet();
+
+        $sheet = $spreadsheet->getActiveSheet();
+
+
+        // Establecer el estilo de las celdas del encabezado
+        $headerStyle = [
+            'font' => [
+                'bold' => true,           // Negrita
+                'size' => 12,             // Tamaño de fuente
+                'color' => ['argb' => 'FFFFFF'], // Color de fuente blanco
+                'name' => 'Aptos Narrow',
+                ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Alineación centrada
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,   // Alineación centrada vertical
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Relleno sólido
+                'startColor' => ['argb' => '4F81BD'], // Color de fondo (puedes cambiarlo)
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN, // Bordes finos
+                    'color' => ['argb' => '000000'], // Color de borde negro
+                ],
+            ],
+        ];
+        $sheet->setCellValue('A1', $datos_empresa[0]['nombrejuridicoempresa']);
+
+        // Combina las celdas de A1 a J1
+        $sheet->mergeCells('A1:O1');
+
+        // Centra el texto en el rango combinado
+        $sheet->getStyle('A1:O1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1:O1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+        $sheet->setCellValue('A2', $datos_empresa[0]['nombrecomercialempresa']);
+
+        // Combina las celdas de A1 a J1
+        $sheet->mergeCells('A2:O2');
+
+        // Centra el texto en el rango combinado
+        $sheet->getStyle('A2:O2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A2:O2')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+
+        $sheet->setCellValue('A3', 'NIT: ' . $datos_empresa[0]['nitempresa']);
+        $sheet->mergeCells('A3:O3');
+
+        // Centra el texto en el rango combinado
+        $sheet->getStyle('A3:O3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A3:O3')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+
+        $sheet->setCellValue(
+            'A4',
+            'Dirección: ' . $datos_empresa[0]['direccionempresa'] . " " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento']
+        );
+
+        $sheet->mergeCells('A4:O4');
+
+        // Centra el texto en el rango combinado
+        $sheet->getStyle('A4:O4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A4:O4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+        $sheet->setCellValue('A5', 'REPORTE DE COSTO DE VENTA   ');
+        $sheet->mergeCells('A5:O5');
+
+
+        $count = 2;
+
+
+        $writer = new Xlsx($spreadsheet);
+
+        $writer->save($file_name);
+
+        header("Content-Type: application/vnd.ms-excel");
+
+        header('Content-Disposition: attachment; filename="' . basename($file_name) . '"');
+
+        header('Expires: 0');
+
+        header('Cache-Control: must-revalidate');
+
+        header('Pragma: public');
+
+        header('Content-Length:' . filesize($file_name));
+
+        flush();
+
+        readfile($file_name);
+
+        exit;
+    }  */
+
+    function exportCostoExcel()
+    {
+        $fecha_inicial = $this->request->getPost('fecha_inicial');
+        $fecha_final = $this->request->getPost('fecha_final');
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+    
+        $file_name = 'Reporte de costos de ' . $fecha_inicial . ' al ' . $fecha_final . '.xlsx';
+    
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+    
+        // Aplicar la fuente Aptos Narrow de tamaño 11 a todas las celdas
+        $spreadsheet->getDefaultStyle()->getFont()->setName('Aptos Narrow')->setSize(11);
+    
+        // Establecer el estilo de las celdas del encabezado
+        $headerStyle = [
+            'font' => [
+                'bold' => true,
+                'size' => 12,
+                'color' => ['argb' => '000000'], // Fuente en color negro
+                'name' => 'Aptos Narrow',
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['argb' => 'F2F2F2'], // Fondo gris más claro
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'], // Bordes negros
+                ],
+            ],
+        ];
+        
+        
+    
+        $sheet->setCellValue('A1', $datos_empresa[0]['nombrejuridicoempresa']);
+        $sheet->mergeCells('A1:G1');
+        $sheet->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    
+        $sheet->setCellValue('A2', $datos_empresa[0]['nombrecomercialempresa']);
+        $sheet->mergeCells('A2:G2');
+        $sheet->getStyle('A2:G2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A2:G2')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    
+        $sheet->setCellValue('A3', 'NIT: ' . $datos_empresa[0]['nitempresa']);
+        $sheet->mergeCells('A3:G3');
+        $sheet->getStyle('A3:G3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A3:G3')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    
+        $sheet->setCellValue(
+            'A4',
+            'Dirección: ' . $datos_empresa[0]['direccionempresa'] . " " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento']
+        );
+        $sheet->mergeCells('A4:G4');
+        $sheet->getStyle('A4:G4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A4:G4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        
+        $sheet->setCellValue('A5', 'REPORTE DE COSTO DE VENTA');
+        $sheet->mergeCells('A5:G5');
+        
+        // Aplicar alineación centrada
+        $sheet->getStyle('A5')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A5')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        
+    
+
+        $sheet->getStyle('A7:G7')->applyFromArray($headerStyle);
+        $sheet->setCellValue('A7', 'Fecha ');
+        $sheet->setCellValue('B7', 'Factura  ');
+        $sheet->setCellValue('C7', 'Costo');
+        $sheet->setCellValue('D7', 'Base');
+        $sheet->setCellValue('E7', 'IVA 5 % ');
+        $sheet->setCellValue('F7', 'IMPO 8 %');
+        $sheet->setCellValue('G7', 'Total venta ');
+       
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($file_name);
+    
+        header("Content-Type: application/vnd.ms-excel");
+        header('Content-Disposition: attachment; filename="' . basename($file_name) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length:' . filesize($file_name));
+        flush();
+        readfile($file_name);
+        exit;
+    }
+    
+    
+
+
+    
 }

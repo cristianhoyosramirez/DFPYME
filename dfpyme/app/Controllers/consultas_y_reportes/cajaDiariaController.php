@@ -2003,7 +2003,7 @@ class cajaDiariaController extends BaseController
 
 
 
-       /*  if (empty($registro_ini_final[0]['primer_registro'])) {
+        /*  if (empty($registro_ini_final[0]['primer_registro'])) {
             $registro_inicial = "";
         }
         if (!empty($registro_ini_final[0]['primer_registro'])) {
@@ -2030,25 +2030,38 @@ class cajaDiariaController extends BaseController
         $iva = model('pagosModel')->fiscal_iva($id_apertura);
         $array_iva = array();
 
+        $facturas = model('facturaElectronicaModel')->getFacturasTrasmitidas($id_inicial[0]['id'], $id_final[0]['id']);
 
+        $array_iva = []; // Arreglo para almacenar los resultados finales.
 
         if (!empty($iva)) {
             foreach ($iva as $detalle) {
+                // Inicializar acumuladores para cada tarifa de IVA.
+                $tarifa_iva = $detalle['valor_iva'];
+                $total_base = 0;
+                $total_iva = 0;
+                $total_venta = 0;
 
-                //$iva = model('kardexModel')->selectSum('iva')->where('id_apertura', $id_apertura)->find();
-                // $iva = model('kardexModel')->selectSum('iva')->where('id_estado', 1)->find();
-                //$iva = model('kardexModel')->selectSum('iva')->where('valor_iva', $detalle['valor_iva'])->find();
+                foreach ($facturas as $keyFacturas) {
+                    // Obtener los datos de IVA por factura y tarifa.
+                    $iva_factura = model('kardexModel')->get_iva_electronico($keyFacturas['id'], $tarifa_iva);
+                    $total_factura = model('kardexModel')->total_iva_electronico($keyFacturas['id'], $tarifa_iva);
 
-                $iva = model('kardexModel')->get_iva_electronico($id_apertura, $detalle['valor_iva']);
+                    if (!empty($iva_factura) && !empty($total_factura)) {
+                        // Acumular valores por tarifa.
+                        $total_base += $total_factura[0]['total'] - $iva_factura[0]['iva'];
+                        $total_iva += $iva_factura[0]['iva'];
+                        $total_venta += $total_factura[0]['total'];
+                    }
+                }
 
-                $total = model('kardexModel')->total_iva_electronico($id_apertura, $detalle['valor_iva']);
-
-
-
-                $data_iva['tarifa_iva'] =  $detalle['valor_iva'];
-                $data_iva['base'] = $total[0]['total'] - $iva[0]['iva'];
-                $data_iva['total_iva'] = $iva[0]['iva'];
-                $data_iva['valor_venta'] = $total[0]['total'];
+                // Guardar los resultados en el arreglo final.
+                $data_iva = [
+                    'tarifa_iva' => $tarifa_iva,
+                    'base' => $total_base,
+                    'total_iva' => $total_iva,
+                    'valor_venta' => $total_venta,
+                ];
                 array_push($array_iva, $data_iva);
             }
         } else {

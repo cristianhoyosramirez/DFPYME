@@ -417,12 +417,13 @@ class categoriaController extends BaseController
 } */
 
 
-    function productos_categoria() {
+    function productos_categoria()
+    {
 
-        $categorias=model('categoriasModel')->select('codigocategoria,nombrecategoria,id')->orderBy('orden','asc')->findAll();
+        $categorias = model('categoriasModel')->select('codigocategoria,nombrecategoria,id')->orderBy('orden', 'asc')->findAll();
 
-        return view('producto/categorias',[
-            'categorias'=>$categorias
+        return view('producto/categorias', [
+            'categorias' => $categorias
         ]);
     }
 
@@ -440,8 +441,8 @@ class categoriaController extends BaseController
             // $this->productoModel->update($id, ['nombre' => $valor]);
 
 
-            $data=[
-               'nombreproducto'=>$valor
+            $data = [
+                'nombreproducto' => $valor
             ];
 
             $model = model('productoModel');
@@ -478,8 +479,8 @@ class categoriaController extends BaseController
             // $this->productoModel->update($id, ['nombre' => $valor]);
 
 
-            $data=[
-               'nombreproducto'=>$valor
+            $data = [
+                'nombreproducto' => $valor
             ];
 
             $model = model('productoModel');
@@ -500,5 +501,25 @@ class categoriaController extends BaseController
             'success' => false,
             'message' => 'Datos insuficientes o inválidos',
         ])->setStatusCode(400); // Código de error
+    }
+
+    function componentes_producto()
+    {
+
+        $data = $this->request->getJSON();
+
+        $idProducto = $data->id;
+
+        $codigointernoproducto=model('productoModel')->select('codigointernoproducto')->where('id',$idProducto)->first();
+        $nombreProducto=model('productoModel')->select('nombreproducto')->where('id',$idProducto)->first();
+
+        $ingredientes = model('productoModel')->getIngredientes($codigointernoproducto['codigointernoproducto']);
+
+        return $this->response->setJSON([
+            'success' => true,
+            'ingredientes'=>$ingredientes,
+            'producto'=>$nombreProducto['nombreproducto']
+
+        ]);
     }
 }

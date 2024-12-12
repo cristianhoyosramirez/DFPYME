@@ -44,18 +44,7 @@ class pagosModel extends Model
     ");
         return $datos->getResultArray();
     }
-    /*   public function set_ventas_electronicas($id_apertura)
-    {
-        $datos = $this->db->query("
-    SELECT
-    SUM(total) as valor
-    FROM
-        kardex
-    WHERE
-        id_apertura = $id_apertura AND id_estado = 8
-    ");
-        return $datos->getResultArray();
-    } */
+ 
     public function set_ventas_electronicas($id_apertura)
     {
         $datos = $this->db->query("
@@ -207,18 +196,42 @@ class pagosModel extends Model
     {
 
         $datos = $this->db->query("
-        select min(id) as id from pagos where id_apertura=$id_apertura and id_estado =8
+        SELECT MIN(id) AS id 
+FROM documento_electronico 
+WHERE id_status = 2 
+  AND transaccion_id IS NOT NULL 
+  AND transaccion_id != '';
  ");
         return $datos->getResultArray();
     }
+/*     function get_min_id_electronico($id_apertura)
+    {
+
+        $datos = $this->db->query("
+        select min(id) as id from pagos where id_apertura=$id_apertura and id_estado =8
+ ");
+        return $datos->getResultArray();
+    } */
     function get_max_id_electronico($id_apertura)
+    {
+
+        $datos = $this->db->query("
+        SELECT MAX(id) AS id 
+FROM documento_electronico 
+WHERE id_status = 2 
+  AND transaccion_id IS NOT NULL 
+  AND transaccion_id != '';
+ ");
+        return $datos->getResultArray();
+    }
+ /*    function get_max_id_electronico($id_apertura)
     {
 
         $datos = $this->db->query("
         select max(id) as id from pagos where id_apertura=$id_apertura and id_estado =8
  ");
         return $datos->getResultArray();
-    }
+    } */
     function get_max_id($id_apertura)
     {
 

@@ -227,7 +227,11 @@ class ReportesController extends BaseController
             $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
             $sub_array[] = $detalle['fecha'];
             $sub_array[] = $detalle['nit_cliente'];
+            // $sub_array[] =  $nombre_cliente['nombrescliente'];
             $sub_array[] =  $nombre_cliente['nombrescliente'];
+
+
+
             // $sub_array[] = $detalle['documento'];
             $sub_array[] = $documento;
             $tipo_documento = model('estadoModel')->select('descripcionestado')->where('idestado', $detalle['id_estado'])->first();
@@ -788,20 +792,20 @@ class ReportesController extends BaseController
 
         $truncate = model('TempMovModel')->truncate();
 
-        /*  $codigo_producto = $this->request->getPost('producto');
+        $codigo_producto = $this->request->getPost('producto');
         $movimiento = $this->request->getPost('movimiento');
         $fecha_inicial = $this->request->getPost('fecha_inicial');
         $fecha_final = $this->request->getPost('fecha_final');
-        $usuario_consulta = $this->request->getPost('id_usuario'); */
+        $usuario_consulta = $this->request->getPost('id_usuario');
 
 
 
 
-        $codigo_producto = 111;
-        $movimiento = 2;
+        /*    $codigo_producto = 342;
+        $movimiento = 3;
         $fecha_inicial = '2024-11-01';
-        $fecha_final = '2024-11-21';
-        $usuario_consulta = 6;
+        $fecha_final = '2024-12-05';
+        $usuario_consulta = 6;  */
 
         $id_producto = model('productoModel')->getIdProducto($codigo_producto);
         $tipo_inventario = model('productoModel')->getTipoInventario($codigo_producto);
@@ -825,7 +829,7 @@ class ReportesController extends BaseController
 
         $datosParaInsertar = [];
 
-
+        //var_dump($movimientos);
 
         foreach ($movimientos as $detalle) {
 
@@ -849,7 +853,7 @@ class ReportesController extends BaseController
                             'cantidad_inicial' => $key['inventario_anterior'],
                             'cantidad_final' => $key['inventario_actual'],
                             'usuario' => $usuario[0]['nombresusuario_sistema'],
-                            'id_usuario' => 6,
+                            'id_usuario' => $usuario_consulta,
                             'cantidad_movi' => $key['cantidad_movimiento'],
                             'fecha' => $fecha,
                             'documento' => $documento['numerofactura_proveedor'],
@@ -875,7 +879,7 @@ class ReportesController extends BaseController
                                 'cantidad_inicial' => $keyDatos['inventario_anterior'],
                                 'cantidad_final' => $keyDatos['inventario_actual'],
                                 'usuario' => $keyDatos['usuario'],
-                                'id_usuario' => 6,
+                                'id_usuario' => $usuario_consulta,
                                 'cantidad_movi' => $keyDatos['cantidad'],
                                 'fecha' => $keyDatos['fecha'],
                                 'documento' => $keyDatos['id'],
@@ -940,7 +944,7 @@ class ReportesController extends BaseController
                                     'cantidad_inicial' => $keyProducto['inventario_anterior'],
                                     'cantidad_final' => $keyProducto['inventario_actual'],
                                     'usuario' => $nombre_usuario[0]['nombresusuario_sistema'],
-                                    'id_usuario' => 6,
+                                    'id_usuario' => $usuario_consulta,
                                     'cantidad_movi' =>  $keyProducto['inventario_anterior'] - $keyProducto['inventario_actual'],
                                     'fecha' => $keyProducto['fecha'],
                                     'documento' => $keyProducto['numero'],
@@ -958,6 +962,8 @@ class ReportesController extends BaseController
         }
 
         $datos_finales = model('TempMovModel')->get_productos($usuario_consulta);
+
+
 
         if (!empty($datos_finales)) {
 

@@ -1311,12 +1311,12 @@ class Ventas extends BaseController
             //'costo' => number_format($costo[0]['costo'], 0, ",", "."),
             'fecha_inicial' => $fecha_inicial,
             'fecha_final' => $fecha_final,
-           'impuestos' => view('impuestos/impuestos', [
+          /*  'impuestos' => view('impuestos/impuestos', [
                 'iva' => $iva,
                 'inc' => $inc,
                 'costo_total' => $costo[0]['costo'],
                 'venta_total' => number_format($total_venta[0]['valor'], 0, ",", ".")
-            ]) 
+            ])  */
         ];
 
         echo  json_encode($json_data);

@@ -11,10 +11,13 @@ HOME
 <div class="container">
     <div class="my-2">
         <div class="d-flex justify-content-between align-items-center">
-            <p class="text-center w-100 m-0">Cruce de inventario</p>
+            <p class="text-center w-100 m-0 h3 text-primary">Cruce de inventario</p>
             <div class="d-flex ms-3">
+                <button type="button" class="btn btn-outline-yellow d-flex ms-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cruzar y revisar" onclick="cruzarRevisar()">
+                    Cruzar y revisar
+                </button>
                 <form action="<?php echo base_url() ?>/consultas_y_reportes/reporte_cruce_inventarios">
-                    <button class="btn btn-outline-success ms-2" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exportar a excel">Excel</button>
+                    <button class="btn btn-outline-success ms-2" type="submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exportar a excel">Descargar</button>
                 </form>
                 <!--  <form action="<?php echo base_url() ?>/consultas_y_reportes/reporte_sobrantes">
                     <button class="btn btn-outline-primary ms-2" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver sobrantes" data-bs-toggle="modal" data-bs-target="#sobrantes">Sobrantes</button>
@@ -231,6 +234,12 @@ HOME
 
     // Actualiza la posición y el estilo del modal
     myModal.handleUpdate();
+</script>
+
+<script>
+    function cruzarRevisar(){
+        
+    }
 </script>
 
 

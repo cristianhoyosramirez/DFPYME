@@ -154,6 +154,7 @@ $routes->group('categoria', ['namespace' => 'App\Controllers\categoria', 'filter
     $routes->get('productos_categoria', 'categoriaController::productos_categoria');
     $routes->post('actualizar_productos', 'categoriaController::actualizar_productos');
     $routes->post('actualizacion_productos', 'categoriaController::actualizacion_productos');
+    $routes->post('componentes_producto', 'categoriaController::componentes_producto');
 });
 
 $routes->group('pedido', ['namespace' => 'App\Controllers\pedido', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -435,6 +436,7 @@ $routes->group('caja_general', ['namespace' => 'App\Controllers\caja_general', '
     $routes->post('validar_cierre', 'cajaGeneralController::validar_cierre');
     $routes->get('todos_los_cierres_caja_general', 'cajaGeneralController::todos_los_cierres_caja_general');
     $routes->post('consultar_movimiento', 'cajaGeneralController::consultar_movimiento');
+    $routes->post('exportCostoExcel', 'cajaGeneralController::exportCostoExcel');
 });
 
 /**

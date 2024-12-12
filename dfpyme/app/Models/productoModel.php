@@ -507,4 +507,50 @@ class productoModel extends Model
         ");
         return $datos->getResultArray();
     }
+    function getTipoProducto($id)
+    {
+
+        $datos = $this->db->query("
+           SELECT 
+                tipo_inventario.nombre,
+                producto.id_tipo_inventario,
+                tipo_inventario.descripcion
+           FROM 
+                tipo_inventario 
+            INNER JOIN 
+                producto 
+            ON 
+                producto.id_tipo_inventario = tipo_inventario.id 
+            WHERE 
+                producto.id = $id;
+        ");
+        return $datos->getResultArray();
+    }
+    function getIngredientes($codigo)
+    {
+
+        $datos = $this->db->query("
+  SELECT 
+    producto.nombreproducto, 
+    inventario.cantidad_inventario, 
+    producto_fabricado.cantidad AS cantidad_receta,
+    prod_proceso as codigointernoproducto
+FROM 
+    producto_fabricado 
+INNER JOIN 
+    producto 
+ON 
+    producto_fabricado.prod_proceso = producto.codigointernoproducto 
+INNER JOIN 
+    inventario 
+ON 
+    inventario.codigointernoproducto = producto_fabricado.prod_proceso 
+WHERE 
+    producto_fabricado.prod_fabricado = '$codigo';
+
+
+
+        ");
+        return $datos->getResultArray();
+    }
 }

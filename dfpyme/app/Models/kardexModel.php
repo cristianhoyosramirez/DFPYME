@@ -64,7 +64,20 @@ class kardexModel extends Model
         ");
         return $datos->getResultArray();
     }
-    public function get_iva_electronico($id_apertura, $valor_iva)
+    public function get_iva_electronico($id_factura, $valor_iva)
+    {
+        $datos = $this->db->query("
+        SELECT
+        SUM(iva) as iva
+        FROM
+        kardex
+        WHERE
+        id_factura = $id_factura AND valor_iva = $valor_iva AND id_estado = 8
+        
+        ");
+        return $datos->getResultArray();
+    }
+  /*   public function get_iva_electronico($id_apertura, $valor_iva)
     {
         $datos = $this->db->query("
         SELECT
@@ -76,7 +89,7 @@ class kardexModel extends Model
         
         ");
         return $datos->getResultArray();
-    }
+    } */
     public function get_total($id_apertura, $valor_unitario, $codigo)
     {
         $datos = $this->db->query("
