@@ -233,4 +233,39 @@ inventario
          ");
         return $datos->getResultArray();
     }
+    public function getInventarioFisico()
+    {
+        $datos = $this->db->query("
+        SELECT
+            *
+        FROM 
+        inventario_fisico
+            where corte_inventario_fisico='false';
+         ");
+        return $datos->getResultArray();
+    }
+    public function getFechaCorte()
+    {
+        $datos = $this->db->query("
+        select max(numero_corte) as corte ,max(fecha_inventario_fisico) as fecha from inventario_fisico
+         ");
+        return $datos->getResultArray();
+    }
+
+    public function updateCorte()
+    {
+        // Ejecuta la consulta de actualización
+        $this->db->query("
+        UPDATE inventario_fisico
+        SET corte_inventario_fisico = 'true'
+        WHERE corte_inventario_fisico = 'false';
+    ");
+
+        // Verifica si se actualizaron filas
+        if ($this->db->affectedRows() > 0) {
+            return true; // La actualización fue exitosa
+        } else {
+            return false; // No se actualizó ninguna fila
+        }
+    }
 }

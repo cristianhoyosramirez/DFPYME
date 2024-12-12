@@ -220,6 +220,7 @@ $routes->group('pre_factura', ['namespace' => 'App\Controllers\pre_factura', 'fi
     $routes->get('impresora', 'prefacturaController::impresora');
     $routes->post('asignar_impresora', 'prefacturaController::asignar_impresora');
     $routes->post('buscar_por_codigo', 'prefacturaController::buscar_por_codigo');
+    $routes->post('cruzarInventario', 'prefacturaController::cruzarInventario');
 });
 
 $routes->group('clientes', ['namespace' => 'App\Controllers\clientes', 'filter' => \App\Filters\Auth::class], function ($routes) {

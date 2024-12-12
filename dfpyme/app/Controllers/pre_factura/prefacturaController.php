@@ -377,22 +377,7 @@ class prefacturaController extends BaseController
         }
     }
 
-    /* public function buscar_por_codigo()
-    {
-       
 
-        if (!empty($buscar_producto_por_codigo_de_barras)) {
-            $returnData = array(
-                "resultado" => 1,
-                "codigo_interno_producto" => $buscar_producto_por_codigo_de_barras[0]['codigointernoproducto'],
-                "nombre_producto" => $buscar_producto_por_codigo_de_barras[0]['nombreproducto'],
-                "valor_venta_producto" => number_format($buscar_producto_por_codigo_de_barras[0]['valorventaproducto'], 0, ",", "."),
-            );
-            echo  json_encode($returnData);
-        } 
-
-        
-    }*/
 
     function buscar_por_codigo()
     {
@@ -694,13 +679,62 @@ class prefacturaController extends BaseController
                     echo  json_encode($returnData);
                 }
             }
-        }if(empty($buscar_producto_por_codigo_de_barras)){
+        }
+        if (empty($buscar_producto_por_codigo_de_barras)) {
             $returnData = array(
                 "resultado" => 0,
-         
+
 
             );
             echo  json_encode($returnData);
         }
+    }
+
+    function cruzarInventario()
+    {
+
+        $actualizar_inventario = model('inventarioModel')->set('cantidad_inventario', 0)->update();
+        $inventario_fisico = model('inventarioModel')->getInventarioFisico();
+        $inventario = model('inventarioModel')->findAll();
+
+        if ($actualizar_inventario) {
+
+            foreach ($inventario_fisico as $keyInventarioFisico) {
+                foreach ($inventario as $keyInventario) {
+
+                    if ($keyInventarioFisico['codigointernoproducto'] === $keyInventario['codigointernoproducto']) {
+                        $actualizacion_inventario = model('inventarioModel')
+                            ->set('cantidad_inventario', $keyInventarioFisico['cantidad_inventario_fisico'])
+                            ->where('codigointernoproducto', $keyInventario['codigointernoproducto'])
+                            ->update();
+                    }
+                }
+            }
+        }
+
+        $inventario = model('inventarioModel')->updateCorte();
+
+        $consecutivo = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 39)->first();
+
+        $actualizacion_inventario = model('consecutivosModel')
+            ->set('numeroconsecutivo', $consecutivo['numeroconsecutivo']+1)
+            ->where('idconsecutivos', 39)
+            ->update();
+
+            $numero_corte=model('inventarioModel')->getFechaCorte();
+
+            $data=[
+
+                'numero'=>$numero_corte[0]['corte'],
+                'fecha'=>$numero_corte[0]['fecha']
+
+            ];
+
+            $insertar=model('corteModel')->insert($data);
+
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Producto actualizado correctamente',
+        ]);
     }
 }

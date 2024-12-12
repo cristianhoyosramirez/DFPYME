@@ -236,9 +236,35 @@ HOME
     myModal.handleUpdate();
 </script>
 
+
+
 <script>
-    function cruzarRevisar(){
-        
+    async function cruzarRevisar(valor, id) {
+        try {
+            const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+            const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            //alert(`Producto actualizado: ${data.message}`);
+            if (data.success === true) {
+                sweet_alert_centrado('success', 'Inventario cruzado ')
+                location.reload();
+            }
+        } catch (error) {
+            console.error('Hubo un problema al actualizar el producto:', error);
+            alert('No se pudo actualizar el producto. Por favor, intenta de nuevo.');
+        }
     }
 </script>
 
