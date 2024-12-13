@@ -24,7 +24,7 @@ class Imprimir extends BaseController
     function imprimirComanda()
     {
 
-        //$id_mesa = 1;
+        //$id_mesa = 9;
         $id_mesa = $this->request->getPost('id_mesa');
         $id_usuario = $this->request->getPost('id_usuario');
 
@@ -39,9 +39,10 @@ class Imprimir extends BaseController
         $impresion_comanda = model('configuracionPedidoModel')->select('comanda')->first();
         $productos = array();
 
-        if (!empty($pedido)) {
-            $codigo_categoria = model('productoPedidoModel')->id_categoria($pedido['id']);
 
+
+        if (!empty($pedido)) {   // la mesa tiene pedido 
+            $codigo_categoria = model('productoPedidoModel')->id_categoria($pedido['id']);
             $productos_pedido = $items = model('productoPedidoModel')->productos_pedido($pedido['id']);
 
             if (!empty($productos_pedido)) {
@@ -73,6 +74,7 @@ class Imprimir extends BaseController
                         }
                     }
                 }
+
                 if ($configuracion_comanda['partir_comanda'] == 'f') {
 
 
@@ -126,7 +128,7 @@ class Imprimir extends BaseController
 
                         $productos = model('productoPedidoModel')->productos_impresora($keyImpresoras['id']);
                         if (!empty($productos)) {
-                            $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
+                            //$this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
                         }
                     }
                 }
@@ -138,16 +140,7 @@ class Imprimir extends BaseController
 
             if (empty($productos_pedido)) {
 
-                //echo $comanda['comanda']; 
 
-
-                /*       if ($impresion_comanda['comanda']==="f"){
-                echo "Es falso ";
-               }
-               if ($impresion_comanda['comanda']==="t"){
-                echo "Es verdadero";
-               }
-                 exit(); */
 
 
                 if ($impresion_comanda['comanda'] === "t") {
@@ -237,12 +230,13 @@ class Imprimir extends BaseController
                 );
                 echo  json_encode($returnData);
             } */
-            }
-            if ($impresion_comanda['comanda'] === "f") {
-                $returnData = array(
-                    "resultado" => 0
-                );
-                echo  json_encode($returnData);
+
+                if ($impresion_comanda['comanda'] === "f") {
+                    $returnData = array(
+                        "resultado" => 0
+                    );
+                    echo  json_encode($returnData);
+                }
             }
         }
     }

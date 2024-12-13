@@ -449,7 +449,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->post('productos_categoria', 'Mesas::productos_categoria');
     $routes->post('agregar_producto', 'Mesas::agregar_producto');
     $routes->post('agregar_producto_celular', 'Mesas::agregar_producto_celular');
-    $routes->get('imprimirComanda', 'Imprimir::imprimirComanda');
+    $routes->post('imprimirComanda', 'Imprimir::imprimirComanda');
     $routes->post('pedido', 'Mesas::pedido');
     $routes->post('prefactura', 'Imprimir::imprimir_prefactura');
     $routes->post('nota', 'Mesas::nota');
@@ -648,6 +648,7 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->get('sincronizar', 'Configuracion::sincronizar');
     $routes->get('asignar', 'Configuracion::asignar');
     $routes->post('update_url', 'Configuracion::actualizar_url');
+    $routes->post('AddDocument', 'Configuracion::AddDocument');
 });
 
 
