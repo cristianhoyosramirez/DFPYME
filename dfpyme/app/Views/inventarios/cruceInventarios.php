@@ -13,6 +13,9 @@ HOME
         <div class="d-flex justify-content-between align-items-center">
             <p class="text-center w-100 m-0 h3 text-primary">Cruce de inventario</p>
             <div class="d-flex ms-3">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#conteo" class="btn btn-outline-indigo d-flex ms-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Conteo maunual ">
+                    Conteo manual
+                </button>
                 <button type="button" class="btn btn-outline-yellow d-flex ms-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cruzar y revisar" onclick="cruzarRevisar()">
                     Cruzar y revisar
                 </button>
@@ -93,6 +96,47 @@ HOME
 </div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="conteo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ingresar inventario </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="" class="form-label">Producto</label>
+                        <input type="text" class="form-control" id="inventario" name="inventario">
+                        <div id="autocomplete-container"></div>
+                    </div>
+                    <div class="col">
+                        <label for="" class="form-label">Cantidad</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <td scope="col">Código</th>
+                            <td scope="col">Producto</th>
+                            <td scope="col">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+                <button type="button" class="btn btn-danger">Cancelar </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -220,6 +264,90 @@ HOME
     </div>
 </div>
 
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("inventario");
+        const container = document.getElementById("autocomplete-container");
+        const url = <?php echo base_url(); ?>;
+
+        input.addEventListener("input", function() {
+            const term = input.value.trim();
+
+            if (term.length < 1) {
+                container.innerHTML = "";
+                return;
+            }
+
+            // Realiza la solicitud AJAX con fetch
+            fetch(`${url}/inventario/producto_entrada`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        term: term
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    container.innerHTML = ""; // Limpia la lista anterior
+
+                    if (data.length > 0) {
+                        const list = document.createElement("div");
+                        list.className = "autocomplete-list";
+
+                        data.forEach(item => {
+                            const listItem = document.createElement("div");
+                            listItem.className = "autocomplete-item";
+                            listItem.textContent = item.value;
+
+                            // Al hacer clic en un elemento
+                            listItem.addEventListener("click", function() {
+                                if (item.id_inventario === 1 || item.id_inventario === 4) {
+                                    input.value = "";
+                                    document.getElementById("display").value = item.value;
+                                    document.getElementById("id_producto").value = item.codigo;
+                                    document.getElementById("actual").value = item.cantidad;
+                                    document.getElementById("precio").value = item.precio_costo;
+                                    document.getElementById("cantidad").focus();
+                                    document.getElementById("cantidad").select();
+
+                                    // Calcula el nuevo total
+                                    const actual = parseFloat(item.cantidad) || 0;
+                                    const cantidad = parseFloat(document.getElementById("cantidad").value) || 0;
+                                    document.getElementById("nuevo").value = actual + cantidad;
+                                } else if (item.id_inventario === 3) {
+                                    document.getElementById("error_producto").innerHTML =
+                                        "Este producto es una receta y no se puede ingresar por compras";
+                                }
+                                container.innerHTML = ""; // Limpia la lista
+                            });
+
+                            list.appendChild(listItem);
+                        });
+
+                        container.appendChild(list);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error en la solicitud:", error);
+                });
+        });
+
+        // Cierra el autocomplete si se hace clic fuera
+        document.addEventListener("click", function(event) {
+            if (!container.contains(event.target) && event.target !== input) {
+                container.innerHTML = "";
+            }
+        });
+    });
+</script>
+
+
+
+
+
 <script>
     // Inicializa el modal
     const myModalElement = document.getElementById('sobrantes');
@@ -267,6 +395,89 @@ HOME
         }
     }
 </script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("producto_compra");
+        const container = document.getElementById("autocomplete-container");
+        const url = document.getElementById("url").value;
+
+        input.addEventListener("input", function() {
+            const term = input.value.trim();
+
+            if (term.length < 1) {
+                container.innerHTML = "";
+                return;
+            }
+
+            // Realiza la solicitud AJAX con fetch
+            fetch(`${url}/inventario/producto_entrada`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        term: term
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    container.innerHTML = ""; // Limpia la lista anterior
+
+                    if (data.length > 0) {
+                        const list = document.createElement("div");
+                        list.className = "autocomplete-list";
+
+                        data.forEach(item => {
+                            const listItem = document.createElement("div");
+                            listItem.className = "autocomplete-item";
+                            listItem.textContent = item.value;
+
+                            // Al hacer clic en un elemento
+                            listItem.addEventListener("click", function() {
+                                if (item.id_inventario === 1 || item.id_inventario === 4) {
+                                    input.value = "";
+                                    document.getElementById("display").value = item.value;
+                                    document.getElementById("id_producto").value = item.codigo;
+                                    document.getElementById("actual").value = item.cantidad;
+                                    document.getElementById("precio").value = item.precio_costo;
+                                    document.getElementById("cantidad").focus();
+                                    document.getElementById("cantidad").select();
+
+                                    // Calcula el nuevo total
+                                    const actual = parseFloat(item.cantidad) || 0;
+                                    const cantidad = parseFloat(document.getElementById("cantidad").value) || 0;
+                                    document.getElementById("nuevo").value = actual + cantidad;
+                                } else if (item.id_inventario === 3) {
+                                    document.getElementById("error_producto").innerHTML =
+                                        "Este producto es una receta y no se puede ingresar por compras";
+                                }
+                                container.innerHTML = ""; // Limpia la lista
+                            });
+
+                            list.appendChild(listItem);
+                        });
+
+                        container.appendChild(list);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error en la solicitud:", error);
+                });
+        });
+
+        // Cierra el autocomplete si se hace clic fuera
+        document.addEventListener("click", function(event) {
+            if (!container.contains(event.target) && event.target !== input) {
+                container.innerHTML = "";
+            }
+        });
+    });
+</script>
+
+
+
 
 
 <?= $this->endSection('content') ?>

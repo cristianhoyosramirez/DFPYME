@@ -816,7 +816,7 @@ class impresion
             $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
             $id_regimen = model('empresaModel')->select('idregimen')->first();
             $regimen = model('regimenModel')->select('descripcion')->where('idregimen', $id_regimen['idregimen'])->first();
-            $printer->text($regimen['descripcion']);
+            //$printer->text($regimen['descripcion']);
             //$printer->text(" Responsable de IVA – INC \n");
             $printer->text("\n");
 
@@ -880,7 +880,7 @@ class impresion
 
             if ($id_regimen['idregimen'] == 1) {
 
-                if ($estado_factura[0]['idestado'] == 1 or $estado_factura[0]['idestado'] == 2) {
+                if ($estado_factura[0]['idestado'] == 1 or $estado_factura[0]['idestado'] == 2 or $estado_factura[0]['idestado'] == 6) {
 
 
                     //$printer->text("SUB TOTAL :" . "$" . number_format($total[0]['total']-($inc[0]['inc']), 0, ",", ".") . "\n");
@@ -922,16 +922,18 @@ class impresion
                     $printer->text($nombre_forma_pago[0]['nombreforma_pago'] . ":  $" . number_format($valor_forma_pago[0]['valor_pago'], 0, ",", ".") . "\n");
                 }
             }
+            if ($estado_factura[0]['idestado'] ==6){
+                $printer->text("Efectivo : 0\n");
+                $printer->text("Cambio   : 0\n");
+            }
             if ($estado_factura[0]['idestado'] == 1 or $estado_factura[0]['idestado'] == 7) {
                 $printer->text("CAMBIO: " . "$" . number_format($efectivo[0]['valor_pago'] - (($total[0]['total'] - $descuento['descuento']) + $propina['propina']), 0, ",", ".") . "\n");
                 $printer->text("-----------------------------------------------" . "\n");
             }
-
-
             $regimen = model('empresaModel')->select('idregimen')->first();
 
             if ($regimen['idregimen'] == 1) {
-                if ($estado_factura[0]['idestado'] == 1 or $estado_factura[0]['idestado'] == 2) {
+                if ($estado_factura[0]['idestado'] == 1 or $estado_factura[0]['idestado'] == 2 or $estado_factura[0]['idestado'] == 6) {
                     //$tarifa_iva = model('productoFacturaVentaModel')->tarifa_iva($id_factura);
                     $tarifa_iva = model('kardexModel')->iva_producto($id_factura, $estado_factura[0]['idestado']);
 
@@ -1006,8 +1008,8 @@ class impresion
                     $printer->text("\n");
                     $printer->setJustification(Printer::JUSTIFY_LEFT);
                     $printer->setTextSize(1, 1);
-                    $printer->text($texto_inicial['texto_inicial'] . $numero_resolucion_dian['numeroresoluciondian'] . " de" . " " . $fecha_dian['fechadian'] . "\n");
-                    $printer->text($texto_final['texto_final'] . " Del " . $rango_inicial['rangoinicialdian'] . " al " . " "  . $rango_final['rangofinaldian'] . " " . "Prefijo " . $prefijo_factura['inicialestatica'] . "\n\n");
+                    //$printer->text($texto_inicial['texto_inicial'] . $numero_resolucion_dian['numeroresoluciondian'] . " de" . " " . $fecha_dian['fechadian'] . "\n");
+                    //$printer->text($texto_final['texto_final'] . " Del " . $rango_inicial['rangoinicialdian'] . " al " . " "  . $rango_final['rangofinaldian'] . " " . "Prefijo " . $prefijo_factura['inicialestatica'] . "\n\n");
                 }
             }
 
@@ -1036,6 +1038,10 @@ class impresion
                 $printer->text($observaciones_genereles['observaciones_generales'] . "\n");
             }
 
+            $printer->text( "\n");
+            $printer->text("RESPONSABLE: _____________ " . "\n\n");
+            $printer->text("AUTORIZA:    _____________ " . "\n");
+
             $printer->text("-----------------------------------------------" . "\n");
             $printer->setJustification(Printer::JUSTIFY_CENTER);
             $printer->setTextSize(1, 1);
@@ -1044,6 +1050,10 @@ class impresion
 
             $printer->text("-----------------------------------------------" . "\n");
             $printer->text("GRACIAS POR SU VISITA " . "\n");
+
+           
+           
+
 
             $printer->feed(1);
             $printer->cut();
