@@ -896,7 +896,7 @@ class informeFiscalVentasController extends BaseController
          * Discriminación de las bases tributarias tanto iva como impuesto al consumo 
          */
 
-        $iva = model('pagosModel')->fiscal_iva($id_apertura);
+        $iva = model('pagosModel')->fiscal_iva($id_inicial[0]['id'],$id_final[0]['id']);
         $array_iva = array();
 
 
@@ -1092,7 +1092,7 @@ class informeFiscalVentasController extends BaseController
             "registro_final" => $registro_final,
             //"registro_final" => $registro_final[0]['id'],
             //"total_registros" => $total_registros[0]['total_registros'],
-            "total_registros" => $total_registros[0]['total_registros'],
+            "total_registros" => $total_registros[0]['id'],
             "iva" => $array_iva,
             "ico" => $array_ico,
             "vantas_contado" => $vantas_contado[0]['total'],

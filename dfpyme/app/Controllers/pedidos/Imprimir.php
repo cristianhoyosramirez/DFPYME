@@ -760,15 +760,16 @@ class Imprimir extends BaseController
 
     function reporte_ventas()
     {
+        //var_dump($this->request->getPost()); exit();
         $id_apertura = $this->request->getPost('id_apertura');
         //$id_apertura = 12;
         $id_cierre = $this->request->getPost('id_cierre');
 
-        $imp = new impresion();
-        $impresion = $imp->imp_reporte_ventas($id_apertura);
+        /*  $imp = new impresion();
+        $impresion = $imp->imp_reporte_ventas($id_cierre); */
 
 
-        /*   if (!empty($id_apertura)) {
+        if (!empty($id_apertura)) {
             $imp = new impresion();
             $impresion = $imp->imp_reporte_ventas($id_apertura);
         }
@@ -776,15 +777,16 @@ class Imprimir extends BaseController
             $apertura = model('cierreModel')->select('idapertura')->where('id', $id_cierre)->first();
             $imp = new impresion();
             $impresion = $imp->imp_reporte_ventas($apertura['idapertura']);
-        } */
+        }
     }
 
     function imprimir_fiscal()
     {
 
         $id_apertura = $this->request->getPost('id_apertura');
+        //$id_apertura = 80;
 
-        $id_apertura = $this->request->getPost('id_apertura');
+        
 
         $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
         $datos_empresa = model('empresaModel')->datosEmpresa();
@@ -847,30 +849,22 @@ class Imprimir extends BaseController
             $registro_final = $reg_final['numero'];
         } */
 
-        $registro_ini_final = model('facturaElectronicaModel')->inicial_final($id_factura_min['id_factura'], $id_factura_max['id_factura']);
+        //$registro_ini_final = model('facturaElectronicaModel')->inicial_final($id_factura_min['id_factura'], $id_factura_max['id_factura']);
+
+        
 
         //echo  $registro_ini_final[0]['primer_registro'];
 
         //dd($registro_ini_final);
 
 
+        $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
 
-        if (empty($registro_ini_final[0]['primer_registro'])) {
-            $registro_inicial = "";
-        }
-        if (!empty($registro_ini_final[0]['primer_registro'])) {
-            //$registro_inicial = $reg_inicial['numero'];
-            $registro_inicial = $registro_ini_final[0]['primer_registro'];
-        }
-        if (empty($registro_ini_final[0]['ultimo_registro'])) {
-            $registro_final = "";
-        }
-        if (!empty($registro_ini_final[0]['ultimo_registro'])) {
-            //$registro_final = $reg_final['numero'];
-            $registro_final = $registro_ini_final[0]['ultimo_registro'];
-        }
+        $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
+     
 
-        $iva = model('pagosModel')->fiscal_iva($id_apertura);
+    
+        $iva = model('pagosModel')->fiscal_iva($id_inicial[0]['id'],$id_final[0]['id']);
         $array_iva = array();
 
 
@@ -1032,9 +1026,9 @@ class Imprimir extends BaseController
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("Informe N°       : " . $consecutivo_fiscal['numero']  . "\n");
         $printer->text("Fecha            : " . $fecha_apertura['fecha'] . "\n");
-        $printer->text("Registro inicial : " . $registro_inicial . "\n");
-        $printer->text("Registro final   : " . $registro_final . "\n");
-        $printer->text("Total registros  : " . $total_registros[0]['total_registros'] . "\n\n");
+        $printer->text("Registro inicial : " . $reg_inicial['numero'] . "\n");
+        $printer->text("Registro final   : " . $reg_final['numero'] . "\n");
+        $printer->text("Total registros  : " . $total_registros[0]['id'] . "\n\n");
         // Título de la tabla
         $printer->setEmphasis(true);
         $printer->text("-----------------------------------------------\n");
@@ -1056,6 +1050,18 @@ class Imprimir extends BaseController
         foreach ($array_ico as $detalle) {
             //$printer->text($detalle['tarifa_iva']%  "   "  .$detalle['total_iva']."  ".$detalle['valor_venta'] );
             $printer->text($detalle['tarifa_ico'] . "%        " . number_format($detalle['base'], 0, ",", ".") . "     " . number_format($detalle['total_ico'], 0, ",", ".") . "       " . number_format($detalle['valor_venta'], 0, ",", ".") . "\n");
+        }
+
+        $pago =model('pagosModel')->total_formas_pago($id_apertura);
+        $printer->text("\n");
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("-----------------------------------------------\n");
+        $printer->text("\n");
+        $printer->text("**FORMAS DE PAGO** \n\n");
+        $printer->setJustification(Printer::JUSTIFY_RIGHT);
+        foreach($pago as $keyPago){
+            $printer->text($keyPago['nombre_comercial']."   ".number_format($keyPago['total'], 0, ",", ".")."\n");
+
         }
 
 

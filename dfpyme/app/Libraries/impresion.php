@@ -1236,7 +1236,7 @@ class impresion
         $hora_apertura = model('aperturaModel')->select('hora')->where('id', $id_apertura)->first();
         $fecha_cierre = model('cierreModel')->select('fecha')->where('idapertura', $id_apertura)->first();
         $hora_cierre = model('cierreModel')->select('hora')->where('idapertura', $id_apertura)->first();
-        $printer->text("Fecha de apertura:     " . $fecha_apertura['fecha'] . "   " . $hora_apertura['hora'] . "\n");
+        //$printer->text("Fecha de apertura:     " . $fecha_apertura['fecha'] . "   " . $hora_apertura['hora'] . "\n");
 
         if (!empty($fecha_cierre['fecha'])) {
             $printer->text("Fecha de cierre:       " .     $fecha_cierre['fecha'] . "   " . $hora_cierre['hora'] . "\n");

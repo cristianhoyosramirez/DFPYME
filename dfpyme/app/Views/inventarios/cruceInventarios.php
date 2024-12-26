@@ -13,7 +13,7 @@ HOME
         <div class="d-flex justify-content-between align-items-center">
             <p class="text-center w-100 m-0 h3 text-primary">Cruce de inventario</p>
             <div class="d-flex ms-3">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#conteo" class="btn btn-outline-indigo d-flex ms-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Conteo maunual ">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#conteo" class="btn btn-outline-indigo d-flex ms-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Conteo maunual" onclick="ingresar_inventario()">
                     Conteo manual
                 </button>
                 <button type="button" class="btn btn-outline-yellow d-flex ms-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cruzar y revisar" onclick="cruzarRevisar()">
@@ -98,7 +98,7 @@ HOME
 
 <!-- Modal -->
 <div class="modal fade" id="conteo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Ingresar inventario </h5>
@@ -107,14 +107,11 @@ HOME
             <div class="modal-body">
                 <div class="row mb-3">
                     <div class="col">
-                        <label for="" class="form-label">Producto</label>
+                        <label for="" class="form-label">Buscar producto</label>
                         <input type="text" class="form-control" id="inventario" name="inventario">
                         <div id="autocomplete-container"></div>
                     </div>
-                    <div class="col">
-                        <label for="" class="form-label">Cantidad</label>
-                        <input type="text" class="form-control">
-                    </div>
+                    
                 </div>
                 <table class="table">
                     <thead class="table-dark">
@@ -122,18 +119,24 @@ HOME
                             <td scope="col">Código</th>
                             <td scope="col">Producto</th>
                             <td scope="col">Cantidad</th>
+                            <td scope="col">Acción</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="inventario">
 
+                    <?php foreach ($productos as $keyProducto): ?>
+                        <tr>
+                            <td><?php echo $keyProducto['codigointernoproducto'];  ?></td>
+                            <td><?php echo $keyProducto['nombreproducto'];  ?></td>
+                            <td><input type="text" class="form-control" id="<?php echo $keyProducto['id'];  ?>"></td>
+                            <td><button type="button" class="btn btn-outline-success">Ingresar</button></td>
+                        </tr>
+                        <?php endforeach ?>
 
                     </tbody>
                 </table>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
-                <button type="button" class="btn btn-danger">Cancelar </button>
-            </div>
+           
         </div>
     </div>
 </div>

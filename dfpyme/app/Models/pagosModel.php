@@ -200,27 +200,24 @@ class pagosModel extends Model
 FROM documento_electronico 
 WHERE id_status = 2 
   AND transaccion_id IS NOT NULL 
-  AND transaccion_id != '';
+  AND transaccion_id != '' AND id_apertura=$id_apertura;
  ");
         return $datos->getResultArray();
     }
-/*     function get_min_id_electronico($id_apertura)
-    {
 
-        $datos = $this->db->query("
-        select min(id) as id from pagos where id_apertura=$id_apertura and id_estado =8
- ");
-        return $datos->getResultArray();
-    } */
     function get_max_id_electronico($id_apertura)
     {
 
         $datos = $this->db->query("
-        SELECT MAX(id) AS id 
-FROM documento_electronico 
-WHERE id_status = 2 
-  AND transaccion_id IS NOT NULL 
-  AND transaccion_id != '';
+  SELECT MAX(id) AS id 
+FROM 
+    documento_electronico
+WHERE 
+    id_status = 2
+    AND transaccion_id IS NOT NULL
+    AND transaccion_id != ''
+    AND id_apertura = $id_apertura;
+;
  ");
         return $datos->getResultArray();
     }
@@ -228,10 +225,15 @@ WHERE id_status = 2
     {
 
         $datos = $this->db->query("
-        select max(id) as id from pagos where id_apertura=$id_apertura and id_estado =8
+        SELECT MAX(id) AS id 
+FROM documento_electronico 
+WHERE id_status = 2 
+  AND transaccion_id IS NOT NULL 
+  AND transaccion_id != '' AND id_apertura=$id_apertura;
  ");
         return $datos->getResultArray();
     } */
+ 
     function get_max_id($id_apertura)
     {
 
@@ -252,7 +254,14 @@ WHERE id_status = 2
     {
 
         $datos = $this->db->query("
-        select count(id) as total_registros from pagos where id_apertura=$id_apertura and id_estado =8
+        SELECT count(id) AS id 
+FROM 
+    documento_electronico
+WHERE 
+    id_status = 2
+    AND transaccion_id IS NOT NULL
+    AND transaccion_id != ''
+    AND id_apertura = $id_apertura
  ");
         return $datos->getResultArray();
     }
@@ -306,12 +315,12 @@ WHERE id_status = 2
     }
 
 
-    public function fiscal_iva($id_apertura)
+    public function fiscal_iva($id_inicial , $id_final)
     {
         $datos = $this->db->query("
-        SELECT DISTINCT ( valor_iva )
+          SELECT DISTINCT ( valor_iva )
         FROM   kardex
-        WHERE  id_apertura=$id_apertura
+        WHERE  id_factura between $id_inicial and $id_final 
         AND aplica_ico = 'false' and id_estado = 8 
         ");
         return $datos->getResultArray();
@@ -566,6 +575,30 @@ WHERE id_status = 2
         $datos = $this->db->query("
             
             SELECT DISTINCT valor_iva FROM kardex where fecha between '$fecha_inicial' and '$fecha_final';
+            
+            ");
+        return $datos->getResultArray();
+    }
+    public function total_formas_pago ($apertura)
+    {
+        $datos = $this->db->query("
+            
+            SELECT 
+    SUM(total + propina) AS total, 
+    nombre_comercial
+FROM 
+    documento_electronico
+INNER JOIN 
+    medio_pago 
+    ON medio_pago.codigo = documento_electronico.tipo_operacion
+WHERE 
+    id_apertura = $apertura
+    AND id_status = 2 
+    AND transaccion_id IS NOT NULL 
+    AND transaccion_id != ''
+GROUP BY 
+    nombre_comercial;
+
             
             ");
         return $datos->getResultArray();

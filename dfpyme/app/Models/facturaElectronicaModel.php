@@ -154,7 +154,7 @@ class facturaElectronicaModel extends Model
     } 
      public function  getFacturasTrasmitidas($id_inicial , $id_final )
     {
-        $datos = $this->db->query("
+        $datos =$this->db->query ("
         SELECT id 
         FROM documento_electronico 
         WHERE id_status = 2 
@@ -163,6 +163,7 @@ class facturaElectronicaModel extends Model
         AND id BETWEEN $id_inicial AND $id_final;
 ;
     ");
-        return $datos->getResultArray();
+        return $datos->getResultArray();  
+    
     } 
 }

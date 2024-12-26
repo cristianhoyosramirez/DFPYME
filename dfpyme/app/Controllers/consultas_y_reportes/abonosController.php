@@ -566,12 +566,14 @@ class AbonosController extends BaseController
 
         $conteo_manual = model('inventarioModel')->cruce_inventario();
         $inventario = model('inventarioModel')->inventario();
+        $productos=model('productoModel')->select('id,codigointernoproducto,nombreproducto')->orderby('nombreproducto','asc')->findAll();
 
         //dd($conteo_manual);
 
         return view('inventarios/cruceInventarios', [
             'conteo_manual' => $conteo_manual,
-            'inventario_sistema' => $inventario
+            'inventario_sistema' => $inventario,
+            'productos'=>$productos
         ]);
     }
 

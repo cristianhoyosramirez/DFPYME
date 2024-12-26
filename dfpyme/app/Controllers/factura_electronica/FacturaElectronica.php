@@ -533,14 +533,18 @@ class FacturaElectronica extends BaseController
 
                         if (empty($movimientos_efectivo[0]['recibido_efectivo'])){
                             $efectivo=0;
+                            $total_efectivo=0;
                         }else if (empty($movimientos_efectivo[0]['recibido_efectivo'])){
                             $efectivo=$movimientos_efectivo[0]['recibido_efectivo'];
+                            $total_efectivo=$movimientos_efectivo[0]['recibido_efectivo'];
                         }
 
                         if (empty($movimientos_efectivo[0]['total_pago'])){
                             $total_efectivo=0;
+                            $efectivo=0;
                         }else if (empty($movimientos_efectivo[0]['total_pago'])){
                             $total_efectivo=$movimientos_efectivo[0]['total_pago'];
+                            $efectivo=$total_efectivo;
                         }
 
                         if (!empty($movimientos_transaccion)) {
