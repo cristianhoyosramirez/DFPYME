@@ -779,7 +779,7 @@ class informeFiscalVentasController extends BaseController
         $dompdf->stream("Informe fiscal $fecha.pdf", array("Attachment" => true));
     }
 
-    function expotar_informe_electronico_pdf()
+    /*   function expotar_informe_electronico_pdf()
     {
 
         $dompdf = new Dompdf();
@@ -794,9 +794,7 @@ class informeFiscalVentasController extends BaseController
         $fecha_y_hora_cierre = "";
         $ventas_credito = "";
 
-        /**
-         * Datos empresa 
-         */
+        
 
         $datos_empresa = model('empresaModel')->find();
         $id_regimen = $datos_empresa[0]['idregimen'];
@@ -804,10 +802,7 @@ class informeFiscalVentasController extends BaseController
         $nombre_ciudad = model('ciudadModel')->select('nombreciudad')->where('idciudad', $datos_empresa[0]['idciudad'])->first();
         $nombre_departamento = model('departamentoModel')->select('nombredepartamento')->where('iddepartamento', $datos_empresa[0]['iddepartamento'])->first();
 
-        /**
-         * Datos de hora y aperura de la caja que se esta consultando 
-         * 1. Si la caja no esta cerrada se le asigna la fecha y hora actual  
-         */
+       
         $fecha_y_hora_apertura = model('aperturaModel')->select('fecha_y_hora_apertura')->where('id', $id_apertura)->first();
         $fecha_cierre = model('cierreModel')->select('fecha_y_hora_cierre')->where('idapertura', $id_apertura)->first();
 
@@ -816,16 +811,7 @@ class informeFiscalVentasController extends BaseController
         } else if (!empty($fecha_cierre['fecha_y_hora_cierre'])) {
             $fecha_y_hora_cierre = $fecha_cierre['fecha_y_hora_cierre'];
         }
-        /**
-         * Registro inicial es la primer factura que se realiza de esa aperturta 
-         * Registro final es la primer factura que se realiza de esa aperturta  
-         */
-
-        /*  $registro_inicial = model('facturaVentaModel')->registro_inicial($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
-        $registro_final = model('facturaVentaModel')->registro_final($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
-        $total_registros = model('facturaVentaModel')->total_registros($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre); */
-
-
+      
         //$registro_inicial = model('pagosModel')->get_min_id($id_apertura);
         //$registro_final = model('pagosModel')->get_max_id($id_apertura);
         
@@ -892,9 +878,6 @@ class informeFiscalVentasController extends BaseController
 
 
 
-        /**
-         * Discriminación de las bases tributarias tanto iva como impuesto al consumo 
-         */
 
         $iva = model('pagosModel')->fiscal_iva($id_inicial[0]['id'],$id_final[0]['id']);
         $array_iva = array();
@@ -903,24 +886,8 @@ class informeFiscalVentasController extends BaseController
         if (!empty($iva)) {
             foreach ($iva as $detalle) {
 
-                /*  $iva = model('kardexModel')->selectSum('iva')->where('id_apertura', $id_apertura)->find();
-                $iva = model('kardexModel')->selectSum('iva')->where('id_estado', 1)->find();
-                $iva = model('kardexModel')->selectSum('iva')->where('valor_iva', $detalle['valor_iva'])->find();
+          
 
-                $total = model('kardexModel')->selectSum('total')->where('id_apertura', $id_apertura)->find();
-                $total = model('kardexModel')->selectSum('total')->where('id_estado', 1)->find();
-                $data_iva['tarifa_iva'] =  $detalle['valor_iva'];
-                $data_iva['base'] = $total[0]['total'] - $iva[0]['iva'];
-                $data_iva['total_iva'] = $iva[0]['iva'];
-                $data_iva['valor_venta'] = $total[0]['total']; */
-
-                /*     $iva = model('kardexModel')->selectSum('iva')->where('id_apertura', $id_apertura)->find();
-                $iva = model('kardexModel')->selectSum('iva')->where('id_estado', 1)->find();
-                $iva = model('kardexModel')->selectSum('iva')->where('valor_iva', $detalle['valor_iva'])->find(); 
-
-                $iva = model('kardexModel')->get_iva_fiscales($id_apertura, $detalle['valor_iva']);
-
-                $total = model('kardexModel')->get_iva_fiscal($id_apertura, $detalle['valor_iva']);*/
 
 
                 $iva = model('kardexModel')->get_iva_electronico($id_apertura, $detalle['valor_iva']);
@@ -949,15 +916,7 @@ class informeFiscalVentasController extends BaseController
 
         if (!empty($ico)) {
             foreach ($ico as $detalle) {
-                /*   $valor_ico = ($detalle['valor_ico'] / 100) + 1;
-                $datos_ico = model('productoFacturaVentaModel')->datos_ico($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre, $detalle['valor_ico']);
-                $data_ico['tarifa_ico'] =  $datos_ico[0]['tarifa_ico'];
-                $data_ico['base'] = $datos_ico[0]['base']/ $valor_ico;
-                $data_ico['total_ico'] = $datos_ico[0]['total_ico'];
-                $data_ico['valor_venta'] = $datos_ico[0]['total']; 
-                $inc = model('kardexModel')->get_inc($id_apertura);
-
-                $total = model('kardexModel')->total_inc($id_apertura);*/
+             
 
 
                 $inc = model('kardexModel')->get_inc_electronico($id_apertura);
@@ -978,9 +937,7 @@ class informeFiscalVentasController extends BaseController
             array_push($array_ico, $data_ico);
         }
 
-        /**
-         * Total de ventas crédito y de contado 
-         */
+        
 
         //$vantas_contado = model('facturaVentaModel')->venta_contado($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
         $venta_credito = model('facturaVentaModel')->venta_credito($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
@@ -997,9 +954,7 @@ class informeFiscalVentasController extends BaseController
             $ventas_credito = $venta_credito[0]['total_ventas_credito'];
         }
 
-        /**
-         *Devoluciones 
-         */
+       
         $iva_devolucion = model('devolucionModel')->tarifa_iva($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
         $array_devoluciones_iva = array();
@@ -1007,18 +962,7 @@ class informeFiscalVentasController extends BaseController
 
             foreach ($iva_devolucion as $detalle) {
 
-                /*   $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
-
-                $temp_porcentaje = $detalle['iva'] / 100;
-                $sub_total = $iva_devolucion[0]['base'] * $temp_porcentaje;
-                $total = $iva_devolucion[0]['base'] + $sub_total;
-                $impuesto = $total - $iva_devolucion[0]['base'];
-
-                $data_devo_iva['tarifa'] = $detalle['iva'];
-                $data_devo_iva['base'] =  $iva_devolucion[0]['base'];
-                $data_devo_iva['impuesto'] = $impuesto;
-                $data_devo_iva['total'] = $total;
-                array_push($array_devoluciones_iva, $data_devo_iva); */
+             
 
                 $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
 
@@ -1037,14 +981,15 @@ class informeFiscalVentasController extends BaseController
                     array_push($array_devoluciones_iva, $data_devo_iva);
                 }
             }
-        } /* else if (empty($iva_devolucion)) {
+        } else if (empty($iva_devolucion)) {
 
             $data_devo_iva['base'] =  0;
             $data_devo_iva['tarifa'] = 0;
             $data_devo_iva['impuesto'] = 0;
             $data_devo_iva['total'] = 0;
             array_push($array_devoluciones_iva, $data_devo_iva);
-        } */
+        } 
+
 
         $ico_devolucion = model('devolucionModel')->tarifa_ico($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
@@ -1113,6 +1058,268 @@ class informeFiscalVentasController extends BaseController
         $dompdf->setPaper('letter');
         $dompdf->render();
         $dompdf->stream("Informe fiscal $fecha.pdf", array("Attachment" => true));
+    } */
+
+    function expotar_informe_electronico_pdf()
+    {
+
+        $dompdf = new Dompdf();
+
+        $options = $dompdf->getOptions();
+
+        $options->set(array('isRemoteEnable' => true));
+        $dompdf->setOptions($options);
+
+        $id_apertura = $this->request->getPost('id_apertura');
+        //$id_apertura = 79;
+
+        $fecha_y_hora_cierre = "";
+        $ventas_credito = "";
+
+        /**
+         * Datos empresa 
+         */
+
+        $datos_empresa = model('empresaModel')->find();
+        $id_regimen = $datos_empresa[0]['idregimen'];
+        $regimen = model('regimenModel')->select('nombreregimen')->where('idregimen', $id_regimen)->first();
+        $nombre_ciudad = model('ciudadModel')->select('nombreciudad')->where('idciudad', $datos_empresa[0]['idciudad'])->first();
+        $nombre_departamento = model('departamentoModel')->select('nombredepartamento')->where('iddepartamento', $datos_empresa[0]['iddepartamento'])->first();
+
+        /**
+         * Datos de hora y aperura de la caja que se esta consultando 
+         * 1. Si la caja no esta cerrada se le asigna la fecha y hora actual  
+         */
+        $fecha_y_hora_apertura = model('aperturaModel')->select('fecha_y_hora_apertura')->where('id', $id_apertura)->first();
+        $fecha_cierre = model('cierreModel')->select('fecha_y_hora_cierre')->where('idapertura', $id_apertura)->first();
+
+        if (empty($fecha_cierre['fecha_y_hora_cierre'])) {
+            $fecha_y_hora_cierre = date('Y-m-d H:i:s');
+        } else if (!empty($fecha_cierre['fecha_y_hora_cierre'])) {
+            $fecha_y_hora_cierre = $fecha_cierre['fecha_y_hora_cierre'];
+        }
+        /**
+         * Registro inicial es la primer factura que se realiza de esa aperturta 
+         * Registro final es la primer factura que se realiza de esa aperturta  
+         */
+
+        $id_inicial = model('pagosModel')->get_min_id_electronico($id_apertura);
+        $id_final = model('pagosModel')->get_max_id_electronico($id_apertura);
+
+        if (!empty($id_inicial[0]['id']) and !empty($id_final[0]['id'])) {
+            //$total_registros = model('pagosModel')->get_total_registros_electronicos($id_apertura);
+            $total_registros = model('pagosModel')->get_total_registros_electronicos($id_inicial[0]['id'],$id_final[0]['id']);
+            $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
+
+            $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
+
+            /**
+             * Discriminación de las bases tributarias tanto iva como impuesto al consumo 
+             */
+
+            $iva = model('pagosModel')->fiscal_iva($id_inicial[0]['id'], $id_final[0]['id']);
+            $array_iva = array();
+
+            $facturas = model('facturaElectronicaModel')->getFacturasTrasmitidas($id_inicial[0]['id'], $id_final[0]['id']);
+            $array_iva = []; // Arreglo para almacenar los resultados finales.
+
+            if (!empty($iva)) {  //Tarifas de IVA 
+
+                foreach ($iva as $detalle) { // Inicializar acumuladores para cada tarifa de IVA.
+
+                    $tarifa_iva = $detalle['valor_iva'];
+                    $total_base = 0;
+                    $total_iva = 0;
+                    $total_venta = 0;
+
+                    foreach ($facturas as $keyFacturas) {  //Recorrrer los ID's de las facturas y que han sido trasmitidas 
+                        // Obtener los datos de IVA por factura y tarifa.
+                        $iva_factura = model('kardexModel')->get_iva_electronico($keyFacturas['id'], $tarifa_iva);   //Obtengo el IVA de la factura 
+                        $total_factura = model('kardexModel')->total_iva_electronico($keyFacturas['id'], $tarifa_iva); //Obtengo el total de la factura 
+
+                        if (!empty($iva_factura) && !empty($total_factura)) {
+                            // Acumular valores por tarifa.
+                            $total_base += $total_factura[0]['total'] - $iva_factura[0]['iva'];
+                            $total_iva += $iva_factura[0]['iva'];
+                            $total_venta += $total_factura[0]['total'];
+                        }
+                    }
+
+                    // Guardar los resultados en el arreglo final.
+                    $data_iva = [
+                        'tarifa_iva' => $tarifa_iva,
+                        'base' => $total_base,
+                        'total_iva' => $total_iva,
+                        'valor_venta' => $total_venta,
+                    ];
+                    array_push($array_iva, $data_iva);
+                }
+            } else {
+                $data_iva['tarifa_iva'] =  0;
+                $data_iva['base'] = 0;
+                $data_iva['total_iva'] = 0;
+                $data_iva['valor_venta'] = 0;
+                array_push($array_iva, $data_iva);
+            }
+
+            $ico = model('kardexModel')->fiscal_ico($id_inicial[0]['id'], $id_final[0]['id']);
+            //  $array_ico = array();
+
+            $facturas_inc = model('facturaElectronicaModel')->getFacturasTrasmitidas($id_inicial[0]['id'], $id_final[0]['id']);
+            $array_ico = [];
+
+            if (!empty($ico)) {
+                foreach ($ico as $detalle) {
+
+                    $tarifa_inc = $detalle['valor_ico'];
+                    $total_base_inc = 0;
+                    $total_inc = 0;
+                    $total_venta_inc = 0;
+
+                    foreach ($facturas as $keyFacturas) {  //Recorrrer los ID's de las facturas y que han sido trasmitidas 
+                        // Obtener los datos de IVA por factura y tarifa.
+                        $inc_factura = model('kardexModel')->get_inc_electronico($keyFacturas['id'], $tarifa_inc);   //Obtengo el IVA de la factura 
+                        $total_factura_inc = model('kardexModel')->total_inc_electronico($keyFacturas['id'], $tarifa_inc); //Obtengo el total de la factura 
+
+                        if (!empty($inc_factura) && !empty($total_factura_inc)) {
+                            // Acumular valores por tarifa.
+                            $total_base_inc += $total_factura_inc[0]['total'] - $inc_factura[0]['total'];
+                            $total_inc += $inc_factura[0]['total'];
+                            $total_venta_inc += $total_factura_inc[0]['total'];
+                        }
+                    }
+                    // Guardar los resultados en el arreglo final.
+                    $data_ico = [
+                        'tarifa_ico' => $tarifa_inc,
+                        'base' => $total_base_inc,
+                        'total_ico' => $total_inc,
+                        'valor_venta' => $total_venta_inc,
+                    ];
+                    array_push($array_ico, $data_ico);
+                }
+            } else {
+                $data_ico['tarifa_ico'] =  0;
+                $data_ico['base'] = 0;
+                $data_ico['total_ico'] = 0;
+                $data_ico['valor_venta'] = 0;
+                array_push($array_ico, $data_ico);
+            }
+
+
+            /**
+             * Total de ventas crédito y de contado 
+             */
+
+            $vantas_contado = model('kardexModel')->ventas_contado_electronicas($id_inicial[0]['id'], $id_final[0]['id']);
+            $venta_credito = model('facturaVentaModel')->venta_credito($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+
+            if (empty($venta_credito[0]['total_ventas_credito'])) {
+                $ventas_credito = 0;
+            } else if (!empty($venta_credito[0]['total_ventas_credito'])) {
+                $ventas_credito = $venta_credito[0]['total_ventas_credito'];
+            }
+
+            /**
+             *Devoluciones 
+             */
+            //$iva_devolucion = model('devolucionModel')->tarifa_iva($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+
+            $iva_devolucion = model('devolucionModel')->tarifa_iva($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+
+            $array_devoluciones_iva = array();
+            // if (!empty($iva_devolucion)) {
+
+            foreach ($iva_devolucion as $detalle) {
+
+                $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
+
+                if ($aplica_ico['aplica_ico'] == 't') {
+                    $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre, $detalle['codigo']);
+
+                    $temp_porcentaje = $detalle['iva'] / 100;
+                    $sub_total = $iva_devolucion[0]['base'] * $temp_porcentaje;
+                    $total = $iva_devolucion[0]['base'] + $sub_total;
+                    $impuesto = $total - $iva_devolucion[0]['base'];
+
+                    $data_devo_iva['tarifa'] = $detalle['iva'];
+                    $data_devo_iva['base'] =  $iva_devolucion[0]['base'];
+                    $data_devo_iva['impuesto'] = $impuesto;
+                    $data_devo_iva['total'] = $total;
+                    array_push($array_devoluciones_iva, $data_devo_iva);
+                }
+            }
+
+
+            $ico_devolucion = model('devolucionModel')->tarifa_ico($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+
+            $array_devoluciones_ico = array();
+            if (!empty($ico_devolucion)) {
+
+                foreach ($ico_devolucion as $detalle) {
+
+                    $ico_devolucion = model('devolucionModel')->devolucion_ico($detalle['ico'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+                    $temp_porcentaje = $detalle['ico'] / 100;
+                    $sub_total = $ico_devolucion[0]['base'] * $temp_porcentaje;
+                    $total = $ico_devolucion[0]['base'] + $sub_total;
+                    $impuesto = $total - $ico_devolucion[0]['base'];
+
+                    $data_devo_ico['tarifa'] = $detalle['ico'];
+                    $data_devo_ico['base'] =  $ico_devolucion[0]['base'];
+                    $data_devo_ico['impuesto'] = $impuesto;
+                    $data_devo_ico['total'] = $total;
+                    array_push($array_devoluciones_ico, $data_devo_ico);
+                }
+            } else if (empty($ico_devolucion)) {
+
+                $data_devo_ico['base'] =  0;
+                $data_devo_ico['tarifa'] = 0;
+                $data_devo_ico['impuesto'] = 0;
+                $data_devo_ico['total'] = 0;
+                array_push($array_devoluciones_ico, $data_devo_ico);
+            }
+
+
+            $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
+            $consecutivo_fiscal = model('consecutivoInformeModel')->select('numero')->where('id_apertura', $id_apertura)->first();
+            $dompdf->loadHtml(view('consultas_y_reportes/informe_fiscal_ventas_pdf', [
+                "nombre_comercial" => $datos_empresa[0]['nombrecomercialempresa'],
+                "nombre_juridico" => $datos_empresa[0]['nombrejuridicoempresa'],
+                "nit" => $datos_empresa[0]['nitempresa'],
+                "nombre_regimen" => $regimen['nombreregimen'],
+                "direccion" => $datos_empresa[0]['direccionempresa'],
+                "nombre_ciudad" => $nombre_ciudad['nombreciudad'],
+                "nombre_departamento" => $nombre_departamento['nombredepartamento'],
+               "registro_inicial" => $reg_inicial['numero'],
+                //"registro_inicial" => $registro_inicial[0]['id'],
+                "registro_final" => $reg_final['numero'],
+                //"registro_final" => $registro_final[0]['id'],
+                //"total_registros" => $total_registros[0]['total_registros'],
+                "total_registros" => $total_registros[0]['id'],
+                "iva" => $array_iva,
+                "ico" => $array_ico,
+                "vantas_contado" => $vantas_contado[0]['total_ventas'],
+                "iva_devolucion" => $array_devoluciones_iva,
+                "ico_devolucion" => $array_devoluciones_ico,
+                "consecutivo" => $consecutivo_fiscal['numero'],
+                //"consecutivo" => $consecutivo_caja['consecutivo'],
+                "fecha_apertura" => $fecha_apertura['fecha'],
+                "id_apertura" => $id_apertura,
+                "fecha" => $fecha_apertura['fecha'],
+                "titulo" => "INFORME FISCAL DE VENTAS ELECTRÓNICAS"
+    
+            ]));
+
+
+
+
+
+            $fecha = $fecha_apertura['fecha'];
+
+            $options = $dompdf->getOptions();
+            $dompdf->setPaper('letter');
+            $dompdf->render();
+            $dompdf->stream("Informe fiscal $fecha.pdf", array("Attachment" => true));
+        }
     }
 
     function fiscal_manual_pdf()

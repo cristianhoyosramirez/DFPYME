@@ -10,9 +10,9 @@ HOME
 <div class="container">
     <div class="card">
         <div class="card-header">
-            
-            <button type="button" class="btn btn-outline-primary me-2">Productos con IVA </button>
-            <button type="button" class="btn btn-outline-primary me-2">Productos con INC  </button>
+
+            <button type="button" class="btn btn-outline-primary me-2" onclick="productoIva()">Productos con IVA </button>
+            <button type="button" class="btn btn-outline-primary me-2" onclick="productoInc()">Productos con INC </button>
             <button type="button" class="btn btn-outline-primary me-2">Crear producto venta </button>
             <button type="button" class="btn btn-outline-primary me-2">Crear receta </button>
 
@@ -133,6 +133,7 @@ HOME
                             <div class="row mb-3">
                                 <div class="col-3">
                                     <?php if ($tipo_producto[0]['id_tipo_inventario'] == 1 or $tipo_producto[0]['id_tipo_inventario'] == 4): ?>
+                                        <label for="" class="form-label">Producto</label>
                                         <input type="text" title="<?php echo $tipo_producto[0]['descripcion']; ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" class="form-control" onkeyup="actualizacionProducto(this.value, <?php echo $keySubCategoria['id']; ?>)" value="<?php echo $keySubCategoria['codigointernoproducto'] . "-" . $keySubCategoria['nombreproducto']; ?>">
                                     <?php endif ?>
 
@@ -170,30 +171,22 @@ HOME
                                 </div>
 
                                 <div class="col-1">
-
-                                <input type="text" class="form-control text-center" value="<?php  echo $inventario['cantidad_inventario']; ?>">
+                                    <label for="" class="form-label">Inventario</label>
+                                    <input type="text" class="form-control text-center" value="<?php echo $inventario['cantidad_inventario']; ?>">
 
                                 </div>
 
                                 <div class="col-3">
 
-                                    <div class="input-icon mb-3">
 
-                                        <span class="input-icon-addon">
-                                            <!-- Icono de dólar -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 1 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
-                                                <path d="M12 3v3m0 12v3" />
-                                            </svg>
-                                        </span>
+                                    <label for="" class="form-label">Valor venta</label>
+                                    <input type="text" class="form-control" id="valor<?php echo $keySubCategoria['id']; ?>" placeholder="Valor de venta" value="<?php echo number_format($keySubCategoria['valorventaproducto'], 0, ',', '.'); ?>">
 
-                                        <input type="text" class="form-control" id="valor<?php echo $keySubCategoria['id']; ?>" placeholder="Valor de venta" value="<?php echo number_format($keySubCategoria['valorventaproducto'], 0, ',', '.'); ?>">
-                                    </div>
 
                                 </div>
 
                                 <div class="col-2 d-flex justify-content-end">
+                               
                                     <button class="btn btn-outline-danger btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrar producto" onclick="eliminarProducto(<?php echo $keySubCategoria['id']; ?>)">
                                         <!-- Download SVG icon from http://tabler-icons.io/i/trash -->
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -254,6 +247,181 @@ HOME
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="productosIva" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Productos con IVA </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <td scope="col">Código</th>
+                            <td scope="col">Producto </th>
+                            <td scope="col">Tarifa</th>
+                            <td scope="col">Concepto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="proIva">
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="productosInc" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Productos con Impuesto Nacional al Consumo </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <td scope="col">Código</th>
+                            <td scope="col">Producto </th>
+                            <td scope="col">INC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="proInc">
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function productoIva() {
+        try {
+            const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+            const url = `${baseUrl}/pre_factura/productosIva`; // Construye la URL dinámica
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success == true) {
+                // Mostrar el modal
+                const myModal = new bootstrap.Modal(document.getElementById('productosIva'));
+                myModal.show();
+
+                // Inicializar la variable para almacenar las filas
+                let rows = '';
+
+                // Asegurarse de que el atributo `productos` esté presente en los datos
+                if (data.productos && Array.isArray(data.productos)) {
+                    // Iterar sobre los productos para generar las filas
+                    data.productos.forEach(item => {
+                        rows += `
+                            <tr>
+                                <td>${item.codigointernoproducto}</td>
+                                <td>${item.nombreproducto}</td>
+                                <td>${item.valoriva} % </td>
+                                <td>${item.conceptoiva}</td>
+                            </tr>`;
+                    });
+                } else {
+                    rows = '<tr><td colspan="4">No hay productos disponibles</td></tr>';
+                }
+
+                // Insertar todas las filas acumuladas de una sola vez en el tbody
+                document.getElementById('proIva').innerHTML = rows;
+            } else if (data.success == false) {
+                sweet_alert_centrado('warning', 'No hay productos con IVA ')
+            }
+        } catch (error) {
+            console.error('Hubo un problema al obtener los productos:', error);
+            alert('No se pudo obtener la información de los productos. Por favor, intenta de nuevo.');
+        }
+    }
+</script>
+
+<script>
+    async function productoInc() {
+        try {
+            const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+            const url = `${baseUrl}/pre_factura/productosInc`; // Construye la URL dinámica
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success == true) {
+                // Mostrar el modal
+                const myModal = new bootstrap.Modal(document.getElementById('productosInc'));
+                myModal.show();
+
+                // Inicializar la variable para almacenar las filas
+                let rows = '';
+
+                // Asegurarse de que el atributo `productos` esté presente en los datos
+
+                // Iterar sobre los productos para generar las filas
+                data.productos.forEach(item => {
+                    rows += `
+                            <tr>
+                                <td>${item.codigointernoproducto}</td>
+                                <td>${item.nombreproducto}</td>
+                                <td>${item.valor_ico} % </td>
+                               
+                            </tr>`;
+                });
+
+
+                // Insertar todas las filas acumuladas de una sola vez en el tbody
+                document.getElementById('proInc').innerHTML = rows;
+            } else if (data.success == false) {
+                sweet_alert_centrado('warning', 'No hay productos con Impuesto Nacional al consumo ')
+
+            }
+        } catch (error) {
+            console.error('Hubo un problema al obtener los productos:', error);
+            alert('No se pudo obtener la información de los productos. Por favor, intenta de nuevo.');
+        }
+    }
+</script>
+
+
+
 
 <script>
     async function actualizarNombreProductoSub(valor, id) {

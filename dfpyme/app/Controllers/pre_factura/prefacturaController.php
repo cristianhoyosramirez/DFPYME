@@ -717,24 +717,59 @@ class prefacturaController extends BaseController
         $consecutivo = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 39)->first();
 
         $actualizacion_inventario = model('consecutivosModel')
-            ->set('numeroconsecutivo', $consecutivo['numeroconsecutivo']+1)
+            ->set('numeroconsecutivo', $consecutivo['numeroconsecutivo'] + 1)
             ->where('idconsecutivos', 39)
             ->update();
 
-            $numero_corte=model('inventarioModel')->getFechaCorte();
+        $numero_corte = model('inventarioModel')->getFechaCorte();
 
-            $data=[
+        $data = [
 
-                'numero'=>$numero_corte[0]['corte'],
-                'fecha'=>$numero_corte[0]['fecha']
+            'numero' => $numero_corte[0]['corte'],
+            'fecha' => $numero_corte[0]['fecha']
 
-            ];
+        ];
 
-            $insertar=model('corteModel')->insert($data);
+        $insertar = model('corteModel')->insert($data);
 
         return $this->response->setJSON([
             'success' => true,
             'message' => 'Producto actualizado correctamente',
         ]);
+    }
+
+    function productosIva()
+    {
+
+        $productos = model('productoModel')->IvaProducto();
+        if (!empty($productos)) {
+            return $this->response->setJSON([
+                'success' => true,
+                'productos' => $productos
+            ]);
+        }
+        if (empty($productos)) {
+            return $this->response->setJSON([
+                'success' => false,
+                'productos' => $productos
+            ]);
+        }
+    }
+    function productosInc()
+    {
+
+        $productos = model('productoModel')->IncProducto();
+        if (!empty($productos)) {
+            return $this->response->setJSON([
+                'success' => true,
+                'productos' => $productos
+            ]);
+        }
+        if (empty($productos)) {
+            return $this->response->setJSON([
+                'success' => false,
+                'productos' => $productos
+            ]);
+        }
     }
 }

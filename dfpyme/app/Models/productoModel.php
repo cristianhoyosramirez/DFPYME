@@ -553,4 +553,63 @@ WHERE
         ");
         return $datos->getResultArray();
     }
+
+    function IvaProducto()
+    {
+
+        $datos = $this->db->query("
+           SELECT 
+            nombreproducto, 
+            codigointernoproducto, 
+            conceptoiva,
+            valoriva
+        FROM 
+            producto
+        INNER JOIN 
+            iva 
+        ON 
+            producto.idiva = iva.idiva
+        WHERE 
+            aplica_ico = 'false';
+        ");
+        return $datos->getResultArray();
+    }
+    function IncProducto()
+    {
+
+        $datos = $this->db->query("
+           SELECT 
+            nombreproducto, 
+            codigointernoproducto, 
+            valor_ico,
+            codigointernoproducto
+        FROM 
+            producto
+        INNER JOIN 
+            ico_consumo
+        ON 
+            producto.id_ico_producto = ico_consumo.id_ico
+        WHERE aplica_ico = 'true';
+        ");
+        return $datos->getResultArray();
+    }
+    function ProductoInventario()
+    {
+
+        $datos = $this->db->query("
+         SELECT 
+    id,
+    producto.codigointernoproducto,
+    nombreproducto,
+    cantidad_inventario
+FROM 
+    producto
+INNER JOIN 
+    inventario 
+ON 
+    producto.codigointernoproducto = inventario.codigointernoproducto order by nombreproducto asc;
+
+        ");
+        return $datos->getResultArray();
+    }
 }

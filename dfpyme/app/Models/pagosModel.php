@@ -250,7 +250,7 @@ WHERE id_status = 2
  ");
         return $datos->getResultArray();
     }
-    function get_total_registros_electronicos($id_apertura)
+    function get_total_registros_electronicos($id_inicial,$id_final)
     {
 
         $datos = $this->db->query("
@@ -261,7 +261,7 @@ WHERE
     id_status = 2
     AND transaccion_id IS NOT NULL
     AND transaccion_id != ''
-    AND id_apertura = $id_apertura
+    AND id BETWEEN $id_inicial AND $id_final 
  ");
         return $datos->getResultArray();
     }

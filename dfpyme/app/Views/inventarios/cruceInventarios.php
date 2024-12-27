@@ -111,32 +111,50 @@ HOME
                         <input type="text" class="form-control" id="inventario" name="inventario">
                         <div id="autocomplete-container"></div>
                     </div>
-                    
+
                 </div>
+
+                <style>
+                    /* Ajustar el ancho del nombre del producto */
+                    .nombre-producto {
+                        width: 40%;
+                        /* Ajusta el ancho según tus necesidades */
+                    }
+
+                    /* Reducir el ancho de los inputs */
+                    .input-inventario {
+                        width: 35%;
+                        /* Ajusta el ancho según tus necesidades */
+                    }
+                </style>
+
                 <table class="table">
                     <thead class="table-dark">
                         <tr>
                             <td scope="col">Código</th>
                             <td scope="col">Producto</th>
-                            <td scope="col">Cantidad</th>
-                            <td scope="col">Acción</th>
+                            <td scope="col">Inventario actual</th>
+                            <td scope="col">Ingresar inventario</th>
                         </tr>
                     </thead>
                     <tbody id="inventario">
-
-                    <?php foreach ($productos as $keyProducto): ?>
-                        <tr>
-                            <td><?php echo $keyProducto['codigointernoproducto'];  ?></td>
-                            <td><?php echo $keyProducto['nombreproducto'];  ?></td>
-                            <td><input type="text" class="form-control" id="<?php echo $keyProducto['id'];  ?>"></td>
-                            <td><button type="button" class="btn btn-outline-success">Ingresar</button></td>
-                        </tr>
-                        <?php endforeach ?>
-
+                        <?php foreach ($productos as $keyProducto): ?>
+                            <tr>
+                                <td><?php echo $keyProducto['codigointernoproducto']; ?></td>
+                                <td class="nombre-producto"><?php echo $keyProducto['nombreproducto']; ?></td>
+                                <td>
+                                    <input type="text" class="form-control input-inventario"
+                                        value="<?php echo $keyProducto['cantidad_inventario']; ?>">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
-           
+
         </div>
     </div>
 </div>
@@ -371,6 +389,37 @@ HOME
 
 <script>
     async function cruzarRevisar(valor, id) {
+        try {
+            const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+            const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            //alert(`Producto actualizado: ${data.message}`);
+            if (data.success === true) {
+                sweet_alert_centrado('success', 'Inventario cruzado ')
+                location.reload();
+            }
+        } catch (error) {
+            console.error('Hubo un problema al actualizar el producto:', error);
+            alert('No se pudo actualizar el producto. Por favor, intenta de nuevo.');
+        }
+    }
+</script>
+
+
+<script>
+    async function ingresarInv(valor, id) {
         try {
             const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
             const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica

@@ -221,6 +221,8 @@ $routes->group('pre_factura', ['namespace' => 'App\Controllers\pre_factura', 'fi
     $routes->post('asignar_impresora', 'prefacturaController::asignar_impresora');
     $routes->post('buscar_por_codigo', 'prefacturaController::buscar_por_codigo');
     $routes->post('cruzarInventario', 'prefacturaController::cruzarInventario');
+    $routes->get('productosIva', 'prefacturaController::productosIva');
+    $routes->get('productosInc', 'prefacturaController::productosInc');
 });
 
 $routes->group('clientes', ['namespace' => 'App\Controllers\clientes', 'filter' => \App\Filters\Auth::class], function ($routes) {

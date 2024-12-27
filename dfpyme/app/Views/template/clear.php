@@ -33,6 +33,11 @@
         <!-- Libs JS -->
         <!-- Tabler Core -->
         <script src="<?= base_url() ?>/Assets/js/tabler.min.js"></script>
+        <!-- J QUERY -->
+        <script src="<?= base_url() ?>/Assets/js/jquery-3.5.1.js"></script>
+        <!-- Sweet alert -->
+        <script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
+        <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
 
 </body>
 
