@@ -693,49 +693,60 @@ class prefacturaController extends BaseController
     function cruzarInventario()
     {
 
-        $actualizar_inventario = model('inventarioModel')->set('cantidad_inventario', 0)->update();
-        $inventario_fisico = model('inventarioModel')->getInventarioFisico();
-        $inventario = model('inventarioModel')->findAll();
 
-        if ($actualizar_inventario) {
+        $cruceInv = model('inventarioFisicoModel')->where('corte_inventario_fisico', 'false')->findAll();
 
-            foreach ($inventario_fisico as $keyInventarioFisico) {
-                foreach ($inventario as $keyInventario) {
+        if (!empty($cruceInv)) {
 
-                    if ($keyInventarioFisico['codigointernoproducto'] === $keyInventario['codigointernoproducto']) {
-                        $actualizacion_inventario = model('inventarioModel')
-                            ->set('cantidad_inventario', $keyInventarioFisico['cantidad_inventario_fisico'])
-                            ->where('codigointernoproducto', $keyInventario['codigointernoproducto'])
-                            ->update();
+            $actualizar_inventario = model('inventarioModel')->set('cantidad_inventario', 0)->update();
+            $inventario_fisico = model('inventarioModel')->getInventarioFisico();
+            $inventario = model('inventarioModel')->findAll();
+
+            if ($actualizar_inventario) {
+
+                foreach ($inventario_fisico as $keyInventarioFisico) {
+                    foreach ($inventario as $keyInventario) {
+
+                        if ($keyInventarioFisico['codigointernoproducto'] === $keyInventario['codigointernoproducto']) {
+                            $actualizacion_inventario = model('inventarioModel')
+                                ->set('cantidad_inventario', $keyInventarioFisico['cantidad_inventario_fisico'])
+                                ->where('codigointernoproducto', $keyInventario['codigointernoproducto'])
+                                ->update();
+                        }
                     }
                 }
             }
+
+            $inventario = model('inventarioModel')->updateCorte();
+
+            $consecutivo = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 39)->first();
+
+            $actualizacion_inventario = model('consecutivosModel')
+                ->set('numeroconsecutivo', $consecutivo['numeroconsecutivo'] + 1)
+                ->where('idconsecutivos', 39)
+                ->update();
+
+            $numero_corte = model('inventarioModel')->getFechaCorte();
+
+            $data = [
+
+                'numero' => $numero_corte[0]['corte'],
+                'fecha' => $numero_corte[0]['fecha']
+
+            ];
+
+            $insertar = model('corteModel')->insert($data);
+
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Producto actualizado correctamente',
+            ]);
+        }else if (empty($cruceInv)){
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'No hay inventario para cruzar ',
+            ]);
         }
-
-        $inventario = model('inventarioModel')->updateCorte();
-
-        $consecutivo = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 39)->first();
-
-        $actualizacion_inventario = model('consecutivosModel')
-            ->set('numeroconsecutivo', $consecutivo['numeroconsecutivo'] + 1)
-            ->where('idconsecutivos', 39)
-            ->update();
-
-        $numero_corte = model('inventarioModel')->getFechaCorte();
-
-        $data = [
-
-            'numero' => $numero_corte[0]['corte'],
-            'fecha' => $numero_corte[0]['fecha']
-
-        ];
-
-        $insertar = model('corteModel')->insert($data);
-
-        return $this->response->setJSON([
-            'success' => true,
-            'message' => 'Producto actualizado correctamente',
-        ]);
     }
 
     function productosIva()
@@ -771,5 +782,37 @@ class prefacturaController extends BaseController
                 'productos' => $productos
             ]);
         }
+    }
+
+    function ingresarInv()
+    {
+
+        $datos = $this->request->getJSON();
+
+        $id = $datos->id;
+        $cantidad = $datos->valor;
+
+
+        $codigo = model('productoModel')->select('codigointernoproducto')->where('id', $id)->first();
+
+        $verficar = model('inventarioFisicoModel')->existeProducto($codigo['codigointernoproducto']);
+
+            if (!empty($verficar)){
+        $actualizar=model('inventarioFisicoModel')->set('cantidad_inventario_fisico',$cantidad)->where('codigointernoproducto',$codigo['codigointernoproducto'])->update();
+       } else if (empty($verficar)){
+
+          $data=[
+            'id_inventario_fisico',
+            'fecha_inventario_fisico',
+            'codigointernoproducto',
+            'idvalor_unidad_medida',
+            'idcolor',
+            'cantidad_inventario_fisico',
+            'corte_inventario_fisico',
+            'numero_corte',
+            'costo'
+          ];
+
+       }
     }
 }

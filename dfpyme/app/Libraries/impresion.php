@@ -257,7 +257,7 @@ class impresion
 
     function imprimir_factura_electronica($id_factura)  // Cuando es prefactura 
     {
-
+    
         $id_factura = $id_factura;
         //$id_factura = 24;
         $id_impresora = model('cajaModel')->select('id_impresora')->first();
@@ -283,7 +283,7 @@ class impresion
         $direccion = model('clientesModel')->select('direccioncliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
         $telefono = model('clientesModel')->select('telefonocliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
         $email = model('clientesModel')->select('emailcliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
-
+        
 
         $datos_empresa = model('empresaModel')->datosEmpresa();
         $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -324,7 +324,7 @@ class impresion
         $printer->text("---------------------------------------------" . "\n");
 
 
-
+  
 
         foreach ($items as $productos) {
 
@@ -340,6 +340,7 @@ class impresion
 
             $printer->text("\n");
         }
+
 
         $inc = model('kardexModel')->get_total_inc($id_factura);
         $iva = model('kardexModel')->get_total_iva($id_factura);
@@ -360,7 +361,7 @@ class impresion
         $sub_total = ($total[0]['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva'])) - $propina['propina'];
 
 
-
+   
 
         $printer->text("_______________________________________________ \n");
         $printer->setJustification(Printer::JUSTIFY_RIGHT);
@@ -489,7 +490,7 @@ class impresion
     function impresion_factura_electronica($id_factura)  //Ya ha sido trasmitoda 
     {
         //$id_factura = 2026;
-
+       
         $id_factura = $id_factura;
         $id_impresora = model('cajaModel')->select('id_impresora')->first();
         $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
@@ -517,7 +518,7 @@ class impresion
         $telefono = model('clientesModel')->select('telefonocliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
         $email = model('clientesModel')->select('emailcliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
 
-
+     
         $datos_empresa = model('empresaModel')->datosEmpresa();
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setTextSize(1, 1);
@@ -651,7 +652,7 @@ class impresion
         $inc_tarifa = model('kardexModel')->get_inc_calc($id_factura);
         $iva_tarifa = model('kardexModel')->get_iva_calc($id_factura);
 
-
+        
 
         $items = model('kardexModel')->items($id_factura);
         $printer->setJustification(Printer::JUSTIFY_LEFT);

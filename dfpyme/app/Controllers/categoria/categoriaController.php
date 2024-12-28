@@ -514,11 +514,14 @@ class categoriaController extends BaseController
         $nombreProducto=model('productoModel')->select('nombreproducto')->where('id',$idProducto)->first();
 
         $ingredientes = model('productoModel')->getIngredientes($codigointernoproducto['codigointernoproducto']);
+        $totalCosto=model('productoModel')->getTotalReceta($codigointernoproducto['codigointernoproducto']);
+        
 
         return $this->response->setJSON([
             'success' => true,
             'ingredientes'=>$ingredientes,
-            'producto'=>$nombreProducto['nombreproducto']
+            'producto'=>$nombreProducto['nombreproducto'],
+            'costo'=>"Costo total receta ". "$" . number_format($totalCosto[0]['costo_total'], 0, ',', '.')
 
         ]);
     }

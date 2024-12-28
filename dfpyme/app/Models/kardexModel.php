@@ -227,7 +227,7 @@ class kardexModel extends Model
         ");
         return $datos->getResultArray();
     }
-    /*
+    
     public function get_inc_calc($id_factura)
     {
         $datos = $this->db->query("
@@ -237,7 +237,7 @@ class kardexModel extends Model
                AND aplica_ico = true and id_estado=8
         ");
         return $datos->getResultArray();
-    }*/
+    }
     public function get_total_inc($id_factura)
     {
         $datos = $this->db->query("

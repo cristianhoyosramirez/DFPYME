@@ -530,25 +530,29 @@ class productoModel extends Model
     {
 
         $datos = $this->db->query("
-  SELECT 
+SELECT 
     producto.nombreproducto, 
     inventario.cantidad_inventario, 
     producto_fabricado.cantidad AS cantidad_receta,
-    prod_proceso as codigointernoproducto
+    prod_proceso AS codigointernoproducto,
+    precio_costo,
+    SUM(precio_costo * producto_fabricado.cantidad) AS costo_producto
 FROM 
-    producto_fabricado 
+    producto_fabricado
 INNER JOIN 
     producto 
-ON 
-    producto_fabricado.prod_proceso = producto.codigointernoproducto 
+    ON producto_fabricado.prod_proceso = producto.codigointernoproducto
 INNER JOIN 
     inventario 
-ON 
-    inventario.codigointernoproducto = producto_fabricado.prod_proceso 
+    ON inventario.codigointernoproducto = producto_fabricado.prod_proceso
 WHERE 
-    producto_fabricado.prod_fabricado = '$codigo';
-
-
+    producto_fabricado.prod_fabricado = '$codigo'
+GROUP BY 
+    producto.nombreproducto, 
+    inventario.cantidad_inventario, 
+    producto_fabricado.cantidad, 
+    prod_proceso, 
+    precio_costo;
 
         ");
         return $datos->getResultArray();
@@ -609,6 +613,25 @@ INNER JOIN
 ON 
     producto.codigointernoproducto = inventario.codigointernoproducto order by nombreproducto asc;
 
+        ");
+        return $datos->getResultArray();
+    }
+    function getTotalReceta($codigo)
+    {
+
+        $datos = $this->db->query("
+SELECT   
+    sum(precio_costo * producto_fabricado.cantidad) as costo_total
+FROM 
+    producto_fabricado 
+INNER JOIN 
+    producto 
+ON 
+    producto_fabricado.prod_proceso = producto.codigointernoproducto 
+WHERE 
+    producto_fabricado.prod_fabricado = '$codigo'
+   
+   
         ");
         return $datos->getResultArray();
     }

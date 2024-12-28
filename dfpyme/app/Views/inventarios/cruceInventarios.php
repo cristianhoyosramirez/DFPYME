@@ -38,8 +38,17 @@ HOME
         </div>
     </div>
 
+    <div style="display:none" id="progresBar" class="container">
+        <p class="h3 text-warning text-center">Cruzando inventario, esta acción tomará un momento </p>
+        <div class="progress mb-3">
+            <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+        </div>
+    </div>
+
     <div class="card">
-        <div class="car-body">
+        <div class="car-body mb-3">
+
+
 
             <div style="height: calc(100vh - 150px); overflow-y: auto;">
                 <table class="table table-bordered table-striped table-hover">
@@ -54,6 +63,7 @@ HOME
                             <td scope="col">Valor venta</td>
                         </tr>
                     </thead>
+
                     <tbody>
                         <?php if (!empty($conteo_manual)): ?>
                             <?php foreach ($inventario_sistema as $KeyInventarioFisico): ?>
@@ -388,11 +398,67 @@ HOME
 
 
 <script>
-    async function cruzarRevisar(valor, id) {
-        try {
-            const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
-            const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica
+    function cruzarRevisar() {
 
+        Swal.fire({
+            title: "¿Seguro desea cruzar el inventario?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Cruzar",
+            denyButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'btn btn-success mx-2',
+                cancelButton: 'btn btn-danger mx-2'
+            },
+            buttonsStyling: false // Necesario para que las clases personalizadas funcionen
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cruceInventario();
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not saved", "", "info");
+            }
+        });
+
+
+    }
+</script>
+<!-- <script>
+    async function cruceInventario() {
+
+        const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+        const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        //alert(`Producto actualizado: ${data.message}`);
+        if (data.success === true) {
+            sweet_alert_centrado('success', 'Inventario cruzado ')
+            location.reload();
+        }
+        if (data.success === false) {
+            sweet_alert_centrado('warning', 'No hay inventario para cruzar ')
+        }
+
+    }
+</script> -->
+
+
+<script>
+    async function cruceInventario() {
+        const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+        const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica
+
+        try {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -405,30 +471,44 @@ HOME
             }
 
             const data = await response.json();
-            //alert(`Producto actualizado: ${data.message}`);
+
             if (data.success === true) {
-                sweet_alert_centrado('success', 'Inventario cruzado ')
-                location.reload();
+                 sweet_alert_centrado('success', 'Inventario cruzado');
+                location.reload(); 
+              
+
+            } else if (data.success === false) {
+                sweet_alert_centrado('warning', 'No hay inventario para cruzar');
             }
         } catch (error) {
-            console.error('Hubo un problema al actualizar el producto:', error);
-            alert('No se pudo actualizar el producto. Por favor, intenta de nuevo.');
+            console.error("Error al cruzar el inventario:", error);
+            sweet_alert_centrado('error', 'Ocurrió un error inesperado al cruzar el inventario');
         }
     }
 </script>
+
+
+
 
 
 <script>
     async function ingresarInv(valor, id) {
         try {
             const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
-            const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica
+            const url = `${baseUrl}/pre_factura/ingresarInv`; // Construye la URL dinámica
+
+            // Crea el payload (datos a enviar)
+            const payload = {
+                id: id, // ID del producto
+                valor: valor // Valor ingresado por el usuario
+            };
 
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify(payload) // Enviar datos como JSON
             });
 
             if (!response.ok) {
@@ -436,10 +516,13 @@ HOME
             }
 
             const data = await response.json();
-            //alert(`Producto actualizado: ${data.message}`);
+
             if (data.success === true) {
-                sweet_alert_centrado('success', 'Inventario cruzado ')
-                location.reload();
+                sweet_alert_centrado('success', 'Inventario cruzado');
+                location.reload(); // Recarga la página si la operación fue exitosa
+            } else {
+                console.warn('Respuesta inesperada del servidor:', data);
+                alert(data.message || 'Hubo un problema en la actualización.');
             }
         } catch (error) {
             console.error('Hubo un problema al actualizar el producto:', error);
@@ -447,6 +530,7 @@ HOME
         }
     }
 </script>
+
 
 
 <script>

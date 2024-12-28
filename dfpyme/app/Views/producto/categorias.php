@@ -152,13 +152,18 @@ HOME
                                         </div> -->
 
 
-                                        <div class="row g-2">
+                                        <div class="row g-2 align-items-center">
                                             <div class="col">
-                                                <input type="text" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<?php echo $tipo_producto[0]['descripcion']; ?>" class="form-control" value="<?php echo $keySubCategoria['codigointernoproducto'] . "-" . $keySubCategoria['nombreproducto']; ?>">
+                                                <label for="" class="form-label">Producto</label>
+                                                <input type="text" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                    title="<?php echo $tipo_producto[0]['descripcion']; ?>"
+                                                    class="form-control"
+                                                    value="<?php echo $keySubCategoria['codigointernoproducto'] . '-' . $keySubCategoria['nombreproducto']; ?>">
                                             </div>
                                             <div class="col-auto">
-                                                <a href="#" class="btn btn-white btn-icon" aria-label="Button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ver componentes" onclick="verComponentes(<?php echo $keySubCategoria['id'] ?> )">
-                                                    <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                                <div class="mb-4"></div>
+                                                <a href="#" class="btn btn-white btn-icon" aria-label="Button" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                    title="Ver componentes" onclick="verComponentes(<?php echo $keySubCategoria['id'] ?>)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                         <circle cx="10" cy="10" r="7" />
@@ -167,6 +172,7 @@ HOME
                                                 </a>
                                             </div>
                                         </div>
+
                                     <?php endif ?>
                                 </div>
 
@@ -186,7 +192,7 @@ HOME
                                 </div>
 
                                 <div class="col-2 d-flex justify-content-end">
-                               
+
                                     <button class="btn btn-outline-danger btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrar producto" onclick="eliminarProducto(<?php echo $keySubCategoria['id']; ?>)">
                                         <!-- Download SVG icon from http://tabler-icons.io/i/trash -->
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -235,6 +241,8 @@ HOME
                             <td scope="col">Producto </th>
                             <td scope="col">Cantidad inventario</th>
                             <td scope="col">Cantidad receta </th>
+                            <td scope="col">Valor costo unidad   </th>
+                            <td scope="col">Valor costo total  </th>
                         </tr>
                     </thead>
                     <tbody id="ingredientes">
@@ -242,6 +250,8 @@ HOME
 
                     </tbody>
                 </table>
+                <hr>
+                <p class="text-end text-blue h3" id="costoReceta"></p>
             </div>
 
         </div>
@@ -514,6 +524,9 @@ HOME
                 const myModal = new bootstrap.Modal(document.getElementById('componentes'));
                 myModal.show();
 
+               
+
+                document.getElementById('costoReceta').innerHTML = data.costo;
                 // Obtener los ingredientes del resultado
                 const ingredientes = data.ingredientes;
 
@@ -529,6 +542,8 @@ HOME
             <td>${item.nombreproducto}</td>
             <td>${item.cantidad_inventario}</td>
             <td>${item.cantidad_receta}</td>
+            <td>${item.precio_costo}</td>
+            <td>${item.costo_producto}</td>
         </tr>`;
                 });
 
