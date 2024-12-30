@@ -601,6 +601,28 @@ GROUP BY
     {
 
         $datos = $this->db->query("
+    SELECT 
+    producto.id,
+    producto.codigointernoproducto,
+    producto.nombreproducto,
+    inventario.cantidad_inventario
+FROM 
+    producto
+INNER JOIN 
+    inventario 
+    ON producto.codigointernoproducto = inventario.codigointernoproducto
+WHERE 
+    id_tipo_inventario IN (1, 4, 2)
+ORDER BY 
+    producto.nombreproducto ASC;
+
+        ");
+        return $datos->getResultArray();
+    }
+   /*  function ProductoInventario()
+    {
+
+        $datos = $this->db->query("
          SELECT 
     id,
     producto.codigointernoproducto,
@@ -615,7 +637,7 @@ ON
 
         ");
         return $datos->getResultArray();
-    }
+    } */
     function getTotalReceta($codigo)
     {
 

@@ -741,7 +741,7 @@ class prefacturaController extends BaseController
                 'success' => true,
                 'message' => 'Producto actualizado correctamente',
             ]);
-        }else if (empty($cruceInv)){
+        } else if (empty($cruceInv)) {
             return $this->response->setJSON([
                 'success' => false,
                 'message' => 'No hay inventario para cruzar ',
@@ -797,22 +797,34 @@ class prefacturaController extends BaseController
 
         $verficar = model('inventarioFisicoModel')->existeProducto($codigo['codigointernoproducto']);
 
-            if (!empty($verficar)){
-        $actualizar=model('inventarioFisicoModel')->set('cantidad_inventario_fisico',$cantidad)->where('codigointernoproducto',$codigo['codigointernoproducto'])->update();
-       } else if (empty($verficar)){
+        if (!empty($verficar)) {
+            $actualizar = model('inventarioFisicoModel')->set('cantidad_inventario_fisico', $cantidad)->where('codigointernoproducto', $codigo['codigointernoproducto'])->update();
+            return $this->response->setJSON([
+                'success' => true,
+            ]);
+        } else if (empty($verficar)) {
 
-          $data=[
-            'id_inventario_fisico',
-            'fecha_inventario_fisico',
-            'codigointernoproducto',
-            'idvalor_unidad_medida',
-            'idcolor',
-            'cantidad_inventario_fisico',
-            'corte_inventario_fisico',
-            'numero_corte',
-            'costo'
-          ];
+            $id_valor_medida = model('productoMedidaModel')->select('idvalor_unidad_medida')->where('codigointernoproducto', $codigo['codigointernoproducto'])->first();
+            $consecutivo = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 39)->first();
+            $costo = model('productoModel')->select('precio_costo')->where('codigointernoproducto', $codigo['codigointernoproducto'])->first();
+            $data = [
+                'fecha_inventario_fisico' => date('Y-m-d'),
+                'codigointernoproducto' => $codigo['codigointernoproducto'],
+                'idvalor_unidad_medida' => $id_valor_medida['idvalor_unidad_medida'],
+                'idcolor' => 0,
+                'cantidad_inventario_fisico' => $cantidad,
+                'corte_inventario_fisico' => false,
+                'numero_corte' => $consecutivo['numeroconsecutivo'] + 1,
+                'costo' => $costo['precio_costo']
+            ];
 
-       }
+            $insert = model('inventarioFisicoModel')->insert($data);
+
+            if ($insert) {
+                return $this->response->setJSON([
+                    'success' => true,
+                ]);
+            }
+        }
     }
 }

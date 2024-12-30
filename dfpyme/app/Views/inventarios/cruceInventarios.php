@@ -118,7 +118,7 @@ HOME
                 <div class="row mb-3">
                     <div class="col">
                         <label for="" class="form-label">Buscar producto</label>
-                        <input type="text" class="form-control" id="inventario" name="inventario">
+                        <input type="text" class="form-control" id="inventario" name="inventario" onkeyup="buscarProducto()">
                         <div id="autocomplete-container"></div>
                     </div>
 
@@ -133,10 +133,21 @@ HOME
 
                     /* Reducir el ancho de los inputs */
                     .input-inventario {
-                        width: 35%;
+                        width: 45%;
                         /* Ajusta el ancho según tus necesidades */
                     }
                 </style>
+
+                <?php $inv = model('inventarioFisicoModel')->select('cantidad_inventario_fisico')->where('corte_inventario_fisico', 'false')->first();  ?>
+
+                <?php if (!empty($inv)):  ?>
+
+                    <p class="text-center text-primary h3 ">Hay un conteo de inventario en curso </p>
+
+                <?php endif ?>
+
+
+
 
                 <table class="table">
                     <thead class="table-dark">
@@ -156,9 +167,17 @@ HOME
                                     <input type="text" class="form-control input-inventario"
                                         value="<?php echo $keyProducto['cantidad_inventario']; ?>">
                                 </td>
-                                <td>
-                                    <input type="text" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
-                                </td>
+                                <?php $registro = model('inventarioFisicoModel')->select('cantidad_inventario_fisico')->where('codigointernoproducto', $keyProducto['codigointernoproducto'])->first();  ?>
+                                <?php if (empty($registro)): ?>
+                                    <td>
+                                        <input type="text" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
+                                    </td>
+                                <?php endif ?>
+                                <?php if (!empty($registro)): ?>
+                                    <td>
+                                        <input type="text" value="<?php echo $registro['cantidad_inventario_fisico'];  ?>" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
+                                    </td>
+                                <?php endif ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -295,6 +314,40 @@ HOME
     </div>
 </div>
 
+
+<script>
+    async function buscarProducto() {
+        const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+        const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success === true) {
+                sweet_alert_centrado('success', 'Inventario cruzado');
+                location.reload();
+
+
+            } else if (data.success === false) {
+                sweet_alert_centrado('warning', 'No hay inventario para cruzar');
+            }
+        } catch (error) {
+            console.error("Error al cruzar el inventario:", error);
+            sweet_alert_centrado('error', 'Ocurrió un error inesperado al cruzar el inventario');
+        }
+    }
+</script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -473,9 +526,9 @@ HOME
             const data = await response.json();
 
             if (data.success === true) {
-                 sweet_alert_centrado('success', 'Inventario cruzado');
-                location.reload(); 
-              
+                sweet_alert_centrado('success', 'Inventario cruzado');
+                location.reload();
+
 
             } else if (data.success === false) {
                 sweet_alert_centrado('warning', 'No hay inventario para cruzar');
@@ -518,8 +571,8 @@ HOME
             const data = await response.json();
 
             if (data.success === true) {
-                sweet_alert_centrado('success', 'Inventario cruzado');
-                location.reload(); // Recarga la página si la operación fue exitosa
+                sweet_alert_centrado('success', 'Ingresado al inventario');
+
             } else {
                 console.warn('Respuesta inesperada del servidor:', data);
                 alert(data.message || 'Hubo un problema en la actualización.');
