@@ -112,14 +112,31 @@ HOME
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Ingresar inventario </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" onclick="limpiarInput()" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row mb-3">
                     <div class="col">
                         <label for="" class="form-label">Buscar producto</label>
-                        <input type="text" class="form-control" id="inventario" name="inventario" onkeyup="buscarProducto()">
+
+
                         <div id="autocomplete-container"></div>
+
+                        <div class="input-group input-group-flat mb-2">
+                            <input type="text" class="form-control" id="inventarioInput" name="inventario" onkeyup="buscarProducto(this.value)" placeholder="Buscar por código o nombre de producto">
+                            <span class="input-group-text">
+                                <a href="#" class="link-secondary" onclick="limpiarInput()" title="Limpiar búsqueda " data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/x -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <line x1="18" y1="6" x2="6" y2="18" />
+                                        <line x1="6" y1="6" x2="18" y2="18" />
+                                    </svg>
+                                </a>
+
+
+                            </span>
+                        </div>
+                        <span id="noHay" class="text-red">No hay producto </span>
                     </div>
 
                 </div>
@@ -158,7 +175,7 @@ HOME
                             <td scope="col">Ingresar inventario</th>
                         </tr>
                     </thead>
-                    <tbody id="inventario">
+                    <tbody id="ProdInv">
                         <?php foreach ($productos as $keyProducto): ?>
                             <tr>
                                 <td><?php echo $keyProducto['codigointernoproducto']; ?></td>
@@ -268,7 +285,7 @@ HOME
                 <table class="table">
                     <thead class="table-dark">
                         <tr>
-                            <td scope="col">Codigodd </td>
+                            <td scope="col">Codigo </td>
                             <td scope="col">Producto </td>
                             <td scope="col">Cantidad conteo </td>
                             <td scope="col">Cantidad sistema </td>
@@ -314,18 +331,32 @@ HOME
     </div>
 </div>
 
+<!-- <script>
+    function limpiarInput() {
+        // Obtén elemento input por su ID y limpia su valor
+        
+        const input = document.getElementById('inventarioInput');
+        if (input) {
+            input.value = ''; // Limpia el valor del input
+            input.focus(); // Da el foco al input
+        }
+    }
+</script> -->
 
 <script>
-    async function buscarProducto() {
+    async function limpiarInput(valor) {
         const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
-        const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica
+        const url = `${baseUrl}/consultas_y_reportes/productos_inventario`; // Construye la URL dinámica
+
+        document.getElementById('noHay').innerHTML = "";
 
         try {
             const response = await fetch(url, {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+
             });
 
             if (!response.ok) {
@@ -335,10 +366,12 @@ HOME
             const data = await response.json();
 
             if (data.success === true) {
-                sweet_alert_centrado('success', 'Inventario cruzado');
-                location.reload();
-
-
+                const input = document.getElementById('inventarioInput');
+                if (input) {
+                    input.value = ''; // Limpia el valor del input
+                    input.focus(); // Da el foco al input
+                }
+                document.getElementById('ProdInv').innerHTML = data.productos;
             } else if (data.success === false) {
                 sweet_alert_centrado('warning', 'No hay inventario para cruzar');
             }
@@ -348,6 +381,43 @@ HOME
         }
     }
 </script>
+
+
+<script>
+    async function buscarProducto(valor) {
+        const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+        const url = `${baseUrl}/pre_factura/buscarProducto`; // Construye la URL dinámica
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    valor
+                }) // Envía el valor en el cuerpo de la solicitud
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success === true) {
+                document.getElementById('ProdInv').innerHTML = data.productos;
+                document.getElementById('noHay').innerHTML = "";
+            } else if (data.success === false) {
+                document.getElementById('noHay').innerHTML = "No hay productos disponibles.";
+            }
+        } catch (error) {
+            console.error("Error al cruzar el inventario:", error);
+            sweet_alert_centrado('error', 'Ocurrió un error inesperado al cruzar el inventario');
+        }
+    }
+</script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

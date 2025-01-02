@@ -1044,143 +1044,18 @@ class AbonosController extends BaseController
 
         exit;
     }
-    /*    function reporte_faltantes()
-    {
 
-        $cruce = model('inventarioModel')->faltantes();
+    function productos_inventario(){
+        $productos=model('productoModel')->ProductoInventario();
 
-        $datos_empresa = model('empresaModel')->datosEmpresa();
-        $file_name = 'Cruce de inventarios  .xlsx';
-
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-
-        // Establecer el estilo de las celdas del encabezado
-        $headerStyle = [
-            'font' => [
-                'bold' => true,           // Negrita
-                'size' => 12,             // Tamaño de fuente
-                'color' => ['argb' => 'FFFFFF'], // Color de fuente blanco
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Alineación centrada
-                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,   // Alineación centrada vertical
-            ],
-            'fill' => [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Relleno sólido
-                'startColor' => ['argb' => '000000'], // Cambiado a negro
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN, // Bordes finos
-                    'color' => ['argb' => '000000'], // Color de borde negro
-                ],
-            ],
-        ];
-
-        $sheet->getStyle('A5')->applyFromArray([
-            'font' => [
-                'bold' => true, // Texto en negrita
-                'size' => 14,  // Tamaño de fuente
-                'color' => ['rgb' => '6297D5'], // Color azul pastel
-            ],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER, // Alineación horizontal centrada
-                'vertical' => Alignment::VERTICAL_CENTER,     // Alineación vertical centrada
-            ],
+        return $this->response->setJSON([
+            'success' => true,
+            'productos'=>view('ventas/productos',[
+                'productos'=>$productos
+            ])
         ]);
 
-        $sheet->setCellValue('A1', $datos_empresa[0]['nombrejuridicoempresa']);
+    }
 
-
-
-
-        $sheet->mergeCells('A1:G1');
-
-        // Centrar el texto horizontal y verticalmente
-        $sheet->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-        // Eliminar bordes en el rango
-        $sheet->getStyle('A1:G1')->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_NONE);
-
-
-        $sheet->setCellValue('A2', $datos_empresa[0]['nombrecomercialempresa']);
-        $sheet->mergeCells('A2:G2');
-        $sheet->getStyle('A2:G2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A2:G2')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-
-        $sheet->setCellValue('A3', 'NIT: ' . $datos_empresa[0]['nitempresa']);
-        $sheet->mergeCells('A3:G3');
-        $sheet->getStyle('A3:G3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A3:G3')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-
-        $sheet->setCellValue(
-            'A4',
-            'Dirección: ' . $datos_empresa[0]['direccionempresa'] . " " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento']
-        );
-        $sheet->mergeCells('A4:G4');
-        $sheet->getStyle('A4:G4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A4:G4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-        $sheet->setCellValue('A5', 'CRUCE DE INVENTARIOS ');
-        $sheet->mergeCells('A5:G5');
-
-
-
-        $sheet->getStyle('A7:G7')->applyFromArray($headerStyle);
-        $sheet->setCellValue('A7', 'Código ');
-        $sheet->setCellValue('B7', 'Producto');
-        $sheet->setCellValue('C7', 'Cantidad conteo');
-        $sheet->setCellValue('D7', 'Cantidad sistema ');
-        $sheet->setCellValue('E7', 'Diferencia inventario  ');
-        $sheet->setCellValue('F7', 'Valor costo ');
-        $sheet->setCellValue('G7', 'Valor venta ');
-
-        $count = 8;
-        foreach ($cruce as $row) {
-
-            $sheet->setCellValue('A' . $count, $row['codigointernoproducto']);
-            $sheet->setCellValue('B' . $count, $row['nombreproducto']);
-            $sheet->setCellValueExplicit('C' . $count, $row['cantidad_inventario_fisico'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $sheet->setCellValueExplicit('D' . $count, $row['cantidad_inventario'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $sheet->setCellValueExplicit('E' . $count, $row['diferencia'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $sheet->setCellValueExplicit('F' . $count, $row['valor_costo'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $sheet->setCellValueExplicit('G' . $count, $row['valor_venta'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $count++;
-        }
-
-        //$total_venta=model('inventarioModel')->selectSum()
-
-     $sheet->setCellValue('N' . ($count + 1), 'Total IVA'); // Título en la columna N (siguiente fila)
-        $sheet->setCellValueExplicit('O' . ($count + 1), number_format($total_IVA[0]['iva'], 0, ",", "."), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-
-        // Agregamos "Total ICO"
-        $sheet->setCellValue('N' . ($count + 2), 'Total INC'); // Título en la columna N (siguiente fila)
-        $sheet->setCellValueExplicit('O' . ($count + 2), number_format($total_INC[0]['ico'], 0, ",", "."), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING); 
-
-        $writer = new Xlsx($spreadsheet);
-
-        $writer->save($file_name);
-
-        header("Content-Type: application/vnd.ms-excel");
-
-        header('Content-Disposition: attachment; filename="' . basename($file_name) . '"');
-
-        header('Expires: 0');
-
-        header('Cache-Control: must-revalidate');
-
-        header('Pragma: public');
-
-        header('Content-Length:' . filesize($file_name));
-
-        flush();
-
-        readfile($file_name);
-
-        exit;
-    } */
+ 
 }

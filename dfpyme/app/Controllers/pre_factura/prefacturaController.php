@@ -827,4 +827,29 @@ class prefacturaController extends BaseController
             }
         }
     }
+
+    function buscarProducto()
+    {
+
+        $datos = $this->request->getJSON();
+        $busqueda = $datos->valor;
+
+        $productos = model('productoModel')->getProducto($busqueda);
+
+        if (!empty($productos)) {
+
+            return $this->response->setJSON([
+                'success' => true,
+                'productos' => view('ventas/productos', [
+                    'productos' => $productos
+                ])
+            ]);
+        }
+        if (empty($productos)) {
+
+            return $this->response->setJSON([
+                'success' => false,
+            ]);
+        }
+    }
 }

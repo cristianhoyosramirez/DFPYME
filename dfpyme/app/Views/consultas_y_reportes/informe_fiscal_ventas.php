@@ -214,6 +214,13 @@
             </tbody>
         </table>
 
+        <p class="text-end h3 text-primary">Formas de pago </p>
+       <?php  foreach($pago as $keyPago){ ?>
+           
+            <p class="text-end h4 text-dark">  <?php echo $keyPago['nombre_comercial']."   ".number_format($keyPago['total'], 0, ",", ".")."</br>";   ?> </p>
+
+        <?php } ?>
+
       
 
     </div>

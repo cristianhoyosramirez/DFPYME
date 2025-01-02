@@ -155,6 +155,7 @@ $routes->group('categoria', ['namespace' => 'App\Controllers\categoria', 'filter
     $routes->post('actualizar_productos', 'categoriaController::actualizar_productos');
     $routes->post('actualizacion_productos', 'categoriaController::actualizacion_productos');
     $routes->post('componentes_producto', 'categoriaController::componentes_producto');
+    $routes->get('verRecetas', 'categoriaController::verRecetas');
 });
 
 $routes->group('pedido', ['namespace' => 'App\Controllers\pedido', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -367,6 +368,7 @@ $routes->group('consultas_y_reportes', ['namespace' => 'App\Controllers\consulta
     $routes->get('reporte_cruce_inventarios', 'AbonosController::reporte_cruce_inventarios');
     $routes->get('reporte_sobrantes', 'AbonosController::reporte_sobrantes');
     $routes->get('reporte_faltantes', 'AbonosController::reporte_faltantes');
+    $routes->get('productos_inventario', 'AbonosController::productos_inventario');
 });
 
 $routes->group('devolucion', ['namespace' => 'App\Controllers\devolucion', 'filter' => \App\Filters\Auth::class], function ($routes) {

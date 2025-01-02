@@ -2153,6 +2153,7 @@ class cajaDiariaController extends BaseController
 
             $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
             $consecutivo_fiscal = model('consecutivoInformeModel')->select('numero')->where('id_apertura', $id_apertura)->first();
+            $pago =model('pagosModel')->total_formas_pago($id_apertura);
             $returnData = array(
                 "resultado" => 1, //Falta plata
                 "datos" => view('consultas_y_reportes/informe_fiscal_ventas', [
@@ -2175,7 +2176,8 @@ class cajaDiariaController extends BaseController
                     "fecha_apertura" => $fecha_apertura['fecha'],
                     "id_apertura" => $id_apertura,
                     "titulo" => "INFORME FISCAL DE VENTAS ELECTRÓNICAS",
-                    "action_url" => base_url('consultas_y_reportes/expotar_informe_electronico_pdf')
+                    "action_url" => base_url('consultas_y_reportes/expotar_informe_electronico_pdf'),
+                    "pago"=>$pago
                 ])
             );
 

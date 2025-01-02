@@ -657,4 +657,23 @@ WHERE
         ");
         return $datos->getResultArray();
     }
+    function getProducto($codigo)
+    {
+
+        $datos = $this->db->query("
+SELECT 
+    id,
+    producto.codigointernoproducto,
+    nombreproducto,
+    cantidad_inventario
+   
+FROM 
+    producto
+    inner join inventario on inventario.codigointernoproducto=producto.codigointernoproducto
+WHERE 
+    (producto.codigointernoproducto ILIKE '%$codigo%' OR nombreproducto ILIKE '%$codigo%')
+    AND id_tipo_inventario IN (1, 2, 4);
+        ");
+        return $datos->getResultArray();
+    }
 }

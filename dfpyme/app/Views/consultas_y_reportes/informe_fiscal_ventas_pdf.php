@@ -35,7 +35,7 @@
                 <tr>
                     <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo $nombre_comercial ?></th>
                     <th style="text-align:left; font:  bold 80% cursive; border:none "></th>
-                    <th style="text-align:left; font:  bold 80% cursive; border:none "><?php  echo $titulo?></th>
+                    <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo $titulo ?></th>
                 </tr>
                 <tr>
                     <td style="text-align:left; font:  bold 80% cursive; border:none "><?php echo $nombre_juridico ?></td>
@@ -152,7 +152,7 @@
 
             <tbody>
 
-               <!--  <?php foreach ($iva_devolucion as $iva_devolucion) { ?>
+                <!--  <?php foreach ($iva_devolucion as $iva_devolucion) { ?>
                     <tr>
                         <th style="text-align:left; font:  bold 80% cursive; border:none ">Factura General</th>
                         <th style="text-align:left; font:  bold 80% cursive; border:none "><?php echo $iva_devolucion['tarifa'] ?>%</th> 
@@ -166,11 +166,11 @@
                 <?php if (!empty($iva_devolucion)): ?>
                     <?php foreach ($iva_devolucion as $item): ?>
                         <tr>
-                            <th style="text-align:left; font:  bold 80% cursive; border:none" >Factura General</th> <!-- TARIFA ICO -->
-                            <th style="text-align:left; font:  bold 80% cursive; border:none" ><?php echo $item['tarifa']; ?>%</th> <!-- TARIFA ICO -->
-                            <th style="text-align:left; font:  bold 80% cursive; border:none" ><?php echo "$" . number_format($item['base'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
-                            <th style="text-align:left; font:  bold 80% cursive; border:none" ><?php echo "$" . number_format($item['impuesto'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
-                            <th style="text-align:left; font:  bold 80% cursive; border:none" ><?php echo "$" . number_format($item['total'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
+                            <th style="text-align:left; font:  bold 80% cursive; border:none">Factura General</th> <!-- TARIFA ICO -->
+                            <th style="text-align:left; font:  bold 80% cursive; border:none"><?php echo $item['tarifa']; ?>%</th> <!-- TARIFA ICO -->
+                            <th style="text-align:left; font:  bold 80% cursive; border:none"><?php echo "$" . number_format($item['base'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
+                            <th style="text-align:left; font:  bold 80% cursive; border:none"><?php echo "$" . number_format($item['impuesto'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
+                            <th style="text-align:left; font:  bold 80% cursive; border:none"><?php echo "$" . number_format($item['total'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -210,6 +210,24 @@
                 <?php } ?>
             </tbody>
         </table>
+
+
+        <style>
+            .text-end {
+                text-align: right !important;
+            }
+        </style>
+
+
+
+
+        <p class="text-end h3 text-primary">Formas de pago </p>
+        <?php foreach ($pago as $keyPago) { ?>
+
+            <p class="text-end h4 text-dark"> <?php echo $keyPago['nombre_comercial'] . "   " . number_format($keyPago['total'], 0, ",", ".") . "</br>";   ?> </p>
+
+        <?php } ?>
+
 
         <p>____________________________</p>
         <p style="text-align:left; font:  bold 80% cursive; border:none ">Firma</p>

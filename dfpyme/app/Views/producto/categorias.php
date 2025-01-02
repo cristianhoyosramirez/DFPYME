@@ -14,7 +14,16 @@ HOME
             <button type="button" class="btn btn-outline-primary me-2" onclick="productoIva()">Productos con IVA </button>
             <button type="button" class="btn btn-outline-primary me-2" onclick="productoInc()">Productos con INC </button>
             <button type="button" class="btn btn-outline-primary me-2">Crear producto venta </button>
-            <button type="button" class="btn btn-outline-primary me-2">Crear receta </button>
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Recetas
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#" onclick="VerRecetas()">Ver recetas </a></li>
+                    <li><a class="dropdown-item" href="#" onclick="CrearIngrediente()">Crear ingrediente </a></li>
+                    <li><a class="dropdown-item" href="#" onclick="CrearRecete()">Crear receta </a></li>
+                </ul>
+            </div>
 
         </div>
         <div class="card-body">
@@ -56,12 +65,7 @@ HOME
                                                     <label for="" class="text-primary h3">Subcategoria</label>
                                                 </div>
                                                 <div class="col-3">
-                                                    <!--   <input type="text" class="form-control" value="<?php #echo $KeySubCategoria['nombre']; 
-                                                                                                            ?>" onkeyup="actualizarSuCategoria(this.value,<?php echo $KeySubCategoria['id']  ?>)"> -->
-
-
                                                     <p class="text-primary h3"><?php echo $KeySubCategoria['nombre']; ?></p>
-
 
                                                 </div>
                                             </div>
@@ -79,149 +83,154 @@ HOME
                                                 ?>
 
                                                 <div class="row mb-3">
-                                                    <div class="col-2">
-                                                        <label for=""><?php echo $tipo_producto['nombre'];   ?> </label>
+                                                    <div class="col-3">
+                                                        <label for="" class="form-label">Producto </label>
+                                                        <input type="text" class="form-control" value="<?php echo $keyProductoSubCategoria['nombreproducto']; ?>" onkeyup="actualizarNombreProductoSub(this.value,<?php echo $keyProductoSubCategoria['id'] ?>)">
                                                     </div>
-                                                    <input type="text" class="form-control" value="<?php echo $keyProductoSubCategoria['nombreproducto']; ?>" onkeyup="actualizarNombreProductoSub(this.value,<?php echo $keyProductoSubCategoria['id'] ?>)">
+                                                    <div class="col-3">
+                                                        <label for="" class="form-label">Precio de venta </label>
+                                                        <div class="input-icon mb-3">
+                                                            <span class="input-icon-addon">
+                                                                <!-- Ícono de dólar -->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                    <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
+                                                                    <path d="M12 3v3m0 12v3" />
+                                                                </svg>
+                                                            </span>
+                                                            <input id="valor<?php echo $keyProductoSubCategoria['id'];  ?>" type="text" class="form-control" value="<?php echo number_format($keyProductoSubCategoria['valorventaproducto'], 0, ',', '.'); ?>">
+                                                            <span class="input-icon-addon" onclick="clearInput()" style="cursor: pointer;">
+                                                                <!-- Ícono de "X" -->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                    <path d="M18 6l-12 12" />
+                                                                    <path d="M6 6l12 12" />
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
+
+
+                                            <?php endforeach ?>
+
+                                            <div class="text-start">
+                                                <button type="button" class="btn btn-outline-primary">Agregar otro porducto a Estofadas porcion </button>
+                                            </div>
+                                            <hr>
+                                        <?php endforeach ?>
+
+                                    <?php endif ?>
+
+
+                                    <?php if ($sub_categoria['subcategoria'] == 'f'): ?>
+
+                                        <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto,codigointernoproducto,aplica_ico')->where('codigocategoria', $KeyCategorias['codigocategoria'])->find(); ?>
+
+                                        <?php foreach ($productos_subcategoria as $keySubCategoria): ?>
+                                            <?php $tipo_producto = model('productoModel')->getTipoProducto($keySubCategoria['id']);
+
+                                            $codigo_producto = model('productoModel')->select('codigointernoproducto')->where('id', $keySubCategoria['id'])->first();
+                                            $inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $codigo_producto['codigointernoproducto'])->first();
+
+                                            if ($keySubCategoria['aplica_ico'] == 't') {
+                                                $inc = model('categoriasModel')->GetImpuesto($keySubCategoria['id']);
+                                                $tipo_impuesto = "INC";
+                                                $impuesto = $inc[0]['valor_ico'];
+                                            }
+                                            if ($keySubCategoria['aplica_ico'] == 'f') {
+                                                $iva = model('categoriasModel')->GetIva($keySubCategoria['id']);
+                                                $tipo_impuesto = "IVA";
+                                                $impuesto = $iva[0]['valoriva'];
+                                            }
+
+
+                                            ?>
+
+                                            <div class="row mb-3">
+                                                <div class="col-3">
+                                                    <?php if ($tipo_producto[0]['id_tipo_inventario'] == 1 or $tipo_producto[0]['id_tipo_inventario'] == 4): ?>
+                                                        <label for="" class="form-label">Producto</label>
+                                                        <input type="text" title="<?php echo $tipo_producto[0]['descripcion']; ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" class="form-control" onkeyup="actualizacionProducto(this.value, <?php echo $keySubCategoria['id']; ?>)" value="<?php echo $keySubCategoria['codigointernoproducto'] . "-" . $keySubCategoria['nombreproducto']; ?>">
+                                                    <?php endif ?>
+
+                                                    <?php if ($tipo_producto[0]['id_tipo_inventario'] == 3): ?>
+
+                                                        <div class="row g-2 align-items-center">
+                                                            <div class="col">
+                                                                <label for="" class="form-label">Producto</label>
+                                                                <input type="text" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                                    title="<?php echo $tipo_producto[0]['descripcion']; ?>"
+                                                                    class="form-control"
+                                                                    value="<?php echo $keySubCategoria['codigointernoproducto'] . '-' . $keySubCategoria['nombreproducto']; ?>">
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <div class="mb-4"></div>
+                                                                <a href="#" class="btn btn-white btn-icon" aria-label="Button" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                                    title="Ver componentes" onclick="verComponentes(<?php echo $keySubCategoria['id'] ?>)">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                        <circle cx="10" cy="10" r="7" />
+                                                                        <line x1="21" y1="21" x2="15" y2="15" />
+                                                                    </svg>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                    <?php endif ?>
+                                                </div>
+
+                                                <div class="col-1">
+                                                    <label for="" class="form-label">Inventario</label>
+                                                    <input type="text" class="form-control text-center" value="<?php echo $inventario['cantidad_inventario']; ?>">
+
+                                                </div>
+
                                                 <div class="col-3">
 
-                                                    <div class="input-icon mb-3">
-                                                        <span class="input-icon-addon">
-                                                            <!-- Ícono de dólar -->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
-                                                                <path d="M12 3v3m0 12v3" />
-                                                            </svg>
-                                                        </span>
-                                                        <input id="valor<?php echo $keyProductoSubCategoria['id'];  ?>" type="text" class="form-control" value="<?php echo number_format($keyProductoSubCategoria['valorventaproducto'], 0, ',', '.'); ?>">
-                                                        <span class="input-icon-addon" onclick="clearInput()" style="cursor: pointer;">
-                                                            <!-- Ícono de "X" -->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                <path d="M18 6l-12 12" />
-                                                                <path d="M6 6l12 12" />
-                                                            </svg>
-                                                        </span>
-                                                    </div>
+
+                                                    <label for="" class="form-label">Valor venta</label>
+                                                    <input type="text" class="form-control" id="valor<?php echo $keySubCategoria['id']; ?>" placeholder="Valor de venta" value="<?php echo number_format($keySubCategoria['valorventaproducto'], 0, ',', '.'); ?>">
+
+
                                                 </div>
-                                </div>
+                                                <div class="col-1">
+                                                    <label for="" class="form-label"><?php echo $tipo_impuesto ?></label>
+                                                   <input type="text" class="form-control" value="<?php echo $impuesto." %"; ?>">
+                                                </div>
 
+                                                <div class="col-2 d-flex justify-content-end">
 
-                            <?php endforeach ?>
+                                                    <button class="btn btn-outline-danger btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrar producto" onclick="eliminarProducto(<?php echo $keySubCategoria['id']; ?>)">
+                                                        <!-- Download SVG icon from http://tabler-icons.io/i/trash -->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <line x1="4" y1="7" x2="20" y2="7" />
+                                                            <line x1="10" y1="11" x2="10" y2="17" />
+                                                            <line x1="14" y1="11" x2="14" y2="17" />
+                                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                        </svg>
 
-                            <div class="text-end">
-                                <button type="button" class="btn btn-outline-primary">Agregar otro porducto a Estofadas porcion </button>
-                            </div>
-                        <?php endforeach ?>
-
-                    <?php endif ?>
-
-
-                    <?php if ($sub_categoria['subcategoria'] == 'f'): ?>
-
-                        <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto,codigointernoproducto')->where('codigocategoria', $KeyCategorias['codigocategoria'])->find(); ?>
-
-                        <?php foreach ($productos_subcategoria as $keySubCategoria): ?>
-                            <?php $tipo_producto = model('productoModel')->getTipoProducto($keySubCategoria['id']);
-
-                            $codigo_producto = model('productoModel')->select('codigointernoproducto')->where('id', $keySubCategoria['id'])->first();
-                            $inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $codigo_producto['codigointernoproducto'])->first();
-                            ?>
-
-                            <div class="row mb-3">
-                                <div class="col-3">
-                                    <?php if ($tipo_producto[0]['id_tipo_inventario'] == 1 or $tipo_producto[0]['id_tipo_inventario'] == 4): ?>
-                                        <label for="" class="form-label">Producto</label>
-                                        <input type="text" title="<?php echo $tipo_producto[0]['descripcion']; ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" class="form-control" onkeyup="actualizacionProducto(this.value, <?php echo $keySubCategoria['id']; ?>)" value="<?php echo $keySubCategoria['codigointernoproducto'] . "-" . $keySubCategoria['nombreproducto']; ?>">
-                                    <?php endif ?>
-
-                                    <?php if ($tipo_producto[0]['id_tipo_inventario'] == 3): ?>
-                                        <!-- <div class="accordion accordion-flush" id="accordionFlushExample">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="flush-headingOne">
-                                                    <button class="accordion-button collapsed" title="<?php echo $tipo_producto[0]['descripcion']; ?>" data-bs-toggle="tooltip" data-bs-placement="bottom" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                                        <?php echo $keySubCategoria['codigointernoproducto'] . "-" . $keySubCategoria['nombreproducto']; ?>
                                                     </button>
-                                                </h2>
-                                                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
                                                 </div>
                                             </div>
-                                        </div> -->
 
+                                        <?php endforeach ?>
 
-                                        <div class="row g-2 align-items-center">
-                                            <div class="col">
-                                                <label for="" class="form-label">Producto</label>
-                                                <input type="text" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                    title="<?php echo $tipo_producto[0]['descripcion']; ?>"
-                                                    class="form-control"
-                                                    value="<?php echo $keySubCategoria['codigointernoproducto'] . '-' . $keySubCategoria['nombreproducto']; ?>">
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="mb-4"></div>
-                                                <a href="#" class="btn btn-white btn-icon" aria-label="Button" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                    title="Ver componentes" onclick="verComponentes(<?php echo $keySubCategoria['id'] ?>)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                        <circle cx="10" cy="10" r="7" />
-                                                        <line x1="21" y1="21" x2="15" y2="15" />
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
 
                                     <?php endif ?>
-                                </div>
-
-                                <div class="col-1">
-                                    <label for="" class="form-label">Inventario</label>
-                                    <input type="text" class="form-control text-center" value="<?php echo $inventario['cantidad_inventario']; ?>">
 
                                 </div>
-
-                                <div class="col-3">
-
-
-                                    <label for="" class="form-label">Valor venta</label>
-                                    <input type="text" class="form-control" id="valor<?php echo $keySubCategoria['id']; ?>" placeholder="Valor de venta" value="<?php echo number_format($keySubCategoria['valorventaproducto'], 0, ',', '.'); ?>">
-
-
-                                </div>
-
-                                <div class="col-2 d-flex justify-content-end">
-
-                                    <button class="btn btn-outline-danger btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrar producto" onclick="eliminarProducto(<?php echo $keySubCategoria['id']; ?>)">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/trash -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <line x1="4" y1="7" x2="20" y2="7" />
-                                            <line x1="10" y1="11" x2="10" y2="17" />
-                                            <line x1="14" y1="11" x2="14" y2="17" />
-                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                        </svg>
-
-                                    </button>
-                                </div>
-                            </div>
-
-                        <?php endforeach ?>
-
-
-                    <?php endif ?>
-
                             </div>
                         </div>
                     </div>
                 </div>
+            <?php endforeach; ?>
         </div>
-    <?php endforeach; ?>
-    </div>
 
-</div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -241,8 +250,8 @@ HOME
                             <td scope="col">Producto </th>
                             <td scope="col">Cantidad inventario</th>
                             <td scope="col">Cantidad receta </th>
-                            <td scope="col">Valor costo unidad   </th>
-                            <td scope="col">Valor costo total  </th>
+                            <td scope="col">Valor costo unidad </th>
+                            <td scope="col">Valor costo total </th>
                         </tr>
                     </thead>
                     <tbody id="ingredientes">
@@ -524,7 +533,7 @@ HOME
                 const myModal = new bootstrap.Modal(document.getElementById('componentes'));
                 myModal.show();
 
-               
+
 
                 document.getElementById('costoReceta').innerHTML = data.costo;
                 // Obtener los ingredientes del resultado

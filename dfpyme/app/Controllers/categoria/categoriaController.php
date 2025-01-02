@@ -525,4 +525,16 @@ class categoriaController extends BaseController
 
         ]);
     }
+
+    function verRecetas(){
+
+        $recetas=model('productoModel')->select('id,nombreproducto,codigointernoproducto')->where('id_tipo_inventario',3)->findAll();
+
+        return $this->response->setJSON([
+            'success' => true,
+            'recetas'=>view('ventas/recetas',[
+                'recetas'=>$recetas
+            ])
+        ]);
+    }
 }

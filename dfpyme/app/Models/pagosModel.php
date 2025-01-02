@@ -584,7 +584,7 @@ WHERE
         $datos = $this->db->query("
             
             SELECT 
-    SUM(total + propina) AS total, 
+    SUM(total) AS total, 
     nombre_comercial
 FROM 
     documento_electronico
