@@ -1065,6 +1065,8 @@ class Imprimir extends BaseController
 
         $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
 
+
+
         $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
         $printer = new Printer($connector);
 
@@ -1108,7 +1110,7 @@ class Imprimir extends BaseController
 
         if (!empty($id_inicial[0]['id']) and !empty($id_final[0]['id'])) {
             //$total_registros = model('pagosModel')->get_total_registros_electronicos($id_apertura);
-            $total_registros = model('pagosModel')->get_total_registros_electronicos($id_inicial[0]['id'],$id_final[0]['id']);
+            $total_registros = model('pagosModel')->get_total_registros_electronicos($id_inicial[0]['id'], $id_final[0]['id']);
             $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
 
             $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
@@ -1282,60 +1284,73 @@ class Imprimir extends BaseController
             $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
             $consecutivo_fiscal = model('consecutivoInformeModel')->select('numero')->where('id_apertura', $id_apertura)->first();
 
-          
-        $printer->text("***INFORME FISCAL DE VENTAS ***\n\n");
-        $printer->setJustification(Printer::JUSTIFY_LEFT);
-        $printer->text("Informe N°       : " . $consecutivo_fiscal['numero']  . "\n");
-        $printer->text("Fecha            : " . $fecha_apertura['fecha'] . "\n");
-        $printer->text("Registro inicial : " . $reg_inicial['numero'] . "\n");
-        $printer->text("Registro final   : " . $reg_final['numero'] . "\n");
-        $printer->text("Total registros  : " . $total_registros[0]['id'] . "\n\n");
-        // Título de la tabla
-        $printer->setEmphasis(true);
-        $printer->text("-----------------------------------------------\n");
-        $printer->text("Tarifa    Base grabable   Valor IVA   Val total\n");
-        $printer->text("-----------------------------------------------\n");
-        $printer->setEmphasis(false);
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->setTextSize(1, 1);
+           
+            $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
+            $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
+            $printer->text($datos_empresa[0]['direccionempresa'] . "  " . $nombre_ciudad['nombreciudad'] . " " . $nombre_departamento['nombredepartamento'] . "\n");
+            $printer->text("TELEFONO:" . $datos_empresa[0]['telefonoempresa'] . "\n");
+            $printer->text($regimen['nombreregimen'] . "\n");
+            $printer->text("\n");
 
-        // Añadir los datos de la tabla
-        foreach ($array_iva as $detalle) {
-            //$printer->text($detalle['tarifa_iva']%  "   "  .$detalle['total_iva']."  ".$detalle['valor_venta'] );
-            $printer->text($detalle['tarifa_iva'] . "%         " . $detalle['total_iva'] . "                " . $detalle['valor_venta'] . "          0" . "\n");
-        }
+            $printer->text("***INFORME FISCAL DE VENTAS ***\n\n");
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text("Informe N°       : " . $consecutivo_fiscal['numero']  . "\n");
+            $printer->text("Fecha            : " . $fecha_apertura['fecha'] . "\n");
+            $printer->text("Registro inicial : " . $reg_inicial['numero'] . "\n");
+            $printer->text("Registro final   : " . $reg_final['numero'] . "\n");
+            $printer->text("Total registros  : " . $total_registros[0]['id'] . "\n\n");
+            // Título de la tabla
+            $printer->setEmphasis(true);
+            $printer->text("-----------------------------------------------\n");
+            $printer->text("Tarifa    Base grabable   Valor IVA   Val total\n");
+            $printer->text("-----------------------------------------------\n");
+            $printer->setEmphasis(false);
+
+            // Añadir los datos de la tabla
+            foreach ($array_iva as $detalle) {
+                //$printer->text($detalle['tarifa_iva']%  "   "  .$detalle['total_iva']."  ".$detalle['valor_venta'] );
+                $printer->text(
+                    $detalle['tarifa_iva'] . "%         " . 
+                    "$" . number_format($detalle['total_iva'], 0, ",", ".") . "                " . 
+                    0 . "          " . 
+                    "$" . number_format($detalle['valor_venta'], 0, ",", ".") . "\n"
+                );
+                
+            }
 
 
-        $printer->text("\n");
-        $printer->text("-----------------------------------------------\n");
-        $printer->text("Tarifa    Base grabable   Val INC   Val total\n");
-        $printer->text("-----------------------------------------------\n");
-        foreach ($array_ico as $detalle) {
-            //$printer->text($detalle['tarifa_iva']%  "   "  .$detalle['total_iva']."  ".$detalle['valor_venta'] );
-            $printer->text($detalle['tarifa_ico'] . "%        " . number_format($detalle['base'], 0, ",", ".") . "     " . number_format($detalle['total_ico'], 0, ",", ".") . "       " . number_format($detalle['valor_venta'], 0, ",", ".") . "\n");
-        }
+            $printer->text("\n");
+            $printer->text("-----------------------------------------------\n");
+            $printer->text("Tarifa    Base grabable   Val INC   Val total\n");
+            $printer->text("-----------------------------------------------\n");
+            foreach ($array_ico as $detalle) {
+                //$printer->text($detalle['tarifa_iva']%  "   "  .$detalle['total_iva']."  ".$detalle['valor_venta'] );
+                $printer->text($detalle['tarifa_ico'] . "%        " . number_format($detalle['base'], 0, ",", ".") . "     " . number_format($detalle['total_ico'], 0, ",", ".") . "       " . number_format($detalle['valor_venta'], 0, ",", ".") . "\n");
+            }
 
-        $pago =model('pagosModel')->total_formas_pago($id_apertura);
-        $printer->text("\n");
-        $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->text("-----------------------------------------------\n");
-        $printer->text("\n");
-        $printer->text("**FORMAS DE PAGO** \n\n");
-        $printer->setJustification(Printer::JUSTIFY_RIGHT);
-        foreach($pago as $keyPago){
-            $printer->text($keyPago['nombre_comercial']."   ".number_format($keyPago['total'], 0, ",", ".")."\n");
-
-        }
+            $pago = model('pagosModel')->total_formas_pago($id_apertura);
+            $printer->text("\n");
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("-----------------------------------------------\n");
+            $printer->text("\n");
+            $printer->text("**FORMAS DE PAGO** \n\n");
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            foreach ($pago as $keyPago) {
+                $printer->text($keyPago['nombre_comercial'] . "   " . number_format($keyPago['total'], 0, ",", ".") . "\n");
+            }
 
 
             $printer->feed(1);
             $printer->cut();
-    
+
             $printer->close();
-    
+
             $returnData = array(
                 "resultado" => 1
             );
             echo  json_encode($returnData);
-
         }
     }
 
