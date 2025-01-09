@@ -76,102 +76,7 @@
         <script src="<?= base_url() ?>/Assets/plugin/data_tables/dataTables.bootstrap5.min.js"></script>
 
 
-     <!--    <script>
-            $(document).ready(function() {
-                var url = <?php echo base_url(); ?>;
-
-                $("#inventario").autocomplete({
-                    source: function(request, response) {
-                        $.ajax({
-                            type: "POST",
-                            url: url + "/inventario/producto_entrada",
-                            data: {
-                                term: request.term, // Término de búsqueda 
-                            },
-                            dataType: "json",
-                            success: function(data) {
-                                response(data); // Pasar los datos devueltos por Ajax a la función response
-                            }
-                        });
-                    },
-                    minLength: 1, // Número mínimo de caracteres para iniciar la búsqueda
-                    select: function(event, ui) {
-                        // Maneja la selección de un elemento de la lista
-                        if (ui.item.id_inventario == 1 || ui.item.id_inventario == 4) {
-                            $("#display").val(ui.item.value); // Asigna el nombre del producto
-                            $('#producto_compra').val(''); // Limpiar
-                            $("#id_producto").val(ui.item.codigo); // Asigna el código del producto 
-                            $("#actual").val(ui.item.cantidad); // Asigna la cantidad del producto
-                            $("#precio").val(ui.item.precio_costo); // Asigna la cantidad del producto
-                            $("#cantidad").focus();
-                            $("#cantidad").select();
-                            $('#error_producto').html('');
-
-                            // Sumar los valores de 'actual' y 'cantidad'
-                            var actual = parseFloat($("#actual").val()) || 0; // Obtiene el valor del campo actual y lo convierte a número
-                            var cantidad = parseFloat($("#cantidad").val()) || 0; // Obtiene el valor del campo cantidad y lo convierte a número
-                            var total = actual + cantidad; // Suma ambos valores
-
-                            $("#nuevo").val(total); // Asigna el total al input con id 'nuevo'
-
-                        } else if (ui.item.id_inventario == 3) {
-                            $('#error_producto').html('Este producto es una receta y no se puede ingresar por compras ');
-                        }
-                    }
-                });
-
-                // Evento keydown para manejar la tecla Enter solo si el campo tiene valor
-                $("#inventario").keydown(function(event) {
-                    if (event.key === "Enter") { // Comprueba si la tecla presionada es Enter
-                        event.preventDefault(); // Evita que el formulario se envíe automáticamente
-
-                        var producto = $(this).val().trim(); // Obtiene el valor actual del input y lo recorta
-
-                        // Verifica si el campo tiene algún valor antes de continuar
-                        if (producto === "") {
-                            console.log("El campo está vacío. No se ejecuta la solicitud AJAX.");
-                            return; // Detiene la ejecución si el campo está vacío
-                        }
-
-                        // Realiza el nuevo AJAX aquí
-                        $.ajax({
-                            type: "POST",
-                            url: url + "/inventario/buscar_por_codigo", // URL del endpoint
-                            data: {
-                                producto: producto // Dato enviado en la solicitud AJAX
-                            },
-                            dataType: "json", // Asegúrate de que el tipo de datos sea JSON
-                            success: function(resultado) {
-                                if (resultado.resultado == 1) {
-                                    $("#producto_compra").autocomplete("close");
-                                    if (resultado.id_tipo_inventario == 3) {
-                                        // Asigna el nombre del producto al campo de texto
-                                        $('#producto_compra').val(resultado.nombre_producto);
-                                        $('#display').val(resultado.nombre_producto);
-                                        $('#id_producto').val(resultado.codigo);
-                                        $('#cantidad').focus()
-                                        $('#cantidad').select()
-                                    }
-                                    if (resultado.id_tipo_inventario == 1) {
-                                        $('#producto_compra').val(resultado.nombre_producto);
-                                        $('#error_producto').html('Este producto es una receta y no se puede ingresar por compras ')
-                                    }
-                                } else {
-                                    // Aquí puedes manejar otros resultados si es necesario
-                                    console.error('No se encontró el producto o hubo otro error');
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                // Manejo de errores en caso de que la solicitud falle
-                                console.error("Error en la solicitud AJAX:", error);
-                            }
-                        });
-
-                    }
-                });
-            });
-        </script> -->
-
+    
 
 
 
@@ -445,27 +350,7 @@
 
                 if (opcion == "") {
 
-                    /*       $.ajax({
-                              data: {
-                                  tipo_documento,
-                                  fecha_inicial,
-                                  fecha_final
-                              },
-                              url: url +
-                                  "/" +
-                                  "eventos/consultar_documento",
-                              type: "post",
-                              success: function(resultado) {
-                                  var resultado = JSON.parse(resultado);
-                                  if (resultado.resultado == 1) {
-
-                                      $('#resultado_consultado').html(resultado.datos)
-
-
-
-                                  }
-                              },
-                          }); */
+                
 
 
                     $('#consulta_ventas').DataTable({
@@ -610,12 +495,7 @@
                                         });
                                     },
                                     dataSrc: function(json) {
-                                        /* $('#saldo_total').html(json.total);
-                                        $('#saldo_cliente').html(json.saldo);
-                                        $('#pagos_factura').html(json.pagos); */
-
-
-
+                                   
                                         $('#saldo').html(json.saldo_pendiente_por_cobrar);
                                         $('#abonos').html(json.abonos);
                                         $('#total_documentos').html(json.total);
@@ -701,28 +581,7 @@
 
                     }
                     if (nit_cliente != "") {
-                        /*  $.ajax({
-                             data: {
-                                 nit_cliente,
-                                 tipo_documento,
-                                 fecha_inicial,
-                                 fecha_final
-                             },
-                             url: url +
-                                 "/" +
-                                 "eventos/get_cliente",
-                             type: "post",
-                             success: function(resultado) {
-                                 var resultado = JSON.parse(resultado);
-                                 if (resultado.resultado == 1) {
-
-                                     $('#resultado_consultado').html(resultado.datos)
-
-
-
-                                 }
-                             },
-                         }); */
+                     
 
                         $('#consulta_ventas').DataTable({
                             serverSide: true,

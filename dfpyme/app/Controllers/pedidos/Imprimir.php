@@ -10,6 +10,8 @@ use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use App\Libraries\impresion;
+use \DateTime;
+use \DateTimeZone;
 
 
 
@@ -1059,6 +1061,7 @@ class Imprimir extends BaseController
     {
 
         $id_apertura = $this->request->getPost('id_apertura');
+        //$id_apertura = 38;
 
         $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
         $datos_empresa = model('empresaModel')->datosEmpresa();
@@ -1072,8 +1075,7 @@ class Imprimir extends BaseController
 
 
 
-        $id_apertura = $this->request->getPost('id_apertura');
-        //$id_apertura = 79;
+
 
         $fecha_y_hora_cierre = "";
         $ventas_credito = "";
@@ -1084,7 +1086,7 @@ class Imprimir extends BaseController
 
         $datos_empresa = model('empresaModel')->find();
         $id_regimen = $datos_empresa[0]['idregimen'];
-        $regimen = model('regimenModel')->select('nombreregimen')->where('idregimen', $id_regimen)->first();
+        $regimen = model('regimenModel')->select('descripcion')->where('idregimen', $id_regimen)->first();
         $nombre_ciudad = model('ciudadModel')->select('nombreciudad')->where('idciudad', $datos_empresa[0]['idciudad'])->first();
         $nombre_departamento = model('departamentoModel')->select('nombredepartamento')->where('iddepartamento', $datos_empresa[0]['iddepartamento'])->first();
 
@@ -1112,8 +1114,11 @@ class Imprimir extends BaseController
             //$total_registros = model('pagosModel')->get_total_registros_electronicos($id_apertura);
             $total_registros = model('pagosModel')->get_total_registros_electronicos($id_inicial[0]['id'], $id_final[0]['id']);
             $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
+            $fecha_hora_inicial = model('facturaElectronicaModel')->select('fecha,hora')->where('id', $id_inicial[0]['id'])->first();
+
 
             $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
+            $fecha_hora_final = model('facturaElectronicaModel')->select('fecha,hora')->where('id', $id_final[0]['id'])->first();
 
             /**
              * Discriminación de las bases tributarias tanto iva como impuesto al consumo 
@@ -1286,20 +1291,24 @@ class Imprimir extends BaseController
 
             $printer->setJustification(Printer::JUSTIFY_CENTER);
             $printer->setTextSize(1, 1);
-           
+
             $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
             $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
             $printer->text($datos_empresa[0]['direccionempresa'] . "  " . $nombre_ciudad['nombreciudad'] . " " . $nombre_departamento['nombredepartamento'] . "\n");
-            $printer->text("TELEFONO:" . $datos_empresa[0]['telefonoempresa'] . "\n");
-            $printer->text($regimen['nombreregimen'] . "\n");
+            $printer->text($regimen['descripcion'] . "\n");
             $printer->text("\n");
+
+
+            $hora_inicial = DateTime::createFromFormat('H:i:s', $fecha_hora_inicial['hora'])->format('g:i A');
+            $hora_final = DateTime::createFromFormat('H:i:s', $fecha_hora_final['hora'])->format('g:i A');
+
 
             $printer->text("***INFORME FISCAL DE VENTAS ***\n\n");
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->text("Informe N°       : " . $consecutivo_fiscal['numero']  . "\n");
             $printer->text("Fecha            : " . $fecha_apertura['fecha'] . "\n");
-            $printer->text("Registro inicial : " . $reg_inicial['numero'] . "\n");
-            $printer->text("Registro final   : " . $reg_final['numero'] . "\n");
+            $printer->text("Registro inicial : " . $reg_inicial['numero'] . " "  . $fecha_hora_inicial['fecha'] . " " . $hora_inicial . "\n");
+            $printer->text("Registro final   : " . $reg_final['numero'] . " " . $fecha_hora_final['fecha'] . " " . $hora_final . "\n");
             $printer->text("Total registros  : " . $total_registros[0]['id'] . "\n\n");
             // Título de la tabla
             $printer->setEmphasis(true);
@@ -1312,12 +1321,11 @@ class Imprimir extends BaseController
             foreach ($array_iva as $detalle) {
                 //$printer->text($detalle['tarifa_iva']%  "   "  .$detalle['total_iva']."  ".$detalle['valor_venta'] );
                 $printer->text(
-                    $detalle['tarifa_iva'] . "%         " . 
-                    "$" . number_format($detalle['total_iva'], 0, ",", ".") . "                " . 
-                    0 . "          " . 
-                    "$" . number_format($detalle['valor_venta'], 0, ",", ".") . "\n"
+                    $detalle['tarifa_iva'] . "%         " .
+                        "$" . number_format($detalle['total_iva'], 0, ",", ".") . "            " .
+                        0 . "          " .
+                        "$" . number_format($detalle['valor_venta'], 0, ",", ".") . "\n"
                 );
-                
             }
 
 
@@ -1336,10 +1344,33 @@ class Imprimir extends BaseController
             $printer->text("-----------------------------------------------\n");
             $printer->text("\n");
             $printer->text("**FORMAS DE PAGO** \n\n");
-            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            /*   foreach ($pago as $keyPago) {
+                $nombre_comercial =model('medioPagoModel')->getNombre($keyPago['medio_pago']);
+                $total =model('medioPagoModel')->getTotal($keyPago['medio_pago'],$id_apertura);
+                $printer->text($nombre_comercial[0]['nombre_comercial'] . number_format($total[0]['total'], 0, ",", ".") .   "\n");
+            } */
+
             foreach ($pago as $keyPago) {
-                $printer->text($keyPago['nombre_comercial'] . "   " . number_format($keyPago['total'], 0, ",", ".") . "\n");
+                $nombre_comercial = model('medioPagoModel')->getNombre($keyPago['medio_pago']);
+                $total = model('medioPagoModel')->getTotal($keyPago['medio_pago'], $id_apertura);
+
+                // Define el ancho máximo para las columnas
+                $columna_nombre = 35; // Ancho para el nombre
+                $columna_total = 10;  // Ancho para el total (para valores numéricos)
+
+                // Limita y ajusta el texto del nombre
+                $nombre = str_pad(substr($nombre_comercial[0]['nombre_comercial'], 0, $columna_nombre), $columna_nombre);
+
+                // Formatea el monto para alinearlo a la derecha
+                $monto = str_pad(number_format($total[0]['total'], 0, ",", "."), $columna_total, " ", STR_PAD_LEFT);
+
+                // Escribe en la impresora
+                $printer->text($nombre . $monto . "\n");
             }
+
+            $totalFormasPago = model('medioPagoModel')->getTotalFormas($id_apertura);
+            $printer->text("TOTAL FORMAS DE PAGO              " . "$ ".number_format($totalFormasPago[0]['total'], 0, ",", ".") . "\n");
 
 
             $printer->feed(1);

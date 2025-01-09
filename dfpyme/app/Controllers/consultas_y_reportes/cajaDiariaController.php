@@ -2154,6 +2154,7 @@ class cajaDiariaController extends BaseController
             $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
             $consecutivo_fiscal = model('consecutivoInformeModel')->select('numero')->where('id_apertura', $id_apertura)->first();
             $pago =model('pagosModel')->total_formas_pago($id_apertura);
+            
             $returnData = array(
                 "resultado" => 1, //Falta plata
                 "datos" => view('consultas_y_reportes/informe_fiscal_ventas', [

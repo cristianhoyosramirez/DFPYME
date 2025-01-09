@@ -30,7 +30,7 @@
 
 
             <li>
-                <div class="cursor-pointer card card_mesas text-white bg-red-lt" id="mesa<?php echo $detalle['id'] ?>" onclick="pedido_mesa('<?php echo $detalle['id'] ?>','<?php echo $detalle['nombre'] ?>')" style="height: auto;">
+                <div class="cursor-pointer card card_mesas text-white bg-red-lt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<?php  echo $tiene_pedido[0]['nota_pedido'] ?>" id="mesa<?php echo $detalle['id'] ?>" onclick="pedido_mesa('<?php echo $detalle['id'] ?>','<?php echo $detalle['nombre'] ?>')" style="height: auto;">
                     <div class="row">
                         <div class="col-3">
                             <span class="avatar">

@@ -118,6 +118,7 @@ SELECT
     cantidad_inventario_fisico,
     inventario_fisico.codigointernoproducto,
     nombreproducto,
+    producto.id,
     (cantidad_inventario_fisico - 
         CASE 
             WHEN cantidad_inventario < 0 THEN -cantidad_inventario 

@@ -566,14 +566,14 @@ class AbonosController extends BaseController
 
         $conteo_manual = model('inventarioModel')->cruce_inventario();
         $inventario = model('inventarioModel')->inventario();
-        $productos=model('productoModel')->ProductoInventario();
+        $productos = model('productoModel')->ProductoInventario();
 
         //dd($conteo_manual);
 
         return view('inventarios/cruceInventarios', [
             'conteo_manual' => $conteo_manual,
             'inventario_sistema' => $inventario,
-            'productos'=>$productos
+            'productos' => $productos
         ]);
     }
 
@@ -1045,17 +1045,138 @@ class AbonosController extends BaseController
         exit;
     }
 
-    function productos_inventario(){
-        $productos=model('productoModel')->ProductoInventario();
+    function productos_inventario()
+    {
+        $productos = model('productoModel')->getInventario();
 
         return $this->response->setJSON([
             'success' => true,
-            'productos'=>view('ventas/productos',[
-                'productos'=>$productos
+            'productos' => view('ventas/productos', [
+                'productos' => $productos
             ])
         ]);
-
     }
 
- 
+
+    function Inventario()
+    {
+        $inventario = model('inventarioModel')->findAll();
+        $cruce = model('inventarioModel')->cruce_inventario();
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+        $file_name = 'Inventario.xlsx';
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Establecer el estilo de las celdas del encabezado
+        $headerStyle = [
+            'font' => [
+                'bold' => true,           // Negrita
+                'size' => 12,             // Tamaño de fuente
+                'color' => ['argb' => 'FFFFFF'], // Color de fuente blanco
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Alineación centrada
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,   // Alineación centrada vertical
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, // Relleno sólido
+                'startColor' => ['argb' => '000000'], // Cambiado a negro
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN, // Bordes finos
+                    'color' => ['argb' => '000000'], // Color de borde negro
+                ],
+            ],
+        ];
+
+        $sheet->setCellValue('A1', $datos_empresa[0]['nombrejuridicoempresa']);
+        $sheet->mergeCells('A1:G1');
+        $sheet->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $sheet->getStyle('A1:G1')->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_NONE);
+
+        // Agregar datos de la empresa y encabezados de inventario
+        $sheet->setCellValue('A2', $datos_empresa[0]['nombrecomercialempresa']);
+        $sheet->mergeCells('A2:G2');
+        $sheet->getStyle('A2:G2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A2:G2')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $sheet->setCellValue('A3', 'NIT: ' . $datos_empresa[0]['nitempresa']);
+        $sheet->mergeCells('A3:G3');
+        $sheet->getStyle('A3:G3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A3:G3')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $sheet->setCellValue('A4', 'Dirección: ' . $datos_empresa[0]['direccionempresa'] . " " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento']);
+        $sheet->mergeCells('A4:G4');
+        $sheet->getStyle('A4:G4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A4:G4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+        // Título del reporte
+        $sheet->setCellValue('A5', 'INVENTARIOS GENERAL');
+        $sheet->mergeCells('A5:G5');
+        $sheet->getStyle('A7:F7')->applyFromArray($headerStyle);
+
+        // Encabezados de columnas
+        $sheet->setCellValue('A7', 'Categoria ');
+        $sheet->setCellValue('B7', 'Código');
+        $sheet->setCellValue('C7', 'Producto');
+        $sheet->setCellValue('D7', 'Cantidad  ');
+        $sheet->setCellValue('E7', 'Costo unidad ');
+        $sheet->setCellValue('F7', 'Costo total ');
+
+        foreach (range('A', 'G') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Poner los datos del inventario
+        $productos = model('productoModel')->ExcelInventario();
+        // dd($productos);
+        $count = 8;
+        foreach ($productos as $item) {
+            $sheet->setCellValue('A' . $count, $item['nombrecategoria']);
+            $sheet->setCellValue('B' . $count, $item['codigointernoproducto']);
+            $sheet->setCellValue('C' . $count, $item['nombreproducto']);
+            $sheet->setCellValue('D' . $count, $item['cantidad_inventario']);
+            $sheet->setCellValue('E' . $count, $item['costo_unitario']); // Diferencia
+            $sheet->setCellValue('F' . $count, $item['costo_producto']);
+            $count++;
+        }
+
+        // Ajustar el ancho de las columnas automáticamente
+
+        $costoTotal = model('productoModel')->TotalInv();
+
+        $unidades = model('inventarioModel')
+            ->selectSum('cantidad_inventario')
+            ->where('cantidad_inventario >', 0)
+            ->findAll();
+
+        $sheet->setCellValue('E' . $count, 'Costo Total:');
+        $sheet->setCellValue('F' . $count, $costoTotal[0]['costo_total']); // Imprime el costo total
+        $count++;
+
+        $sheet->setCellValue('E' . $count, 'Total Unidades:');
+        $sheet->setCellValue('F' . $count, $unidades[0]['cantidad_inventario']); // Imprime el total de unidades
+        $count++;
+
+        // Ajustar el ancho de las columnas automáticamente
+        foreach (range('A', 'F') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Guardar y forzar la descarga del archivo
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($file_name);
+
+        header("Content-Type: application/vnd.ms-excel");
+        header('Content-Disposition: attachment; filename="' . basename($file_name) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length:' . filesize($file_name));
+
+        flush();
+        readfile($file_name);
+        exit;
+    }
 }

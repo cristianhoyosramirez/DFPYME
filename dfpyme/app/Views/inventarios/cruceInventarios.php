@@ -64,6 +64,7 @@ HOME
                         </tr>
                     </thead>
 
+                    
                     <tbody>
                         <?php if (!empty($conteo_manual)): ?>
                             <?php foreach ($inventario_sistema as $KeyInventarioFisico): ?>
@@ -83,8 +84,8 @@ HOME
                                     <tr>
                                         <td><?php echo $KeyInventarioFisico['codigointernoproducto']; ?></td>
                                         <td><?php echo $dato_producto[0]['nombreproducto']; ?></td>
-                                        <td>0</td>
-                                        <td>0</td>
+                                        <td>0</td>  <!-- Cantidad conteo -->
+                                        <td>0</td>   <!-- Cantidad sistema -->
                                         <td>0</td>
                                         <td><?php echo number_format($dato_producto[0]['precio_costo'], 0, ",", "."); ?></td>
                                         <td><?php echo number_format($dato_producto[0]['valorventaproducto'], 0, ",", "."); ?></td>
@@ -106,8 +107,9 @@ HOME
 </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="conteo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal 
+<div class="modal fade" id="conteo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<div class="modal fade" id="conteo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -136,7 +138,7 @@ HOME
 
                             </span>
                         </div>
-                        <span id="noHay" class="text-red">No hay producto </span>
+                        <span id="noHay" class="text-red"></span>
                     </div>
 
                 </div>
@@ -164,8 +166,6 @@ HOME
                 <?php endif ?>
 
 
-
-
                 <table class="table">
                     <thead class="table-dark">
                         <tr>
@@ -173,6 +173,7 @@ HOME
                             <td scope="col">Producto</th>
                             <td scope="col">Inventario actual</th>
                             <td scope="col">Ingresar inventario</th>
+                            <td scope="col">Diferencia</th>
                         </tr>
                     </thead>
                     <tbody id="ProdInv">
@@ -195,6 +196,9 @@ HOME
                                         <input type="text" value="<?php echo $registro['cantidad_inventario_fisico'];  ?>" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
                                     </td>
                                 <?php endif ?>
+                                <td>
+                                    <input type="text" class="form-control input-inventario" readonly>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -331,17 +335,7 @@ HOME
     </div>
 </div>
 
-<!-- <script>
-    function limpiarInput() {
-        // Obtén elemento input por su ID y limpia su valor
-        
-        const input = document.getElementById('inventarioInput');
-        if (input) {
-            input.value = ''; // Limpia el valor del input
-            input.focus(); // Da el foco al input
-        }
-    }
-</script> -->
+
 
 <script>
     async function limpiarInput(valor) {
@@ -545,35 +539,6 @@ HOME
 
     }
 </script>
-<!-- <script>
-    async function cruceInventario() {
-
-        const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
-        const url = `${baseUrl}/pre_factura/cruzarInventario`; // Construye la URL dinámica
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error en la solicitud: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        //alert(`Producto actualizado: ${data.message}`);
-        if (data.success === true) {
-            sweet_alert_centrado('success', 'Inventario cruzado ')
-            location.reload();
-        }
-        if (data.success === false) {
-            sweet_alert_centrado('warning', 'No hay inventario para cruzar ')
-        }
-
-    }
-</script> -->
 
 
 <script>

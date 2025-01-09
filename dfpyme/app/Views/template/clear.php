@@ -110,6 +110,9 @@
                 const myModal = new bootstrap.Modal(document.getElementById('modalRecetas'));
                 myModal.show();
             }
+            if (data.success == false) {
+              sweet_alert_centrado('warning','No hay productos receta')
+            }
         } catch (error) {
             console.error('Hubo un problema al actualizar el producto:', error);
             alert('No se pudo actualizar el producto. Por favor, intenta de nuevo.');

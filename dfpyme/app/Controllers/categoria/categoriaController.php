@@ -510,31 +510,44 @@ class categoriaController extends BaseController
 
         $idProducto = $data->id;
 
-        $codigointernoproducto=model('productoModel')->select('codigointernoproducto')->where('id',$idProducto)->first();
-        $nombreProducto=model('productoModel')->select('nombreproducto')->where('id',$idProducto)->first();
+        $codigointernoproducto = model('productoModel')->select('codigointernoproducto')->where('id', $idProducto)->first();
+        $nombreProducto = model('productoModel')->select('nombreproducto')->where('id', $idProducto)->first();
 
         $ingredientes = model('productoModel')->getIngredientes($codigointernoproducto['codigointernoproducto']);
-        $totalCosto=model('productoModel')->getTotalReceta($codigointernoproducto['codigointernoproducto']);
-        
+        $totalCosto = model('productoModel')->getTotalReceta($codigointernoproducto['codigointernoproducto']);
+
 
         return $this->response->setJSON([
             'success' => true,
-            'ingredientes'=>$ingredientes,
-            'producto'=>$nombreProducto['nombreproducto'],
-            'costo'=>"Costo total receta ". "$" . number_format($totalCosto[0]['costo_total'], 0, ',', '.')
+            'ingredientes' => $ingredientes,
+            'producto' => $nombreProducto['nombreproducto'],
+            'costo' => "Costo total receta " . "$" . number_format($totalCosto[0]['costo_total'], 0, ',', '.')
 
         ]);
     }
 
-    function verRecetas(){
+    function verRecetas()
+    {
 
-        $recetas=model('productoModel')->select('id,nombreproducto,codigointernoproducto')->where('id_tipo_inventario',3)->findAll();
+        $recetas = model('productoModel')->select('id,nombreproducto,codigointernoproducto')->where('id_tipo_inventario', 3)->findAll();
 
-        return $this->response->setJSON([
-            'success' => true,
-            'recetas'=>view('ventas/recetas',[
-                'recetas'=>$recetas
-            ])
-        ]);
+        if (!empty($recetas)) {
+
+            return $this->response->setJSON([
+                'success' => true,
+                'recetas' => view('ventas/recetas', [
+                    'recetas' => $recetas
+                ])
+            ]);
+        }
+        if (empty($recetas)) {
+
+            return $this->response->setJSON([
+                'success' => false,
+                'recetas' => view('ventas/recetas', [
+                    'recetas' => $recetas
+                ])
+            ]);
+        }
     }
 }

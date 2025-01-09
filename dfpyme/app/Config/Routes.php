@@ -258,6 +258,8 @@ $routes->group('administracion_impresora', ['namespace' => 'App\Controllers\admi
     $routes->post('crear_proveedor', 'impresionFacturaController::crear_proveedor');
     $routes->post('editar_proveedor', 'impresionFacturaController::editar_proveedor');
     $routes->post('actualizar_proveedor', 'impresionFacturaController::actualizar_proveedor');
+    $routes->get('inventario', 'impresionFacturaController::inventario');
+    $routes->get('ProductosInventario', 'impresionFacturaController::ProductosInventario');
 });
 
 
@@ -369,6 +371,7 @@ $routes->group('consultas_y_reportes', ['namespace' => 'App\Controllers\consulta
     $routes->get('reporte_sobrantes', 'AbonosController::reporte_sobrantes');
     $routes->get('reporte_faltantes', 'AbonosController::reporte_faltantes');
     $routes->get('productos_inventario', 'AbonosController::productos_inventario');
+    $routes->post('Inventario', 'AbonosController::Inventario');
 });
 
 $routes->group('devolucion', ['namespace' => 'App\Controllers\devolucion', 'filter' => \App\Filters\Auth::class], function ($routes) {

@@ -584,20 +584,11 @@ WHERE
         $datos = $this->db->query("
             
             SELECT 
-    SUM(total) AS total, 
-    nombre_comercial
+  distinct (medio_pago)
 FROM 
     documento_electronico
-INNER JOIN 
-    medio_pago 
-    ON medio_pago.codigo = documento_electronico.tipo_operacion
 WHERE 
-    id_apertura = $apertura
-    AND id_status = 2 
-    AND transaccion_id IS NOT NULL 
-    AND transaccion_id != ''
-GROUP BY 
-    nombre_comercial;
+    id_apertura = $apertura 
 
             
             ");

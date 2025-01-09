@@ -221,15 +221,20 @@
 
 
 
-        <p class="text-end h3 text-primary">Formas de pago </p>
-        <?php foreach ($pago as $keyPago) { ?>
+        <p >Formas de pago </p>
+        <?php foreach ($pago as $keyPago) {
 
-            <p class="text-end h4 text-dark"> <?php echo $keyPago['nombre_comercial'] . "   " . number_format($keyPago['total'], 0, ",", ".") . "</br>";   ?> </p>
+            $nombre_comercial = model('medioPagoModel')->getNombre($keyPago['medio_pago']);
+            $total = model('medioPagoModel')->getTotal($keyPago['medio_pago'], $id_apertura);
+
+        ?>
+
+            <p > <?php echo $nombre_comercial[0]['nombre_comercial'] . "   " . number_format($total[0]['total'], 0, ",", ".") . "</br>";   ?> </p>
 
         <?php } ?>
 
 
-        <p>____________________________</p>
-        <p style="text-align:left; font:  bold 80% cursive; border:none ">Firma</p>
+        <?php $totalFormasPago = model('medioPagoModel')->getTotalFormas($id_apertura); ?>
+       <p >   <?php  echo  "TOTAL FORMAS PAGO  $ ".number_format($totalFormasPago[0]['total'], 0, ",", ".") ?> </p>
     </div>
 </div>
