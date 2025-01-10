@@ -226,6 +226,8 @@ $routes->group('pre_factura', ['namespace' => 'App\Controllers\pre_factura', 'fi
     $routes->get('productosInc', 'prefacturaController::productosInc');
     $routes->post('ingresarInv', 'prefacturaController::ingresarInv');
     $routes->post('buscarProducto', 'prefacturaController::buscarProducto');
+    $routes->post('busqueda', 'prefacturaController::busqueda');
+    $routes->post('busquedaCategoria', 'prefacturaController::busquedaCategoria');
 });
 
 $routes->group('clientes', ['namespace' => 'App\Controllers\clientes', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -372,6 +374,7 @@ $routes->group('consultas_y_reportes', ['namespace' => 'App\Controllers\consulta
     $routes->get('reporte_faltantes', 'AbonosController::reporte_faltantes');
     $routes->get('productos_inventario', 'AbonosController::productos_inventario');
     $routes->post('Inventario', 'AbonosController::Inventario');
+    $routes->get('closeModal', 'AbonosController::closeModal');
 });
 
 $routes->group('devolucion', ['namespace' => 'App\Controllers\devolucion', 'filter' => \App\Filters\Auth::class], function ($routes) {

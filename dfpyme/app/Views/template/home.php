@@ -76,7 +76,48 @@
         <script src="<?= base_url() ?>/Assets/plugin/data_tables/dataTables.bootstrap5.min.js"></script>
 
 
-    
+        
+
+        <script>
+            function cerrarModal() {
+                async function limpiarInput(valor) {
+                    const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+                    const url = `${baseUrl}/consultas_y_reportes/productos_inventario`; // Construye la URL dinámica
+
+                    document.getElementById('noHay').innerHTML = "";
+
+                    try {
+                        const response = await fetch(url, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`Error en la solicitud: ${response.statusText}`);
+                        }
+
+                        const data = await response.json();
+
+                        if (data.success === true) {
+                            const input = document.getElementById('inventarioInput');
+                            if (input) {
+                                input.value = ''; // Limpia el valor del input
+                                input.focus(); // Da el foco al input
+                            }
+                            document.getElementById('ProdInv').innerHTML = data.productos;
+                        } else if (data.success === false) {
+                            sweet_alert_centrado('warning', 'No hay inventario para cruzar');
+                        }
+                    } catch (error) {
+                        console.error("Error al cruzar el inventario:", error);
+                        sweet_alert_centrado('error', 'Ocurrió un error inesperado al cruzar el inventario');
+                    }
+                }
+            }
+        </script>
 
 
 
@@ -350,7 +391,7 @@
 
                 if (opcion == "") {
 
-                
+
 
 
                     $('#consulta_ventas').DataTable({
@@ -495,7 +536,7 @@
                                         });
                                     },
                                     dataSrc: function(json) {
-                                   
+
                                         $('#saldo').html(json.saldo_pendiente_por_cobrar);
                                         $('#abonos').html(json.abonos);
                                         $('#total_documentos').html(json.total);
@@ -581,7 +622,7 @@
 
                     }
                     if (nit_cliente != "") {
-                     
+
 
                         $('#consulta_ventas').DataTable({
                             serverSide: true,

@@ -56,11 +56,11 @@ MOVIMIENTO DE CAJA
                     <?php endif ?>
 
 
-                    <span class="d-none d-sm-inline">
+                    <!-- <span class="d-none d-sm-inline">
                         <a href="#" class="btn btn-outline-indigo" onclick="consolidado_ventas()" title="Consolidado de ventas pos y electrónicas  " data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-placement="bottom">
                             Consolidado
                         </a>
-                    </span>
+                    </span> -->
 
                     <span class="d-none d-sm-inline">
                         <a href="#" class="btn btn-outline-green" onclick="imprimir_movimientos(<?php echo $id_apertura ?>)" title="Imprimir el reporte de caja " data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-placement="bottom">

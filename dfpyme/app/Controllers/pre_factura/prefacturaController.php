@@ -799,8 +799,12 @@ class prefacturaController extends BaseController
 
         if (!empty($verficar)) {
             $actualizar = model('inventarioFisicoModel')->set('cantidad_inventario_fisico', $cantidad)->where('codigointernoproducto', $codigo['codigointernoproducto'])->update();
+            $diferencia = model('inventarioModel')->conteo_manual($codigo['codigointernoproducto']);
             return $this->response->setJSON([
                 'success' => true,
+                //'diferencia' => $diferencia['diferencia'],
+                'diferencia' => $diferencia[0]['diferencia'],
+                'id' => $id
             ]);
         } else if (empty($verficar)) {
 
@@ -820,9 +824,15 @@ class prefacturaController extends BaseController
 
             $insert = model('inventarioFisicoModel')->insert($data);
 
+            $diferencia = model('inventarioModel')->conteo_manual($codigo['codigointernoproducto']);
+
+            //var_dump($diferencia); exit();
+
             if ($insert) {
                 return $this->response->setJSON([
                     'success' => true,
+                    'diferencia' => $diferencia[0]['diferencia'],
+                    'id' => $id
                 ]);
             }
         }
@@ -843,6 +853,74 @@ class prefacturaController extends BaseController
                 'productos' => view('ventas/productos', [
                     'productos' => $productos
                 ])
+            ]);
+        }
+        if (empty($productos)) {
+
+            return $this->response->setJSON([
+                'success' => false,
+            ]);
+        }
+    }
+
+    function busqueda()
+    {
+
+        $datos = $this->request->getJSON();
+        $valor = $datos->valor;
+
+
+        $productos = model('productoModel')->Getinv($valor);
+
+        if (!empty($productos)) {
+
+            $costoTotal = model('productoModel')->TotalInv();
+            $unidades = model('inventarioModel')
+                ->selectSum('cantidad_inventario')
+                ->where('cantidad_inventario >', 0)
+                ->findAll();
+
+
+            return $this->response->setJSON([
+                'success' => true,
+                'productos' => $productos,
+                'costo_total' => "$ " . number_format($costoTotal[0]['costo_total'], 0, ",", "."),
+                'unidades' => number_format($unidades[0]['cantidad_inventario'], 0, ",", ".")
+            ]);
+        }
+        if (empty($productos)) {
+
+            return $this->response->setJSON([
+                'success' => false,
+            ]);
+        }
+    }
+
+    function busquedaCategoria()
+    {
+
+        $datos = $this->request->getJSON();
+        $idCategoria = $datos->valor;
+        //$idCategoria = 8;
+        $CodigoCategoria = model('categoriasModel')->select('codigocategoria')->where('id', $idCategoria)->first();
+
+
+        $productos = model('productoModel')->GetinvCategoria($CodigoCategoria['codigocategoria']);
+
+        if (!empty($productos)) {
+
+            $costoTotal = model('productoModel')->TotalInvCat($CodigoCategoria['codigocategoria']);
+            $unidades = model('inventarioModel')
+                ->selectSum('cantidad_inventario')
+                ->where('cantidad_inventario >', 0)
+                ->findAll();
+
+
+            return $this->response->setJSON([
+                'success' => true,
+                'productos' => $productos,
+                'costo_total' => "$ " . number_format($costoTotal[0]['costo_total'], 0, ",", "."),
+                'unidades' => 0
             ]);
         }
         if (empty($productos)) {

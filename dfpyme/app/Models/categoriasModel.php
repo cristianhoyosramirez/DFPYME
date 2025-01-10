@@ -73,4 +73,14 @@ WHERE
          ");
         return $datos->getResultArray();
     }
+    public function Recetas($codigo)
+    {
+        $datos = $this->db->query("
+            select 
+            nombreproducto
+            from producto_fabricado
+            inner join producto on producto_fabricado.prod_proceso=producto.codigointernoproducto where prod_fabricado='$codigo'
+         ");
+        return $datos->getResultArray();
+    }
 }

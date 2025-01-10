@@ -1179,4 +1179,21 @@ class AbonosController extends BaseController
         readfile($file_name);
         exit;
     }
+
+    function closeModal(){
+
+        $conteo_manual = model('inventarioModel')->cruce_inventario();
+        $inventario = model('inventarioModel')->inventario();
+        $productos = model('productoModel')->ProductoInventario();
+
+        return $this->response->setJSON([
+            'success' => true,
+            'productos'=>view('ventas/ingresoInventario',[
+                'conteo_manual' => $conteo_manual,
+            'inventario_sistema' => $inventario,
+            'productos' => $productos
+            ])
+        ]);
+        
+    }
 }

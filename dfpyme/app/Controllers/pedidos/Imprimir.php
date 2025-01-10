@@ -150,6 +150,7 @@ class Imprimir extends BaseController
                     if ($tipo_usuario['idtipo'] == 1 || $tipo_usuario['idtipo'] == 0) {
 
                         if ($configuracion_comanda['partir_comanda'] == 't') {
+
                             foreach ($codigo_categoria as $valor) {
 
 
@@ -172,6 +173,8 @@ class Imprimir extends BaseController
                             }
                         }
                         if ($configuracion_comanda['partir_comanda'] == 'f') {
+
+
 
                             /*   $items = model('productoPedidoModel')->reimprimir_comanda_todo($pedido['id']);
 
@@ -208,10 +211,31 @@ class Imprimir extends BaseController
                             foreach ($impresoras as $keyImpresoras) {
 
                                 $productos = model('productoPedidoModel')->productosReImpresion($keyImpresoras['id']);
+                    
                                 if (!empty($productos)) {
                                     $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
                                 }
                             }
+                            /*   foreach ($codigo_categoria as $valor) {
+
+
+                                $items = model('productoPedidoModel')->reimprimir_comanda($pedido['id'], $valor['codigo_categoria']);
+
+                                foreach ($items as $detalle) {
+                                    $data['id'] = $detalle['id'];
+                                    $data['nombreproducto'] = $detalle['nombreproducto'];
+                                    $data['valor_venta'] = $detalle['valorventaproducto'];
+                                    $data['valor_total'] = $detalle['valor_total'];
+                                    $data['cantidad'] = $detalle['cantidad_producto'];
+                                    $data['nota_producto'] = $detalle['nota_producto'];
+                                    $data['valor_unitario'] = $detalle['valor_unitario'];
+                                    $data['codigo_interno'] = $detalle['codigointernoproducto'];
+                                    $data['impresos'] = $detalle['numero_productos_impresos_en_comanda'];
+                                    array_push($productos, $data);
+                                }
+                                $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $valor['codigo_categoria']);
+                                $productos = array();
+                            } */
                         }
                         $returnData = array(
                             "resultado" => 1
@@ -1370,7 +1394,7 @@ class Imprimir extends BaseController
             }
 
             $totalFormasPago = model('medioPagoModel')->getTotalFormas($id_apertura);
-            $printer->text("TOTAL FORMAS DE PAGO              " . "$ ".number_format($totalFormasPago[0]['total'], 0, ",", ".") . "\n");
+            $printer->text("TOTAL FORMAS DE PAGO              " . "$ " . number_format($totalFormasPago[0]['total'], 0, ",", ".") . "\n");
 
 
             $printer->feed(1);

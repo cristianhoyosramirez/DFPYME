@@ -65,9 +65,10 @@ HOME
                     <label for="" class="form-label">Movimiento</label>
                     <select name="" class="form-select" id="concepto_busqueda">
                         <option value=""></option>
+                        <option value="3">Entradas y salidas </option>
                         <option value="1">Entradas </option>
                         <option value="2">Salidas </option>
-                        <option value="3">Entradas y salidas </option>
+                        
                         <!-- <?php foreach ($conceptos as $detalle): ?>
                             <option value="<?php echo $detalle['id'] ?>"><?php echo $detalle['nombre'] ?></option>
                         <?php endforeach ?> -->

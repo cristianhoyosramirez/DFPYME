@@ -38,6 +38,9 @@ HOME
         </div>
     </div>
 
+
+
+
     <div style="display:none" id="progresBar" class="container">
         <p class="h3 text-warning text-center">Cruzando inventario, esta acción tomará un momento </p>
         <div class="progress mb-3">
@@ -56,39 +59,46 @@ HOME
                         <tr>
                             <td scope="col">Codigo</td>
                             <td scope="col">Producto</td>
-                            <td scope="col">Cantidad conteo</td>
                             <td scope="col">Cantidad sistema</td>
+                            <td scope="col">Cantidad conteo</td>
                             <td scope="col">Diferencia inventario</td>
-                            <td scope="col">Valor costo</td>
+                            <td scope="col">Costo unidad </td>
+                            <td scope="col">Costo total</td>
                             <td scope="col">Valor venta</td>
                         </tr>
                     </thead>
 
-                    
-                    <tbody>
+
+                    <tbody id="productosconteo">
                         <?php if (!empty($conteo_manual)): ?>
                             <?php foreach ($inventario_sistema as $KeyInventarioFisico): ?>
-                                <?php $producto = model('inventarioModel')->conteo_manual($KeyInventarioFisico['codigointernoproducto']); ?>
+                                <?php
+                                $producto = model('inventarioModel')->conteo_manual($KeyInventarioFisico['codigointernoproducto']);
+                                $costo = model('productoModel')->CostoProducto($KeyInventarioFisico['codigointernoproducto']);
+
+                                ?>
                                 <?php if (!empty($producto)): ?>
                                     <tr>
                                         <td><?php echo $producto[0]['codigointernoproducto']; ?></td>
                                         <td><?php echo $producto[0]['nombreproducto']; ?></td>
-                                        <td><?php echo $producto[0]['cantidad_inventario_fisico']; ?></td>
                                         <td><?php echo $producto[0]['cantidad_inventario']; ?></td>
+                                        <td><?php echo $producto[0]['cantidad_inventario_fisico']; ?></td>
                                         <td><?php echo $producto[0]['diferencia']; ?></td>
-                                        <td><?php echo number_format($producto[0]['valor_costo'], 0, ",", "."); ?></td>
-                                        <td><?php echo number_format($producto[0]['valor_venta'], 0, ",", "."); ?></td>
+                                        <td><?php echo number_format($costo[0]['precio_costo'], 0, ",", "."); ?></td>
+                                        <td><?php echo number_format($costo[0]['precio_costo'] * $producto[0]['cantidad_inventario'], 0, ",", "."); ?></td>
+                                        <td><?php echo number_format($costo[0]['valorventaproducto'] * $producto[0]['cantidad_inventario'], 0, ",", "."); ?></td>
                                     </tr>
                                 <?php else: ?>
                                     <?php $dato_producto = model('inventarioModel')->getProducto($KeyInventarioFisico['codigointernoproducto']); ?>
                                     <tr>
                                         <td><?php echo $KeyInventarioFisico['codigointernoproducto']; ?></td>
                                         <td><?php echo $dato_producto[0]['nombreproducto']; ?></td>
-                                        <td>0</td>  <!-- Cantidad conteo -->
-                                        <td>0</td>   <!-- Cantidad sistema -->
+                                        <td>0</td> <!-- Cantidad conteo -->
+                                        <td>0</td> <!-- Cantidad sistema -->
                                         <td>0</td>
-                                        <td><?php echo number_format($dato_producto[0]['precio_costo'], 0, ",", "."); ?></td>
-                                        <td><?php echo number_format($dato_producto[0]['valorventaproducto'], 0, ",", "."); ?></td>
+                                        <td><?php echo number_format($dato_producto[0]['precio_costo'], 0, ",", "."); ?></td> <!--Costo unidad -->
+                                        <td><?php echo number_format($dato_producto[0]['precio_costo'] * 0, 0, ",", "."); ?></td> <!--Costo total -->
+                                        <td><?php echo number_format($dato_producto[0]['valorventaproducto'] * 0, 0, ",", "."); ?></td>
                                     </tr>
                                 <?php endif ?>
                             <?php endforeach ?>
@@ -107,14 +117,14 @@ HOME
 </div>
 
 
-<!-- Modal 
-<div class="modal fade" id="conteo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+
+
 <div class="modal fade" id="conteo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Ingresar inventario </h5>
-                <button type="button" class="btn-close" onclick="limpiarInput()" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" onclick="closeModal()"></button>
             </div>
             <div class="modal-body">
                 <div class="row mb-3">
@@ -152,7 +162,7 @@ HOME
 
                     /* Reducir el ancho de los inputs */
                     .input-inventario {
-                        width: 45%;
+                        width: 70%;
                         /* Ajusta el ancho según tus necesidades */
                     }
                 </style>
@@ -185,20 +195,29 @@ HOME
                                     <input type="text" class="form-control input-inventario"
                                         value="<?php echo $keyProducto['cantidad_inventario']; ?>">
                                 </td>
-                                <?php $registro = model('inventarioFisicoModel')->select('cantidad_inventario_fisico')->where('codigointernoproducto', $keyProducto['codigointernoproducto'])->first();  ?>
+                                <?php
+                                //$registro = model('inventarioFisicoModel')->select('cantidad_inventario_fisico')->where('codigointernoproducto', $keyProducto['codigointernoproducto'])->first();  
+                                $registro = model('inventarioFisicoModel')->existeProducto($keyProducto['codigointernoproducto']);
+                                ?>
                                 <?php if (empty($registro)): ?>
                                     <td>
                                         <input type="text" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
                                     </td>
-                                <?php endif ?>
-                                <?php if (!empty($registro)): ?>
                                     <td>
-                                        <input type="text" value="<?php echo $registro['cantidad_inventario_fisico'];  ?>" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
+                                        <input type="text" class="form-control input-inventario" id="diferencia<?php echo $keyProducto['id'] ?>" readonly>
                                     </td>
                                 <?php endif ?>
-                                <td>
-                                    <input type="text" class="form-control input-inventario" readonly>
-                                </td>
+
+                                <?php if (!empty($registro)): ?>
+                                    <td>
+                                        <input type="text" value="<?php echo $registro[0]['cantidad_inventario_fisico'];  ?>" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
+                                    </td>
+
+                                    <?php $diferencia = model('inventarioModel')->conteo_manual($keyProducto['codigointernoproducto']); ?>
+                                    <td>
+                                        <input type="text" class="form-control input-inventario" id="diferencia<?php echo $keyProducto['id'] ?>" value="<?php echo $diferencia[0]['diferencia']; ?>" readonly>
+                                    </td>
+                                <?php endif ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -334,6 +353,69 @@ HOME
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+<script>
+    async function closeModal() {
+        const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+        const url = `${baseUrl}/consultas_y_reportes/closeModal`; // Construye la URL dinámica
+
+        // Limpia el contenido de 'noHay' si existe
+        const noHayElement = document.getElementById('noHay');
+        if (noHayElement) {
+            noHayElement.innerHTML = "";
+        }
+
+        try {
+            // Realiza la solicitud GET al servidor
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success === true) {
+
+
+                var myModalElement = document.getElementById('conteo'); // Obtén el elemento del modal
+                var myModal = bootstrap.Modal.getInstance(myModalElement); // Obtén la instancia del modal
+
+                if (myModal) {
+                    myModal.hide(); // Cierra el modal
+                } else {
+                    console.error("No se encontró una instancia del modal. Asegúrate de que el modal esté inicializado.");
+                }
+
+                const input = document.getElementById('inventarioInput');
+                if (input) {
+                    input.value = ''; // Limpia el valor del input
+                    input.focus(); // Da el foco al input
+                }
+
+                document.getElementById('productosconteo').innerHTML = data.productos;
+
+            } else if (data.success === false) {
+                sweet_alert_centrado('warning', 'No hay inventario para cruzar');
+            }
+        } catch (error) {
+            console.error("Error al cruzar el inventario:", error);
+            sweet_alert_centrado('error', 'Ocurrió un error inesperado al cruzar el inventario');
+        }
+    }
+</script>
 
 
 
@@ -606,6 +688,8 @@ HOME
             const data = await response.json();
 
             if (data.success === true) {
+
+                document.getElementById('diferencia' + data.id).value = data.diferencia
                 sweet_alert_centrado('success', 'Ingresado al inventario');
 
             } else {

@@ -225,7 +225,10 @@ class impresionFacturaController extends BaseController
     function inventario()
     {
 
-        return view('ventas/inventario');
+        $categorias = model('categoriasModel')->findAll();
+        return view('ventas/inventario',[
+            'categorias'=>$categorias
+        ]);
     }
 
     function ProductosInventario()

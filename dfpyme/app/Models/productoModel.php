@@ -658,7 +658,7 @@ INNER JOIN
     categoria 
     ON producto.codigocategoria = categoria.codigocategoria
 WHERE 
-    id_tipo_inventario IN (1, 4, 2)
+    id_tipo_inventario IN (1, 4, 2,3)
 ORDER BY 
     categoria.nombrecategoria ASC,
     producto.nombreproducto ASC;
@@ -744,7 +744,94 @@ INNER JOIN
     inventario 
     ON producto.codigointernoproducto = inventario.codigointernoproducto
 WHERE 
-    id_tipo_inventario IN (1, 4, 2)
+    id_tipo_inventario IN (1, 4, 2,3)
+        ");
+        return $datos->getResultArray();
+    }
+    function TotalInvCat($codigo)
+    {
+
+        $datos = $this->db->query("
+SELECT 
+    sum(precio_costo * cantidad_inventario) as costo_total
+FROM 
+    producto
+INNER JOIN 
+    inventario 
+    ON producto.codigointernoproducto = inventario.codigointernoproducto
+WHERE 
+    codigocategoria='$codigo'
+        ");
+        return $datos->getResultArray();
+    }
+    function CostoProducto($codigo)
+    {
+
+        $datos = $this->db->query("
+        SELECT 
+            precio_costo,valorventaproducto
+        FROM 
+            producto
+
+        WHERE 
+            codigointernoproducto='$codigo'
+        ");
+        return $datos->getResultArray();
+    }
+
+    function Getinv($valor)
+    {
+
+        $datos = $this->db->query("
+        SELECT 
+    categoria.nombrecategoria,
+    producto.id,
+    producto.codigointernoproducto,
+    producto.nombreproducto,
+    inventario.cantidad_inventario,
+    REPLACE(TO_CHAR(precio_costo, 'FM999,999,999'), ',', '.') AS costo_unitario,  -- Reemplazamos las comas por puntos
+    REPLACE(TO_CHAR(precio_costo * cantidad_inventario, 'FM999,999,999'), ',', '.') AS costo_producto  -- Reemplazamos las comas por puntos
+FROM 
+    producto
+INNER JOIN 
+    inventario 
+    ON producto.codigointernoproducto = inventario.codigointernoproducto
+INNER JOIN 
+    categoria 
+    ON producto.codigocategoria = categoria.codigocategoria
+WHERE 
+    id_tipo_inventario IN (1, 4, 2,3)  AND (producto.nombreproducto ILIKE '%$valor%' OR producto.codigointernoproducto ILIKE '%$valor%')
+ORDER BY 
+    categoria.nombrecategoria ASC,
+    producto.nombreproducto ASC;
+        ");
+        return $datos->getResultArray();
+    }
+    function GetinvCategoria($valor)
+    {
+
+        $datos = $this->db->query("
+ SELECT 
+    categoria.nombrecategoria,
+    producto.id,
+    producto.codigointernoproducto,
+    producto.nombreproducto,
+    inventario.cantidad_inventario,
+    REPLACE(TO_CHAR(precio_costo, 'FM999,999,999'), ',', '.') AS costo_unitario,  -- Reemplazamos las comas por puntos
+    REPLACE(TO_CHAR(precio_costo * cantidad_inventario, 'FM999,999,999'), ',', '.') AS costo_producto  -- Reemplazamos las comas por puntos
+FROM 
+    producto
+INNER JOIN 
+    inventario 
+    ON producto.codigointernoproducto = inventario.codigointernoproducto
+INNER JOIN 
+    categoria 
+    ON producto.codigocategoria = categoria.codigocategoria
+WHERE 
+    id_tipo_inventario IN (1, 4, 2,3)  AND producto.codigocategoria='$valor'
+ORDER BY 
+    categoria.nombrecategoria ASC,
+    producto.nombreproducto ASC
         ");
         return $datos->getResultArray();
     }
