@@ -943,6 +943,14 @@ class cajaGeneralController extends BaseController
         readfile($file_name);
         exit;
     }
+
+
+    function exportVentas(){
+        $fecha_inicial = $this->request->getPost('fecha_inicial');
+        $fecha_final = $this->request->getPost('fecha_final');
+        
+        
+    }
     
     
 

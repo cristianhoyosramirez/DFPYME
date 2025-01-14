@@ -100,10 +100,7 @@ Ventas
                         <option value="<?php echo $detalle['idestado'] ?>" <?php if ($detalle['idestado'] == 5) : ?>selected <?php endif; ?>><?php echo $detalle['descripcionestado'] ?> </option>
                     <?php endforeach ?>
                 </select>
-
                 <span id="error_tipo_documento" class="text-danger"></span>
-
-
             </div>
 
 

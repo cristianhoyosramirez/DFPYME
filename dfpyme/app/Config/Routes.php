@@ -450,6 +450,8 @@ $routes->group('caja_general', ['namespace' => 'App\Controllers\caja_general', '
     $routes->get('todos_los_cierres_caja_general', 'cajaGeneralController::todos_los_cierres_caja_general');
     $routes->post('consultar_movimiento', 'cajaGeneralController::consultar_movimiento');
     $routes->post('exportCostoExcel', 'cajaGeneralController::exportCostoExcel');
+    $routes->post('exportVentas', 'cajaGeneralController::exportVentas');
+    $routes->post('exportVentas', 'cajaGeneralController::exportVentas');
 });
 
 /**
