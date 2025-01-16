@@ -26,11 +26,11 @@ class Imprimir extends BaseController
     function imprimirComanda()
     {
 
-        //$id_mesa = 9;
+        //$id_mesa = 3;
         $id_mesa = $this->request->getPost('id_mesa');
         $id_usuario = $this->request->getPost('id_usuario');
 
-        // $id_usuario = 6;
+        //$id_usuario = 6;
 
         $tipo_usuario = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
@@ -39,11 +39,17 @@ class Imprimir extends BaseController
         $configuracion_comanda = model('configuracionPedidoModel')->select('partir_comanda')->first();
 
         $impresion_comanda = model('configuracionPedidoModel')->select('comanda')->first();
+
         $productos = array();
 
+        /**
+         * Pasos para la impresion de la comanda 
+         * 1. Validacion de que la me sa tenga pedido
+         * 2. Validacion de que productos falta por imprimir   ( $productos_pedido)
+         */
 
 
-        if (!empty($pedido)) {   // la mesa tiene pedido 
+        if (!empty($pedido)) {
             $codigo_categoria = model('productoPedidoModel')->id_categoria($pedido['id']);
             $productos_pedido = $items = model('productoPedidoModel')->productos_pedido($pedido['id']);
 
@@ -71,7 +77,7 @@ class Imprimir extends BaseController
                                 array_push($productos, $data);
                             }
                             //$this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $codigo_categoria[0]['codigo_categoria']);
-                            $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $valor['codigo_categoria']);
+                            $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $valor['codigo_categoria'], 'Comanda');
                             $productos = array();
                         }
                     }
@@ -80,30 +86,7 @@ class Imprimir extends BaseController
                 if ($configuracion_comanda['partir_comanda'] == 'f') {
 
 
-
-                    /*     $items = model('productoPedidoModel')->productos_pedido_comanda_todos($pedido['id']);
-                    //$items = model('tempProductoPedidoModel')->productos_pedido($pedido['id'], $valor['codigo_categoria']);
-
-                    if (!empty($items)) {
-                        foreach ($items as $detalle) {
-                            $data['id'] = $detalle['id'];
-                            $data['nombreproducto'] = $detalle['nombreproducto'];
-                            $data['valor_venta'] = $detalle['valorventaproducto'];
-                            $data['valor_total'] = $detalle['valor_total'];
-                            $data['cantidad'] = $detalle['cantidad_producto'];
-                            $data['nota_producto'] = $detalle['nota_producto'];
-                            $data['valor_unitario'] = $detalle['valor_unitario'];
-                            $data['codigo_interno'] = $detalle['codigointernoproducto'];
-                            $data['impresos'] = $detalle['numero_productos_impresos_en_comanda'];
-                            array_push($productos, $data);
-                        }
-                        //$this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $codigo_categoria[0]['codigo_categoria']);
-                        $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], '1');
-                        $productos = array();
-                    } */
-
                     $categoria = model('productoPedidoModel')->getCategorias($pedido['id']);
-
                     foreach ($categoria as $keyCategoria) {
                         $id_impresora = model('categoriasModel')->select('impresora')->where('codigocategoria', $keyCategoria['codigo_categoria'])->first();
 
@@ -114,14 +97,15 @@ class Imprimir extends BaseController
                             ->where('numero_de_pedido', $pedido['id'])
                             ->update();
 
-                        $productos = model('productoPedidoModel')->productos_impresora($id_impresora['impresora']);
-
-                        //echo $keyCategoria['codigo_categoria'];
-
-                        //$this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $keyCategoria['codigo_categoria']);
+                        if ($tipo_usuario['idtipo'] == 2 || $tipo_usuario['idtipo'] == 3) {
+                            $productos = model('productoPedidoModel')->productos_impresora($id_impresora['impresora']);
+                        }
+                        if ($tipo_usuario['idtipo'] == 1 || $tipo_usuario['idtipo'] == 0) {
+                            $productos = model('productoPedidoModel')->GetProductosimpresora($id_impresora['impresora']);
+                        }
                     }
 
-
+                    $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $keyCategoria['codigo_categoria'], 'Comanda');
                     $impresoras = model('impresorasModel')->findAll();
 
 
@@ -144,8 +128,9 @@ class Imprimir extends BaseController
 
 
 
+                if ($impresion_comanda['comanda'] === "t") { // Todo debe imprimirse en la misma impresora 
 
-                if ($impresion_comanda['comanda'] === "t") {
+
 
                     if ($tipo_usuario['idtipo'] == 1 || $tipo_usuario['idtipo'] == 0) {
 
@@ -168,12 +153,11 @@ class Imprimir extends BaseController
                                     $data['impresos'] = $detalle['numero_productos_impresos_en_comanda'];
                                     array_push($productos, $data);
                                 }
-                                $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $valor['codigo_categoria']);
+                                $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $valor['codigo_categoria'], 'Comanda');
                                 $productos = array();
                             }
                         }
                         if ($configuracion_comanda['partir_comanda'] == 'f') {
-
 
 
                             /*   $items = model('productoPedidoModel')->reimprimir_comanda_todo($pedido['id']);
@@ -204,18 +188,18 @@ class Imprimir extends BaseController
                                     //$this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
                                 }
                             } */
-                            $impresoras = model('impresorasModel')->findAll();
+                            /*  $impresoras = model('impresorasModel')->findAll();
 
 
 
                             foreach ($impresoras as $keyImpresoras) {
 
                                 $productos = model('productoPedidoModel')->productosReImpresion($keyImpresoras['id']);
-                    
+
                                 if (!empty($productos)) {
                                     $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
                                 }
-                            }
+                            } */
                             /*   foreach ($codigo_categoria as $valor) {
 
 
@@ -237,6 +221,30 @@ class Imprimir extends BaseController
                                 $productos = array();
                             } */
                         }
+
+                        $categoria = model('productoPedidoModel')->getCategorias($pedido['id']);
+
+
+                        foreach ($categoria as $keyCategoria) {
+                            $id_impresora = model('categoriasModel')->select('impresora')->where('codigocategoria', $keyCategoria['codigo_categoria'])->first();
+
+                            $model = model('productoPedidoModel');
+
+                            $model->set('id_impresora', $id_impresora['impresora'])
+                                ->where('codigo_categoria', $keyCategoria['codigo_categoria'])
+                                ->where('numero_de_pedido', $pedido['id'])
+                                ->update();
+
+
+                            $productos = model('productoPedidoModel')->productosReImpresion($id_impresora['impresora']);
+                        }
+                        $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $keyCategoria['codigo_categoria'], 'Reimpresion comanda');
+                        //$impresoras = model('impresorasModel')->findAll();
+
+
+
+
+
                         $returnData = array(
                             "resultado" => 1
                         );
@@ -250,12 +258,7 @@ class Imprimir extends BaseController
                 }
 
 
-                /*  if (!empty($items)) {
-                $returnData = array(
-                    "resultado" => 1
-                );
-                echo  json_encode($returnData);
-            } */
+
 
                 if ($impresion_comanda['comanda'] === "f") {
                     $returnData = array(
@@ -268,7 +271,7 @@ class Imprimir extends BaseController
     }
 
 
-    function generar_comanda($productos, $numero_pedido, $nombre_mesa, $codigo_categoria)
+    function generar_comanda($productos, $numero_pedido, $nombre_mesa, $codigo_categoria, $tipoImpresion)
 
     {
 
@@ -286,6 +289,7 @@ class Imprimir extends BaseController
 
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setTextSize(1, 1);
+        $printer->text("**" .  $tipoImpresion . "**" . "\n\n");
         $printer->text("**" .  $nombre_categoria['nombrecategoria'] . "**" . "\n\n");
 
 
@@ -806,7 +810,7 @@ class Imprimir extends BaseController
         }
     }
 
-   
+
 
     function imprimir_fiscal()
     {
@@ -1096,7 +1100,7 @@ class Imprimir extends BaseController
             $printer->text("\n");
             $printer->text("**FORMAS DE PAGO** \n\n");
             $printer->setJustification(Printer::JUSTIFY_LEFT);
-           
+
             foreach ($pago as $keyPago) {
                 $nombre_comercial = model('medioPagoModel')->getNombre($keyPago['medio_pago']);
                 $total = model('medioPagoModel')->getTotal($keyPago['medio_pago'], $id_apertura);

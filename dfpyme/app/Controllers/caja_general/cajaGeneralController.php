@@ -858,6 +858,7 @@ class cajaGeneralController extends BaseController
 
         $invoices = model('pagosModel')->getDocumentosCosto($fecha_inicial, $fecha_final);
 
+
         $file_name = 'Reporte de costos de ' . $fecha_inicial . ' al ' . $fecha_final . '.xlsx';
 
         $spreadsheet = new Spreadsheet();
@@ -949,6 +950,8 @@ class cajaGeneralController extends BaseController
         $totalIVA = 0;
         $totalICO = 0;
 
+        //dd($invoices);
+
         foreach ($invoices as $detalle) {
             //$costo = model('kardexModel')->selectSum('costo')->where('id_factura', $detalle['id_factura'])->findAll();
             $costo = model('kardexModel')->getCosto($detalle['id_factura'], $detalle['id_estado']);
@@ -959,9 +962,12 @@ class cajaGeneralController extends BaseController
             $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
 
             if ($detalle['id_estado'] == 8) {
-                $documento = model('facturaElectronicaModel')->select('numero')->where('id', $detalle['id_factura'])->first();
+                $temp_documento = model('facturaElectronicaModel')->select('numero')->where('id', $detalle['id_factura'])->first();
+                $documento =$temp_documento['numero'] ;
             } else if ($detalle['id_estado'] != 8) {
+                //$temp_doc=model('estadoModel')->select('descripcionestado')->where('idestado',$detalle['id_estado'])->first();
                 $documento = $detalle['documento'];
+
             }
 
             $tipo_documento = model('estadoModel')->select('descripcionestado')->where('idestado', $detalle['id_estado'])->first();
@@ -971,7 +977,8 @@ class cajaGeneralController extends BaseController
             $sheet->setCellValue("B$row", "'" . $detalle['nit_cliente']);
             $sheet->setCellValue("C$row", $nombre_cliente['nombrescliente']);
             $sheet->setCellValue("D$row", $tipo_documento['descripcionestado']);
-            $sheet->setCellValue("E$row", $documento['numero']);
+            //$sheet->setCellValue("E$row", $documento['numero']);
+            $sheet->setCellValue("E$row", $documento);
             $sheet->setCellValue("F$row", $costo[0]['costo']);
             $sheet->setCellValue("G$row", round($detalle['total_documento'] - ($iva[0]['iva'] + $inc[0]['ico']), 0));
             $sheet->setCellValue("H$row", round($iva[0]['iva'], 0));
@@ -1014,7 +1021,7 @@ class cajaGeneralController extends BaseController
     }
 
 
-   /*  function exportVentas()
+    /*  function exportVentas()
     {
         $fecha_inicial = $this->request->getPost('fecha_inicial');
         $fecha_final = $this->request->getPost('fecha_final');
@@ -1152,8 +1159,8 @@ class cajaGeneralController extends BaseController
         }
 
         $row++;
-        
-       
+
+
         $sheet->setCellValue("A$row", "TOTAL IVA ");
         $sheet->setCellValue("B$row", "TOTAL INC");
         $sheet->setCellValue("C$row", "TOTAL VENTA");
