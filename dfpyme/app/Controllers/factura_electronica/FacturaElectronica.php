@@ -531,28 +531,53 @@ class FacturaElectronica extends BaseController
                         $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
                         $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);
 
-                        if (empty($movimientos_efectivo[0]['recibido_efectivo'])){
-                            $efectivo=0;
-                            $total_efectivo=0;
-                        }else if (empty($movimientos_efectivo[0]['recibido_efectivo'])){
-                            $efectivo=$movimientos_efectivo[0]['recibido_efectivo'];
-                            $total_efectivo=$movimientos_efectivo[0]['recibido_efectivo'];
+                        if (empty($movimientos_efectivo[0]['recibido_efectivo'])) {
+                            $efectivo = 0;
+                            $total_efectivo = 0;
+                        } else if (empty($movimientos_efectivo[0]['recibido_efectivo'])) {
+                            $efectivo = $movimientos_efectivo[0]['recibido_efectivo'];
+                            $total_efectivo = $movimientos_efectivo[0]['recibido_efectivo'];
                         }
 
-                        if (empty($movimientos_efectivo[0]['total_pago'])){
-                            $total_efectivo=0;
-                            $efectivo=0;
-                        }else if (empty($movimientos_efectivo[0]['total_pago'])){
-                            $total_efectivo=$movimientos_efectivo[0]['total_pago'];
-                            $efectivo=$total_efectivo;
-                        }
+
+
+                        /*    if (!empty($movimientos_transaccion)) {
+                            if ($movimientos_transaccion[0]['recibido_transferencia'] > 0) {
+                                $imp = new impresion();
+
+                                if (empty($movimientos_efectivo[0]['total_pago'])) {
+                                    $total_efectivo = 0;
+                                    $efectivo = 0;
+                                } else if (empty($movimientos_efectivo[0]['total_pago'])) {
+                                    $total_efectivo = $movimientos_efectivo[0]['total_pago'];
+                                    $efectivo = $total_efectivo;
+                                }
+
+                                $imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $efectivo, $total_efectivo);
+                            }
+                        } */
 
                         if (!empty($movimientos_transaccion)) {
                             if ($movimientos_transaccion[0]['recibido_transferencia'] > 0) {
                                 $imp = new impresion();
 
-                                //$imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $movimientos_efectivo[0]['recibido_efectivo'], $movimientos_efectivo[0]['total_pago']);
-                                $imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $efectivo, $total_efectivo);
+                                // Inicializamos variables para evitar errores
+                                $total_efectivo = 0;
+                                $efectivo = 0;
+
+                                // Verificar si existe 'total_pago' en 'movimientos_efectivo'
+                                if (!empty($movimientos_efectivo[0]['total_pago'])) {
+                                    $total_efectivo = $movimientos_efectivo[0]['total_pago'];
+                                    $efectivo = $total_efectivo;
+                                }
+
+                                // Llamada al método imprimir
+                                $imprimir = $imp->imprimir_comprobnate_transferencia(
+                                    $idUlt,
+                                    $movimientos_transaccion[0]['recibido_transferencia'],
+                                    $efectivo,
+                                    $total_efectivo
+                                );
                             }
                         }
                     }
