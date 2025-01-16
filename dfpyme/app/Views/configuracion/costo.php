@@ -87,12 +87,13 @@ Reporte de costos
                 <td>Nit cliente</th>
                 <td>Cliente</th>
                 <td>Documento</th>
-                <td>Valor</th>
+                
                 <td>Tipo documento</th>
                 <td>Costo</th>
                 <td>Base </th>
                 <td>IVA</th>
                 <td>INC</th>
+                <td>Valor</th>
 
             </tr>
         </thead>

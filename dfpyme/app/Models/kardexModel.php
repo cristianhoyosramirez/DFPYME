@@ -182,13 +182,7 @@ class kardexModel extends Model
         ");
         return $datos->getResultArray();
     }
-    /*   public function ventas_contado_electronicas($id_apertura)
-    {
-        $datos = $this->db->query("
-        select sum(total) as total  from kardex where id_apertura=$id_apertura and id_estado=8
-        ");
-        return $datos->getResultArray();
-    } */
+
     public function ventas_contado_electronicas($id_inicial , $id_final)
     {
         $datos = $this->db->query("
@@ -316,16 +310,7 @@ class kardexModel extends Model
         ");
         return $datos->getResultArray();
     }
-/*     public function fiscal_ico($id_apertura)
-    {
-        $datos = $this->db->query("
-        SELECT DISTINCT ( valor_ico )
-        FROM   kardex
-        WHERE  id_apertura=$id_apertura
-        AND aplica_ico = 'true'  and id_estado = 8 
-        ");
-        return $datos->getResultArray();
-    } */
+
 
     public function temp_categoria($id_apertura)
     {
@@ -811,6 +796,46 @@ WHERE
     {
         $datos = $this->db->query("
             select sum (ico) as ico from kardex where fecha BETWEEN '$fecha_inicial' and '$fecha_final' and aplica_ico='true'
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function getCosto($id_factura, $id_estado)
+    {
+        $datos = $this->db->query("
+           SELECT
+    SUM(costo) AS costo
+FROM
+    kardex
+WHERE
+    id_factura = $id_factura AND id_estado = $id_estado;
+
+        ");
+        return $datos->getResultArray();
+    }
+    public function getIva($id_factura, $id_estado)
+    {
+        $datos = $this->db->query("
+           SELECT
+    SUM(iva) AS iva
+FROM
+    kardex
+WHERE
+    id_factura = $id_factura AND id_estado = $id_estado;
+
+        ");
+        return $datos->getResultArray();
+    }
+    public function getInc($id_factura, $id_estado)
+    {
+        $datos = $this->db->query("
+           SELECT
+    SUM(ico) AS ico
+FROM
+    kardex
+WHERE
+    id_factura = $id_factura AND id_estado = $id_estado;
+
         ");
         return $datos->getResultArray();
     }

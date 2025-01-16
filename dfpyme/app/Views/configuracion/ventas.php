@@ -35,7 +35,7 @@ Reporte de costos
             <small class="text-danger" id="error_buscar"></small>
         </div>
 
-        <form action="<?php echo base_url()?>/caja_general/exportVentas " method="POST">
+        <form action="<?php echo base_url() ?>/caja_general/exportVentas " method="POST">
             <!-- Fecha Inicial -->
             <div class="col-md-3" id="inicial" style="display: none;">
                 <label for="fecha_inicial" class="form-label fw-bold">Fecha Inicial</label>
@@ -66,46 +66,49 @@ Reporte de costos
                 </div>
             </div>
 
+
             <!-- Botones de Acción -->
             <div class="col-md-3 d-flex align-items-end">
                 <div class="d-flex justify-content-between w-100 gap-2">
                     <button type="button" class="btn btn-outline-primary w-50" onclick="buscar()" title="Buscar datos" data-bs-toggle="tooltip">
                         Buscar
                     </button>
-                    <button type="submit" class="btn btn-outline-success w-50" onclick="exportarExcel()" title="Exportar a Excel" data-bs-toggle="tooltip">
+
+                    <button type="submit" class="btn btn-outline-success w-50" title="Exportar a Excel" data-bs-toggle="tooltip">
                         Excel
                     </button>
-                </div>
-            </div>
         </form>
     </div>
+</div>
+
+</div>
 
 
-    <div class="my-3"></div> <!-- Added space between the buttons and the table -->
+<div class="my-3"></div> <!-- Added space between the buttons and the table -->
 
-    <table class="table table-striped table-hover" id="reporte_ventas">
-        <thead class="table-dark">
-            <tr>
-                <td>Fecha</th>
-                <td>Nit cliente </th>
-                <td>Cliente</th>
-                <td>Documento</th>
+<table class="table table-striped table-hover" id="reporte_ventas">
+    <thead class="table-dark">
+        <tr>
+            <td>Fecha</th>
+            <td>Nit cliente </th>
+            <td>Cliente</th>
+            <td>Documento</th>
 
-                <td>Tipo documento</th>
-                <td>Base</td>
-                <td>IVA</th>
-                <td>INC</th>
-                <td>Venta</th>
-            </tr>
-        </thead>
-        <tbody id="datos_costos">
+            <td>Tipo documento</th>
+            <td>Base</td>
+            <td>IVA</th>
+            <td>INC</th>
+            <td>Venta</th>
+        </tr>
+    </thead>
+    <tbody id="datos_costos">
 
-        </tbody>
-    </table>
-    <br>
-    <p class="text-primary h1 text-center " id="no_hay_datos"> </p>
+    </tbody>
+</table>
+<br>
+<p class="text-primary h1 text-center " id="no_hay_datos"> </p>
 
-    <div id="impuestos"></div>
+<div id="impuestos"></div>
 
 </div>
 

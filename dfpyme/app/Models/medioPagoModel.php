@@ -32,6 +32,26 @@ class medioPagoModel extends Model
         ");
         return $datos->getResultArray();
     }
+    public function getTotalExcel($codigo,$id_apertura)
+    {
+        $datos = $this->db->query("
+        SELECT SUM(total) AS total 
+        FROM documento_electronico 
+        WHERE medio_pago = '$codigo' AND id_apertura = $id_apertura AND id_status = 2 ;
+
+        ");
+        return $datos->getResultArray();
+    }
+    public function getTotalReal($codigo,$id_apertura)
+    {
+        $datos = $this->db->query("
+        SELECT SUM(total) AS total 
+        FROM documento_electronico 
+        WHERE medio_pago = '$codigo' AND id_apertura = $id_apertura AND id_status = 2 ;
+
+        ");
+        return $datos->getResultArray();
+    }
     public function getTotalFormas($id_apertura)
     {
         $datos = $this->db->query("

@@ -221,18 +221,7 @@ WHERE
  ");
         return $datos->getResultArray();
     }
- /*    function get_max_id_electronico($id_apertura)
-    {
 
-        $datos = $this->db->query("
-        SELECT MAX(id) AS id 
-FROM documento_electronico 
-WHERE id_status = 2 
-  AND transaccion_id IS NOT NULL 
-  AND transaccion_id != '' AND id_apertura=$id_apertura;
- ");
-        return $datos->getResultArray();
-    } */
  
     function get_max_id($id_apertura)
     {
@@ -590,6 +579,38 @@ FROM
 WHERE 
     id_apertura = $apertura 
 
+            
+            ");
+        return $datos->getResultArray();
+    }
+    public function getDocumentosCosto ($fechaInicial , $fechaFinal)
+    {
+        $datos = $this->db->query("
+            
+                SELECT
+                    id,
+                    fecha,
+                    documento,
+                    valor as total_documento,
+                    id_factura,
+                    id_estado,
+                    nit_cliente,
+                    id_estado,
+                    id_factura
+                FROM
+                    pagos where fecha BETWEEN '$fechaInicial' and '$fechaFinal'
+            
+            ");
+        return $datos->getResultArray();
+    }
+    public function getTotalVenta ($fechaInicial , $fechaFinal)
+    {
+        $datos = $this->db->query("
+            
+                SELECT
+                   sum(valor) as total
+                FROM
+                    pagos where fecha BETWEEN '$fechaInicial' and '$fechaFinal'
             
             ");
         return $datos->getResultArray();
