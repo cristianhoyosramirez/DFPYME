@@ -28,8 +28,19 @@
       </h2>
       <div id="flush-collapse<?php echo $index; ?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?php echo $index; ?>" data-bs-parent="#accordionFlushExample">
         <?php $producto = model('categoriasModel')->Recetas($detalle['codigointernoproducto']); ?>
-        <p>Ingredientes</p>
+        <p>Ingredientessssss</p>
         <div class="container">
+          <table>
+            <thead class="table-dark">
+              <tr>
+                <td>Código</td>
+                <td>Producto</td>
+                <td>Cantidad receta</td>
+                <td>Costo unidad </td>
+                <td>Costo total</td>
+              </tr>
+            </thead>
+          </table>
           <?php foreach ($producto as $item): ?>
             <li><?php echo htmlspecialchars($item['nombreproducto']); ?></li>
           <?php endforeach; ?>

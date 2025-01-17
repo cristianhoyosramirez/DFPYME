@@ -77,7 +77,7 @@ WHERE
     {
         $datos = $this->db->query("
             select 
-            nombreproducto
+            nombreproducto,cantidad,precio_costo as costo_unidad,precio_costo*cantidad costo_total
             from producto_fabricado
             inner join producto on producto_fabricado.prod_proceso=producto.codigointernoproducto where prod_fabricado='$codigo'
          ");

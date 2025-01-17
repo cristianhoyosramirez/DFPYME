@@ -20,7 +20,7 @@ HOME
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" href="#" onclick="VerRecetas()">Ver recetas </a></li>
-                    <li><a class="dropdown-item" href="#" onclick="CrearIngrediente()">Crear ingrediente </a></li>
+                    <!-- <li><a class="dropdown-item" href="#" onclick="CrearIngrediente()">Crear ingrediente </a></li> -->
                     <li><a class="dropdown-item" href="#" onclick="CrearRecete()">Crear receta </a></li>
                 </ul>
             </div>

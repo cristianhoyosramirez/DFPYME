@@ -166,8 +166,8 @@ class Ventas extends BaseController
             $sheet->setCellValue('D' . $row, $valor['valor']); // Asigna el valor de la venta
             $sheet->setCellValue('E' . $row, $valor['propina']); // Asigna la propina
             $sheet->setCellValue('F' . $row, $valor['total_documento']); // Asigna venta + propina
-            $sheet->setCellValue('G' . $row, $valor['recibido_efectivo']); // Asigna el efectivo
-            $sheet->setCellValue('H' . $row, $valor['recibido_transferencia']); // Asigna la transferencia
+            $sheet->setCellValue('G' . $row, $valor['efectivo']); // Asigna el efectivo
+            $sheet->setCellValue('H' . $row, $valor['transferencia']); // Asigna la transferencia
             $sheet->setCellValue('I' . $row, $valor['total_pago']); // Asigna el total de medios de pago
             $sheet->setCellValue('J' . $row, $nombre_usuario['nombresusuario_sistema']); // Asigna el usuario
 
