@@ -992,19 +992,21 @@ class cajaGeneralController extends BaseController
         }
 
         $row++;
-        $sheet->setCellValue("A$row", "TOTAL VENTA");
-        $sheet->setCellValue("B$row", "TOTAL COSTO");
-        $sheet->setCellValue("C$row", "TOTAL IVA ");
-        $sheet->setCellValue("D$row", "TOTAL INC");
+        //$sheet->setCellValue("A$row", "TOTAL VENTA");
+        $sheet->setCellValue("A$row", "TOTAL COSTO");
+        $sheet->setCellValue("B$row", "TOTAL IVA ");
+        $sheet->setCellValue("C$row", "TOTAL INC");
+        $sheet->setCellValue("D$row", "TOTAL VENTA");
 
         $total = model('pagosModel')->getTotalVenta($fecha_inicial, $fecha_final);
         $row++;
 
 
-        $sheet->setCellValue("A$row", $total[0]['total']);
-        $sheet->setCellValue("B$row", round($totalCosto, 0));
-        $sheet->setCellValue("C$row", round($totalIVA, 0));
-        $sheet->setCellValue("D$row", round($totalICO, 0));
+        //$sheet->setCellValue("A$row", $total[0]['total']);
+        $sheet->setCellValue("A$row", round($totalCosto, 0));
+        $sheet->setCellValue("B$row", round($totalIVA, 0));
+        $sheet->setCellValue("C$row", round($totalICO, 0));
+        $sheet->setCellValue("D$row", $total[0]['total']);
 
         $writer = new Xlsx($spreadsheet);
         $writer->save($file_name);
