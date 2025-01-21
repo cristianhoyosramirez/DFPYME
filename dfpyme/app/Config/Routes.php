@@ -523,7 +523,7 @@ $routes->group('inventario', ['namespace' => 'App\Controllers\pedidos', 'filter'
     $routes->post('reporte_ventas', 'Inventarios::reporte_ventas');
     $routes->post('export_pdf', 'Inventarios::export_pdf');
     $routes->post('producto_entrada', 'Inventarios::producto_entrada');
-    $routes->post('ingresar_entrada', 'Inventarios::ingresar_entrada');
+    $routes->get('ingresar_entrada', 'Inventarios::ingresar_entrada');
     $routes->post('eliminar_producto_compra', 'Inventarios::eliminar_producto_compra');
     $routes->post('actualizar_producto_compra', 'Inventarios::actualizar_producto_compra');
     $routes->post('usuario_producto_compra', 'Inventarios::usuario_producto_compra');
