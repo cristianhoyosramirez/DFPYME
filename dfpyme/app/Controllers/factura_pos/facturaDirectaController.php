@@ -809,4 +809,10 @@ class facturaDirectaController extends BaseController
         //$data = $milibreria->getRegistros();
 
     }
+
+    function reporteCosto()
+    {
+
+        return view('reportes/costo_producto');
+    }
 }

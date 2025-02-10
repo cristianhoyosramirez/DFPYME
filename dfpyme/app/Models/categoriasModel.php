@@ -77,9 +77,22 @@ WHERE
     {
         $datos = $this->db->query("
             select 
-            nombreproducto,cantidad,precio_costo as costo_unidad,precio_costo*cantidad costo_total
+            nombreproducto,cantidad,precio_costo as costo_unidad,precio_costo*cantidad costo_total, prod_proceso as codigo
             from producto_fabricado
             inner join producto on producto_fabricado.prod_proceso=producto.codigointernoproducto where prod_fabricado='$codigo'
+         ");
+        return $datos->getResultArray();
+    }
+    public function getTotalReceta($codigo)
+    {
+        $datos = $this->db->query("
+            SELECT
+                SUM(precio_costo * cantidad) AS costo
+            FROM
+                producto_fabricado
+            INNER JOIN producto ON producto_fabricado.prod_proceso = producto.codigointernoproducto
+            WHERE
+                prod_fabricado = '$codigo'
          ");
         return $datos->getResultArray();
     }

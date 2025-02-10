@@ -127,6 +127,16 @@
                       </select>
                     </div>
                   </div>
+                  <div class="col-sm-12">
+
+                    <div class="input-group mb-3">
+                      <label class="input-group-text" for="inputGroupSelect01">Forma de pago </label>
+                      <select class="form-select" id="formaPago" name="formaPago">
+                        <option value="1" selected>Contado</option>
+                        <option value="2" >Crédito</option>
+                      </select>
+                    </div>
+                  </div>
 
                   <!--     <div class="row mb-2">
                     <label for="inputEmail3" class="col-sm-4 col-form-label">Fecha limite</label>

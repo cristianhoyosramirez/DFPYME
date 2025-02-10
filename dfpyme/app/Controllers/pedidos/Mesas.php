@@ -149,7 +149,10 @@ class Mesas extends BaseController
          */
         //$id_mesa = 16;
         $id_mesa = $this->request->getPost('id_mesa');
+        //$id_mesa = 1;
         $id_mesero = $this->request->getPost('mesero');
+        //$id_mesero = 2;
+
         $cantidad = $this->request->getPost('cantidad');
         $estado_mesa = model('mesasModel')->select('estado')->where('id', $id_mesa)->first();
 
@@ -216,7 +219,10 @@ class Mesas extends BaseController
                 'se_imprime_en_comanda' => $se_imprime_en_comanda['se_imprime'],
                 'codigo_categoria' => $codigo_categoria['codigocategoria'],
                 'codigointernoproducto' => $codigo_interno_producto['codigointernoproducto'],
-                'numero_productos_impresos_en_comanda' => 0
+                'numero_productos_impresos_en_comanda' => 0,
+                'idUsuario' => $id_usuario,
+                'fecha' => date('Y-m-d'),
+                'hora' => date('H:m:i')
             ];
             $insertar = model('productoPedidoModel')->insertar(
                 $ultimo_id_pedido,
@@ -224,7 +230,10 @@ class Mesas extends BaseController
                 $se_imprime_en_comanda['se_imprime'],
                 $codigo_categoria['codigocategoria'],
                 $codigo_interno_producto['codigointernoproducto'],
-                $cantidad
+                $cantidad,
+                $id_usuario,
+                date('Y-m-d'),
+                date('H:m:i')
             );
 
 
@@ -263,7 +272,10 @@ class Mesas extends BaseController
                         $se_imprime_en_comanda['se_imprime'],
                         $codigo_categoria['codigocategoria'],
                         $codigo_interno_producto['codigointernoproducto'],
-                        $cantidad
+                        $cantidad,
+                        $id_mesero,
+                        date('Y-m-d'),
+                        date('H:m:i')
                     );
 
                     $cantidad_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['id'])->first();
@@ -366,7 +378,10 @@ class Mesas extends BaseController
                     'se_imprime_en_comanda' =>  $se_imprime_en_comanda['se_imprime'],
                     'codigo_categoria' =>   $codigo_categoria['codigocategoria'],
                     'codigointernoproducto' => $codigo_interno_producto,
-                    'numero_productos_impresos_en_comanda' => 0
+                    'numero_productos_impresos_en_comanda' => 0,
+                    'idUsuario' => $id_mesero,
+                    'fecha' => date('Y-m-d'),
+                    'hora' =>  date('H:m:i')
                 ];
                 $insertar = model('productoPedidoModel')->insert($producto_pedido);
 
@@ -444,14 +459,15 @@ class Mesas extends BaseController
 
         $configuracion_propina = model('configuracionPedidoModel')->select('calculo_propina')->first();
 
-        //$id_usuario = 6;
+        //$id_usuario = 8;
 
 
         //$id_usuario = 15;
-        //$id_producto = 2;
+        //$id_producto = 1;
         //$id_producto = '207';
         //$id_producto = '10';
-       $id_producto = (string) $this->request->getPost('id_producto');
+        $id_producto = (string) $this->request->getPost('id_producto');
+        //$id_producto = (string) 1;
 
         /**
          * Datos del producto
@@ -500,7 +516,10 @@ class Mesas extends BaseController
                 'se_imprime_en_comanda' => $se_imprime_en_comanda['se_imprime'],
                 'codigo_categoria' => $codigo_categoria['codigocategoria'],
                 'codigointernoproducto' => $codigo_interno_producto['codigointernoproducto'],
-                'numero_productos_impresos_en_comanda' => 0
+                'numero_productos_impresos_en_comanda' => 0,
+                'idUser' => $id_usuario,
+                'fecha' => date('Y-m-d'),
+                'hora' => date('H:m:i')
             ];
 
 
@@ -510,7 +529,10 @@ class Mesas extends BaseController
                 $se_imprime_en_comanda['se_imprime'],
                 $codigo_categoria['codigocategoria'],
                 $codigo_interno_producto['codigointernoproducto'],
-                1
+                1,
+                $id_usuario,
+                date('Y-m-d'),
+                date('H:m:i')
             );
 
 
@@ -558,13 +580,16 @@ class Mesas extends BaseController
             );
             echo  json_encode($returnData);
         } else  if (!empty($tiene_pedido)) {
-            $configuracion_pedido = model('configuracionPedidoModel')->select('agregar_item')->first();
 
+
+            $configuracion_pedido = model('configuracionPedidoModel')->select('agregar_item')->first();
 
             if ($configuracion_pedido['agregar_item'] == 0) {   // Actualiza el producto 
 
 
                 $existe_producto = model('productoPedidoModel')->cantidad_producto($numero_pedido['id'], $codigo_interno_producto['codigointernoproducto']);
+
+
 
                 if (empty($existe_producto)) {
 
@@ -573,7 +598,10 @@ class Mesas extends BaseController
                         $valor_unitario['valorventaproducto'],
                         $se_imprime_en_comanda['se_imprime'],
                         $codigo_categoria['codigocategoria'],
-                        $codigo_interno_producto['codigointernoproducto']
+                        $codigo_interno_producto['codigointernoproducto'],
+                        $id_usuario,
+                        date('Y-m-d'),
+                        date('H:m:i')
                     );
 
                     $cantidad_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['id'])->first();
@@ -729,6 +757,8 @@ class Mesas extends BaseController
                 }
             } else if ($configuracion_pedido['agregar_item'] == 1) {
 
+
+
                 $producto_pedido = [
                     'numero_de_pedido' => $numero_pedido,
                     'cantidad_producto' => 1,
@@ -740,9 +770,13 @@ class Mesas extends BaseController
                     'se_imprime_en_comanda' =>  $se_imprime_en_comanda['se_imprime'],
                     'codigo_categoria' =>   $codigo_categoria['codigocategoria'],
                     'codigointernoproducto' => $codigo_interno_producto,
-                    'numero_productos_impresos_en_comanda' => 0
+                    'numero_productos_impresos_en_comanda' => 2,
+                    'idUsuario' => $id_usuario,
+                    'fecha' => date('Y-m-d'),
+                    'hora' => date('H:m:i')
                 ];
                 $insertar = model('productoPedidoModel')->insert($producto_pedido);
+
 
 
                 $cantidad_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['id'])->first();
@@ -845,8 +879,8 @@ class Mesas extends BaseController
         $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::SHORT);
 
         // Establecer que la fecha se muestre con día, mes, año y hora
-       // $formatter->setPattern('EEEE d ' . "'de'" . ' MMMM ' . "'de'" . ' yyyy, h:mm a');
-       $formatter->setPattern( 'h:mm a');
+        // $formatter->setPattern('EEEE d ' . "'de'" . ' MMMM ' . "'de'" . ' yyyy, h:mm a');
+        $formatter->setPattern('h:mm a');
 
         // Fecha original
         $fecha = $fecha_pedido['fecha_creacion'];
@@ -859,7 +893,7 @@ class Mesas extends BaseController
         $returnData = array(
             "resultado" => 1,
             "id_mesa" => $id_mesa,
-            "numero_pedido" => $numero_pedido['id']."  ".$fecha_formato,
+            "numero_pedido" => $numero_pedido['id'] . "  " . $fecha_formato,
             "productos_pedido" => view('pedidos/productos_pedido', [
                 "productos" => $productos_pedido,
             ]),
@@ -872,7 +906,7 @@ class Mesas extends BaseController
             //"total_propina" => number_format($propina['propina'] + $total_pedido['valor_total'], 0, ',', '.'),
             "total_propina" => number_format($total_pedido['valor_total'], 0, ',', '.'),
             "nombre_mesero" => $nombre_mesero['nombresusuario_sistema'],
-            'fecha'=>$fecha_formato
+            'fecha' => $fecha_formato
 
         );
         echo  json_encode($returnData);
@@ -995,7 +1029,8 @@ class Mesas extends BaseController
 
 
 
-        $id_tabla_producto = $_POST['id_tabla_producto'];
+        //$id_tabla_producto = $_POST['id_tabla_producto']; 
+        $id_tabla_producto = $_POST['id_tabla_producto']; 
         //$id_tabla_producto = 32;
         $id_usuario = $_POST['id_usuario'];
         //$id_usuario = 6;

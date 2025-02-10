@@ -80,6 +80,7 @@ MOVIMIENTO DE CAJA
                     </form> -->
                     <form action="<?= base_url('consultas_y_reportes/informe_fiscal_desde_caja') ?>" method="POST">
                         <input type="hidden" name="id_apertura" value="<?php echo $id_apertura ?>" id="id_aperturas">
+                        <input type="hidden" name="id_usuario" value="<?php echo $user_session->id_usuario; ?>" id="id_usuario">
                         <button type="button" class="btn btn-outline-dark btn-icon" target="_blank" onclick="fiscal_electronico()" title="Informe fiscal de ventas " data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-placement="bottom">Fiscal electrónico </button>
                     </form>
                 </div>
@@ -641,8 +642,9 @@ MOVIMIENTO DE CAJA
     function imprimir_fiscal(){
         let url = document.getElementById("url").value;
         let id_apertura = document.getElementById("id_apertura").value;
+        let id_usuario = document.getElementById("id_usuario").value;
             $.ajax({
-                data:{id_apertura},
+                data:{id_apertura,id_usuario},
                 url: url + "/" + "pedidos/imprimir_fiscal",
                 type: "POST",
                 success: function(resultado) {

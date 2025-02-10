@@ -79,7 +79,7 @@
 
                             <div class="col-2">
                                 <label class="form-label">Concepto</label>
-                                <?php $concepto = model('KardexConceptoModel')->where('idoperacion', 1)->findAll(); ?>
+                                <?php $concepto = model('KardexConceptoModel')->where('idoperacion', 2)->findAll(); ?>
 
                                 <select name="concepto_kardex" id="concepto_kardex" class="form-select" required>
                                     <option value=""></option>

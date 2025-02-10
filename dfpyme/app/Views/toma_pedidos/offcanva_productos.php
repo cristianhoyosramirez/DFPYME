@@ -38,7 +38,16 @@
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">Productos</h5>
         <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" onclick="mesas_actualizadas()" style="background-color: transparent; border: none; cursor: pointer;">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon h3" width="50" height="50" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <line x1="5" y1="12" x2="9" y2="16" />
+                <line x1="5" y1="12" x2="9" y2="8" />
+            </svg>
+            <span class="visually-hidden">Cerrar</span> <!-- Oculta el texto del botón para accesibilidad -->
+        </button>
+        <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" onclick="mesas_actualizadas()" style="background-color: transparent; border: none; cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon h3" width="50" height="50" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <line x1="5" y1="12" x2="9" y2="16" />

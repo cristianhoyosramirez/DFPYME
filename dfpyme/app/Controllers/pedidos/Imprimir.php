@@ -816,6 +816,8 @@ class Imprimir extends BaseController
     {
 
         $id_apertura = $this->request->getPost('id_apertura');
+        $id_usuario = $this->request->getPost('id_usuario');
+        $nombreUsuario=model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema',$id_usuario)->first();
         //$id_apertura = 38;
 
         $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
@@ -1065,7 +1067,8 @@ class Imprimir extends BaseController
             $printer->text("Registro inicial : " . $reg_inicial['numero'] . " "  . $fecha_hora_inicial['fecha'] . " " . $hora_inicial . "\n");
             $printer->text("Registro final   : " . $reg_final['numero'] . " " . $fecha_hora_final['fecha'] . " " . $hora_final . "\n");
             $printer->text("Total registros  : " . $total_registros[0]['id'] . "\n");
-            $printer->text("Fecha generacion : " . date('Y-m-d H:i:s') . "\n\n");
+            $printer->text("Fecha generacion : " . date('Y-m-d H:i:s') . "\n");
+            $printer->text("Usuario          : " . $nombreUsuario['nombresusuario_sistema']. "\n\n");
 
             // Título de la tabla
             $printer->setEmphasis(true);

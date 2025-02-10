@@ -8,6 +8,9 @@
     <title><?= $this->renderSection('title') ?>&nbsp;-&nbsp;DF PYME</title>
     <!-- CSS files -->
     <link href="<?= base_url() ?>/Assets/css/tabler.min.css" rel="stylesheet" />
+     <!-- Select 2 -->
+     <link href="<?php echo base_url(); ?>/Assets/plugin/select2/select2.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>/Assets/plugin/select2/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?php echo base_url(); ?>/Assets/img/favicon.png">
@@ -38,8 +41,7 @@
         <!-- Sweet alert -->
         <script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
         <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
-
-
+     
         <!-- Modal -->
         <div class="modal fade" id="modalIngredientes" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -80,6 +82,21 @@
 
 </body>
 
+<!--select2 -->
+<script src="<?php echo base_url(); ?>/Assets/plugin/select2/select2.min.js"></script>
+
+<script>
+    $("#impuestos").select2({
+    width: "100%",
+    //placeholder: "Filtrar productos por categoria",
+    language: "es",
+    theme: "bootstrap-5",
+    allowClear: true,
+    dropdownParent: $("#crear_cliente"),
+    closeOnSelect: true
+});
+</script>
+
 
 
 <script>
@@ -111,7 +128,7 @@
                 myModal.show();
             }
             if (data.success == false) {
-              sweet_alert_centrado('warning','No hay productos receta')
+                sweet_alert_centrado('warning', 'No hay productos receta')
             }
         } catch (error) {
             console.error('Hubo un problema al actualizar el producto:', error);

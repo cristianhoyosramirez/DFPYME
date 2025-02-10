@@ -77,7 +77,7 @@ Bienvenido DFpyme
         <input type="hidden" value="<?php echo $user_session->id_usuario ?>" id="id_usuario">
         <input type="hidden" value="<?php echo $requiere_mesero ?>" id="requiere_mesero" name="requiere_mesero">
         <input type="hidden" value="<?php echo $user_session->tipo ?>" id="tipo_usuario" name="tipo_usuario">
-        <input type="hidden" id="mesero" name="mesero">
+        <input type="hidden" id="mesero" name="mesero" value="<?php echo $user_session->id_usuario ?>">
         <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="movil">
         <div class="container-fluid">
             <div class="row row-deck row-cards">
@@ -127,11 +127,11 @@ Bienvenido DFpyme
                                     <div style="display: block" id="todas_las_mesas">
 
 
-                                    
-                                            <div id="lista_completa_mesas">
-                                                <?= $this->include('pedidos/todas_las_mesas_lista') ?>
-                                            </div>
-                                    
+
+                                        <div id="lista_completa_mesas">
+                                            <?= $this->include('pedidos/todas_las_mesas_lista') ?>
+                                        </div>
+
 
                                     </div>
                                 </div>
@@ -153,7 +153,7 @@ Bienvenido DFpyme
                                     <div class="col-6">
                                         <p id="mesa_pedido" class="text-warning "> Mesa:</p>
                                     </div>
-                                   <!--  <div class="col-3">
+                                    <!--  <div class="col-3">
                                         <p id="pedido_mesa">Pedio: </p>
                                     </div>
                                     <div class="col-3">
@@ -162,7 +162,7 @@ Bienvenido DFpyme
                                     <div class="col-4 text-end">
                                         <a class="btn btn-outline-indigo " href="#" onclick="validarInputYAbrirOffcanvas()" role="button" w-100>
 
-                                          <!--   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <!--   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <path d="M3 14c.83 .642 2.077 1.017 3.5 1c1.423 .017 2.67 -.358 3.5 -1c.83 -.642 2.077 -1.017 3.5 -1c1.423 -.017 2.67 .358 3.5 1" />
                                                 <path d="M8 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2" />
@@ -242,8 +242,10 @@ Bienvenido DFpyme
 
 
                             </div>
-
+                            <br>
+                            <p>Software DFpyme</p>
                         </div>
+
                     </div>
                 </div>
 
@@ -360,7 +362,7 @@ Bienvenido DFpyme
                             <div class="row mb-2 gy-2">
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                       
+
 
 
 

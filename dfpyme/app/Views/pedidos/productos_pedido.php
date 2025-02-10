@@ -60,7 +60,7 @@
                     </div>
                     <input type="hidden" class="form-control" value="<?php echo $detalle['cantidad_producto'] ?>">
                     <!-- <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" onclick="detener_propagacion(event),abrir_modal_editar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)" onkeypress="return valideKey(event)" > -->
-                    <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)"  id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
+                    <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)" id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
                     <div class="input-group-append">
                         <a href="#" class="btn bg-muted-lt btn-icon" onclick="actualizar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')" title="Agregar producto">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -216,7 +216,7 @@
                             </a>
                         </div>
                         <input type="hidden" class="form-control" value="<?php echo $detalle['cantidad_producto'] ?>" id="cant_prod<?php echo $detalle['id_tabla_producto'] ?>" required>
-                        <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)"  id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
+                        <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)" id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
                         <!--                        <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" onclick="detener_propagacion(event),abrir_modal_editar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)" onkeypress="return valideKey(event)" >
  -->
                         <div class="input-group-append">
@@ -258,7 +258,38 @@
 
     </div>
 
+    <?php $mostrarMesero = model('configuracionPedidoModel')->select('mostrarmesero')->first(); ?>
 
+    <?php if ($mostrarMesero['mostrarmesero'] === "t"): ?>
+        <div class="row text-primary">
+
+            <?php
+            $hora = model('productoPedidoModel')->select('hora')->where('id', $detalle['id'])->first();
+            $usuario = model('productoPedidoModel')->select('idUsuario')->where('id', $detalle['id'])->first();
+            $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $usuario['idUsuario'])->first();
+
+            $hora_formateada = date('h:i A', strtotime($hora['hora'])); // Formato 12 horas con AM/PM
+            ?>
+            <div class="col-6"><?php echo $hora_formateada . " " . $nombre_usuario['nombresusuario_sistema'];  ?></div>
+
+            <!--    <div class="col-3">Fecha:</div>
+        <?php
+        $fecha = date('Y-m-d');
+        $dia_semana = date('l'); // Obtiene el día de la semana en inglés
+        $dias = [
+            'Monday' => 'Lunes',
+            'Tuesday' => 'Martes',
+            'Wednesday' => 'Miércoles',
+            'Thursday' => 'Jueves',
+            'Friday' => 'Viernes',
+            'Saturday' => 'Sábado',
+            'Sunday' => 'Domingo'
+        ];
+        $dia_traducido = $dias[$dia_semana]; // Traducción del día
+        ?>
+        <div class="col-3"><?php echo "$fecha ($dia_traducido)"; ?></div> -->
+        </div>
+    <?php endif ?>
 
 
     </div>

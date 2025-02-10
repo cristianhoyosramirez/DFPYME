@@ -9,7 +9,24 @@ class productoPedidoModel extends Model
     protected $table      = 'producto_pedido';
     // Uncomment below if you want add primary key
     // protected $primaryKey = 'id';
-    protected $allowedFields = ['numero_de_pedido', 'cantidad_producto', 'nota_producto', 'valor_unitario', 'impresion_en_comanda', 'cantidad_entregada', 'valor_total', 'se_imprime_en_comanda',  'codigo_categoria', 'codigointernoproducto', 'numero_productos_impresos_en_comanda', 'id_impresora'];
+    protected $allowedFields = [
+        'numero_de_pedido',
+        'cantidad_producto',
+        'nota_producto',
+        'valor_unitario',
+        'impresion_en_comanda',
+        'cantidad_entregada',
+        'valor_total',
+        'se_imprime_en_comanda',
+        'codigo_categoria',
+        'codigointernoproducto',
+        'numero_productos_impresos_en_comanda',
+        'id_impresora',
+        'idUsuario',
+        'fecha',
+        'hora',
+        
+    ];
 
     public function producto_pedido($numero_pedido)
     {
@@ -502,8 +519,17 @@ class productoPedidoModel extends Model
 
 
 
-    public function insertar($ultimo_id_pedido, $valor_unitario, $se_imprime_en_comanda, $codigo_categoria, $codigo_interno_producto, $cantidad)
-    {
+    public function insertar(
+        $ultimo_id_pedido,
+        $valor_unitario,
+        $se_imprime_en_comanda,
+        $codigo_categoria,
+        $codigo_interno_producto,
+        $cantidad,
+        $idUser,
+        $fecha,
+        $hora
+    ) {
 
         $data = [
             'numero_de_pedido' => $ultimo_id_pedido,
@@ -516,7 +542,10 @@ class productoPedidoModel extends Model
             'se_imprime_en_comanda' => $se_imprime_en_comanda,
             'codigo_categoria' => $codigo_categoria,
             'codigointernoproducto' => $codigo_interno_producto,
-            'numero_productos_impresos_en_comanda' => 0
+            'numero_productos_impresos_en_comanda' => 0,
+            'idUsuario' => $idUser,
+            'fecha' => $fecha,
+            'hora' => $hora
         ];
         $productos = $this->db->table('producto_pedido');
         $productos->insert($data);

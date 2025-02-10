@@ -156,6 +156,7 @@ $routes->group('categoria', ['namespace' => 'App\Controllers\categoria', 'filter
     $routes->post('actualizacion_productos', 'categoriaController::actualizacion_productos');
     $routes->post('componentes_producto', 'categoriaController::componentes_producto');
     $routes->get('verRecetas', 'categoriaController::verRecetas');
+    $routes->post('buscarProducto', 'categoriaController::buscarProducto');
 });
 
 $routes->group('pedido', ['namespace' => 'App\Controllers\pedido', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -247,6 +248,7 @@ $routes->group('factura_directa', ['namespace' => 'App\Controllers\factura_pos',
     $routes->post('eliminacion_de_producto', 'facturaDirectaController::eliminacion_de_producto');
     $routes->get('factura_pos', 'facturaDirectaController::factura_pos');
     $routes->post('comanda_directa', 'facturaDirectaController::comanda_directa');
+    $routes->get('reporteCosto', 'facturaDirectaController::reporteCosto');
 });
 
 $routes->group('administracion_impresora', ['namespace' => 'App\Controllers\administracion_impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -523,7 +525,7 @@ $routes->group('inventario', ['namespace' => 'App\Controllers\pedidos', 'filter'
     $routes->post('reporte_ventas', 'Inventarios::reporte_ventas');
     $routes->post('export_pdf', 'Inventarios::export_pdf');
     $routes->post('producto_entrada', 'Inventarios::producto_entrada');
-    $routes->get('ingresar_entrada', 'Inventarios::ingresar_entrada');
+    $routes->POST('ingresar_entrada', 'Inventarios::ingresar_entrada');
     $routes->post('eliminar_producto_compra', 'Inventarios::eliminar_producto_compra');
     $routes->post('actualizar_producto_compra', 'Inventarios::actualizar_producto_compra');
     $routes->post('usuario_producto_compra', 'Inventarios::usuario_producto_compra');

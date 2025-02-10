@@ -13,7 +13,7 @@ HOME
 
             <button type="button" class="btn btn-outline-primary me-2" onclick="productoIva()">Productos con IVA </button>
             <button type="button" class="btn btn-outline-primary me-2" onclick="productoInc()">Productos con INC </button>
-            <button type="button" class="btn btn-outline-primary me-2">Crear producto venta </button>
+           <!--  <button type="button" class="btn btn-outline-primary me-2">Crear producto venta </button> -->
             <div class="dropdown">
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     Recetas
@@ -21,7 +21,7 @@ HOME
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" href="#" onclick="VerRecetas()">Ver recetas </a></li>
                     <!-- <li><a class="dropdown-item" href="#" onclick="CrearIngrediente()">Crear ingrediente </a></li> -->
-                    <li><a class="dropdown-item" href="#" onclick="CrearRecete()">Crear receta </a></li>
+                    <li><a class="dropdown-item" href="#" onclick="CrearReceta()">Crear receta </a></li>
                 </ul>
             </div>
 
@@ -197,7 +197,7 @@ HOME
                                                 </div>
                                                 <div class="col-1">
                                                     <label for="" class="form-label"><?php echo $tipo_impuesto ?></label>
-                                                   <input type="text" class="form-control" value="<?php echo $impuesto." %"; ?>">
+                                                    <input type="text" class="form-control" value="<?php echo $impuesto . " %"; ?>">
                                                 </div>
 
                                                 <div class="col-2 d-flex justify-content-end">
@@ -230,6 +230,79 @@ HOME
             <?php endforeach; ?>
         </div>
 
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="crearReceta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Creacion de recetas </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="" class="form-label">Seleccionar Recetas</label>
+
+                        <select name="" id="" class="form-select">
+
+                            <?php foreach ($recetas as $detalle): ?>
+                                <option value="<?php echo $detalle['id'] ?>"><?php echo $detalle['nombreproducto']; ?></option>
+                            <?php endforeach ?>
+
+                        </select>
+
+                    </div>
+                    <div class="col-6">
+                        <label for="" class="form-label">Receta </label>
+                        <input type="text" class="form-control text-orange" readonly id="nombreReceta">
+                    </div>
+                </div>
+                <div class="row  mb-3">
+                    <?php $insumos = model('productoModel')->select('codigointernoproducto, nombreproducto')->where('id_tipo_inventario', 4)->findAll(); ?>
+                    <div class="col-6">
+                        <label for="" class="form-label">Insumos </label>
+                        <input type="text" class="form-control">
+
+                    </div>
+                    <div class="col-4">
+                        <label for="" class="form-label">Insumo </label>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                    <div class="col-2 d-flex align-items-end">
+                        <div>
+                            <label for="cantidad" class="form-label">Cantidad</label>
+                            <input type="text" id="cantidad" class="form-control">
+                        </div>
+                        <button type="button" class="btn btn-outline-primary ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Agregar">+</button>
+                    </div>
+
+                </div>
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <td scope="col">Código</th>
+                            <td scope="col">Producto </th>
+                            <td scope="col">Cantidad </th>
+                            <td scope="col">Valor costo unidad </th>
+                            <td scope="col">Valor costo total </th>
+                            <td scope="col">Accion </th>
+                        </tr>
+                    </thead>
+                    <tbody id="ingredientes">
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Crear </button>
+                <button type="button" class="btn btn-outline-danger">Cancelar </button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -329,6 +402,49 @@ HOME
         </div>
     </div>
 </div>
+
+<script>
+    async function buscarProducto(valor) {
+        try {
+            const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+            const url = `${baseUrl}/categoria/buscarProducto`; // Construye la URL dinámica
+
+            const response = await fetch(url, {
+                method: 'POST', // Cambio de GET a POST
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    valor: valor
+                }) // Envía el valor en el cuerpo
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success === true) {
+                // Mostrar el modal
+
+            } else {
+                sweet_alert_centrado('warning', 'No hay productos con IVA');
+            }
+        } catch (error) {
+            console.error('Hubo un problema al obtener los productos:', error);
+            alert('No se pudo obtener la información de los productos. Por favor, intenta de nuevo.');
+        }
+    }
+</script>
+
+
+<script>
+    function CrearReceta() {
+        const myModal = new bootstrap.Modal(document.getElementById('crearReceta'));
+        myModal.show();
+    }
+</script>
 
 <script>
     async function productoIva() {

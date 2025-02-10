@@ -74,7 +74,7 @@ async function sendInvoice(iddoc) {
 
 
 
-function factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta, tipo_pago, efectivo, transaccion, id_usuario, propina_format,medio_de_pago) {
+function factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta, tipo_pago, efectivo, transaccion, id_usuario, propina_format,medio_de_pago,formaPago) {
     let button = document.querySelector("#btn_pagar");
     button.disabled = true; // Habilitar el botón
 
@@ -91,7 +91,8 @@ function factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago
                 estado,
                 pago_total,
                 propina_format,
-                medio_de_pago
+                medio_de_pago,
+                formaPago
             },
             url: url + "/" + "factura_electronica/pre_factura",
             type: "POST",

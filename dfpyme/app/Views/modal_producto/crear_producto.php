@@ -26,6 +26,17 @@
             <p class="h4 text-green">Información general</p>
           </div>
 
+          <div class="row mb-3">
+            <div class="col-2">
+              <?php $inventarios = model('tipoInventarioModel')->orderBy('id','asc')->findAll(); ?>
+              <label for="">Tipo producto</label>
+              <select name="tipoProducto" id="tipoProducto" class="form-select">
+                <?php foreach ($inventarios as $keyInventario): ?>
+                  <option value="<?php echo $keyInventario['id'];  ?>"> <?php echo $keyInventario['descripcion'];  ?> </option>
+                <?php endforeach ?>
+              </select>
+            </div>
+          </div>
 
 
           <div class="col-md-1">

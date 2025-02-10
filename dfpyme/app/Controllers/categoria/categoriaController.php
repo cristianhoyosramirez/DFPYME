@@ -422,8 +422,11 @@ class categoriaController extends BaseController
 
         $categorias = model('categoriasModel')->select('codigocategoria,nombrecategoria,id')->orderBy('orden', 'asc')->findAll();
 
+        $rectas=model('productoModel')->select('codigointernoproducto,id,nombreproducto')->where('id_tipo_inventario',3)->findAll();
+
         return view('producto/categorias', [
-            'categorias' => $categorias
+            'categorias' => $categorias,
+            'recetas'=>$rectas
         ]);
     }
 
@@ -549,5 +552,19 @@ class categoriaController extends BaseController
                 ])
             ]);
         }
+    }
+
+    function buscarProducto()
+    {
+
+        //echo $valor = $this->request->getJSON()->valor; 
+        $data = $this->request->getJSON();
+
+        $valor=$data->valor;
+
+        return $this->response->setJSON([
+            'success' => true,
+          
+        ]);
     }
 }
