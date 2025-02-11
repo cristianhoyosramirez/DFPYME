@@ -1727,6 +1727,35 @@
     </script>
 
     <script>
+      function reporte_ventas_sinCantidades() {
+
+        var url = document.getElementById("url").value;
+        var id_apertura = document.getElementById("id_apertura").value;
+        var tipo_reporte = document.getElementById("tipo_reporte").value;
+
+
+        $.ajax({
+          data: {
+            id_apertura,
+            tipo_reporte
+          },
+          url: url + "/" + "consultas_y_reportes/reporte_de_ventasSinCantidades",
+          type: "POST",
+          success: function(resultado) {
+            var resultado = JSON.parse(resultado);
+            if (resultado.resultado == 1) {
+
+              $("#datos_informe").html(resultado.datos);
+              $("#titulo_reporte").html('INFORME DE VENTAS');
+              $("#modal_informe_fiscal").modal("show");
+              $("#modal_informe_fiscal").modal("show");
+            }
+          },
+        });
+
+      }
+    </script>
+    <script>
       function reporte_ventas() {
 
         var url = document.getElementById("url").value;

@@ -715,78 +715,7 @@ class Imprimir extends BaseController
     }
 
 
-    /*    function reporte_ventas()
-    {
-
-
-        $id_apertura = $this->request->getPost('id_apertura');
-
-        $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
-        $datos_empresa = model('empresaModel')->datosEmpresa();
-
-        $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
-
-        $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
-        $printer = new Printer($connector);
-
-        $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->setTextSize(1, 1);
-        $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
-        $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
-        $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
-        $printer->text($datos_empresa[0]['direccionempresa'] . "  " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento'] . "\n");
-        $printer->text("TELEFONO:" . $datos_empresa[0]['telefonoempresa'] . "\n");
-        $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
-        $printer->text("\n");
-
-
-
-        $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->text("**REPORTE DE VENTAS** \n\n");
-
-
-
-
-        $categorias = model('kardexModel')->temp_categoria($id_apertura);
-
-
-        $printer->setJustification(Printer::JUSTIFY_LEFT);
-
-
-
-        foreach ($categorias as $detalle) {
-            $nombre_categoria = model('categoriasModel')->select('nombrecategoria')->where('codigocategoria', $detalle['id_categoria'])->first();
-            $categoria = $nombre_categoria['nombrecategoria'];
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("------------------------------------\n");
-            $printer->text("CATEGORIA: " . $categoria . "\n");
-            $printer->text("------------------------------------\n\n");
-            $productos = model('kardexModel')->temp_categoria_productos($detalle['id_categoria'], $id_apertura);
-
-            foreach ($productos as $valor) {
-                $printer->setJustification(Printer::JUSTIFY_LEFT);
-                // Alinea la cantidad a la derecha con una longitud fija de 10 caracteres
-                $cantidad_alineada = str_pad($valor['cantidad'], 7, ' ', STR_PAD_LEFT);
-                $printer->text($cantidad_alineada . " ____ " . $valor['nombreproducto'] .   "\n");
-            }
-            $printer->text("\n");
-        }
-
-
-
-
-        $printer->text("\n");
-
-        $printer->feed(1);
-        $printer->cut();
-
-        $printer->close();
-
-        $returnData = array(
-            "resultado" => 1
-        );
-        echo  json_encode($returnData);
-    } */
+  
 
     function reporte_ventas()
     {
@@ -807,6 +736,28 @@ class Imprimir extends BaseController
             $apertura = model('cierreModel')->select('idapertura')->where('id', $id_cierre)->first();
             $imp = new impresion();
             $impresion = $imp->imp_reporte_ventas($apertura['idapertura']);
+        }
+    }
+
+    function reporte_ventasSinCantidades()
+    {
+        //var_dump($this->request->getPost()); exit();
+        $id_apertura = $this->request->getPost('id_apertura');
+        //$id_apertura = 12;
+        $id_cierre = $this->request->getPost('id_cierre');
+
+        /*  $imp = new impresion();
+        $impresion = $imp->imp_reporte_ventas($id_cierre); */
+
+
+        if (!empty($id_apertura)) {
+            $imp = new impresion();
+            $impresion = $imp->imp_reporte_ventasSinCantidades($id_apertura);
+        }
+        if (!empty($id_cierre)) {
+            $apertura = model('cierreModel')->select('idapertura')->where('id', $id_cierre)->first();
+            $imp = new impresion();
+            $impresion = $imp->imp_reporte_ventasSinCantidades($apertura['idapertura']);
         }
     }
 

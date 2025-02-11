@@ -24,15 +24,23 @@ class ComprasModel extends Model
         'inventario_actual'
     ];
 
-    public function insertar($data)
+   /*  public function insertar($data)
     {
         $datos = $this->db->table('producto_factura_proveedor_temp');
         $datos->insert($data);
 
         return $this->db->insertID();
-    }
+    } */
 
-    public function productos($id_usuario)
+     public function insertar($data)
+    {
+        $datos = $this->db->table('producto_factura_prov_temp');
+        $datos->insert($data);
+
+        return $this->db->insertID();
+    } 
+
+/*     public function productos($id_usuario)
     {
         $datos = $this->db->query("
          SELECT
@@ -47,7 +55,23 @@ class ComprasModel extends Model
         order by id desc
          ");
         return $datos->getResultArray();
-    }
+    } */
+     public function productos($id_usuario)
+    {
+        $datos = $this->db->query("
+        SELECT
+            producto_factura_prov_temp.id,
+            codigo_producto as codigointernoproducto,
+            cantidad,
+            valor,
+            producto.nombreproducto
+        FROM
+            producto_factura_prov_temp
+        INNER JOIN producto ON producto.codigointernoproducto = producto_factura_prov_temp.codigo_producto where id_usuario=$id_usuario
+        order by id desc
+         ");
+        return $datos->getResultArray();
+    } 
     public function borrado($id_usuario)
     {
         $datos = $this->db->query("
@@ -78,12 +102,12 @@ WHERE
 
     public function numero_articulos($id_usuario)
     {
-        $articulos = $this->db->query("SELECT sum(cantidad) as total_productos FROM producto_factura_proveedor_temp where id_usuario=$id_usuario");
+        $articulos = $this->db->query("SELECT sum(cantidad) as total_productos FROM producto_factura_prov_temp where id_usuario=$id_usuario");
         return $articulos->getResultArray();
     }
     public function total($id_usuario)
     {
-        $articulos = $this->db->query("SELECT sum(cantidad*valor) as total FROM producto_factura_proveedor_temp where id_usuario=$id_usuario");
+        $articulos = $this->db->query("SELECT sum(cantidad*valor) as total FROM producto_factura_prov_temp where id_usuario=$id_usuario");
         return $articulos->getResultArray();
     }
 
@@ -197,7 +221,7 @@ WHERE
                                    SELECT 
                                         cantidad,valor,id_usuario
                                     FROM 
-                                        producto_factura_proveedor_temp
+                                        producto_factura_prov_temp
                                         WHERE id=$id
         ");
         return $compra->getResultArray();

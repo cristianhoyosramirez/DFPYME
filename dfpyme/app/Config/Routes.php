@@ -339,6 +339,7 @@ $routes->group('consultas_y_reportes', ['namespace' => 'App\Controllers\consulta
     $routes->post('movimientos_de_caja', 'cajaDiariaController::movimientos_de_caja');
     $routes->post('detalle_movimiento_de_caja', 'cajaDiariaController::detalle_movimiento_de_caja');
     $routes->post('reporte_de_ventas', 'cajaDiariaController::reporte_de_ventas');
+    $routes->post('reporte_de_ventasSinCantidades', 'cajaDiariaController::reporte_de_ventasSinCantidades');
     $routes->post('detalle_retiros', 'cajaDiariaController::detalle_retiros');
     $routes->post('editar_valor_cierre', 'cajaDiariaController::editar_valor_cierre');
     $routes->post('actualizar_valor_cierre', 'cajaDiariaController::actualizar_valor_cierre');
@@ -501,6 +502,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->post('impresion_factura_electronica', 'Imprimir::impresion_factura_electronica');
     $routes->post('detalle_f_e', 'Imprimir::detalle_f_e');
     $routes->post('reporte_ventas', 'Imprimir::reporte_ventas');
+    $routes->post('reporte_ventasSinCantidades', 'Imprimir::reporte_ventasSinCantidades');
     $routes->post('imprimir_fiscal', 'Imprimir::imprimir_fiscal');
     $routes->get('imprimir_inventario', 'Imprimir::imprimir_inventario');
     $routes->get('imprimir_inventario_sin_cantidades', 'Imprimir::imprimir_inventario_sin_cantidades');

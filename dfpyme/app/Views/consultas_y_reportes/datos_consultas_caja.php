@@ -74,6 +74,13 @@ MOVIMIENTO DE CAJA
                             <button type="button" class="btn btn-outline-warning btn-icon" onclick="reporte_ventas()" title="Reporte de ventas de producto por categoria " data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-placement="bottom">Ventas</button>
                         </form>
                     </span>
+                    <span class="d-none d-sm-inline">
+                        <form action="<?= base_url('consultas_y_reportes/reporte_de_ventas') ?>" method="POST" target="_blank">
+                            <input type="hidden" value="pantalla" name="tipo_reporte" id="tipo_reporte">
+                            <input type="hidden" name="id_apertura" value="<?php echo $id_apertura ?>" id="id_apertura">
+                            <button type="button" class="btn btn-outline-primary btn-icon" onclick="reporte_ventas_sinCantidades()" title="Reporte de ventas de producto por categoria " data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-placement="bottom">Ventas cantidades</button>
+                        </form>
+                    </span>
                   <!--   <form action="<?= base_url('consultas_y_reportes/informe_fiscal_desde_caja') ?>" method="POST">
                         <input type="hidden" name="id_apertura" value="<?php echo $id_apertura ?>" id="id_aperturas">
                         <button type="button" class="btn btn-outline-dark btn-icon" target="_blank" onclick="fiscal()" title="Informe fiscal de ventas " data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-placement="bottom">Fiscal POS</button>

@@ -589,15 +589,15 @@ class Inventarios extends BaseController
         $cantidad = $this->request->getPost('cantidad');
         $id_usuario = $this->request->getPost('id_usuario');
 
-        /*    $codigo_producto = '2';
+        /*   $codigo_producto = '2';
         $precio = 10.000;
         $cantidad = 1;
-        $id_usuario = 6;  */
-
+        $id_usuario = 6; */
+        /* 
         $datos = [
             'idfactura' => 1,
             'codigo_producto' => $codigo_producto,
-            'idmedida' => 1,
+            'idmedida' => 3,
             'idcolor' => 0,
             'idlote' => 1,
             'cantidad' => $cantidad,
@@ -606,11 +606,18 @@ class Inventarios extends BaseController
             'descuento' => 0,
             'descuento_2' => 0,
             'id_usuario' => $id_usuario,
+        ]; */
+
+        $datos = [
+            'codigo_producto' => $codigo_producto,
+            'cantidad' => $cantidad,
+            'valor' => str_replace('.', '', $precio),
+            'id_usuario' => $id_usuario,
         ];
 
 
         $insert = model('ComprasModel')->insertar($datos);
-        
+
 
         if ($insert) {
 
