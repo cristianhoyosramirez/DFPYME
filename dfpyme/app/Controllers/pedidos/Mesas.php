@@ -459,7 +459,7 @@ class Mesas extends BaseController
 
         $configuracion_propina = model('configuracionPedidoModel')->select('calculo_propina')->first();
 
-        //$id_usuario = 8;
+       // $id_usuario = 8;
 
 
         //$id_usuario = 15;
@@ -582,7 +582,9 @@ class Mesas extends BaseController
         } else  if (!empty($tiene_pedido)) {
 
 
+
             $configuracion_pedido = model('configuracionPedidoModel')->select('agregar_item')->first();
+
 
             if ($configuracion_pedido['agregar_item'] == 0) {   // Actualiza el producto 
 
@@ -770,7 +772,7 @@ class Mesas extends BaseController
                     'se_imprime_en_comanda' =>  $se_imprime_en_comanda['se_imprime'],
                     'codigo_categoria' =>   $codigo_categoria['codigocategoria'],
                     'codigointernoproducto' => $codigo_interno_producto,
-                    'numero_productos_impresos_en_comanda' => 2,
+                    'numero_productos_impresos_en_comanda' => 0,
                     'idUsuario' => $id_usuario,
                     'fecha' => date('Y-m-d'),
                     'hora' => date('H:m:i')
@@ -1030,8 +1032,8 @@ class Mesas extends BaseController
 
 
         //$id_tabla_producto = $_POST['id_tabla_producto']; 
-        $id_tabla_producto = $_POST['id_tabla_producto']; 
-        //$id_tabla_producto = 32;
+         $id_tabla_producto = $_POST['id_tabla_producto']; 
+        //$id_tabla_producto = 33587;
         $id_usuario = $_POST['id_usuario'];
         //$id_usuario = 6;
 
@@ -1048,7 +1050,6 @@ class Mesas extends BaseController
         $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $codigo_interno_producto['codigointernoproducto'])->first();
         $cantidad_impresos = model('productoPedidoModel')->select('numero_productos_impresos_en_comanda')->where('id', $id_tabla_producto)->first();
         $item = model('productoPedidoModel')->where('id', $id_tabla_producto)->first();
-
 
         if ($cantidad_impresos['numero_productos_impresos_en_comanda'] < $cantidad_producto['cantidad_producto']) {
 
@@ -1369,6 +1370,77 @@ class Mesas extends BaseController
                 echo  json_encode($returnData);
             }
         }
+
+        /* if ($cantidad_impresos['numero_productos_impresos_en_comanda'] == 0) {
+            if ($tipo_usuario['idtipo'] == 0 or $tipo_usuario['idtipo'] == 1) {
+                $item = model('productoPedidoModel')->where('id', $id_tabla_producto)->first();
+
+                $producto = [
+                    'codigointernoproducto' => $item['codigointernoproducto'],
+                    'cantidad' => $item['cantidad_producto'],
+                    'fecha_eliminacion' => date('Y-m-d'),
+                    'hora_eliminacion' => date('H:i:s'),
+                    'usuario_eliminacion' => $id_usuario,
+                    'pedido' => $item['numero_de_pedido']
+                ];
+
+                $insert = model('productosBorradosModel')->insert($producto);
+
+                $numero_pedido = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_tabla_producto)->first();
+                $borrar_producto_pedido = model('productoPedidoModel')->where('id', $id_tabla_producto);
+                $borrar_producto_pedido->delete();
+
+                if ($borrar_producto_pedido) {
+
+                    $fk_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido['numero_de_pedido'])->first();
+                    $valor_total_pedido = model('productoPedidoModel')->selectSum('valor_total')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
+                    $cantidad_productos = model('productoPedidoModel')->selectSum('cantidad_producto')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
+
+
+
+                    $actualizar_total_pedido = [
+                        'valor_total' => $valor_total_pedido[0]['valor_total'],
+                        'cantidad_de_productos' => $cantidad_productos[0]['cantidad_producto']
+                    ];
+                    $model = model('pedidoModel');
+                    $actualizar = $model->set($actualizar_total_pedido);
+                    $actualizar = $model->where('id', $numero_pedido['numero_de_pedido']);
+                    $actualizar = $model->update();
+
+                    $productos_pedido = model('productoPedidoModel')->producto_pedido($numero_pedido['numero_de_pedido']);
+                    $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido['numero_de_pedido'])->first();
+                    $cantidad_de_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['numero_de_pedido'])->first();
+                    $productos_del_pedido = view('pedidos/productos_pedido', [
+                        "productos" => $productos_pedido,
+                        "pedido" => $numero_pedido['numero_de_pedido']
+                    ]);
+
+                   
+
+                    if ($configuracion_propina['calculo_propina'] == 't') {
+                        $temp_propina = new Propina();
+                        $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+                        $sub_total = $total_pedido['valor_total'];
+                        $propina_final = $propina['propina'];
+                    }
+                    if ($configuracion_propina['calculo_propina'] == 'f') {
+
+                        $propina_final = 0;
+                    }
+
+                    $returnData = array(
+                        "resultado" => 1,  // Se actulizo el registro 
+                        "productos" => $productos_del_pedido,
+                        "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + $propina_final, 0, ',', '.'),
+                        "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
+                        "mensaje" => "Eliminacion de  "  . $nombre_producto['nombreproducto'],
+                        "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
+                        "propina" => number_format($propina_final, 0, ',', '.'),
+                    );
+                    echo  json_encode($returnData);
+                }
+            }
+        } */
     }
 
 
