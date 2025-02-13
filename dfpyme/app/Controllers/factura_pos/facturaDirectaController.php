@@ -812,7 +812,37 @@ class facturaDirectaController extends BaseController
 
     function reporteCosto()
     {
+        $fechaInicial = date('Y-m-d');
+        $fechaFinal = date('Y-m-d');
 
-        return view('reportes/costo_producto');
+        $productos = model('ReporteImpuestosModel')->getProductos($fechaInicial, $fechaFinal);
+
+
+        $total = model('ReporteImpuestosModel')->getTotal($fechaInicial, $fechaFinal);
+
+
+        return view('reportes/costo_producto', [
+            'productos' => $productos,
+            'total' => $total
+        ]);
+    }
+
+    function reporteCostoExcel() {}
+
+    function BuscarReporteCosto() {
+
+        $json = $this->request->getJSON();
+        $fecha_inicial= $json->fecha_inicial;
+        $fecha_final= $json->fecha_final;
+
+        $productos = model('ReporteImpuestosModel')->getProductos($fecha_inicial, $fecha_final);
+        $total = model('ReporteImpuestosModel')->getTotal($fecha_inicial, $fecha_final);
+
+
+        return $this->response->setJSON([
+            'response' => 'success',
+            'productos'=>$productos
+           
+        ]);
     }
 }

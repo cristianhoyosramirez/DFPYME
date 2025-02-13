@@ -795,7 +795,7 @@ class Inventarios extends BaseController
     {
         /*  $id_usuario = 6;
         $nota = "";
-        $proveedor = 3;
+        $proveedor = 10007;
         $fecha_factura = date('Y-m-d');
         $productos = model('ComprasModel')->productos($id_usuario); */
 

@@ -249,6 +249,8 @@ $routes->group('factura_directa', ['namespace' => 'App\Controllers\factura_pos',
     $routes->get('factura_pos', 'facturaDirectaController::factura_pos');
     $routes->post('comanda_directa', 'facturaDirectaController::comanda_directa');
     $routes->get('reporteCosto', 'facturaDirectaController::reporteCosto');
+    $routes->post('BuscarReporteCosto', 'facturaDirectaController::BuscarReporteCosto');
+    $routes->post('reporteCostoExcel', 'facturaDirectaController::reporteCostoExcel');
 });
 
 $routes->group('administracion_impresora', ['namespace' => 'App\Controllers\administracion_impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {
