@@ -232,13 +232,13 @@
 
 
     <script>
-        function cambiarValorfrmPago(idFrmPago,valor) {
+        function cambiarValorfrmPago(idFrmPago, valor) {
 
 
             var idFrmPago = idFrmPago;
 
             const dynamicId = idFrmPago;
-        
+
             const input = document.querySelector("#frmPago" + dynamicId);
             // Verificar si se encontró el input
             if (!input) {
@@ -264,24 +264,24 @@
             let id_mesa = document.getElementById("id_mesa_pedido").value;
 
             $.ajax({
-                    data: {
-                        id_mesa
-                    },
-                    url: url + "/" + "reportes/productos_pedido",
-                    type: "get",
-                    success: function(resultado) {
-                        var resultado = JSON.parse(resultado);
-                        if (resultado.resultado == 1) {
+                data: {
+                    id_mesa
+                },
+                url: url + "/" + "reportes/productos_pedido",
+                type: "get",
+                success: function(resultado) {
+                    var resultado = JSON.parse(resultado);
+                    if (resultado.resultado == 1) {
 
-                            let mesas = resultado.mesas;
+                        let mesas = resultado.mesas;
 
-                            
 
-                            // Asumiendo que tienes una tabla con un cuerpo de tabla con el id "tabla-mesas"
 
-                        }
-                    },
-                });
+                        // Asumiendo que tienes una tabla con un cuerpo de tabla con el id "tabla-mesas"
+
+                    }
+                },
+            });
 
 
         }
@@ -1813,6 +1813,37 @@
             // Reemplaza todos los puntos en la propina
             let total_propina = propina_parcial.replace(/\./g, '');
 
+            //console.log(tipo_pago)
+            
+            if (tipo_pago == 1) {
+                $('#transaccion').val(total_venta.toLocaleString('es-CO'))
+                $('#efectivo').val(0)
+                $('#pago').html('Valor pago: ' + total_venta.toLocaleString('es-CO'))
+                $('#faltante').html('Faltante: 0 ')
+                $('#cambio').html('Cambio: 0')
+            }
+
+
+            if (tipo_pago == 0) {
+                //let total = total_venta + parseFloat(total_propina);
+                let total = total_venta ;
+                $('#transaccion').val(total.toLocaleString('es-CO'))
+                $('#pago').html('Valor pago: ' + total.toLocaleString('es-CO'))
+                $('#faltante').html('Faltante: 0')
+                $('#cambio').html('Cambio: 0')
+                $('#efectivo').val(0)
+            }
+
+        }
+    </script>
+    <!--   <script>
+        function pago_transaccion() {
+            var tipo_pago = document.getElementById("tipo_pago").value;
+            let total_venta = parseFloat(document.getElementById("valor_total_a_pagar").value);
+            let propina_parcial = document.getElementById("total_propina").value;
+            // Reemplaza todos los puntos en la propina
+            let total_propina = propina_parcial.replace(/\./g, '');
+
 
             if (tipo_pago == 1) {
                 $('#transaccion').val(total_venta.toLocaleString('es-CO'))
@@ -1833,7 +1864,7 @@
             }
 
         }
-    </script>
+    </script> -->
 
 
 

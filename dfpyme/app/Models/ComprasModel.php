@@ -75,7 +75,7 @@ class ComprasModel extends Model
     public function borrado($id_usuario)
     {
         $datos = $this->db->query("
-            delete from producto_factura_proveedor_temp where id_usuario=$id_usuario
+            delete from producto_factura_prov_temp where id_usuario=$id_usuario
          ");
         //return $datos->getResultArray();
     }

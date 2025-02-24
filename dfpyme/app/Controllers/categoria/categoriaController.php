@@ -423,10 +423,15 @@ class categoriaController extends BaseController
         $categorias = model('categoriasModel')->select('codigocategoria,nombrecategoria,id')->orderBy('orden', 'asc')->findAll();
 
         $rectas=model('productoModel')->select('codigointernoproducto,id,nombreproducto')->where('id_tipo_inventario',3)->findAll();
+        $insumos=model('productoModel')->select('codigointernoproducto,id,nombreproducto')->where('id_tipo_inventario',4)->findAll();
 
+    
+
+    
         return view('producto/categorias', [
             'categorias' => $categorias,
-            'recetas'=>$rectas
+            'recetas'=>$rectas,
+            'ingredientes'=>$insumos
         ]);
     }
 

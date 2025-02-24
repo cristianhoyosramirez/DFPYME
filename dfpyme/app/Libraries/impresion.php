@@ -732,6 +732,7 @@ class impresion
         $printer->text("número: " . $numero['numero'] . "\n");
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->qrCode($qr['qrcode'], Printer::QR_ECLEVEL_L, 4);
+        
         $printer->text("\n");
 
         $printer->text("CUFE: \n" . $cufe['cufe'] . "\n");

@@ -15,7 +15,8 @@ function pago_efectivo() {
 
     if (tipo_pago == 0) {
         // Asegúrate de convertir total_propina a número antes de sumarlo
-        let total = total_venta + parseFloat(total_propina);
+        //let total = total_venta + parseFloat(total_propina);
+        let total = total_venta;
         $('#efectivo').val(total.toLocaleString('es-CO'))
         $('#pago').html('valor pago: ' + total.toLocaleString('es-CO'))
         $('#faltante').html('Faltante: 0')

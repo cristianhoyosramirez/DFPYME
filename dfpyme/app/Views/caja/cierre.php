@@ -8,17 +8,9 @@ CAJA
 
 <div class="container">
     <div class="row text-center align-items-center flex-row-reverse">
+        
         <div class="col-lg-auto ms-lg-auto">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Ventas</a></li>
-                    <li class="breadcrumb-item"><a href="#">Caja</a></li>
-                    <li class="breadcrumb-item"><a href="<?= base_url('caja/apertura') ?>">Cierre de caja</a></li>
-                </ol>
-            </nav>
-        </div>
-        <div class="col-lg-auto ms-lg-auto">
-            <p class="text-primary h3">CIERRE DE CAJA  </p>
+            <p class="text-primary h3 text-center">CIERRE DE CAJA  </p>
         </div>
         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
             <a class="nav-link"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" onClick="history.go(-1);" title="Sección anterior"></a>

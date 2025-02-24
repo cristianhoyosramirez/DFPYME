@@ -72,7 +72,8 @@ class cajaController extends BaseController
             'idcaja' => $_REQUEST['numero_caja'],
             'idturno' => 1,
             'idusuario' => $_REQUEST['usuario_apertura'],
-            'valor' => $numero = str_replace('.', '', $_REQUEST['apertura_caja']),
+            //'valor' => $numero = str_replace('.', '', $_REQUEST['apertura_caja']),
+            'valor' => $numero = str_replace([',', '.'], '', $_REQUEST['apertura_caja']),
             'fecha_y_hora_apertura' => $fecha_y_hora
         ];
 

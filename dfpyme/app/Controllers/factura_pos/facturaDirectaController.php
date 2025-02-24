@@ -12,6 +12,11 @@ require APPPATH . "Controllers/mike42/autoload.php";
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 
 class facturaDirectaController extends BaseController
@@ -829,11 +834,12 @@ class facturaDirectaController extends BaseController
 
     function reporteCostoExcel() {}
 
-    function BuscarReporteCosto() {
+    function BuscarReporteCosto()
+    {
 
         $json = $this->request->getJSON();
-        $fecha_inicial= $json->fecha_inicial;
-        $fecha_final= $json->fecha_final;
+        $fecha_inicial = $json->fecha_inicial;
+        $fecha_final = $json->fecha_final;
 
         $productos = model('ReporteImpuestosModel')->getProductos($fecha_inicial, $fecha_final);
         $total = model('ReporteImpuestosModel')->getTotal($fecha_inicial, $fecha_final);
@@ -841,8 +847,225 @@ class facturaDirectaController extends BaseController
 
         return $this->response->setJSON([
             'response' => 'success',
-            'productos'=>$productos
-           
+            'productos' => view('reportes/costoProducto', [
+                'productos' => $productos
+            ]),
+            'total' => "Total  " . number_format($total[0]['total'], 0, '.', '.'),
+            'iva' => "Iva  " . number_format($total[0]['iva'], 0, '.', '.'),
+            'inc' => "Impoconsumo:  " . number_format($total[0]['inc'], 0, '.', '.')
+
         ]);
+    }
+
+    function exportCostoExcel()
+    {
+        $fecha_inicial = $this->request->getPost('fecha_inicial');
+        $fecha_final = $this->request->getPost('fecha_final');
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+
+        //$invoices = model('pagosModel')->getDocumentosCosto($fecha_inicial, $fecha_final);
+
+        $productos = model('ReporteImpuestosModel')->getProductos($fecha_inicial, $fecha_final);
+        $total = model('ReporteImpuestosModel')->getTotal($fecha_inicial, $fecha_final);
+
+
+        $file_name = 'Reporte de costos de ' . $fecha_inicial . ' al ' . $fecha_final . '.xlsx';
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Aplicar la fuente Aptos Narrow de tamaño 11 a todas las celdas
+        $spreadsheet->getDefaultStyle()->getFont()->setName('Aptos Narrow')->setSize(11);
+
+        // Establecer el estilo de las celdas del encabezado
+        $headerStyle = [
+            'font' => [
+                'bold' => true,
+                'size' => 12,
+                'color' => ['argb' => '000000'], // Fuente en color negro
+                'name' => 'Aptos Narrow',
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['argb' => 'F2F2F2'], // Fondo gris más claro
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'], // Bordes negros
+                ],
+            ],
+        ];
+
+
+
+        $sheet->setCellValue('A1', $datos_empresa[0]['nombrejuridicoempresa']);
+        $sheet->mergeCells('A1:G1');
+        $sheet->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+        $sheet->setCellValue('A2', $datos_empresa[0]['nombrecomercialempresa']);
+        $sheet->mergeCells('A2:G2');
+        $sheet->getStyle('A2:G2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A2:G2')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+        $sheet->setCellValue('A3', 'NIT: ' . $datos_empresa[0]['nitempresa']);
+        $sheet->mergeCells('A3:G3');
+        $sheet->getStyle('A3:G3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A3:G3')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+        $sheet->setCellValue(
+            'A4',
+            'Dirección: ' . $datos_empresa[0]['direccionempresa'] . " " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento']
+        );
+        $sheet->mergeCells('A4:G4');
+        $sheet->getStyle('A4:G4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A4:G4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+        $sheet->setCellValue('A5', 'REPORTE DE COSTO DE VENTA');
+        $sheet->mergeCells('A5:G5');
+
+        // Aplicar alineación centrada
+        $sheet->getStyle('A5')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A5')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+
+        $sheet->setCellValue('A6', "Fecha inicial");
+        $sheet->setCellValue('B6', $fecha_inicial);
+
+        $sheet->setCellValue('D6', "Fecha final");
+        $sheet->setCellValue('E6', $fecha_final);
+
+        $sheet->setCellValue('F6', "Fecha generacion");
+        $sheet->setCellValue('E6', date('Y-m-d'));
+
+
+
+
+        $sheet->getStyle('A8:l8')->applyFromArray($headerStyle);
+        $sheet->setCellValue('A8', 'Fecha ');
+        $sheet->setCellValue('B8', 'Documento');
+        $sheet->setCellValue('C8', 'Tipo documento');
+        $sheet->setCellValue('D8', 'Código');
+        $sheet->setCellValue('E8', 'Producto');
+        $sheet->setCellValue('F8', 'Cantidad');
+        $sheet->setCellValue('G8', 'Costo unidad  ');
+        $sheet->setCellValue('H8', 'Valor unidad  ');
+        $sheet->setCellValue('I8', 'Base ');
+        $sheet->setCellValue('J8', 'IVA  ');
+        $sheet->setCellValue('k8', 'INC  ');
+        $sheet->setCellValue('l8', 'Total  ');
+
+        $row = 9;
+
+        $totalCosto = 0;
+        $totalIVA = 0;
+        $totalICO = 0;
+
+        //dd($invoices);
+
+        /*  foreach ($invoices as $detalle) {
+            //$costo = model('kardexModel')->selectSum('costo')->where('id_factura', $detalle['id_factura'])->findAll();
+            $costo = model('kardexModel')->getCosto($detalle['id_factura'], $detalle['id_estado']);
+            //$iva = model('kardexModel')->selectSum('iva')->where('id_factura', $detalle['id_factura'])->findAll();
+            $iva = model('kardexModel')->getIva($detalle['id_factura'], $detalle['id_estado']);
+            //$inc = model('kardexModel')->selectSum('ico')->where('id_factura', $detalle['id_factura'])->findAll();
+            $inc = model('kardexModel')->getInc($detalle['id_factura'], $detalle['id_estado']);
+            $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
+
+            if ($detalle['id_estado'] == 8) {
+                $temp_documento = model('facturaElectronicaModel')->select('numero')->where('id', $detalle['id_factura'])->first();
+                $documento = $temp_documento['numero'];
+            } else if ($detalle['id_estado'] != 8) {
+                //$temp_doc=model('estadoModel')->select('descripcionestado')->where('idestado',$detalle['id_estado'])->first();
+                $documento = $detalle['documento'];
+            }
+
+            $tipo_documento = model('estadoModel')->select('descripcionestado')->where('idestado', $detalle['id_estado'])->first();
+
+            $sheet->setCellValue("A$row", $detalle['fecha']);
+            //$sheet->setCellValueExplicit("B$row", $detalle['nit_cliente'], DataType::TYPE_STRING);
+            $sheet->setCellValue("B$row", "'" . $detalle['nit_cliente']);
+            $sheet->setCellValue("C$row", $nombre_cliente['nombrescliente']);
+            $sheet->setCellValue("D$row", $tipo_documento['descripcionestado']);
+            //$sheet->setCellValue("E$row", $documento['numero']);
+            $sheet->setCellValue("E$row", $documento);
+            $sheet->setCellValue("F$row", $costo[0]['costo']);
+            $sheet->setCellValue("G$row", round($detalle['total_documento'] - ($iva[0]['iva'] + $inc[0]['ico']), 0));
+            $sheet->setCellValue("H$row", round($iva[0]['iva'], 0));
+            $sheet->setCellValue("I$row", round($inc[0]['ico'], 0));
+            $sheet->setCellValue("J$row", round($detalle['total_documento'], 0));
+
+            $totalCosto += $costo[0]['costo'];
+            $totalIVA += $iva[0]['iva'];
+            $totalICO += $inc[0]['ico'];
+            $row++;
+        } 
+
+        $row++;
+        //$sheet->setCellValue("A$row", "TOTAL VENTA");
+        $sheet->setCellValue("A$row", "TOTAL COSTO");
+        $sheet->setCellValue("B$row", "TOTAL IVA ");
+        $sheet->setCellValue("C$row", "TOTAL INC");
+        $sheet->setCellValue("D$row", "TOTAL VENTA");
+
+        $total = model('pagosModel')->getTotalVenta($fecha_inicial, $fecha_final);
+        $row++;
+ss
+        //$sheet->setCellValue("A$row", $total[0]['total']);
+        $sheet->setCellValue("A$row", round($totalCosto, 0));
+        $sheet->setCellValue("B$row", round($totalIVA, 0));
+        $sheet->setCellValue("C$row", round($totalICO, 0));
+        $sheet->setCellValue("D$row", $total[0]['total']);*/
+
+        $row = 9;
+        foreach ($productos as $detalle) {
+            $sheet->setCellValue("A$row", $detalle['fecha']);
+            $sheet->setCellValue("B$row", $detalle['numerodocumento']);
+            $sheet->setCellValue("C$row", $detalle['descripcionestado']);
+            $sheet->setCellValue("D$row", $detalle['codigo']);
+            $sheet->setCellValue("E$row", $detalle['nombreproducto']);
+            $sheet->setCellValue("F$row", $detalle['cantidad']);
+            $sheet->setCellValue("G$row", round($detalle['costo'] / $detalle['cantidad'], 0));
+            $sheet->setCellValue("H$row", round($detalle['valor_unitario'], 0));
+            $sheet->setCellValue("I$row", round($detalle['total'] - ($detalle['ico'] + $detalle['iva']), 0));
+            $sheet->setCellValue("J$row", round($detalle['iva'], 0));
+            $sheet->setCellValue("K$row", round($detalle['ico'], 0));
+            $sheet->setCellValue("L$row", round($detalle['total'], 0));
+
+
+            $row++;
+        }
+
+        $row++;
+
+        $sheet->setCellValue("A$row", "Total:");
+        $sheet->setCellValue("B$row", round($total[0]['total'], 0));
+
+        $row++; // Avanza otra fila para el IVA
+
+        $sheet->setCellValue("A$row", "IVA:");
+        $sheet->setCellValue("B$row", round($total[0]['iva'], 0));
+
+        $row++; // Avanza otra fila para el Impoconsumo
+
+        $sheet->setCellValue("A$row", "Impoconsumo:");
+        $sheet->setCellValue("B$row", round($total[0]['inc'], 0));
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($file_name);
+
+        header("Content-Type: application/vnd.ms-excel");
+        header('Content-Disposition: attachment; filename="' . basename($file_name) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length:' . filesize($file_name));
+        flush();
+        readfile($file_name);
+        exit;
     }
 }

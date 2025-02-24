@@ -279,5 +279,12 @@ DELETE FROM proveedor WHERE codigointernoproveedor <> 1;
 TRUNCATE TABLE entradas_salidas CASCADE;
 TRUNCATE TABLE entradas_salidas_manuales CASCADE;
 TRUNCATE TABLE movimiento_insumos CASCADE;
+truncate credencials_web_service;
+truncate resolucion_electronica;
+truncate item_impuesto;
+truncate apertura cascade;
+truncate factura_propina;
+truncate entradas_salidas cascade;
+
 
 

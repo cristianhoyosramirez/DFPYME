@@ -251,6 +251,7 @@ $routes->group('factura_directa', ['namespace' => 'App\Controllers\factura_pos',
     $routes->get('reporteCosto', 'facturaDirectaController::reporteCosto');
     $routes->post('BuscarReporteCosto', 'facturaDirectaController::BuscarReporteCosto');
     $routes->post('reporteCostoExcel', 'facturaDirectaController::reporteCostoExcel');
+    $routes->post('exportCostoExcel', 'facturaDirectaController::exportCostoExcel');
 });
 
 $routes->group('administracion_impresora', ['namespace' => 'App\Controllers\administracion_impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -468,7 +469,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->post('productos_categoria', 'Mesas::productos_categoria');
     $routes->post('agregar_producto', 'Mesas::agregar_producto');
     $routes->post('agregar_producto_celular', 'Mesas::agregar_producto_celular');
-    $routes->post('imprimirComanda', 'Imprimir::imprimirComanda');
+    $routes->get('imprimirComanda', 'Imprimir::imprimirComanda');
     $routes->post('pedido', 'Mesas::pedido');
     $routes->post('prefactura', 'Imprimir::imprimir_prefactura');
     $routes->post('nota', 'Mesas::nota');

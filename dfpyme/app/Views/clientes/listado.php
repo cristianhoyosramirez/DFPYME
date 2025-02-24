@@ -4,21 +4,7 @@ LISTADO DE CLIENTES
 <?= $this->endSection('title') ?>
 <?= $this->section('content') ?>
 
-<div class="container">
-  <div class="row text-center align-items-center flex-row-reverse">
-    <div class="col-lg-auto ms-lg-auto">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Salones</a></li>
-          <li class="breadcrumb-item"><a href="#">Mesas</a></li>
-          <li class="breadcrumb-item"><a href="#">Usuarios</a></li>
-          <li class="breadcrumb-item"><a href="#">Empresa</a></li>
-        </ol>
-      </nav>
-    </div>
-  </div>
-</div>
-<br>
+
 <!--Sart row-->
 <div class="container">
   <div class="row text-center align-items-center flex-row-reverse">

@@ -222,7 +222,7 @@ class Mesas extends BaseController
                 'numero_productos_impresos_en_comanda' => 0,
                 'idUsuario' => $id_usuario,
                 'fecha' => date('Y-m-d'),
-                'hora' => date('H:m:i')
+                'hora' => date('H:i:s')
             ];
             $insertar = model('productoPedidoModel')->insertar(
                 $ultimo_id_pedido,
@@ -233,7 +233,7 @@ class Mesas extends BaseController
                 $cantidad,
                 $id_usuario,
                 date('Y-m-d'),
-                date('H:m:i')
+                date('H:i:s')
             );
 
 
@@ -275,7 +275,7 @@ class Mesas extends BaseController
                         $cantidad,
                         $id_mesero,
                         date('Y-m-d'),
-                        date('H:m:i')
+                        date('H:i:s')
                     );
 
                     $cantidad_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['id'])->first();
@@ -381,7 +381,7 @@ class Mesas extends BaseController
                     'numero_productos_impresos_en_comanda' => 0,
                     'idUsuario' => $id_mesero,
                     'fecha' => date('Y-m-d'),
-                    'hora' =>  date('H:m:i')
+                    'hora' =>  date('H:i:s')
                 ];
                 $insertar = model('productoPedidoModel')->insert($producto_pedido);
 
@@ -519,7 +519,7 @@ class Mesas extends BaseController
                 'numero_productos_impresos_en_comanda' => 0,
                 'idUser' => $id_usuario,
                 'fecha' => date('Y-m-d'),
-                'hora' => date('H:m:i')
+                'hora' => date('H:i:s')
             ];
 
 
@@ -532,7 +532,7 @@ class Mesas extends BaseController
                 1,
                 $id_usuario,
                 date('Y-m-d'),
-                date('H:m:i')
+                date('H:i:s')
             );
 
 
@@ -603,7 +603,7 @@ class Mesas extends BaseController
                         $codigo_interno_producto['codigointernoproducto'],
                         $id_usuario,
                         date('Y-m-d'),
-                        date('H:m:i')
+                        date('H:i:s')
                     );
 
                     $cantidad_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['id'])->first();
@@ -775,7 +775,7 @@ class Mesas extends BaseController
                     'numero_productos_impresos_en_comanda' => 0,
                     'idUsuario' => $id_usuario,
                     'fecha' => date('Y-m-d'),
-                    'hora' => date('H:m:i')
+                    'hora' => date('H:i:s')
                 ];
                 $insertar = model('productoPedidoModel')->insert($producto_pedido);
 

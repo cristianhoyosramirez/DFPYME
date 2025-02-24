@@ -19,7 +19,7 @@ Reporte de costos
 
 
     <input type="hidden" id="url" value="<?php echo base_url() ?>">
-    <form action="<?php echo base_url() ?>/factura_directa/reporteCostoExcel" method="POST">
+    <form action="<?php echo base_url() ?>/factura_directa/exportCostoExcel" method="POST">
         <div class="row">
             <div class="col-2">
                 <label for="" class="form-label">Fecha inicial </label>
@@ -49,7 +49,7 @@ Reporte de costos
     </div>
     <div class="my-3"></div> <!-- Added space between the buttons and the table -->
 
-    <div class="table-responsive" style="max-height: 80vh; overflow-y: auto;">
+    <div class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
         <table class="table table-striped table-hover">
             <thead class="table-dark" style="position: sticky; top: 0; z-index: 1000;">
                 <tr>
@@ -92,9 +92,9 @@ Reporte de costos
 
     <?php if (!empty($total)): ?>
         <div class="text-end h3 text-primary">
-            <p>Total: <?php echo number_format($total[0]['total'], 0, '.', '.') ?></p>
-            <p>Iva:<?php echo number_format($total[0]['iva'], 0, '.', '.') ?></p>
-            <p>Impoconsumo:<?php echo number_format($total[0]['inc'], 0, '.', '.') ?></p>
+            <span id="total" >Total: <?php echo number_format($total[0]['total'], 0, '.', '.') ?></span><br>
+            <span id="iva" >Iva:<?php echo number_format($total[0]['iva'], 0, '.', '.') ?></span><br>
+            <span id="ico" >Impoconsumo:<?php echo number_format($total[0]['inc'], 0, '.', '.') ?></span>
 
         </div>
     <?php endif ?>
@@ -123,17 +123,22 @@ Reporte de costos
                     fecha_final: fecha_final
                 }) // Puedes enviar datos en el body si es necesario
             });
-            
-           
+
+
 
             if (!respuesta.ok) {
                 throw new Error('No se pudo obtener el producto');
             }
 
             const response = await respuesta.json();
-            
+
             if (response.response == "success") {
                 document.getElementById("processing-bar").style.display = "none";
+                document.getElementById('datos_costos').innerHTML = response.productos;
+                document.getElementById('total').innerHTML = response.total;
+                document.getElementById('iva').innerHTML = response.iva;
+                document.getElementById('inc').innerHTML = response.inc;
+
             }
             return response;
         } catch (error) {

@@ -96,6 +96,17 @@
     closeOnSelect: true
 });
 </script>
+<script>
+    $("#productosReceta").select2({
+    width: "100%",
+    placeholder: "Seleccionar un producto para adicionarle los ingredientes ",
+    language: "es",
+    theme: "bootstrap-5",
+    allowClear: true,
+    dropdownParent: $("#crearReceta"),
+    closeOnSelect: true
+});
+</script>
 
 
 

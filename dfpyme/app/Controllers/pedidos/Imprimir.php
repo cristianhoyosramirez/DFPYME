@@ -26,11 +26,11 @@ class Imprimir extends BaseController
     function imprimirComanda()
     {
 
-        //$id_mesa = 1;
-        $id_mesa = $this->request->getPost('id_mesa');
-        $id_usuario = $this->request->getPost('id_usuario');
+        $id_mesa = 1;
+        //$id_mesa = $this->request->getPost('id_mesa');
+        //$id_usuario = $this->request->getPost('id_usuario');
 
-        //$id_usuario = 6;
+        $id_usuario = 6;
 
         $tipo_usuario = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
@@ -97,7 +97,7 @@ class Imprimir extends BaseController
                             ->where('numero_de_pedido', $pedido['id'])
                             ->update();
 
-                       /*  if ($tipo_usuario['idtipo'] == 2 || $tipo_usuario['idtipo'] == 3) {
+                        /*  if ($tipo_usuario['idtipo'] == 2 || $tipo_usuario['idtipo'] == 3) {
                             $productos = model('productoPedidoModel')->productos_impresora($id_impresora['impresora']);
                         }
                         if ($tipo_usuario['idtipo'] == 1 || $tipo_usuario['idtipo'] == 0) {
@@ -114,7 +114,7 @@ class Imprimir extends BaseController
 
                         $productos = model('productoPedidoModel')->productos_impresora($keyImpresoras['id']);
                         if (!empty($productos)) {
-                        $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
+                            $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
                         }
                     }
                 }
@@ -138,8 +138,8 @@ class Imprimir extends BaseController
 
                             foreach ($codigo_categoria as $valor) {
 
-
-                                $items = model('productoPedidoModel')->reimprimir_comanda($pedido['id'], $valor['codigo_categoria']);
+                                
+                                //$items = model('productoPedidoModel')->reimprimir_comanda($pedido['id'], $valor['codigo_categoria']);
 
                                 foreach ($items as $detalle) {
                                     $data['id'] = $detalle['id'];
@@ -153,6 +153,7 @@ class Imprimir extends BaseController
                                     $data['impresos'] = $detalle['numero_productos_impresos_en_comanda'];
                                     array_push($productos, $data);
                                 }
+                                
                                 $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $valor['codigo_categoria'], 'Comanda');
                                 $productos = array();
                             }
@@ -236,7 +237,7 @@ class Imprimir extends BaseController
                                 ->update();
 
 
-                            $productos = model('productoPedidoModel')->productosReImpresion($id_impresora['impresora'],$pedido['id']);
+                            $productos = model('productoPedidoModel')->productosReImpresion($id_impresora['impresora'], $pedido['id']);
                         }
                         $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $keyCategoria['codigo_categoria'], 'Reimpresion comanda');
                         //$impresoras = model('impresorasModel')->findAll();
@@ -715,7 +716,7 @@ class Imprimir extends BaseController
     }
 
 
-  
+
 
     function reporte_ventas()
     {
@@ -768,7 +769,7 @@ class Imprimir extends BaseController
 
         $id_apertura = $this->request->getPost('id_apertura');
         $id_usuario = $this->request->getPost('id_usuario');
-        $nombreUsuario=model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema',$id_usuario)->first();
+        $nombreUsuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario)->first();
         //$id_apertura = 38;
 
         $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
@@ -1019,7 +1020,7 @@ class Imprimir extends BaseController
             $printer->text("Registro final   : " . $reg_final['numero'] . " " . $fecha_hora_final['fecha'] . " " . $hora_final . "\n");
             $printer->text("Total registros  : " . $total_registros[0]['id'] . "\n");
             $printer->text("Fecha generacion : " . date('Y-m-d H:i:s') . "\n");
-            $printer->text("Usuario          : " . $nombreUsuario['nombresusuario_sistema']. "\n\n");
+            $printer->text("Usuario          : " . $nombreUsuario['nombresusuario_sistema'] . "\n\n");
 
             // Título de la tabla
             $printer->setEmphasis(true);
