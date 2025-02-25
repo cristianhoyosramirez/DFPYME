@@ -26,11 +26,11 @@ class Imprimir extends BaseController
     function imprimirComanda()
     {
 
-        $id_mesa = 1;
-        //$id_mesa = $this->request->getPost('id_mesa');
-        //$id_usuario = $this->request->getPost('id_usuario');
+       // $id_mesa = 1;
+        $id_mesa = $this->request->getPost('id_mesa');
+        $id_usuario = $this->request->getPost('id_usuario');
 
-        $id_usuario = 6;
+        //$id_usuario = 6;
 
         $tipo_usuario = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
