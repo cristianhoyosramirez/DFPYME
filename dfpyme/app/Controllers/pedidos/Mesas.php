@@ -61,7 +61,7 @@ class Mesas extends BaseController
 
 
         if (!empty($id_subcategorias)) {
-
+        
             if ($tipo_pedido == "computador") {
                 $items = view('pedidos/productos_subcategoria', [
                     'id_sub_categoria' => $id_subcategorias
@@ -95,7 +95,6 @@ class Mesas extends BaseController
             }
         }
         if (empty($id_subcategorias)) {
-
 
             $productos = model('productoModel')->tipoInventario($id_categoria);
 
@@ -459,7 +458,7 @@ class Mesas extends BaseController
 
         $configuracion_propina = model('configuracionPedidoModel')->select('calculo_propina')->first();
 
-       // $id_usuario = 8;
+        // $id_usuario = 8;
 
 
         //$id_usuario = 15;
@@ -1032,7 +1031,7 @@ class Mesas extends BaseController
 
 
         //$id_tabla_producto = $_POST['id_tabla_producto']; 
-         $id_tabla_producto = $_POST['id_tabla_producto']; 
+        $id_tabla_producto = $_POST['id_tabla_producto'];
         //$id_tabla_producto = 33587;
         $id_usuario = $_POST['id_usuario'];
         //$id_usuario = 6;

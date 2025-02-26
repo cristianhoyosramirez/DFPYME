@@ -373,8 +373,12 @@ class ClienteController extends BaseController
 
 
 
-                $sub_array[] = '<a  class="btn btn-success btn-icon "  onclick="editar_cliente(' . $detalle['id'] . ')"  >
-                                   Editar </a>    ';
+                $sub_array[] = '<div class="d-flex align-items-center">
+                <a class="btn btn-outline-success btn-icon me-2" onclick="editar_cliente(' . $detalle['id'] . ')">Editar</a>
+                <a class="btn btn-outline-danger btn-icon" onclick="eliminar_cliente(' . $detalle['id'] . ')">Eliminar</a>
+            </div>';
+
+
                 $data[] = $sub_array;
             }
 
@@ -664,5 +668,30 @@ class ClienteController extends BaseController
             echo json_encode(['code' => 1, 'msg' => 'Datos cambiados ']);
         }
         //}
+    }
+
+    function deleteCliente()
+    {
+        $json = $this->request->getJSON();
+        $id = $json->id;
+
+        $nitCliente = model('clientesModel')->select('nitcliente')->where('id', $id)->first();
+
+        $movimientos = model('pagosModel')->select('nit_cliente')->where('nit_cliente', $nitCliente)->first();
+
+        if (empty($movimientos)) {
+
+            $delete = model('clientesModel')->where('id', $id)->delete();
+
+            return $this->response->setJSON([
+                'response' => 'success'
+            ]);
+        }
+        if (!empty($movimientos)) {
+
+            return $this->response->setJSON([
+                'response' => 'fail'
+            ]);
+        }
     }
 }

@@ -213,6 +213,7 @@ $routes->group('clientes', ['namespace' => 'App\Controllers\cliente', 'filter' =
     $routes->post('nuevo_cliente', 'clienteController::nuevo_cliente');
     $routes->post('editar_cliente', 'clienteController::editar_cliente');
     $routes->post('actualizar_datos_cliente', 'clienteController::actualizar_datos_cliente');
+    $routes->post('deleteCliente', 'clienteController::deleteCliente');
 });
 
 $routes->group('pre_factura', ['namespace' => 'App\Controllers\pre_factura', 'filter' => \App\Filters\Auth::class], function ($routes) {

@@ -239,7 +239,7 @@ class Imprimir extends BaseController
 
                             $productos = model('productoPedidoModel')->productosReImpresion($id_impresora['impresora'], $pedido['id']);
                         }
-                        $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $keyCategoria['codigo_categoria'], 'Reimpresion comanda');
+                        //$this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $keyCategoria['codigo_categoria'], 'Reimpresion comanda');
                         //$impresoras = model('impresorasModel')->findAll();
 
 

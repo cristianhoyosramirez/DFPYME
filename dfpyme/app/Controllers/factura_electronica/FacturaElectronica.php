@@ -62,7 +62,6 @@ class FacturaElectronica extends BaseController
             $pago_total = $this->request->getPost('pago_total');
             $propina = $this->request->getPost('propina_format');
             $medio_de_pago = strval($this->request->getPost('medio_de_pago'));
-            $formaPago = $this->request->getPost('formaPago');
             $nota = model('pedidoModel')->select('nota_pedido')->where('fk_mesa', $id_mesa)->first();
 
 
@@ -138,7 +137,7 @@ class FacturaElectronica extends BaseController
                 'neto' => $valor_total,
                 'moneda' => 'COP',
                 'id_resolucion' => 0,
-                'metodo_pago' => $formaPago,
+                'metodo_pago' => 1,
                 //'medio_pago' => '10',
                 'medio_pago' => $medio_de_pago,
                 'fecha_pago' => date('Y-m-d'),

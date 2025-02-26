@@ -25,8 +25,8 @@
           <div class="accordion-item">
               <h2 class="accordion-header" id="panelsStayOpen-headingThree">
 
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#<?php echo $detalle['id_sub_categoria'] ?>" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                      <p class="text-primary"> <?php $nombre_subcategoria = model('subCategoriaModel')->select('nombre')->where('id', $detalle['id_sub_categoria'])->first();
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#<?php echo $detalle['id'] ?>" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                      <p class="text-primary"> <?php $nombre_subcategoria = model('subCategoriaModel')->select('nombre')->where('id', $detalle['id'])->first();
                                                
                                                 echo $nombre_subcategoria['nombre'];
                                                 ?></p>
@@ -34,10 +34,10 @@
                   
               </h2>  
               
-              <div id="<?php echo $detalle['id_sub_categoria'] ?>" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+              <div id="<?php echo $detalle['id'] ?>" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
               
               <div class="accordion-body">
-                      <?php $productos = model('subCategoriaModel')->get_productos_sub_categoria($detalle['id_sub_categoria']) ?>
+                      <?php $productos = model('subCategoriaModel')->get_productos_sub_categoria($detalle['id']) ?>
                       
                       <?php foreach ($productos as $valor) : ?>
 

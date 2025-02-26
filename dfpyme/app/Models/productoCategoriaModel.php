@@ -11,7 +11,7 @@ class productoCategoriaModel extends Model
    // protected $primaryKey = 'id';
     protected $allowedFields = ['id_categoria','id_sub_categoria'];
 
-    public function id_categorias($codigo_categoria)
+  /*   public function id_categorias($codigo_categoria)
     {
         $datos = $this->db->query("
         SELECT DISTINCT id_sub_categoria
@@ -19,7 +19,17 @@ class productoCategoriaModel extends Model
         WHERE id_categoria='$codigo_categoria' 
         ");
         return $datos->getResultArray();
-    }
+    } */
+     public function id_categorias($codigo_categoria)
+    {
+        $datos = $this->db->query("
+        SELECT id,
+                nombre
+        FROM   sub_categoria
+        WHERE  id_categoria = '$codigo_categoria' 
+        ");
+        return $datos->getResultArray();
+    } 
 
     public function sub_categorias($codigo_categoria, $id_sub_categoria)
     {

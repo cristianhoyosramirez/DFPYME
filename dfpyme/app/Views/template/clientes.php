@@ -51,6 +51,77 @@
 
 
 
+
+        <script>
+            async function eliminar_cliente(id_cliente) {
+                const resultado = await Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "Esta acción no se puede deshacer.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar"
+                });
+
+                if (!resultado.isConfirmed) {
+                    return;
+                }
+
+                try {
+                    const response = await fetch("<?php echo base_url(); ?>/clientes/deleteCliente", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: id_cliente
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    console.log(data)
+
+                    if (data.success) {
+                        Swal.fire({
+                            title: "Eliminado",
+                            text: "El cliente ha sido eliminado correctamente.",
+                            icon: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        // Recargar DataTable si usa AJAX
+                        if ($.fn.DataTable.isDataTable("#miTabla")) {
+                            $('#miTabla').DataTable().ajax.reload(null, false);
+                        } else {
+                            location.reload(); // Si DataTable no usa AJAX, recarga la página
+                        }
+
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: data.message || "No se pudo eliminar el cliente.",
+                            icon: "error"
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error en la solicitud:", error);
+                    Swal.fire({
+                        title: "Error",
+                        text: "Hubo un problema al intentar eliminar el cliente.",
+                        icon: "error"
+                    });
+                }
+            }
+        </script>
+
+
+
+
+
         <script>
             $('#creacion_cliente_electronico').submit(function(e) {
                 e.preventDefault();
@@ -244,7 +315,7 @@
 
                         if (resultado.resultado == 1) {
                             $('#datos_editar_cliente').html(resultado.datos_cliente)
-                            
+
                             myModal = new bootstrap.Modal(
                                 document.getElementById("editar_cliente"), {}
                             );
