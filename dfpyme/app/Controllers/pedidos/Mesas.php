@@ -46,11 +46,11 @@ class Mesas extends BaseController
 
         $subcategorias = model('configuracionPedidoModel')->select('sub_categoria')->first();
         $id_categoria = $_POST['id_categoria'];
-        //$id_categoria = 15;
+        //$id_categoria = 47;
 
         $tipo_pedido = $_POST['tipo_pedido'];
 
-        //$tipo_pedido = "computador";
+        //$tipo_pedido = "movil";
         //$categorias = model('categoriasModel')->where('permitir_categoria', 'true')->orderBy('nombrecategoria', 'asc')->findAll();
         $categorias = model('categoriasModel')->where('permitir_categoria', 'true')->orderBy('orden', 'asc')->findAll();
 
@@ -58,10 +58,10 @@ class Mesas extends BaseController
 
         $id_subcategorias = model('productoCategoriaModel')->id_categorias($id_categoria);
 
-
+        
 
         if (!empty($id_subcategorias)) {
-        
+
             if ($tipo_pedido == "computador") {
                 $items = view('pedidos/productos_subcategoria', [
                     'id_sub_categoria' => $id_subcategorias
@@ -77,8 +77,7 @@ class Mesas extends BaseController
 
             if ($tipo_pedido == "movil") {
 
-
-
+            
                 $items = view('pedidos/productos_subcategoria_movil', [
                     'id_sub_categoria' => $id_subcategorias
 

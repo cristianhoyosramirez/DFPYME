@@ -22,10 +22,11 @@
 </style>
 Subcategorias
 <ul class="horizontal-list">
+    
     <?php foreach ($id_sub_categoria as $detalle) : ?>
 
         
-            <li><button type="button" class="btn btn-outline-indigo btn-pill btn-sm" id="#" onclick="productos_subcategoria(<?php echo $detalle['id_sub_categoria'] ?>)"><?php $nombre_subcategoria = model('subCategoriaModel')->select('nombre')->where('id', $detalle['id_sub_categoria'])->first();
+            <li><button type="button" class="btn btn-outline-indigo btn-pill btn-sm" id="#" onclick="productos_subcategoria(<?php echo $detalle['id'] ?>)"><?php $nombre_subcategoria = model('subCategoriaModel')->select('nombre')->where('id', $detalle['id'])->first();
                     echo $nombre_subcategoria['nombre']
                     ?></button></li>
     
