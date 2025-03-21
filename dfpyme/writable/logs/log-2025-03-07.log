@@ -1,0 +1,24 @@
+CRITICAL - 2025-03-07 12:29:55 --> Undefined variable $nombre_producto
+#0 C:\xampp\htdocs\dfpyme\app\Views\producto\recetas.php(16): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 16)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('producto/receta...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(88): view('producto/receta...')
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->recetas()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-03-07 15:02:17 --> auth filter must have a matching alias defined.
+#0 C:\xampp\htdocs\dfpyme\system\Filters\Filters.php(340): CodeIgniter\Filters\Exceptions\FilterException::forNoAlias('auth')
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(384): CodeIgniter\Filters\Filters->enableFilter('auth', 'before')
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2025-03-07 17:15:41 --> Undefined array key "codigointerproducto"
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(109): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 109)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->Searchrecetas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}

@@ -1,0 +1,223 @@
+ERROR - 2025-03-10 11:38:08 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «producto_factura_prov_temp»
+LINE 9:             producto_factura_prov_temp
+                    ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, '\r\n        SELEC...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n        SELEC...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n        SELEC...')
+#4 C:\xampp\htdocs\dfpyme\app\Models\ComprasModel.php(70): CodeIgniter\Database\BaseConnection->query('\r\n        SELEC...')
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Inventarios.php(707): App\Models\ComprasModel->productos('6')
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Inventarios->usuario_producto_compra()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Inventarios))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2025-03-10 11:38:08 --> pg_query(): Query failed: ERROR:  no existe la relación «producto_factura_prov_temp»
+LINE 9:             producto_factura_prov_temp
+                    ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, '\r\n        SELEC...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n        SELEC...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n        SELEC...')
+#4 C:\xampp\htdocs\dfpyme\app\Models\ComprasModel.php(70): CodeIgniter\Database\BaseConnection->query('\r\n        SELEC...')
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Inventarios.php(707): App\Models\ComprasModel->productos('6')
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Inventarios->usuario_producto_compra()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Inventarios))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2025-03-10 11:38:08 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2025-03-10 11:38:38 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «producto_factura_prov_temp»
+LINE 1: INSERT INTO &quot;producto_factura_prov_temp&quot; (&quot;codigo_producto&quot;,...
+                    ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'INSERT INTO "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\app\Models\ComprasModel.php(38): CodeIgniter\Database\BaseBuilder->insert(Array)
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Inventarios.php(619): App\Models\ComprasModel->insertar(Array)
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Inventarios->ingresar_entrada()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Inventarios))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2025-03-10 11:38:38 --> pg_query(): Query failed: ERROR:  no existe la relación «producto_factura_prov_temp»
+LINE 1: INSERT INTO &quot;producto_factura_prov_temp&quot; (&quot;codigo_producto&quot;,...
+                    ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'INSERT INTO "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\app\Models\ComprasModel.php(38): CodeIgniter\Database\BaseBuilder->insert(Array)
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Inventarios.php(619): App\Models\ComprasModel->insertar(Array)
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Inventarios->ingresar_entrada()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Inventarios))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2025-03-10 11:38:38 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2025-03-10 11:44:11 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «producto_factura_prov_temp»
+LINE 1: INSERT INTO &quot;producto_factura_prov_temp&quot; (&quot;codigo_producto&quot;,...
+                    ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'INSERT INTO "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\app\Models\ComprasModel.php(38): CodeIgniter\Database\BaseBuilder->insert(Array)
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Inventarios.php(619): App\Models\ComprasModel->insertar(Array)
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Inventarios->ingresar_entrada()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Inventarios))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2025-03-10 11:44:11 --> pg_query(): Query failed: ERROR:  no existe la relación «producto_factura_prov_temp»
+LINE 1: INSERT INTO &quot;producto_factura_prov_temp&quot; (&quot;codigo_producto&quot;,...
+                    ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'INSERT INTO "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\app\Models\ComprasModel.php(38): CodeIgniter\Database\BaseBuilder->insert(Array)
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Inventarios.php(619): App\Models\ComprasModel->insertar(Array)
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Inventarios->ingresar_entrada()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Inventarios))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+ERROR - 2025-03-10 11:55:48 --> ErrorException: pg_query(): Query failed: ERROR:  llave duplicada viola restricción de unicidad «pk_corte»
+DETAIL:  Ya existe la llave (id)=(21). in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'INSERT INTO "co...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "co...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "co...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "co...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\pre_factura\prefacturaController.php(738): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pre_factura\prefacturaController->cruzarInventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pre_factura\prefacturaController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-03-10 11:55:48 --> pg_query(): Query failed: ERROR:  llave duplicada viola restricción de unicidad «pk_corte»
+DETAIL:  Ya existe la llave (id)=(21).
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'INSERT INTO "co...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "co...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "co...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "co...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\pre_factura\prefacturaController.php(738): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pre_factura\prefacturaController->cruzarInventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pre_factura\prefacturaController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-03-10 11:55:48 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2025-03-10 11:59:55 --> ErrorException: pg_query(): Query failed: ERROR:  llave duplicada viola restricción de unicidad «pk_corte»
+DETAIL:  Ya existe la llave (id)=(22). in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #159, 'INSERT INTO "co...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "co...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "co...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "co...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\pre_factura\prefacturaController.php(738): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pre_factura\prefacturaController->cruzarInventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pre_factura\prefacturaController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-03-10 11:59:55 --> pg_query(): Query failed: ERROR:  llave duplicada viola restricción de unicidad «pk_corte»
+DETAIL:  Ya existe la llave (id)=(22).
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #159, 'INSERT INTO "co...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "co...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "co...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "co...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\pre_factura\prefacturaController.php(738): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pre_factura\prefacturaController->cruzarInventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pre_factura\prefacturaController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-03-10 12:07:26 --> ErrorException: pg_query(): Query failed: ERROR:  llave duplicada viola restricción de unicidad «pk_corte»
+DETAIL:  Ya existe la llave (id)=(23). in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'INSERT INTO "co...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "co...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "co...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "co...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\pre_factura\prefacturaController.php(740): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pre_factura\prefacturaController->cruzarInventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pre_factura\prefacturaController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-03-10 12:07:26 --> pg_query(): Query failed: ERROR:  llave duplicada viola restricción de unicidad «pk_corte»
+DETAIL:  Ya existe la llave (id)=(23).
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'INSERT INTO "co...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "co...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "co...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "co...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\pre_factura\prefacturaController.php(740): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pre_factura\prefacturaController->cruzarInventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pre_factura\prefacturaController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}

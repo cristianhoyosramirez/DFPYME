@@ -1,9 +1,24 @@
-<?php foreach ($productos as $detalleInsumo): ?>
+<?php $unidadesMedida = model('unidadMedidaModel')->findAll(); ?>
 
-    <tr id="rowInsumo<?php echo $detalleInsumo['codigointernoproducto']; ?>"  style="cursor: pointer;" >
+<?php foreach ($productos as $detalleInsumo): 
+    
+    $unidadMedida = model('productoFabricadoModel')->GetMedida($detalleInsumo['codigointernoproducto']);
+
+    ?>
+
+    <tr id="rowInsumo<?php echo $detalleInsumo['codigointernoproducto']; ?>" style="cursor: pointer;">
         <td><?php echo $detalleInsumo['codigointernoproducto']; ?></td>
         <td><?php echo $detalleInsumo['nombreproducto']; ?></td>
-        <td><?php echo $detalleInsumo['precio_costo']; ?></td>
+        <td>
+            <select name="" class="form-select" onchange="cambiarUnidadMedida(this, '<?php echo $detalleInsumo['codigointernoproducto']; ?>')">
+                <?php foreach ($unidadesMedida as $detalleUnidad): ?>
+                    <option value="<?php echo $detalleUnidad['idvalor_unidad_medida']; ?>"
+                        <?php echo ($detalleUnidad['idvalor_unidad_medida'] == $unidadMedida[0]['idunidad_medida']) ? 'selected' : ''; ?>>
+                        <?php echo $detalleUnidad['descripcionvalor_unidad_medida']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </td>
         <td><?php echo $detalleInsumo['valorventaproducto']; ?></td>
         <td>
             <button class="btn btn-outline-success btn-icon btn-sm" onclick="selectInsumo(<?= $detalleInsumo['codigointernoproducto']; ?>, '<?= htmlspecialchars($detalleInsumo['nombreproducto'], ENT_QUOTES, 'UTF-8'); ?>')"><!-- Download SVG icon from http://tabler-icons.io/i/plus -->
