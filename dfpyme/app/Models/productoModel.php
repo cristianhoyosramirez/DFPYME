@@ -87,23 +87,27 @@ class productoModel extends Model
     {
 
         $datos = $this->db->query("
-        SELECT
-        categoria.codigocategoria,
-         codigointernoproducto,
-          codigobarrasproducto,
-          id_tipo_inventario,
-          nombreproducto,
-          valorventaproducto,
-          aplica_descuento,
-          precio_costo
-      FROM
-          public.producto
-      INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
-      WHERE
-          codigobarrasproducto ilike '%$valor%' 
-          OR codigointernoproducto ilike '%$valor%'
-          OR nombreproducto ilike '%$valor%'
-           and estadoproducto='true'
+     SELECT
+    categoria.codigocategoria,
+    codigointernoproducto,
+    codigobarrasproducto,
+    id_tipo_inventario,
+    nombreproducto,
+    valorventaproducto,
+    aplica_descuento,
+    precio_costo
+FROM
+    public.producto
+INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
+WHERE
+    id_tipo_inventario IN (1, 3)  -- 🔹 Filtra solo productos con id_tipo_inventario 1 o 4
+    AND estadoproducto = 'true'   -- 🔹 Filtra productos activos
+    AND (
+        codigobarrasproducto ILIKE '%$valor%' 
+        OR codigointernoproducto ILIKE '%$valor%'
+        OR nombreproducto ILIKE '%$valor%'
+    );
+
               
           
         ");
@@ -114,21 +118,52 @@ class productoModel extends Model
     {
 
         $datos = $this->db->query("
-        SELECT
-            categoria.codigocategoria,
-            codigointernoproducto,
-            codigobarrasproducto,
-            id_tipo_inventario,
-            nombreproducto,
-            valorventaproducto,
-            aplica_descuento
-        FROM
-          public.producto
-        INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
-        WHERE
-          codigobarrasproducto ilike '%$valor%' 
-          OR codigointernoproducto ilike '%$valor%'
-          OR nombreproducto ilike '%$valor%'
+     SELECT
+    categoria.codigocategoria,
+    codigointernoproducto,
+    codigobarrasproducto,
+    id_tipo_inventario,
+    nombreproducto,
+    valorventaproducto,
+    aplica_descuento
+FROM
+    public.producto
+INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
+WHERE
+    id_tipo_inventario IN (1, 4)  --  Filtro principal
+    AND (
+        codigobarrasproducto ILIKE '%$valor%' 
+        OR codigointernoproducto ILIKE '%$valor%'
+        OR nombreproducto ILIKE '%$valor%'
+    );
+
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function GetInventarioSalida($valor)
+    {
+
+        $datos = $this->db->query("
+     SELECT
+    categoria.codigocategoria,
+    codigointernoproducto,
+    codigobarrasproducto,
+    id_tipo_inventario,
+    nombreproducto,
+    valorventaproducto,
+    aplica_descuento
+FROM
+    public.producto
+INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
+WHERE
+    id_tipo_inventario IN (1, 3)  --  Filtro principal
+    AND (
+        codigobarrasproducto ILIKE '%$valor%' 
+        OR codigointernoproducto ILIKE '%$valor%'
+        OR nombreproducto ILIKE '%$valor%'
+    );
+
         ");
         return $datos->getResultArray();
     }
@@ -832,6 +867,68 @@ WHERE
 ORDER BY 
     categoria.nombrecategoria ASC,
     producto.nombreproducto ASC
+        ");
+        return $datos->getResultArray();
+    }
+
+    function GetRecetas($valor)
+    {
+
+        $datos = $this->db->query("
+        SELECT codigointernoproducto, nombreproducto,precio_costo,valorventaproducto
+        FROM producto 
+        WHERE id_tipo_inventario = 3 
+        AND (nombreproducto ILIKE '%$valor%' OR codigointernoproducto ILIKE '%$valor%');
+
+        ");
+        return $datos->getResultArray();
+    }
+
+    function GetInsumos($valor)
+    {
+
+        $datos = $this->db->query("
+        SELECT codigointernoproducto, nombreproducto,precio_costo,valorventaproducto 
+        FROM producto 
+        WHERE id_tipo_inventario = 4 
+        AND (nombreproducto ILIKE '%$valor%' OR codigointernoproducto ILIKE '%$valor%');
+
+        ");
+        return $datos->getResultArray();
+    }
+    function GetAllInsumos()
+    {
+
+        $datos = $this->db->query("
+        SELECT codigointernoproducto, nombreproducto,precio_costo,valorventaproducto 
+        FROM producto 
+        WHERE id_tipo_inventario = 4 order by nombreproducto asc ;
+
+        ");
+        return $datos->getResultArray();
+    }
+    function GetReceta($valor)
+    {
+
+        $datos = $this->db->query("
+      select nombreproducto from producto where codigointernoproducto='$valor'
+
+        ");
+        return $datos->getResultArray();
+    }
+    function GetValVenta($valor)
+    {
+
+        $datos = $this->db->query("
+            select valorventaproducto from producto where codigointernoproducto='$valor'
+        ");
+        return $datos->getResultArray();
+    }
+    function GetCostoUnitario($valor)
+    {
+
+        $datos = $this->db->query("
+            select precio_costo from producto where codigointernoproducto='$valor'
         ");
         return $datos->getResultArray();
     }

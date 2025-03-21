@@ -26,7 +26,8 @@ class Propina
         if ($tipo_propina['propina'] == 1) {  // Calcular la propina con redondeo 
             $temp_propina = $valor_pedido['valor_total'] * $porcentaje_propina;
             // Redondear la propina al valor más cercano a mil
-            $propina = round($temp_propina ) ;
+            //$propina = round($temp_propina ) ;
+            $propina = ceil($temp_propina / 100) * 100;
         } else {   // Calcular la propina sin  redondeo 
             $temp_propina = $valor_pedido['valor_total'] * $porcentaje_propina;
             $propina =$temp_propina ;

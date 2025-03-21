@@ -1001,6 +1001,16 @@
                   <path d="M7.003 14.803a2.4 2.4 0 0 0 .997 -.803a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 1 -.805" />
                 </svg>Producto
               </a>
+              <a class="dropdown-item" href="<?= base_url() ?>/login/recetas">
+                <!-- Download SVG icon from http://tabler-icons.io/i/cup -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M5 11h14v-3h-14z" />
+                  <path d="M17.5 11l-1.5 10h-8l-1.5 -10" />
+                  <path d="M6 8v-1a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v1" />
+                  <path d="M15 5v-2" />
+                </svg>Recetas
+              </a>
 
 
               <div class="dropend">

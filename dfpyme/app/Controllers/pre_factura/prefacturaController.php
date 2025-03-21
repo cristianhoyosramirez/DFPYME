@@ -388,7 +388,10 @@ class prefacturaController extends BaseController
 
         $codigo_de_barras = $_POST['codigo'];
 
-        $buscar_producto_por_codigo_de_barras = model('productoModel')->buscar_producto_por_codigo_de_barras($codigo_de_barras);
+        if (!empty($codigo_de_barras)) {
+            $buscar_producto_por_codigo_de_barras = model('productoModel')->buscar_producto_por_codigo_de_barras($codigo_de_barras);
+        }
+
 
         if (!empty($buscar_producto_por_codigo_de_barras)) {
 

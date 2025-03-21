@@ -1062,4 +1062,52 @@ class operacionesProductoController extends BaseController
             echo json_encode($returnData);
         }
     }
+
+    public function InvSalida()
+    {
+        $returnData = array();
+        $valor = $this->request->getVar('term');
+        //$valor = 'a';
+
+        $resultado = model('productoModel')->GetInventarioSalida($valor);
+
+        if (!empty($resultado)) {
+            foreach ($resultado as $row) {
+                $cantidad_producto = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $row['codigointernoproducto'])->first();
+
+
+                if (empty($cantidad_producto)) {
+                    $inventario = [
+                        'codigointernoproducto' => $row['codigointernoproducto'],
+                        'idvalor_unidad_medida' => 3,
+                        'idcolor' => 0,
+                        'cantidad_inventario' => 0
+                    ];
+
+                    $insert = model('inventarioModel')->insert($inventario);
+
+                    $cantidad = 0;
+                }
+
+                if (!empty($cantidad_producto)) {
+                    $cantidad = $cantidad_producto['cantidad_inventario'];
+                }
+
+
+                $data['value'] =  $row['codigointernoproducto'] . " " . "/" . " " . $row['nombreproducto'];
+                $data['id_producto'] = $row['codigointernoproducto'];
+                $data['nombre_producto'] = $row['nombreproducto'];
+                $data['valor_venta'] = $row['valorventaproducto'];
+                //$data['cantidad'] = $cantidad_producto['cantidad_inventario'];
+                $data['cantidad'] = $cantidad;
+                // $data=['cantidad']=$cantidad_producto['cantidad_inventario'];
+                array_push($returnData, $data);
+            }
+            echo json_encode($returnData);
+        } else {
+            $data['value'] = "No hay resultados";
+            array_push($returnData, $data);
+            echo json_encode($returnData);
+        }
+    }
 }

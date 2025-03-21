@@ -149,6 +149,7 @@
         </div>
     </div>
 
+  
 
 
 
@@ -228,6 +229,24 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/header_mesa.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/impresion_factura_electronica.js"></script>
 
+    <script>
+    async function mesasConPedido() {
+        try {
+            const response = await fetch('<?= base_url('mesas/index') ?>');
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos');
+            }
+            const datos = await response.json();
+            console.log(datos); // Aquí puedes procesar los datos como necesites
+            document.getElementById('mesas_all').innerHTML=datos.mesas
+        } catch (error) {
+            console.error('Hubo un problema:', error);
+        }
+    }
+
+    // Llamar a la función
+    mesasConPedido();
+</script>
 
 
 
@@ -286,43 +305,6 @@
 
         }
     </script>
-
-
-
-
-    <!-- <script>
-        function actualizacion_productos_pedido() {
-            let url = document.getElementById("url").value;
-            let id_mesa = document.getElementById("id_mesa_pedido").value;
-
-            if (id_mesa != "") {
-
-                $.ajax({
-                    data: {
-                        id_mesa
-                    },
-                    url: url + "/" + "reportes/productos_pedido",
-                    type: "get",
-                    success: function(resultado) {
-                        var resultado = JSON.parse(resultado);
-                        if (resultado.resultado == 1) {
-
-                            let mesas = resultado.mesas;
-
-                            
-
-                            // Asumiendo que tienes una tabla con un cuerpo de tabla con el id "tabla-mesas"
-
-                        }
-                    },
-                });
-
-                setInterval(actualizacion_productos_pedido, 1000);
-
-            }
-
-        }
-    </script> -->
 
 
     <script>

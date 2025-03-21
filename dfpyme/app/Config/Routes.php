@@ -47,6 +47,17 @@ $routes->group('salones', ['namespace' => 'App\Controllers\Salones', 'filter' =>
 $routes->group('login', ['namespace' => 'App\Controllers\login'], function ($routes) {
     $routes->post('login', 'loginController::login');
     $routes->get('closeSesion', 'loginController::closeSesion');
+    $routes->get('recetas', 'loginController::recetas', ['filter' => \App\Filters\Auth::class]);
+    $routes->post('Searchrecetas', 'loginController::Searchrecetas', ['filter' => \App\Filters\Auth::class]);
+    $routes->post('SearchInsumos', 'loginController::SearchInsumos');
+    $routes->post('SearchInsumosRecetas', 'loginController::SearchInsumosRecetas');
+    $routes->delete('deleteInsumo', 'loginController::deleteInsumo');
+    $routes->post('addInsumo', 'loginController::addInsumo');
+    $routes->put('updateCantidadInsumo', 'LoginController::updateCantidadInsumo');
+    $routes->put('updateMedida', 'LoginController::updateMedida');
+    $routes->get('allRecetas', 'LoginController::allRecetas');
+    $routes->get('allInsumos', 'LoginController::allInsumos');
+
 });
 
 $routes->get('home', 'Home::index');
@@ -76,6 +87,7 @@ $routes->group('mesas', ['namespace' => 'App\Controllers\Mesa', 'filter' => \App
     $routes->post('actualizar', 'mesaController::actualizar');
     $routes->get('todas_las_mesas', 'mesaController::todas_las_mesas');
     $routes->post('intercambio_mesa', 'mesaController::intercambio_mesa');
+    $routes->get('index', 'GestionMesas::index');
 });
 
 $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -125,6 +137,7 @@ $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' 
     $routes->post('autorizacion_pin', 'operacionesProductoController::autorizacion_pin');
     $routes->post('eliminar_pedido_usuario', 'operacionesProductoController::eliminar_pedido_usuario');
     $routes->post('entrada_salida', 'operacionesProductoController::entrada_salida');
+    $routes->post('InvSalida', 'operacionesProductoController::InvSalida');
 });
 
 $routes->group('impresora', ['namespace' => 'App\Controllers\impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {

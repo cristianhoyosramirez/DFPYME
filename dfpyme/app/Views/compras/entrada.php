@@ -693,7 +693,7 @@ COMPRAS-ENTRADA
         var precio = document.getElementById("precio").value;
         var codigo = document.getElementById("id_producto").value;
         var id_usuario = document.getElementById("id_usuario").value;
-
+        document.getElementById("btnCompra").disabled = true;
         // Validación: Verifica si los campos están vacíos
         if (cantidad === "" && precio === "" && codigo === "") {
             alert("Todos los campos son obligatorios. Por favor, complete la cantidad, precio y seleccione un producto.");
@@ -756,6 +756,7 @@ COMPRAS-ENTRADA
                     $('#producto_compra').focus()
                     $('#error_precio').html('')
                     $('#error_cantidad').html('')
+                    document.getElementById("btnCompra").disabled = false;
 
 
                 }

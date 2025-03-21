@@ -11,6 +11,22 @@ class mesasModel extends Model
     // protected $primaryKey = 'id';
     protected $allowedFields = ['fk_salon', 'nombre', 'estado', 'valor_pedido', 'fk_usuario', 'id_mesero'];
 
+    public function mesas()
+    {
+        $datos = $this->db->query("
+        SELECT
+            mesas.nombre,
+            valor_total,
+            usuario_sistema.nombresusuario_sistema AS usuario,
+            nota_pedido,fecha_creacion as fecha
+        FROM
+            pedido
+        INNER JOIN mesas ON mesas.id = pedido.fk_mesa
+        INNER JOIN usuario_sistema ON usuario_sistema.idusuario_sistema = pedido.fk_usuario;
+        ");
+        return $datos->getResultArray();
+    }
+
     public function salonMesas()
     {
         $datos = $this->db->query("

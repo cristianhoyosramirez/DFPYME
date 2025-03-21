@@ -793,9 +793,9 @@ class Inventarios extends BaseController
 
     function procesar_compra()
     {
-        /*    $id_usuario = 6;
+        /*   $id_usuario = 6;
         $nota = "";
-        $proveedor = 10016;
+        $proveedor = 1;
         $fecha_factura = date('Y-m-d');
         $productos = model('ComprasModel')->productos($id_usuario); */
 
@@ -862,7 +862,7 @@ class Inventarios extends BaseController
                         'codigointernoproducto' => $detalle['codigointernoproducto'],
                         'idvalor_unidad_medida' => 3,
                         'idcolor' => 0,
-                        'idlote' => 1,
+                        'idlote' => 2,
                         'cantidadproducto_factura_proveedor' => $detalle['cantidad'],
                         'valoringresoproducto_factura_proveedor' => $detalle['valor'],
                         'ivaproducto_factura_proveedor' => 0,
