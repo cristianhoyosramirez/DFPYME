@@ -13,7 +13,7 @@ class inventarioModel extends Model
 
 
 
-
+/* 
     public function producto($valor)
     {
         $datos = $this->db->query("
@@ -25,7 +25,19 @@ class inventarioModel extends Model
         nombreproducto ILIKE '%$valor%' and estadoproducto = 'true' order by nombreproducto asc;
          ");
         return $datos->getResultArray();
-    }
+    } */
+ 
+    public function producto($valor)
+    {
+        $datos = $this->db->query("
+            SELECT *
+            FROM producto  
+            WHERE nombreproducto ILIKE '%$valor%' and id_tipo_inventario IN (1, 3) AND id_tipo_inventario NOT IN (4)
+            AND estadoproducto = 'true'  
+            ORDER BY nombreproducto ASC;
+         ");
+        return $datos->getResultArray();
+    } 
 
     public function inventario()
     {

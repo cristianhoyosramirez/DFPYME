@@ -95,7 +95,9 @@
 
 
                     <div class="row " id="canva_producto">
-                        <?php $productos = model('productoModel')->orderBy('nombreproducto', 'asc')->findAll();
+                        <?php 
+                        //$productos = model('productoModel')->orderBy('nombreproducto', 'asc')->findAll();
+                        $productos = model('productoModel')->productosVenta();
                         foreach ($productos as $valor) : ?>
                             <div class="col-12 col-sm-6 col-lg-4 col-xl-4 ">
 

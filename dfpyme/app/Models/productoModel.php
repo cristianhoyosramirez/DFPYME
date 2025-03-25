@@ -83,7 +83,7 @@ class productoModel extends Model
         return $datos->getResultArray();
     }
 
-    public function autoCompletePro($valor)
+    /*     public function autoCompletePro($valor)
     {
 
         $datos = $this->db->query("
@@ -101,6 +101,37 @@ FROM
 INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
 WHERE
     id_tipo_inventario IN (1, 3)  -- 🔹 Filtra solo productos con id_tipo_inventario 1 o 4
+    AND estadoproducto = 'true'   -- 🔹 Filtra productos activos
+    AND (
+        codigobarrasproducto ILIKE '%$valor%' 
+        OR codigointernoproducto ILIKE '%$valor%'
+        OR nombreproducto ILIKE '%$valor%'
+    );
+
+              
+          
+        ");
+        return $datos->getResultArray();
+    } */
+    public function autoCompletePro($valor)
+    {
+
+        $datos = $this->db->query("
+     SELECT
+    categoria.codigocategoria,
+    codigointernoproducto,
+    codigobarrasproducto,
+    id_tipo_inventario,
+    nombreproducto,
+    valorventaproducto,
+    aplica_descuento,
+    precio_costo
+FROM
+    public.producto
+INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
+WHERE
+     id_tipo_inventario IN (1, 4) 
+AND id_tipo_inventario NOT IN (3)
     AND estadoproducto = 'true'   -- 🔹 Filtra productos activos
     AND (
         codigobarrasproducto ILIKE '%$valor%' 
@@ -929,6 +960,19 @@ ORDER BY
 
         $datos = $this->db->query("
             select precio_costo from producto where codigointernoproducto='$valor'
+        ");
+        return $datos->getResultArray();
+    }
+
+    function productosVenta()
+    {
+
+        $datos = $this->db->query("
+           SELECT * 
+FROM producto 
+WHERE id_tipo_inventario IN (1, 3) 
+AND id_tipo_inventario NOT IN (4)
+order by nombreproducto asc;
         ");
         return $datos->getResultArray();
     }
