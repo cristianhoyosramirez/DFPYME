@@ -138,6 +138,11 @@ $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' 
     $routes->post('eliminar_pedido_usuario', 'operacionesProductoController::eliminar_pedido_usuario');
     $routes->post('entrada_salida', 'operacionesProductoController::entrada_salida');
     $routes->post('InvSalida', 'operacionesProductoController::InvSalida');
+    $routes->get('atributos', 'ConfigurarProductoController::atributos');
+    $routes->POST('addAtributo', 'ConfigurarProductoController::addAtributo');
+    $routes->POST('validarAtributo', 'ConfigurarProductoController::validarAtributo');
+    $routes->put('actualizarAtributo', 'ConfigurarProductoController::actualizarAtributo');
+    $routes->post('crearComponente', 'ConfigurarProductoController::crearComponente');
 });
 
 $routes->group('impresora', ['namespace' => 'App\Controllers\impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {

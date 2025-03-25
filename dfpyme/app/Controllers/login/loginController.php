@@ -153,7 +153,7 @@ class loginController extends BaseController
         } else if (empty($productos)) {
             return $this->response->setJSON([
                 'response' => 'fail',
-                'receta' => "Componentes receta: " . $receta[0]['nombreproducto'],
+                'receta' => '<span class="text-primary">Componentes receta:</span> <span class="text-orange">' . htmlspecialchars($receta[0]['nombreproducto'], ENT_QUOTES, 'UTF-8') . '</span>',
                 'costo' => number_format($costo[0]['costo'], 0, ',', '.'),
                 'precioVenta' => number_format($precioVenta[0]['valorventaproducto'], 0, ',', '.'),
                 'rentabilidad' => number_format($precioVenta[0]['valorventaproducto'] - $costo[0]['costo'], 0, ',', '.'),
@@ -314,7 +314,10 @@ class loginController extends BaseController
 
             'costo' => $costo[0]['costo'],
             'precio_venta' => number_format($precioVenta[0]['valorventaproducto'], 0, ',', '.'),
-            'costoTotal' => ($costoUnitario[0]['precio_costo'] * $valor),
+            //'costoTotal' => ($costoUnitario[0]['precio_costo'] * $valor),
+            //'costoTotal' => round($costoUnitario[0]['precio_costo'] * $valor, 2),
+            'costoTotal' => number_format($costoUnitario[0]['precio_costo'] * $valor, 2, '.', ','),
+
             'id' => $id
         ]);
     }

@@ -668,7 +668,7 @@
 
             function formatNumber(n) {
                 n = String(n).replace(/\D/g, "");
-                return n === "" ? n : Number(n).toLocaleString();
+                return n === "" ? n : Number(n).toLocaleString('es-CO')
             }
             valor_costo.addEventListener("keyup", (e) => {
                 const element = e.target;
@@ -683,7 +683,7 @@
 
             function formatNumber(n) {
                 n = String(n).replace(/\D/g, "");
-                return n === "" ? n : Number(n).toLocaleString();
+                return n === "" ? n : Number(n).toLocaleString('es-CO')
             }
             valor_venta.addEventListener("keyup", (e) => {
                 const element = e.target;
@@ -697,7 +697,7 @@
 
             function formatNumber(n) {
                 n = String(n).replace(/\D/g, "");
-                return n === "" ? n : Number(n).toLocaleString();
+                return n === "" ? n : Number(n).toLocaleString('es-CO')
             }
             precio_3.addEventListener("keyup", (e) => {
                 const element = e.target;

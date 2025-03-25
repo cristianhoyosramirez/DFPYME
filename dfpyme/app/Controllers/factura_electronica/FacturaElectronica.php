@@ -137,7 +137,7 @@ class FacturaElectronica extends BaseController
                 'neto' => $valor_total,
                 'moneda' => 'COP',
                 'id_resolucion' => 0,
-                'metodo_pago' => 1,
+                'metodo_pago' => $this->request->getPost('formaPago'),
                 //'medio_pago' => '10',
                 'medio_pago' => $medio_de_pago,
                 'fecha_pago' => date('Y-m-d'),

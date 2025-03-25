@@ -123,22 +123,32 @@
                                                 <?php foreach ($insumos as $detalleInsumo):
                                                     //$idMedida=model('productoMedidaModel')->select('idvalor_unidad_medida')->where('codigointernoproducto', $detalleInsumo['codigointernoproducto'])->first();
                                                     $unidadMedida = model('productoFabricadoModel')->GetMedida($detalleInsumo['codigointernoproducto']);
+                                                    //echo $unidadMedida[0]['idunidad_medida']."</br>";
                                                 ?>
                                                     <tr>
                                                         <td><?php echo $detalleInsumo['codigointernoproducto'] ?></td>
                                                         <td><?php echo $detalleInsumo['nombreproducto'] ?></td>
                                                         <td>
-                                                            <?php #echo  $unidadMedida[0]['medida']; 
-                                                            ?>
+
 
                                                             <select name="" class="form-select" onchange="cambiarUnidadMedida(this, '<?php echo $detalleInsumo['codigointernoproducto']; ?>')">
+                                                                <!-- Opción seleccionada por defecto -->
+                                                                <option value="<?php echo $unidadMedida[0]['idunidad_medida']; ?>" selected>
+                                                                    <?php echo $unidadMedida[0]['medida']; ?>
+                                                                </option>
+
+                                                                <!-- Filtramos el array para eliminar la opción ya seleccionada -->
                                                                 <?php foreach ($unidadesMedida as $detalleUnidad): ?>
-                                                                    <option value="<?php echo $detalleUnidad['idvalor_unidad_medida']; ?>"
-                                                                        <?php echo ($detalleUnidad['idvalor_unidad_medida'] == $unidadMedida[0]['idunidad_medida']) ? 'selected' : ''; ?>>
-                                                                        <?php echo $detalleUnidad['descripcionvalor_unidad_medida']; ?>
-                                                                    </option>
+                                                                    <?php if ($detalleUnidad['idvalor_unidad_medida'] != $unidadMedida[0]['idunidad_medida']): ?>
+                                                                        <option value="<?php echo $detalleUnidad['idvalor_unidad_medida']; ?>">
+                                                                            <?php echo $detalleUnidad['descripcionvalor_unidad_medida']; ?>
+                                                                        </option>
+                                                                    <?php endif; ?>
                                                                 <?php endforeach; ?>
                                                             </select>
+
+
+
 
                                                         </td>
                                                         <td><?php echo $detalleInsumo['precio_costo'] ?></td>
@@ -183,24 +193,7 @@
 
                                     </tbody>
                                 </table>
-                                <!--   <div class="row ">
-                                    <div class="col-4">
-                                        <label for="total_costo" class="form-label">Total Costo</label>
-                                        <input type="text" class="form-control" id="totalCosto">
-                                    </div>
-
-
-                                    <div class="col-4">
-                                        <label for="precio_venta" class="form-label">Precio Venta</label>
-                                        <input type="text" class="form-control" id="precioVenta">
-                                    </div>
-
-                                    <div class="col-4">
-                                        <label for="rentabilidad" class="form-label">Rentabilidad</label>
-                                        <input type="text" id="rentabilidad" class="form-control" id="rentabilidad">
-                                    </div>
-                                </div> -->
-
+                                
                                 <div class="row w-100">
                                     <div class="col-4">
                                         <label for="total_costo" class="form-label">Total Costo</label>
@@ -274,63 +267,61 @@
 
 <script>
     document.getElementById("productoInsumo").addEventListener("keyup", async function(event) {
-    if ((event.key === "Enter" || event.key === "Backspace") && this.value.trim() === "") {
-        event.preventDefault(); // Evita el envío del formulario si está dentro de uno
-        
-        await funcionAsincronaInsumos();
+        if ((event.key === "Enter" || event.key === "Backspace") && this.value.trim() === "") {
+            event.preventDefault(); // Evita el envío del formulario si está dentro de uno
+
+            await funcionAsincronaInsumos();
+        }
+    });
+
+    async function funcionAsincronaInsumos() {
+        try {
+            let response = await fetch('<?= base_url('login/allInsumos') ?>', {
+                method: 'GET', // GET no debe tener body
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            let data = await response.json();
+
+            document.getElementById('tbodyInsumos').innerHTML = data.productos;
+
+            // Aquí puedes actualizar la UI si es necesario
+        } catch (error) {
+            console.error("Error en la petición:", error);
+        }
     }
-});
-
-async function funcionAsincronaInsumos() {
-    try {
-        let response = await fetch('<?= base_url('login/allInsumos') ?>', {
-            method: 'GET', // GET no debe tener body
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        let data = await response.json();
-        
-        document.getElementById('tbodyInsumos').innerHTML = data.productos;
-
-        // Aquí puedes actualizar la UI si es necesario
-    } catch (error) {
-        console.error("Error en la petición:", error);
-    }
-}
-
 </script>
 
 
 <script>
     document.getElementById("buscar_receta").addEventListener("keyup", async function(event) {
-    if ((event.key === "Enter" || event.key === "Backspace") && this.value.trim() === "") {
-        event.preventDefault(); // Evita el envío del formulario si está dentro de uno
-        await funcionAsincrona();
+        if ((event.key === "Enter" || event.key === "Backspace") && this.value.trim() === "") {
+            event.preventDefault(); // Evita el envío del formulario si está dentro de uno
+            await funcionAsincrona();
+        }
+    });
+
+    async function funcionAsincrona() {
+        try {
+            let response = await fetch('<?= base_url('login/allRecetas') ?>', {
+                method: 'GET', // GET no debe tener body
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            let data = await response.json();
+            console.log("Respuesta del servidor:", data);
+
+            document.getElementById('tbodyRecetas').innerHTML = data.productos;
+
+            // Aquí puedes actualizar la UI si es necesario
+        } catch (error) {
+            console.error("Error en la petición:", error);
+        }
     }
-});
-
-async function funcionAsincrona() {
-    try {
-        let response = await fetch('<?= base_url('login/allRecetas') ?>', {
-            method: 'GET', // GET no debe tener body
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        let data = await response.json();
-        console.log("Respuesta del servidor:", data);
-        
-        document.getElementById('tbodyRecetas').innerHTML = data.productos;
-
-        // Aquí puedes actualizar la UI si es necesario
-    } catch (error) {
-        console.error("Error en la petición:", error);
-    }
-}
-
 </script>
 
 

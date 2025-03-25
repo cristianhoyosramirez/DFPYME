@@ -213,7 +213,7 @@
                   </svg>Lista precios
                 </a> -->
 
-                <!--  <a class="dropdown-item" href="<?= base_url() ?>/devolucion/listado">
+                 <a class="dropdown-item" href="<?= base_url() ?>/devolucion/listado">
                   
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -229,7 +229,7 @@
                     <rect x="9" y="3" width="6" height="4" rx="2" />
                   </svg>
                   Rubros cuenta retiro
-                </a> -->
+                </a> 
 
                 <a class="dropdown-item" href="<?= base_url() ?>/empresa/datos">
                   <!-- Download SVG icon from http://tabler-icons.io/i/businessplan -->
@@ -1009,7 +1009,14 @@
                   <path d="M17.5 11l-1.5 10h-8l-1.5 -10" />
                   <path d="M6 8v-1a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v1" />
                   <path d="M15 5v-2" />
-                </svg>Recetas
+                </svg>Configuracion de producto
+              </a>
+              <a class="dropdown-item" href="<?= base_url() ?>/producto/atributos">
+                <!-- Download SVG icon from http://tabler-icons.io/i/folder -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />
+                </svg>Atributos de producto
               </a>
 
 
