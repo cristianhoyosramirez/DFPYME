@@ -153,8 +153,9 @@ $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' 
     $routes->POST('updateNumeroComponentes', 'ConfigurarProductoController::updateNumeroComponentes');
     $routes->POST('eliminarComponente', 'ConfigurarProductoController::eliminarComponente');
     $routes->POST('getAtributos', 'ConfigurarProductoController::getAtributos');
-    $routes->POST('getAtributosProducto', 'ConfigurarProductoController::getAtributosProducto');
+    $routes->post('getAtributosProducto', 'ConfigurarProductoController::getAtributosProducto');
     $routes->POST('deleteComponenteProducto', 'ConfigurarProductoController::deleteComponenteProducto');
+    $routes->post('armarNota', 'ConfigurarProductoController::armarNota');
 });
 
 $routes->group('impresora', ['namespace' => 'App\Controllers\impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {

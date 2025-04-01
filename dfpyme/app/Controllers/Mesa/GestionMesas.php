@@ -8,6 +8,7 @@ class GestionMesas extends BaseController
     public function index()
     {
         $mesas=model('mesasModel')->mesas();
+
         
         //return view('home/home');
         return $this->response->setJSON([

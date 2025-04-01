@@ -44,46 +44,54 @@
 </style>
 
 
-<?php foreach ($atributos as $index => $detalle): ?>
+<?php if (!empty($atributos)): ?>
 
-    <p class="fw-bold text-orange"><?php echo $detalle['nombre']; ?></p>
-    <?php $componentes = model('componentesAtributosProductoModel')->select('nombre,id')->where('id_atributo', $detalle['id'])->findAll(); ?>
+    <?php foreach ($atributos as $index => $detalle): ?>
 
-    <div class="scroll-container">
-        <?php foreach ($componentes as $detalleComponentes): ?>
-            <button type="button"
-                class="btn btn-outline-primary btn-sm btn-pill btn-ajustable text-truncate"
-                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-                onclick="seleccionarComponente(<?php echo $detalle['id']; ?>, <?php echo $detalleComponentes['id']; ?>, <?php echo $idProducto; ?>)">
-                <?php echo htmlspecialchars($detalleComponentes['nombre'], ENT_QUOTES, 'UTF-8'); ?>
-            </button>
-        <?php endforeach; ?>
-    </div>
+        <p class="fw-bold text-orange"><?php echo $detalle['nombre']; ?></p>
+        <?php $componentes = model('componentesAtributosProductoModel')->select('nombre,id')->where('id_atributo', $detalle['id'])->findAll(); ?>
 
-    <?php
-    $componente = model('configuracionAtributosProductoModel')->getIdComponentes($id_tabla_producto, $detalle['id']);
+        <div class="scroll-container">
+            <?php foreach ($componentes as $detalleComponentes): ?>
+                <button type="button"
+                    class="btn btn-outline-primary btn-sm btn-pill btn-ajustable text-truncate"
+                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                    onclick="seleccionarComponente(<?php echo $detalle['id']; ?>, <?php echo $detalleComponentes['id']; ?>, <?php echo $idProducto; ?>)">
+                    <?php echo htmlspecialchars($detalleComponentes['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                </button>
+            <?php endforeach; ?>
+        </div>
 
-    ?>
-    <div id="componentesDeProducto<?php echo $detalle['id']; ?>">
-        <?php foreach ($componente as $keyComponente): ?>
-            <button type="button" class="btn btn-success rounded-pill position-relative" id="btnComponente<?php echo $keyComponente['id'] ?>">
-                <?php echo htmlspecialchars($keyComponente['nombre'], ENT_QUOTES, 'UTF-8'); ?>
-                <span class="badge rounded-pill bg-success" onclick="eliminacionComponente(<?php echo $keyComponente['id'] ?>)">
-                    <!-- Download SVG icon from http://tabler-icons.io/i/x -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                </span>
-            </button>
-        <?php endforeach; ?>
-        <!--  <button type="button" class="btn btn-outline-success rounded-pill position-relative">
+        <?php
+        $componente = model('configuracionAtributosProductoModel')->getIdComponentes($id_tabla_producto, $detalle['id']);
+
+        ?>
+        <div id="componentesDeProducto<?php echo $detalle['id']; ?>">
+            <?php foreach ($componente as $keyComponente): ?>
+                <button type="button" class="btn btn-success rounded-pill position-relative" id="btnComponente<?php echo $keyComponente['id'] ?>">
+                    <?php echo htmlspecialchars($keyComponente['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                    <span class="badge rounded-pill bg-success" onclick="eliminacionComponente(<?php echo $keyComponente['id'] ?>)">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/x -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </span>
+                </button>
+            <?php endforeach; ?>
+            <!--  <button type="button" class="btn btn-outline-success rounded-pill position-relative">
             <?php #echo htmlspecialchars($componente['nombre'], ENT_QUOTES, 'UTF-8'); 
             ?>
             <span class="badge rounded-pill bg-success">X</span>
         </button> -->
-    </div>
+        </div>
 
-    <hr class="divider">
-<?php endforeach; ?>
+        <hr class="divider">
+    <?php endforeach; ?>
+
+<?php endif ?>
+
+<?php if (empty($atributos)): ?>
+    <p class="text-center text-primary h3">No hay atributos asociados al producto</p>
+<?php endif ?>

@@ -8,8 +8,8 @@ class atributosDeProductoModel extends Model
 {
     protected $table      = 'atributos_producto';
     // Uncomment below if you want add primary key
-   // protected $primaryKey = 'id';
-    protected $allowedFields = ['id_componente','id_tabla_producto','id_atributo','id_producto'];
+    // protected $primaryKey = 'id';
+    protected $allowedFields = ['id_componente', 'id_tabla_producto', 'id_atributo', 'id_producto'];
 
     public function getNumeroComponentes($id_atributo, $id_producto)
     {
@@ -21,7 +21,7 @@ class atributosDeProductoModel extends Model
          ");
         return $datos->getResultArray();
     }
-    public function countNumeroComponentes($id_producto,$id_tabla_producto,$id_atributo)
+    public function countNumeroComponentes($id_producto, $id_tabla_producto, $id_atributo)
     {
         $datos = $this->db->query("
            SELECT Count(id_componente) as numero_componentes
@@ -32,6 +32,23 @@ class atributosDeProductoModel extends Model
          ");
         return $datos->getResultArray();
     }
-    
-   
+    public function getAtributos($id_tabla_producto)
+    {
+        $datos = $this->db->query("
+            select distinct (id_atributo) from atributos_producto where id_tabla_producto=$id_tabla_producto
+         ");
+        return $datos->getResultArray();
+    }
+    public function getComponentes($id_tabla_producto,$id_atributo)
+    {
+        $datos = $this->db->query("
+            SELECT componentes.nombre  
+            FROM atributos_producto  
+            INNER JOIN componentes ON componentes.id = atributos_producto.id_componente  
+            WHERE atributos_producto.id_tabla_producto = $id_tabla_producto 
+            AND atributos_producto.id_atributo = $id_atributo  
+            ORDER BY componentes.nombre ASC;
+         ");
+        return $datos->getResultArray();
+    }
 }

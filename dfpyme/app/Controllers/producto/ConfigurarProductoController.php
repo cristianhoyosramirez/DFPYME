@@ -386,10 +386,10 @@ class ConfigurarProductocontroller extends BaseController
         $id_atributo = $json->id_atributo;
         $id_tabla_producto = $json->id_tabla_producto;
 
-        /*    $id_componente = 25;
-        $id_producto = 497;
-        $id_atributo = 7;
-        $id_tabla_producto = 10931;  */
+        /*     $id_componente = 24;
+        $id_producto = 485;
+        $id_atributo = 1;
+        $id_tabla_producto = 10935;  */
 
         $numeroComponentes = model('atributosDeProductoModel')->getNumeroComponentes($id_atributo, $id_producto);
         $contarComponentes = model('atributosDeProductoModel')->countNumeroComponentes($id_producto, $id_tabla_producto, $id_atributo);
@@ -415,12 +415,15 @@ class ConfigurarProductocontroller extends BaseController
                     ->where('id_atributo', $id_atributo)
                     ->findAll();
 
+
+
                 return $this->response->setJSON([
                     'response' => 'success',
                     'id_atributo' => $id_atributo,
                     'componetes' => view('producto_atributos/componentesDeProducto', [
                         'atributos' => $atributos,
-                        'idProducto' => $id_producto
+                        'idProducto' => $id_producto,
+                        'id_tabla_producto' => $id_tabla_producto
                     ]),
                 ]);
             }
@@ -432,7 +435,7 @@ class ConfigurarProductocontroller extends BaseController
                 'mensaje' => 'El número de componentes seleccionados supera el límite permitido'
             ]);
         }
-        $atributos = model('atributosDeProductoModel')->where('id_tabla_producto', $id_tabla_producto)->findAll();
+        // $atributos = model('atributosDeProductoModel')->where('id_tabla_producto', $id_tabla_producto)->findAll();
     }
 
     function deleteComponenteProducto()
@@ -454,7 +457,22 @@ class ConfigurarProductocontroller extends BaseController
                 'mensaje' => 'Error al eliminar el componente'
             ]);
         }
-        
-        
+    }
+
+    function armarNota()
+    {
+        $json = $this->request->getJSON();
+        $id_tabla_producto = $json->id_tabla_producto;
+
+        $atributos = model('atributosDeProductoModel')->getAtributos($id_tabla_producto);
+
+        return $this->response->setJSON([
+            'response' => 'success',
+            'nota' => view('atributos/nota', [
+                'atributos' => $atributos,
+                'id_tabla_producto' => $id_tabla_producto
+            ]),
+            'id_tabla_producto' => $id_tabla_producto
+        ]);
     }
 }

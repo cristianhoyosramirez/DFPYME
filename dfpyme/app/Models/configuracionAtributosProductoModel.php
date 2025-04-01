@@ -84,4 +84,15 @@ WHERE  id_producto = $idProducto
         ");
         return $datos->getResultArray();
     }
+    public function geterIdComponentes($id_tabla_producto, $id_componente)
+    {
+        $datos = $this->db->query("
+        SELECT componentes.nombre, atributos_producto.id 
+        FROM atributos_producto 
+        INNER JOIN componentes ON componentes.id = atributos_producto.id_componente 
+        WHERE atributos_producto.id_tabla_producto = $id_tabla_producto 
+        AND atributos_producto.id_componente = $id_componente;
+        ");
+        return $datos->getResultArray();
+    }
 }

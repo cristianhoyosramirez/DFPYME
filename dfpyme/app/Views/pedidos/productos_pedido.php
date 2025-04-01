@@ -37,9 +37,9 @@
                         <?php echo $detalle['nombreproducto']; ?>
                     <?php endif ?>
 
-                    <?php if (!empty($detalle['nota_producto'])) { ?>
-                        <p class="text-primary fw-bold"><?php echo $detalle['nota_producto'] ?></p>
-                    <?php } ?>
+
+
+
                 </div>
 
                 <div class="col col-md-3 col-lg-2">
@@ -117,6 +117,13 @@
 
             <?php endif ?>
 
+        </div>
+
+        <div class="row">
+            <p class="text-primary fw-bold" id="nota<?php echo $detalle['id_tabla_producto'] ?>"><?php echo $detalle['nota_producto'] ?></p>
+        </div>
+        <div class="row">
+            <p class="text-primary fw-bold"><?php echo $detalle['nota_producto'] ?></p>
         </div>
 
 
@@ -314,6 +321,43 @@
 
 <?php } ?>
 
+<script>
+    async function finalizarAtributos(id) {
+
+        try {
+            let id_tabla_producto = document.getElementById('id_tabla_producto').value.trim(); // Elimina espacios en blanco
+            let respuesta = await fetch('<?= base_url('producto/armarNota') ?>', { // Cambia por la ruta correcta
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id_tabla_producto: id_tabla_producto,
+
+                })
+            });
+
+            if (!respuesta.ok) {
+                throw new Error(`Error HTTP: ${respuesta.status}`);
+            }
+
+            let resultado = await respuesta.json(); // Convertir la respuesta a JSON
+            if (resultado.response == "success") {
+                // Actualiza el contenido del div
+                $('#modalAtributos').modal('hide')
+                document.getElementById('nota' + id_tabla_producto).innerHTML = resultado.nota; // Elimina el botón del componente
+            }
+            if (resultado.response == "error") {
+                sweet_alert_centrado("error", resultado.mensaje);
+            }
+
+            // Aquí puedes actualizar la interfaz si es necesario
+        } catch (error) {
+            console.error('Error al seleccionar componente:', error.message);
+        }
+
+    }
+</script>
 
 <script>
     async function eliminacionComponente(id) {
@@ -326,7 +370,7 @@
                 },
                 body: JSON.stringify({
                     id: id,
-                    
+
                 })
             });
 
@@ -336,11 +380,12 @@
 
             let resultado = await respuesta.json(); // Convertir la respuesta a JSON
             if (resultado.response == "success") {
-                 // Actualiza el contenido del div
-                 document.getElementById('btnComponente' + id).remove(); // Elimina el botón del componente
-            }if (resultado.response == "error") {
+                // Actualiza el contenido del div
+                document.getElementById('btnComponente' + id).remove(); // Elimina el botón del componente
+            }
+            if (resultado.response == "error") {
                 sweet_alert_centrado("error", resultado.mensaje);
-            } 
+            }
 
             // Aquí puedes actualizar la interfaz si es necesario
         } catch (error) {
@@ -349,9 +394,9 @@
     }
 </script>
 <script>
-    async function seleccionarComponente(idAtributo,idComponente,idProducto) {
+    async function seleccionarComponente(idAtributo, idComponente, idProducto) {
 
-    
+
 
         let id_tabla_producto = document.getElementById('id_tabla_producto').value.trim(); // Elimina espacios en blanco
         try {
@@ -374,10 +419,11 @@
 
             let resultado = await respuesta.json(); // Convertir la respuesta a JSON
             if (resultado.response == "success") {
-                document.getElementById('componentesDeProducto'+resultado.id_atributo).innerHTML = resultado.componetes; // Actualiza el contenido del div
-            }if (resultado.response == "error") {
+                document.getElementById('componentesDeProducto' + resultado.id_atributo).innerHTML = resultado.componetes; // Actualiza el contenido del div
+            }
+            if (resultado.response == "error") {
                 sweet_alert_centrado("error", resultado.mensaje);
-            } 
+            }
 
             // Aquí puedes actualizar la interfaz si es necesario
         } catch (error) {

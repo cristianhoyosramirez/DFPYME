@@ -11,8 +11,9 @@
         <input type="text" id="id_tabla_producto" hidden>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger">Cancelar</button>
-        <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Aceptar</button>
+        <button type="button" class="btn btn-outline-success" onclick="finalizarAtributos()">Aceptar</button>
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+
       </div>
     </div>
   </div>

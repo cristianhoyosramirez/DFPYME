@@ -18,7 +18,8 @@ class mesasModel extends Model
             mesas.nombre,
             valor_total,
             usuario_sistema.nombresusuario_sistema AS usuario,
-            nota_pedido,fecha_creacion as fecha
+            nota_pedido,fecha_creacion as fecha,
+            fk_mesa as id_mesa
         FROM
             pedido
         INNER JOIN mesas ON mesas.id = pedido.fk_mesa
