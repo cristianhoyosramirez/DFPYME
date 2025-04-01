@@ -213,8 +213,8 @@
                   </svg>Lista precios
                 </a> -->
 
-                 <a class="dropdown-item" href="<?= base_url() ?>/devolucion/listado">
-                  
+                <a class="dropdown-item" href="<?= base_url() ?>/devolucion/listado">
+
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
@@ -222,14 +222,14 @@
                   </svg>Cuentas retiro de dinero
                 </a>
                 <a class="dropdown-item" href="<?= base_url() ?>/devolucion/rubros_listado">
-                  
+
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
                     <rect x="9" y="3" width="6" height="4" rx="2" />
                   </svg>
                   Rubros cuenta retiro
-                </a> 
+                </a>
 
                 <a class="dropdown-item" href="<?= base_url() ?>/empresa/datos">
                   <!-- Download SVG icon from http://tabler-icons.io/i/businessplan -->
@@ -559,14 +559,14 @@
                   </svg>Clientes
                 </a>
 
-                <!--  <a class="dropdown-item dropdown-toggle" href="#sidebar-authentication" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-                  
+                <a class="dropdown-item dropdown-toggle" href="#sidebar-authentication" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <line x1="3" y1="19" x2="21" y2="19" />
                     <rect x="5" y="6" width="14" height="10" rx="1" />
                   </svg> Caja general
-                </a> -->
+                </a>
                 <div class="dropdown-menu">
                   <input type="hidden" value="<?php echo $user_session->id_usuario; ?>" id="id_usuario" name="id_usuario">
                   <a class="dropdown-item" href="<?= base_url() ?>/caja_general/apertura_general">

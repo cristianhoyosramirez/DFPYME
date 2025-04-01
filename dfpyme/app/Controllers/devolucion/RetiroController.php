@@ -53,7 +53,9 @@ class RetiroController extends BaseController
 
     function rubros_listado()
     {
-        $rubros = model('cuentaRetiroModel')->get_cuentas_rubros();
+        //$rubros = model('cuentaRetiroModel')->get_cuentas_rubros();
+        $rubros = model('cuentaRetiroModel')->findAll();
+
         return view('cuentas_retiro_rubros/listado', [
             'rubros' => $rubros
         ]);
@@ -147,5 +149,20 @@ class RetiroController extends BaseController
         $session->setFlashdata('iconoMensaje', 'success');
 
         return redirect()->to(base_url('devolucion/rubros_listado'))->with('mensaje', 'Actualización correcta');
+    }
+
+    function deleteRubro(){
+
+        $json = $this->request->getJSON();
+        $id = $json->id;
+
+        $delete = model('rubrosModel')->where('id',$id)->delete();
+
+        return $this->response->setJSON([
+            'response' => 'success',
+            'id'=>$id
+
+        ]);
+
     }
 }

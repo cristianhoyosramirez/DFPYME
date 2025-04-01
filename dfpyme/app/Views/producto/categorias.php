@@ -8,19 +8,19 @@ HOME
 <?= $this->section('content') ?>
 
 <div class="container">
+    <p class="text-primary text-center h3">Gestión integral de productos</p>
+    <input type="text" id="url" value="<?php  echo base_url()?>" hidden>
     <div class="card">
         <div class="card-header">
 
             <button type="button" class="btn btn-outline-primary me-2" onclick="productoIva()">Productos con IVA </button>
             <button type="button" class="btn btn-outline-primary me-2" onclick="productoInc()">Productos con INC </button>
-            <!--  <button type="button" class="btn btn-outline-primary me-2">Crear producto venta </button> -->
             <div class="dropdown">
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     Recetas
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" href="#" onclick="VerRecetas()">Ver recetas </a></li>
-                    <!-- <li><a class="dropdown-item" href="#" onclick="CrearIngrediente()">Crear ingrediente </a></li> -->
                     <li><a class="dropdown-item" href="#" onclick="CrearReceta()">Crear receta </a></li>
                 </ul>
             </div>
@@ -40,7 +40,6 @@ HOME
                                     aria-expanded="false"
                                     aria-controls="collapse<?= $KeyCategorias['id']; ?>">
                                     <span class="text-success ">Categoria: <?= $KeyCategorias['nombrecategoria']; ?></span>
-
                                 </button>
                             </h2>
                             <div
@@ -70,7 +69,7 @@ HOME
                                                 </div>
                                             </div>
 
-                                            <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto')->where('id_subcategoria', $KeySubCategoria['id'])->find(); ?>
+                                            <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto,idImpresora')->where('id_subcategoria', $KeySubCategoria['id'])->find(); ?>
 
 
                                             <?php foreach ($productos_subcategoria as $keyProductoSubCategoria): ?>
@@ -98,7 +97,10 @@ HOME
                                                                     <path d="M12 3v3m0 12v3" />
                                                                 </svg>
                                                             </span>
-                                                            <input id="valor<?php echo $keyProductoSubCategoria['id'];  ?>" type="text" class="form-control" value="<?php echo number_format($keyProductoSubCategoria['valorventaproducto'], 0, ',', '.'); ?>">
+                                                            <input id="valor<?php echo $keyProductoSubCategoria['id']; ?>"
+                                                                type="text" class="form-control"
+                                                                value="<?php echo number_format($keyProductoSubCategoria['valorventaproducto'], 0, ',', '.'); ?>"
+                                                                oninput="actualizarPrecio(this.value,<?php echo $keyProductoSubCategoria['id']; ?>)">
                                                             <span class="input-icon-addon" onclick="clearInput()" style="cursor: pointer;">
                                                                 <!-- Ícono de "X" -->
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -108,6 +110,28 @@ HOME
                                                                 </svg>
                                                             </span>
                                                         </div>
+                                                    </div>
+                                                    <div class="col-2">
+
+                                                        <?php $impresoras = model('impresorasModel')->findAll(); ?>
+
+                                                        <label for="" class="form-label  ">Impresora</label>
+                                                        <select name="" id="" class="form-select" onchange="cambiarImpresora(this.value,<?php echo $keyProductoSubCategoria['id'] ?>)">
+
+                                                            <?php foreach ($impresoras as $keyImpresoras): ?>
+                                                                <option value="<?php echo $keyImpresoras['id']; ?>"
+                                                                    <?php echo ($keyProductoSubCategoria['idImpresora'] == $keyImpresoras['id']) ? 'selected' : ''; ?>>
+                                                                    <?php echo $keyImpresoras['nombre']; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="col-2">
+                                                        
+                                                        <label for="" class="form-label text-light  ">Tiene atibutos</label>
+                                                        <button type="button" class="btn btn-outline-success" onclick="openModal('<?php echo $keyProductoSubCategoria['nombreproducto'] ?>',<?php echo $keyProductoSubCategoria['id'] ?>)">Atributos</button>
                                                     </div>
                                                 </div>
 
@@ -186,11 +210,16 @@ HOME
 
                                                 </div>
 
-                                                <div class="col-3">
+                                                <div class="col-1">
 
 
                                                     <label for="" class="form-label">Valor venta</label>
-                                                    <input type="text" class="form-control" id="valor<?php echo $keySubCategoria['id']; ?>" placeholder="Valor de venta" value="<?php echo number_format($keySubCategoria['valorventaproducto'], 0, ',', '.'); ?>">
+                                                    <input type="text"
+                                                        oninput="actualizarPrecio(this.value,<?php echo $keySubCategoria['id']; ?>)"
+                                                        class="form-control"
+                                                        id="valor<?php echo $keySubCategoria['id']; ?>"
+                                                        placeholder="Valor de venta"
+                                                        value="<?php echo number_format($keySubCategoria['valorventaproducto'], 0, ',', '.'); ?>">
 
 
                                                 </div>
@@ -199,7 +228,28 @@ HOME
                                                     <input type="text" class="form-control" value="<?php echo $impuesto . " %"; ?>">
                                                 </div>
 
-                                                <div class="col-2 d-flex justify-content-end">
+                                                <div class="col-2">
+
+                                                    <?php $impresoras = model('impresorasModel')->findAll(); ?>
+
+                                                    <label for="" class="form-label  ">Impresora</label>
+                                                    <select name="" id="" class="form-select">
+                                                        <?php foreach ($impresoras as $keyImpresoras): ?>
+                                                            <option value="<?php echo $keyImpresoras['id']; ?>"><?php echo $keyImpresoras['nombre']; ?></option>
+                                                        <?php endforeach ?>
+                                                    </select>
+
+                                                </div>
+
+                                                <div class="col-2">
+                                                  
+                                                    <label for="" class="form-label text-light  ">Tiene atibutos</label>    
+                                                     <button type="button" class="btn btn-outline-success" onclick="openModal('<?php echo $keySubCategoria['nombreproducto'] ?>',<?php echo $keySubCategoria['id'] ?>)">Atributos</button>
+                                                </div>
+
+                                                <div class="col-2  justify-content-end">
+
+                                                    <label for="" class="form-label text-light ">Accion</label>
 
                                                     <button class="btn btn-outline-danger btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrar producto" onclick="eliminarProducto(<?php echo $keySubCategoria['id']; ?>)">
                                                         <!-- Download SVG icon from http://tabler-icons.io/i/trash -->
@@ -213,6 +263,7 @@ HOME
                                                         </svg>
 
                                                     </button>
+
                                                 </div>
                                             </div>
 
@@ -232,159 +283,8 @@ HOME
     </div>
 </div>
 
-<!-- Modal 
-<div class="modal fade" id="crearReceta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Creacion de recetas </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <label for="" class="form-label">Productos Recetas</label>
-
-                        <select name="productosReceta" id="productosReceta" class="form-select">
-                            <option value=""></option>
-                          
-
-                        </select>
-
-                    </div>
-                    <div class="col-6">
-                        <label for="" class="form-label">Receta </label>
-                        <input type="text" class="form-control text-orange" readonly id="nombreReceta">
-                    </div>
-                </div>
-                <div class="row  mb-3">
-                    <?php $insumos = model('productoModel')->select('codigointernoproducto, nombreproducto')->where('id_tipo_inventario', 4)->findAll(); ?>
-                    <div class="col-6">
-                        <label for="" class="form-label">Insumos </label>
-                        <input type="text" class="form-control">
-
-                    </div>
-                    <div class="col-4">
-                        <label for="" class="form-label">Insumo </label>
-                        <input type="text" class="form-control" readonly>
-                    </div>
-                    <div class="col-2 d-flex align-items-end">
-                        <div>
-                            <label for="cantidad" class="form-label">Cantidad</label>
-                            <input type="text" id="cantidad" class="form-control">
-                        </div>
-                        <button type="button" class="btn btn-outline-primary ms-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Agregar">+</button>
-                    </div>
-
-                </div>
-                <table class="table">
-                    <thead class="table-dark">
-                        <tr>
-                            <td scope="col">Código</th>
-                            <td scope="col">Producto </th>
-                            <td scope="col">Cantidad </th>
-                            <td scope="col">Valor costo unidad </th>
-                            <td scope="col">Valor costo total </th>
-                            <td scope="col">Accion </th>
-                        </tr>
-                    </thead>
-                    <tbody id="ingredientes">
-
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Crear </button>
-                <button type="button" class="btn btn-outline-danger">Cancelar </button>
-            </div>
-        </div>
-    </div>
-</div>-->
-
-<!-- Modal -->
-<div class="modal fade" id="crearReceta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Creacion de recetas </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="row mb-3">
-                    <div class="col-8">
-
-                        <p class="text-primary">Productos Recetas</p>
-
-                        <div style="max-height: 80vh; overflow-y: auto;">
-                            <?php foreach ($recetas as $index => $detalle): ?>
-                                <div class="accordion" id="accordion-<?php echo $index; ?>">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading-<?php echo $index; ?>">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo $index; ?>" aria-expanded="false" aria-controls="collapse-<?php echo $index; ?>">
-                                                <?php echo $detalle['nombreproducto']; ?>
-                                            </button>
-                                        </h2>
-                                        <div id="collapse-<?php echo $index; ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?php echo $index; ?>" data-bs-parent="#accordion-<?php echo $index; ?>">
-                                            <div class="accordion-body">
-                                                <!--  <div class="row">
-                                                <div class="col text-end">
-                                                    <button class="btn btn-outline-success">Adicionar insumos</button>
-                                                </div>
-                                            </div> -->
-                                                <div class="mb-3"></div>
-                                                <table class="table">
-                                                    <thead class="table-dark">
-                                                        <tr>
-                                                            <td scope="col">Código</th>
-                                                            <td scope="col">Producto </th>
-                                                            <td scope="col">Cantidad </th>
-                                                            <td scope="col">Valor costo unidad </th>
-                                                            <td scope="col">Valor costo total </th>
-                                                            <td scope="col">Accion </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="ingredientes">
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3"></div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="mb-3 text-primary">
-                            Insumos
-                        </div>
-
-
-                        <div style="max-height: 80vh; overflow-y: auto;">
-                            <?php foreach ($ingredientes as $detalleInsumos): ?>
-                        
-                                <a href="#" class="card card-link" onclick="adicionarIngrediente(<?php echo $detalleInsumos['id']; ?> )">
-                                    <div class="card-body"><?php echo $detalleInsumos['nombreproducto']; ?></div>
-                                </a>
-                                <div class="mb-3"></div>
-                            <?php endforeach; ?>
-                        </div>
-
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Aceptar </button>
-
-            </div>
-        </div>
-    </div>
-</div>
+<?= $this->include('modal_gestion_producto/componentesProducto') ?>
+<?= $this->include('modal_gestion_producto/crearReceta') ?>
 
 <!-- Modal -->
 <div class="modal fade" id="componentes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -482,6 +382,104 @@ HOME
         </div>
     </div>
 </div>
+<!-- Sweet alert -->
+<script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
+<script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
+<script src="<?= base_url() ?>/Assets/script_js/gestionProducto/eliminarComponente.js"></script>
+<script src="<?= base_url() ?>/Assets/script_js/gestionProducto/maxComponentes.js"></script>
+<script src="<?= base_url() ?>/Assets/script_js/gestionProducto/seleccionarAtributo.js"></script>
+
+
+
+<script>
+    async function openModal(nombre, idProducto) {
+        document.getElementById('asignacionAtributos').innerHTML = 'Asignación de atributos al producto <span style="color: orange; font-weight: bold;">' + nombre + '</span>';
+        document.getElementById('idProductoAtributo').value = idProducto;
+
+        try {
+            let response = await fetch("<?= base_url('producto/atributosProducto') ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idProducto: idProducto
+                }) // Enviar el id del producto
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+
+            let data = await response.json();
+
+            if (data.response === "true") {
+
+                document.getElementById('resComPro').innerHTML = data.atributos
+                $('#componentesProducto').modal('show');
+            } else if (data.response === "false") {
+                document.getElementById('resComPro').innerHTML = ""
+                $('#componentesProducto').modal('show');
+            }
+        } catch (error) {
+            console.error("Error en la petición:", error);
+        }
+    }
+</script>
+
+
+
+<script>
+    async function actualizarPrecio(valor, id) {
+
+        const input = document.querySelector("#valor" + id);
+
+        function format(n) {
+            // Elimina cualquier carácter que no sea un número
+            n = n.replace(/\D/g, "");
+            // Formatea el número
+            return n === "" ? n : parseFloat(n).toLocaleString('es-CO');
+        }
+        // Agregar el evento "input" al input
+        input.addEventListener("input", (e) => {
+            const element = e.target;
+            const value = element.value;
+            element.value = format(value);
+        });
+
+        try {
+            const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
+            const url = `${baseUrl}/producto/actualizarPrecioProducto`; // Construye la URL dinámica
+
+            const response = await fetch(url, {
+                method: 'POST', // Cambio de GET a POST
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    valor: valor,
+                    id: id
+                }) // Envía el valor en el cuerpo
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.response === 'success') {
+                // Mostrar el modal
+
+            } else {
+                sweet_alert_centrado('warning', 'No hay productos con IVA');
+            }
+        } catch (error) {
+
+        }
+
+    }
+</script>
 
 <script>
     async function buscarProducto(valor) {
@@ -764,6 +762,40 @@ HOME
         }
     }
 </script>
+
+
+<script>
+    async function cambiarImpresora(idImpresora, idProducto) {
+
+        try {
+            let response = await fetch('<?= base_url('producto/actualizarImpresora') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    idImpresora: idImpresora,
+                    idProducto: idProducto
+
+                })
+            });
+
+            let data = await response.json();
+
+            if (data.success) {
+                console.log('Impresora actualizada correctamente');
+            } else {
+                console.error('Error al actualizar la impresora');
+            }
+        } catch (error) {
+            console.error('Error en la petición:', error);
+        }
+    }
+</script>
+
+
+
+
 
 
 

@@ -135,7 +135,7 @@ class productoController extends BaseController
         $valor = $this->request->getVar('term');
         //$valor = 'a';
 
-        $resultado = model('productoModel')->autoCompletePro($valor);
+        $resultado = model('productoModel')->getProductos($valor);
 
         if (!empty($resultado)) {
             foreach ($resultado as $row) {
@@ -171,9 +171,10 @@ class productoController extends BaseController
                 $data['id_producto'] = $row['codigointernoproducto'];
                 $data['nombre_producto'] = $row['nombreproducto'];
                 $data['valor_venta'] = $row['valorventaproducto'];
+                $data['kit'] = $row['kit'];
                 //$data['cantidad'] = $cantidad_producto['cantidad_inventario'];
                 $data['cantidad'] = $cantidad;
-                // $data=['cantidad']=$cantidad_producto['cantidad_inventario'];
+                
                 array_push($returnData, $data);
             }
             echo json_encode($returnData);

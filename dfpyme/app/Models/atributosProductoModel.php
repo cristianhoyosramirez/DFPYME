@@ -10,5 +10,16 @@ class atributosProductoModel extends Model
     // Uncomment below if you want add primary key
    // protected $primaryKey = 'id';
     protected $allowedFields = ['nombre'];
+
+    public function atributos($valor)
+    {
+        $datos = $this->db->query("
+        SELECT   *
+        FROM     atributos
+        WHERE    nombre ilike '%$valor%'
+        ORDER BY nombre ASC;
+         ");
+        return $datos->getResultArray();
+    }
    
 }

@@ -26,7 +26,7 @@ class Imprimir extends BaseController
     function imprimirComanda()
     {
 
-       // $id_mesa = 1;
+        // $id_mesa = 1;
         $id_mesa = $this->request->getPost('id_mesa');
         $id_usuario = $this->request->getPost('id_usuario');
 
@@ -138,7 +138,7 @@ class Imprimir extends BaseController
 
                             foreach ($codigo_categoria as $valor) {
 
-                                
+
                                 //$items = model('productoPedidoModel')->reimprimir_comanda($pedido['id'], $valor['codigo_categoria']);
 
                                 foreach ($items as $detalle) {
@@ -153,7 +153,7 @@ class Imprimir extends BaseController
                                     $data['impresos'] = $detalle['numero_productos_impresos_en_comanda'];
                                     array_push($productos, $data);
                                 }
-                                
+
                                 $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $valor['codigo_categoria'], 'Comanda');
                                 $productos = array();
                             }
@@ -558,6 +558,10 @@ class Imprimir extends BaseController
             $printer->text("TOTAL      :" . "$" . number_format($total['valor_total'] + $propina, 0, ",", ".") . "\n");
             $printer->setTextSize(1, 1);
             $printer->text("---------------------------------------------" . "\n");
+
+            $printer->text("Este establecimiento sugiere un aporte de servicio voluntario del 10% del valor de la cuenta. Usted puede aceptarlo, rechazarla o modificarlo según su valoración del servicio. 
+Este monto se distribuye al 100% entre el personal de servicio según el reglamento interno.
+" . "\n");
 
             $printer->setJustification(Printer::JUSTIFY_CENTER);
             $printer->text("GRACIAS POR SU VISITA " . "\n");

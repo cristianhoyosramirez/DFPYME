@@ -20,7 +20,7 @@ class cuentaRetiroModel extends Model
             nombre_rubro
         FROM   rubro_cuenta_retiro
         inner join cuenta_retiro
-                ON rubro_cuenta_retiro.id_cuenta_retiro = cuenta_retiro.id 
+                ON rubro_cuenta_retiro.id_cuenta_retiro = cuenta_retiro.id order by nombre_cuenta asc
         ");
         return $datos->getResultArray();
     }

@@ -53,7 +53,9 @@ class productoModel extends Model
         'valor_impuesto_saludable',
         'id_subcategoria',
         'favorito',
-        'precio_3'
+        'precio_3',
+        'idImpresora',
+        'kit',
     ];
 
     public function autoComplete($valor)
@@ -83,7 +85,7 @@ class productoModel extends Model
         return $datos->getResultArray();
     }
 
-    /*     public function autoCompletePro($valor)
+        public function getProductos($valor)
     {
 
         $datos = $this->db->query("
@@ -95,7 +97,8 @@ class productoModel extends Model
     nombreproducto,
     valorventaproducto,
     aplica_descuento,
-    precio_costo
+    precio_costo,
+    kit
 FROM
     public.producto
 INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
@@ -112,7 +115,7 @@ WHERE
           
         ");
         return $datos->getResultArray();
-    } */
+    } 
     public function autoCompletePro($valor)
     {
 

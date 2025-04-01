@@ -1,15 +1,11 @@
 <div class="container">
-    <div class="row g-3"> <!-- Clase g-3 para separación entre columnas -->
-        <?php foreach ($mesas as $detalle): ?>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3"> <!-- Tamaños ajustados a los breakpoints -->
-                <a href="#" class="card card-link card-link-pop bg-red-lt text-white"> <!-- Color rojo y texto blanco -->
+    <?php foreach ($mesas as $detalle): ?>
+        <div class="row g-3"> <!-- Cada tarjeta en una fila nueva -->
+            <div class="col"> <!-- Columna única por fila -->
+                <a href="#" class="card card-link card-link-pop bg-red-lt text-white">
                     <div class="card-body">
-                        <p><?php echo $detalle['nombre']; ?></p>
-                        <p><?php echo number_format($detalle['valor_total'], 0, ',', '.'); ?></p>
-                        <p><?php echo $detalle['usuario']; ?></p>
-                        <p><?php echo $detalle['nota_pedido']; ?></p>
-                        <p><?php
-                            setlocale(LC_TIME, 'es_ES.UTF-8'); // Asegurar que está en español
+                        <?php
+                            setlocale(LC_TIME, 'es_ES.UTF-8');
 
                             $datetime = new DateTime($detalle['fecha']);
                             $dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
@@ -20,13 +16,24 @@
                             $mes = $meses[$datetime->format('n') - 1];
                             $hora = $datetime->format('g:i');
                             $meridiano = $datetime->format('a') == 'am' ? 'a.m.' : 'p.m.';
-
-                            echo "$diaSemana $dia de $mes $hora $meridiano";
                             ?>
-                        </p>
+                        
+                        <tr class="table table-borderless text-white">
+                            <td class="text-primary"><span class="text-dark">Venta:</span></td>
+                            <td class="text-secondary"><span class="text-dark"><?php echo $detalle['nombre'] . "  " . "$diaSemana $dia de $mes $hora $meridiano"; ?></td>
+                            
+                            <td class="text-success"><span class="text-dark">Valor Total:</td>
+                            <td class="text-warning"><?php echo number_format($detalle['valor_total'], 0, ',', '.'); ?></td>
+                            <td class="text-info"><span class="text-dark">Mesero</td>
+                            <td class="text-danger"><span class="text-dark"><?php echo $detalle['usuario']; ?></td>
+                            <td class="text-muted"><span class="text-dark">Nota</td>
+                            <td class="text-light"><span class="text-dark"><?php echo $detalle['nota_pedido']; ?></td>
+                        </tr>
+
                     </div>
                 </a>
+                <div class="mb-3"></div>
             </div>
-        <?php endforeach; ?>
-    </div>
+        </div>
+    <?php endforeach; ?>
 </div>

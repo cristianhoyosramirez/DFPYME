@@ -131,6 +131,7 @@
     <?= $this->include('pedidos/crear_cliente') ?>
     <?= $this->include('toma_pedidos/offcanva_mesas') ?>
     <?= $this->include('toma_pedidos/offcanva_productos') ?> <!-- Modal -->
+    <?= $this->include('pedidos/modal_atributos') ?> <!-- Modal -->
     <div class="modal fade" id="editar_cantidades" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -149,7 +150,7 @@
         </div>
     </div>
 
-  
+
 
 
 
@@ -228,25 +229,26 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/header_pedido.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/header_mesa.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/impresion_factura_electronica.js"></script>
+    <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
 
     <script>
-    async function mesasConPedido() {
-        try {
-            const response = await fetch('<?= base_url('mesas/index') ?>');
-            if (!response.ok) {
-                throw new Error('Error al obtener los datos');
+        async function mesasConPedido() {
+            try {
+                const response = await fetch('<?= base_url('mesas/index') ?>');
+                if (!response.ok) {
+                    throw new Error('Error al obtener los datos');
+                }
+                const datos = await response.json();
+                
+                document.getElementById('mesas_all').innerHTML = datos.mesas
+            } catch (error) {
+                console.error('Hubo un problema:', error);
             }
-            const datos = await response.json();
-            console.log(datos); // Aquí puedes procesar los datos como necesites
-            document.getElementById('mesas_all').innerHTML=datos.mesas
-        } catch (error) {
-            console.error('Hubo un problema:', error);
         }
-    }
 
-    // Llamar a la función
-    mesasConPedido();
-</script>
+        // Llamar a la función
+        mesasConPedido();
+    </script>
 
 
 
@@ -532,36 +534,77 @@
                                 let id_usuario = document.getElementById("id_usuario").value;
                                 let mesero = document.getElementById("mesero").value;
                                 let id_producto = ui.item.id_producto;
+                                let kit = ui.item.kit;
 
-                                $.ajax({
-                                    data: {
-                                        id_producto,
-                                        id_mesa,
-                                        id_usuario,
-                                        mesero
-                                    },
-                                    url: url + "/" + "pedidos/agregar_producto",
-                                    type: "POST",
-                                    success: function(resultado) {
-                                        var resultado = JSON.parse(resultado);
-                                        if (resultado.resultado == 1) {
+                                //if (kit == 'f') {
 
-                                            $('#producto').val('');
-                                            $('#mesa_productos').html(resultado.productos_pedido)
-                                            $('#valor_pedido').html(resultado.total_pedido)
-                                            $('#subtotal_pedido').val(resultado.total_pedido)
-                                            $('#id_mesa_pedido').val(resultado.id_mesa)
+                                    $.ajax({
+                                        data: {
+                                            id_producto,
+                                            id_mesa,
+                                            id_usuario,
+                                            mesero
+                                        },
+                                        url: url + "/" + "pedidos/agregar_producto",
+                                        type: "POST",
+                                        success: function(resultado) {
+                                            var resultado = JSON.parse(resultado);
+                                            if (resultado.resultado == 1) {
 
-                                            if (resultado.estado == 1) {
-                                                $('#mesa_pedido').html('Ventas de mostrador ')
-                                                //$('#input' + resultado.id).select()
-                                                $('#producto').focus();
+                                                $('#producto').val('');
+                                                $('#mesa_productos').html(resultado.productos_pedido)
+                                                $('#valor_pedido').html(resultado.total_pedido)
+                                                $('#subtotal_pedido').val(resultado.total_pedido)
+                                                $('#id_mesa_pedido').val(resultado.id_mesa)
 
+                                                if (resultado.estado == 1) {
+                                                    $('#mesa_pedido').html('Ventas de mostrador ')
+                                                    //$('#input' + resultado.id).select()
+                                                    $('#producto').focus();
+
+                                                }
                                             }
+                                        },
+                                    });
+                                /* } else if (kit === "t") {
+                                    id_producto
+                                    async function cargarInsumos() {
+                                        try {
+                                            let response = await fetch('<?= base_url('producto/getAtributos') ?>', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify({
+                                                    id_producto: id_producto,
+                                                })
+                                            });
+
+                                            if (!response.ok) {
+                                                throw new Error(`Error en la respuesta: ${response.status} - ${response.statusText}`);
+                                            }
+
+                                            let data = await response.json(); // Aquí no debería dar error
+
+                                            if (data.response=="success") {
+                                                //document.getElementById('tbodyInsumos').innerHTML = data.productos;
+                                                document.getElementById('asigCompo').innerHTML = data.atributos;
+                                                $("#modalAtributos").modal("show");
+                                                
+                                            } else {
+                                                console.warn("La respuesta no contiene 'productos'.", data);
+                                            }
+
+                                        } catch (error) {
+                                            console.error("Error en la petición:", error);
                                         }
-                                    },
-                                });
-                                //}
+                                    }
+
+                                    // Llamar a la función
+                                    cargarInsumos();
+
+                                } */
+
                             },
                         });
                     }
@@ -1796,7 +1839,7 @@
             let total_propina = propina_parcial.replace(/\./g, '');
 
             //console.log(tipo_pago)
-            
+
             if (tipo_pago == 1) {
                 $('#transaccion').val(total_venta.toLocaleString('es-CO'))
                 $('#efectivo').val(0)
@@ -1808,7 +1851,7 @@
 
             if (tipo_pago == 0) {
                 //let total = total_venta + parseFloat(total_propina);
-                let total = total_venta ;
+                let total = total_venta;
                 $('#transaccion').val(total.toLocaleString('es-CO'))
                 $('#pago').html('Valor pago: ' + total.toLocaleString('es-CO'))
                 $('#faltante').html('Faltante: 0')

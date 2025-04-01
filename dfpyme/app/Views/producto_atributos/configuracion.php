@@ -37,10 +37,10 @@
                                 <label for="recetaSelect" class="col-3 fw-bold">Atributo:</label>
                                 <div class="col-9">
                                     <div class="input-group input-group-flat">
-                                        <input type="text" class="form-control" autocomplete="off" placeholder="Buscar un atributo" id="buscar_receta" oninput="buscar_receta(this.value)">
+                                        <input type="text" class="form-control" autocomplete="off" placeholder="Buscar un atributo" id="buscarAtri" oninput="buscarAtributo(this.value)">
 
                                         <span class="input-group-text">
-                                            <a href="#" class="link-secondary" title="Limpiar búsqueda" data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="limpiar(buscar_receta)"><!-- Download SVG icon from http://tabler-icons.io/i/x -->
+                                            <a href="#" class="link-secondary" title="Limpiar búsqueda" data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="limpiar()"><!-- Download SVG icon from http://tabler-icons.io/i/x -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                     <line x1="18" y1="6" x2="6" y2="18" />
@@ -57,7 +57,7 @@
                             <div id="resContainer" style="height: 60vh; overflow-y: auto;">
                                 <div id="resList">
                                     <?php foreach ($atributos as $detalle): ?>
-                                        <div class="accordion" id="accordionExample">
+                                        <div class="accordion" id="accordion<?php echo $detalle['id']; ?>">
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header d-flex align-items-center justify-content-between px-3" id="heading-<?php echo $detalle['id']; ?>">
                                                     <button class="accordion-button collapsed flex-grow-1" type="button" data-bs-toggle="collapse"
@@ -67,9 +67,10 @@
                                                         <input type="text" class="form-control" value="<?php echo $detalle['nombre']; ?>" style="width: 50%;"
                                                             onclick="event.stopPropagation();" oninput="actualizarAtributo(this.value, <?php echo $detalle['id']; ?>)">
                                                     </button>
-                                                    <button
-                                                        class="btn btn-outline-success ms-2 me-3 btn-icon"
+                                                    <button class="btn btn-outline-success ms-2 me-3 btn-icon"
                                                         type="button"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
                                                         title="Agregar un componente"
                                                         onclick="addComponente(<?php echo $detalle['id']; ?>, '<?php echo $detalle['nombre']; ?>')">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
@@ -79,8 +80,11 @@
                                                             <line x1="5" y1="12" x2="19" y2="12" />
                                                         </svg>
                                                     </button>
+
                                                     <button class="btn btn-outline-danger ms-2 me-3 btn-icon" type="button" title="Borrar atributo"
-                                                        onclick="borrarAtributo(<?php echo $detalle['id']; ?>)">
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        onclick="borrarAtributo(<?php echo $detalle['id']; ?>,'<?php echo $detalle['nombre']; ?>')">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
                                                             stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -95,35 +99,32 @@
 
                                                 <div id="collapse-<?php echo $detalle['id']; ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?php echo $detalle['id']; ?>" data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
-                                                        <div class="d-flex flex-wrap gap-2">
-                                                            <span class="badge rounded-pill bg-primary d-flex align-items-center">
-                                                                Primary
-                                                                <button type="button" class="btn-close ms-2" aria-label="Close" onclick="eliminarBadge(this)"></button>
-                                                            </span>
-                                                            <span class="badge rounded-pill bg-secondary d-flex align-items-center">
-                                                                Secondary
-                                                                <button type="button" class="btn-close ms-2" aria-label="Close" onclick="eliminarBadge(this)"></button>
-                                                            </span>
-                                                            <span class="badge rounded-pill bg-success d-flex align-items-center">
-                                                                Success
-                                                                <button type="button" class="btn-close ms-2" aria-label="Close" onclick="eliminarBadge(this)"></button>
-                                                            </span>
-                                                            <span class="badge rounded-pill bg-danger d-flex align-items-center">
-                                                                Danger
-                                                                <button type="button" class="btn-close ms-2" aria-label="Close" onclick="eliminarBadge(this)"></button>
-                                                            </span>
-                                                            <span class="badge rounded-pill bg-warning text-dark d-flex align-items-center">
-                                                                Warning
-                                                                <button type="button" class="btn-close ms-2" aria-label="Close" onclick="eliminarBadge(this)"></button>
-                                                            </span>
-                                                            <span class="badge rounded-pill bg-info text-dark d-flex align-items-center">
-                                                                Info
-                                                                <button type="button" class="btn-close ms-2" aria-label="Close" onclick="eliminarBadge(this)"></button>
-                                                            </span>
+                                                        <div id="resComponentes<?php echo $detalle['id']; ?>">
+                                                            <?php
+                                                            //$componentes = model('componentesAtributosProductoModel')->findAll();
+                                                            $componentes = model('componentesAtributosProductoModel')->where('id_atributo', $detalle['id'])->findAll();
+                                                            ?>
+                                                            <p class="text-primary">Componentes</p>
+                                                            <?php if (!empty($componentes)): ?>
+                                                                <div class="d-flex flex-wrap gap-2">
+                                                                    <?php foreach ($componentes as $detalle): ?>
+                                                                        <span class="badge rounded-pill btn-outline-primary d-flex align-items-center p-3 fs-5"
+                                                                            style="min-width: 150px; max-width: 250px; justify-content: space-between;"
+                                                                            id="badge<?php echo $detalle['id']; ?>">
+                                                                            <?php echo $detalle['nombre']; ?>
+                                                                            <button type="button" class="btn-close ms-2" aria-label="Close"
+                                                                                onclick="eliminarBadge(<?php echo $detalle['id']; ?>, '<?php echo $detalle['nombre']; ?>')">
+                                                                            </button>
+                                                                        </span>
+                                                                    <?php endforeach; ?>
+                                                                </div>
+                                                            <?php endif; ?>
+
+                                                            <?php if (empty($componentes)): ?>
+                                                                <p class="text-orange text-center">Noy hay components asociados </p>
+                                                            <?php endif; ?>
+
                                                         </div>
-
-
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,9 +151,14 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="cancelar()"></button>
                         </div>
                         <div class="modal-body">
-                            <label for="" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombreAtributo" onkeyup="validarAtributo()">
-                            <span id="nombreAtributoError" class="text-danger"></span>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombreAtributo" onkeyup="validarAtributo()">
+                                    <span id="nombreAtributoError" class="text-danger"></span>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-success" onclick="crearAtributo()">Aceptar</button>
@@ -169,7 +175,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="">Adicionar un componente</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" onclick="cancelarCrearComponente()" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
@@ -183,7 +189,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-success" onclick="crearComponente()">Aceptar</button>
-                            <button type="button" class="btn btn-danger">Cancelar </button>
+                            <button type="button" class="btn btn-danger" onclick="cancelarCrearComponente()">Cancelar </button>
                         </div>
                     </div>
                 </div>
@@ -201,6 +207,162 @@
             <!-- Sweet alert -->
             <script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
             <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
+
+            <script>
+                function limpiar() {
+                    document.getElementById('buscarAtri').value = ""
+                    document.getElementById('buscarAtri').focus()
+                }
+            </script>
+
+            <script>
+                async function buscarAtributo(valor) {
+                    // Si el campo está vacío, limpiar resultados y salir
+                    if (valor.trim() === "") {
+                        document.getElementById("resultadoAtributos").innerHTML = "";
+                        return;
+                    }
+
+                    try {
+                        // Realizar la petición al servidor
+                        const response = await fetch("<?= base_url('producto/searchAtributo') ?>", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                query: valor
+                            }) // Enviar la búsqueda en JSON
+                        });
+
+                        const resultado = await response.json(); // Esperar la respuesta JSON
+
+                        if (resultado.response == 'success') {
+                            // Mostrar los resultados en el contenedor
+                            document.getElementById("resList").innerHTML = resultado.atributos;
+                        } else {
+                            document.getElementById("resList").innerHTML = "<p class='text-orange'>No se encontraron resultados</p>";
+                        }
+                    } catch (error) {
+                        console.error("Error en la búsqueda:", error);
+                    }
+                }
+            </script>
+
+
+            <script>
+                async function borrarAtributo(id, nombre) {
+                    // Confirmación con SweetAlert2
+                    const confirmacion = await Swal.fire({
+                        title: "¿Estás seguro?",
+                        html: `El atributo: <span style="color: orange; font-weight: bold;">${nombre}</span> será eliminado permanentemente.`,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#2FB344",
+                        cancelButtonColor: "#D63939",
+                        confirmButtonText: "Sí, eliminar",
+                        cancelButtonText: "Cancelar"
+                    });
+
+
+                    // Si el usuario cancela, detener ejecución
+                    if (!confirmacion.isConfirmed) {
+                        return;
+                    }
+
+                    try {
+                        // Enviar petición al servidor
+                        const response = await fetch("<?= base_url('producto/deleteAtributo') ?>", {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                id: id
+                            }) // Enviar el ID en JSON
+                        });
+
+                        const resultado = await response.json(); // Esperar la respuesta JSON
+
+                        if (resultado.response == "success") {
+                            // Eliminar el elemento del DOM si la eliminación fue exitosa
+                            document.getElementById('accordion' + resultado.id).remove();
+                            sweet_alert_centrado('success', 'Atributo eliminado')
+                        } else {
+                            Swal.fire("Error", "No se pudo eliminar el atributo.", "error");
+                        }
+                    } catch (error) {
+                        console.error("Error en la petición:", error);
+                        Swal.fire("Error", "Ocurrió un problema al eliminar el atributo.", "error");
+                    }
+                }
+            </script>
+
+
+
+            <script>
+                function cancelarCrearComponente() {
+                    document.getElementById('nombreComponente').value = "";
+                    $('#addComponentes').modal('hide');
+                }
+            </script>
+
+            <script>
+                async function eliminarBadge(id, nombre) {
+                    const confirmacion = await Swal.fire({
+                        title: "¿Estás seguro de eliminar ? " + nombre,
+                        text: "Esta acción no se puede deshacer.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Sí, eliminar",
+                        cancelButtonText: "Cancelar"
+                    });
+
+                    if (!confirmacion.isConfirmed) {
+                        return; // Si el usuario cancela, no hace nada
+                    }
+
+                    try {
+                        const response = await fetch("<?= base_url('producto/deleteComponente') ?>", {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                id: id
+                            }) // Enviar el ID en JSON
+                        });
+
+
+                        const resultado = await response.json(); // Esperar la respuesta JSON
+
+                        if (resultado.response = "success") {
+                            // Eliminar el elemento del DOM
+                            document.getElementById('badge' + resultado.id).remove();
+
+                            // Mostrar alerta de éxito
+                            sweet_alert_centrado('success', 'componente eliminando')
+                        } else {
+                            Swal.fire({
+                                title: "Error",
+                                text: "No se pudo eliminar el componente.",
+                                icon: "error"
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error en la petición:", error);
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ocurrió un problema con la eliminación.",
+                            icon: "error"
+                        });
+                    }
+                }
+            </script>
+
+
 
             <script>
                 async function crearComponente() {
@@ -229,10 +391,18 @@
 
                         let resultado = await respuesta.json();
 
-                        if (respuesta.ok) {
-                            alert("Componente creado con éxito: " + resultado.mensaje);
-                        } else {
-                            alert("Error: " + resultado.error);
+                        console.log(resultado.response)
+
+                        if (resultado.response == 'success') {
+                            document.getElementById('nombreComponente').value = ""
+                            document.getElementById('resComponentes' + resultado.id).innerHTML = resultado.componentes
+                            $('#addComponentes').modal('hide');
+                            sweet_alert_centrado('success', 'Componente creado')
+                        }
+                        if (resultado.response == 'exists') {
+                            document.getElementById('nombreComponente').value = "";
+                            $('#addComponentes').modal('hide');
+                            sweet_alert_centrado('warning', 'Componente existe')
                         }
 
                     } catch (error) {
@@ -283,6 +453,7 @@
                     try {
                         // Obtener valores del formulario (ajústalo según tu HTML)
                         const nombre = document.getElementById("nombreAtributo").value;
+
                         // Verificar que los campos no estén vacíos
                         if (!nombre) {
                             document.getElementById('nombreAtributoError').innerHTML = "Completa el campo"

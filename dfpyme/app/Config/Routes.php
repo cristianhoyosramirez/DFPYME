@@ -143,6 +143,18 @@ $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' 
     $routes->POST('validarAtributo', 'ConfigurarProductoController::validarAtributo');
     $routes->put('actualizarAtributo', 'ConfigurarProductoController::actualizarAtributo');
     $routes->post('crearComponente', 'ConfigurarProductoController::crearComponente');
+    $routes->delete('deleteComponente', 'ConfigurarProductoController::deleteComponente');
+    $routes->delete('deleteAtributo', 'ConfigurarProductoController::deleteAtributo');
+    $routes->post('searchAtributo', 'ConfigurarProductoController::searchAtributo');
+    $routes->post('actualizarPrecioProducto', 'ConfigurarProductoController::actualizarPrecioProducto');
+    $routes->post('actualizarImpresora', 'ConfigurarProductoController::actualizarImpresora');
+    $routes->post('productosAtributos', 'ConfigurarProductoController::productosAtributos');
+    $routes->post('atributosProducto', 'ConfigurarProductoController::atributosProducto');
+    $routes->POST('updateNumeroComponentes', 'ConfigurarProductoController::updateNumeroComponentes');
+    $routes->POST('eliminarComponente', 'ConfigurarProductoController::eliminarComponente');
+    $routes->POST('getAtributos', 'ConfigurarProductoController::getAtributos');
+    $routes->POST('getAtributosProducto', 'ConfigurarProductoController::getAtributosProducto');
+    $routes->POST('deleteComponenteProducto', 'ConfigurarProductoController::deleteComponenteProducto');
 });
 
 $routes->group('impresora', ['namespace' => 'App\Controllers\impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -421,6 +433,7 @@ $routes->group('devolucion', ['namespace' => 'App\Controllers\devolucion', 'filt
     $routes->post('actualizar_rubro', 'RetiroController::actualizar_rubro');
     $routes->post('editar_retiro', 'devolucionController::editar_retiro');
     $routes->post('actualizar_retiro', 'devolucionController::actualizar_retiro');
+    $routes->delete('deleteRubro', 'RetiroController::deleteRubro');
 });
 $routes->group('caja', ['namespace' => 'App\Controllers\caja', 'filter' => \App\Filters\Auth::class], function ($routes) {
     $routes->get('apertura', 'cajaController::apertura');
