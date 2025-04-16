@@ -156,6 +156,9 @@ $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' 
     $routes->post('getAtributosProducto', 'ConfigurarProductoController::getAtributosProducto');
     $routes->POST('deleteComponenteProducto', 'ConfigurarProductoController::deleteComponenteProducto');
     $routes->post('armarNota', 'ConfigurarProductoController::armarNota');
+    $routes->post('atributosDeProducto', 'ConfigurarProductoController::atributosDeProducto');
+    $routes->post('adicionDeProducto', 'ConfigurarProductoController::adicionDeProducto');
+    $routes->post('validarAtributosDeProducto', 'ConfigurarProductoController::validarAtributosDeProducto');
 });
 
 $routes->group('impresora', ['namespace' => 'App\Controllers\impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -545,6 +548,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->post('imprimir_categoria_con_cantidades', 'Imprimir::imprimir_categoria_con_cantidades');
     $routes->post('imprimir_categoria_sin_cantidades', 'Imprimir::imprimir_categoria_sin_cantidades');
     $routes->post('mesas_de_salon', 'Mesas::mesas_de_salon');
+    $routes->post('actualizarNota', 'TomaPedidosController::actualizarNota');
 });
 
 $routes->group('inventario', ['namespace' => 'App\Controllers\pedidos', 'filter' => \App\Filters\Auth::class], function ($routes) {

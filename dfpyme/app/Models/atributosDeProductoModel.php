@@ -35,7 +35,23 @@ class atributosDeProductoModel extends Model
     public function getAtributos($id_tabla_producto)
     {
         $datos = $this->db->query("
+
             select distinct (id_atributo) from atributos_producto where id_tabla_producto=$id_tabla_producto
+            
+         ");
+        return $datos->getResultArray();
+    }
+    public function getAtributosPedido($id_tabla_producto)
+    {
+        $datos = $this->db->query("
+            SELECT DISTINCT
+                (id_atributo),
+                nombre
+            FROM
+                atributos_producto
+            INNER JOIN atributos ON atributos_producto.id_atributo = atributos.id
+            WHERE
+                id_tabla_producto = $id_tabla_producto
          ");
         return $datos->getResultArray();
     }

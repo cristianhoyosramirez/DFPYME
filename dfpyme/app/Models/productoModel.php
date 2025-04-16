@@ -54,8 +54,8 @@ class productoModel extends Model
         'id_subcategoria',
         'favorito',
         'precio_3',
-        'idImpresora',
         'kit',
+        'id_impresora',
     ];
 
     public function autoComplete($valor)
@@ -971,7 +971,8 @@ ORDER BY
     {
 
         $datos = $this->db->query("
-           SELECT * 
+           SELECT  id,nombreproducto,codigointernoproducto,
+           valorventaproducto
 FROM producto 
 WHERE id_tipo_inventario IN (1, 3) 
 AND id_tipo_inventario NOT IN (4)

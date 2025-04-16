@@ -92,6 +92,6 @@
 
 <?php endif ?>
 
-<?php if (empty($atributos)): ?>
+<!-- <?php #if (empty($atributos)): ?>
     <p class="text-center text-primary h3">No hay atributos asociados al producto</p>
-<?php endif ?>
+<?php #endif ?> -->

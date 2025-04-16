@@ -25,7 +25,7 @@ class CerrarVenta extends BaseController
     {
 
         $id_mesa = $this->request->getPost('id_mesa');
-        //$id_mesa = 1;
+        //$id_mesa = 25;
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
         $numero_pedido = $pedido['id'];
 
@@ -70,17 +70,28 @@ class CerrarVenta extends BaseController
             $descuento = 0;
             $tipo_pago = 1; */
 
-            // var_dump($this->request->getPost()); exit();
+            //var_dump($this->request->getPost()); exit();
+            $estado = $_POST['estado'];
+            //$estado=6;
 
 
-            if ($_POST['estado'] != 6) {
+            if ($estado != 6) {
                 $efectivo = $_POST['efectivo'];
                 $transaccion = $_POST['transaccion'];
             }
-            if ($_POST['estado'] == 6) {
+            if ($estado == 6) {
                 $efectivo = 0;
                 $transaccion = 0;
             }
+            /*  $valor_venta = 475000;
+            $nit_cliente = 222222222222;
+            $id_usuario = 6;
+            $estado = 6;
+            $propina = 0;
+            $descuento = 0;
+            $tipo_pago = 1; */
+
+
             $valor_venta = $_POST['valor_venta'];
             $nit_cliente = $_POST['nit_cliente'];
             $id_usuario = $_POST['id_usuario'];
@@ -125,7 +136,7 @@ class CerrarVenta extends BaseController
                     $incremento_cortesia = model('consecutivosModel')->actualizar_consecutivos($serie_cortesia);
                     $numeracion_factura = "CORT-" . $consectivo_cortesia['numeroconsecutivo'];
 
-                    $updateConse=model('consecutivosModel')->set('numeroconsecutivo',$serie_cortesia)->where('idconsecutivos', 103)->update();
+                    $updateConse = model('consecutivosModel')->set('numeroconsecutivo', $serie_cortesia)->where('idconsecutivos', 103)->update();
                 }
 
 
@@ -172,7 +183,7 @@ class CerrarVenta extends BaseController
                 if ($estado == 1 or $estado == 7 or $estado == 6) {
                     $saldo = 0;
                 }
-                if ($estado == 2 ) {
+                if ($estado == 2) {
                     $saldo = $valor_total['valor_total'];
                 }
 

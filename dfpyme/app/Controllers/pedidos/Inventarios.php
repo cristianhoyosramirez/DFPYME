@@ -126,9 +126,10 @@ class Inventarios extends BaseController
     {
         $producto = $this->request->getPost('valor');
 
-
-        $productos = model('inventarioModel')->producto($producto);
-
+        if (!empty($producto)) {
+            $productos = model('inventarioModel')->producto($producto);
+        }
+        
         $returnData = array(
             "resultado" => 1,
             'productos' => view('pedido/productos', [

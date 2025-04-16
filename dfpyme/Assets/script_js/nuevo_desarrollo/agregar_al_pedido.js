@@ -20,6 +20,8 @@ function agregar_al_pedido(id_producto) {
                 var resultado = JSON.parse(resultado);
                 if (resultado.resultado == 1) {
 
+                    
+
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-start',
@@ -36,6 +38,8 @@ function agregar_al_pedido(id_producto) {
                         title: 'Agregado'
                     });
 
+                    //$('#modalAtributos').modal('show')
+
                     $('#mesa_productos').html(resultado.productos_pedido)
                     $('#valor_pedido').html(resultado.total_pedido)
                     $('#val_pedido').html(resultado.total_pedido)
@@ -45,6 +49,8 @@ function agregar_al_pedido(id_producto) {
                     $("#propina_del_pedido").val(resultado.propina);
                     //$('#mesa_pedido').html('VENTAS DE MOSTRADOR')
                     $('#producto').focus();
+                    document.getElementById("id_tabla_producto").value = resultado.id;
+                    document.getElementById("asigCompo").innerHTML = resultado.atributos;
 
 
                     if (resultado.estado == 1) {

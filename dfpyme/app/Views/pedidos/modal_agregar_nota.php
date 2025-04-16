@@ -22,7 +22,7 @@
                     </div>
                 </div>
 
-                <nav aria-label="breadcrumb">
+                <nav aria-label="breadcrumb" id="navegacion">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item cursor-pointer" onclick="flecha()"><a type="button"><!-- Download SVG icon from http://tabler-icons.io/i/arrow-narrow-left -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -54,6 +54,7 @@
                                     Nota </span>
                             </label>
                         </div>
+
                         <div class="col-6 col-md-6 col-lg-2 mb-2" onclick="descuento()">
                             <label class="form-selectgroup-item">
                                 <input type="radio" name="icons" value="home" class="form-selectgroup-input">
@@ -67,6 +68,7 @@
                                     Descuento</span>
                             </label>
                         </div>
+
                         <div class="col-6 col-md-6 col-lg-2 mb-2">
                             <label class="form-selectgroup-item" onclick="mostrar_lista_precios()">
                                 <input type="radio" name="icons" value="home" class="form-selectgroup-input">

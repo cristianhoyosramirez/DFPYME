@@ -42,6 +42,7 @@ class Inventario
 
             $producto_fabricado = model('productoFabricadoModel')->select('*')->where('prod_fabricado', $codigointerno)->find();
 
+            
 
             foreach ($producto_fabricado as $detall) {
 
@@ -50,7 +51,8 @@ class Inventario
                 $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $detall['prod_proceso'])->first();
                 $descontar_de_inventario = $cantidad * $detall['cantidad'];
 
-                $movimiento = [
+              
+               /*  $movimiento = [
                     'fecha' => date('Y-m-d'),
                     'hora' => date("H:i:s"),
                     'id_producto' => $id_producto['id'],
@@ -61,11 +63,11 @@ class Inventario
                     'id_pro_prin' => $id_pro['id']
                 ];
 
-                $insertar = model('MovimientoInsumosModel')->insert($movimiento);
+                $insertar = model('MovimientoInsumosModel')->insert($movimiento); */
 
                 $data = [
-                    'cantidad_inventario' => $cantidad_inventario['cantidad_inventario'] - $descontar_de_inventario,
-                    //'cantidad_inventario' => 1,
+                    //'cantidad_inventario' => $cantidad_inventario['cantidad_inventario'] - $descontar_de_inventario,
+                    'cantidad_inventario' => 1,
 
                 ];
 

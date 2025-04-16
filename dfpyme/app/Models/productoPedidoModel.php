@@ -25,7 +25,7 @@ class productoPedidoModel extends Model
         'idUsuario',
         'fecha',
         'hora',
-        
+
     ];
 
     public function producto_pedido($numero_pedido)
@@ -97,6 +97,29 @@ class productoPedidoModel extends Model
              producto_pedido
         INNER JOIN producto ON producto_pedido.codigointernoproducto = producto.codigointernoproducto
         where numero_de_pedido='$numero_pedido'  and se_imprime_en_comanda='true' and  numero_productos_impresos_en_comanda < cantidad_producto  order by id asc;
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function productosPedidoCategoria($numero_pedido,$codigoCategoria)
+    {
+        $datos = $this->db->query("
+        SELECT
+             producto_pedido.id as id,
+             producto.nombreproducto,
+             producto.valorventaproducto,
+             valor_total,
+             cantidad_producto,
+             nota_producto,
+             valor_unitario,
+             producto_pedido.codigointernoproducto,
+             numero_productos_impresos_en_comanda
+        FROM
+             producto_pedido
+        INNER JOIN producto ON producto_pedido.codigointernoproducto = producto.codigointernoproducto
+        where numero_de_pedido='$numero_pedido'  and se_imprime_en_comanda='true' and  numero_productos_impresos_en_comanda < cantidad_producto 
+        and codigo_categoria= '$codigoCategoria'
+        order by id asc;
         ");
         return $datos->getResultArray();
     }
@@ -528,13 +551,14 @@ class productoPedidoModel extends Model
         $cantidad,
         $idUser,
         $fecha,
-        $hora
+        $hora,
+        $nota
     ) {
 
         $data = [
             'numero_de_pedido' => $ultimo_id_pedido,
             'cantidad_producto' => $cantidad,
-            'nota_producto' => '',
+            'nota_producto' => $nota,
             'valor_unitario' => $valor_unitario,
             'impresion_en_comanda' => false,
             'cantidad_entregada' => 0,
@@ -547,6 +571,7 @@ class productoPedidoModel extends Model
             'fecha' => $fecha,
             'hora' => $hora
         ];
+
         $productos = $this->db->table('producto_pedido');
         $productos->insert($data);
 
@@ -589,7 +614,7 @@ class productoPedidoModel extends Model
         FROM
              producto_pedido
         INNER JOIN producto ON producto_pedido.codigointernoproducto = producto.codigointernoproducto
-        where id_impresora=$id_impresora  and se_imprime_en_comanda='true' and  numero_productos_impresos_en_comanda < cantidad_producto  order by id asc;
+        where producto_pedido.id_impresora=$id_impresora  and se_imprime_en_comanda='true' and  numero_productos_impresos_en_comanda < cantidad_producto  order by id asc;
         ");
         return $datos->getResultArray();
     }

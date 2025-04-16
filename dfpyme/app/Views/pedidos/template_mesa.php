@@ -230,6 +230,7 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/header_mesa.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/impresion_factura_electronica.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
+    <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/agregarProductoPedido.js"></script>
 
     <script>
         async function mesasConPedido() {
@@ -239,7 +240,7 @@
                     throw new Error('Error al obtener los datos');
                 }
                 const datos = await response.json();
-                
+
                 document.getElementById('mesas_all').innerHTML = datos.mesas
             } catch (error) {
                 console.error('Hubo un problema:', error);
@@ -361,26 +362,37 @@
 
                         mesas.forEach(function(mesa) {
 
-                            let card = `
-                                    <div class="cursor-pointer card card_mesas text-white bg-red-lt" onclick="pedido_mesa('${mesa.fk_mesa}', '${mesa.nombre}')" style="height: auto;">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <span class="avatar">
-                                                    <img src="${url}/Assets/img/ocupada.png" width="110" height="32" alt="${mesa.nombre}" class="navbar-brand-image">
-                                                </span>
-                                            </div>
-                                            <div class="col">
-                                                <div class="text-center">
-                                                    <strong style="font-size: 12px;">${mesa.nombre}</strong>
-                                                </div>
-                                                <div class="text-center"><strong style="font-size: 12px;">$${mesa.valor_total + mesa.propina}</strong></div>
-                                                <div class="text-center"><strong style="font-size: 12px; height: 1em; overflow: hidden;">${mesa.nombresusuario_sistema.substr(0, 10)}...</strong></div>
-                                            </div>
-                                        </div>
-                                    </div>`;
+                            // Aseguramos que los valores sean números
+                            let total = parseFloat(mesa.valor_total) + parseFloat(mesa.propina);
 
-                            $('#UpdateMesa' + mesa.fk_mesa).html(card)
+                            // Formateamos el total a moneda con separador de miles y 2 decimales
+                            let totalFormateado = total.toLocaleString('es-CO', {
+                                style: 'currency',
+                                currency: 'COP',
+                                minimumFractionDigits: 0
+                            });
+
+                            let card = `
+    <div class="cursor-pointer card card_mesas text-white bg-red-lt" onclick="pedido_mesa('${mesa.fk_mesa}', '${mesa.nombre}')" style="height: auto;">
+        <div class="row">
+            <div class="col-3">
+                <span class="avatar">
+                    <img src="${url}/Assets/img/ocupada.png" width="110" height="32" alt="${mesa.nombre}" class="navbar-brand-image">
+                </span>
+            </div>
+            <div class="col">
+                <div class="text-center">
+                    <strong style="font-size: 12px;">${mesa.nombre}</strong>
+                </div>
+                <div class="text-center"><strong style="font-size: 12px;">${totalFormateado}</strong></div>
+                <div class="text-center"><strong style="font-size: 12px; height: 1em; overflow: hidden;">${mesa.nombresusuario_sistema.substr(0, 10)}...</strong></div>
+            </div>
+        </div>
+    </div>`;
+
+                            $('#UpdateMesa' + mesa.fk_mesa).html(card);
                         });
+
 
                         // Asumiendo que tienes una tabla con un cuerpo de tabla con el id "tabla-mesas"
 
@@ -538,34 +550,34 @@
 
                                 //if (kit == 'f') {
 
-                                    $.ajax({
-                                        data: {
-                                            id_producto,
-                                            id_mesa,
-                                            id_usuario,
-                                            mesero
-                                        },
-                                        url: url + "/" + "pedidos/agregar_producto",
-                                        type: "POST",
-                                        success: function(resultado) {
-                                            var resultado = JSON.parse(resultado);
-                                            if (resultado.resultado == 1) {
+                                $.ajax({
+                                    data: {
+                                        id_producto,
+                                        id_mesa,
+                                        id_usuario,
+                                        mesero
+                                    },
+                                    url: url + "/" + "pedidos/agregar_producto",
+                                    type: "POST",
+                                    success: function(resultado) {
+                                        var resultado = JSON.parse(resultado);
+                                        if (resultado.resultado == 1) {
 
-                                                $('#producto').val('');
-                                                $('#mesa_productos').html(resultado.productos_pedido)
-                                                $('#valor_pedido').html(resultado.total_pedido)
-                                                $('#subtotal_pedido').val(resultado.total_pedido)
-                                                $('#id_mesa_pedido').val(resultado.id_mesa)
+                                            $('#producto').val('');
+                                            $('#mesa_productos').html(resultado.productos_pedido)
+                                            $('#valor_pedido').html(resultado.total_pedido)
+                                            $('#subtotal_pedido').val(resultado.total_pedido)
+                                            $('#id_mesa_pedido').val(resultado.id_mesa)
 
-                                                if (resultado.estado == 1) {
-                                                    $('#mesa_pedido').html('Ventas de mostrador ')
-                                                    //$('#input' + resultado.id).select()
-                                                    $('#producto').focus();
+                                            if (resultado.estado == 1) {
+                                                $('#mesa_pedido').html('Ventas de mostrador ')
+                                                //$('#input' + resultado.id).select()
+                                                $('#producto').focus();
 
-                                                }
                                             }
-                                        },
-                                    });
+                                        }
+                                    },
+                                });
                                 /* } else if (kit === "t") {
                                     id_producto
                                     async function cargarInsumos() {
@@ -1198,7 +1210,7 @@
             });
         });
     </script>
-    <script>
+    <!-- <script>
         function actualizacion_cantidades(cantidad, id) {
             var url = document.getElementById("url").value;
             //var id_producto = document.getElementById("id_edicion_producto").value;
@@ -1245,6 +1257,61 @@
             });
 
 
+        }
+    </script> -->
+
+    <script>
+        function actualizacion_cantidades(cantidad, id) {
+            if (parseInt(cantidad) <= 0) {
+                // Mostrar alerta si se ingresa 0 o un número negativo
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cantidad inválida',
+                    text: 'La cantidad debe ser mayor que cero.',
+                });
+
+                // Restaurar el valor a 1 automáticamente
+                let input = document.getElementById("input_cantidad" + id);
+                input.value = 1;
+                return; // Evitar que continúe la ejecución
+            }
+
+            var url = document.getElementById("url").value;
+            var id_producto = id;
+            var cantidad_producto = cantidad;
+            var id_usuario = document.getElementById("id_usuario").value;
+
+            $.ajax({
+                data: {
+                    id_producto,
+                    cantidad_producto,
+                    id_usuario
+                },
+                url: url + "/eventos/actualizar_cantidades",
+                type: "post",
+                success: function(resultado) {
+                    var resultado = JSON.parse(resultado);
+                    if (resultado.resultado == 1) {
+                        $("#editar_cantidades").modal("hide");
+                        $('#mesa_productos').html(resultado.productos_pedido);
+                        $('#valor_pedido').html(resultado.total_pedido);
+                        $('#val_pedido').html(resultado.total_pedido);
+                        $('#pedido_mesa').html('Pedido: ' + resultado.numero_pedido);
+                        $('#subtotal_pedido').val(resultado.total_pedido);
+
+                        if (resultado.estado_mesa == 0) {
+                            header_pedido();
+                        }
+                        if (resultado.estado_mesa == 1) {
+                            header_mesa();
+                        }
+                    }
+
+                    if (resultado.resultado == 0) {
+                        sweet_alert_start('warning', 'No se puede eliminar ');
+                    }
+                },
+            });
         }
     </script>
 
@@ -1465,6 +1532,76 @@
 
             var manual = document.getElementById("lista_precios");
             manual.style.display = "block";
+        }
+    </script>
+
+    <script>
+        function cortesia() {
+
+
+            var url = document.getElementById("url").value;
+            var id_producto_pedido = document.getElementById("id_producto_pedido").value;
+
+            $.ajax({
+                data: {
+                    id_producto_pedido
+                },
+                url: url +
+                    "/" +
+                    "eventos/nombre_producto",
+                type: "post",
+                success: function(resultado) {
+                    var resultado = JSON.parse(resultado);
+                    if (resultado.resultado == 1) {
+
+
+                        $('#mensaje_cortesia').html(resultado.nombre_producto)
+                        $("#agregar_nota").modal("hide");
+                        $("#modal_cortesia").modal("show");
+
+
+                    }
+                },
+            });
+
+
+
+
+        }
+    </script>
+
+    <script>
+        function cortesia_1(id) {
+
+
+            var url = document.getElementById("url").value;
+
+
+            $.ajax({
+                data: {
+                    id_producto_pedido: id
+                },
+                url: url +
+                    "/" +
+                    "eventos/nombre_producto",
+                type: "post",
+                success: function(resultado) {
+                    var resultado = JSON.parse(resultado);
+                    if (resultado.resultado == 1) {
+
+                        document.getElementById("id_producto_pedido").value = id
+                        $('#mensaje_cortesia').html(resultado.nombre_producto)
+                        $("#agregar_nota").modal("hide");
+                        $("#modal_cortesia").modal("show");
+
+
+                    }
+                },
+            });
+
+
+
+
         }
     </script>
 

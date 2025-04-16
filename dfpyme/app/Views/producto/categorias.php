@@ -9,7 +9,7 @@ HOME
 
 <div class="container">
     <p class="text-primary text-center h3">Gestión integral de productos</p>
-    <input type="text" id="url" value="<?php  echo base_url()?>" hidden>
+    <input type="text" id="url" value="<?php echo base_url() ?>" hidden>
     <div class="card">
         <div class="card-header">
 
@@ -69,7 +69,7 @@ HOME
                                                 </div>
                                             </div>
 
-                                            <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto,idImpresora')->where('id_subcategoria', $KeySubCategoria['id'])->find(); ?>
+                                            <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto,id_impresora')->where('id_subcategoria', $KeySubCategoria['id'])->find(); ?>
 
 
                                             <?php foreach ($productos_subcategoria as $keyProductoSubCategoria): ?>
@@ -120,7 +120,7 @@ HOME
 
                                                             <?php foreach ($impresoras as $keyImpresoras): ?>
                                                                 <option value="<?php echo $keyImpresoras['id']; ?>"
-                                                                    <?php echo ($keyProductoSubCategoria['idImpresora'] == $keyImpresoras['id']) ? 'selected' : ''; ?>>
+                                                                    <?php echo ($keyProductoSubCategoria['id_impresora'] == $keyImpresoras['id']) ? 'selected' : ''; ?>>
                                                                     <?php echo $keyImpresoras['nombre']; ?>
                                                                 </option>
                                                             <?php endforeach; ?>
@@ -129,7 +129,7 @@ HOME
 
                                                     </div>
                                                     <div class="col-2">
-                                                        
+
                                                         <label for="" class="form-label text-light  ">Tiene atibutos</label>
                                                         <button type="button" class="btn btn-outline-success" onclick="openModal('<?php echo $keyProductoSubCategoria['nombreproducto'] ?>',<?php echo $keyProductoSubCategoria['id'] ?>)">Atributos</button>
                                                     </div>
@@ -232,19 +232,22 @@ HOME
 
                                                     <?php $impresoras = model('impresorasModel')->findAll(); ?>
 
-                                                    <label for="" class="form-label  ">Impresora</label>
-                                                    <select name="" id="" class="form-select">
+                                                    <label for="" class="form-label  ">Impresora1</label>
+                                                    <?php $id_impresora = model('productoModel')->select('id_impresora')->where('codigointernoproducto', $keySubCategoria['codigointernoproducto'])->first(); ?>
+                                                    <select name="" id="" class="form-select" onchange="cambiarImpresora(this.value,<?php echo $keySubCategoria['id'] ?>)">
                                                         <?php foreach ($impresoras as $keyImpresoras): ?>
-                                                            <option value="<?php echo $keyImpresoras['id']; ?>"><?php echo $keyImpresoras['nombre']; ?></option>
-                                                        <?php endforeach ?>
+                                                            <option value="<?php echo $keyImpresoras['id']; ?>" <?php echo ($id_impresora['id_impresora'] == $keyImpresoras['id']) ? 'selected' : ''; ?>>
+                                                                <?php echo $keyImpresoras['nombre']; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
                                                     </select>
 
                                                 </div>
 
                                                 <div class="col-2">
-                                                  
-                                                    <label for="" class="form-label text-light  ">Tiene atibutos</label>    
-                                                     <button type="button" class="btn btn-outline-success" onclick="openModal('<?php echo $keySubCategoria['nombreproducto'] ?>',<?php echo $keySubCategoria['id'] ?>)">Atributos</button>
+
+                                                    <label for="" class="form-label text-light  ">Tiene atibutos</label>
+                                                    <button type="button" class="btn btn-outline-success" onclick="openModal('<?php echo $keySubCategoria['nombreproducto'] ?>',<?php echo $keySubCategoria['id'] ?>)">Atributos</button>
                                                 </div>
 
                                                 <div class="col-2  justify-content-end">

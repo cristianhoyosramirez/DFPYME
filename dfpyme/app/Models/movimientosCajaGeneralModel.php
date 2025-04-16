@@ -11,7 +11,7 @@ class movimientosCajaGeneralModel extends Model
     // protected $primaryKey = 'id';
     protected $allowedFields = ['fecha_apertura', 'valor_apertura', 'fecha_cierre', 'valor_cierre', 'hora_apertura', 'hora_cierre'];
 
-    public function efectivo($fecha_apertura, $fecha_actual)
+/*     public function efectivo($fecha_apertura, $fecha_actual)
     {
         $datos = $this->db->query("
         SELECT sum(valorfactura_forma_pago) as efectivo
@@ -19,8 +19,26 @@ class movimientosCajaGeneralModel extends Model
         WHERE fecha_y_hora_forma_pago BETWEEN '$fecha_apertura' AND '$fecha_actual' and idforma_pago=1
         ");
         return $datos->getResultArray();
-    }
+    } */
+     public function efectivo($fecha_apertura, $fecha_actual)
+    {
+        $datos = $this->db->query("
+        SELECT Sum(efectivo) AS efectivo
+        FROM   pagos
+        WHERE  fecha BETWEEN '$fecha_apertura' AND '$fecha_actual'; 
+        ");
+        return $datos->getResultArray();
+    } 
     public function transaccion($fecha_apertura, $fecha_actual)
+    {
+        $datos = $this->db->query("
+        SELECT Sum(transferencia) as transaccion
+        FROM   pagos
+        WHERE  fecha BETWEEN '$fecha_apertura' AND '$fecha_actual';
+        ");
+        return $datos->getResultArray();
+    }
+   /*  public function transaccion($fecha_apertura, $fecha_actual)
     {
         $datos = $this->db->query("
         SELECT sum(valorfactura_forma_pago) as transaccion
@@ -28,7 +46,7 @@ class movimientosCajaGeneralModel extends Model
         WHERE fecha_y_hora_forma_pago BETWEEN '$fecha_apertura' AND '$fecha_actual' and idforma_pago=4
         ");
         return $datos->getResultArray();
-    }
+    } */
 
     public function total_ingresos($fecha_apertura, $fecha_actual)
     {

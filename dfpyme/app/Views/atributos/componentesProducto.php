@@ -1,7 +1,7 @@
-<?php 
-foreach ($atributos as $detalle): 
-    $nombreAtributo = model('atributosProductoModel')->select('nombre')->where('id', $detalle['id_atributo'])->first();
-    $componentes = model('atributosDeProductoModel')->getComponentes($id_tabla_producto, $detalle['id_atributo']);
+<?php
+foreach ($atributos as $detalleAtributo) :
+    $nombreAtributo = model('atributosProductoModel')->select('nombre')->where('id', $detalleAtributo['id_atributo'])->first();
+    $componentes = model('atributosDeProductoModel')->getComponentes($id_tabla_producto, $detalleAtributo['id_atributo']);
 ?>
 
     <p style="margin: 2px 0;">
@@ -14,4 +14,3 @@ foreach ($atributos as $detalle):
     </p>
 
 <?php endforeach; ?>
-

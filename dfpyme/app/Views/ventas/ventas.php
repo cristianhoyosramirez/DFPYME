@@ -290,6 +290,7 @@ Ventas
                         <td>Valor </th>
                         <td>Saldo </th>
                         <td>Tipo documento</th>
+                        <td>Mesa</th>
                         <td>Acción </th>
                     </tr>
                 </thead>

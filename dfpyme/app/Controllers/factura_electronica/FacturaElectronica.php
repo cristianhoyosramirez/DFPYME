@@ -448,6 +448,8 @@ class FacturaElectronica extends BaseController
 
                 // if (empty($id_pedidos['id_pedido'])) {
 
+                $id_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido)->first();
+
                 $pagos = [
 
                     'fecha' => date('Y-m-d'),
@@ -471,7 +473,8 @@ class FacturaElectronica extends BaseController
                     'id_factura' => $id_factura,
                     'saldo' => $saldo,
                     'nit_cliente' => $nit_cliente,
-                    'id_pedido' => $numero_pedido
+                    'id_pedido' => $numero_pedido,
+                    'id_mesa' => $id_mesa['fk_mesa']
                 ];
 
                 $pagos = model('pagosModel')->insert($pagos);

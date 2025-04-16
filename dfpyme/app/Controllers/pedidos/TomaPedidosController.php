@@ -8,7 +8,7 @@ class TomaPedidosController extends BaseController
 {
     public function index()
     {
-        $categorias = model('categoriasModel')->where('permitir_categoria', 'true')->orderBy('nombrecategoria', 'asc')->findAll();
+        $categorias = model('categoriasModel')->where('permitir_categoria', 'true')->orderBy('orden', 'asc')->findAll();
         $salones = model('salonesModel')->findAll();
         $mesas = model('mesasModel')->where('estado',0)->orderBy('id', 'ASC')->findAll();
         $estado = model('estadoModel')->orderBy('idestado', 'ASC')->findAll();
@@ -29,5 +29,23 @@ class TomaPedidosController extends BaseController
             'requiere_mesero' => $requiere_mesero['mesero_pedido'],
             'meseros' => $meseros
         ]);
+    }
+
+    public function actualizarNota(){
+
+        $json = $this->request->getJSON();
+        $id = $json->id;
+        $nota = $json->nota;
+
+        $model = model('productoPedidoModel');
+        $model->set('nota_producto', $nota);
+        $model->where('id', $id);
+
+        if ($model->update()) {
+            return json_encode(['status' => 'success']);
+        } else {
+            return json_encode(['status' => 'error']);
+        }
+
     }
 }

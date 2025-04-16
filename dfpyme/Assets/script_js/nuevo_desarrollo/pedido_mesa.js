@@ -46,6 +46,11 @@ function pedido_mesa(id_mesa, nombre_mesa) {
         let mesas = document.getElementById("todas_las_mesas");
         mesas.style.display = "none";
     }
+    if (tipo_pedido == "movil") {
+
+       sweet_alert_centrado('success','Mesa seleccionada '+nombre_mesa)
+
+    }
 
    
 

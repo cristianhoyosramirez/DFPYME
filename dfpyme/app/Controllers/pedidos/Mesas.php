@@ -46,7 +46,7 @@ class Mesas extends BaseController
 
         $subcategorias = model('configuracionPedidoModel')->select('sub_categoria')->first();
         $id_categoria = $_POST['id_categoria'];
-        //$id_categoria = 47;
+        //$id_categoria = 5;
 
         $tipo_pedido = $_POST['tipo_pedido'];
 
@@ -58,7 +58,7 @@ class Mesas extends BaseController
 
         $id_subcategorias = model('productoCategoriaModel')->id_categorias($id_categoria);
 
-        
+
 
         if (!empty($id_subcategorias)) {
 
@@ -77,7 +77,7 @@ class Mesas extends BaseController
 
             if ($tipo_pedido == "movil") {
 
-            
+
                 $items = view('pedidos/productos_subcategoria_movil', [
                     'id_sub_categoria' => $id_subcategorias
 
@@ -142,6 +142,7 @@ class Mesas extends BaseController
 
     function agregar_producto_celular()
     {
+
         /**
          * Datos recibidos por ajax desde la vista de mesas 
          */
@@ -425,6 +426,8 @@ class Mesas extends BaseController
     }
     function agregar_producto()
     {
+
+
         /**
          * Datos recibidos por ajax desde la vista de mesas 
          */
@@ -475,8 +478,14 @@ class Mesas extends BaseController
 
         $codigo_categoria = model('productoModel')->select('codigocategoria')->where('codigointernoproducto', $id_producto)->first();
         $codigo_interno_producto = model('productoModel')->select('codigointernoproducto')->where('codigointernoproducto', $id_producto)->first();
-        $valor_unitario = model('productoModel')->select('valorventaproducto')->where('codigointernoproducto', $id_producto)->first();
+        $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $id_producto)->first();
 
+        $idProducto = model('productoModel')->select('id')->where('codigointernoproducto', $id_producto)->first();
+        $atributos = model('configuracionAtributosProductoModel')->atributosProducto($idProducto['id']);
+
+        //$nota = model('productoPedidoModel')->select('nota_producto')->where('id', $id_tabla_producto)->first();
+
+        $valor_unitario = model('productoModel')->select('valorventaproducto')->where('codigointernoproducto', $id_producto)->first();
         $tiene_pedido = model('pedidoModel')->pedido_mesa($id_mesa);
         $numero_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
         $estado_mesa = model('mesasModel')->select('estado')->where('id', $id_mesa)->first();
@@ -517,7 +526,8 @@ class Mesas extends BaseController
                 'numero_productos_impresos_en_comanda' => 0,
                 'idUser' => $id_usuario,
                 'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
+                'hora' => date('H:i:s'),
+                'nota'=>""
             ];
 
 
@@ -530,7 +540,8 @@ class Mesas extends BaseController
                 1,
                 $id_usuario,
                 date('Y-m-d'),
-                date('H:i:s')
+                date('H:i:s'),
+                $nota=""
             );
 
 
@@ -560,6 +571,8 @@ class Mesas extends BaseController
 
                 $propina_final = 0;
             }
+            $nota = model('productoPedidoModel')->select('nota_producto')->where('id', $ultimo_id_pedido)->first();
+
 
             $returnData = array(
                 "resultado" => 1,
@@ -574,7 +587,13 @@ class Mesas extends BaseController
                 "estado" => $estado_mesa['estado'],
                 "sub_total" => number_format($total_pedido['valor_total'] + $propina_final, 0, ',', '.'),
                 "propina" => number_format($propina_final, 0, ',', '.'),
-
+                'atributos' => view('atributos/atributosProducto', [
+                    'atributos' => $atributos,
+                    'idProducto' => $idProducto['id'],
+                    'id_tabla_producto' => $ultimo_id_pedido
+                ]),
+                'nombreProducto' => $nombre_producto['nombreproducto'],
+                'id_tabla_producto' => $ultimo_id_pedido,
             );
             echo  json_encode($returnData);
         } else  if (!empty($tiene_pedido)) {
@@ -677,6 +696,13 @@ class Mesas extends BaseController
                         "id" => $ultimo_id_producto,
                         "sub_total" => number_format($total['valor_total'], 0, ',', '.'),
                         "propina" => number_format($propina_final, 0, ',', '.'),
+                        'atributos' => view('atributos/atributosProducto', [
+                            'atributos' => $atributos,
+                            'idProducto' => $idProducto['id'],
+                            'id_tabla_producto' => $numero_pedido['id']
+                        ]),
+                        'nombreProducto' => $nombre_producto['nombreproducto'],
+                        'id_tabla_producto' => $numero_pedido['id'],
 
 
 
@@ -752,6 +778,13 @@ class Mesas extends BaseController
                         "id" => $ultimo_id_producto,
                         "sub_total" => number_format($total['valor_total'], 0, ',', '.'),
                         "propina" => number_format($propina_final, 0, ',', '.'),
+                        'atributos' => view('atributos/atributosProducto', [
+                            'atributos' => $atributos,
+                            'idProducto' => $idProducto['id'],
+                            'id_tabla_producto' => $numero_pedido['id']
+                        ]),
+                        'nombreProducto' => $nombre_producto['nombreproducto'],
+                        'id_tabla_producto' => $numero_pedido['id'],
                     );
                     echo  json_encode($returnData);
                 }
@@ -843,6 +876,13 @@ class Mesas extends BaseController
                     "id" => $ultimo_id_producto,
                     "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
                     "propina" => number_format($propina_final, 0, ',', '.'),
+                    'atributos' => view('atributos/atributosProducto', [
+                        'atributos' => $atributos,
+                        'idProducto' => $idProducto['id'],
+                        'id_tabla_producto' => $numero_pedido['id']
+                    ]),
+                    'nombreProducto' => $nombre_producto['nombreproducto'],
+                    'id_tabla_producto' => $numero_pedido['id'],
                 );
                 echo  json_encode($returnData);
             }
@@ -1030,7 +1070,7 @@ class Mesas extends BaseController
 
 
         //$id_tabla_producto = $_POST['id_tabla_producto']; 
-        $id_tabla_producto = $_POST['id_tabla_producto'];
+         $id_tabla_producto = $_POST['id_tabla_producto'];
         //$id_tabla_producto = 33587;
         $id_usuario = $_POST['id_usuario'];
         //$id_usuario = 6;
@@ -1196,7 +1236,7 @@ class Mesas extends BaseController
 
         if ($cantidad_impresos['numero_productos_impresos_en_comanda'] == $cantidad_producto['cantidad_producto']) {
 
-            if ($tipo_usuario['idtipo'] == 0) {
+           // if ($tipo_usuario['idtipo'] == 0) {
                 if ($tipo_usuario['idtipo'] == 0 or $tipo_usuario['idtipo'] == 1) {
                     $item = model('productoPedidoModel')->where('id', $id_tabla_producto)->first();
 
@@ -1267,7 +1307,7 @@ class Mesas extends BaseController
                         echo  json_encode($returnData);
                     }
                 }
-            }
+            //}
 
 
 
@@ -1283,7 +1323,7 @@ class Mesas extends BaseController
         }
         if ($cantidad_producto['cantidad_producto'] == "") {
 
-            if ($tipo_usuario['idtipo'] == 0) {
+           // if ($tipo_usuario['idtipo'] == 0) {
                 if ($tipo_usuario['idtipo'] == 0 or $tipo_usuario['idtipo'] == 1) {
                     $item = model('productoPedidoModel')->where('id', $id_tabla_producto)->first();
 
@@ -1354,7 +1394,7 @@ class Mesas extends BaseController
                         echo  json_encode($returnData);
                     }
                 }
-            }
+            //}
 
 
 
@@ -1515,6 +1555,8 @@ class Mesas extends BaseController
                     $propina_final = 0;
                 }
 
+                $valorTotal = model('productoPedidoModel')->select('valor_total')->where('id', $id_tabla_producto)->first();
+
                 $returnData = array(
                     "resultado" => 1,
                     "cantidad" => $cantidad_producto['cantidad_producto'],
@@ -1527,7 +1569,10 @@ class Mesas extends BaseController
                     "cantidad_de_productos" => $cantidad_productos[0]['cantidad_producto'],
                     "total" => number_format($valor_pedido['valor_total'] + $propina_final, 0, ",", "."),
                     "sub_total" => number_format($valor_pedido['valor_total'], 0, ",", "."),
-                    "propina" => number_format($propina_final, 0, ",", ".")
+                    "propina" => number_format($propina_final, 0, ",", "."),
+                    "valorTotal" => number_format($valorTotal['valor_total'], 0, ",", "."),
+
+                
                 );
                 echo  json_encode($returnData);
             }
@@ -1733,6 +1778,7 @@ class Mesas extends BaseController
 
 
 
+                    $valorTotal = model('productoPedidoModel')->select('valor_total')->where('id', $id_tabla_producto)->first();
 
                     $returnData = array(
                         "resultado" => 1,
@@ -1746,6 +1792,7 @@ class Mesas extends BaseController
                         "sub_total" => number_format($valor_pedido[0]['valor_total'], 0, ",", "."),
                         "total" => number_format($valor_pedido[0]['valor_total'] + $propina_final, 0, ",", "."),
                         "propina" => number_format($propina_final, 0, ",", "."),
+                        "valorTotal" => number_format($valorTotal['valor_total'], 0, ",", "."),
 
                     );
                     echo  json_encode($returnData);
@@ -1834,7 +1881,7 @@ class Mesas extends BaseController
 
 
 
-
+                    $valorTotal = model('productoPedidoModel')->select('valor_total')->where('id', $id_tabla_producto)->first();
                     $returnData = array(
                         "resultado" => 1,
                         "cantidad" => $cantidad_producto['cantidad_producto'],
@@ -1847,6 +1894,7 @@ class Mesas extends BaseController
                         "sub_total" => number_format($valor_pedido[0]['valor_total'] + $propina_final, 0, ",", "."),
                         "propina" => number_format($propina_final, 0, ",", "."),
                         "total" => number_format($valor_pedido[0]['valor_total'], 0, ",", "."),
+                    "valorTotal" => number_format($valorTotal['valor_total'], 0, ",", "."),
                     );
                     echo  json_encode($returnData);
                 }
@@ -1915,7 +1963,7 @@ class Mesas extends BaseController
 
 
 
-
+                    $valorTotal = model('productoPedidoModel')->select('valor_total')->where('id', $id_tabla_producto)->first();
                     $returnData = array(
                         "resultado" => 1,
                         "cantidad" => $cantidad_producto['cantidad_producto'],
@@ -1925,7 +1973,9 @@ class Mesas extends BaseController
                             "productos" => $productos_pedido,
                             "pedido" => $numero_pedido['numero_de_pedido'],
                         ]),
-                        "total" => number_format($valor_pedido[0]['valor_total'], 0, ",", ".")
+                        "total" => number_format($valor_pedido[0]['valor_total'], 0, ",", "."),
+                        "valorTotal" => number_format($valorTotal['valor_total'], 0, ",", "."),
+                    
                     );
                     echo  json_encode($returnData);
                 }

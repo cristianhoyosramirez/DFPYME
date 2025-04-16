@@ -129,8 +129,6 @@
                                                         <td><?php echo $detalleInsumo['codigointernoproducto'] ?></td>
                                                         <td><?php echo $detalleInsumo['nombreproducto'] ?></td>
                                                         <td>
-
-
                                                             <select name="" class="form-select" onchange="cambiarUnidadMedida(this, '<?php echo $detalleInsumo['codigointernoproducto']; ?>')">
                                                                 <!-- Opción seleccionada por defecto -->
                                                                 <option value="<?php echo $unidadMedida[0]['idunidad_medida']; ?>" selected>
@@ -139,17 +137,11 @@
 
                                                                 <!-- Filtramos el array para eliminar la opción ya seleccionada -->
                                                                 <?php foreach ($unidadesMedida as $detalleUnidad): ?>
-                                                                    <?php if ($detalleUnidad['idvalor_unidad_medida'] != $unidadMedida[0]['idunidad_medida']): ?>
-                                                                        <option value="<?php echo $detalleUnidad['idvalor_unidad_medida']; ?>">
-                                                                            <?php echo $detalleUnidad['descripcionvalor_unidad_medida']; ?>
-                                                                        </option>
-                                                                    <?php endif; ?>
+                                                                    <option value="<?php echo $detalleUnidad['idvalor_unidad_medida']; ?>">
+                                                                        <?php echo $detalleUnidad['descripcionvalor_unidad_medida']; ?>
+                                                                    </option>
                                                                 <?php endforeach; ?>
                                                             </select>
-
-
-
-
                                                         </td>
                                                         <td><?php echo $detalleInsumo['precio_costo'] ?></td>
                                                         <td><button class="btn btn-outline-success btn-icon btn-sm" id="insu<?= $detalleInsumo['codigointernoproducto']; ?>" onclick="selectInsumo(<?= $detalleInsumo['codigointernoproducto']; ?>, '<?= htmlspecialchars($detalleInsumo['nombreproducto'], ENT_QUOTES, 'UTF-8'); ?>')"><!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -193,7 +185,7 @@
 
                                     </tbody>
                                 </table>
-                                
+
                                 <div class="row w-100">
                                     <div class="col-4">
                                         <label for="total_costo" class="form-label">Total Costo</label>

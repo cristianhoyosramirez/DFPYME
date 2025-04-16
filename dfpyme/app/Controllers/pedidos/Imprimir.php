@@ -23,10 +23,10 @@ class Imprimir extends BaseController
     }
 
 
-    function imprimirComanda()
+    /*  function imprimirComanda()
     {
 
-        // $id_mesa = 1;
+        //$id_mesa = 1;
         $id_mesa = $this->request->getPost('id_mesa');
         $id_usuario = $this->request->getPost('id_usuario');
 
@@ -42,82 +42,46 @@ class Imprimir extends BaseController
 
         $productos = array();
 
-        /**
-         * Pasos para la impresion de la comanda 
-         * 1. Validacion de que la me sa tenga pedido
-         * 2. Validacion de que productos falta por imprimir   ( $productos_pedido)
-         */
+      
 
 
         if (!empty($pedido)) {
             $codigo_categoria = model('productoPedidoModel')->id_categoria($pedido['id']);
-            $productos_pedido = $items = model('productoPedidoModel')->productos_pedido($pedido['id']);
+            $productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
 
             if (!empty($productos_pedido)) {
 
-                if ($configuracion_comanda['partir_comanda'] == 't') {
-                    foreach ($codigo_categoria as $valor) {
-
-                        $items = model('productoPedidoModel')->productos_pedido_comanda($pedido['id'], $valor['codigo_categoria']);
-                        //$items = model('tempProductoPedidoModel')->productos_pedido($pedido['id'], $valor['codigo_categoria']);
 
 
+                foreach ($productos_pedido as $keyProductos) {
 
-                        if (!empty($items)) {
-                            foreach ($items as $detalle) {
-                                $data['id'] = $detalle['id'];
-                                $data['nombreproducto'] = $detalle['nombreproducto'];
-                                $data['valor_venta'] = $detalle['valorventaproducto'];
-                                $data['valor_total'] = $detalle['valor_total'];
-                                $data['cantidad'] = $detalle['cantidad_producto'];
-                                $data['nota_producto'] = $detalle['nota_producto'];
-                                $data['valor_unitario'] = $detalle['valor_unitario'];
-                                $data['codigo_interno'] = $detalle['codigointernoproducto'];
-                                $data['impresos'] = $detalle['numero_productos_impresos_en_comanda'];
-                                array_push($productos, $data);
-                            }
-                            //$this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $codigo_categoria[0]['codigo_categoria']);
-                            $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $valor['codigo_categoria'], 'Comanda');
-                            $productos = array();
-                        }
+                    $id_impresora = model('productoModel')->select('id_impresora')->where('codigointernoproducto', $keyProductos['codigointernoproducto'])->first();
+
+
+
+                    $model = model('productoPedidoModel');
+
+                    $model->set('id_impresora', $id_impresora['id_impresora'])
+                        ->where('codigointernoproducto', $keyProductos['codigointernoproducto'])
+                        ->where('numero_de_pedido', $pedido['id'])
+                        ->update();
+
+                 
+                }
+
+                //$this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $keyCategoria['codigo_categoria'], 'Comanda');
+                $impresoras = model('impresorasModel')->findAll();
+
+
+                foreach ($impresoras as $keyImpresoras) {
+
+                    $productos = model('productoPedidoModel')->productos_impresora($keyImpresoras['id']);
+
+                    if (!empty($productos)) {
+                        $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
                     }
                 }
 
-                if ($configuracion_comanda['partir_comanda'] == 'f') {
-
-
-                    $categoria = model('productoPedidoModel')->getCategorias($pedido['id']);
-                    foreach ($categoria as $keyCategoria) {
-                        $id_impresora = model('categoriasModel')->select('impresora')->where('codigocategoria', $keyCategoria['codigo_categoria'])->first();
-
-                        $model = model('productoPedidoModel');
-
-                        $model->set('id_impresora', $id_impresora['impresora'])
-                            ->where('codigo_categoria', $keyCategoria['codigo_categoria'])
-                            ->where('numero_de_pedido', $pedido['id'])
-                            ->update();
-
-                        /*  if ($tipo_usuario['idtipo'] == 2 || $tipo_usuario['idtipo'] == 3) {
-                            $productos = model('productoPedidoModel')->productos_impresora($id_impresora['impresora']);
-                        }
-                        if ($tipo_usuario['idtipo'] == 1 || $tipo_usuario['idtipo'] == 0) {
-                            $productos = model('productoPedidoModel')->GetProductosimpresora($id_impresora['impresora'],$pedido['id']);
-                        } */
-                    }
-
-                    //$this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $keyCategoria['codigo_categoria'], 'Comanda');
-                    $impresoras = model('impresorasModel')->findAll();
-
-
-
-                    foreach ($impresoras as $keyImpresoras) {
-
-                        $productos = model('productoPedidoModel')->productos_impresora($keyImpresoras['id']);
-                        if (!empty($productos)) {
-                            $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
-                        }
-                    }
-                }
                 $returnData = array(
                     "resultado" => 1
                 );
@@ -161,66 +125,11 @@ class Imprimir extends BaseController
                         if ($configuracion_comanda['partir_comanda'] == 'f') {
 
 
-                            /*   $items = model('productoPedidoModel')->reimprimir_comanda_todo($pedido['id']);
+                         
 
-                            foreach ($items as $detalle) {
-                                $data['id'] = $detalle['id'];
-                                $data['nombreproducto'] = $detalle['nombreproducto'];
-                                $data['valor_venta'] = $detalle['valorventaproducto'];
-                                $data['valor_total'] = $detalle['valor_total'];
-                                $data['cantidad'] = $detalle['cantidad_producto'];
-                                $data['nota_producto'] = $detalle['nota_producto'];
-                                $data['valor_unitario'] = $detalle['valor_unitario'];
-                                $data['codigo_interno'] = $detalle['codigointernoproducto'];
-                                $data['impresos'] = $detalle['numero_productos_impresos_en_comanda'];
-                                array_push($productos, $data);
-                            }
-                            $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], '1');
-                            $productos = array(); */
+                         
+                          
 
-                            /*   $impresoras = model('impresorasModel')->findAll();
-
-
-                            foreach ($impresoras as $keyImpresoras) {
-
-                                $productos = model('productoPedidoModel')->productos_impresora($keyImpresoras['id']);
-
-                                if (!empty($productos)) {
-                                    //$this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
-                                }
-                            } */
-                            /*  $impresoras = model('impresorasModel')->findAll();
-
-
-
-                            foreach ($impresoras as $keyImpresoras) {
-
-                                $productos = model('productoPedidoModel')->productosReImpresion($keyImpresoras['id']);
-
-                                if (!empty($productos)) {
-                                    $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
-                                }
-                            } */
-                            /*   foreach ($codigo_categoria as $valor) {
-
-
-                                $items = model('productoPedidoModel')->reimprimir_comanda($pedido['id'], $valor['codigo_categoria']);
-
-                                foreach ($items as $detalle) {
-                                    $data['id'] = $detalle['id'];
-                                    $data['nombreproducto'] = $detalle['nombreproducto'];
-                                    $data['valor_venta'] = $detalle['valorventaproducto'];
-                                    $data['valor_total'] = $detalle['valor_total'];
-                                    $data['cantidad'] = $detalle['cantidad_producto'];
-                                    $data['nota_producto'] = $detalle['nota_producto'];
-                                    $data['valor_unitario'] = $detalle['valor_unitario'];
-                                    $data['codigo_interno'] = $detalle['codigointernoproducto'];
-                                    $data['impresos'] = $detalle['numero_productos_impresos_en_comanda'];
-                                    array_push($productos, $data);
-                                }
-                                $this->generar_comanda($productos, $pedido['id'], $nombre_mesa['nombre'], $valor['codigo_categoria']);
-                                $productos = array();
-                            } */
                         }
 
                         $categoria = model('productoPedidoModel')->getCategorias($pedido['id']);
@@ -258,9 +167,6 @@ class Imprimir extends BaseController
                     }
                 }
 
-
-
-
                 if ($impresion_comanda['comanda'] === "f") {
                     $returnData = array(
                         "resultado" => 0
@@ -269,9 +175,88 @@ class Imprimir extends BaseController
                 }
             }
         }
+    } */
+
+    function imprimirComanda()
+    {
+        $id_mesa = $this->request->getPost('id_mesa');
+        //$id_mesa = 68;
+        $id_usuario = $this->request->getPost('id_usuario');
+
+        //$id_usuario = 6;
+
+        $tipo_usuario = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
+        $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
+        $nombre_mesa = model('mesasModel')->select('nombre')->where('id', $id_mesa)->first();
+
+        $partirComandaCategoria = model('configuracionPedidoModel')->select('partir_comanda')->first();
+        $duplicadoComanda = model('configuracionPedidoModel')->select('comanda')->first();  //Reimpresion
+        $productos = array();
+
+
+        if (!empty($pedido)) {  //La mesa tiene pedido 
+
+
+            $tipoAgrupacion = model('configuracionPedidoModel')->select('imprimir_comanda_categoria')->first();
+
+            if ($tipoAgrupacion['imprimir_comanda_categoria'] === 't') { // aca se imprime agrupado por categorias 
+
+                $categorias = model('productoPedidoModel')->getCategorias($pedido['id']);  //Seleccionar los codigos unicos de las categorias 
+
+                foreach ($categorias as $detalleCategorias) {
+
+                    //$productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
+                    $nombreCategoria = model('categoriasModel')->select('nombrecategoria')->where('codigocategoria', $detalleCategorias['codigo_categoria'])->first();
+                    $productos_pedido = model('productoPedidoModel')->productosPedidoCategoria($pedido['id'], $detalleCategorias['codigo_categoria']);
+
+
+                    if (!empty($productos_pedido)) {
+                        $this->generar_comanda($productos_pedido, $pedido['id'], $nombre_mesa['nombre'], $detalleCategorias['codigo_categoria'], $nombreCategoria['nombrecategoria']);
+                        $returnData = array(
+                            "resultado" => 1
+                        );
+                        echo  json_encode($returnData);
+                    }
+                }
+            } else if ($tipoAgrupacion['imprimir_comanda_categoria'] === 'f') {
+
+                $productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
+
+
+                foreach ($productos_pedido as $keyProductos) {
+
+                    $id_impresora = model('productoModel')->select('id_impresora')->where('codigointernoproducto', $keyProductos['codigointernoproducto'])->first();
+
+                    $model = model('productoPedidoModel');
+
+                    $model->set('id_impresora', $id_impresora['id_impresora'])
+                        ->where('codigointernoproducto', $keyProductos['codigointernoproducto'])
+                        ->where('numero_de_pedido', $pedido['id'])
+                        ->update();
+                }
+
+                $impresoras = model('impresorasModel')->findAll();
+
+
+
+                foreach ($impresoras as $keyImpresoras) {
+
+
+
+                    $productos = model('productoPedidoModel')->productos_impresora($keyImpresoras['id']);
+
+                    if (!empty($productos)) {
+                        $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
+                    }
+                }
+
+                $returnData = array(
+                    "resultado" => 1
+                );
+                echo  json_encode($returnData);
+            }
+        }
     }
-
-
     function generar_comanda($productos, $numero_pedido, $nombre_mesa, $codigo_categoria, $tipoImpresion)
 
     {
@@ -284,13 +269,15 @@ class Imprimir extends BaseController
         $id_usuario = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
         $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['fk_usuario'])->first();
 
+
+
         $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
         $printer = new Printer($connector);
 
 
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setTextSize(1, 1);
-        $printer->text("**" .  $tipoImpresion . "**" . "\n\n");
+
         $printer->text("**" .  $nombre_categoria['nombrecategoria'] . "**" . "\n\n");
 
 
@@ -305,41 +292,60 @@ class Imprimir extends BaseController
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
 
-        foreach ($productos as $productos) {
 
+        foreach ($productos as $producto) {
+            // Obtener cantidades
+            $cantidad_impresa = model('productoPedidoModel')->select('numero_productos_impresos_en_comanda')->where('id', $producto['id'])->first();
+            $cantidad_total = model('productoPedidoModel')->select('cantidad_producto')->where('id', $producto['id'])->first();
 
-            $cantidad_productos_impresos = model('productoPedidoModel')->select('numero_productos_impresos_en_comanda')->where('id', $productos['id'])->first();
-            $cantidad_productos = model('productoPedidoModel')->select('cantidad_producto')->where('id', $productos['id'])->first();
+            $cant_impresa = $cantidad_impresa['numero_productos_impresos_en_comanda'];
+            $cant_total = $cantidad_total['cantidad_producto'];
+            $cant_restante = $cant_total - $cant_impresa;
 
-
-
+            // Actualizar productos impresos
             $data = [
-                'numero_productos_impresos_en_comanda' => $cantidad_productos_impresos['numero_productos_impresos_en_comanda'] + ($cantidad_productos['cantidad_producto'] - $cantidad_productos_impresos['numero_productos_impresos_en_comanda']),
+                'numero_productos_impresos_en_comanda' => $cant_total
             ];
+            model('productoPedidoModel')->set($data)->where('id', $producto['id'])->update();
 
-            $actualizar = model('productoPedidoModel')->set($data);
-            $actualizar = model('productoPedidoModel')->where('id', $productos['id']);
-            $actualizar = model('productoPedidoModel')->update();
+            // --- Impresión ---
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->setTextSize(2, 1);
-            $printer->text($productos['nombreproducto'] . "\n");
+            $printer->text($producto['nombreproducto'] . "\n");
 
+            $printer->setTextSize(1, 1);
+            $printer->text("Cant. " . ($cant_restante > 0 ? $cant_restante : $cant_total) . "\n");
 
-            if (($cantidad_productos['cantidad_producto'] - $cantidad_productos_impresos['numero_productos_impresos_en_comanda']) > 0) {
-                $printer->text("Cant. " . $cantidad_productos['cantidad_producto'] - $cantidad_productos_impresos['numero_productos_impresos_en_comanda'] . "\n");
+            // Atributos
+            $atributos = model('atributosDeProductoModel')->getAtributosPedido($producto['id']);
+            if (!empty($atributos)) {
+                foreach ($atributos as $atributo) {
+                    $componentes = model('atributosDeProductoModel')->getComponentes($producto['id'], $atributo['id_atributo']);
+                    $componentesNombres = array_map(fn($c) => $c['nombre'], $componentes);
+                    $linea_atributo = "* " . $atributo['nombre'] . " (" . implode("- ", $componentesNombres) . ")";
+                    $printer->text($linea_atributo . "\n");
+                }
+            } else {
+                // Si no hay atributos, agrega una línea vacía
+                $printer->text("(Sin atributos)\n");
             }
-            if (($cantidad_productos['cantidad_producto'] == $cantidad_productos_impresos['numero_productos_impresos_en_comanda'])) {
-                $printer->text("Cant. " . $cantidad_productos['cantidad_producto'] . "\n");
-            }
-            if (!empty($productos['nota_producto'])) {
-                $printer->setJustification(Printer::JUSTIFY_LEFT);
+
+            // Notas
+            if (!empty($producto['nota_producto'])) {
                 $printer->text("NOTAS:\n");
-                $printer->setJustification(Printer::JUSTIFY_LEFT);
-                $printer->text($productos['nota_producto'] . "\n");
+                $printer->setEmphasis(true);
+                $printer->text($producto['nota_producto'] . "\n");
+                $printer->setEmphasis(false);
+            } else {
+                $printer->text("(Sin notas)\n");
             }
-            $printer->text("-----------------------\n");
-            $printer->text("\n");
+
+            // Línea separadora
+            $printer->text("---------------------------------------------\n");
         }
+
+
+
         $observaciones_genereles = model('pedidoModel')->select('nota_pedido')->where('id', $numero_pedido)->first();
         if (!empty($observaciones_genereles['nota_pedido'])) {
             $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -388,6 +394,7 @@ class Imprimir extends BaseController
         $printer = new Printer($connector);
 
 
+
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setTextSize(1, 1);
 
@@ -406,44 +413,79 @@ class Imprimir extends BaseController
 
         foreach ($productos as $productos) {
 
+            $cantidad_productos_impresos = model('productoPedidoModel')
+                ->select('numero_productos_impresos_en_comanda')
+                ->where('id', $productos['id'])
+                ->first();
 
-            $cantidad_productos_impresos = model('productoPedidoModel')->select('numero_productos_impresos_en_comanda')->where('id', $productos['id'])->first();
-            $cantidad_productos = model('productoPedidoModel')->select('cantidad_producto')->where('id', $productos['id'])->first();
+            $cantidad_productos = model('productoPedidoModel')
+                ->select('cantidad_producto')
+                ->where('id', $productos['id'])
+                ->first();
 
-
+            $cantidad_a_imprimir = $cantidad_productos['cantidad_producto'] - $cantidad_productos_impresos['numero_productos_impresos_en_comanda'];
 
             $data = [
-                'numero_productos_impresos_en_comanda' => $cantidad_productos_impresos['numero_productos_impresos_en_comanda'] + ($cantidad_productos['cantidad_producto'] - $cantidad_productos_impresos['numero_productos_impresos_en_comanda']),
+                'numero_productos_impresos_en_comanda' => $cantidad_productos_impresos['numero_productos_impresos_en_comanda'] + $cantidad_a_imprimir,
             ];
 
-            $actualizar = model('productoPedidoModel')->set($data);
-            $actualizar = model('productoPedidoModel')->where('id', $productos['id']);
-            $actualizar = model('productoPedidoModel')->update();
+            model('productoPedidoModel')
+                ->where('id', $productos['id'])
+                ->set($data)
+                ->update();
+
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->setTextSize(2, 1);
             $printer->text($productos['nombreproducto'] . "\n");
 
+            $printer->setTextSize(1, 1); // Establecer tamaño normal antes de imprimir cantidad
 
-            if (($cantidad_productos['cantidad_producto'] - $cantidad_productos_impresos['numero_productos_impresos_en_comanda']) > 0) {
-                $printer->text("Cant. " . $cantidad_productos['cantidad_producto'] - $cantidad_productos_impresos['numero_productos_impresos_en_comanda'] . "\n");
-            }
-            if (($cantidad_productos['cantidad_producto'] == $cantidad_productos_impresos['numero_productos_impresos_en_comanda'])) {
+            if ($cantidad_a_imprimir > 0) {
+                $printer->text("Cant. " . $cantidad_a_imprimir . "\n");
+            } else {
                 $printer->text("Cant. " . $cantidad_productos['cantidad_producto'] . "\n");
             }
+
+            $atributos = model('atributosDeProductoModel')->getAtributosPedido($productos['id']);
+
+            if (!empty($atributos)) {
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
+                $printer->text("\n");
+
+                foreach ($atributos as $keyAtributos) {
+                    $componentes = model('atributosDeProductoModel')->getComponentes($productos['id'], $keyAtributos['id_atributo']);
+
+                    $componentesNombres = [];
+                    foreach ($componentes as $keyComponentes) {
+                        $componentesNombres[] = $keyComponentes['nombre'];
+                    }
+
+                    $printer->setTextSize(1, 1);
+                    $printer->text("* " . $keyAtributos['nombre'] . " (" . implode("- ", $componentesNombres) . ")\n");
+                }
+            }
+
             if (!empty($productos['nota_producto'])) {
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
                 $printer->text("NOTAS:\n");
-                $printer->setJustification(Printer::JUSTIFY_LEFT);
+                $printer->setEmphasis(true);
                 $printer->text($productos['nota_producto'] . "\n");
+                $printer->setEmphasis(false);
             }
-            $printer->text("-----------------------\n");
+
+            // Línea divisoria estándar
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->setTextSize(1, 1); // Asegura tamaño estándar
+            $printer->text(str_repeat('-', 45) . "\n");
+
             $printer->text("\n");
         }
+
         $observaciones_genereles = model('pedidoModel')->select('nota_pedido')->where('id', $numero_pedido)->first();
         if (!empty($observaciones_genereles['nota_pedido'])) {
             $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->setTextSize(2, 1);
-            $printer->text("OBSERVACIONES GENERALES \n");
+            $printer->setTextSize(1, 1);
+            $printer->text("*** NOTA GENERAL *** \n");
             $printer->text("\n");
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->setTextSize(2, 1);

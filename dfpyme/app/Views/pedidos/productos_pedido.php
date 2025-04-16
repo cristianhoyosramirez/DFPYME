@@ -59,7 +59,9 @@
                         </div>
                         <input type="hidden" class="form-control" value="<?php echo $detalle['cantidad_producto'] ?>">
                         <!-- <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" onclick="detener_propagacion(event),abrir_modal_editar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)" onkeypress="return valideKey(event)" > -->
-                        <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)" id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
+                        <input type="number"
+                            min="1"
+                            class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)" id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
                         <div class="input-group-append">
                             <a href="#" class="btn bg-muted-lt btn-icon" onclick="actualizar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')" title="Agregar producto">
                                 <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -88,14 +90,14 @@
                                 <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
                             </svg>
                         </button> &nbsp;
-                        <button type="button" class="btn btn-outline-primary btn-icon border-0" onclick="agregar_nota(<?php echo $detalle['id'] ?>,event)" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Acciones">
+                        <!--  <button type="button" class="btn btn-outline-primary btn-icon border-0" onclick="agregar_nota(<?php echo $detalle['id'] ?>,event)" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Acciones">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <circle cx="12" cy="12" r="1" />
                                 <circle cx="12" cy="19" r="1" />
                                 <circle cx="12" cy="5" r="1" />
                             </svg>
-                        </button>
+                        </button> -->
 
                         <div class="dropdown border-none ">
                             <button class="btn btn-outline-primary  btn-icon border-none    " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -107,7 +109,38 @@
                                 </svg>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#" onclick="detener_propagacion(event); abrir_modal_editar_cantidad(<?php echo $detalle['id_producto']; ?>, <?php echo $detalle['id_tabla_producto']; ?>)">Atributos</a></li>
+
+                                <li><a class="dropdown-item" href="#" onclick="detener_propagacion(event); abrir_modal_editar_cantidad(<?php echo $detalle['id_producto']; ?>, <?php echo $detalle['id_tabla_producto']; ?>)">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/receipt -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2m4 -14h6m-6 4h6m-2 4h2" />
+                                        </svg>Atributos</a></li>
+
+                                <li><a class="dropdown-item" href="#" onclick="addDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
+                                            <path d="M12 3v3m0 12v3" />
+                                        </svg>Descuento</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="listOfPrice(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/list-check -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+                                            <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+                                            <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+                                            <line x1="11" y1="6" x2="20" y2="6" />
+                                            <line x1="11" y1="12" x2="20" y2="12" />
+                                            <line x1="11" y1="18" x2="20" y2="18" />
+                                        </svg>Lista de precios </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="cortesia_1(<?php echo $detalle['id_tabla_producto']; ?>)">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                        </svg>Cortesia</a></li>
+
 
                             </ul>
                         </div>
@@ -120,9 +153,34 @@
         </div>
 
         <div class="row">
-            <p class="text-primary fw-bold" id="nota<?php echo $detalle['id_tabla_producto'] ?>"><?php echo $detalle['nota_producto'] ?></p>
+            <div class="text-primary fw-bold" id="atributos<?php echo $detalle['id_tabla_producto'] ?>">
+
+                <?php $atributos = model('atributosDeProductoModel')->getAtributos($detalle['id_tabla_producto']); ?>
+                <?php if (!empty($atributos)): ?>
+
+                    <?php
+                    foreach ($atributos as $detalleAtributo) :
+                        $nombreAtributo = model('atributosProductoModel')->select('nombre')->where('id', $detalleAtributo['id_atributo'])->first();
+                        $componentes = model('atributosDeProductoModel')->getComponentes($detalle['id_tabla_producto'], $detalleAtributo['id_atributo']);
+                    ?>
+
+                        <p style="margin: 2px 0;">
+                            <span style="color: green; font-weight: bold;"><?php echo $nombreAtributo['nombre']; ?></span>
+                            <?php if (!empty($componentes)): ?>
+                                (<span style="color: black;"><?php echo implode(', ', array_column($componentes, 'nombre')); ?></span>)
+                            <?php else: ?>
+                                (<span style="color: red;">No hay componentes disponibles</span>)
+                            <?php endif; ?>
+                        </p>
+
+                    <?php endforeach; ?>
+
+
+                <?php endif ?>
+
+            </div>
         </div>
-        <div class="row">
+        <div class="row" id="notasDesdeAtributo<?php echo $detalle['id_tabla_producto'] ?>">
             <p class="text-primary fw-bold"><?php echo $detalle['nota_producto'] ?></p>
         </div>
 
@@ -287,6 +345,7 @@
             <?php
             $hora = model('productoPedidoModel')->select('hora')->where('id', $detalle['id'])->first();
             $usuario = model('productoPedidoModel')->select('idUsuario')->where('id', $detalle['id'])->first();
+
             $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $usuario['idUsuario'])->first();
 
             $hora_formateada = date('h:i A', strtotime($hora['hora'])); // Formato 12 horas con AM/PM
@@ -321,11 +380,89 @@
 
 <?php } ?>
 
+
+<script>
+    const componentesSeleccionados = [];
+
+    function seleccionarComponentes(nombreComponente, componenteId, numeroComponentes) {
+        const productoId = document.getElementById('codigoInternoProd').value;
+
+        if (!productoId) {
+            console.warn('No se ha ingresado un código de producto');
+            return;
+        }
+
+        if (componentesSeleccionados.length >= 2) {
+            alert('Solo puedes agregar hasta 2 componentes.');
+            return;
+        }
+
+        const yaExiste = componentesSeleccionados.some(comp => comp.componenteId === componenteId);
+        if (yaExiste) {
+            alert('Este componente ya ha sido agregado.');
+            return;
+        }
+
+        const componente = {
+            productoId: productoId,
+            componenteId: componenteId,
+            componenteNombre: nombreComponente // <- ¡esto es lo que faltaba!
+        };
+
+        componentesSeleccionados.push(componente);
+
+        document.getElementById('inputComponentes').value = JSON.stringify(componentesSeleccionados);
+
+        renderizarBotonesComponentes();
+    }
+
+    function eliminarComponente(index) {
+        componentesSeleccionados.splice(index, 1);
+        document.getElementById('inputComponentes').value = JSON.stringify(componentesSeleccionados);
+        renderizarBotonesComponentes();
+    }
+
+    function renderizarBotonesComponentes() {
+        const contenedor = document.getElementById('contenedorBotonesComponentes');
+        contenedor.innerHTML = '';
+
+        componentesSeleccionados.forEach((item, index) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'btn btn-success rounded-pill position-relative me-2 mb-2';
+            button.id = `btnComponente${item.componenteId}`;
+
+            button.innerHTML = `
+        ${item.componenteNombre}
+        <span class="badge rounded-pill bg-success" onclick="eliminarComponente(${index})" style="cursor:pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+        </span>
+    `;
+
+            contenedor.appendChild(button);
+        });
+
+
+    }
+</script>
+
+
+
+
+
+
+
 <script>
     async function finalizarAtributos(id) {
 
         try {
             let id_tabla_producto = document.getElementById('id_tabla_producto').value.trim(); // Elimina espacios en blanco
+            let nota = document.getElementById('notaAtributo').value.trim(); // Elimina espacios en blanco
+
             let respuesta = await fetch('<?= base_url('producto/armarNota') ?>', { // Cambia por la ruta correcta
                 method: 'POST',
                 headers: {
@@ -333,6 +470,51 @@
                 },
                 body: JSON.stringify({
                     id_tabla_producto: id_tabla_producto,
+                    nota: nota
+
+                })
+            });
+
+            if (!respuesta.ok) {
+                throw new Error(`Error HTTP: ${respuesta.status}`);
+            }
+
+            let resultado = await respuesta.json(); // Convertir la respuesta a JSON
+            if (resultado.response == "success") {
+                // Actualiza el contenido del div
+                $('#modalAtributos').modal('hide')
+                document.getElementById('atributos' + resultado.id_tabla_producto).innerHTML = resultado.atributos; // Elimina el botón del componente
+                document.getElementById('notasDesdeAtributo' + resultado.id_tabla_producto).innerHTML =
+                    '<p class="text-primary fw-bold">' + resultado.nota + '</p>';
+                // Elimina el botón del componente
+            }
+            if (resultado.response == "error") {
+                sweet_alert_centrado("error", resultado.mensaje);
+            }
+
+            // Aquí puedes actualizar la interfaz si es necesario
+        } catch (error) {
+            console.error('Error al seleccionar componente:', error.message);
+        }
+
+    }
+</script>
+
+<script>
+    async function notaAtributo(nota) {
+
+
+
+        try {
+            let id_tabla_producto = document.getElementById('id_tabla_producto').value.trim(); // Elimina espacios en blanco
+            let respuesta = await fetch('<?= base_url('pedidos/actualizarNota') ?>', { // Cambia por la ruta correcta
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id_tabla_producto,
+                    nota: nota,
 
                 })
             });
@@ -432,12 +614,6 @@
     }
 </script>
 
-
-
-
-
-
-
 <script>
     function precio_manual(precio, id) {
 
@@ -485,11 +661,6 @@
 </script>
 
 <script>
-    //function abrir_modal_editar_cantidad(event, id) {
-
-
-    //$('#modalAtributos').modal('show');
-
     async function abrir_modal_editar_cantidad(id_producto, id_tabla_producto) {
         try {
             let response = await fetch('<?= base_url('producto/getAtributos') ?>', {
@@ -509,12 +680,25 @@
 
             let data = await response.json(); // Aquí no debería dar error
 
-            console.log(data); // Verifica la respuesta del servidor
 
             if (data.response == "success") {
                 //document.getElementById('tbodyInsumos').innerHTML = data.productos;
+                let boton = document.getElementById('btnAtri');
+
+                // Remueve cualquier onclick en el HTML
+                boton.removeAttribute('onclick');
+
+                // Asigna uno nuevo
+                boton.setAttribute('onclick', 'finalizarAtributos()');
+
                 document.getElementById('asigCompo').innerHTML = data.atributos;
                 document.getElementById('productoAddAtri').innerHTML = data.nombreProducto;
+                document.getElementById('notaAtributo').value = data.nota;
+                document.getElementById('inputCantidad').innerHTML = data.inputCantidad;
+
+                document.getElementById("inputCantidad").style.display = "block";
+                document.getElementById("divInput").style.display = "none";
+
                 $("#modalAtributos").modal("show");
                 document.getElementById('id_tabla_producto').value = data.id_tabla_producto; // Asignar el valor al input oculto
 
@@ -528,11 +712,43 @@
         }
     }
 
-
-
-    //}
-
     function detener_propagacion(event) {
         event.stopPropagation(); // Detiene la propagación del evento al padre
+    }
+</script>
+
+
+<script>
+    function addDescuento(id) {
+
+        document.getElementById('id_producto_pedido').value = id; // Asignar el valor al input oculto
+        agregar_nota(id, event);
+        $('#agregar_nota').modal('show');
+        document.getElementById('operaciones').style.display = 'none';
+        document.getElementById('nota').style.display = 'none';
+        document.getElementById('navegacion').style.display = 'none';
+        document.getElementById('descuento').style.display = 'block';
+
+
+
+    }
+</script>
+
+<script>
+    function listOfPrice(id) {
+
+        document.getElementById('id_producto_pedido').value = id; // Asignar el valor al input oculto
+        agregar_nota(id, event);
+        $('#agregar_nota').modal('show');
+        document.getElementById('operaciones').style.display = 'none';
+        document.getElementById('nota').style.display = 'none';
+        document.getElementById('navegacion').style.display = 'none';
+        document.getElementById('descuento').style.display = 'none';
+        document.getElementById('lista_precios').style.display = 'block';
+
+        document.getElementById('id_producto_pedido').value = id; // Asignar el valor al input oculto
+
+        mostrar_lista_precios()
+
     }
 </script>

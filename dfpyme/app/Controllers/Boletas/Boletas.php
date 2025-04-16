@@ -960,6 +960,7 @@ class Boletas extends BaseController
         $id_apertura = model('aperturaModel')->selectMax('id')->findAll();
         $apertura = $id_apertura[0]['id'];
 
+       
 
 
         $sql_count = '';
@@ -992,7 +993,8 @@ class Boletas extends BaseController
                     nit_cliente,
                     id_estado,
                     id_factura,
-                    saldo
+                    saldo,
+                    id_mesa
                 FROM
                     pagos 
                     inner join cliente on cliente.nitcliente=nit_cliente
@@ -1026,9 +1028,18 @@ class Boletas extends BaseController
             $sub_array = array();
 
             $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
+
+            if (!empty($detalle['id_mesa'])) {
+                $tempNombreMesa = model('mesasModel')->select('nombre')->where('id', $detalle['id_mesa'])->first();
+                $mesa = $tempNombreMesa['nombre'] ?? '';
+            } else {
+                $mesa = "";
+            }
+
             $sub_array[] = $detalle['fecha'];
             $sub_array[] = $detalle['nit_cliente'];
             $sub_array[] =  $nombre_cliente['nombrescliente'];
+
 
             if ($detalle['id_estado'] == 8) {
                 $documento = model('facturaElectronicaModel')->select('numero')->where('id', $detalle['id_factura'])->first();
@@ -1047,6 +1058,7 @@ class Boletas extends BaseController
 
             $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura']);
 
+            $sub_array[] = $mesa;
             $sub_array[] = $acciones;
 
 

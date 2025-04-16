@@ -426,8 +426,6 @@ class categoriaController extends BaseController
         $insumos=model('productoModel')->select('codigointernoproducto,id,nombreproducto')->where('id_tipo_inventario',4)->findAll();
 
     
-
-    
         return view('producto/categorias', [
             'categorias' => $categorias,
             'recetas'=>$rectas,
