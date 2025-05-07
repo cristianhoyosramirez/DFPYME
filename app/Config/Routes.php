@@ -667,6 +667,7 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->post('productos_pedido', 'ReportesController::productos_pedido');
     $routes->post('reporte_movimiento', 'ReportesController::reporte_movimiento');
     $routes->post('reporte_impuestos', 'ReportesController::reporte_impuestos');
+    $routes->get('reporteUsuario', 'ConsultasController::index');
 });
 
 $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion', 'filter' => \App\Filters\Auth::class], function ($routes) {

@@ -826,7 +826,7 @@ class facturaDirectaController extends BaseController
         $idInicial = model('facturaElectronicaModel')->selectMin('id')->where('fecha', $fechaInicial)->first();
         $idFinal = model('facturaElectronicaModel')->selectMax('id')->where('fecha', $fechaFinal)->first();
 
-        
+
         if ($idInicial['id'] !== null && $idFinal['id'] !== null && $idInicial['id'] !== '' && $idFinal['id'] !== '') {
             $productos = model('itemFacturaElectronicaModel')->getProducto($idInicial['id'], $idFinal['id']);
         } else {
@@ -846,39 +846,117 @@ class facturaDirectaController extends BaseController
 
     function reporteCostoExcel() {}
 
-    function BuscarReporteCosto()
+    /* function BuscarReporteCosto()
     {
 
         $json = $this->request->getJSON();
-         $fechaInicial = $json->fecha_inicial;
-         $fechaFinal = $json->fecha_final;
+        //$fechaInicial = $json->fecha_inicial;
+        $fechaInicial = '2025-05-06';
+        //$fechaFinal = $json->fecha_final;
+        $fechaFinal = '2025-05-07';
 
-       
+
         //$productos = model('ReporteImpuestosModel')->getProductos($fecha_inicial, $fecha_final);
 
-        $idInicial = model('facturaElectronicaModel')->selectMin('id')->where('fecha', $fechaInicial)->first();
-        $idFinal = model('facturaElectronicaModel')->selectMax('id')->where('fecha', $fechaFinal)->first();
+        $tempIdInicial = model('facturaElectronicaModel')->selectMin('id')->where('fecha', $fechaInicial)->first();
+        
 
-    
-        $productos = model('itemFacturaElectronicaModel')->getProducto($idInicial['id'], $idFinal['id']);
+        if (!empty($tempIdInicial['id'])){
+            $idInicial=$tempIdInicial['id'];
+            $tempIdFinal = model('facturaElectronicaModel')->selectMax('id')->where('fecha', $fechaFinal)->first();
 
+            if (empty($tempIdFinal['id'])){
 
-        $total = model('ReporteImpuestosModel')->getTotal($fechaInicial, $fechaFinal);
+                $tempoIdFinal=model('facturaElectronicaModel')->selectMax('id')->where('fecha', $fechaInicial)->first();
+                $idFinal=$tempoIdFinal['id'];
 
+            }else if(!empty($tempIdFinal['id'])){
+                $idFinal=$tempIdFinal['id'];
+            }
 
+        }
+
+        if (!empty($idInicial) && !empty($idFinal)) {
+            $productos = model('itemFacturaElectronicaModel')->getProducto($idInicial['id'], $idFinal['id']);
+
+            $total = model('ReporteImpuestosModel')->getTotal($fechaInicial, $fechaFinal);
+
+            return $this->response->setJSON([
+                'response' => 'success',
+                'productos' => view('reportes/costoProducto', [
+                    'productos' => $productos
+                ]),
+                'total' => "Total  " . number_format($total[0]['total'], 0, '.', '.'),
+                'iva' => "Iva  " . number_format($total[0]['iva'], 0, '.', '.'),
+                'inc' => "Impoconsumo:  " . number_format($total[0]['inc'], 0, '.', '.')
+
+            ]);
+        } else {
+
+            return $this->response->setJSON([
+                'response' => 'false',
+            ]);
+        }
+    } */
+
+    public function BuscarReporteCosto()
+    {
+        $json = $this->request->getJSON();
+
+        // Fechas fijas (puedes reemplazarlas por $json->fecha_inicial y $json->fecha_final cuando lo necesites)
+
+        $json = $this->request->getJSON();
+
+        $fechaInicial = $json->fecha_inicial;
+        $fechaFinal = $json->fecha_final;
+        //$fechaInicial = '2025-05-06';
+        //$fechaFinal = '2025-05-07';
+
+        $facturaModel = model('facturaElectronicaModel');
+
+        // Obtener ID inicial
+        $tempIdInicial = $facturaModel->selectMin('id')->where('fecha', $fechaInicial)->first();
+        $idInicial = $tempIdInicial['id'] ?? null;
+
+        // Solo continuar si hay un ID inicial
+        if ($idInicial !== null) {
+            // Intentar obtener ID final por la fecha final
+            $tempIdFinal = $facturaModel->selectMax('id')->where('fecha', $fechaFinal)->first();
+            $idFinal = $tempIdFinal['id'] ?? null;
+
+            // Si no hay ID final, usar el máximo ID de la fecha inicial
+            if ($idFinal === null) {
+                $tempIdFinalAlt = $facturaModel->selectMax('id')->where('fecha', $fechaInicial)->first();
+                $idFinal = $tempIdFinalAlt['id'] ?? null;
+            }
+
+            // Validar ambos ID
+            if ($idFinal !== null) {
+                // Obtener productos y totales
+                $productoModel = model('itemFacturaElectronicaModel');
+                $reporteModel = model('ReporteImpuestosModel');
+
+                $productos = $productoModel->getProducto($idInicial, $idFinal);
+                $total = $reporteModel->getTotal($fechaInicial, $fechaFinal);
+
+                return $this->response->setJSON([
+                    'response' => 'success',
+                    'productos' => view('reportes/costoProducto', ['productos' => $productos]),
+                    'total'    => "Total  " . number_format($total[0]['total'], 0, '.', '.'),
+                    'iva'      => "Iva  " . number_format($total[0]['iva'], 0, '.', '.'),
+                    'inc'      => "Impoconsumo:  " . number_format($total[0]['inc'], 0, '.', '.'),
+                ]);
+            }
+        }
+
+        // Si no hay IDs válidos
         return $this->response->setJSON([
-            'response' => 'success',
-            'productos' => view('reportes/costoProducto', [
-                'productos' => $productos
-            ]),
-            'total' => "Total  " . number_format($total[0]['total'], 0, '.', '.'),
-            'iva' => "Iva  " . number_format($total[0]['iva'], 0, '.', '.'),
-            'inc' => "Impoconsumo:  " . number_format($total[0]['inc'], 0, '.', '.')
-
+            'response' => 'false',
         ]);
     }
 
-    function exportCostoExcel()
+
+    /* function exportCostoExcel()
     {
         $fechaInicial = $this->request->getPost('fecha_inicial');
         $fechaFinal = $this->request->getPost('fecha_final');
@@ -1006,37 +1084,37 @@ class facturaDirectaController extends BaseController
         $row = 9;
         foreach ($productos as $detalle) {
             $sheet->setCellValue("A$row", $detalle['numero']); // Número de factura
-        
+
             $fecha = date('d/m/Y', strtotime($detalle['fecha']));
             $sheet->setCellValue("B$row", $fecha); // Fecha
-        
+
             $sheet->setCellValue("C$row", $detalle['codigo']); // Código
             $sheet->setCellValue("D$row", $detalle['nombreproducto']); // Nombre producto
             $sheet->setCellValue("E$row", $detalle['cantidad']); // Cantidad
-        
+
             // Costo base sin IVA unidad
             $sheet->setCellValue("F$row", round($detalle['costo'], 0));
-        
+
             // Costo base sin IVA total
             $sheet->setCellValue("G$row", round($detalle['costo'] * $detalle['cantidad'], 0));
-        
+
             // Costo + IVA unidad
             $valor_base = $detalle['costo'];
             $iva_porcentaje = is_numeric($detalle['iva']) ? $detalle['iva'] : 0;
             $factor_iva = 1 + ($iva_porcentaje / 100);
             $valor_con_iva_unidad = $valor_base * $factor_iva;
             $sheet->setCellValue("H$row", round($valor_con_iva_unidad, 0));
-        
+
             // Costo + IVA total
             $valor_con_iva_total = $valor_con_iva_unidad * $detalle['cantidad'];
             $sheet->setCellValue("I$row", round($valor_con_iva_total, 0));
-        
+
             // Valor venta base unidad
             $sheet->setCellValue("J$row", round($detalle['precio_unitario'], 0));
-        
+
             // Valor venta base total
             $sheet->setCellValue("K$row", round($detalle['precio_unitario'] * $detalle['cantidad'], 0));
-        
+
             // ICO 8% total
             if ($detalle['icn'] == 8) {
                 $ico = ($detalle['neto'] - $detalle['precio_unitario']) * $detalle['cantidad'];
@@ -1044,7 +1122,7 @@ class facturaDirectaController extends BaseController
                 $ico = 0;
             }
             $sheet->setCellValue("L$row", round($ico, 0));
-        
+
             // IVA 5%
             if ($detalle['icn'] == 0 && $detalle['iva'] == 5) {
                 $iva5 = ($detalle['neto'] - $detalle['precio_unitario']) * $detalle['cantidad'];
@@ -1052,7 +1130,7 @@ class facturaDirectaController extends BaseController
                 $iva5 = 0;
             }
             $sheet->setCellValue("M$row", round($iva5, 0));
-        
+
             // IVA 19%
             if ($detalle['icn'] == 0 && $detalle['iva'] == 19) {
                 $iva19 = ($detalle['neto'] - $detalle['precio_unitario']) * $detalle['cantidad'];
@@ -1060,13 +1138,13 @@ class facturaDirectaController extends BaseController
                 $iva19 = 0;
             }
             $sheet->setCellValue("N$row", round($iva19, 0));
-        
+
             // Total final
             $sheet->setCellValue("O$row", round($detalle['total'], 0));
-        
+
             $row++;
         }
-        
+
 
 
 
@@ -1085,7 +1163,133 @@ class facturaDirectaController extends BaseController
         flush();
         readfile($file_name);
         exit;
+    } */
+
+    public function exportCostoExcel()
+    {
+        $fechaInicial = $this->request->getPost('fecha_inicial');
+        $fechaFinal = $this->request->getPost('fecha_final');
+
+        $empresaModel = model('empresaModel');
+        $facturaModel = model('facturaElectronicaModel');
+        $itemModel = model('itemFacturaElectronicaModel');
+        $reporteModel = model('ReporteImpuestosModel');
+
+        $datos_empresa = $empresaModel->datosEmpresa();
+
+        // Validar y obtener ID inicial y final
+        $tempIdInicial = $facturaModel->selectMin('id')->where('fecha', $fechaInicial)->first();
+        $idInicial = $tempIdInicial['id'] ?? null;
+
+        $idFinal = null;
+        if ($idInicial !== null) {
+            $tempIdFinal = $facturaModel->selectMax('id')->where('fecha', $fechaFinal)->first();
+            $idFinal = $tempIdFinal['id'] ?? null;
+
+            if ($idFinal === null) {
+                $tempIdFinalAlt = $facturaModel->selectMax('id')->where('fecha', $fechaInicial)->first();
+                $idFinal = $tempIdFinalAlt['id'] ?? null;
+            }
+        }
+
+        // Validar que ambos IDs sean válidos
+        if ($idInicial === null || $idFinal === null) {
+            return redirect()->back()->with('error', 'No se encontraron facturas en el rango de fechas proporcionado.');
+        }
+
+        $productos = $itemModel->getProducto($idInicial, $idFinal);
+        $total = $reporteModel->getTotal($fechaInicial, $fechaFinal);
+
+        $file_name = 'Reporte de costos de ' . $fechaInicial . ' al ' . $fechaFinal . '.xlsx';
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $spreadsheet->getDefaultStyle()->getFont()->setName('Aptos Narrow')->setSize(11);
+
+        $headerStyle = [
+            'font' => ['bold' => true, 'size' => 12, 'color' => ['argb' => '000000'], 'name' => 'Aptos Narrow'],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            //'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['argb' => 'F2F2F2']],
+            //'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['argb' => '000000']]],
+        ];
+
+        // Encabezado empresa
+        $sheet->setCellValue('A1', $datos_empresa[0]['nombrejuridicoempresa'])->mergeCells('A1:G1');
+        $sheet->setCellValue('A2', 'NIT: ' . $datos_empresa[0]['nitempresa'])->mergeCells('A2:G2');
+        $sheet->setCellValue('A3', 'PUNTO DE VENTA ' . $datos_empresa[0]['nombrecomercialempresa'])->mergeCells('A3:G3');
+
+        foreach (['A1:G1', 'A2:G2', 'A3:G3'] as $range) {
+            $sheet->getStyle($range)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER)->setVertical(Alignment::VERTICAL_CENTER);
+        }
+
+        $fmt = new IntlDateFormatter('es_ES', IntlDateFormatter::FULL, IntlDateFormatter::NONE, 'America/Bogota', IntlDateFormatter::GREGORIAN, "EEEE d 'de' MMMM 'de' y");
+        $fecha_inicial_formateada = $fmt->format(new DateTime($fechaInicial));
+        $fecha_final_formateada = $fmt->format(new DateTime($fechaFinal));
+
+        $sheet->setCellValue('A4', 'REPORTE COSTO DE VENTA POR UNIDAD DE PRODUCTO  PERIODO: ' . $fecha_inicial_formateada . " AL " . $fecha_final_formateada);
+        $sheet->mergeCells('A4:J4');
+        $sheet->getStyle('A4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('A5')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER)->setVertical(Alignment::VERTICAL_CENTER);
+
+        // Encabezados de tabla
+        $encabezados = ['Factura', 'Fecha', 'Código', 'Producto', 'Cantidad', 'Costo base sin IVA unidad', 'Costo base sin IVA total', 'Costo + IVA unidad', 'Costo + IVA total', 'Valor venta base unidad', 'Valor venta base total', 'ICO 8 % total', 'IVA 5 % total', 'IVA 19 % total', 'Total venta'];
+        $col = 'A';
+        foreach ($encabezados as $titulo) {
+            $sheet->setCellValue($col . '8', $titulo);
+            $col++;
+        }
+        $sheet->getStyle('A8:O8')->applyFromArray($headerStyle);
+
+        // Datos
+        $row = 9;
+        foreach ($productos as $detalle) {
+            $sheet->setCellValue("A$row", $detalle['numero']);
+            $sheet->setCellValue("B$row", date('d/m/Y', strtotime($detalle['fecha'])));
+            $sheet->setCellValue("C$row", $detalle['codigo']);
+            $sheet->setCellValue("D$row", $detalle['nombreproducto']);
+            $sheet->setCellValue("E$row", $detalle['cantidad']);
+            $sheet->setCellValue("F$row", round($detalle['costo'], 0));
+            $sheet->setCellValue("G$row", round($detalle['costo'] * $detalle['cantidad'], 0));
+
+            $iva_porcentaje = is_numeric($detalle['iva']) ? $detalle['iva'] : 0;
+            $valor_con_iva_unidad = $detalle['costo'] * (1 + $iva_porcentaje / 100);
+            $valor_con_iva_total = $valor_con_iva_unidad * $detalle['cantidad'];
+            $sheet->setCellValue("H$row", round($valor_con_iva_unidad, 0));
+            $sheet->setCellValue("I$row", round($valor_con_iva_total, 0));
+
+            $sheet->setCellValue("J$row", round($detalle['precio_unitario'], 0));
+            $sheet->setCellValue("K$row", round($detalle['precio_unitario'] * $detalle['cantidad'], 0));
+
+            $ico = ($detalle['icn'] == 8) ? ($detalle['neto'] - $detalle['precio_unitario']) * $detalle['cantidad'] : 0;
+            $sheet->setCellValue("L$row", round($ico, 0));
+
+            $iva5 = ($detalle['icn'] == 0 && $detalle['iva'] == 5) ? ($detalle['neto'] - $detalle['precio_unitario']) * $detalle['cantidad'] : 0;
+            $sheet->setCellValue("M$row", round($iva5, 0));
+
+            $iva19 = ($detalle['icn'] == 0 && $detalle['iva'] == 19) ? ($detalle['neto'] - $detalle['precio_unitario']) * $detalle['cantidad'] : 0;
+            $sheet->setCellValue("N$row", round($iva19, 0));
+
+            $sheet->setCellValue("O$row", round($detalle['total'], 0));
+            $row++;
+        }
+
+        // Descargar archivo
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($file_name);
+
+        header("Content-Type: application/vnd.ms-excel");
+        header('Content-Disposition: attachment; filename="' . basename($file_name) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length:' . filesize($file_name));
+        flush();
+        readfile($file_name);
+        exit;
     }
+
 
     function formas_pago()
     {

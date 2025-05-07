@@ -200,6 +200,10 @@ Reporte de costos
 </div>
 </div>
 
+<!-- Sweet alert -->
+<script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
+
+<script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
 
 <script>
     async function buscarProductos() {
@@ -235,6 +239,13 @@ Reporte de costos
                 //document.getElementById('inc').innerHTML = response.inc;
                 document.getElementById('mensajeProducto').innerHTML = ""
             }
+
+            if (response.response == "false") {
+                sweet_alert_centrado('warning', 'No se encontraron registros')
+                document.getElementById('datos_costos').innerHTML = "";
+                document.getElementById("processing-bar").style.display = "none";
+            }
+
             return response;
         } catch (error) {
             console.error('Error:', error);
