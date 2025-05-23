@@ -89,34 +89,25 @@ class cajaController extends BaseController
         ];
         $apertura_registro = model('aperturaRegistroModel')->insert($apertura_registro);
 
-        // $exite_fecha = model('consecutivoInformeModel')->select('fecha')->where('fecha', $_REQUEST['fecha_apertura_caja'])->first();
-
-
-        //if (empty($exite_fecha['fecha'])) {
-
-        //$id = model('consecutivoInformeModel')->selectMax('id')->find();
-
-        //   $numero = model('consecutivoInformeModel')->select('numero')->where('id', $id[0]['id'])->first();
-
-        /*    if (!empty($numero)) {
-
-            $consecutivo = $numero['numero'] + 1;
-        }
-        if (empty($numero)) {
-            $temp_consecutivo = model('cajaModel')->select('consecutivo')->first();
-            $consecutivo = $temp_consecutivo['consecutivo'] + 1;
-        } */
+     $numeroInforme=model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos',103)->first();
 
         $data = [
             'fecha' => $fecha_apertura,
             'idcaja' => 1,
+            'numero'=>$numeroInforme['numeroconsecutivo']+1,
             'id_apertura' => $id_apertura
 
         ];
 
-        $insert = model('consecutivoInformeModel')->insert($data);
-        //}
 
+
+        $insert = model('consecutivoInformeModel')->insert($data);
+
+         $updateNumeroInforme=model('consecutivosModel')
+         ->set('numeroconsecutivo',$numeroInforme['numeroconsecutivo']+1)
+         ->where('idconsecutivos',103)
+         ->update();
+        
         $session = session();
         $session->setFlashdata('iconoMensaje', 'success');
         return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Apertura de caja éxitoso ');

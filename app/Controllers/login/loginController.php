@@ -86,8 +86,23 @@ class loginController extends BaseController
 
     public function recetas()
     {
-        $recetas = model('productoModel')->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto')->where('id_tipo_inventario', 3)->orderBy('nombreproducto', 'asc')->findAll();
-        $insumos = model('productoModel')->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto')->where('id_tipo_inventario', 4)->orderBy('nombreproducto', 'asc')->findAll();
+        $recetas = model('productoModel')
+            ->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto,id_tipo_inventario')
+            //->where('id_tipo_inventario', 3)
+            //->where('id_tipo_inventario', 6)
+            ->whereIn('id_tipo_inventario', [3, 7])
+            ->orderBy('nombreproducto', 'asc')
+            ->findAll();
+
+
+
+
+        //$insumos = model('productoModel')->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto')->where('id_tipo_inventario', 4)->orderBy('nombreproducto', 'asc')->findAll();
+        $insumos = model('productoModel')
+        ->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto')
+        //->where('id_tipo_inventario', 4)
+        ->whereIn('id_tipo_inventario', [4, 7])
+        ->orderBy('nombreproducto', 'asc')->findAll();
         $openModal = model('configuracionPedidoModel')->select('recetasmodal')->first();
 
         return view('producto/recetas', [
@@ -341,21 +356,20 @@ class loginController extends BaseController
     function allRecetas()
     {
         $resultado = model('productoModel')->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto')->where('id_tipo_inventario', 3)->orderBy('nombreproducto', 'asc')->findAll();
-    
+
         return $this->response->setJSON([
             'response' => 'success',
             'productos' =>  view('recetas/listaRecetas', [
-                    'productos' => $resultado
-                ]),
+                'productos' => $resultado
+            ]),
 
         ]);
-
     }
 
     function AllInsumos()
     {
-    
-        
+
+
 
         $insumos = model('productoModel')->GetaLLInsumos();
 

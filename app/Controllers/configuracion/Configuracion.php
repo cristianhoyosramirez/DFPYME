@@ -653,7 +653,7 @@ class Configuracion extends BaseController
     function comanda()
     {
 
-        $temp_comanda = model('configuracionPedidoModel')->select('partir_comanda')->first();
+        $temp_comanda = model('configuracionPedidoModel')->select('partir_comanda,criterio_impresion_comanda')->first();
 
         if ($temp_comanda['partir_comanda'] == 'f') {
             $comanda = "false";
@@ -661,8 +661,10 @@ class Configuracion extends BaseController
             $comanda = "true";
         }
 
+
         return view('configuracion/comanda', [
-            'comanda' => $comanda
+            'comanda' => $comanda,
+            'criterioImpresion' => $temp_comanda['criterio_impresion_comanda']
         ]);
     }
 
@@ -918,7 +920,7 @@ class Configuracion extends BaseController
             $propina = $valor_pedido[0]['valor_total'] * $porcentaje_propina;
         }
 
-   
+
 
 
 
@@ -936,53 +938,180 @@ class Configuracion extends BaseController
     {
         $url = model('configuracionPedidoModel')->select('url')->first();
 
-    
+
 
         if (!empty($url['url'])) {
             $qrcode = new Generator;
             $qrCodes = [];
             $qrCodes['simple'] = $qrcode->size(120)->generate($url['url']);
-     
+
             return view('qr/qr', $qrCodes);
         }
         if (empty($url['url'])) {
             $qrCodes = [];
-            $qrCodes['simple'] = "No se ha configurado la url para conectar dispositivos móviles";return view('qr/qr', $qrCodes);
-
+            $qrCodes['simple'] = "No se ha configurado la url para conectar dispositivos móviles";
+            return view('qr/qr', $qrCodes);
         }
     }
 
-    function asignar(){
+    function asignar()
+    {
 
-        $url=model('configuracionPedidoModel')->select('url')->first();
-        return view('qr/asignar',[
-            'url'=>$url['url']
+        $url = model('configuracionPedidoModel')->select('url')->first();
+        return view('qr/asignar', [
+            'url' => $url['url']
         ]);
     }
 
-    function actualizar_url(){
-        $url=$this->request->getPost('url_conexion');
+    function actualizar_url()
+    {
+        $url = $this->request->getPost('url_conexion');
 
-        $confi = model('configuracionPedidoModel')->set('url',$url)->update();
+        $confi = model('configuracionPedidoModel')->set('url', $url)->update();
 
         $returnData = array(
             "resultado" => 1, //Falta plata  
         );
         echo  json_encode($returnData);
-        
     }
 
-    function AddDocument(){
-        
-    }
+    function AddDocument() {}
 
-    function version(){
+    function version()
+    {
 
-        $version =model('configuracionPedidoModel')->select('version')->where('id',1)->first();
+        $version = model('configuracionPedidoModel')->select('version')->where('id', 1)->first();
 
-        return view('configuracion/version',[
-            'version'=>$version['version']
+        return view('configuracion/version', [
+            'version' => $version['version']
         ]);
+    }
 
+    function tipos_inventario()
+    {
+
+
+        $tiposInventario = model('tipoInventarioModel')->orderBy('nombre', 'asc')->findAll();
+
+        return view('configuracion/tipos_inventario', [
+            'tiposInventario' => $tiposInventario
+        ]);
+    }
+
+    function updateInventario()
+    {
+        $json = $this->request->getJSON();
+
+        $id = $json->id;
+        $nuevoEstado = $json->valor;
+
+        $resultado = model('tipoInventarioModel')
+            ->set('estado', $nuevoEstado)
+            ->where('id', $id)
+            ->update();
+
+        return $this->response->setJSON(['response' => $resultado]);
+    }
+
+    function updateCriterioComanda()
+    {
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+
+        $resultado = model('configuracionPedidoModel')
+            ->set('criterio_impresion_comanda', $valor)
+            ->where('id', 1)
+            ->update();
+
+        if ($resultado) {
+
+            if ($valor == 3) {
+                return $this->response->setJSON([
+                    'response' => 'success',
+                    'grupo' => view('configuracion/grupo_impresion')
+                ]);
+            } else if ($valor != 3) {
+                return $this->response->setJSON([
+                    'response' => 'success',
+                ]);
+            }
+        }
+    }
+
+    function crearGrupoImpresion()
+    {
+
+        $json = $this->request->getJSON();
+        $idImpresora = $json->idImpresora;
+        $nombre = $json->nombre;
+
+        $data = [
+            'nombre' => $nombre,
+            'id_impresora_asignada' => $idImpresora
+        ];
+
+        $insert = model('grupoImpresionModel')->insert($data);
+
+        if ($insert) {
+            return $this->response->setJSON([
+                'response' => 'success',
+                'grupos'=>view('boletas/grupos')
+            ]);
+        }
+    }
+
+    function updateGrupoImpresion()
+    {
+        $json = $this->request->getJSON();
+        $idGrupo = $json->valor;
+        $idProducto =  $json->codigoProducto;
+
+        $actualizar = model('productoModel')
+            ->set(['grupo_impresion_comanda' => $idGrupo])
+            ->where('id', $idProducto)
+            ->update();
+
+        if ($actualizar) {
+            return $this->response->setJSON([
+                'response' => 'success',
+            ]);
+        }
+    }
+
+    function updateDatosGrupoImpresion()
+    {
+
+        $json = $this->request->getJSON();
+        $nombre = $json->nombre;
+        $idImpresora = $json->idImpresora;
+        $idGrupo = $json->idGrupo;
+
+        $data = [
+            'nombre' => $nombre,
+            'id_impresora_asignada' => $idImpresora
+        ];
+
+        $actualizar = model('grupoImpresionModel')->set($data)->where('id', $idGrupo)->update();
+
+        if ($actualizar) {
+            return $this->response->setJSON([
+                'response' => 'success',
+            ]);
+        }
+    }
+
+    function deleteDatosGrupoImpresion(){
+       
+        $json = $this->request->getJSON();
+        $idGrupo = $json->idGrupo;
+
+        $borrar = model('grupoImpresionModel')->where('id', $idGrupo)->delete();
+
+        if ($borrar){
+           return $this->response->setJSON([
+                'response' => 'success',
+                'id'=>$idGrupo
+            ]); 
+        }
     }
 }

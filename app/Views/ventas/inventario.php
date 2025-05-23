@@ -295,7 +295,7 @@ INVENTARIOS
             }
         } catch (error) {
             console.error("Error al cruzar el inventario:", error);
-            sweet_alert_centrado('error', 'Ocurrió un error inesperado al cruzar el inventario');
+            sweet_alert_centrado('error', 'Ocurrió un error en la busqueda');
         }
     }
 </script>

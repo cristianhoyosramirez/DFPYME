@@ -115,7 +115,7 @@ HOME
                                                 <div class="row mb-3">
                                                     <div class="col-3">
                                                         <label for="" class="form-label">Producto </label>
-                                                        <input type="text" class="form-control" value="<?php echo $keyProductoSubCategoria['nombreproducto']; ?>" onkeyup="actualizarNombreProductoSub(this.value,<?php echo $keyProductoSubCategoria['id'] ?>)">
+                                                        <input type="text" class="form-control" value="<?php echo $codigo_producto['codigointernoproducto'] . "/" . $keyProductoSubCategoria['nombreproducto']; ?>" onkeyup="actualizarNombreProductoSub(this.value,<?php echo $keyProductoSubCategoria['id'] ?>)">
                                                     </div>
                                                     <div class="col-3">
                                                         <label for="" class="form-label">Precio de venta </label>
@@ -160,10 +160,32 @@ HOME
 
                                                     </div>
                                                     <div class="col-2">
+                                                        <?php
+                                                        $grupoImpresion = model('grupoImpresionModel')->impresoraGrupoImpresion();
+                                                        //$codigoProducto = (string) $keyProductoSubCategoria['id'];
+                                                        //$codigoProducto = model('productoModel')->select('codigointernoproducto')->where('id',$keyProductoSubCategoria['id'])->first();
+                                                        $idGrupoImpresion = model('productoModel')->select('grupo_impresion_comanda')->where('codigointernoproducto', $codigo_producto['codigointernoproducto'])->first();
+
+
+                                                        ?>
+
+                                                        <label for="" class="form-label   ">Grupo impresion</label>
+                                                        <select name="" id="" class="form-select" onchange="productoGrupo(this.value,<?php echo $keyProductoSubCategoria['id']; ?>)">
+                                                            <?php foreach ($grupoImpresion as $detallegrupoImpresion):
+                                                                $grupoSeleccionado = $idGrupoImpresion['grupo_impresion_comanda'] ?? null; ?>
+                                                                <option value="<?php echo $detallegrupoImpresion['id_grupo']; ?>"
+                                                                    <?php echo ($detallegrupoImpresion['id_grupo'] == $grupoSeleccionado) ? 'selected' : ''; ?>>
+                                                                    <?php echo $detallegrupoImpresion['nombre_grupo'] . " / " . $detallegrupoImpresion['nombre_impresora']; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-2">
 
                                                         <label for="" class="form-label text-light  ">Tiene atibutos</label>
                                                         <button type="button" class="btn btn-outline-success" onclick="openModal('<?php echo $keyProductoSubCategoria['nombreproducto'] ?>',<?php echo $keyProductoSubCategoria['id'] ?>)">Atributos</button>
                                                     </div>
+
                                                 </div>
 
 
@@ -259,11 +281,11 @@ HOME
                                                     <input type="text" class="form-control" value="<?php echo $impuesto . " %"; ?>">
                                                 </div>
 
-                                                <div class="col-2">
+                                                <div class="col-1">
 
                                                     <?php $impresoras = model('impresorasModel')->findAll(); ?>
 
-                                                    <label for="" class="form-label  ">Impresora1</label>
+                                                    <label for="" class="form-label  ">Impresora</label>
                                                     <?php $id_impresora = model('productoModel')->select('id_impresora')->where('codigointernoproducto', $keySubCategoria['codigointernoproducto'])->first(); ?>
                                                     <select name="" id="" class="form-select" onchange="cambiarImpresora(this.value,<?php echo $keySubCategoria['id'] ?>)">
                                                         <?php foreach ($impresoras as $keyImpresoras): ?>
@@ -274,6 +296,29 @@ HOME
                                                     </select>
 
                                                 </div>
+                                                <div class="col-2">
+
+                                                    <?php $impresoras = model('impresorasModel')->findAll(); ?>
+
+                                                    <label for="" class="form-label  ">
+                                                        G impresión
+                                                    </label>
+                                                    <?php
+                                                    $grupo_impresion = model('grupoImpresionModel')->findAll();
+                                                     $idGrupoImpresion = model('productoModel')->select('grupo_impresion_comanda')->where('codigointernoproducto', $codigo_producto['codigointernoproducto'])->first();
+                                                    ?>
+                                                    <!--<select name="" id="" class="form-select" onchange="cambiarImpresora(this.value,<?php echo $keySubCategoria['id'] ?>)"> -->
+                                                    <select name="" id="" class="form-select" onchange="productoGrupo(this.value,<?php echo $keySubCategoria['id']; ?>)">
+                                                                <?php foreach ($grupoImpresion as $detallegrupoImpresion):
+                                                                $grupoSeleccionado = $idGrupoImpresion['grupo_impresion_comanda'] ?? null; ?>
+                                                                <option value="<?php echo $detallegrupoImpresion['id_grupo']; ?>"
+                                                                    <?php echo ($detallegrupoImpresion['id_grupo'] == $grupoSeleccionado) ? 'selected' : ''; ?>>
+                                                                    <?php echo $detallegrupoImpresion['nombre_grupo'] . " / " . $detallegrupoImpresion['nombre_impresora']; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                    </select>
+
+                                                </div>
 
                                                 <div class="col-2">
 
@@ -281,7 +326,7 @@ HOME
                                                     <button type="button" class="btn btn-outline-success" onclick="openModal('<?php echo $keySubCategoria['nombreproducto'] ?>',<?php echo $keySubCategoria['id'] ?>)">Atributos</button>
                                                 </div>
 
-                                                <div class="col-2  justify-content-end">
+                                                <div class="col-1  justify-content-end">
 
                                                     <label for="" class="form-label text-light ">Accion</label>
 
@@ -423,7 +468,42 @@ HOME
 <script src="<?= base_url() ?>/Assets/script_js/gestionProducto/maxComponentes.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/gestionProducto/seleccionarAtributo.js"></script>
 
+<script>
+    async function productoGrupo(valor, codigo) {
 
+
+
+        try {
+            let response = await fetch("<?= base_url('configuracion/updateGrupoImpresion') ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    valor: valor,
+                    codigoProducto: codigo
+                }) // Enviar el id del producto
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+
+            let data = await response.json();
+
+            if (data.response === "success") {
+
+                sweet_alert_centrado('success', 'Grupo ascociado al producto')
+            } else if (data.response === "false") {
+                document.getElementById('resComPro').innerHTML = ""
+                $('#componentesProducto').modal('show');
+            }
+        } catch (error) {
+            console.error("Error en la petición:", error);
+        }
+
+    }
+</script>
 
 <script>
     async function openModal(nombre, idProducto) {

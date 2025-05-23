@@ -56,6 +56,7 @@ class productoModel extends Model
         'precio_3',
         'kit',
         'id_impresora',
+        'grupo_impresion_comanda'
     ];
 
     public function autoComplete($valor)
@@ -813,7 +814,7 @@ INNER JOIN
     inventario 
     ON producto.codigointernoproducto = inventario.codigointernoproducto
 WHERE 
-    id_tipo_inventario IN (1, 4, 2,3)
+    id_tipo_inventario IN (1, 4, 2,3,7)
         ");
         return $datos->getResultArray();
     }
@@ -869,7 +870,7 @@ INNER JOIN
     categoria 
     ON producto.codigocategoria = categoria.codigocategoria
 WHERE 
-    id_tipo_inventario IN (1, 4, 2,3)  AND (producto.nombreproducto ILIKE '%$valor%' OR producto.codigointernoproducto ILIKE '%$valor%')
+    id_tipo_inventario IN (1, 4, 2,3,7)  AND (producto.nombreproducto ILIKE '%$valor%' OR producto.codigointernoproducto ILIKE '%$valor%')
 ORDER BY 
     categoria.nombrecategoria ASC,
     producto.nombreproducto ASC;
@@ -909,10 +910,10 @@ ORDER BY
     {
 
         $datos = $this->db->query("
-        SELECT codigointernoproducto, nombreproducto,precio_costo,valorventaproducto
-        FROM producto 
-        WHERE id_tipo_inventario = 3 
-        AND (nombreproducto ILIKE '%$valor%' OR codigointernoproducto ILIKE '%$valor%');
+      SELECT codigointernoproducto, nombreproducto, precio_costo, valorventaproducto,id_tipo_inventario 
+FROM producto 
+WHERE (id_tipo_inventario = 3 OR id_tipo_inventario = 7)
+  AND (nombreproducto ILIKE '%$valor%' OR codigointernoproducto ILIKE '%$valor%');
 
         ");
         return $datos->getResultArray();
@@ -924,7 +925,7 @@ ORDER BY
         $datos = $this->db->query("
         SELECT codigointernoproducto, nombreproducto,precio_costo,valorventaproducto 
         FROM producto 
-        WHERE id_tipo_inventario = 4 
+        WHERE (id_tipo_inventario = 4 OR id_tipo_inventario = 7)
         AND (nombreproducto ILIKE '%$valor%' OR codigointernoproducto ILIKE '%$valor%');
 
         ");
@@ -977,6 +978,26 @@ FROM producto
 WHERE id_tipo_inventario IN (1, 3) 
 AND id_tipo_inventario NOT IN (4)
 order by nombreproducto asc;
+        ");
+        return $datos->getResultArray();
+    }
+
+    function productosReceta()
+    {
+
+        $datos = $this->db->query("
+            SELECT
+                codigointernoproducto,
+                id,
+                nombreproducto,
+                precio_costo,
+                valorventaproducto
+            FROM
+                producto
+            WHERE
+                id_tipo_inventario = 6 OR id_tipo_inventario = 3
+            ORDER BY
+                nombreproducto ASC;
         ");
         return $datos->getResultArray();
     }

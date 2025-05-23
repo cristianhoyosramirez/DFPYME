@@ -197,9 +197,9 @@ class Imprimir extends BaseController
         if (!empty($pedido)) {  //La mesa tiene pedido 
 
 
-            $tipoAgrupacion = model('configuracionPedidoModel')->select('imprimir_comanda_categoria')->first();
+            $tipoAgrupacion = model('configuracionPedidoModel')->select('criterio_impresion_comanda')->where('id', 1)->first();
 
-            if ($tipoAgrupacion['imprimir_comanda_categoria'] === 't') { // aca se imprime agrupado por categorias 
+            /* if ($tipoAgrupacion['imprimir_comanda_categoria'] === 1) { // aca se imprime agrupado por categorias 
 
                 $categorias = model('productoPedidoModel')->getCategorias($pedido['id']);  //Seleccionar los codigos unicos de las categorias 
 
@@ -218,10 +218,9 @@ class Imprimir extends BaseController
                         echo  json_encode($returnData);
                     }
                 }
-            } else if ($tipoAgrupacion['imprimir_comanda_categoria'] === 'f') {
+            } else if ($tipoAgrupacion['imprimir_comanda_categoria'] === 2) { //Agrupacion para la impresion por productos asociados a una impresora 
 
                 $productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
-
 
                 foreach ($productos_pedido as $keyProductos) {
 
@@ -254,6 +253,114 @@ class Imprimir extends BaseController
                     "resultado" => 1
                 );
                 echo  json_encode($returnData);
+            } */
+
+            switch ($tipoAgrupacion['criterio_impresion_comanda']) {
+                case 1:
+                    // Imprimir agrupado por categorías
+                    $categorias = model('productoPedidoModel')->getCategorias($pedido['id']);
+
+                    foreach ($categorias as $detalleCategorias) {
+                        $nombreCategoria = model('categoriasModel')
+                            ->select('nombrecategoria')
+                            ->where('codigocategoria', $detalleCategorias['codigo_categoria'])
+                            ->first();
+
+                        $productos_pedido = model('productoPedidoModel')
+                            ->productosPedidoCategoria($pedido['id'], $detalleCategorias['codigo_categoria']);
+
+                        if (!empty($productos_pedido)) {
+                            $this->generar_comanda(
+                                $productos_pedido,
+                                $pedido['id'],
+                                $nombre_mesa['nombre'],
+                                $detalleCategorias['codigo_categoria'],
+                                $nombreCategoria['nombrecategoria']
+                            );
+
+                            $returnData = array("resultado" => 1);
+                            echo json_encode($returnData);
+                        }
+                    }
+                    break;
+
+                case 2:
+                    // Agrupación por impresoras
+                    $productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
+
+                    foreach ($productos_pedido as $keyProductos) {
+                        $id_impresora = model('productoModel')
+                            ->select('id_impresora')
+                            ->where('codigointernoproducto', $keyProductos['codigointernoproducto'])
+                            ->first();
+
+                        model('productoPedidoModel')
+                            ->set('id_impresora', $id_impresora['id_impresora'])
+                            ->where('codigointernoproducto', $keyProductos['codigointernoproducto'])
+                            ->where('numero_de_pedido', $pedido['id'])
+                            ->update();
+                    }
+
+                    $impresoras = model('impresorasModel')->findAll();
+
+                    foreach ($impresoras as $keyImpresoras) {
+                        $productos = model('productoPedidoModel')->productos_impresora($keyImpresoras['id']);
+
+                        if (!empty($productos)) {
+                            $this->generar_comanda_sin_partir(
+                                $productos,
+                                $pedido['id'],
+                                $nombre_mesa['nombre'],
+                                $keyImpresoras['id']
+                            );
+                        }
+                    }
+
+                    $returnData = array("resultado" => 1);
+                    echo json_encode($returnData);
+                    break;
+
+                case 3:
+
+                    $productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
+
+                    foreach ($productos_pedido as $keyProductos) {
+                        $id_grupo = model('productoModel')
+                            ->select('grupo_impresion_comanda')
+                            ->where('codigointernoproducto', $keyProductos['codigointernoproducto'])
+                            ->first();
+
+                        model('productoPedidoModel')
+                            ->set('id_grupo', $id_grupo['grupo_impresion_comanda'])
+                            ->where('codigointernoproducto', $keyProductos['codigointernoproducto'])
+                            ->where('numero_de_pedido', $pedido['id'])
+                            ->update();
+                    }
+
+                    $grupos = model('grupoImpresionModel')->findAll();
+
+                    foreach ($grupos as $keyGrupos) {
+                        $productos = model('productoPedidoModel')->productos_grupo($keyGrupos['id'],$pedido['id']);
+
+                        if (!empty($productos)) {
+                            $this->generar_comanda_grupo(
+                                $productos,
+                                $pedido['id'],
+                                $nombre_mesa['nombre'],
+                                $keyGrupos['id_impresora_asignada'],
+                            );
+                        }
+                    }
+
+                    $returnData = array("resultado" => 1);
+                    echo json_encode($returnData);
+                    break;
+
+                default:
+                    // Opción por defecto si no coincide ningún case
+                    $returnData = array("resultado" => 0, "mensaje" => "Tipo de agrupación no válido");
+                    echo json_encode($returnData);
+                    break;
             }
         }
     }
@@ -325,7 +432,118 @@ class Imprimir extends BaseController
                     $linea_atributo = "* " . $atributo['nombre'] . " (" . implode("- ", $componentesNombres) . ")";
                     $printer->text($linea_atributo . "\n");
                 }
-            } 
+            }
+
+            // Notas
+            if (!empty($producto['nota_producto'])) {
+                $printer->text("NOTAS:\n");
+                $printer->setEmphasis(true);
+                $printer->text($producto['nota_producto'] . "\n");
+                $printer->setEmphasis(false);
+            }
+
+            // Línea separadora
+            $printer->text("---------------------------------------------\n");
+        }
+
+
+
+        $observaciones_genereles = model('pedidoModel')->select('nota_pedido')->where('id', $numero_pedido)->first();
+        if (!empty($observaciones_genereles['nota_pedido'])) {
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->setTextSize(2, 1);
+            $printer->text("OBSERVACIONES GENERALES \n");
+            $printer->text("\n");
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->setTextSize(2, 1);
+            $printer->text($observaciones_genereles['nota_pedido'] . "\n");
+            /*
+            Cortamos el papel. Si nuestra impresora
+            no tiene soporte para ello, no generará
+            ningún error
+            */
+            //$printer->cut();
+
+            /*
+            Por medio de la impresora mandamos un pulso.
+            Esto es útil cuando la tenemos conectada
+            por ejemplo a un cajón
+            */
+            //$printer->pulse();
+            //$printer->close();
+            # $printer = new Printer($connector);
+
+            //$milibreria = new Ejemplolibreria();
+            //$data = $milibreria->getRegistros();
+        }
+        $printer->cut();
+
+        $printer->close();
+    }
+    function generar_comanda_grupo($productos, $numero_pedido, $nombre_mesa, $id_impresora)
+    {
+
+
+
+        // $impresora = model('categoriasModel')->select('impresora')->where('codigocategoria', $codigo_categoria)->first();
+
+        $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora)->first();
+        $id_usuario = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
+        $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['fk_usuario'])->first();
+
+       
+
+        $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
+        $printer = new Printer($connector);
+
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(1, 1);
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setTextSize(1, 2);
+        $printer->text("Pedido: " . $numero_pedido . "       Mesa: " . $nombre_mesa . "\n\n");
+        $printer->setTextSize(1, 1);
+        $printer->text("Mesero: " . $nombre_usuario['nombresusuario_sistema'] . "\n");
+
+        $printer->text("Fecha :" . "   " . date('d/m/Y ') . "Hora  :" . "   " . date('h:i:s a', time()) . "\n\n");
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+
+
+        foreach ($productos as $producto) {
+            // Obtener cantidades
+            $cantidad_impresa = model('productoPedidoModel')->select('numero_productos_impresos_en_comanda')->where('id', $producto['id'])->first();
+            $cantidad_total = model('productoPedidoModel')->select('cantidad_producto')->where('id', $producto['id'])->first();
+
+            $cant_impresa = $cantidad_impresa['numero_productos_impresos_en_comanda'];
+            $cant_total = $cantidad_total['cantidad_producto'];
+            $cant_restante = $cant_total - $cant_impresa;
+
+            // Actualizar productos impresos
+            $data = [
+                'numero_productos_impresos_en_comanda' => $cant_total
+            ];
+            model('productoPedidoModel')->set($data)->where('id', $producto['id'])->update();
+
+            // --- Impresión ---
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->setTextSize(2, 1);
+            $printer->text($producto['nombreproducto'] . "\n");
+
+            $printer->setTextSize(1, 1);
+            $printer->text("Cant. " . ($cant_restante > 0 ? $cant_restante : $cant_total) . "\n");
+
+            // Atributos
+            $atributos = model('atributosDeProductoModel')->getAtributosPedido($producto['id']);
+            if (!empty($atributos)) {
+                foreach ($atributos as $atributo) {
+                    $componentes = model('atributosDeProductoModel')->getComponentes($producto['id'], $atributo['id_atributo']);
+                    $componentesNombres = array_map(fn($c) => $c['nombre'], $componentes);
+                    $linea_atributo = "* " . $atributo['nombre'] . " (" . implode("- ", $componentesNombres) . ")";
+                    $printer->text($linea_atributo . "\n");
+                }
+            }
 
             // Notas
             if (!empty($producto['nota_producto'])) {

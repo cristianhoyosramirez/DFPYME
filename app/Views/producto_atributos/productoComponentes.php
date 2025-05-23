@@ -39,13 +39,13 @@
 
         <p class="text-orange fw-bold"><?php echo $nombre['nombre']; ?></p>
 
-        <?php $componentes = model('componentesAtributosProductoModel')->select('nombre,id')->where('id_atributo', $keyAtributo['id_atributo'])->findAll(); ?>
+        <?php $componentes = model('componentesAtributosProductoModel')->select('nombre,id')->where('id_atributo', $keyAtributo['id_atributo'])->orderBy('nombre','asc')->findAll(); ?>
         <div class="scroll-container">
             <?php foreach ($componentes as $detalleComponentes): ?>
                 <button type="button"
                     class="btn btn-outline-primary btn-sm btn-pill btn-ajustable text-truncate"
                     style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-                    onclick="seleccionarComponentes('<?php echo $detalleComponentes['nombre']; ?>', <?php echo $detalleComponentes['id']; ?>,<?php $numeroComponentes[0]['numero_componentes']; ?>)">
+                    onclick="seleccionarComponentes('<?php echo $detalleComponentes['nombre']; ?>', <?php echo $detalleComponentes['id']; ?>,<?php echo $numeroComponentes[0]['numero_componentes']; ?>)">
                     <?php echo htmlspecialchars($detalleComponentes['nombre'], ENT_QUOTES, 'UTF-8'); ?>
                 </button>
             <?php endforeach; ?>

@@ -34,7 +34,8 @@ class kardexModel extends Model
         'aplica_ico',
         'id_pedido',
         'saldo_anterior',
-        'nuevo_saldo'
+        'nuevo_saldo',
+        //'id_usuario'
     ];
 
     public function get_productos($id_apertura)
@@ -839,4 +840,19 @@ WHERE
         ");
         return $datos->getResultArray();
     }
+
+    public function getTotal($fechaInicial, $fechaFinal,$usuario)
+    {
+        $datos = $this->db->query("
+       SELECT
+        SUM(total) as total
+        FROM
+            kardex
+        WHERE
+            fecha BETWEEN '$fechaInicial' AND '$fechaFinal' AND idusuario = $usuario;
+
+        ");
+        return $datos->getResultArray();
+    }
+
 }

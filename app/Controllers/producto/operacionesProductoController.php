@@ -193,7 +193,7 @@ class operacionesProductoController extends BaseController
                         'required' => 'Dato necesarios',
                     ],
                 ],
-               /*  'informacion_tributaria' => [
+                /*  'informacion_tributaria' => [
                     'rules' => 'required',
                     'errors' => [
                         'required' => 'Dato necesario',
@@ -226,16 +226,16 @@ class operacionesProductoController extends BaseController
             if ($valor_venta == 0) {
                 $val_venta_producto = 1;
                 $valor_venta_producto = 0;
-                $precio_2=0;
+                $precio_2 = 0;
             }
             if ($valor_venta > 0) {
                 $valor_venta_producto = $valor_venta;
                 $pre_2 = (str_replace('.', '', $this->request->getPost('precio_2')) * 100) / $valor_venta_producto;
                 $precio_2 = 100 - $pre_2;
             }
-    
 
-           // exit($valor_venta_producto);
+
+            // exit($valor_venta_producto);
 
 
             $precio_costo = str_replace('.', '', $this->request->getPost('valor_costo_producto'));
@@ -246,7 +246,7 @@ class operacionesProductoController extends BaseController
 
 
             //$pre_2 = (str_replace('.', '', $this->request->getPost('precio_2')) * 100) / $valor_venta_producto;
-           //$precio_2 = 100 - $pre_2;
+            //$precio_2 = 100 - $pre_2;
 
 
             $valorImpuestoSaludable = $this->request->getPost('valor_impuesto_saludable');
@@ -307,7 +307,7 @@ class operacionesProductoController extends BaseController
                     'descto_3' => 0,
                     'inicial' => true,
                     'impoconsumo' => 0,
-                    'id_tipo_inventario' => $this->request->getPost('tipoProducto'),  
+                    'id_tipo_inventario' => $this->request->getPost('tipoProducto'),
                     'id_ico_producto' => $this->request->getPost('valor_ico'),
                     'aplica_ico' => true,
                     'se_imprime' => $impresion_comanda,
@@ -317,10 +317,10 @@ class operacionesProductoController extends BaseController
                     //'id_subcategoria'=>$this->request->getPost('sub_categoria')
                     'id_subcategoria' => $id_categoria,
                     'favorito' => $this->request->getPost('favorito'),
-                    'precio_3' => str_replace('.', '',$this->request->getPost('precio_3'))
+                    'precio_3' => str_replace('.', '', $this->request->getPost('precio_3'))
                 ];
 
-              
+
                 $insert = model('productoModel')->insert($data);
 
 
@@ -426,7 +426,7 @@ class operacionesProductoController extends BaseController
                     //'id_subcategoria' => 0,
                     'id_subcategoria' => $id_categoria,
                     'favorito' => $this->request->getPost('favorito'),
-                    'precio_3' => str_replace('.', '',$this->request->getPost('precio_3'))
+                    'precio_3' => str_replace('.', '', $this->request->getPost('precio_3'))
 
                 ];
 
@@ -530,7 +530,7 @@ class operacionesProductoController extends BaseController
                     //'id_subcategoria' => 0,
                     'id_subcategoria' => $id_categoria,
                     'favorito' => $this->request->getPost('favorito'),
-                    'precio_3' => str_replace('.', '',$this->request->getPost('precio_3'))
+                    'precio_3' => str_replace('.', '', $this->request->getPost('precio_3'))
 
                 ];
 
@@ -607,7 +607,7 @@ class operacionesProductoController extends BaseController
     function editar_precios()
     {
         $id_producto = $this->request->getPost('id_producto');
-       //$id_producto = '9';
+        //$id_producto = '9';
 
         $iva = model('ivaModel')->orderBy('idiva', 'DESC')->findAll();
         $ico = model('icoConsumoModel')->orderBy('id_ico', 'DESC')->findAll();
@@ -632,11 +632,12 @@ class operacionesProductoController extends BaseController
 
         //$sub_categoria = model('categoriasModel')->select('subcategoria')->where('codigocategoria', $id_categoria['codigocategoria'])->first();
         $sub_categoria = model('productoModel')->select('id_subcategoria')->where('codigointernoproducto', $id_producto)->first();
+        $codigoInterProducto = model('productoModel')->select('codigointernoproducto')->where('id', $id_producto)->first();
 
         $sub_categorias = model('subCategoriaModel')->findAll();
 
-        $tipoProducto=model('productoModel')->select('id_tipo_inventario')->where('codigointernoproducto', $id_producto)->first();
-        $UnidaMedida=model('productoMedidaModel')->select('idvalor_unidad_medida')->where('codigointernoproducto', $id_producto)->first();
+        $tipoProducto = model('productoModel')->select('id_tipo_inventario')->where('codigointernoproducto', $id_producto)->first();
+        $UnidaMedida = model('productoMedidaModel')->select('idvalor_unidad_medida')->where('codigointernoproducto', $id_producto)->first();
 
         $returnData = array(
             "resultado" => 1,
@@ -662,9 +663,9 @@ class operacionesProductoController extends BaseController
                 //'sub_categoria' => $sub_categoria['subcategoria'],
                 'sub_categoria' => $sub_categoria['id_subcategoria'],
                 'sub_categorias' => $sub_categorias,
-                'precio_3'=>number_format($precio_3['precio_3'], 0, ",", "."),
-                'tipoProducto'=>$tipoProducto['id_tipo_inventario'],
-                'UnidadMedida'=>$UnidaMedida['idvalor_unidad_medida']
+                'precio_3' => number_format($precio_3['precio_3'], 0, ",", "."),
+                'tipoProducto' => $tipoProducto['id_tipo_inventario'],
+                'UnidadMedida' => $UnidaMedida['idvalor_unidad_medida']
 
             ])
         );
@@ -699,7 +700,7 @@ class operacionesProductoController extends BaseController
                         'required' => 'Dato necesarios',
                     ],
                 ],
-              /*   'informacion_tributaria' => [
+                /*   'informacion_tributaria' => [
                     'rules' => 'required',
                     'errors' => [
                         'required' => 'Dato necesario',
@@ -745,17 +746,17 @@ class operacionesProductoController extends BaseController
             if ($this->request->getPost('informacion_tributaria') == 1) {  //Tiene INC
                 $aplica_ico = "t";
                 $id_iva = 1;
-                $id_ico=$this->request->getPost('valor_ico');
+                $id_ico = $this->request->getPost('valor_ico');
             }
             if ($this->request->getPost('informacion_tributaria') == 2) { // Tiene IVA 
                 $aplica_ico = "f";
                 $id_iva = $this->request->getPost('valor_iva');
-                $id_ico= 1;
+                $id_ico = 1;
             }
-            if (empty($this->request->getPost('informacion_tributaria') )) {
+            if (empty($this->request->getPost('informacion_tributaria'))) {
                 $aplica_ico = "f";
                 $id_iva = 1;
-                $id_ico= 1;
+                $id_ico = 1;
             }
 
             $temp_precio_2 = $this->request->getPost('precio_2');
@@ -778,7 +779,7 @@ class operacionesProductoController extends BaseController
                 'descto_mayor' => $precio_2,
                 'se_imprime' => $imprimir_comanda,
                 //'se_imprime' => $imprimir_comanda,
-                'id_tipo_inventario'=>$this->request->getPost('tipoProducto'),
+                'id_tipo_inventario' => $this->request->getPost('tipoProducto'),
                 'id_ico_producto' => $id_ico,
                 'aplica_ico' => $aplica_ico,
                 'aplica_descuento' => $permite_descuento,
@@ -799,7 +800,7 @@ class operacionesProductoController extends BaseController
 
                 ];
 
-                $actualizar = model('productoMedidaModel')->set('idvalor_unidad_medida',$this->request->getPost('UnidadMedida'))->where('codigointernoproducto',$codigo_interno_producto)->update();
+                $actualizar = model('productoMedidaModel')->set('idvalor_unidad_medida', $this->request->getPost('UnidadMedida'))->where('codigointernoproducto', $codigo_interno_producto)->update();
 
                 echo json_encode(['code' => 1, 'msg' => 'Usuario creado']);
             }
@@ -861,6 +862,15 @@ class operacionesProductoController extends BaseController
         if (empty($tiene_movimientos)) {
             $borrar_producto = model('productoModel')->where('codigointernoproducto', $codigo_interno_producto);
             $borrar_producto->delete();
+
+            $productoFabricado = model('productoFabricadoModel')
+                ->select('prod_proceso')
+                ->where('prod_proceso', $codigo_interno_producto)->first();
+
+            if (!empty($borrarProductoFabricado)) {
+                $borrarProductoFabricado = model('productoFabricadoModel')
+                    ->where('prod_proceso', $codigo_interno_producto)->delete();
+            }
 
             if ($borrar_producto) {
                 echo json_encode(

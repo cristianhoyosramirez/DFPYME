@@ -539,202 +539,7 @@ class ConfigurarProductocontroller extends BaseController
         } */
     }
 
-    /* function adicionDeProducto()
-    {
 
-        $json = $this->request->getJSON();
-        $codigoInterno = $json->codigoProducto;
-        $cantidad = $json->cantidad;
-        $nota = $json->nota;
-        $id_mesa = $json->id_mesa;
-        $id_usuario = $json->id_usuario;
-        $mesero = $json->id_mesero;
-        $componentes = $json->componentes;
-
-        if (!empty($id_mesa)) {
-
-            $id_mesa = $id_mesa;
-        }
-
-        $id_mesero = $mesero;
-
-        if (!empty($id_mesero)) {
-            $id_usuario = $mesero;
-        }
-
-        if (empty($id_mesero)) {
-            $id_usuario = $this->request->getPost('id_usuario');
-        }
-
-        $id_producto = (string) $codigoInterno;
-
-
-        
-
-        $se_imprime_en_comanda = model('productoModel')->select('se_imprime')->where('codigointernoproducto', $id_producto)->first();
-
-        $codigo_categoria = model('productoModel')->select('codigocategoria')->where('codigointernoproducto', $id_producto)->first();
-        $codigo_interno_producto = model('productoModel')->select('codigointernoproducto')->where('codigointernoproducto', $id_producto)->first();
-        $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $id_producto)->first();
-
-        $idProducto = model('productoModel')->select('id')->where('codigointernoproducto', $id_producto)->first();
-        $atributos = model('configuracionAtributosProductoModel')->atributosProducto($idProducto['id']);
-
-        $valor_unitario = model('productoModel')->select('valorventaproducto')->where('codigointernoproducto', $id_producto)->first();
-        $tiene_pedido = model('pedidoModel')->pedido_mesa($id_mesa);
-        $numero_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
-        $estado_mesa = model('mesasModel')->select('estado')->where('id', $id_mesa)->first();
-
-
-        if (empty($tiene_pedido)) {
-
-           
-
-
-            $data = [
-                'fk_mesa' => $id_mesa,
-                'fk_usuario' => $id_usuario,
-                'valor_total' => $valor_unitario['valorventaproducto'] * $cantidad,
-                'cantidad_de_productos' => $cantidad,
-
-            ];
-            $insert = model('pedidoModel')->insert($data);
-
-            
-
-            $ultimo_id_pedido = model('pedidoModel')->insertID;
-            $producto_pedido = [
-                'numero_de_pedido' => $ultimo_id_pedido,
-                'cantidad_producto' => $cantidad,
-                'nota_producto' => '',
-                'valor_unitario' => $valor_unitario['valorventaproducto'],
-                'impresion_en_comanda' => false,
-                'cantidad_entregada' => 0,
-                'valor_total' => $valor_unitario['valorventaproducto'] * $cantidad,
-                'se_imprime_en_comanda' => $se_imprime_en_comanda['se_imprime'],
-                'codigo_categoria' => $codigo_categoria['codigocategoria'],
-                'codigointernoproducto' => $codigo_interno_producto['codigointernoproducto'],
-                'numero_productos_impresos_en_comanda' => 0,
-                'idUser' => $id_usuario,
-                'fecha' => date('Y-m-d'),
-                'hora' => date('H:i:s')
-            ];
-
-
-            $insertar = model('productoPedidoModel')->insertar(
-                $ultimo_id_pedido,
-                $valor_unitario['valorventaproducto'],
-                $se_imprime_en_comanda['se_imprime'],
-                $codigo_categoria['codigocategoria'],
-                $codigo_interno_producto['codigointernoproducto'],
-                $cantidad,
-                $id_usuario,
-                date('Y-m-d'),
-                date('H:i:s'),
-                $nota
-            );
-
-
-            $productos_pedido = model('productoPedidoModel')->producto_pedido($ultimo_id_pedido);
-            $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $ultimo_id_pedido)->first();
-            $cantidad_de_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $ultimo_id_pedido)->first();
-
-            $ultimo_id_producto = model('productoPedidoModel')->selectMax('id')->find();
-
-            $nota = model('productoPedidoModel')->select('nota_producto')->where('id', $ultimo_id_pedido)->first();
-
-            return $this->response->setJSON([
-                'response' => 'success',
-                "id_mesa" => $id_mesa,
-                "numero_pedido" => $ultimo_id_pedido,
-                "productos_pedido" => view('pedidos/productos_pedido', [
-                    "productos" => $productos_pedido,
-                ]),
-                "total_pedido" =>  "$" . number_format($total_pedido['valor_total'], 0, ',', '.'),
-                "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
-                "id" => $ultimo_id_producto[0]['id'],
-                "estado" => $estado_mesa['estado'],
-                "sub_total" => number_format($total_pedido['valor_total'] + 0, 0, ',', '.'),
-                "propina" => number_format(0, 0, ',', '.'),
-                'atributos' => view('atributos/atributosProducto', [
-                    'atributos' => $atributos,
-                    'idProducto' => $idProducto['id'],
-                    'id_tabla_producto' => $ultimo_id_pedido
-                ]),
-                'nombreProducto' => $nombre_producto['nombreproducto'],
-                'id_tabla_producto' => $ultimo_id_pedido,
-
-
-            ]);
-        } else  if (!empty($tiene_pedido)) {
-
-                $vTotal = $valor_unitario['valorventaproducto'] * $cantidad;
-
-                $producto_pedido = [
-                    'numero_de_pedido' => $numero_pedido,
-                    'cantidad_producto' => $cantidad,
-                    'nota_producto' => $nota,
-                    'valor_unitario' => $valor_unitario,
-                    'impresion_en_comanda' => false,
-                    'cantidad_entregada' => 0,
-                    'valor_total' => $vTotal,
-                    'se_imprime_en_comanda' =>  $se_imprime_en_comanda['se_imprime'],
-                    'codigo_categoria' =>   $codigo_categoria['codigocategoria'],
-                    'codigointernoproducto' => $codigo_interno_producto,
-                    'numero_productos_impresos_en_comanda' => 0,
-                    'idUsuario' => $id_usuario,
-                    'fecha' => date('Y-m-d'),
-                    'hora' => date('H:i:s')
-                ];
-                $insertar = model('productoPedidoModel')->insert($producto_pedido);
-
-
-
-                $cantidad_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['id'])->first();
-
-                $cant_productos = $cantidad_productos['cantidad_de_productos'] + 1;
-
-                $valor_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido['id'])->first();
-                
-                $val_pedido = $valor_pedido['valor_total'] + $vTotal;
-                $pedido = [
-                    'valor_total' => $val_pedido,
-                    'cantidad_de_productos' => $cant_productos,
-                ];
-
-                $model = model('pedidoModel');
-                $actualizar = $model->set($pedido);
-                $actualizar = $model->where('id', $numero_pedido['id']);
-                $actualizar = $model->update();
-
-
-                $productos_pedido = model('productoPedidoModel')->producto_pedido($numero_pedido['id']);
-                $total_pedido = $model->select('valor_total')->where('id', $numero_pedido['id'])->first();
-                $ultimo_id_producto = model('productoPedidoModel')->insertID;
-
-                return $this->response->setJSON([
-                    "response" => 'success',
-                    "id_mesa" => $id_mesa,
-                    "numero_pedido" => $numero_pedido['id'],
-                    "productos_pedido" => view('pedidos/productos_pedido', [
-                        "productos" => $productos_pedido,
-                    ]),
-                    "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + 0, 0, ',', '.'),
-                    //"cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos']
-                    "id" => $ultimo_id_producto,
-                    "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
-                    "propina" => number_format(0, 0, ',', '.'),
-                    'atributos' => view('atributos/atributosProducto', [
-                        'atributos' => $atributos,
-                        'idProducto' => $idProducto['id'],
-                        'id_tabla_producto' => $numero_pedido['id']
-                    ]),
-                    'nombreProducto' => $nombre_producto['nombreproducto'],
-                    'id_tabla_producto' => $numero_pedido['id'],
-                ]);
-            
-        }
-    } */
 
 
     public function adicionDeProducto()
@@ -747,6 +552,8 @@ class ConfigurarProductocontroller extends BaseController
         $id_mesa = $json->id_mesa;
         $id_usuario = $json->id_mesero ?? $json->id_usuario;
         $componentesJson = $json->componentes;
+
+        
 
         $componentesJson = $json->componentes;
 
@@ -809,11 +616,10 @@ class ConfigurarProductocontroller extends BaseController
             'codigo_categoria' => $producto['codigocategoria'],
             'codigointernoproducto' => $producto['codigointernoproducto'],
             'numero_productos_impresos_en_comanda' => 0,
-            'idUser' => $id_usuario,
+            'idUsuario' => $id_usuario,
             'fecha' => date('Y-m-d'),
             'hora' => date('H:i:s')
         ]);
-
         // Respuesta
         $productos_pedido = $productoPedidoModel->producto_pedido($idPedido);
         $total_pedido = $pedidoModel->select('valor_total')->where('id', $idPedido)->first();

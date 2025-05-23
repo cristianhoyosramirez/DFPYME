@@ -340,15 +340,14 @@
 
     <div class="row mb-3">
         <div class="col-4">
-            <?php $inventarios = model('tipoInventarioModel')->orderBy('id', 'asc')->findAll(); ?>
+            <?php $inventarios = model('tipoInventarioModel')->where('estado', 'true')->orderBy('id', 'asc')->findAll(); ?>
             <label for="">Tipo producto</label>
+
             <select name="tipoProducto" id="tipoProducto" class="form-select">
-                <?php foreach ($inventarios as $keyInventario): ?>
-                    <option value="<?php echo $keyInventario['id']; ?>"
-                        <?php echo ($tipoProducto == $keyInventario['id']) ? 'selected' : ''; ?>>
-                        <?php echo $keyInventario['descripcion']; ?>
-                    </option>
-                <?php endforeach; ?>
+                <?php foreach ($inventarios as $keyInventario) { ?>
+                    <option value="<?php echo $keyInventario['id']; ?>" <?php if ($tipoProducto == $keyInventario['id']) : ?>selected <?php endif; ?>><?php echo esc($keyInventario['descripcion']); ?> </option>
+                <?php } ?>
+
             </select>
 
         </div>

@@ -176,9 +176,7 @@ class FacturaElectronica extends BaseController
             $insert = model('EntradasSalidasModel')->insert($data);
 
 
-            $id_mesero = model('pedidoModel')->select('fk_usuario')->where('id', $id_mesa)->first();
-
-
+            $id_mesero = model('pedidoModel')->select('fk_usuario')->where('fk_mesa', $id_mesa)->first();
 
             $mesero = "";
 
@@ -189,6 +187,7 @@ class FacturaElectronica extends BaseController
                 $mesero = $id_mesero['fk_usuario'];
             }
 
+          
 
             $data = [
                 'estado' => $estado,
@@ -279,7 +278,8 @@ class FacturaElectronica extends BaseController
                         $data = [
                             'idcompra' => 0,
                             'codigo' => $detalle['codigointernoproducto'],
-                            'idusuario' => $id_usuario,
+                            //'idusuario' => $id_usuario,
+                            'idusuario' => $mesero,
                             'idconcepto' => 10,
                             'numerodocumento' => $id_factura,
                             'fecha' => date('Y-m-d'),
@@ -301,8 +301,8 @@ class FacturaElectronica extends BaseController
                             'aplica_ico' => $calculo[0]['aplica_ico'],
                             //'id_pedido'=>$numero_pedido
                             'saldo_anterior' => $cantidad_inventario,
-                            'nuevo_saldo' => $inventario_final
-                            //'nuevo_saldo' => 12
+                            'nuevo_saldo' => $inventario_final,
+                            //'id_mesero'=>$id_usuario['fk_usuario']
                         ];
 
                         $insertar = model('kardexModel')->insert($data);
@@ -331,11 +331,14 @@ class FacturaElectronica extends BaseController
 
                     $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
                     $inventario_final = $cantidad_inventario['cantidad_inventario'] - $detalle['cantidad_producto'];
+                    $id_usuario = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
+
 
                     $data = [
                         'idcompra' => 0,
                         'codigo' => $detalle['codigointernoproducto'],
-                        'idusuario' => $id_usuario,
+                        //'idusuario' => $id_usuario,
+                        'idusuario' => $mesero,
                         'idconcepto' => 10,
                         'numerodocumento' => $id_factura,
                         'fecha' => date('Y-m-d'),
@@ -356,7 +359,8 @@ class FacturaElectronica extends BaseController
                         'valor_iva' => 0,
                         'aplica_ico' => 'false',
                         'saldo_anterior' => $cantidad_inventario,
-                        'nuevo_saldo' => $inventario_final
+                        'nuevo_saldo' => $inventario_final,
+                        //'id_mesero'=>$id_usuario['fk_usuario']
 
                     ];
 
@@ -449,6 +453,7 @@ class FacturaElectronica extends BaseController
                 // if (empty($id_pedidos['id_pedido'])) {
 
                 $id_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido)->first();
+                $id_usuario = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
 
                 $pagos = [
 
@@ -464,7 +469,7 @@ class FacturaElectronica extends BaseController
                     'transferencia' => $valor_pago_transferencia,
                     'total_pago' => $efectivo + $transaccion,
                     'id_usuario_facturacion' => $id_usuario,
-                    'id_mesero' => $id_usuario,
+                    'id_mesero' => $id_usuario['fk_usuario'],
                     'id_estado' => $estado,
                     'id_apertura' => $id_apertura['numero'],
                     'cambio' => $cambio,
