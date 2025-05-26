@@ -305,21 +305,21 @@ HOME
                                                     </label>
                                                     <?php
                                                     $grupo_impresion = model('grupoImpresionModel')->findAll();
-                                                
-                                                     $idGrupoImpresion = model('productoModel')->select('grupo_impresion_comanda')->where('codigointernoproducto', $codigo_producto['codigointernoproducto'])->first();
+
+                                                    $idGrupoImpresion = model('productoModel')->select('grupo_impresion_comanda')->where('codigointernoproducto', $codigo_producto['codigointernoproducto'])->first();
                                                     ?>
 
                                                     <!--<select name="" id="" class="form-select" onchange="cambiarImpresora(this.value,<?php echo $keySubCategoria['id'] ?>)"> -->
                                                     <select name="" id="" class="form-select" onchange="productoGrupo(this.value,<?php echo $keySubCategoria['id']; ?>)">
-                                                        <?php   if (!empty($grupoImpresion)): ?>
-                                                                <?php foreach ($grupoImpresion as $detallegrupoImpresion):
+                                                        <?php if (!empty($grupoImpresion)): ?>
+                                                            <?php foreach ($grupoImpresion as $detallegrupoImpresion):
                                                                 $grupoSeleccionado = $idGrupoImpresion['grupo_impresion_comanda'] ?? null; ?>
                                                                 <option value="<?php echo $detallegrupoImpresion['id_grupo']; ?>"
                                                                     <?php echo ($detallegrupoImpresion['id_grupo'] == $grupoSeleccionado) ? 'selected' : ''; ?>>
                                                                     <?php echo $detallegrupoImpresion['nombre_grupo'] . " / " . $detallegrupoImpresion['nombre_impresora']; ?>
                                                                 </option>
                                                             <?php endforeach; ?>
-                                                            <?php endif ?>
+                                                        <?php endif ?>
                                                     </select>
 
                                                 </div>

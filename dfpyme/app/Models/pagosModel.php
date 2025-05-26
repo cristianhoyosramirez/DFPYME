@@ -630,4 +630,25 @@ WHERE
             ");
         return $datos->getResultArray();
     }
+
+    public function getMesaMesero($idFactura)
+    {
+        $datos = $this->db->query("
+            
+           SELECT 
+                mesas.nombre AS nombre_mesa,
+                usuario_sistema.nombresusuario_sistema AS nombre_mesero
+            FROM 
+                pagos
+            INNER JOIN 
+                mesas ON mesas.id = pagos.id_mesa
+            INNER JOIN 
+                usuario_sistema ON usuario_sistema.idusuario_sistema = pagos.id_mesero
+            WHERE 
+                pagos.id_factura = $idFactura and id_estado=8;
+
+            
+            ");
+        return $datos->getResultArray();
+    }
 }

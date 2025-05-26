@@ -804,7 +804,11 @@ class impresion
         if (!empty($nota['nota'])) {
             $printer->text("Nota:" . $nota['nota']);
         }
-        $printer->text("\n");
+
+        $mesaMesero=model('pagosModel')->getMesaMesero($id_factura);
+
+        $printer->text("Mesa: ".$mesaMesero[0]['nombre_mesa'].  "\n");
+        $printer->text("Mesero: ".$mesaMesero[0]['nombre_mesero'] ."\n");
         $printer->text("\n");
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->text("SOFTWARE DFPYME \n");

@@ -454,6 +454,7 @@ $routes->group('caja', ['namespace' => 'App\Controllers\caja', 'filter' => \App\
     $routes->post('imprimir_movimiento_caja_sin_cierre', 'cajaController::imprimir_movimiento_caja_sin_cierre');
     $routes->post('actualizar_apertura_caja_sin_cierre', 'cajaController::actualizar_apertura_caja_sin_cierre');
     $routes->post('exportar_a_excel_reporte_categorias', 'cajaController::exportar_a_excel_reporte_categorias');
+    $routes->post('exportable_excel_reporte_categorias', 'cajaController::exportable_excel_reporte_categorias');
     $routes->post('imp_movimiento_caja', 'cajaController::imp_movimiento_caja');
 });
 

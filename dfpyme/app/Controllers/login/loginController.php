@@ -101,7 +101,7 @@ class loginController extends BaseController
         $insumos = model('productoModel')
         ->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto')
         //->where('id_tipo_inventario', 4)
-        ->whereIn('id_tipo_inventario', [4, 7])
+        ->whereIn('id_tipo_inventario', [4, 7,1])
         ->orderBy('nombreproducto', 'asc')->findAll();
         $openModal = model('configuracionPedidoModel')->select('recetasmodal')->first();
 

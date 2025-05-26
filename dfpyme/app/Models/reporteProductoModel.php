@@ -32,6 +32,20 @@ class reporteProductoModel extends Model
          ");
         return $datos->getResultArray();
     }
+    public function getExcelCategorias($inicial, $final )
+    {
+        $datos = $this->db->query("
+            SELECT DISTINCT
+                (id_categoria),
+                categoria.nombrecategoria 
+            FROM
+                kardex
+            INNER JOIN categoria ON categoria.codigocategoria = kardex.id_categoria
+            WHERE
+                fecha_y_hora_factura_venta BETWEEN '$inicial' AND '$final'
+         ");
+        return $datos->getResultArray();
+    }
     public function getProductosCategorias($inicial, $final,$codigoCategoria )
     {
         $datos = $this->db->query("

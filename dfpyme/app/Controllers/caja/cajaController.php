@@ -89,12 +89,12 @@ class cajaController extends BaseController
         ];
         $apertura_registro = model('aperturaRegistroModel')->insert($apertura_registro);
 
-     $numeroInforme=model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos',103)->first();
+        $numeroInforme = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 103)->first();
 
         $data = [
             'fecha' => $fecha_apertura,
             'idcaja' => 1,
-            'numero'=>$numeroInforme['numeroconsecutivo']+1,
+            'numero' => $numeroInforme['numeroconsecutivo'] + 1,
             'id_apertura' => $id_apertura
 
         ];
@@ -103,11 +103,11 @@ class cajaController extends BaseController
 
         $insert = model('consecutivoInformeModel')->insert($data);
 
-         $updateNumeroInforme=model('consecutivosModel')
-         ->set('numeroconsecutivo',$numeroInforme['numeroconsecutivo']+1)
-         ->where('idconsecutivos',103)
-         ->update();
-        
+        $updateNumeroInforme = model('consecutivosModel')
+            ->set('numeroconsecutivo', $numeroInforme['numeroconsecutivo'] + 1)
+            ->where('idconsecutivos', 103)
+            ->update();
+
         $session = session();
         $session->setFlashdata('iconoMensaje', 'success');
         return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Apertura de caja éxitoso ');
@@ -1146,12 +1146,12 @@ class cajaController extends BaseController
 
             // Cuerpo de productos
             $productos = model('reporteProductoModel')->getProductosCategorias($inicial, $final, $categoria['id_categoria']);
-            
+
             foreach ($productos as $producto) {
                 $sheet->setCellValue("A$row", $producto['codigo']);
                 $sheet->setCellValue("B$row", $producto['fecha']);
                 $sheet->setCellValue("C$row", $producto['hora']);
-                
+
                 $sheet->setCellValue("D$row", $producto['nombreproducto']);
                 $sheet->setCellValue("E$row", $producto['valor_unitario']);
                 $sheet->setCellValue("F$row", $producto['cantidad']);
@@ -1172,6 +1172,128 @@ class cajaController extends BaseController
         header('Content-Length:' . filesize($file_name));
         flush();
         readfile($file_name);
+        exit;
+    }
+
+
+    function exportable_excel_reporte_categorias()
+    {
+        $empresa = model('empresaModel')->first();
+
+        $fechaInicial = $this->request->getPost('fecha_inicial_agrupado');
+        $fechaFinal = $this->request->getPost('fecha_final_agrupado');
+
+        $categorias = model('reporteProductoModel')->getCategorias($fechaInicial, $fechaFinal);
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $spreadsheet->getDefaultStyle()->getFont()->setName('Aptos Narrow')->setSize(11);
+
+        $headerStyle = [
+            'font' => [
+                'bold' => true,
+                'size' => 12,
+                'color' => ['argb' => '000000'],
+                'name' => 'Aptos Narrow',
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['argb' => 'F2F2F2'],
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ],
+            ],
+        ];
+
+        // Datos de la empresa
+        $sheet->setCellValue('A1', $empresa['nombrejuridicoempresa']);
+        $sheet->mergeCells('A1:G1');
+        $sheet->getStyle('A1:G1')->applyFromArray($headerStyle);
+
+        $sheet->setCellValue('A2', $empresa['nombrecomercialempresa']);
+        $sheet->mergeCells('A2:G2');
+        $sheet->getStyle('A2:G2')->applyFromArray($headerStyle);
+
+        $sheet->setCellValue('A3', 'NIT: ' . $empresa['nitempresa']);
+        $sheet->mergeCells('A3:G3');
+        $sheet->getStyle('A3:G3')->applyFromArray($headerStyle);
+
+        $sheet->setCellValue('A4', 'REPORTE DE COSTO DE VENTA');
+        $sheet->mergeCells('A4:G4');
+        $sheet->getStyle('A4:G4')->applyFromArray($headerStyle);
+
+        $sheet->setCellValue('A5', "Fecha inicial");
+        $sheet->setCellValue('B5', $fechaInicial);
+        $sheet->setCellValue('D5', "Fecha final");
+        $sheet->setCellValue('E5', $fechaFinal);
+
+        $row = 7;
+
+        foreach ($categorias as $categoria) {
+            $sheet->setCellValue("A$row", $categoria['nombrecategoria']);
+            $sheet->mergeCells("A$row:G$row");
+            $sheet->getStyle("A$row:G$row")->applyFromArray($headerStyle);
+            $row++;
+
+            // Encabezado de columnas
+            $sheet->setCellValue("A$row", "Código");
+            $sheet->setCellValue("B$row", "Fecha");
+            $sheet->setCellValue("C$row", "Hora");
+            $sheet->setCellValue("D$row", "Producto");
+            $sheet->setCellValue("E$row", "Valor unidad");
+            $sheet->setCellValue("F$row", "Cantidad");
+            $sheet->setCellValue("G$row", "Total");
+
+            $sheet->getStyle("A$row:G$row")->applyFromArray([
+                'fill' => [
+                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'startColor' => ['rgb' => '000000'],
+                ],
+                'font' => [
+                    'color' => ['rgb' => 'FFFFFF'],
+                    'bold' => true,
+                ],
+            ]);
+
+            $row++;
+
+            $productos = model('reporteProductoModel')->getProductosCategorias($fechaInicial, $fechaFinal, $categoria['id_categoria']);
+
+            foreach ($productos as $producto) {
+                $sheet->setCellValue("A$row", $producto['codigo']);
+                $sheet->setCellValue("B$row", $producto['fecha']);
+                $sheet->setCellValue("C$row", $producto['hora']);
+                $sheet->setCellValue("D$row", $producto['nombreproducto']);
+                $sheet->setCellValue("E$row", $producto['valor_unitario']);
+                $sheet->setCellValue("F$row", $producto['cantidad']);
+                $sheet->setCellValue("G$row", $producto['total']);
+                $row++;
+            }
+
+            $row++; // Espacio entre categorías
+        }
+
+        // Crear archivo temporal
+        $file_name = tempnam(sys_get_temp_dir(), 'reporte_categoria_') . '.xlsx';
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($file_name);
+
+        // Enviar archivo al navegador
+        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header('Content-Disposition: attachment; filename="Reporte de Categorías del ' . $fechaInicial . ' al ' . $fechaFinal . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        readfile($file_name);
+
+        // Eliminar archivo temporal
+        unlink($file_name);
         exit;
     }
 

@@ -1,3 +1,7 @@
+<?php
+$user_session = session();
+?>
+
 <style>
     .input-group-append {
         display: inline-flex;
@@ -20,6 +24,8 @@
 
 <?php $id_tipo = model('empresaModel')->select('fk_tipo_empresa')->first() ?>
 <?php $codigo_pantalla = model('configuracionPedidoModel')->select('codigo_pantalla')->first(); ?>
+
+
 
 <?php foreach ($productos as $detalle) {  ?>
 
@@ -116,45 +122,45 @@
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                             <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2m4 -14h6m-6 4h6m-2 4h2" />
                                         </svg>Atributos</a></li>
-
-                                <li><a class="dropdown-item" href="#" onclick="porcentajeDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/percentage -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <circle cx="17" cy="17" r="1" />
-                                            <circle cx="7" cy="7" r="1" />
-                                            <line x1="6" y1="18" x2="18" y2="6" />
-                                        </svg>Descuento en porcetaje </a></li>
-                                <li><a class="dropdown-item" href="#" onclick="dineroDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/minus -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <line x1="5" y1="12" x2="19" y2="12" />
-                                        </svg>Descuento en dinero </a></li>
-                                <li><a class="dropdown-item" href="#" onclick="editarDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
-                                            <path d="M12 3v3m0 12v3" />
-                                        </svg>Editar precio </a></li>
-                                <li><a class="dropdown-item" href="#" onclick="listOfPrice(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/list-check -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
-                                            <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
-                                            <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
-                                            <line x1="11" y1="6" x2="20" y2="6" />
-                                            <line x1="11" y1="12" x2="20" y2="12" />
-                                            <line x1="11" y1="18" x2="20" y2="18" />
-                                        </svg>Lista de precios </a></li>
-                                <li><a class="dropdown-item" href="#" onclick="cortesia_1(<?php echo $detalle['id_tabla_producto']; ?>)">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
-                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
-                                        </svg>Cortesia</a></li>
-
+                                <?php if ($user_session->tipo == 0 or $user_session->tipo == 1):  ?>
+                                    <li><a class="dropdown-item" href="#" onclick="porcentajeDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/percentage -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <circle cx="17" cy="17" r="1" />
+                                                <circle cx="7" cy="7" r="1" />
+                                                <line x1="6" y1="18" x2="18" y2="6" />
+                                            </svg>Descuento en porcetaje </a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="dineroDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/minus -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <line x1="5" y1="12" x2="19" y2="12" />
+                                            </svg>Descuento en dinero </a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="editarDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
+                                                <path d="M12 3v3m0 12v3" />
+                                            </svg>Editar precio </a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="listOfPrice(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/list-check -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+                                                <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+                                                <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+                                                <line x1="11" y1="6" x2="20" y2="6" />
+                                                <line x1="11" y1="12" x2="20" y2="12" />
+                                                <line x1="11" y1="18" x2="20" y2="18" />
+                                            </svg>Lista de precios </a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="cortesia_1(<?php echo $detalle['id_tabla_producto']; ?>)">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                            </svg>Cortesia</a></li>
+                                <?php endif ?>
 
                             </ul>
                         </div>
@@ -739,7 +745,7 @@
         agregar_nota(id, event);
         $('#agregar_nota').modal('show');
         document.getElementById('operaciones').style.display = 'none';
-    
+
         document.getElementById('navegacion').style.display = 'none';
         document.getElementById('descuento').style.display = 'block';
 

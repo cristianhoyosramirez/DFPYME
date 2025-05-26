@@ -15,7 +15,7 @@
                 ?>
 
                <div class="col">
-                   <p class="h3">APERTURA: <?php echo $dia_inicio . ", " . date("d", strtotime($fecha_apertura)) . " " . $mes_inicio . " " . date("Y", strtotime($fecha_apertura)) . " " . $fecha_inicial_format;
+                   <p class="h3">APERTURAx: <?php echo $dia_inicio . ", " . date("d", strtotime($fecha_apertura)) . " " . $mes_inicio . " " . date("Y", strtotime($fecha_apertura)) . " " . $fecha_inicial_format;
                                             ?></p>
                </div>
 
@@ -31,43 +31,32 @@
                    </div>
                <?php } ?>
 
-               <div class="col-2 ">
+               <div class="col-2">
                    <form action="<?= base_url('consultas_y_reportes/datos_consultar_producto_agrupado_pdf') ?>">
-                       <?php
-                        if (!empty($id_apertura)) {
-                            $id_apertura = $id_apertura;
-                        }
-                        if (empty($id_apertura)) {
-                            $id_apertura = "";
-                        }
-                        ?>
-                       <input type="hidden" value="<?php echo $id_apertura ?>" id="id_apertura" name="id_apertura">
-                       <input type="hidden" value="<?php echo $fecha_inicial ?>" id="fecha_inicial_reporte" name="fecha_inicial_agrupado">
-                       <input type="hidden" value="<?php echo $fecha_final ?>" id="fecha_final_reporte" name="fecha_final_agrupado">
-                       <input type="hidden" value="<?php echo $hora_inicial ?>" id="hora_inicial_reporte" name="hora_inicial_agrupado">
-                       <input type="hidden" value="<?php echo $hora_final ?>" id="hora_final_reporte" name="hora_final_agrupado">
-                       <div class="row">
-                           <div class="col">
-                               <button type="button" class="btn btn-outline-success btn-icon text-end" onclick="imprimir_reporte()">Imprimir</button>
+                       <input type="hidden" value="<?= $id_apertura ?? '' ?>" id="id_apertura" name="id_apertura">
+                       <input type="hidden" value="<?= $fecha_inicial ?>" id="fecha_inicial_reporte" name="fecha_inicial_agrupado">
+                       <input type="hidden" value="<?= $fecha_final ?>" id="fecha_final_reporte" name="fecha_final_agrupado">
+                       <input type="hidden" value="<?= $hora_inicial ?>" id="hora_inicial_reporte" name="hora_inicial_agrupado">
+                       <input type="hidden" value="<?= $hora_final ?>" id="hora_final_reporte" name="hora_final_agrupado">
 
-                           </div>
-                           <div class="col">
-
-                               <button type="submit" class="btn btn-outline-danger btn-icon text-end">Pdf</button>
-                           </div>
+                       <div class="d-flex justify-content-between">
+                           <button type="button" class="btn btn-outline-primary w-100 me-1" onclick="imprimir_reporte()">Imprimir</button>
+                           <button type="submit" class="btn btn-outline-danger w-100 ms-1">PDF</button>
                        </div>
                    </form>
                </div>
-               <!--  <div class="col-1 w-5">
-                   <form action="<?= base_url('caja/exportar_a_excel_reporte_categorias') ?>" method="POST">
+
+
+               <div class="col-1 w-5">
+                   <form action="<?= base_url('caja/exportable_excel_reporte_categorias') ?>" method="POST">
                        <input type="hidden" value="<?php echo $id_apertura ?>" id="id_apertura" name="id_apertura">
                        <input type="hidden" value="<?php echo $fecha_inicial ?>" id="fecha_inicial_reporte" name="fecha_inicial_agrupado">
                        <input type="hidden" value="<?php echo $fecha_final ?>" id="fecha_final_reporte" name="fecha_final_agrupado">
                        <input type="hidden" value="<?php echo $hora_inicial ?>" id="hora_inicial_reporte" name="hora_inicial_agrupado">
                        <input type="hidden" value="<?php echo $hora_final ?>" id="hora_final_reporte" name="hora_final_agrupado">
-                       <button type="submit" class="btn btn-success btn-icon">Excel</button>
+                       <button type="submit" class="btn btn-outline-success btn-icon">Excel</button>
                    </form>
-               </div> -->
+               </div>
 
            </div>
 

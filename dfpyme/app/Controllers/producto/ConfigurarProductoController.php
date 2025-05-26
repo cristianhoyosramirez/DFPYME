@@ -99,10 +99,10 @@ class ConfigurarProductocontroller extends BaseController
         $idAtributo = $json->idAtributo;
         // $idAtributo = 5;
 
-        $existe = model('componentesAtributosProductoModel')->where('nombre', $nombre)->first();
+       /*  $existe = model('componentesAtributosProductoModel')->where('nombre', $nombre)->first();
 
 
-        if (empty($existe)) {
+        if (empty($existe)) { */
             $data = [
                 'nombre' => $nombre,
                 'id_atributo' => $idAtributo
@@ -124,12 +124,12 @@ class ConfigurarProductocontroller extends BaseController
                     'id' => $idAtributo
                 ]);
             }
-        }
-        if (!empty($existe)) {
+        /*}
+         if (!empty($existe)) {
             return $this->response->setJSON([
                 'response' => 'exists',
             ]);
-        }
+        } */
     }
 
     function deleteComponente()
@@ -154,7 +154,16 @@ class ConfigurarProductocontroller extends BaseController
         $json = $this->request->getJSON();
         $id = $json->id;
 
-        $componentes = model('componentesAtributosProductoModel')->where('id_atributo', $id)->first();
+        $borrarComponentes = model('componentesAtributosProductoModel')->where('id_atributo', $id)->delete();
+        $borrar = model('atributosProductoModel')->where('id', $id)->delete();
+
+
+        return $this->response->setJSON([
+            'response' => 'success',
+            'id' => $id
+        ]);
+
+        /* $componentes = model('componentesAtributosProductoModel')->where('id_atributo', $id)->first();
 
         if (!empty($componentes)) {
 
@@ -174,7 +183,7 @@ class ConfigurarProductocontroller extends BaseController
                     'id' => $id
                 ]);
             }
-        }
+        } */
     }
 
     function searchAtributo()
@@ -553,7 +562,7 @@ class ConfigurarProductocontroller extends BaseController
         $id_usuario = $json->id_mesero ?? $json->id_usuario;
         $componentesJson = $json->componentes;
 
-        
+
 
         $componentesJson = $json->componentes;
 
