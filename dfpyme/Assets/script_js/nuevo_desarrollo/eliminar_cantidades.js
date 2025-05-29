@@ -13,6 +13,7 @@ function eliminar_cantidades(event, id_tabla_producto) {
         url: url + "/" + "pedidos/restar_producto", // Cambia esto a tu script PHP para insertar en la base de datos
         data: {
             id_tabla,
+            id_usuario:id_usuario
 
         }, // Pasar los datos al script PHP
         success: function(resultado) {

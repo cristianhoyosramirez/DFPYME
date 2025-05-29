@@ -225,7 +225,7 @@
                         <div class="col-md-12 col-12 col-lg-6 ">
                             <div class="input-group">
                                 <span class="input-group-text">Descuento en porcentaje </span>
-                                <input type="number" aria-label="First name" class="form-control" placeholder="%" onkeyup="calcular_porcentaje(this.value)">
+                                <input type="number" aria-label="First name" class="form-control" placeholder="%" onkeyup="calcular_porcentaje(this.value)" id="discountPercent">
                                 <input type="text" id="precio_producto" class="form-control" disabled>
                             </div>
                         </div>

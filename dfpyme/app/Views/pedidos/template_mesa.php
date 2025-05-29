@@ -274,7 +274,6 @@
                 };
             }
         }
-
     </script>
 
 
@@ -1424,7 +1423,9 @@
                 success: function(resultado) {
                     var resultado = JSON.parse(resultado);
                     if (resultado.resultado == 1) {
-
+                        document.getElementById('discountPercent').value = "";
+                        document.getElementById('descontar_dinero').value = "";
+                        document.getElementById('cambio_manual').value = "";
                         $("#agregar_nota").modal("hide");
                         reset_modal_agregar_nota()
 
@@ -1714,8 +1715,10 @@
                         $("#edicion_precio").hide();
                         $("#descuentos_manuales").hide();
                         $("#lista_precios").hide();
-
-
+                        //$("#discountPercent").val("");
+                        document.getElementById('descontar_dinero').value = "";
+                        document.getElementById('discountPercent').value = "";
+                        document.getElementById('cambio_manual').value = "";
                     }
                 },
             });

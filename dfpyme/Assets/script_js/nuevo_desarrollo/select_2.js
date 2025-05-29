@@ -67,6 +67,7 @@ $("#tipo_documento").select2({
     theme: "bootstrap-5",
     allowClear: true,
     dropdownParent: $("#crear_cliente"),
+    minimumResultsForSearch: Infinity 
 });
 
 $("#regimen").select2({

@@ -805,10 +805,10 @@ class impresion
             $printer->text("Nota:" . $nota['nota']);
         }
 
-        $mesaMesero=model('pagosModel')->getMesaMesero($id_factura);
+        $mesaMesero = model('pagosModel')->getMesaMesero($id_factura);
 
-        $printer->text("Mesa: ".$mesaMesero[0]['nombre_mesa'].  "\n");
-        $printer->text("Mesero: ".$mesaMesero[0]['nombre_mesero'] ."\n");
+        $printer->text("Mesa: " . $mesaMesero[0]['nombre_mesa'] .  "\n");
+        $printer->text("Mesero: " . $mesaMesero[0]['nombre_mesero'] . "\n");
         $printer->text("\n");
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->text("SOFTWARE DFPYME \n");
@@ -916,7 +916,7 @@ class impresion
                 $valor_venta = $detalle['total'] / $detalle['cantidadproducto_factura_venta'];
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
                 $printer->text("Cod." . $detalle['codigointernoproducto'] . "      " . $detalle['nombreproducto'] . "\n");
-                $printer->text("Cant. " . $detalle['cantidadproducto_factura_venta'] . "      " . "$" . number_format($valor_venta, 0, ',', '.') . "                   " . "$" . number_format($detalle['total'], 0, ',', '.') . "\n");
+                $printer->text("Cant. " . $detalle['cantidadproducto_factura_venta'] . "     " . "$" . number_format($valor_venta, 0, ',', '.') . "                " . "$" . number_format($detalle['total'], 0, ',', '.') . "\n");
             }
 
 
@@ -960,10 +960,10 @@ class impresion
 
 
             $descuento = model('facturaVentaModel')->select('descuento')->where('id', $id_factura)->first();
-            $printer->text("DESCUENTO :" . "$" . number_format($descuento['descuento'], 0, ",", ".") . "\n");
+            // $printer->text("DESCUENTO :" . "$" . number_format($descuento['descuento'], 0, ",", ".") . "\n");
 
             $propina = model('facturaVentaModel')->select('propina')->where('id', $id_factura)->first();
-            $printer->text("PROPINA :" . "$" . number_format($propina['propina'], 0, ",", ".") . "\n\n");
+            //$printer->text("PROPINA :" . "$" . number_format($propina['propina'], 0, ",", ".") . "\n\n");
             $printer->setTextSize(2, 2);
             $printer->text("TOTAL :" . "$" . number_format(($total[0]['total'] - $descuento['descuento']) + $propina['propina'], 0, ",", ".") . "\n\n");
 
@@ -1081,30 +1081,38 @@ class impresion
             $fk_mesa = model('facturaVentaModel')->select('fk_mesa')->where('id', $id_factura)->first();
             $nombre_mesa = model('mesasModel')->select('nombre')->where('id', $fk_mesa['fk_mesa'])->first();
             if (!empty($nombre_mesa['nombre'])) {
-                $printer->text("MESA:" . $nombre_mesa['nombre'] . "\n");
+                //$printer->text("MESA:" . $nombre_mesa['nombre'] . "\n");
             }
             if (empty($nombre_mesa['nombre'])) {
                 $printer->text("MESA: VENTAS DE MOSTRADOR" . "\n");
             }
 
-            if (!empty($observaciones_genereles['observaciones_generales'])) {
-                $printer->setJustification(Printer::JUSTIFY_CENTER);
-                $printer->setTextSize(1, 2);
-                $printer->text("OBSERVACIONES GENERALES\n");
-                $printer->setJustification(Printer::JUSTIFY_LEFT);
-                $printer->setTextSize(1, 2);
-                $printer->text($observaciones_genereles['observaciones_generales'] . "\n");
-            }
-
+            // if (!empty($observaciones_genereles['observaciones_generales'])) {
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->setTextSize(1, 2);
             $printer->text("\n");
-            $printer->text("RESPONSABLE: _____________ " . "\n\n");
-            $printer->text("AUTORIZA:    _____________ " . "\n");
+            $printer->text("OBSERVACIONES GENERALES\n");
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->setTextSize(1, 2);
+            $printer->text($observaciones_genereles['observaciones_generales'] . "\n");
+            // }
 
-            $printer->text("-----------------------------------------------" . "\n");
+            /* $printer->text("\n");
+            $printer->text("RESPONSABLE: _____________ " . "\n\n");
+            $printer->text("AUTORIZA:    _____________ " . "\n"); */
+            $printer->setTextSize(1, 1);
+            $printer->text("CADA KIT LO COMPONE:   " . "\n");
+            $printer->text("10 KILOS DE NATILLA    " . "\n");
+            $printer->text("5 KILOS DE COLMAIZ   " . "\n");
+            $printer->text("5 KILOS DE QUESO COSTEÑO   " . "\n");
+            $printer->text("12 LITROS DE TETRAPCK   " . "\n");
+            $printer->text("1 GARRAFA DE ACEITE X 3000 CC" . "\n");
+
+           
             $printer->setJustification(Printer::JUSTIFY_CENTER);
             $printer->setTextSize(1, 1);
-            $printer->text("IMPRESO POR SOFTWARE DFPYME INTREDETE" . "\n");
-            $printer->text("NIT: 901448365-5" . "\n");
+            // $printer->text("IMPRESO POR SOFTWARE DFPYME INTREDETE" . "\n");
+            // $printer->text("NIT: 901448365-5" . "\n");
 
             $printer->text("-----------------------------------------------" . "\n");
             $printer->text("GRACIAS POR SU VISITA " . "\n");

@@ -12,35 +12,34 @@
         <div class="mb-3"></div>
 
         <div id="divInput" style="display:none">
-          <div class="row text-center align-items-center gx-2 gy-2">
-            <div class="col-12 col-sm-2 d-none d-sm-block">
-              <!-- Espacio en pantallas grandes -->
+          <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between gap-2">
+
+            <!-- Valor unitario -->
+            <div class="w-100 text-center text-sm-start order-1 order-sm-1">
+              <p id="valorUnidad" class="mb-0 fw-semibold text-primary"></p>
             </div>
 
-            <div class="col-12 col-sm-2">
-              <p id="valorUnidad" class="mb-0"></p>
-            </div>
-
-            <div class="col-12 col-sm-4">
+            <!-- Input cantidad con botones +/- -->
+            <div class="w-100 order-2 order-sm-2">
               <div class="input-group justify-content-center">
                 <!-- Botón disminuir -->
-                <div class="input-group-prepend">
-                  <button type="button" class="btn bg-muted-lt btn-icon" onclick="disminuir()" title="Disminuir">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
-                      stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                    </svg>
-                  </button>
-                </div>
+                <button type="button" class="btn bg-muted-lt btn-icon" onclick="disminuir()" title="Disminuir">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
 
-                <input type="hidden" id="valUnidad" placeholder="Valor unitario">
-                <input type="hidden" id="codigoInternoProd" placeholder="Codigo interno producto">
-                <!-- Input oculto para enviar al backend -->
-                <input type="hidden" id="inputComponentes" name="componentes" placeholder="Componentes de producto">
+                <!-- Inputs ocultos -->
+                <input type="hidden" id="valUnidad">
+                <input type="hidden" id="codigoInternoProd">
+                <input type="hidden" id="inputComponentes" name="componentes">
+
+                <!-- Campo de cantidad -->
                 <input
                   type="number"
-                  class="form-control form-control-sm text-center custom-width"
+                  class="form-control form-control-sm text-center"
                   value="1"
                   onkeyup="cantidad_manual(this.value)"
                   id="input_cantidadAtri"
@@ -50,24 +49,26 @@
                   pattern="[0-9]*">
 
                 <!-- Botón aumentar -->
-                <div class="input-group-append">
-                  <button type="button" class="btn bg-muted-lt btn-icon" onclick="aumentar()" title="Aumentar">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
-                      stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <line x1="12" y1="5" x2="12" y2="19" />
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                    </svg>
-                  </button>
-                </div>
+                <button type="button" class="btn bg-muted-lt btn-icon" onclick="aumentar()" title="Aumentar">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
               </div>
             </div>
 
-            <div class="col-12 col-sm-2 text-sm-end text-center">
+            <!-- Total producto -->
+            <div class="w-100 text-center text-sm-end order-3 order-sm-3">
               <p id="totalProducto" class="mb-0 fw-bold"></p>
             </div>
+
           </div>
         </div>
+
+
 
 
         <div id="inputCantidad" style="display:none">
@@ -110,7 +111,7 @@
     document.getElementById('id_tabla_producto').value = ""
     document.getElementById('notaAtributo').value = ""
     document.getElementById('input_cantidadAtri').value = 1
-    document.getElementById('asigCompo').innerHTML=""
+    document.getElementById('asigCompo').innerHTML = ""
 
     $("#modalAtributos").modal("hide");
   }
@@ -134,7 +135,7 @@
       const mesero = document.getElementById("mesero").value;
       const componentes = document.getElementById("inputComponentes").value;
 
-    
+
 
       const payload = {
         codigoProducto: codigoProducto,
@@ -165,9 +166,9 @@
         $('#subtotal_pedido').val(data.sub_total)
         $('#id_mesa_pedido').val(data.id_mesa)
         $("#propina_del_pedido").val(data.propina);
-        document.getElementById("inputComponentes").value=""
-        document.getElementById("notaAtributo").value=""
-        document.getElementById("contenedorBotonesComponentes").innerHTML=""
+        document.getElementById("inputComponentes").value = ""
+        document.getElementById("notaAtributo").value = ""
+        document.getElementById("contenedorBotonesComponentes").innerHTML = ""
 
         $('#modalAtributos').on('shown.bs.modal', function() {
           $('#producto').focus();

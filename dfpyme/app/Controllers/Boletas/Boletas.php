@@ -347,8 +347,8 @@ class Boletas extends BaseController
         $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto',  $codigo_interno['codigointernoproducto'])->first();
 
         $model = model('productoPedidoModel');
-        $actualizar = $model->set('valor_unitario', 0);
-        $actualizar = $model->set('valor_total', 0);
+        $actualizar = $model->set('valor_unitario', 1);
+        $actualizar = $model->set('valor_total', 1);
         $actualizar = $model->where('id',  $id_producto);
         $actualizar = $model->update();
 

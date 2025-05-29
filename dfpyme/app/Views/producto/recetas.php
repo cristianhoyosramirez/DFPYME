@@ -34,7 +34,7 @@
                                 <h3 class="text-start text-primary mb-3">Información de producto</h3>
                                 <div class="row align-items-center">
                                     <label for="recetaSelect" class="col-3 fw-bold">Producto:</label>
-                                    <div class="col-9">
+                                    <div class="col-7">
                                         <div class="input-group input-group-flat">
                                             <input type="text" class="form-control" autocomplete="off" placeholder="Buscar un producto receta" id="buscar_receta" oninput="buscar_receta(this.value)">
 
@@ -50,6 +50,19 @@
                                         </div>
 
                                     </div>
+
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-link link-secondary" title="Listar todos los productos " data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="resetarRecetas(buscar_receta)">
+                                            <!-- Ícono SVG de recarga -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+
                                 </div>
                                 <span id="resList"></span>
                                 <div class="mb-3"></div>
@@ -276,6 +289,27 @@
             </div>
         </div>
 </body>
+
+<script>
+     async function resetarRecetas() {
+        try {
+            let response = await fetch('<?= base_url('login/allRecetas') ?>', {
+                method: 'GET', // GET no debe tener body
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            let data = await response.json();
+
+            document.getElementById('tbodyRecetas').innerHTML = data.productos;
+
+            // Aquí puedes actualizar la UI si es necesario
+        } catch (error) {
+            console.error("Error en la petición:", error);
+        }
+    }
+</script>
 
 <script>
     document.getElementById("productoInsumo").addEventListener("keyup", async function(event) {

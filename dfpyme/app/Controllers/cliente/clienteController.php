@@ -30,179 +30,79 @@ class ClienteController extends BaseController
         echo json_encode($response);
     }
 
-    public function agregar()
+    /*   public function agregar()
     {
 
-
-        if (
-            !$this->validate([
-                'tipo_persona' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'identificacion' => [
-                    'rules' => 'required|is_unique[cliente.nitcliente]',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                        'is_unique' => 'Registro ya existe',
-                    ],
-                ],
-                'dv' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'nombres' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'apellidos' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'razon_social' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesarios',
-                    ],
-                ],
-
-                'direccion' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'departamento' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'ciudad' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'municipios' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'codigo_postal' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'correo_electronico' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'telefono' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'impuestos' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-                'responsabilidad_fiscal' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ],
-            ])
-        ) {
-            $errors = $this->validator->getErrors();
-            echo json_encode(['code' => 0, 'error' => $errors]);
-        } else {
-
+        
             $id_ciudad = $this->request->getPost('ciudad');
 
             $code = model('municipiosModel')->select('code')->where('id', $this->request->getPost('municipios'))->first();
 
 
+            if (empty($_POST['nombre_comercial'])) {
+                $nombreComercial = "X";
+            } else if (!empty($_POST['nombre_comercial'])) {
+                $nombreComercial = $_POST['nombre_comercial'];
+            }
 
-            $data = [
-                'nitcliente' => $_POST['identificacion'],
+            $identicacacion = $_POST['identificacion'];
+            $nombre = $_POST['nombres'];
+            $apellidos = $_POST['apellidos'];
+
+
+             $data = [
+                'nitcliente' => $identicacacion,
                 'idregimen' => $_POST['regimen'],
-                'nombrescliente' => $_POST['razon_social'],
+                'nombrescliente' => $nombre,
                 'telefonocliente' => $_POST['telefono'],
                 'celularcliente' => $_POST['telefono'],
                 'emailcliente' => $_POST['correo_electronico'],
                 'idciudad' =>  $id_ciudad,
                 'direccioncliente' => $_POST['direccion'],
                 'estadocliente' => true,
-                'idtipo_cliente' => $_POST['tipo_ventas'],
-                'id_clasificacion' => $_POST['clasificacion'],
+                'idtipo_cliente' => 1,
+                'id_clasificacion' => 1,
                 'name' => $_POST['nombres'],
                 'last_name' => $_POST['apellidos'],
                 'dv' => $_POST['dv'],
-                'type_person' => $_POST['tipo_persona'],
+                'type_person' => 2,
                 'type_document' => $_POST['tipo_documento'],
-                'name_comercial' => $_POST['nombre_comercial'],
+                'name_comercial' => $nombreComercial,
                 'is_customer' => true
             ];
+          
 
+    
             $insert = model('clientesModel')->insert($data);
 
 
             $model = model('ciudadModel');
-            $ciudad = $model->set('code', $_POST['municipios']);
-            $ciudad = $model->set('code_postal', $_POST['codigo_postal']);
-            $ciudad = $model->where('idciudad', $id_ciudad);
+            $ciudad = $model->set('code', '834');
+            $ciudad = $model->set('code_postal', '050001');
+            $ciudad = $model->where('idciudad', '834');
             $ciudad = $model->update();
 
-            $descripcion_impuesto = model('impuestosModel')->select('descripcion')->where('codigo', $_POST['impuestos'])->first();
-
+        
             $impuestos = [
-                'nit_cliente' => $_POST['identificacion'],
-                'codigo' => $_POST['impuestos'],
+                'nit_cliente' =>$identicacacion,
+                'codigo' => 'ZZ',
                 'nombre' => 'No aplica',
-                'descripcion' => $descripcion_impuesto['descripcion']
+                'descripcion' => 'Otros tributos, tasas, contribuciones, y similares'
             ];
+        
 
 
             $insertar_impuestos = model('detallesTributariosModel')->insert($impuestos);
 
 
-            $responsabilidad_rut = $this->request->getPost('responsabilidad_fiscal');
-
-
-
-
-            foreach ($responsabilidad_rut as $detalle) {
-
-                $descripcion = model('responsabilidadFiscalModel')->select('descripcion')->where('codigo', $detalle)->find();
-
-
-                //$codigo = model('responsabilidadFiscalModel')->select('codigo')->where('id',$responsabilidad_rut)->first();
-
                 $rut = [
-                    'nit_cliente' => $_POST['identificacion'],
-                    'codigo' => $detalle,
-                    'descripcion' => $descripcion[0]['descripcion']
+                    'nit_cliente' => $identicacacion,
+                    'codigo' => 'R-99-PN',
+                    'descripcion' => 'ORDINARIO'
                 ];
 
                 $insert = model('detallesRutModel')->insert($rut);
-            }
+            
 
             $regimen = model('regimenModel')->orderBy('idregimen', 'desc')->findAll();
             $tipo_cliente = model('tipoClienteModel')->orderBy('id', 'asc')->findAll();
@@ -215,8 +115,8 @@ class ClienteController extends BaseController
 
             $returnData = array(
                 "code" => 1,
-                "cliente" => $_POST['identificacion'] . " " . $_POST['nombres'] . " " . $_POST['apellidos'],
-                "nit_cliente" => $_POST['identificacion'],
+                "cliente" => $identicacacion. " " . $nombre . " " . $apellidos,
+                "nit_cliente" => $identicacacion,
                 "clientes" => view('clientes/listado', [
                     'regimen' => $regimen,
                     'tipo_cliente' => $tipo_cliente,
@@ -229,60 +129,175 @@ class ClienteController extends BaseController
 
             );
             echo  json_encode($returnData);
+        
+
+    } */
+
+    public function agregar()
+    {
+        if (
+            !$this->validate([
+                'tipo_persona' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Tipo de persona es obligatorio.',
+                    ],
+                ],
+                'identificacion' => [
+                    'rules' => 'required|is_unique[cliente.nitcliente]',
+                    'errors' => [
+                        'required' => 'La identificación es obligatoria.',
+                        'is_unique' => 'El cliente ya existe.',
+                    ],
+                ],
+                'dv' => [
+                    'rules' => 'required|numeric',
+                    'errors' => [
+                        'required' => 'El dígito de verificación es obligatorio.',
+                        'numeric' => 'El DV debe ser numérico.',
+                    ],
+                ],
+                'direccion' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'La dirección es obligatoria.',
+                    ],
+                ],
+                'departamento' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'El departamento es obligatorio.',
+                    ],
+                ],
+                'ciudad' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'La ciudad es obligatoria.',
+                    ],
+                ],
+                'municipios' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'El municipio es obligatorio.',
+                    ],
+                ],
+                'correo_electronico' => [
+                    'rules' => 'required|valid_email',
+                    'errors' => [
+                        'required' => 'El correo electrónico es obligatorio.',
+                        'valid_email' => 'Correo electrónico inválido.',
+                    ],
+                ],
+                'telefono' => [
+                    'rules' => 'required|numeric',
+                    'errors' => [
+                        'required' => 'El teléfono es obligatorio.',
+                        'numeric' => 'El teléfono debe ser numérico.',
+                    ],
+                ],
+            ])
+        ) {
+            echo json_encode(['code' => 0, 'error' => $this->validator->getErrors()]);
+            return;
         }
 
+        $id_ciudad = $this->request->getPost('ciudad');
+
+        $code = model('municipiosModel')->select('code')->where('id', $this->request->getPost('municipios'))->first();
 
 
-        /*  $nit = $_POST['cedula'];
-        //$nit=12345678901;
-        $miCadena = (string)$nit;
-        $existe_cliente = model('clientesModel')->select('nitcliente')->where('nitcliente', $miCadena)->first();
-
-
-        if (empty($existe_cliente)) {
-            $ciudad = $_POST['municipio_cliente'];
-            if ($ciudad == 0) {
-                $muni = model('empresaModel')->select('idciudad')->first();
-                $municipio = $muni['idciudad'];
-            }
-            if ($ciudad != 0) {
-                $municipio = $ciudad;
-            }
-            $data = [
-                'nitcliente' => $_POST['cedula'],
-                'idregimen' => $_POST['regimen_cliente'],
-                'nombrescliente' => $_POST['nombres_cliente'],
-                'telefonocliente' => $_POST['telefono_cliente'],
-                'celularcliente' => $_POST['celular_cliente'],
-                'emailcliente' => $_POST['email_cliente'],
-                'idciudad' => $municipio,
-                'direccioncliente' => $_POST['direccion_cliente'],
-                'estadocliente' => true,
-                'idtipo_cliente' => $_POST['tipo_cliente'],
-                'id_clasificacion' => $_POST['clasificacion_cliente']
-            ];
-           
-            $insert = model('clientesModel')->insert($data);
-            if ($insert) {
-                $ultimo_id_cliente = model('clientesModel')->insertID;
-                $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('id', $ultimo_id_cliente)->first();
-                $nit_cliente = model('clientesModel')->select('nitcliente')->where('id', $ultimo_id_cliente)->first();
-                $returnData = array(
-                    "resultado" => 0,
-                    "nombres_cliente" => $nombre_cliente['nombrescliente'],
-                    "nit_cliente" => $nit_cliente['nitcliente']
-                );
-                echo  json_encode($returnData);
-            }
+        if (empty($_POST['nombre_comercial'])) {
+            $nombreComercial = "X";
+        } else if (!empty($_POST['nombre_comercial'])) {
+            $nombreComercial = $_POST['nombre_comercial'];
         }
-        if (!empty($existe_cliente)) {
 
-            $returnData = array(
-                "resultado" => 1, //Falta plata  
-            );
-            echo  json_encode($returnData);
-        } */
+        $identicacacion = $_POST['identificacion'];
+        $nombre = $_POST['nombres'];
+        $apellidos = $_POST['apellidos'];
+
+
+        $data = [
+            'nitcliente' => $identicacacion,
+            'idregimen' => $_POST['regimen'],
+            'nombrescliente' => $nombre,
+            'telefonocliente' => $_POST['telefono'],
+            'celularcliente' => $_POST['telefono'],
+            'emailcliente' => $_POST['correo_electronico'],
+            'idciudad' =>  $id_ciudad,
+            'direccioncliente' => $_POST['direccion'],
+            'estadocliente' => true,
+            'idtipo_cliente' => 1,
+            'id_clasificacion' => 1,
+            'name' => $_POST['nombres'],
+            'last_name' => $_POST['apellidos'],
+            'dv' => $_POST['dv'],
+            'type_person' => 2,
+            'type_document' => $_POST['tipo_documento'],
+            'name_comercial' => $nombreComercial,
+            'is_customer' => true
+        ];
+
+
+
+        $insert = model('clientesModel')->insert($data);
+
+
+        $model = model('ciudadModel');
+        $ciudad = $model->set('code', '834');
+        $ciudad = $model->set('code_postal', '050001');
+        $ciudad = $model->where('idciudad', '834');
+        $ciudad = $model->update();
+
+
+        $impuestos = [
+            'nit_cliente' => $identicacacion,
+            'codigo' => 'ZZ',
+            'nombre' => 'No aplica',
+            'descripcion' => 'Otros tributos, tasas, contribuciones, y similares'
+        ];
+
+
+
+        $insertar_impuestos = model('detallesTributariosModel')->insert($impuestos);
+
+
+        $rut = [
+            'nit_cliente' => $identicacacion,
+            'codigo' => 'R-99-PN',
+            'descripcion' => 'ORDINARIO'
+        ];
+
+        $insert = model('detallesRutModel')->insert($rut);
+
+
+        $regimen = model('regimenModel')->orderBy('idregimen', 'desc')->findAll();
+        $tipo_cliente = model('tipoClienteModel')->orderBy('id', 'asc')->findAll();
+        $clasificacion_cliente = model('clasificacionClienteModel')->orderBy('id', 'asc')->findAll();
+        $departamento = model('departamentoModel')->select('*')->where('idpais', 49)->find();
+        $id_departamento_empresa = model('empresaModel')->select('iddepartamento')->first();
+        $id_ciudad_empresa = model('empresaModel')->select('idciudad')->first();
+        $ciudad = model('ciudadModel')->select('nombreciudad')->where('idciudad', $id_ciudad_empresa['idciudad'])->first();
+        $municipios = model('municipiosModel')->findAll();
+
+        $returnData = array(
+            "code" => 1,
+            "cliente" => $identicacacion . " " . $nombre . " " . $apellidos,
+            "nit_cliente" => $identicacacion,
+            "clientes" => view('clientes/listado', [
+                'regimen' => $regimen,
+                'tipo_cliente' => $tipo_cliente,
+                'clasificacion_cliente' => $clasificacion_cliente,
+                'departamentos' => $departamento,
+                "id_departamento" => $id_departamento_empresa['iddepartamento'],
+                "id_ciudad" => $id_ciudad_empresa['idciudad'],
+                "ciudad" => $ciudad['nombreciudad'],
+            ])
+
+        );
+        echo  json_encode($returnData);
     }
+
 
     public function clientes_autocompletado()
     {

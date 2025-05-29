@@ -24,7 +24,7 @@ $user_session = session();
 
 <?php $id_tipo = model('empresaModel')->select('fk_tipo_empresa')->first() ?>
 <?php $codigo_pantalla = model('configuracionPedidoModel')->select('codigo_pantalla')->first(); ?>
-
+<?php $mostrarMesero = model('configuracionPedidoModel')->select('mostrarmesero')->first(); ?>
 
 
 <?php foreach ($productos as $detalle) {  ?>
@@ -34,69 +34,77 @@ $user_session = session();
 
             <?php if ($id_tipo['fk_tipo_empresa'] == 1) : ?>
 
-                <div class="col-3 col-md-12 col-lg-3">
-                    <?php if ($codigo_pantalla['codigo_pantalla'] == "t"): ?>
-                        <?php echo "Código " . $detalle['codigointernoproducto'] . "</br>";
-                        echo $detalle['nombreproducto'] . "  "; ?>
-                    <?php endif ?>
-                    <?php if ($codigo_pantalla['codigo_pantalla'] == "f"): ?>
-                        <?php echo $detalle['nombreproducto']; ?>
-                    <?php endif ?>
+                <!-- VISTA PARA PANTALLAS GRANDES -->
+                <div class="row align-items-center d-none d-lg-flex">
+                    <div class="col-lg-3">
+                        <?php if ($codigo_pantalla['codigo_pantalla'] == "t"): ?>
+                            <?php echo "Código " . $detalle['codigointernoproducto'] . "</br>"; ?>
+                            <?php echo $detalle['nombreproducto']; ?>
+                            <div class="row" id="notasDesdeAtributo<?php echo $detalle['id_tabla_producto'] ?>">
+                                <p class="text-primary fw-bold text-start"><?php echo $detalle['nota_producto'] ?></p>
+                            </div>
+                        <?php else: ?>
+                            <?php echo $detalle['nombreproducto']; ?>
+
+                        <?php endif ?>
+                    </div>
 
 
+                    <div class="col-lg-2">
+                        <span id="val_uni<?php echo $detalle['id_tabla_producto'] ?>">
+                            <?php echo "$ " . number_format($detalle['valor_unitario'], 0, ",", "."); ?>
+                        </span>
+                    </div>
 
-
-                </div>
-
-                <div class="col col-md-3 col-lg-2">
-                    <span id="val_uni<?php echo $detalle['id_tabla_producto'] ?>"><?php echo "$ " . number_format($detalle['valor_unitario'], 0, ",", "."); ?></span>
-                </div>
-
-                <div class="col col-md-4 col-lg-3">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <a href="#" class="btn bg-muted-lt btn-icon" onclick="eliminar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')">
-                                <!-- Download SVG icon from http://tabler-icons.io/i/minus -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </a>
-                        </div>
-                        <input type="hidden" class="form-control" value="<?php echo $detalle['cantidad_producto'] ?>">
-                        <!-- <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" onclick="detener_propagacion(event),abrir_modal_editar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)" onkeypress="return valideKey(event)" > -->
-                        <input type="number"
-                            min="1"
-                            class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad_producto'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)" id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
-                        <div class="input-group-append">
-                            <a href="#" class="btn bg-muted-lt btn-icon" onclick="actualizar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')" title="Agregar producto">
-                                <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </a>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <a href="#" class="btn bg-muted-lt btn-icon" onclick="eliminar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                </a>
+                            </div>
+                            <input type="number" min="1"
+                                class="form-control form-control-sm text-center custom-width"
+                                value="<?php echo $detalle['cantidad_producto'] ?>"
+                                oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)"
+                                id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>"
+                                onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
+                            <div class="input-group-append">
+                                <a href="#" class="btn bg-muted-lt btn-icon" onclick="actualizar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')" title="Agregar producto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col">
-                    <span id="total_producto<?php echo $detalle['id'] ?>"> <?php echo "$" . number_format($valor = $detalle['valor_total'], 0, ",", "."); ?> </span>
-                </div>
-                <div class="col">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-danger btn-icon border-0" onclick="eliminar_producto(event,'<?php echo $detalle['id_tabla_producto'] ?>')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <line x1="4" y1="7" x2="20" y2="7" />
-                                <line x1="10" y1="11" x2="10" y2="17" />
-                                <line x1="14" y1="11" x2="14" y2="17" />
-                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                            </svg>
-                        </button> &nbsp;
-                        <!--  <button type="button" class="btn btn-outline-primary btn-icon border-0" onclick="agregar_nota(<?php echo $detalle['id'] ?>,event)" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Acciones">
+                    <div class="col">
+                        <span id="total_producto<?php echo $detalle['id'] ?>">
+                            <?php echo "$" . number_format($detalle['valor_total'], 0, ",", "."); ?>
+                        </span>
+                    </div>
+
+                    <div class="col">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-danger btn-icon border-0" onclick="eliminar_producto(event,'<?php echo $detalle['id_tabla_producto'] ?>')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <line x1="4" y1="7" x2="20" y2="7" />
+                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                </svg>
+                            </button> &nbsp;
+                            <!--  <button type="button" class="btn btn-outline-primary btn-icon border-0" onclick="agregar_nota(<?php echo $detalle['id'] ?>,event)" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Acciones">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <circle cx="12" cy="12" r="1" />
@@ -105,104 +113,357 @@ $user_session = session();
                             </svg>
                         </button> -->
 
-                        <div class="dropdown border-none ">
-                            <button class="btn btn-outline-primary  btn-icon border-none    " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="dropdown border-none ">
+                                <button class="btn btn-outline-primary  btn-icon border-none    " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <circle cx="12" cy="12" r="1" />
+                                        <circle cx="12" cy="19" r="1" />
+                                        <circle cx="12" cy="5" r="1" />
+                                    </svg>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                                    <li><a class="dropdown-item" href="#" onclick="detener_propagacion(event); abrir_modal_editar_cantidad(<?php echo $detalle['id_producto']; ?>, <?php echo $detalle['id_tabla_producto']; ?>)">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/receipt -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2m4 -14h6m-6 4h6m-2 4h2" />
+                                            </svg>Atributos</a></li>
+                                    <?php if ($user_session->tipo == 0 or $user_session->tipo == 1):  ?>
+                                        <li><a class="dropdown-item" href="#" onclick="porcentajeDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/percentage -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <circle cx="17" cy="17" r="1" />
+                                                    <circle cx="7" cy="7" r="1" />
+                                                    <line x1="6" y1="18" x2="18" y2="6" />
+                                                </svg>Descuento en porcetaje </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="dineroDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/minus -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                                </svg>Descuento en dinero </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="editarDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
+                                                    <path d="M12 3v3m0 12v3" />
+                                                </svg>Editar precio </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="listOfPrice(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/list-check -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+                                                    <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+                                                    <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+                                                    <line x1="11" y1="6" x2="20" y2="6" />
+                                                    <line x1="11" y1="12" x2="20" y2="12" />
+                                                    <line x1="11" y1="18" x2="20" y2="18" />
+                                                </svg>Lista de precios </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="cortesia_1(<?php echo $detalle['id_tabla_producto']; ?>)">
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                    <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                </svg>Cortesia</a></li>
+                                    <?php endif ?>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row align-items-center d-none d-lg-flex">
+
+                    <div class="row">
+                        <div class="text-primary fw-bold" id="atributos<?php echo $detalle['id_tabla_producto'] ?>">
+
+                            <?php $atributos = model('atributosDeProductoModel')->getAtributos($detalle['id_tabla_producto']); ?>
+                            <?php if (!empty($atributos)): ?>
+
+                                <?php
+                                foreach ($atributos as $detalleAtributo) :
+                                    $nombreAtributo = model('atributosProductoModel')->select('nombre')->where('id', $detalleAtributo['id_atributo'])->first();
+                                    $componentes = model('atributosDeProductoModel')->getComponentes($detalle['id_tabla_producto'], $detalleAtributo['id_atributo']);
+                                ?>
+
+                                    <p style="margin: 2px 0;">
+                                        <span style="color: green; font-weight: bold;"><?php echo $nombreAtributo['nombre']; ?></span>
+                                        <?php if (!empty($componentes)): ?>
+                                            (<span style="color: black;"><?php echo implode(', ', array_column($componentes, 'nombre')); ?></span>)
+                                        <?php else: ?>
+                                            (<span style="color: red;">No hay componentes disponibles</span>)
+                                        <?php endif; ?>
+                                    </p>
+
+                                <?php endforeach; ?>
+
+
+                            <?php endif ?>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row" id="notasDesdeAtributo<?php echo $detalle['id_tabla_producto'] ?>">
+                        <p class="text-primary fw-bold text-start"><?php echo $detalle['nota_producto'] ?></p>
+                    </div>
+
+                    <?php if ($mostrarMesero['mostrarmesero'] === "t"): ?>
+                        <div class="row text-primary">
+
+                            <?php
+                            $hora = model('productoPedidoModel')->select('hora')->where('id', $detalle['id'])->first();
+                            $usuario = model('productoPedidoModel')->select('idUsuario')->where('id', $detalle['id'])->first();
+
+                            $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $usuario['idUsuario'])->first();
+
+                            $hora_formateada = date('h:i A', strtotime($hora['hora'])); // Formato 12 horas con AM/PM
+                            ?>
+                            <?php echo $hora_formateada . " " . $nombre_usuario['nombresusuario_sistema'];  ?>
+
+                            <!--    <div class="col-3">Fecha:</div>
+        <?php
+                        $fecha = date('Y-m-d');
+                        $dia_semana = date('l'); // Obtiene el día de la semana en inglés
+                        $dias = [
+                            'Monday' => 'Lunes',
+                            'Tuesday' => 'Martes',
+                            'Wednesday' => 'Miércoles',
+                            'Thursday' => 'Jueves',
+                            'Friday' => 'Viernes',
+                            'Saturday' => 'Sábado',
+                            'Sunday' => 'Domingo'
+                        ];
+                        $dia_traducido = $dias[$dia_semana]; // Traducción del día
+        ?>
+        <div class="col-3"><?php echo "$fecha ($dia_traducido)"; ?></div> -->
+                        </div>
+                    <?php endif ?>
+
+
+
+
+
+
+                </div>
+
+
+
+                <!-- VISTA PARA PANTALLAS PEQUEÑAS -->
+                <div class="d-lg-none mb-3 border p-2 rounded">
+                    <div class="fw-bold mb-1"><?php echo $detalle['nombreproducto']; ?></div>
+                    <div class="row" id="notasDesdeAtributo<?php echo $detalle['id_tabla_producto'] ?>">
+                        <p class="text-primary fw-bold text-start"><?php echo $detalle['nota_producto'] ?></p>
+                    </div>
+                    <div class="row">
+                        <div class="text-primary fw-bold" id="atributos<?php echo $detalle['id_tabla_producto'] ?>">
+
+                            <?php $atributos = model('atributosDeProductoModel')->getAtributos($detalle['id_tabla_producto']); ?>
+                            <?php if (!empty($atributos)): ?>
+
+                                <?php
+                                foreach ($atributos as $detalleAtributo) :
+                                    $nombreAtributo = model('atributosProductoModel')->select('nombre')->where('id', $detalleAtributo['id_atributo'])->first();
+                                    $componentes = model('atributosDeProductoModel')->getComponentes($detalle['id_tabla_producto'], $detalleAtributo['id_atributo']);
+                                ?>
+
+                                    <p style="margin: 2px 0;">
+                                        <span style="color: green; font-weight: bold;"><?php echo $nombreAtributo['nombre']; ?></span>
+                                        <?php if (!empty($componentes)): ?>
+                                            (<span style="color: black;"><?php echo implode(', ', array_column($componentes, 'nombre')); ?></span>)
+                                        <?php else: ?>
+                                            (<span style="color: red;">No hay componentes disponibles</span>)
+                                        <?php endif; ?>
+                                    </p>
+
+                                <?php endforeach; ?>
+
+
+                            <?php endif ?>
+
+                        </div>
+                    </div>
+
+                    <?php if ($codigo_pantalla['codigo_pantalla'] == "t"): ?>
+                        <div class="text-muted small">Código: <?php echo $detalle['codigointernoproducto']; ?></div>
+                    <?php endif ?>
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <span>Valor unitario:</span>
+                        <span id="val_uni<?php echo $detalle['id_tabla_producto'] ?>">
+                            <?php echo "$ " . number_format($detalle['valor_unitario'], 0, ",", "."); ?>
+                        </span>
+                    </div>
+
+                    <div class="mt-2">
+                        <label class="small">Cantidad:</label>
+                        <div class="input-group">
+                            <a href="#" class="btn bg-muted-lt btn-icon" onclick="eliminar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                            </a>
+                            <input type="number" min="1" class="form-control text-center"
+                                value="<?php echo $detalle['cantidad_producto'] ?>"
+                                oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id_tabla_producto'] ?>)"
+                                id="input_cantidad<?php echo $detalle['id_tabla_producto'] ?>"
+                                onclick="resaltar_cantidad(<?php echo $detalle['id_tabla_producto'] ?>)">
+                            <a href="#" class="btn bg-muted-lt btn-icon" onclick="actualizar_cantidades(event,'<?php echo $detalle['id_tabla_producto'] ?>')">
+                                <!-- Ícono más -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <span>Total:</span>
+                        <span id="total_producto<?php echo $detalle['id'] ?>">
+                            <?php echo "$" . number_format($detalle['valor_total'], 0, ",", "."); ?>
+                        </span>
+                    </div>
+
+                    <div class="col  text-end">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-danger btn-icon border-0" onclick="eliminar_producto(event,'<?php echo $detalle['id_tabla_producto'] ?>')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <circle cx="12" cy="12" r="1" />
-                                    <circle cx="12" cy="19" r="1" />
-                                    <circle cx="12" cy="5" r="1" />
+                                    <line x1="4" y1="7" x2="20" y2="7" />
+                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
                                 </svg>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            </button> &nbsp;
+                            <!--  <button type="button" class="btn btn-outline-primary btn-icon border-0" onclick="agregar_nota(<?php echo $detalle['id'] ?>,event)" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Acciones">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <circle cx="12" cy="12" r="1" />
+                                <circle cx="12" cy="19" r="1" />
+                                <circle cx="12" cy="5" r="1" />
+                            </svg>
+                        </button> -->
 
-                                <li><a class="dropdown-item" href="#" onclick="detener_propagacion(event); abrir_modal_editar_cantidad(<?php echo $detalle['id_producto']; ?>, <?php echo $detalle['id_tabla_producto']; ?>)">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/receipt -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2m4 -14h6m-6 4h6m-2 4h2" />
-                                        </svg>Atributos</a></li>
-                                <?php if ($user_session->tipo == 0 or $user_session->tipo == 1):  ?>
-                                    <li><a class="dropdown-item" href="#" onclick="porcentajeDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                            <!-- Download SVG icon from http://tabler-icons.io/i/percentage -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <circle cx="17" cy="17" r="1" />
-                                                <circle cx="7" cy="7" r="1" />
-                                                <line x1="6" y1="18" x2="18" y2="6" />
-                                            </svg>Descuento en porcetaje </a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="dineroDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                            <!-- Download SVG icon from http://tabler-icons.io/i/minus -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <line x1="5" y1="12" x2="19" y2="12" />
-                                            </svg>Descuento en dinero </a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="editarDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
-                                                <path d="M12 3v3m0 12v3" />
-                                            </svg>Editar precio </a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="listOfPrice(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/list-check -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
-                                                <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
-                                                <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
-                                                <line x1="11" y1="6" x2="20" y2="6" />
-                                                <line x1="11" y1="12" x2="20" y2="12" />
-                                                <line x1="11" y1="18" x2="20" y2="18" />
-                                            </svg>Lista de precios </a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="cortesia_1(<?php echo $detalle['id_tabla_producto']; ?>)">
-                                            <!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
-                                                <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
-                                            </svg>Cortesia</a></li>
-                                <?php endif ?>
+                            <div class="dropdown border-none ">
+                                <button class="btn btn-outline-primary  btn-icon border-none    " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <circle cx="12" cy="12" r="1" />
+                                        <circle cx="12" cy="19" r="1" />
+                                        <circle cx="12" cy="5" r="1" />
+                                    </svg>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-                            </ul>
+                                    <li><a class="dropdown-item" href="#" onclick="detener_propagacion(event); abrir_modal_editar_cantidad(<?php echo $detalle['id_producto']; ?>, <?php echo $detalle['id_tabla_producto']; ?>)">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/receipt -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2m4 -14h6m-6 4h6m-2 4h2" />
+                                            </svg>Atributos</a></li>
+                                    <?php if ($user_session->tipo == 0 or $user_session->tipo == 1):  ?>
+                                        <li><a class="dropdown-item" href="#" onclick="porcentajeDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/percentage -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <circle cx="17" cy="17" r="1" />
+                                                    <circle cx="7" cy="7" r="1" />
+                                                    <line x1="6" y1="18" x2="18" y2="6" />
+                                                </svg>Descuento en porcetaje </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="dineroDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/minus -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                                </svg>Descuento en dinero </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="editarDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
+                                                    <path d="M12 3v3m0 12v3" />
+                                                </svg>Editar precio </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="listOfPrice(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/list-check -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+                                                    <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+                                                    <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+                                                    <line x1="11" y1="6" x2="20" y2="6" />
+                                                    <line x1="11" y1="12" x2="20" y2="12" />
+                                                    <line x1="11" y1="18" x2="20" y2="18" />
+                                                </svg>Lista de precios </a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="cortesia_1(<?php echo $detalle['id_tabla_producto']; ?>)">
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                    <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                </svg>Cortesia</a></li>
+                                    <?php endif ?>
+
+                                </ul>
+                            </div>
+
                         </div>
+                        <!-- ACA -->
+
+
+
+
+                        <?php $mostrarMesero = model('configuracionPedidoModel')->select('mostrarmesero')->first(); ?>
+                        <?php if ($mostrarMesero['mostrarmesero'] === "t"): ?>
+                            <div class="row text-primary">
+
+                                <?php
+                                $hora = model('productoPedidoModel')->select('hora')->where('id', $detalle['id'])->first();
+                                $usuario = model('productoPedidoModel')->select('idUsuario')->where('id', $detalle['id'])->first();
+
+                                $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $usuario['idUsuario'])->first();
+
+                                $hora_formateada = date('h:i A', strtotime($hora['hora'])); // Formato 12 horas con AM/PM
+                                ?>
+                                <?php echo $hora_formateada . " " . $nombre_usuario['nombresusuario_sistema'];  ?>
+
+                                <!--    <div class="col-3">Fecha:</div>
+        <?php
+                            $fecha = date('Y-m-d');
+                            $dia_semana = date('l'); // Obtiene el día de la semana en inglés
+                            $dias = [
+                                'Monday' => 'Lunes',
+                                'Tuesday' => 'Martes',
+                                'Wednesday' => 'Miércoles',
+                                'Thursday' => 'Jueves',
+                                'Friday' => 'Viernes',
+                                'Saturday' => 'Sábado',
+                                'Sunday' => 'Domingo'
+                            ];
+                            $dia_traducido = $dias[$dia_semana]; // Traducción del día
+        ?>
+        <div class="col-3"><?php echo "$fecha ($dia_traducido)"; ?></div> -->
+                            </div>
+                        <?php endif ?>
 
                     </div>
                 </div>
 
             <?php endif ?>
 
+
         </div>
 
-        <div class="row">
-            <div class="text-primary fw-bold" id="atributos<?php echo $detalle['id_tabla_producto'] ?>">
-
-                <?php $atributos = model('atributosDeProductoModel')->getAtributos($detalle['id_tabla_producto']); ?>
-                <?php if (!empty($atributos)): ?>
-
-                    <?php
-                    foreach ($atributos as $detalleAtributo) :
-                        $nombreAtributo = model('atributosProductoModel')->select('nombre')->where('id', $detalleAtributo['id_atributo'])->first();
-                        $componentes = model('atributosDeProductoModel')->getComponentes($detalle['id_tabla_producto'], $detalleAtributo['id_atributo']);
-                    ?>
-
-                        <p style="margin: 2px 0;">
-                            <span style="color: green; font-weight: bold;"><?php echo $nombreAtributo['nombre']; ?></span>
-                            <?php if (!empty($componentes)): ?>
-                                (<span style="color: black;"><?php echo implode(', ', array_column($componentes, 'nombre')); ?></span>)
-                            <?php else: ?>
-                                (<span style="color: red;">No hay componentes disponibles</span>)
-                            <?php endif; ?>
-                        </p>
-
-                    <?php endforeach; ?>
 
 
-                <?php endif ?>
-
-            </div>
-        </div>
-        <div class="row" id="notasDesdeAtributo<?php echo $detalle['id_tabla_producto'] ?>">
-            <p class="text-primary fw-bold"><?php echo $detalle['nota_producto'] ?></p>
-        </div>
 
 
 
@@ -357,39 +618,9 @@ $user_session = session();
 
     </div>
 
-    <?php $mostrarMesero = model('configuracionPedidoModel')->select('mostrarmesero')->first(); ?>
 
-    <?php if ($mostrarMesero['mostrarmesero'] === "t"): ?>
-        <div class="row text-primary">
 
-            <?php
-            $hora = model('productoPedidoModel')->select('hora')->where('id', $detalle['id'])->first();
-            $usuario = model('productoPedidoModel')->select('idUsuario')->where('id', $detalle['id'])->first();
 
-            $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $usuario['idUsuario'])->first();
-
-            $hora_formateada = date('h:i A', strtotime($hora['hora'])); // Formato 12 horas con AM/PM
-            ?>
-            <div class="col-6"><?php echo $hora_formateada . " " . $nombre_usuario['nombresusuario_sistema'];  ?></div>
-
-            <!--    <div class="col-3">Fecha:</div>
-        <?php
-        $fecha = date('Y-m-d');
-        $dia_semana = date('l'); // Obtiene el día de la semana en inglés
-        $dias = [
-            'Monday' => 'Lunes',
-            'Tuesday' => 'Martes',
-            'Wednesday' => 'Miércoles',
-            'Thursday' => 'Jueves',
-            'Friday' => 'Viernes',
-            'Saturday' => 'Sábado',
-            'Sunday' => 'Domingo'
-        ];
-        $dia_traducido = $dias[$dia_semana]; // Traducción del día
-        ?>
-        <div class="col-3"><?php echo "$fecha ($dia_traducido)"; ?></div> -->
-        </div>
-    <?php endif ?>
 
 
     </div>

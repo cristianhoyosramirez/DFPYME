@@ -9,6 +9,6 @@ class TiposDocumento extends Model
     protected $table      = 'documento_identidad';
     // Uncomment below if you want add primary key
    // protected $primaryKey = 'id';
-    protected $allowedFields = ['codigo','descripcion'];
+    protected $allowedFields = ['codigo','descripcion','estado'];
    
 }

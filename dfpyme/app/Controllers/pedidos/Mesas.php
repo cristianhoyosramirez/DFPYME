@@ -1799,6 +1799,7 @@ class Mesas extends BaseController
                 }
             }
         }
+        
 
         if (($cantidad_producto['cantidad_producto'] == $cantidades_impresas['numero_productos_impresos_en_comanda']) and $tipo_usuario['idtipo'] == 1) {
             $returnData = array(

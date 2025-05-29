@@ -355,7 +355,7 @@ class loginController extends BaseController
 
     function allRecetas()
     {
-        $resultado = model('productoModel')->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto')->where('id_tipo_inventario', 3)->orderBy('nombreproducto', 'asc')->findAll();
+        $resultado = model('productoModel')->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto,id_tipo_inventario')->where('id_tipo_inventario', 3)->orderBy('nombreproducto', 'asc')->findAll();
 
         return $this->response->setJSON([
             'response' => 'success',

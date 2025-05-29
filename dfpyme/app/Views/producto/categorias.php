@@ -304,7 +304,9 @@ HOME
                                                         G impresión
                                                     </label>
                                                     <?php
-                                                    $grupo_impresion = model('grupoImpresionModel')->findAll();
+                                                    //$grupo_impresion = model('grupoImpresionModel')->findAll();
+
+                                                    $grupoImpresion = model('grupoImpresionModel')->impresoraGrupoImpresion();
 
                                                     $idGrupoImpresion = model('productoModel')->select('grupo_impresion_comanda')->where('codigointernoproducto', $codigo_producto['codigointernoproducto'])->first();
                                                     ?>

@@ -429,6 +429,7 @@ class Imprimir extends BaseController
                 foreach ($atributos as $atributo) {
                     $componentes = model('atributosDeProductoModel')->getComponentes($producto['id'], $atributo['id_atributo']);
                     $componentesNombres = array_map(fn($c) => $c['nombre'], $componentes);
+                    $printer->setTextSize(2, 1);
                     $linea_atributo = "* " . $atributo['nombre'] . " (" . implode("- ", $componentesNombres) . ")";
                     $printer->text($linea_atributo . "\n");
                 }
@@ -531,7 +532,7 @@ class Imprimir extends BaseController
             $printer->setTextSize(2, 1);
             $printer->text($producto['nombreproducto'] . "\n");
 
-            $printer->setTextSize(1, 1);
+            $printer->setTextSize(2, 1);
             $printer->text("Cant. " . ($cant_restante > 0 ? $cant_restante : $cant_total) . "\n");
 
             // Atributos
@@ -673,7 +674,7 @@ class Imprimir extends BaseController
                         $componentesNombres[] = $keyComponentes['nombre'];
                     }
 
-                    $printer->setTextSize(1, 1);
+                    $printer->setTextSize(2, 1);
                     $printer->text("* " . $keyAtributos['nombre'] . " (" . implode("- ", $componentesNombres) . ")\n");
                 }
             }
@@ -689,7 +690,7 @@ class Imprimir extends BaseController
             // Línea divisoria estándar
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->setTextSize(1, 1); // Asegura tamaño estándar
-            $printer->text(str_repeat('-', 45) . "\n");
+            $printer->text(str_repeat('-', 30) . "\n");
 
             $printer->text("\n");
         }

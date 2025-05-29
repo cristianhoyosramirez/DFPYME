@@ -78,7 +78,7 @@ Bienvenido DFpyme
             </div>
         </div>
     </div>
-    
+
 
     <div class="page-wrapper">
         <!-- Page body -->
@@ -314,11 +314,18 @@ Bienvenido DFpyme
                             <div class="row mb-2"> <!-- Fila para los botones -->
 
                                 <?php if ($id_tipo['fk_tipo_empresa'] == 1) : ?>
-                                    <div class="col-md-3">
-                                        <a href="#" class="btn btn-outline-azure w-100" onclick="abrir_cajon()">
-                                            Abrir cajon
-                                        </a>
-                                    </div>
+                                    <?php if ($user_session->tipo != 3) : ?>
+                                        <div class="col-md-3">
+                                            <a href="#" class="btn btn-outline-azure w-100" onclick="abrir_cajon()">
+                                                Abrir cajon
+                                            </a>
+                                        </div>
+                                    <?php endif ?>
+                                    <?php if ($user_session->tipo == 3) : ?>
+                                        <div class="col-md-3">
+                                            
+                                        </div>
+                                    <?php endif ?>
                                     <div class="col-md-3">
                                         <a href="#" class="btn btn-outline-indigo w-100" onclick="cambiar_mesas()">
                                             Cambio de mesa
