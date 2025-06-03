@@ -182,16 +182,26 @@ HOME
                         <tr>
                             <td scope="col">Código</th>
                             <td scope="col">Producto</th>
+                            <td scope="col">Unidad medida </th>
                             <td scope="col">Inventario actual</th>
                             <td scope="col">Ingresar inventario</th>
                             <td scope="col">Diferencia</th>
                         </tr>
                     </thead>
                     <tbody id="ProdInv">
-                        <?php foreach ($productos as $keyProducto): ?>
+                        <?php 
+                        foreach ($productos as $keyProducto): 
+                            $idMedida=model('productoMedidaModel')->select('idvalor_unidad_medida')->where('codigointernoproducto',$keyProducto['codigointernoproducto'])->first();
+                            $unidadMedida=
+                            model('unidadMedidaModel')
+                            ->select('descripcionvalor_unidad_medida')
+                            ->where('idvalor_unidad_medida',$idMedida['idvalor_unidad_medida'])
+                            ->first();
+                            ?>
                             <tr>
                                 <td><?php echo $keyProducto['codigointernoproducto']; ?></td>
                                 <td class="nombre-producto"><?php echo $keyProducto['nombreproducto']; ?></td>
+                                <td><?php  echo $unidadMedida['descripcionvalor_unidad_medida']; ?></td>
                                 <td>
                                     <input type="text" class="form-control input-inventario"
                                         value="<?php echo $keyProducto['cantidad_inventario']; ?>">

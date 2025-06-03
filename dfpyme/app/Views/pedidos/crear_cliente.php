@@ -53,12 +53,14 @@
                 name="identificacion"
                 placeholder="Identificación"
                 onkeyup="calcularYMostrarDV(this.value);"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                inputmode="numeric"
                 autocomplete="off"
                 autocorrect="off"
                 autocapitalize="off"
                 spellcheck="false">
 
-              <input type="text" class="form-control" id="dv" name="dv" placeholder="DV" style="max-width: 80px;" onkeyup="saltar_factura_pos(event,'nombres');">
+              <input type="text" readonly class="form-control" id="dv" name="dv" placeholder="DV" style="max-width: 80px;" onkeyup="saltar_factura_pos(event,'nombres');">
             </div>
             <span class="text-danger error-text identificacion_error"></span>
             <span class="text-danger error-text dv_error"></span>
@@ -102,14 +104,14 @@
           </div>
 
           <!-- Dirección -->
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label class="form-label">Dirección</label>
             <input value="<?php echo $datos_empresa[0]['direccionempresa']; ?>" type="text" class="form-control" id="direccion" name="direccion" onkeyup="saltar_factura_pos(event,'departamento')">
             <span class="text-danger error-text direccion_error"></span>
           </div>
 
           <!-- Departamento -->
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label class="form-label">Departamento</label>
             <?php $departamento = model('departamentoModel')->where('idpais', 49)->findAll(); ?>
             <select class="form-select" name="departamento" id="departamento" onchange="departamentoCiudad()">
@@ -123,34 +125,49 @@
             <span class="text-danger error-text departamento_error"></span>
           </div>
 
+
+          <?php
+          $ciudades = model('ciudadModel')
+            ->select('*')
+            ->where('iddepartamento', $datos_empresa[0]['iddepartamento'])
+            ->findAll();
+
+          ?>
+
+
+
+
           <!-- Ciudad -->
-          <div class="col-md-3">
-            <label class="form-label">Ciudad</label>
+          <div class="col-md-4">
+            <label class="form-label">Ciudades</label>
             <select class="form-select" id="ciudad" name="ciudad">
               <option value="<?php echo $datos_empresa[0]['idciudad'];  ?>"><?php echo $datos_empresa[0]['nombreciudad'];  ?></option>
+              <?php foreach ($ciudades as $detalleCiudades): ?>
+                <option value="<?php $detalleCiudades['idciudad'] ?>"><?php echo $detalleCiudades['nombreciudad'];  ?></option>
+              <?php endforeach ?>
             </select>
             <span class="text-danger error-text ciudad_error"></span>
           </div>
 
-          <!-- Confirmar ciudad -->
+          <!-- Confirmar ciudad 
           <div class="col-md-3">
             <label class="form-label">Confirmar ciudad</label>
             <select class="form-select" name="municipios" id="municipios">
               <option value="<?php echo $datos_empresa[0]['idciudad'];  ?>"><?php echo $datos_empresa[0]['nombreciudad'];  ?></option>
             </select>
             <span class="text-danger error-text municipios_error"></span>
-          </div>
+          </div>-->
           <?php
           $consumidorFinal = model('clientesModel')->select('direccioncliente,emailcliente,telefonocliente')->where('nitcliente', '222222222222')->first();
           ?>
           <!-- Correo y Teléfono -->
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label class="form-label">Correo electrónico</label>
             <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" value="<?php echo $consumidorFinal['emailcliente']; ?>">
             <span class="text-danger error-text correo_electronico_error"></span>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label class="form-label">Teléfono / Celular</label>
             <input type="text" class="form-control" id="telefono" name="telefono" value="<?php echo $consumidorFinal['telefonocliente']; ?>">
             <span class="text-danger error-text telefono_error"></span>
@@ -204,6 +221,8 @@
     const divNombreApellidos = document.getElementById("nombreApellidos");
     const selectTipoDocumento = document.getElementById("tipo_documento");
 
+    console.log(tipo)
+
     if (tipo === '1') { // Jurídica
       divNombreApellidos.classList.add("d-none");
       divNombreComercial.classList.remove("d-none");
@@ -211,23 +230,33 @@
       document.getElementById('nombres').value = '';
       document.getElementById('apellidos').value = '';
 
-      document.getElementById('nombres').removeAttribute('required'); 
-      document.getElementById('apellidos').removeAttribute('required'); 
-      document.getElementById('razon_social').addAttribute('required'); 
+      document.getElementById('nombres').removeAttribute('required');
+      document.getElementById('apellidos').removeAttribute('required');
+      //document.getElementById('razon_social').addAttribute('required');
+
+      /* const razonSocialElement = document.getElementById('razon_social');
+      // Check if the element exists
+      if (razonSocialElement) {
+        // If the element exists, add the 'required' attribute
+        razonSocialElement.setAttribute('required', 'true'); // Or simply 'required', '' for boolean attributes
+      } */
 
       // Cambiar a NIT
       selectTipoDocumento.value = '31';
       $('#tipo_documento').trigger('change'); // para que Select2 actualice el valor visualmente
-    } else { // Natural
+    } else if (tipo === '2') { // Natural
       divNombreComercial.classList.add("d-none");
       divNombreComercial.classList.remove("d-flex");
       divNombreApellidos.classList.remove("d-none");
 
       document.getElementById('razon_social').value = '';
 
-      document.getElementById('nombres').addAttribute('required'); 
-      document.getElementById('apellidos').addAttribute('required'); 
-      document.getElementById('razon_social').removeAttribute('required'); 
+      //document.getElementById('nombres').addAttribute('required');
+      //document.getElementById('apellidos').addAttribute('required');
+      //document.getElementById('razon_social').removeAttribute('required');
+
+      // Get a reference to the element
+
 
       // Cambiar a CC
       selectTipoDocumento.value = '13';

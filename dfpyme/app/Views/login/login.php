@@ -54,7 +54,19 @@
             <div>
                 <br>
                 <form action="<?php echo base_url('login/login'); ?>" id="form" method="post">
-                    <input type="password" class=" form-control text-center " id="code" maxlength="4" name="pin" onkeyup="pin_login(event, this.value)" onkeydown="checkPressedKey(event)" autofocus>
+                    <!-- <input type="password" class=" form-control text-center " id="code" maxlength="4" name="pin" onkeyup="pin_login(event, this.value)" onkeydown="checkPressedKey(event)" autofocus> -->
+                    <input type="password"
+                        class="form-control text-center"
+                        id="code"
+                        maxlength="4"
+                        name="pin"
+                        inputmode="numeric"
+                        pattern="\d{4}"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                        onkeyup="pin_login(event, this.value)"
+                        onkeydown="checkPressedKey(event)"
+                        autofocus>
+
                     <div class="text-danger" id="error_login"><?= session('errors.pin') ?></div>
                 </form>
                 <br>

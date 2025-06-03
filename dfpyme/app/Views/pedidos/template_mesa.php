@@ -215,6 +215,7 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/buscar_por_codigo_de_barras_devolucion.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/actualizar_producto_cantidad.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/calculo_propina.js"></script>
+    <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/calculo_propina_movil.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/pagar_parcial.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/cancelar_pago_parcial.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/restar_partir_factura.js"></script>

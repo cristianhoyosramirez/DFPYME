@@ -67,7 +67,7 @@ LISTADO DE USUARIOS
                                 <tr>
                                     <td><?php echo $detalle['nombresusuario_sistema'] ?></td>
                                     <td><?php echo $detalle['descripciontipo'] ?></td>
-                                    <td><?php echo $detalle['pinusuario_sistema'] ?></td>
+                                    <td><?php # echo $detalle['pinusuario_sistema'] ?>****</td>
                                     <td><?php if ($detalle['pinusuario_sistema'] != null) { ?>
                                             <span class="text-green">
                                                 <!-- Download SVG icon from http://tabler-icons.io/i/check -->

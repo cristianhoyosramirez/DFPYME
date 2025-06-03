@@ -37,17 +37,17 @@ HOME
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="#" onclick="VerRecetas()">Ver recetas</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="CrearReceta()">Crear receta</a></li>
+                            <!-- <li><a class="dropdown-item" href="#" onclick="CrearReceta()">Crear receta</a></li> -->
                         </ul>
                     </div>
                 </div>
 
-                <!-- Buscador alineado a la derecha -->
+                <!-- Buscador alineado a la derecha 
                 <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-md-end">
                     <div class="w-100" style="max-width: 300px;">
                         <input type="text" class="form-control" placeholder="Buscar producto..." onkeyup="buscarProducto(this.value)">
                     </div>
-                </div>
+                </div> -->
             </div>
 
 
@@ -308,21 +308,34 @@ HOME
 
                                                     $grupoImpresion = model('grupoImpresionModel')->impresoraGrupoImpresion();
 
-                                                    $idGrupoImpresion = model('productoModel')->select('grupo_impresion_comanda')->where('codigointernoproducto', $codigo_producto['codigointernoproducto'])->first();
+                                                    //$idGrupoImpresion = model('productoModel')->select('grupo_impresion_comanda')->where('codigointernoproducto', $codigo_producto['codigointernoproducto'])->first();
+
+                                                    $grupoImpresionProducto = model('productoModel')->select('grupo_impresion_comanda')->where('codigointernoproducto', $keySubCategoria['codigointernoproducto'])->first();
+
+
                                                     ?>
 
                                                     <!--<select name="" id="" class="form-select" onchange="cambiarImpresora(this.value,<?php echo $keySubCategoria['id'] ?>)"> -->
-                                                    <select name="" id="" class="form-select" onchange="productoGrupo(this.value,<?php echo $keySubCategoria['id']; ?>)">
-                                                        <?php if (!empty($grupoImpresion)): ?>
-                                                            <?php foreach ($grupoImpresion as $detallegrupoImpresion):
-                                                                $grupoSeleccionado = $idGrupoImpresion['grupo_impresion_comanda'] ?? null; ?>
+                                                    <select name="" id="" class="form-select" onchange="productoGrupo(this.value, <?php echo $keySubCategoria['id']; ?>)">
+                                                        <?php
+                                                        $grupoSeleccionado = $grupoImpresionProducto['grupo_impresion_comanda'] ?? null;
+
+                                                        if (empty($grupoImpresion)): ?>
+                                                            <option value="">No hay grupos disponibles</option>
+                                                        <?php else: ?>
+                                                            <?php if (is_null($grupoSeleccionado)): ?>
+                                                                <option value="">-- No hay grupo seleccionado --</option>
+                                                            <?php endif; ?>
+
+                                                            <?php foreach ($grupoImpresion as $detallegrupoImpresion): ?>
                                                                 <option value="<?php echo $detallegrupoImpresion['id_grupo']; ?>"
                                                                     <?php echo ($detallegrupoImpresion['id_grupo'] == $grupoSeleccionado) ? 'selected' : ''; ?>>
                                                                     <?php echo $detallegrupoImpresion['nombre_grupo'] . " / " . $detallegrupoImpresion['nombre_impresora']; ?>
                                                                 </option>
                                                             <?php endforeach; ?>
-                                                        <?php endif ?>
+                                                        <?php endif; ?>
                                                     </select>
+
 
                                                 </div>
 
@@ -332,12 +345,12 @@ HOME
                                                     <button type="button" class="btn btn-outline-success" onclick="openModal('<?php echo $keySubCategoria['nombreproducto'] ?>',<?php echo $keySubCategoria['id'] ?>)">Atributos</button>
                                                 </div>
 
-                                                <div class="col-1  justify-content-end">
+                                                <!--           <div class="col-1  justify-content-end">
 
                                                     <label for="" class="form-label text-light ">Accion</label>
 
                                                     <button class="btn btn-outline-danger btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrar producto" onclick="eliminarProducto(<?php echo $keySubCategoria['id']; ?>)">
-                                                        <!-- Download SVG icon from http://tabler-icons.io/i/trash -->
+                                                     
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                             <line x1="4" y1="7" x2="20" y2="7" />
@@ -349,7 +362,7 @@ HOME
 
                                                     </button>
 
-                                                </div>
+                                                </div> -->
                                             </div>
 
                                         <?php endforeach ?>
