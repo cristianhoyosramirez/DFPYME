@@ -234,28 +234,41 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/agregarProductoPedido.js"></script>
 
 
-    <!--   <script>
-        async function validarResolucion() {
+    <script>
+        async function propinaMovil(propina) {
+            if (propina === null || propina === undefined || propina === '') {
+                sweet_alert_centrado('warning', 'Debe ingresar un valor de propina.');
+                return;
+            }
+
             try {
-                const response = await fetch("<?= base_url('empresa/validarResolucion') ?>", {
-                    method: 'GET'
+                let id_mesa = document.getElementById("id_mesa_pedido").value;
+
+                const response = await fetch("<?= base_url('eventos/propinaMovil') ?>", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        propina: propina,
+                        id_mesa: id_mesa,
+                    })
                 });
+
                 const data = await response.json();
 
-                if (data.response === 'false') {
-                    sweet_alert_centrado('warning', data.message)
-            
-                } else if (data.response === 'alerta') {
-                    sweet_alert_centrado('warning', data.message)
-                } else if (data.response === 'success') {
-                    pagar();
+                if (data.response === 'success') {
+                    document.getElementById('total_movil').innerHTML = data.total;
+                    document.getElementById('valor_pedido').innerHTML = data.total;
                 }
             } catch (error) {
                 alert("Error en la validación de resolución.");
                 console.error(error);
             }
         }
-    </script> -->
+    </script>
+
+
 
 
     <script>
@@ -282,6 +295,9 @@
 
     <script>
         async function mesasConPedido() {
+
+            document.getElementById('mesasConPedido').classList.add('bg-indigo-lt');
+
             try {
                 const response = await fetch('<?= base_url('mesas/index') ?>');
                 if (!response.ok) {
@@ -289,14 +305,22 @@
                 }
                 const datos = await response.json();
 
+                //document.getElementById('cardtodas').classList.add('bg-indigo-lt');
+
+                document.querySelectorAll('.mesasPersonalizadas').forEach(function(element) {
+                    element.classList.remove('bg-indigo-lt');
+                });
+
                 document.getElementById('mesas_all').innerHTML = datos.mesas
+
+
             } catch (error) {
                 console.error('Hubo un problema:', error);
             }
         }
 
         // Llamar a la función
-        mesasConPedido();
+        //mesasConPedido();
     </script>
 
 
@@ -995,6 +1019,81 @@
                             //$('#efectivo').val(resultado.total)
                             $('#total_pedido').html("Valor pago: " + resultado.total)
                             $('#valor_pedido').html('$' + resultado.total)
+
+                            sweet_alert_start('success', 'Propina borrada  ');
+
+
+                        }
+                    },
+                });
+            }
+
+            if (criterio_propina == 0) {
+
+                $.ajax({
+                    data: {
+                        id_mesa,
+                    },
+                    url: url + "/" + "eventos/borrar_propina_parcial",
+                    type: "POST",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
+
+                            $('#propina_pesos').val(0)
+                            $('#propina_del_pedido').val(0)
+                            $('#propina_pesos_final').val(0)
+                            $('#total_propina').val(0)
+
+                            $('#efectivo').val(resultado.total)
+                            $('#total_pedido').html("Valor pago: " + resultado.total)
+                            $('#valor_pedido').html('$' + resultado.total)
+                            $('#valor_total_a_pagar').val(resultado.total_pedido)
+
+
+                            sweet_alert_start('success', 'Propina borrada  ');
+
+
+                        }
+                    },
+                });
+
+            }
+
+        }
+    </script>
+
+    <script>
+        function borrarPropinaMovil() {
+            var url = document.getElementById("url").value;
+            let id_mesa = document.getElementById("id_mesa_pedido").value;
+            let criterio_propina = document.getElementById("criterio_propina_final").value;
+
+            if (criterio_propina == 1) {
+                $.ajax({
+                    data: {
+                        id_mesa,
+                    },
+                    url: url + "/" + "eventos/borrar_propina",
+                    type: "POST",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
+
+                            /*     $('#propina_pesos').val(0)
+                                $('#propina_del_pedido').val(0)
+                                $('#propina_pesos_final').val(0)
+                                $('#total_propina').val(0)
+                                $('#valor_total_a_pagar').val(resultado.total_sin_formato)
+                                //$('#efectivo').val(resultado.total)
+                                $('#total_pedido').html("Valor pago: " + resultado.total)
+                                $('#valor_pedido').html('$' + resultado.total) */
+
+                            document.getElementById('propina_movil').value = 0;
+                            //document.getElementById('total_movil"').innerHTML = resultado.total;
+
+                            $('#total_movil').html(resultado.total)
+
 
                             sweet_alert_start('success', 'Propina borrada  ');
 
@@ -1828,6 +1927,17 @@
     </script>
 
     <script>
+        let debounceTimer;
+
+        function debouncedCalcularPorcentaje(valor) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                calcular_porcentaje(valor);
+            }, 500); // espera 500 ms después de la última tecla
+        }
+    </script>
+
+    <script>
         function calcular_porcentaje(valor) {
             var url = document.getElementById("url").value;
             var id_producto_pedido = document.getElementById("id_producto_pedido").value;
@@ -1847,7 +1957,9 @@
                     if (resultado.resultado == 1) {
 
                         $('#lista_completa_mesas').html(resultado.mesas)
-                        $('#precio_producto').val(resultado.total)
+                        //$('#precio_producto').val(resultado.total)
+                        $('#precio_producto').val(resultado.valorUnitario)
+
 
 
                     }
@@ -2248,6 +2360,7 @@
             element.value = formatNumber(value);
         });
     </script>
+
 
     <script>
         const edicion_manual = document.querySelector("#descontar_dinero");

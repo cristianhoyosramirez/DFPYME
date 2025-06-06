@@ -99,31 +99,31 @@ class ConfigurarProductocontroller extends BaseController
         $idAtributo = $json->idAtributo;
         // $idAtributo = 5;
 
-       /*  $existe = model('componentesAtributosProductoModel')->where('nombre', $nombre)->first();
+        /*  $existe = model('componentesAtributosProductoModel')->where('nombre', $nombre)->first();
 
 
         if (empty($existe)) { */
-            $data = [
-                'nombre' => $nombre,
-                'id_atributo' => $idAtributo
+        $data = [
+            'nombre' => $nombre,
+            'id_atributo' => $idAtributo
 
-            ];
+        ];
 
 
-            $insert = model('componentesAtributosProductoModel')->insert($data);
+        $insert = model('componentesAtributosProductoModel')->insert($data);
 
-            if ($insert) {
-                $componentes = model('componentesAtributosProductoModel')->where('id_atributo', $idAtributo)->findAll();
+        if ($insert) {
+            $componentes = model('componentesAtributosProductoModel')->where('id_atributo', $idAtributo)->findAll();
 
-                return $this->response->setJSON([
-                    'response' => 'success',
-                    'componentes' => view('producto/componentes', [
-                        'componentes' => $componentes,
-                        'idAtributo' => $idAtributo
-                    ]),
-                    'id' => $idAtributo
-                ]);
-            }
+            return $this->response->setJSON([
+                'response' => 'success',
+                'componentes' => view('producto/componentes', [
+                    'componentes' => $componentes,
+                    'idAtributo' => $idAtributo
+                ]),
+                'id' => $idAtributo
+            ]);
+        }
         /*}
          if (!empty($existe)) {
             return $this->response->setJSON([
@@ -266,14 +266,17 @@ class ConfigurarProductocontroller extends BaseController
             if ($insert) {
 
                 $atributos = model('configuracionAtributosProductoModel')->atributosProducto($idProducto);
+                $lastId = model('configuracionAtributosProductoModel')->insertID();
 
 
                 return $this->response->setJSON([
                     'response' => 'success',
                     'atributos' => view('producto_atributos/adicionComponentes', [
                         'atributos' => $atributos,
-                        'idProducto' => $idProducto
-                    ])
+                        'idProducto' => $idProducto,
+                        'ultimoId' => $lastId
+                    ]),
+                    'ultimoId' => $lastId
                 ]);
             }
         } else if (!empty($existeAtributo)) {
@@ -321,8 +324,15 @@ class ConfigurarProductocontroller extends BaseController
         $json = $this->request->getJSON();
         $valor = $json->valor;
         $idProductoAtributo = $json->idProductoAtributo;
+    
 
-        $update = model('configuracionAtributosProductoModel')->set('numero_componentes', $valor)->where('id', $idProductoAtributo)->update();
+
+        $update = model('configuracionAtributosProductoModel')
+            ->set('numero_componentes', $valor)
+            ->where('id', $idProductoAtributo)
+            ->update();
+
+        //$update = model('configuracionAtributosProductoModel')->set('numero_componentes', $valor)->where('id', $idProductoAtributo)->update();
 
         if ($update) {
             return $this->response->setJSON([

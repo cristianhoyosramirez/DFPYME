@@ -11,52 +11,27 @@ Configuración
 
     <div class="card-body">
 
-        <!--    <?php if ($comanda == 'false') : ?>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onclick="actualizar_comanda()" value="<?php echo $comanda ?>">
-                <label class="form-check-label" for="flexSwitchCheckDefault">No</label>
-            </div>
-        <?php endif ?>
-        <?php if ($comanda == 'true') : ?>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onclick="actualizar_comanda()" value="<?php echo $comanda ?>" checked>
-                <label class="form-check-label" for="flexSwitchCheckDefault">Si</label>
-            </div>
-        <?php endif ?> -->
+
+
 
         <div class="container row">
 
             <div class="col-3">
+                <label class="form-label">Número de impresión</label>
+                <input type="text" class="form-control" value="<?php echo $numeroCopias ?>" onkeyup="actualizarNumeroCopias(this.value)">
+            </div>
+            <!-- <div class="col-3">
                 <label class="form-label">Criterio impresión comanda</label>
                 <select name="" id="" class="form-select" onchange="impresionComanda(this.value)">
                     <option value="1">Categoria</option>
                     <option value="2">Producto</option>
                     <option value="3">Grupo</option>
                 </select>
-            </div>
+            </div> -->
             <div class="col">
                 <div id="grupoImpresion">
-                    <p class="text-primary h3 text-center">Criterio de impresion por :</p>
-                    <?php
-                    if ($criterioImpresion == 1) {
-                        echo "Categoria";
-                    } ?>
-                    <?php
-                    if ($criterioImpresion == 2) {
-                        echo "Producto ";
-                    }
-                    ?>
 
-                    <?php if ($criterioImpresion == 3): ?>
-
-                        <?= $this->include('configuracion/grupo_impresion') ?>
-
-
-                    <?php endif ?>
-
-
-
-
+                    <?= $this->include('configuracion/grupo_impresion') ?>
                 </div>
             </div>
         </div>
@@ -108,6 +83,38 @@ Configuración
         }
     }
 </script>
+
+<script>
+    async function actualizarNumeroCopias(value) {
+        
+        try {
+            let response = await fetch("<?= base_url('configuracion/actualizarNumeroCopias') ?>", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    numero: value,
+                   
+                })
+            });
+
+            if (response.ok) {
+                const resultado = await response.json();
+                if (resultado.response = "success") {
+                    sweet_alert_centrado('success', 'Datos actualizados')
+                }
+            } else {
+                const error = await response.text();
+                //alert("Error al crear el grupo: " + error);
+            }
+        } catch (error) {
+            console.error("Error de red:", error);
+            //alert("Ocurrió un error al intentar crear el grupo.");
+        }
+    }
+</script>
+
 
 <script>
     async function eliminacioGrupo(id) {

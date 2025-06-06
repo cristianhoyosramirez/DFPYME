@@ -653,18 +653,12 @@ class Configuracion extends BaseController
     function comanda()
     {
 
-        $temp_comanda = model('configuracionPedidoModel')->select('partir_comanda,criterio_impresion_comanda')->first();
+        $numeroCopias = model('configuracionPedidoModel')->select('numero_copias_comanda')->first();
 
-        if ($temp_comanda['partir_comanda'] == 'f') {
-            $comanda = "false";
-        } else if ($temp_comanda['partir_comanda'] == 't') {
-            $comanda = "true";
-        }
 
 
         return view('configuracion/comanda', [
-            'comanda' => $comanda,
-            'criterioImpresion' => $temp_comanda['criterio_impresion_comanda']
+            'numeroCopias' => $numeroCopias['numero_copias_comanda']
         ]);
     }
 
@@ -873,13 +867,36 @@ class Configuracion extends BaseController
     function eliminacion_masiva()
     {
 
-        $borrar_f_e = model('facturaElectronicaModel')->select('id')->where('id_status', 1)->findAll();
+        $borrar_f_e = model('facturaElectronicaModel')->select('id,id_resolucion')->where('id_status', 1)->findAll();
+
+
 
         foreach ($borrar_f_e as $detalle) {
-            model('facturaElectronicaModel')->where('id', $detalle['id'])->delete();
-            model('pagosModel')->where('id_factura', $detalle['id'])->delete();
-            model('kardexModel')->where('id_factura', $detalle['id'])->delete();
+            //echo  $detalle['id_resolucion'];
+            $exiteREsolucion = model('resolElectronicaModel')->select('id')->where('id', $detalle['id_resolucion'])->first();
+            if (!empty($exiteREsolucion)) {
+                $prefijo = model('resolElectronicaModel')
+                    ->select('prefijo')
+                    ->where('id', $detalle['id_resolucion'])
+                    ->first();
+
+                $numero = model('facturaElectronicaModel')
+                    ->select('numero')
+                    ->where('id', $detalle['id'])
+                    ->first();
+
+                $cadena = $prefijo['prefijo'];
+                //exit();
+
+                // Invertimos la condición: eliminar solo si NO contiene el prefijo
+                if (!str_contains($cadena, $prefijo['prefijo'])) {
+                    model('facturaElectronicaModel')->where('id', $detalle['id'])->delete();
+                    model('pagosModel')->where('id_factura', $detalle['id'])->delete();
+                    model('kardexModel')->where('id_factura', $detalle['id'])->delete();
+                }
+            }
         }
+
 
         /*  $session = session();
         $session->setFlashdata('iconoMensaje', 'success');
@@ -1055,7 +1072,7 @@ class Configuracion extends BaseController
         if ($insert) {
             return $this->response->setJSON([
                 'response' => 'success',
-                'grupos'=>view('boletas/grupos')
+                'grupos' => view('boletas/grupos')
             ]);
         }
     }
@@ -1100,18 +1117,35 @@ class Configuracion extends BaseController
         }
     }
 
-    function deleteDatosGrupoImpresion(){
-       
+    function deleteDatosGrupoImpresion()
+    {
+
         $json = $this->request->getJSON();
         $idGrupo = $json->idGrupo;
 
         $borrar = model('grupoImpresionModel')->where('id', $idGrupo)->delete();
 
-        if ($borrar){
-           return $this->response->setJSON([
+        if ($borrar) {
+            return $this->response->setJSON([
                 'response' => 'success',
-                'id'=>$idGrupo
-            ]); 
+                'id' => $idGrupo
+            ]);
+        }
+    }
+
+    function actualizarNumeroCopias()
+    {
+
+        $json = $this->request->getJSON();
+        $numero  = $json->numero;
+
+        if (!empty($numero)) {
+            $actualizar = model('configuracionPedidoModel')->set('numero_copias_comanda', $numero)->update();
+
+            return $this->response->setJSON([
+                'response' => 'success',
+
+            ]);
         }
     }
 }

@@ -225,7 +225,9 @@
                         <div class="col-md-12 col-12 col-lg-6 ">
                             <div class="input-group">
                                 <span class="input-group-text">Descuento en porcentaje </span>
-                                <input type="number" aria-label="First name" class="form-control" placeholder="%" onkeyup="calcular_porcentaje(this.value)" id="discountPercent">
+                                <input type="number" aria-label="First name" class="form-control" placeholder="%"
+                                    oninput="debouncedCalcularPorcentaje(this.value)" id="discountPercent">
+
                                 <input type="text" id="precio_producto" class="form-control" disabled>
                             </div>
                         </div>
@@ -326,9 +328,9 @@
 
                     <p class="text-center text-primary h3">Lista de precios </p>
                     <div class="row">
-                        
+
                         <div class="col-4 col-md-4  cursor-pointer" onclick="asignar_p1(1)" id="1">
-                           <!--  <div class="card card-inactive ">
+                            <!--  <div class="card card-inactive ">
                                 <div class="card-body">
                                     <p class="text-center h4 text-dark">Precio 1 </p>
                                     <p id="precio_1" class="text-center"></p>
@@ -336,8 +338,8 @@
                             </div> -->
                             <label for="inputEmail4" class="form-label">Precio 1 </label>
                             <a href="#" class="btn btn-outline-primary w-100" id="precio_1">
-                                
-                            </a> 
+
+                            </a>
 
                         </div>
                         <div class="col-4 col-md-4 cursor-pointer" onclick="asignar_p1(2)" id="2">
@@ -350,11 +352,11 @@
 
                             <label for="inputEmail4" class="form-label">Precio 2 </label>
                             <a href="#" class="btn btn-outline-primary w-100" id="precio_2">
-                                
-                            </a> 
+
+                            </a>
 
                         </div>
-                        <div class="col-4 col-md-4 cursor-pointer" onclick="asignar_p1(3)"  id="3">
+                        <div class="col-4 col-md-4 cursor-pointer" onclick="asignar_p1(3)" id="3">
                             <!-- <div class="card card-inactive">
                                 <div class="card-body">
                                     <p class="text-center h4 text-dark">Precio 2 </p>
@@ -363,9 +365,9 @@
                             </div> -->
 
                             <label for="inputEmail4" class="form-label">Precio 3 </label>
-                            <a href="#" class="btn btn-outline-primary w-100" id="precio_3" >
+                            <a href="#" class="btn btn-outline-primary w-100" id="precio_3">
                                 $ 0
-                            </a> 
+                            </a>
 
                         </div>
 

@@ -161,16 +161,18 @@ class Boletas extends BaseController
         $porcentaje_producto = $this->request->getPost('valor');
         $codigo_interno = model('productoPedidoModel')->select('codigointernoproducto')->where('id', $id_producto)->first();
 
-        $valor_unitario = model('productoModel')->select('valorventaproducto')->where('codigointernoproducto',  $codigo_interno['codigointernoproducto'])->first();
+        //$valor_unitario = model('productoModel')->select('valorventaproducto')->where('codigointernoproducto',  $codigo_interno['codigointernoproducto'])->first();
+        $valor_unitario = model('productoPedidoModel')->select('valor_unitario')->where('codigointernoproducto',  $codigo_interno['codigointernoproducto'])->first();
         $cantidad = model('productoPedidoModel')->select('cantidad_producto')->where('id', $id_producto)->first();
 
         // Calcula el valor total usando la fórmula
-        $valor_total = $valor_unitario['valorventaproducto'] * (1 - ($porcentaje_producto / 100));
-        $total =  $valor_total * $cantidad['cantidad_producto'];
+        $valorUnidad = $valor_unitario['valor_unitario'] * (1 - ($porcentaje_producto / 100));  //Valor unitario 
+        //echo $valorUnidad; exit();
+        $total =  $valorUnidad * $cantidad['cantidad_producto'];
 
         $model = model('productoPedidoModel');
-        $actualizar = $model->set('valor_unitario', $total);
-        $actualizar = $model->set('valor_total', $total * $cantidad['cantidad_producto']);
+        $actualizar = $model->set('valor_unitario', $valorUnidad);
+        $actualizar = $model->set('valor_total', $total );
         $actualizar = $model->where('id', $id_producto);
         $actualizar = $model->update();
 
@@ -185,8 +187,10 @@ class Boletas extends BaseController
         $actualizar = $model->update();
 
         $returnData = array(
-            "resultado" => 1, //Falta plata 
-            "total" => number_format($total, 0, ',', '.')
+            "resultado" => 1, 
+            "valorUnitario" => number_format($valorUnidad, 0, ',', '.'),
+            "total"=>$total
+
         );
         echo  json_encode($returnData);
     }
@@ -825,12 +829,12 @@ class Boletas extends BaseController
                 ->where('id_estado', 8)
                 ->first();
 
-                if (!empty($idMesa)) {
-                    $tempNombreMesa = model('mesasModel')->select('nombre')->where('id', $idMesa['id_mesa'])->first();
-                    $mesa = $tempNombreMesa['nombre'] ?? '';
-                } else {
-                    $mesa = "";
-                }
+            if (!empty($idMesa)) {
+                $tempNombreMesa = model('mesasModel')->select('nombre')->where('id', $idMesa['id_mesa'])->first();
+                $mesa = $tempNombreMesa['nombre'] ?? '';
+            } else {
+                $mesa = "";
+            }
 
             $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
             $sub_array[] = $detalle['fecha'];
@@ -974,7 +978,7 @@ class Boletas extends BaseController
         $id_apertura = model('aperturaModel')->selectMax('id')->findAll();
         $apertura = $id_apertura[0]['id'];
 
-       
+
 
 
         $sql_count = '';
@@ -1144,6 +1148,33 @@ class Boletas extends BaseController
 
             );
             echo  json_encode($returnData);
+        }
+    }
+    function propinaMovil()
+    {
+        $json = $this->request->getJSON();
+        $valor_propina    = $json->propina;
+        $id_mesa          = $json->id_mesa;
+        $propina          = str_replace('.', '', $valor_propina);
+
+        /*         $valor_propina    = 1000;
+        $id_mesa          = 68;
+        $propina          = str_replace('.', '', $valor_propina); */
+
+        $model = model('pedidoModel');
+        if (!empty($propina)) {
+            $actualizar = $model->set('propina', $propina);
+            $actualizar = $model->where('fk_mesa', $id_mesa);
+            $actualizar = $model->update();
+            $totalPedido = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
+
+            if ($actualizar) {
+
+                return $this->response->setJSON([
+                    'response' => 'success',
+                    'total' => number_format($totalPedido['valor_total'] + $propina, 0, ",", ".")
+                ]);
+            }
         }
     }
 

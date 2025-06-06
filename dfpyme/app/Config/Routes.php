@@ -614,6 +614,7 @@ $routes->group('eventos', ['namespace' => 'App\Controllers\Boletas', 'filter' =>
     $routes->post('borrar_propina', 'Boletas::borrar_propina');
     $routes->get('tipo_documento', 'Boletas::tipo_documento');
     $routes->post('actualizar_propina', 'Boletas::actualizar_propina');
+    $routes->post('propinaMovil', 'Boletas::propinaMovil');
     $routes->get('consultar_de_tipo_documento', 'Boletas::consultar_de_tipo_documento');
     $routes->get('consultar_cliente', 'Boletas::consultar_cliente');
     $routes->get('get_mesas_pedido', 'Boletas::get_mesas_pedido');
@@ -722,6 +723,7 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('updateGrupoImpresion', 'Configuracion::updateGrupoImpresion');
     $routes->post('updateDatosGrupoImpresion', 'Configuracion::updateDatosGrupoImpresion');
     $routes->post('deleteDatosGrupoImpresion', 'Configuracion::deleteDatosGrupoImpresion');
+    $routes->post('actualizarNumeroCopias', 'Configuracion::actualizarNumeroCopias');
 });
 
 

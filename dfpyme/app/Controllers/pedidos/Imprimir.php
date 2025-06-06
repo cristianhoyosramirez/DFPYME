@@ -180,7 +180,7 @@ class Imprimir extends BaseController
     function imprimirComanda()
     {
         $id_mesa = $this->request->getPost('id_mesa');
-        //$id_mesa = 1;
+        //$id_mesa = 68;
         $id_usuario = $this->request->getPost('id_usuario');
 
         //$id_usuario = 6;
@@ -324,6 +324,8 @@ class Imprimir extends BaseController
 
                     $productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
 
+
+
                     foreach ($productos_pedido as $keyProductos) {
                         $id_grupo = model('productoModel')
                             ->select('grupo_impresion_comanda')
@@ -340,15 +342,22 @@ class Imprimir extends BaseController
                     $grupos = model('grupoImpresionModel')->findAll();
 
                     foreach ($grupos as $keyGrupos) {
-                        $productos = model('productoPedidoModel')->productos_grupo($keyGrupos['id'],$pedido['id']);
+                        $productos = model('productoPedidoModel')->productos_grupo($keyGrupos['id'], $pedido['id']);
 
                         if (!empty($productos)) {
-                            $this->generar_comanda_grupo(
-                                $productos,
-                                $pedido['id'],
-                                $nombre_mesa['nombre'],
-                                $keyGrupos['id_impresora_asignada'],
-                            );
+
+                            $numeroImpresiones = model('configuracionPedidoModel')->select('numero_copias_comanda')->first();
+
+                            for ($i = 1; $i <= (int)$numeroImpresiones['numero_copias_comanda']; $i++) {
+
+                                $this->generar_comanda_grupo(
+                                    $productos,
+                                    $pedido['id'],
+                                    $nombre_mesa['nombre'],
+                                    $keyGrupos['id_impresora_asignada'],
+                                    $i
+                                );
+                            }
                         }
                     }
 
@@ -442,7 +451,7 @@ class Imprimir extends BaseController
                 $printer->text($producto['nota_producto'] . "\n");
                 $printer->setEmphasis(false);
             }
-
+            $printer->setTextSize(1, 1);
             // Línea separadora
             $printer->text("---------------------------------------------\n");
         }
@@ -481,7 +490,7 @@ class Imprimir extends BaseController
 
         $printer->close();
     }
-    function generar_comanda_grupo($productos, $numero_pedido, $nombre_mesa, $id_impresora)
+    function generar_comanda_grupo($productos, $numero_pedido, $nombre_mesa, $id_impresora, $i)
     {
 
 
@@ -492,7 +501,7 @@ class Imprimir extends BaseController
         $id_usuario = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
         $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['fk_usuario'])->first();
 
-       
+
 
         $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
         $printer = new Printer($connector);
@@ -512,6 +521,9 @@ class Imprimir extends BaseController
         $printer->setJustification(Printer::JUSTIFY_LEFT);
 
 
+        $numeroImpresion = model('configuracionPedidoModel')->select('numero_copias_comanda')->first();
+
+
         foreach ($productos as $producto) {
             // Obtener cantidades
             $cantidad_impresa = model('productoPedidoModel')->select('numero_productos_impresos_en_comanda')->where('id', $producto['id'])->first();
@@ -522,10 +534,13 @@ class Imprimir extends BaseController
             $cant_restante = $cant_total - $cant_impresa;
 
             // Actualizar productos impresos
-            $data = [
-                'numero_productos_impresos_en_comanda' => $cant_total
-            ];
-            model('productoPedidoModel')->set($data)->where('id', $producto['id'])->update();
+
+            if ($numeroImpresion['numero_copias_comanda'] == $i) {
+                $data = [
+                    'numero_productos_impresos_en_comanda' => $cant_total
+                ];
+                model('productoPedidoModel')->set($data)->where('id', $producto['id'])->update();
+            }
 
             // --- Impresión ---
             $printer->setJustification(Printer::JUSTIFY_LEFT);
@@ -554,6 +569,7 @@ class Imprimir extends BaseController
                 $printer->setEmphasis(false);
             }
 
+            $printer->setTextSize(1, 1);
             // Línea separadora
             $printer->text("---------------------------------------------\n");
         }
@@ -733,7 +749,9 @@ class Imprimir extends BaseController
 
         $id_mesa = $this->request->getPost('id_mesa');
         //$id_mesa = 418;
-        $propina = $this->request->getPost('propina');
+        //$propina = $this->request->getPost('propina');
+        $tempPropina = model('pedidoModel')->select('propina')->where('fk_mesa', $id_mesa)->first();
+        $propina = $tempPropina['propina'];
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
         $numero_pedido = $pedido['id'];
 
@@ -1208,7 +1226,7 @@ Este monto se distribuye al 100% entre el personal de servicio según el reglame
             foreach ($iva_devolucion as $detalle) {
 
                 $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
-/* 
+                /* 
                 if ($aplica_ico['aplica_ico'] == 't') {
                     $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre, $detalle['codigo']);
 
@@ -1285,7 +1303,7 @@ Este monto se distribuye al 100% entre el personal de servicio según el reglame
             // Título de la tabla
             $printer->setEmphasis(true);
             $printer->text("-----------------------------------------------\n");
-            $printer->text("Tarifa    Base grabable   Valor IVA   Val total\n");
+            $printer->text("Tarifa    Base gravable   Valor IVA   Val total\n");
             $printer->text("-----------------------------------------------\n");
             $printer->setEmphasis(false);
 
@@ -1303,7 +1321,7 @@ Este monto se distribuye al 100% entre el personal de servicio según el reglame
 
             $printer->text("\n");
             $printer->text("-----------------------------------------------\n");
-            $printer->text("Tarifa    Base grabable   Val INC   Val total\n");
+            $printer->text("Tarifa    Base gravable   Val INC   Val total\n");
             $printer->text("-----------------------------------------------\n");
             foreach ($array_ico as $detalle) {
                 //$printer->text($detalle['tarifa_iva']%  "   "  .$detalle['total_iva']."  ".$detalle['valor_venta'] );

@@ -567,6 +567,8 @@ class AbonosController extends BaseController
         $conteo_manual = model('inventarioModel')->cruce_inventario();
         $inventario = model('inventarioModel')->inventario();
         $productos = model('productoModel')->ProductoInventario();
+
+        
     
         return view('inventarios/cruceInventarios', [
             'conteo_manual' => $conteo_manual,

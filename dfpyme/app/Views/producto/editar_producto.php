@@ -2,41 +2,7 @@
     <p class="h4 text-primary">Editar <?php echo $nombre_producto ?></p>
 </div>
 
-<div class="text-end">
 
-    <?php
-    $temp_favorito = model('productoModel')->select('favorito')->where('codigointernoproducto', $codigo_interno_producto)->first();
-
-
-
-
-
-
-
-
-    ?>
-
-
-    <?php if ($temp_favorito['favorito'] == NULL || $temp_favorito['favorito'] == 'f') {
-        $favorito = "false"; ?>
-        <a href="#" id="favorito-btn_editar" class="btn btn-outline-warning btn-icon " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Agregar a favoritos" onclick="favorito_editar()">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
-            </svg>
-        </a>
-    <?php } ?>
-
-    <?php if ($temp_favorito['favorito'] == 't') {
-        $favorito = "true"; ?>
-        <a href="#" id="favorito-btn_editar" class="btn btn-warning btn-icon " data-bs-toggle="tooltip" data-bs-placement="bottom" title="Agregar a favoritos" onclick="favorito_editar()">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"></path>
-            </svg>
-        </a>
-    <?php } ?>
-</div>
 
 </div>
 
@@ -46,7 +12,7 @@
 </div>
 
 <form class="row g-1" action="<?= base_url('producto/actualizar_precio_producto'); ?>" method="post" id="cambiar_datos_de_producto" autocomplete="off">
-    <input type="hidden" id="favorito_editar" name="favorito_editar" value="<?php echo $favorito ?>">
+
     <input type="hidden" id="codigo_interno_producto_editar" value="<?php echo $codigo_interno_producto ?>" name="codigo_interno_producto_editar">
     <div class="col-md-1">
         <label for="inputEmail4" class="form-label">Código </label>
@@ -362,6 +328,15 @@
                         <?php echo $unidad['descripcionvalor_unidad_medida']; ?>
                     </option>
                 <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="col-2">
+            <label for="">Favorito</label>
+
+            <select name="favorito_editar" id="favorito_editar" class="form-select">
+                <option value="true" <?= ($favorito === 't') ? 'selected' : '' ?>>Si</option>
+                <option value="false" <?= ($favorito === 'f') ? 'selected' : '' ?>>No</option>
             </select>
         </div>
     </div>

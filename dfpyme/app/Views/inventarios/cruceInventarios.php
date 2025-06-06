@@ -189,19 +189,19 @@ HOME
                         </tr>
                     </thead>
                     <tbody id="ProdInv">
-                        <?php 
-                        foreach ($productos as $keyProducto): 
-                            $idMedida=model('productoMedidaModel')->select('idvalor_unidad_medida')->where('codigointernoproducto',$keyProducto['codigointernoproducto'])->first();
-                            $unidadMedida=
-                            model('unidadMedidaModel')
-                            ->select('descripcionvalor_unidad_medida')
-                            ->where('idvalor_unidad_medida',$idMedida['idvalor_unidad_medida'])
-                            ->first();
-                            ?>
+                        <?php
+                        foreach ($productos as $keyProducto):
+                            $idMedida = model('productoMedidaModel')->select('idvalor_unidad_medida')->where('codigointernoproducto', $keyProducto['codigointernoproducto'])->first();
+                            $unidadMedida =
+                                model('unidadMedidaModel')
+                                ->select('descripcionvalor_unidad_medida')
+                                ->where('idvalor_unidad_medida', $idMedida['idvalor_unidad_medida'])
+                                ->first();
+                        ?>
                             <tr>
                                 <td><?php echo $keyProducto['codigointernoproducto']; ?></td>
                                 <td class="nombre-producto"><?php echo $keyProducto['nombreproducto']; ?></td>
-                                <td><?php  echo $unidadMedida['descripcionvalor_unidad_medida']; ?></td>
+                                <td><?php echo $unidadMedida['descripcionvalor_unidad_medida']; ?></td>
                                 <td>
                                     <input type="text" class="form-control input-inventario"
                                         value="<?php echo $keyProducto['cantidad_inventario']; ?>">
@@ -212,7 +212,7 @@ HOME
                                 ?>
                                 <?php if (empty($registro)): ?>
                                     <td>
-                                        <input type="text" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
+                                        <input type="text" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInvDebounced(this.value, <?php echo $keyProducto['id']; ?>)">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control input-inventario" id="diferencia<?php echo $keyProducto['id'] ?>" readonly>
@@ -221,7 +221,7 @@ HOME
 
                                 <?php if (!empty($registro)): ?>
                                     <td>
-                                        <input type="text" value="<?php echo $registro[0]['cantidad_inventario_fisico'];  ?>" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInv(this.value,<?php echo $keyProducto['id']; ?> )">
+                                        <input type="text" value="<?php echo $registro[0]['cantidad_inventario_fisico'];  ?>" class="form-control input-inventario" id="<?php echo $keyProducto['id']; ?>" onkeyup="ingresarInvDebounced(this.value, <?php echo $keyProducto['id']; ?>)">
                                     </td>
 
                                     <?php $diferencia = model('inventarioModel')->conteo_manual($keyProducto['codigointernoproducto']); ?>
@@ -680,7 +680,7 @@ HOME
 
 
 
-<script>
+<!-- <script>
     async function ingresarInv(valor, id) {
         try {
             const baseUrl = "<?php echo base_url(); ?>"; // Obtiene el base_url desde PHP
@@ -714,12 +714,65 @@ HOME
             if (data.success === true) {
 
 
-                document.getElementById('message').innerHTML = ""
+                //document.getElementById('message').innerHTML = ""
                 //document.getElementById('productosContados').innerHTML=data.productos
                 document.getElementById('productosconteo').innerHTML = data.productos;
                 document.getElementById('diferencia' + data.id).value = data.diferencia
                 sweet_alert_centrado('success', 'Ingresado al inventario');
 
+            } else {
+                console.warn('Respuesta inesperada del servidor:', data);
+                alert(data.message || 'Hubo un problema en la actualización.');
+            }
+        } catch (error) {
+            console.error('Hubo un problema al actualizar el producto:', error);
+            alert('No se pudo actualizar el producto. Por favor, intenta de nuevo.');
+        }
+    }
+</script> -->
+
+<script>
+    let debounceTimer = null;
+
+    function ingresarInvDebounced(valor, id) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            ingresarInv(valor, id);
+        }, 500); // Espera 500 milisegundos después de la última escritura
+    }
+
+    async function ingresarInv(valor, id) {
+        try {
+            const baseUrl = "<?php echo base_url(); ?>";
+            const url = `${baseUrl}/pre_factura/ingresarInv`;
+
+            if (valor === null || valor === '' || isNaN(valor) || Number(valor) <= 0) {
+                return;
+            }
+
+            const payload = {
+                id: id,
+                valor: valor
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success === true) {
+                document.getElementById('productosconteo').innerHTML = data.productos;
+                document.getElementById('diferencia' + data.id).value = data.diferencia;
+                sweet_alert_centrado('success', 'Ingresado al inventario');
             } else {
                 console.warn('Respuesta inesperada del servidor:', data);
                 alert(data.message || 'Hubo un problema en la actualización.');

@@ -637,6 +637,7 @@ class operacionesProductoController extends BaseController
         $sub_categorias = model('subCategoriaModel')->findAll();
 
         $tipoProducto = model('productoModel')->select('id_tipo_inventario')->where('codigointernoproducto', $id_producto)->first();
+        $favorito = model('productoModel')->select('favorito')->where('codigointernoproducto', $id_producto)->first();
         $UnidaMedida = model('productoMedidaModel')->select('idvalor_unidad_medida')->where('codigointernoproducto', $id_producto)->first();
 
         $returnData = array(
@@ -665,7 +666,8 @@ class operacionesProductoController extends BaseController
                 'sub_categorias' => $sub_categorias,
                 'precio_3' => number_format($precio_3['precio_3'], 0, ",", "."),
                 'tipoProducto' => $tipoProducto['id_tipo_inventario'],
-                'UnidadMedida' => $UnidaMedida['idvalor_unidad_medida']
+                'UnidadMedida' => $UnidaMedida['idvalor_unidad_medida'],
+                'favorito'=>$favorito['favorito']
 
             ])
         );

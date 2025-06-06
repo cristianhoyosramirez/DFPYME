@@ -10,7 +10,8 @@
                 value="<?php echo $numeroComponentes[0]['numero_componentes']; ?>"
                 onclick="this.select()"
                 id="maxComponentes<?php echo $detalle['id'] ?>"
-                onkeyup="maxComponentes(this.value,<?php echo $detalle['id']; ?>)">
+                onkeyup="maxComponentes(this.value,<?php echo $ultimoId; ?>)"
+                >
         </td>
         <td>
             <button type="button" class="btn btn-outline-danger btn-icon"

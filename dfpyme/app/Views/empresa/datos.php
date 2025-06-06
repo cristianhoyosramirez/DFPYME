@@ -61,10 +61,10 @@ PRODUCTO
             <?php } ?>
           </select>
         </div>
-        <div class="col-3">
+    <!--     <div class="col-3">
           <label for="inputAddress2" class="form-label">Razón social</label>
-          <input type="text" class="form-control" name="razon_social" value="<?php echo $datos_empresa[0]['nombrejuridicoempresa'] ?>">
-        </div>
+          <input type="text" class="form-control" name="razon_social" value="<?php #echo $datos_empresa[0]['nombrejuridicoempresa'] ?>">
+        </div> -->
         <div class="col-md-2">
           <label for="inputCity" class="form-label">Nombre comercial</label>
           <input type="text" class="form-control" name="nombre_comercial" value="<?php echo $datos_empresa[0]['nombrecomercialempresa'] ?>">

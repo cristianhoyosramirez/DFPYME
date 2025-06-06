@@ -122,7 +122,7 @@ class mesaController extends BaseController
         $id_mesa = $_POST['id_mesa'];
         $nombre_mesa = model('mesasModel')->select('nombre')->where('id', $id_mesa)->first();
         $tiene_pedido = model('pedidoModel')->select('fk_mesa')->where('fk_mesa', $id_mesa)->first();
-        $mesas = model('mesasModel')->select('*')->where('estado',0)->orderBy('id', 'asc')->find();
+        $mesas = model('mesasModel')->select('*')->where('estado', 0)->orderBy('id', 'asc')->find();
         $cambiar_mesa = view('cambiar_de_mesa/cambiar_de_mesa', [
             'mesas' => $mesas,
             'nombre_mesa' => $nombre_mesa['nombre'],
@@ -195,6 +195,7 @@ class mesaController extends BaseController
         //$id_mesa_origen = 300;
         // $id_mesa_destino = 301;
         $id_mesa_destino = $_POST['id_mesa_destino'];
+        $tipo_pedido = $_POST['tipo_pedido'];
 
         $tiene_pedido = model('pedidoModel')->select('fk_mesa')->where('fk_mesa', $id_mesa_destino)->first();
 
@@ -228,7 +229,7 @@ class mesaController extends BaseController
 
 
             $total = model('productoPedidoModel')->selectSum('valor_total')->where('numero_de_pedido', $numero_pedido_mesa_destino['id'])->findAll();
-            
+
             $model = model('pedidoModel');
             $mesas = $model->set('valor_total', $total[0]['valor_total']);
             $mesas = $model->where('fk_mesa', $id_mesa_destino);
@@ -258,6 +259,7 @@ class mesaController extends BaseController
                 "cantidad_productos" => $cantidad_de_producto[0]['cantidad_producto'],
                 "observaciones_generales" => $observacion_general,
                 "productos_pedido" => $productos_del_pedido,
+                'tipo_pedido'=>$tipo_pedido
             );
             echo  json_encode($returnData);
         }
@@ -304,6 +306,7 @@ class mesaController extends BaseController
                 "cantidad_productos" => $cantidad_de_producto['cantidad_de_productos'],
                 "observaciones_generales" => $observacion_general,
                 "productos_pedido" => $productos_del_pedido,
+                'tipo_pedido'=>$tipo_pedido
             );
             echo  json_encode($returnData);
         }

@@ -25,12 +25,12 @@
                     <div class="row">
                         <!-- Tarjeta fija "Todas las mesas" -->
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                            <a href="#" id="cardtodas" class="card card-link" onclick="mesasConPedido()">
+                            <a href="#" id="mesasConPedido" class="card card-link" onclick="mesasConPedido()">
                                 <div class="card-body">MESAS CON PEDIDO </div>
                             </a>
                         </div>
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                            <a href="#" id="cardtodas" class="card card-link" onclick="buscar_mesa_salon('todas')">
+                            <a href="#" id="cardtodas" class="card card-link mesasPersonalizadas" onclick="buscar_mesa_salon('todas')">
                                 <div class="card-body">TODAS LAS MESAS </div>
                             </a>
                         </div>
@@ -39,8 +39,8 @@
                         <?php $salones = model('salonesModel')->findAll(); ?>
 
                         <?php foreach ($salones as $detalle_salon): ?>
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                <a href="#" id="card<?php echo $detalle_salon['id'] ?>" class="card card-link" onclick="buscar_mesa_salon(<?php echo $detalle_salon['id'] ?>)">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 ">
+                                <a href="#" id="card<?php echo $detalle_salon['id'] ?>" class="card card-link mesasPersonalizadas" onclick="buscar_mesa_salon(<?php echo $detalle_salon['id'] ?>)">
                                     <div class="card-body"><?php echo $detalle_salon['nombre'] ?></div>
                                 </a>
                             </div>
