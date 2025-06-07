@@ -155,7 +155,7 @@ UPDATE cliente
 SET emailcliente = 'correo@corre.com',
     direccioncliente = 'xxx'
 WHERE nitcliente = '222222222222';
-
+truncate producto_atributos;
 -- ========================================
 -- NOTAS PENDIENTES / TAREAS
 -- ========================================

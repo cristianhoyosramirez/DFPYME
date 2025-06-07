@@ -154,14 +154,28 @@ class ConfigurarProductocontroller extends BaseController
         $json = $this->request->getJSON();
         $id = $json->id;
 
-        $borrarComponentes = model('componentesAtributosProductoModel')->where('id_atributo', $id)->delete();
-        $borrar = model('atributosProductoModel')->where('id', $id)->delete();
+
+        $tieneProductosAsociados = model('configuracionAtributosProductoModel')->where('id_atributo', $id)->findAll();
+
+        if (empty($tieneProductosAsociados)) {
+            $borrarComponentes = model('componentesAtributosProductoModel')->where('id_atributo', $id)->delete();
+            $borrar = model('atributosProductoModel')->where('id', $id)->delete();
 
 
-        return $this->response->setJSON([
-            'response' => 'success',
-            'id' => $id
-        ]);
+            return $this->response->setJSON([
+                'response' => 'success',
+                'id' => $id
+            ]);
+        }else if (!empty($tieneProductosAsociados)){
+
+            return $this->response->setJSON([
+                'response' => 'exits',
+                'produto'=>view('atributos/atributosAsociados',[
+                    'id_atributo'=>$id
+                ])
+            ]);
+
+        }
 
         /* $componentes = model('componentesAtributosProductoModel')->where('id_atributo', $id)->first();
 
@@ -252,8 +266,8 @@ class ConfigurarProductocontroller extends BaseController
         $idAtributo = $json->idAtributo;
         //$idAtributo = 1;
 
-        //$existeAtributo = model('configuracionAtributosProductoModel')->where('id_atributo', $idAtributo)->first();
-        $existeAtributo = model('configuracionAtributosProductoModel')->existeAtributosProducto($idProducto, $idAtributo);
+        $existeAtributo = model('configuracionAtributosProductoModel')->where('id_atributo', $idAtributo)->first();
+        //$existeAtributo = model('configuracionAtributosProductoModel')->existeAtributosProducto($idProducto, $idAtributo);
         if (empty($existeAtributo)) {
             $data = [
                 'id_producto' => $idProducto,
@@ -324,7 +338,7 @@ class ConfigurarProductocontroller extends BaseController
         $json = $this->request->getJSON();
         $valor = $json->valor;
         $idProductoAtributo = $json->idProductoAtributo;
-    
+
 
 
         $update = model('configuracionAtributosProductoModel')

@@ -864,17 +864,17 @@ class Configuracion extends BaseController
         }
     }
 
-    function eliminacion_masiva()
+    /*  function eliminacion_masiva()
     {
 
         $borrar_f_e = model('facturaElectronicaModel')->select('id,id_resolucion')->where('id_status', 1)->findAll();
 
-
-
         foreach ($borrar_f_e as $detalle) {
-            //echo  $detalle['id_resolucion'];
+
             $exiteREsolucion = model('resolElectronicaModel')->select('id')->where('id', $detalle['id_resolucion'])->first();
+
             if (!empty($exiteREsolucion)) {
+
                 $prefijo = model('resolElectronicaModel')
                     ->select('prefijo')
                     ->where('id', $detalle['id_resolucion'])
@@ -885,28 +885,134 @@ class Configuracion extends BaseController
                     ->where('id', $detalle['id'])
                     ->first();
 
-                $cadena = $prefijo['prefijo'];
-                //exit();
+               
+                $numeroLimpio = strtolower(trim($numero['numero']));
+                $prefijoLimpio = strtolower(trim($prefijo['prefijo']));
 
-                // Invertimos la condición: eliminar solo si NO contiene el prefijo
-                if (!str_contains($cadena, $prefijo['prefijo'])) {
+                if (str_contains($numeroLimpio, $prefijoLimpio)) {
+                    
+                } else {
+                   
+                
                     model('facturaElectronicaModel')->where('id', $detalle['id'])->delete();
                     model('pagosModel')->where('id_factura', $detalle['id'])->delete();
                     model('kardexModel')->where('id_factura', $detalle['id'])->delete();
                 }
+
+            
+                
+
+            } else {
+                model('facturaElectronicaModel')->where('id', $detalle['id'])->delete();
+                model('pagosModel')->where('id_factura', $detalle['id'])->delete();
+                model('kardexModel')->where('id_factura', $detalle['id'])->delete();
             }
         }
 
 
-        /*  $session = session();
+        $session = session();
         $session->setFlashdata('iconoMensaje', 'success');
-        return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa '); */
+        return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa ');
 
         $returnData = array(
             "resultado" => 1,
         );
         echo  json_encode($returnData);
+    }  */
+
+
+  /*   public function eliminacion_masiva()
+    {
+        $facturas = model('facturaElectronicaModel')
+            ->select('id, id_resolucion, numero')
+            ->where('id_status', 1)
+            ->findAll();
+
+        foreach ($facturas as $factura) {
+            $idFactura = $factura['id'];
+            $idResolucion = $factura['id_resolucion'];
+            $numero = strtolower(trim($factura['numero']));
+
+            $resolucion = model('resolElectronicaModel')
+                ->select('prefijo')
+                ->where('id', $idResolucion)
+                ->first();
+
+            if ($resolucion) {
+                $prefijo = strtolower(trim($resolucion['prefijo']));
+
+                if (!str_contains($numero, $prefijo)) {
+                    $this->eliminarFacturaCompleta($idFactura);
+                }
+            } else {
+                $this->eliminarFacturaCompleta($idFactura);
+            }
+        }
+
+        // Mensaje y redirección
+        session()->setFlashdata('iconoMensaje', 'success');
+        session()->setFlashdata('mensaje', 'Gestión exitosa');
+        return redirect()->to(base_url('pedidos/mesas'));
     }
+
+    private function eliminarFacturaCompleta($idFactura)
+    {
+        model('facturaElectronicaModel')->where('id', $idFactura)->delete();
+        model('pagosModel')->where('id_factura', $idFactura)->delete();
+        model('kardexModel')->where('id_factura', $idFactura)->delete();
+    } */
+
+
+
+    public function eliminacion_masiva()
+{
+    $facturas = model('facturaElectronicaModel')
+        ->select('id, id_resolucion, numero')
+        ->where('id_status', 1)
+        ->findAll();
+
+    foreach ($facturas as $factura) {
+        $idFactura = $factura['id'];
+        $idResolucion = $factura['id_resolucion'];
+        $numero = strtolower(trim($factura['numero']));
+
+        $resolucion = model('resolElectronicaModel')
+            ->select('prefijo')
+            ->where('id', $idResolucion)
+            ->first();
+
+        if ($resolucion) {
+            $prefijo = strtolower(trim($resolucion['prefijo']));
+
+            if (!str_contains($numero, $prefijo)) {
+                $this->eliminarFacturaCompleta($idFactura);
+            }
+        } else {
+            $this->eliminarFacturaCompleta($idFactura);
+        }
+    }
+
+    // Mensaje y redirección
+   /*  session()->setFlashdata('iconoMensaje', 'success');
+    session()->setFlashdata('mensaje', 'Gestión exitosa');
+    return redirect()->to(base_url('pedidos/mesas')); */
+         $returnData = array(
+            "resultado" => 1,
+        );
+        echo  json_encode($returnData);
+}
+
+private function eliminarFacturaCompleta($idFactura)
+{
+    model('facturaElectronicaModel')->where('id', $idFactura)->delete();
+    model('pagosModel')->where('id_factura', $idFactura)->delete();
+    model('kardexModel')->where('id_factura', $idFactura)->delete();
+}
+
+
+
+
+
 
     function propina_parcial()
     {

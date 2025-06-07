@@ -640,6 +640,13 @@ class operacionesProductoController extends BaseController
         $favorito = model('productoModel')->select('favorito')->where('codigointernoproducto', $id_producto)->first();
         $UnidaMedida = model('productoMedidaModel')->select('idvalor_unidad_medida')->where('codigointernoproducto', $id_producto)->first();
 
+        if (!empty($UnidaMedida)){
+            $unidad_medida= $UnidaMedida['idvalor_unidad_medida'];
+        }
+        if (empty($UnidaMedida)){
+            $unidad_medida= 1;
+        }
+
         $returnData = array(
             "resultado" => 1,
             "edicion_producto" => view('producto/editar_producto', [
@@ -666,7 +673,7 @@ class operacionesProductoController extends BaseController
                 'sub_categorias' => $sub_categorias,
                 'precio_3' => number_format($precio_3['precio_3'], 0, ",", "."),
                 'tipoProducto' => $tipoProducto['id_tipo_inventario'],
-                'UnidadMedida' => $UnidaMedida['idvalor_unidad_medida'],
+                'UnidadMedida' => $unidad_medida,
                 'favorito'=>$favorito['favorito']
 
             ])

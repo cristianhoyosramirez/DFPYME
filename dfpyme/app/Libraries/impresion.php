@@ -807,8 +807,10 @@ class impresion
 
         $mesaMesero = model('pagosModel')->getMesaMesero($id_factura);
 
-        $printer->text("Mesa: " . $mesaMesero[0]['nombre_mesa'] .  "\n");
-        $printer->text("Mesero: " . $mesaMesero[0]['nombre_mesero'] . "\n");
+        if (!empty($mesaMesero)) {
+            $printer->text("Mesa: " . $mesaMesero[0]['nombre_mesa'] .  "\n");
+            $printer->text("Mesero: " . $mesaMesero[0]['nombre_mesero'] . "\n");
+        }
         $printer->text("\n");
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->text("SOFTWARE DFPYME \n");
@@ -1108,7 +1110,7 @@ class impresion
             $printer->text("12 LITROS DE TETRAPCK   " . "\n");
             $printer->text("1 GARRAFA DE ACEITE X 3000 CC" . "\n");
 
-           
+
             $printer->setJustification(Printer::JUSTIFY_CENTER);
             $printer->setTextSize(1, 1);
             // $printer->text("IMPRESO POR SOFTWARE DFPYME INTREDETE" . "\n");

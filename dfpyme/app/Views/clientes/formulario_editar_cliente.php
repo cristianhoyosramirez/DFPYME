@@ -5,7 +5,7 @@
     <input type="hidden" id="id_cliente" value="<?php echo $id_cliente ?>" name="id_cliente">
 
     <div class="col-md-3">
-        <label for="inputEmail4" class="form-label">Tipo de persona</label>
+        <label for="inputEmail4" class="form-label">Tipo de persona</label> 
 
         <select class="form-select" id="tipo_of_persona" name="tipo_depersona" onchange="selectTipoPersona(this.value)">
             <option value="2" <?= ($datos_cliente['type_person'] == 2) ? 'selected' : '' ?>>Natural</option>
@@ -110,13 +110,13 @@
     <?php if ($datos_cliente['type_person'] == 2): ?>
         <div id="nombreApellidos" class="row">
             <div class="col-md-6">
-                <label class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="nombres" name="nombres" onkeyup="saltar_factura_pos(event,'apellidos')" required>
+                <label class="form-label">Nombres</label> 
+                <input type="text" class="form-control" id="nombres" name="nombres" onkeyup="saltar_factura_pos(event,'apellidos')" value="<?php echo ($datos_cliente['name']); ?>" required>
                 <span class="text-danger error-text nombres_error"></span>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="apellidos" name="apellidos" onkeyup="saltar_factura_pos(event,'direccion')" required>
+                <input type="text" class="form-control" id="apellidos" name="apellidos" onkeyup="saltar_factura_pos(event,'direccion')" value="<?php echo ($datos_cliente['last_name']); ?>" required>
                 <span class="text-danger error-text apellidos_error"></span>
             </div>
         </div>
