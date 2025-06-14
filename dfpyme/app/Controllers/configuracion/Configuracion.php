@@ -652,14 +652,13 @@ class Configuracion extends BaseController
 
     function comanda()
     {
-
-        $numeroCopias = model('configuracionPedidoModel')->select('numero_copias_comanda')->first();
-
-
-
-        return view('configuracion/comanda', [
-            'numeroCopias' => $numeroCopias['numero_copias_comanda']
-        ]);
+        $reimpresionComanda = model('configuracionPedidoModel')->select('reimpresion_comanda')->first();
+        return view(
+            'configuracion/comanda',
+            [
+                'reimpresion' => $reimpresionComanda['reimpresion_comanda']
+            ]
+        );
     }
 
     function actualizar_comanda()
@@ -864,64 +863,9 @@ class Configuracion extends BaseController
         }
     }
 
-    /*  function eliminacion_masiva()
-    {
-
-        $borrar_f_e = model('facturaElectronicaModel')->select('id,id_resolucion')->where('id_status', 1)->findAll();
-
-        foreach ($borrar_f_e as $detalle) {
-
-            $exiteREsolucion = model('resolElectronicaModel')->select('id')->where('id', $detalle['id_resolucion'])->first();
-
-            if (!empty($exiteREsolucion)) {
-
-                $prefijo = model('resolElectronicaModel')
-                    ->select('prefijo')
-                    ->where('id', $detalle['id_resolucion'])
-                    ->first();
-
-                $numero = model('facturaElectronicaModel')
-                    ->select('numero')
-                    ->where('id', $detalle['id'])
-                    ->first();
-
-               
-                $numeroLimpio = strtolower(trim($numero['numero']));
-                $prefijoLimpio = strtolower(trim($prefijo['prefijo']));
-
-                if (str_contains($numeroLimpio, $prefijoLimpio)) {
-                    
-                } else {
-                   
-                
-                    model('facturaElectronicaModel')->where('id', $detalle['id'])->delete();
-                    model('pagosModel')->where('id_factura', $detalle['id'])->delete();
-                    model('kardexModel')->where('id_factura', $detalle['id'])->delete();
-                }
-
-            
-                
-
-            } else {
-                model('facturaElectronicaModel')->where('id', $detalle['id'])->delete();
-                model('pagosModel')->where('id_factura', $detalle['id'])->delete();
-                model('kardexModel')->where('id_factura', $detalle['id'])->delete();
-            }
-        }
 
 
-        $session = session();
-        $session->setFlashdata('iconoMensaje', 'success');
-        return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'Gestion éxitosa ');
-
-        $returnData = array(
-            "resultado" => 1,
-        );
-        echo  json_encode($returnData);
-    }  */
-
-
-  /*   public function eliminacion_masiva()
+    public function eliminacion_masiva()
     {
         $facturas = model('facturaElectronicaModel')
             ->select('id, id_resolucion, numero')
@@ -950,9 +894,13 @@ class Configuracion extends BaseController
         }
 
         // Mensaje y redirección
-        session()->setFlashdata('iconoMensaje', 'success');
-        session()->setFlashdata('mensaje', 'Gestión exitosa');
-        return redirect()->to(base_url('pedidos/mesas'));
+        /*  session()->setFlashdata('iconoMensaje', 'success');
+    session()->setFlashdata('mensaje', 'Gestión exitosa');
+    return redirect()->to(base_url('pedidos/mesas')); */
+        $returnData = array(
+            "resultado" => 1,
+        );
+        echo  json_encode($returnData);
     }
 
     private function eliminarFacturaCompleta($idFactura)
@@ -960,54 +908,7 @@ class Configuracion extends BaseController
         model('facturaElectronicaModel')->where('id', $idFactura)->delete();
         model('pagosModel')->where('id_factura', $idFactura)->delete();
         model('kardexModel')->where('id_factura', $idFactura)->delete();
-    } */
-
-
-
-    public function eliminacion_masiva()
-{
-    $facturas = model('facturaElectronicaModel')
-        ->select('id, id_resolucion, numero')
-        ->where('id_status', 1)
-        ->findAll();
-
-    foreach ($facturas as $factura) {
-        $idFactura = $factura['id'];
-        $idResolucion = $factura['id_resolucion'];
-        $numero = strtolower(trim($factura['numero']));
-
-        $resolucion = model('resolElectronicaModel')
-            ->select('prefijo')
-            ->where('id', $idResolucion)
-            ->first();
-
-        if ($resolucion) {
-            $prefijo = strtolower(trim($resolucion['prefijo']));
-
-            if (!str_contains($numero, $prefijo)) {
-                $this->eliminarFacturaCompleta($idFactura);
-            }
-        } else {
-            $this->eliminarFacturaCompleta($idFactura);
-        }
     }
-
-    // Mensaje y redirección
-   /*  session()->setFlashdata('iconoMensaje', 'success');
-    session()->setFlashdata('mensaje', 'Gestión exitosa');
-    return redirect()->to(base_url('pedidos/mesas')); */
-         $returnData = array(
-            "resultado" => 1,
-        );
-        echo  json_encode($returnData);
-}
-
-private function eliminarFacturaCompleta($idFactura)
-{
-    model('facturaElectronicaModel')->where('id', $idFactura)->delete();
-    model('pagosModel')->where('id_factura', $idFactura)->delete();
-    model('kardexModel')->where('id_factura', $idFactura)->delete();
-}
 
 
 
@@ -1167,10 +1068,12 @@ private function eliminarFacturaCompleta($idFactura)
         $json = $this->request->getJSON();
         $idImpresora = $json->idImpresora;
         $nombre = $json->nombre;
+        $copias = $json->copias;
 
         $data = [
             'nombre' => $nombre,
-            'id_impresora_asignada' => $idImpresora
+            'id_impresora_asignada' => $idImpresora,
+            'numero_copias' => $copias
         ];
 
         $insert = model('grupoImpresionModel')->insert($data);
@@ -1244,14 +1147,71 @@ private function eliminarFacturaCompleta($idFactura)
 
         $json = $this->request->getJSON();
         $numero  = $json->numero;
+        $id  = $json->id;
 
         if (!empty($numero)) {
-            $actualizar = model('configuracionPedidoModel')->set('numero_copias_comanda', $numero)->update();
+            $actualizar = model('grupoImpresionModel')->set('numero_copias', $numero)->where('id', $id)->update();
 
             return $this->response->setJSON([
                 'response' => 'success',
 
             ]);
         }
+    }
+
+    function reimpresionComanda()
+    {
+
+        $json = $this->request->getJSON();
+        $valor  = $json->valor;
+
+        $actualizar = model('configuracionPedidoModel')->set('reimpresion_comanda', $valor)->update();
+
+        return $this->response->setJSON([
+            'response' => 'success',
+
+        ]);
+    }
+
+    function configuracionBono()
+    {
+
+        $terminosCondiciones = model('configuracionPedidoModel')->select('terminos_condiones')->first();
+        $mostrarBoton = model('configuracionPedidoModel')->select('mostrar_boton_imprimir_bono')->first();
+
+        //dd($terminosCondiciones);
+
+        return view('configuracion/bono', [
+            'terminosCondiciones' => $terminosCondiciones['terminos_condiones'],
+            'mostrarBoton'=> $mostrarBoton['mostrar_boton_imprimir_bono']
+        ]);
+    }
+
+    function terminosCondiciones()
+    {
+
+        $json = $this->request->getJSON();
+        $valor  = $json->valor;
+
+        $actualizar = model('configuracionPedidoModel')->set('terminos_condiones', $valor)->update();
+
+        return $this->response->setJSON([
+            'response' => 'success',
+
+        ]);
+    }
+
+    function mostrarBotonBono()
+    {
+
+        $json = $this->request->getJSON();
+        $valor  = $json->valor;
+
+        $actualizar = model('configuracionPedidoModel')->set('mostrar_boton_imprimir_bono', $valor)->update();
+
+        return $this->response->setJSON([
+            'response' => 'success',
+
+        ]);
     }
 }

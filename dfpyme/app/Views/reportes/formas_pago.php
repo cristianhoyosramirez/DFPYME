@@ -12,7 +12,7 @@ Reporte formas pago
 
 
 <div class="container">
-    <p class="text-center text-primary h3">INFORME DE FORMAS DE PAGO </p>
+    <p class="text-center text-primary h3">Informe de formas de pago  </p>
 
     <div class="my-4"></div> <!-- Added space between the title and date inputs -->
     <!-- Agregar una barra de progreso -->

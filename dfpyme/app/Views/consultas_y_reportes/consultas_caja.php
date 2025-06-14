@@ -6,7 +6,7 @@ REPORTE DE VENTAS DIARIAS
 <?= $this->section('content') ?>
 <div class="card container">
     <div class="card-body">
-        <p class="text-center fs-3 fw-bold text-primary">CONSULTAS DE MOVIMIENTO DE CAJA </p>
+        <p class="text-center fs-3 fw-bold text-primary">Consultas de movimiento de caja </p>
         <form class="row g-3" id="formulario_movimiento_caja" action="<?= base_url('consultas_y_reportes/datos_consultas_caja_por_fecha') ?>" method="POST">
             <div class="col-3">
                 <select class="form-select" name="numero_caja">

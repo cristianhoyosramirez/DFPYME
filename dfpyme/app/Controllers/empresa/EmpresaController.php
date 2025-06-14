@@ -616,4 +616,48 @@ class EmpresaController extends BaseController
             'response' => 'success'
         ]);
     }
+
+    function actualizarNombreConsecutivo()
+    {
+
+        $json = $this->request->getJSON();
+        $nombre = $json->nombre;
+        $id = $json->id;
+
+
+        $actualizar = model('consecutivosModel')->set('conceptoconsecutivo', $nombre)->where('idconsecutivos', $id)->update();
+    }
+
+    function actualizarSerieConsecutivo()
+    {
+
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+        $actualizar = model('consecutivosModel')->actualizarSerie($valor);
+    }
+
+    function crearConsecutivo()
+    {
+
+        $json = $this->request->getJSON();
+        $concepto  = $json->concepto;
+        $valor  = $json->valor;
+
+        $data = [
+            'conceptoconsecutivo' => $concepto,
+            'numeroconsecutivo' => $valor
+        ];
+
+        $insert = model('consecutivosModel')->insert($data);
+
+        return $this->response->setJSON([
+            'response' => 'success',
+
+        ]);
+    }
+
+    function bono()
+    {
+        return view('configuracion/gestionBonos');
+    }
 }

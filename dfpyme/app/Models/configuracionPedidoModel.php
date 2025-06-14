@@ -14,6 +14,7 @@ class configuracionPedidoModel extends Model
         'valor_defecto_propina', 'sub_categoria', 'borrar_remisiones', 'partir_comanda', 'producto_favoroitos', 'requiere_mesa',
         'encabezado_factura', 'pie_factura','eliminar_factura_electronica','impuesto','comanda','calculo_propina','url','altura',
         'codigo_pantalla',
-        'notaPedido','mostrarmesero','recetasmodal','criterio_impresion_comanda','version','numero_copias_comanda'
+        'notaPedido','mostrarmesero','recetasmodal','criterio_impresion_comanda','version',
+        'numero_copias_comanda','reimpresion_comanda','mostrar_boton_imprimir_bono','terminos_condiones'
     ];
 }

@@ -58,7 +58,9 @@
                 autocomplete="off"
                 autocorrect="off"
                 autocapitalize="off"
-                spellcheck="false">
+                spellcheck="false"
+                required
+                maxlength="15">
 
               <input type="text" readonly class="form-control" id="dv" name="dv" placeholder="DV" style="max-width: 80px;" onkeyup="saltar_factura_pos(event,'nombres');">
             </div>
@@ -139,7 +141,7 @@
 
           <!-- Ciudad -->
           <div class="col-md-4">
-            <label class="form-label">Ciudades</label>
+            <label class="form-label">Ciudad</label>
             <select class="form-select" id="ciudad" name="ciudad">
               <option value="<?php echo $datos_empresa[0]['idciudad'];  ?>"><?php echo $datos_empresa[0]['nombreciudad'];  ?></option>
               <?php foreach ($ciudades as $detalleCiudades): ?>
@@ -163,7 +165,7 @@
           <!-- Correo y Teléfono -->
           <div class="col-md-4">
             <label class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" value="<?php echo $consumidorFinal['emailcliente']; ?>">
+            <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" value="<?php echo $consumidorFinal['emailcliente']; ?>" required>
             <span class="text-danger error-text correo_electronico_error"></span>
           </div>
 
@@ -321,6 +323,8 @@
     document.getElementById('dv').value = dv;
   }
 </script>
+
+
 
 
 

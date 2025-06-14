@@ -1141,10 +1141,14 @@ class Boletas extends BaseController
         $actualizar = $model->where('fk_mesa', $id_mesa);
         $actualizar = $model->update();
 
+        $valorPedido=model('pedidoModel')->select('valor_total')->where('fk_mesa',$id_mesa)->first();
+
+
         if ($actualizar) {
 
             $returnData = array(
-                "resultado" => 1,  // Se actulizo el registro 
+                "resultado" => 1,
+                "total"=>number_format($valorPedido['valor_total']+$valor_propina, 0, ",", "." ) // Se actulizo el registro 
 
             );
             echo  json_encode($returnData);

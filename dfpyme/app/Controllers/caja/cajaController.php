@@ -89,7 +89,7 @@ class cajaController extends BaseController
         ];
         $apertura_registro = model('aperturaRegistroModel')->insert($apertura_registro);
 
-        $numeroInforme = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 103)->first();
+        $numeroInforme = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 104)->first();
 
         $data = [
             'fecha' => $fecha_apertura,
@@ -105,7 +105,7 @@ class cajaController extends BaseController
 
         $updateNumeroInforme = model('consecutivosModel')
             ->set('numeroconsecutivo', $numeroInforme['numeroconsecutivo'] + 1)
-            ->where('idconsecutivos', 103)
+            ->where('idconsecutivos', 104)
             ->update();
 
         $session = session();

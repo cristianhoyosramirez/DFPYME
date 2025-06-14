@@ -215,7 +215,7 @@ class ClienteController extends BaseController
         $apellidos = $_POST['apellidos'];
 
         if ($tipoPersona == 2) {  // Tipo de persona Natural 
-            $nombre = $_POST['nombres'];
+            $nombre = $_POST['nombres']." ".$apellidos;
         }
         if ($tipoPersona == 1) {  // Tipo de persona Natural 
             $nombre = $_POST['razon_social'];
@@ -606,17 +606,21 @@ class ClienteController extends BaseController
             'is_customer' => 'true'
         ]; */
 
+
+
         $tipoPersona = $_POST['tipo_depersona'];
         //$tipoPersona = 1;
         if ($tipoPersona == 2) {  // Tipo de persona Natural 
-            $nombre = $_POST['nombres'];
-            $apellidos = $_POST['apellidos'];
+            $nombre = $_POST['nombres']." ".$_POST['apellidos_edicion'] ;
+            $apellidos = $_POST['apellidos_edicion'];
         }
         if ($tipoPersona == 1) {  // Tipo de persona Natural 
             //$nombre = $_POST['razon_social'];
-            $nombre = $_POST['razon_social'];
+            $nombre = $_POST['razon_social_edicion'];
             $apellidos = "";
         }
+
+    
 
         $data = [
             'nitcliente' => $identificacion,
@@ -633,12 +637,13 @@ class ClienteController extends BaseController
             'id_clasificacion' => 1,
             'name' => $nombre,
             'last_name' => $apellidos,
-             'dv' => $this->request->getPost('dv'),
+            'dv' => $this->request->getPost('dv'),
             'type_person' => $this->request->getPost('tipo_depersona'),
             'type_document' => $this->request->getPost('tipo_documento'),
             'name_comercial' => $nombre,
             'is_customer' => 'true'
         ];
+
 
 
         /* 
@@ -678,7 +683,7 @@ class ClienteController extends BaseController
         $cliente = $model->where('id', $id_cliente);
         $cliente = $model->update();
 
-        
+
 
         /* 
         $model = model('detallesTributariosModel');

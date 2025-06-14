@@ -101,6 +101,26 @@ class productoPedidoModel extends Model
         ");
         return $datos->getResultArray();
     }
+    public function productosPedidoReimprimir($numero_pedido)
+    {
+        $datos = $this->db->query("
+        SELECT
+             producto_pedido.id as id,
+             producto.nombreproducto,
+             producto.valorventaproducto,
+             valor_total,
+             cantidad_producto,
+             nota_producto,
+             valor_unitario,
+             producto_pedido.codigointernoproducto,
+             numero_productos_impresos_en_comanda
+        FROM
+             producto_pedido
+        INNER JOIN producto ON producto_pedido.codigointernoproducto = producto.codigointernoproducto
+        where numero_de_pedido='$numero_pedido'  and se_imprime_en_comanda='true'   order by id asc;
+        ");
+        return $datos->getResultArray();
+    }
 
     public function productosPedidoCategoria($numero_pedido,$codigoCategoria)
     {
@@ -615,7 +635,7 @@ class productoPedidoModel extends Model
         FROM
              producto_pedido
         INNER JOIN producto ON producto_pedido.codigointernoproducto = producto.codigointernoproducto
-        where producto_pedido.id_impresora=$id_impresora  and se_imprime_en_comanda='true' and  numero_productos_impresos_en_comanda < cantidad_producto  order by id asc;
+        where producto_pedido.id_impresora=$id_impresora  and se_imprime_en_comanda='true'  order by id asc;
         ");
         return $datos->getResultArray();
     }
@@ -677,6 +697,27 @@ class productoPedidoModel extends Model
              producto_pedido
         INNER JOIN producto ON producto_pedido.codigointernoproducto = producto.codigointernoproducto
         where producto_pedido.id_grupo=$id_grupo and numero_de_pedido= $pedido and se_imprime_en_comanda='true' and  numero_productos_impresos_en_comanda < cantidad_producto  order by id asc;
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function productosGrupoReimprimir($id_grupo,$pedido)
+    {
+        $datos = $this->db->query("
+        SELECT
+             producto_pedido.id as id,
+             producto.nombreproducto,
+             producto.valorventaproducto,
+             valor_total,
+             cantidad_producto,
+             nota_producto,
+             valor_unitario,
+             producto_pedido.codigointernoproducto,
+             numero_productos_impresos_en_comanda
+        FROM
+             producto_pedido
+        INNER JOIN producto ON producto_pedido.codigointernoproducto = producto.codigointernoproducto
+        where producto_pedido.id_grupo=$id_grupo and numero_de_pedido= $pedido and se_imprime_en_comanda='true' order by id asc;
         ");
         return $datos->getResultArray();
     }

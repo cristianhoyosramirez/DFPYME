@@ -288,10 +288,14 @@
                             // Eliminar el elemento del DOM si la eliminación fue exitosa
                             document.getElementById('accordion' + resultado.id).remove();
                             sweet_alert_centrado('success', 'Atributo eliminado')
-                        } else if (resultado.response == "exits"){
+                        } else if (resultado.response == "exits") {
 
-                            Swal.fire("Error", "No se pudo eliminar el atributo.", "error");
-                            
+                            Swal.fire({
+                                icon: "error",
+                                title: "No se pudo eliminar el atributo",
+                                html: resultado.producto, // 👈 Aquí se pega el HTML recibido
+                            });
+
                         }
                     } catch (error) {
                         console.error("Error en la petición:", error);

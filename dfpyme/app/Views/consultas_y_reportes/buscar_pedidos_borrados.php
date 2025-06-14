@@ -13,7 +13,7 @@ BUSCAR PEDIDOS BORRADOS
 </div>
 
 <div class="container">
-    <p class="text-center h2 text-primary">PEDIDOS ELIMINADOS</p>
+    <p class="text-center h2 text-primary">Pedidos eliminados</p>
 </div>
 <br>
 <div class="card container">

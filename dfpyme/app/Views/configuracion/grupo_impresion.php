@@ -16,6 +16,7 @@ $impresoras = model('impresorasModel')->findAll();
         <tr>
             <td scope="col">Nombre grupo</th>
             <td scope="col">Impresora asignada</th>
+            <td scope="col">Numero de copias </th>
             <td scope="col">Acciones</th>
         </tr>
     </thead>
@@ -33,6 +34,7 @@ $impresoras = model('impresorasModel')->findAll();
                         <?php endforeach; ?>
                     </select>
                 </td>
+                <td><input type="text" class="form-control" onkeyup="actualizacionNumeroCopias(<?php echo $detalleGrupos['id']; ?>,this.value)" value="<?php echo $detalleGrupos['numero_copias']; ?>"></td>
                 <td>
                     <div class="d-flex gap-2">
                         <button class="btn btn-outline-success btn-icon" data-bs-toggle="tooltip" title="Actualizar" data-bs-placement="bottom" onclick="actualizarGrupo(<?php echo $detalleGrupos['id'] ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
@@ -80,6 +82,11 @@ $impresoras = model('impresorasModel')->findAll();
                             <?php endforeach ?>
                         </select>
                     </div>
+                    <div class="col">
+                        <label for="" class="form-label text-light">Asignar impresora</label>
+                        <input type="text" class="form-control" id="numeroImpresiones" value=1>
+
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -89,3 +96,38 @@ $impresoras = model('impresorasModel')->findAll();
         </div>
     </div>
 </div>
+
+
+
+<script>
+    async function actualizacionNumeroCopias(id,numero) {
+        
+        try {
+            console.log(numero)
+            let response = await fetch("<?= base_url('configuracion/actualizarNumeroCopias') ?>", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    numero: numero,
+                    id:id
+                   
+                })
+            });
+
+            if (response.ok) {
+                const resultado = await response.json();
+                if (resultado.response = "success") {
+                    sweet_alert_centrado('success', 'Datos actualizados')
+                }
+            } else {
+                const error = await response.text();
+                //alert("Error al crear el grupo: " + error);
+            }
+        } catch (error) {
+            console.error("Error de red:", error);
+            //alert("Ocurrió un error al intentar crear el grupo.");
+        }
+    }
+</script>

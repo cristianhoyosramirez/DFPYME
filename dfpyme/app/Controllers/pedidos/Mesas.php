@@ -527,7 +527,7 @@ class Mesas extends BaseController
                 'idUser' => $id_usuario,
                 'fecha' => date('Y-m-d'),
                 'hora' => date('H:i:s'),
-                'nota'=>""
+                'nota' => ""
             ];
 
 
@@ -541,7 +541,7 @@ class Mesas extends BaseController
                 $id_usuario,
                 date('Y-m-d'),
                 date('H:i:s'),
-                $nota=""
+                $nota = ""
             );
 
 
@@ -1070,7 +1070,7 @@ class Mesas extends BaseController
 
 
         //$id_tabla_producto = $_POST['id_tabla_producto']; 
-         $id_tabla_producto = $_POST['id_tabla_producto'];
+        $id_tabla_producto = $_POST['id_tabla_producto'];
         //$id_tabla_producto = 33587;
         $id_usuario = $_POST['id_usuario'];
         //$id_usuario = 6;
@@ -1234,79 +1234,79 @@ class Mesas extends BaseController
         }
 
 
-        if ($cantidad_impresos['numero_productos_impresos_en_comanda'] == $cantidad_producto['cantidad_producto']) {
+        if ($cantidad_impresos['numero_productos_impresos_en_comanda'] == $cantidad_producto['cantidad_producto']) {  //El producto ya ha sido impreso en comanda 
 
-           // if ($tipo_usuario['idtipo'] == 0) {
-                if ($tipo_usuario['idtipo'] == 0 or $tipo_usuario['idtipo'] == 1) {
-                    $item = model('productoPedidoModel')->where('id', $id_tabla_producto)->first();
+            // if ($tipo_usuario['idtipo'] == 0) {
+            if ($tipo_usuario['idtipo'] == 0 or $tipo_usuario['idtipo'] == 1) {
+                $item = model('productoPedidoModel')->where('id', $id_tabla_producto)->first();
 
-                    $producto = [
-                        'codigointernoproducto' => $item['codigointernoproducto'],
-                        'cantidad' => $item['cantidad_producto'],
-                        'fecha_eliminacion' => date('Y-m-d'),
-                        'hora_eliminacion' => date('H:i:s'),
-                        'usuario_eliminacion' => $id_usuario,
-                        'pedido' => $item['numero_de_pedido']
+                $producto = [
+                    'codigointernoproducto' => $item['codigointernoproducto'],
+                    'cantidad' => $item['cantidad_producto'],
+                    'fecha_eliminacion' => date('Y-m-d'),
+                    'hora_eliminacion' => date('H:i:s'),
+                    'usuario_eliminacion' => $id_usuario,
+                    'pedido' => $item['numero_de_pedido']
+                ];
+
+                $insert = model('productosBorradosModel')->insert($producto);
+
+                $numero_pedido = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_tabla_producto)->first();
+                $borrar_producto_pedido = model('productoPedidoModel')->where('id', $id_tabla_producto);
+                $borrar_producto_pedido->delete();
+
+                if ($borrar_producto_pedido) {
+
+                    $fk_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido['numero_de_pedido'])->first();
+                    $valor_total_pedido = model('productoPedidoModel')->selectSum('valor_total')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
+                    $cantidad_productos = model('productoPedidoModel')->selectSum('cantidad_producto')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
+
+
+
+                    $actualizar_total_pedido = [
+                        'valor_total' => $valor_total_pedido[0]['valor_total'],
+                        'cantidad_de_productos' => $cantidad_productos[0]['cantidad_producto']
                     ];
+                    $model = model('pedidoModel');
+                    $actualizar = $model->set($actualizar_total_pedido);
+                    $actualizar = $model->where('id', $numero_pedido['numero_de_pedido']);
+                    $actualizar = $model->update();
 
-                    $insert = model('productosBorradosModel')->insert($producto);
+                    $productos_pedido = model('productoPedidoModel')->producto_pedido($numero_pedido['numero_de_pedido']);
+                    $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido['numero_de_pedido'])->first();
+                    $cantidad_de_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['numero_de_pedido'])->first();
+                    $productos_del_pedido = view('pedidos/productos_pedido', [
+                        "productos" => $productos_pedido,
+                        "pedido" => $numero_pedido['numero_de_pedido']
+                    ]);
 
-                    $numero_pedido = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_tabla_producto)->first();
-                    $borrar_producto_pedido = model('productoPedidoModel')->where('id', $id_tabla_producto);
-                    $borrar_producto_pedido->delete();
-
-                    if ($borrar_producto_pedido) {
-
-                        $fk_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido['numero_de_pedido'])->first();
-                        $valor_total_pedido = model('productoPedidoModel')->selectSum('valor_total')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
-                        $cantidad_productos = model('productoPedidoModel')->selectSum('cantidad_producto')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
-
-
-
-                        $actualizar_total_pedido = [
-                            'valor_total' => $valor_total_pedido[0]['valor_total'],
-                            'cantidad_de_productos' => $cantidad_productos[0]['cantidad_producto']
-                        ];
-                        $model = model('pedidoModel');
-                        $actualizar = $model->set($actualizar_total_pedido);
-                        $actualizar = $model->where('id', $numero_pedido['numero_de_pedido']);
-                        $actualizar = $model->update();
-
-                        $productos_pedido = model('productoPedidoModel')->producto_pedido($numero_pedido['numero_de_pedido']);
-                        $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido['numero_de_pedido'])->first();
-                        $cantidad_de_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['numero_de_pedido'])->first();
-                        $productos_del_pedido = view('pedidos/productos_pedido', [
-                            "productos" => $productos_pedido,
-                            "pedido" => $numero_pedido['numero_de_pedido']
-                        ]);
-
-                        /* $temp_propina = new Propina();
+                    /* $temp_propina = new Propina();
                         $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
                         $sub_total = $total_pedido['valor_total']; */
 
-                        if ($configuracion_propina['calculo_propina'] == 't') {
-                            $temp_propina = new Propina();
-                            $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
-                            $sub_total = $total_pedido['valor_total'];
-                            $propina_final = $propina['propina'];
-                        }
-                        if ($configuracion_propina['calculo_propina'] == 'f') {
-
-                            $propina_final = 0;
-                        }
-
-                        $returnData = array(
-                            "resultado" => 1,  // Se actulizo el registro 
-                            "productos" => $productos_del_pedido,
-                            "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + $propina_final, 0, ',', '.'),
-                            "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
-                            "mensaje" => "Eliminacion de  "  . $nombre_producto['nombreproducto'],
-                            "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
-                            "propina" => number_format($propina_final, 0, ',', '.'),
-                        );
-                        echo  json_encode($returnData);
+                    if ($configuracion_propina['calculo_propina'] == 't') {
+                        $temp_propina = new Propina();
+                        $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+                        $sub_total = $total_pedido['valor_total'];
+                        $propina_final = $propina['propina'];
                     }
+                    if ($configuracion_propina['calculo_propina'] == 'f') {
+
+                        $propina_final = 0;
+                    }
+
+                    $returnData = array(
+                        "resultado" => 1,  // Se actulizo el registro 
+                        "productos" => $productos_del_pedido,
+                        "total_pedido" =>  "$" . number_format($total_pedido['valor_total'] + $propina_final, 0, ',', '.'),
+                        "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
+                        "mensaje" => "Eliminacion de  "  . $nombre_producto['nombreproducto'],
+                        "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
+                        "propina" => number_format($propina_final, 0, ',', '.'),
+                    );
+                    echo  json_encode($returnData);
                 }
+            }
             //}
 
 
@@ -1323,77 +1323,77 @@ class Mesas extends BaseController
         }
         if ($cantidad_producto['cantidad_producto'] == "") {
 
-           // if ($tipo_usuario['idtipo'] == 0) {
-                if ($tipo_usuario['idtipo'] == 0 or $tipo_usuario['idtipo'] == 1) {
-                    $item = model('productoPedidoModel')->where('id', $id_tabla_producto)->first();
+            // if ($tipo_usuario['idtipo'] == 0) {
+            if ($tipo_usuario['idtipo'] == 0 or $tipo_usuario['idtipo'] == 1) {
+                $item = model('productoPedidoModel')->where('id', $id_tabla_producto)->first();
 
-                    $producto = [
-                        'codigointernoproducto' => $item['codigointernoproducto'],
-                        'cantidad' => $item['cantidad_producto'],
-                        'fecha_eliminacion' => date('Y-m-d'),
-                        'hora_eliminacion' => date('H:i:s'),
-                        'usuario_eliminacion' => $id_usuario,
-                        'pedido' => $item['numero_de_pedido']
+                $producto = [
+                    'codigointernoproducto' => $item['codigointernoproducto'],
+                    'cantidad' => $item['cantidad_producto'],
+                    'fecha_eliminacion' => date('Y-m-d'),
+                    'hora_eliminacion' => date('H:i:s'),
+                    'usuario_eliminacion' => $id_usuario,
+                    'pedido' => $item['numero_de_pedido']
+                ];
+
+                $insert = model('productosBorradosModel')->insert($producto);
+
+                $numero_pedido = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_tabla_producto)->first();
+                $borrar_producto_pedido = model('productoPedidoModel')->where('id', $id_tabla_producto);
+                $borrar_producto_pedido->delete();
+
+                if ($borrar_producto_pedido) {
+
+                    $fk_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido['numero_de_pedido'])->first();
+                    $valor_total_pedido = model('productoPedidoModel')->selectSum('valor_total')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
+                    $cantidad_productos = model('productoPedidoModel')->selectSum('cantidad_producto')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
+
+
+
+                    $actualizar_total_pedido = [
+                        'valor_total' => $valor_total_pedido[0]['valor_total'],
+                        'cantidad_de_productos' => $cantidad_productos[0]['cantidad_producto']
                     ];
+                    $model = model('pedidoModel');
+                    $actualizar = $model->set($actualizar_total_pedido);
+                    $actualizar = $model->where('id', $numero_pedido['numero_de_pedido']);
+                    $actualizar = $model->update();
 
-                    $insert = model('productosBorradosModel')->insert($producto);
+                    $productos_pedido = model('productoPedidoModel')->producto_pedido($numero_pedido['numero_de_pedido']);
+                    $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido['numero_de_pedido'])->first();
+                    $cantidad_de_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['numero_de_pedido'])->first();
+                    $productos_del_pedido = view('pedidos/productos_pedido', [
+                        "productos" => $productos_pedido,
+                        "pedido" => $numero_pedido['numero_de_pedido']
+                    ]);
 
-                    $numero_pedido = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_tabla_producto)->first();
-                    $borrar_producto_pedido = model('productoPedidoModel')->where('id', $id_tabla_producto);
-                    $borrar_producto_pedido->delete();
-
-                    if ($borrar_producto_pedido) {
-
-                        $fk_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido['numero_de_pedido'])->first();
-                        $valor_total_pedido = model('productoPedidoModel')->selectSum('valor_total')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
-                        $cantidad_productos = model('productoPedidoModel')->selectSum('cantidad_producto')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
-
-
-
-                        $actualizar_total_pedido = [
-                            'valor_total' => $valor_total_pedido[0]['valor_total'],
-                            'cantidad_de_productos' => $cantidad_productos[0]['cantidad_producto']
-                        ];
-                        $model = model('pedidoModel');
-                        $actualizar = $model->set($actualizar_total_pedido);
-                        $actualizar = $model->where('id', $numero_pedido['numero_de_pedido']);
-                        $actualizar = $model->update();
-
-                        $productos_pedido = model('productoPedidoModel')->producto_pedido($numero_pedido['numero_de_pedido']);
-                        $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido['numero_de_pedido'])->first();
-                        $cantidad_de_productos = model('pedidoModel')->select('cantidad_de_productos')->where('id', $numero_pedido['numero_de_pedido'])->first();
-                        $productos_del_pedido = view('pedidos/productos_pedido', [
-                            "productos" => $productos_pedido,
-                            "pedido" => $numero_pedido['numero_de_pedido']
-                        ]);
-
-                        /*     $temp_propina = new Propina();
+                    /*     $temp_propina = new Propina();
                         $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
                         $sub_total = $total_pedido['valor_total']; */
 
-                        if ($configuracion_propina['calculo_propina'] == 't') {
-                            $temp_propina = new Propina();
-                            $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
-                            $sub_total = $total_pedido['valor_total'];
-                            $propina_final = $propina['propina'];
-                        }
-                        if ($configuracion_propina['calculo_propina'] == 'f') {
-
-                            $propina_final = 0;
-                        }
-
-                        $returnData = array(
-                            "resultado" => 1,  // Se actulizo el registro 
-                            "productos" => $productos_del_pedido,
-                            "total_pedido" =>  "$" . number_format($total_pedido['valor_total'], 0, ',', '.'),
-                            "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
-                            "mensaje" => "Eliminación correcta",
-                            "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
-                            "propina" => number_format($propina_final, 0, ',', '.'),
-                        );
-                        echo  json_encode($returnData);
+                    if ($configuracion_propina['calculo_propina'] == 't') {
+                        $temp_propina = new Propina();
+                        $propina = $temp_propina->calcularPropina($id_mesa['fk_mesa']);
+                        $sub_total = $total_pedido['valor_total'];
+                        $propina_final = $propina['propina'];
                     }
+                    if ($configuracion_propina['calculo_propina'] == 'f') {
+
+                        $propina_final = 0;
+                    }
+
+                    $returnData = array(
+                        "resultado" => 1,  // Se actulizo el registro 
+                        "productos" => $productos_del_pedido,
+                        "total_pedido" =>  "$" . number_format($total_pedido['valor_total'], 0, ',', '.'),
+                        "cantidad_de_pruductos" => $cantidad_de_productos['cantidad_de_productos'],
+                        "mensaje" => "Eliminación correcta",
+                        "sub_total" => number_format($total_pedido['valor_total'], 0, ',', '.'),
+                        "propina" => number_format($propina_final, 0, ',', '.'),
+                    );
+                    echo  json_encode($returnData);
                 }
+            }
             //}
 
 
@@ -1572,7 +1572,7 @@ class Mesas extends BaseController
                     "propina" => number_format($propina_final, 0, ",", "."),
                     "valorTotal" => number_format($valorTotal['valor_total'], 0, ",", "."),
 
-                
+
                 );
                 echo  json_encode($returnData);
             }
@@ -1581,99 +1581,81 @@ class Mesas extends BaseController
 
     public function eliminacion_de_pedido()
     {
+        $id_mesa = $this->request->getPost('id_mesa');
+        $id_usuario_eliminador = $this->request->getPost('id_usuario');
 
-        $numer_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $this->request->getPost('id_mesa'))->first();
-        $numero_pedido = $numer_pedido['id'];
+        $pedido = model('pedidoModel')->select('id, fk_usuario, fk_mesa, valor_total, fecha_creacion')
+            ->where('fk_mesa', $id_mesa)
+            ->first();
 
-        $id_usuario = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
+        if (!$pedido) {
+            echo json_encode(["resultado" => 0]);
+            return;
+        }
 
+        $numero_pedido = $pedido['id'];
+        $id_mesero = $pedido['fk_usuario'];
 
+        $permiso_eliminar = model('usuariosModel')->select('idtipo')
+            ->where('idusuario_sistema', $id_usuario_eliminador)
+            ->first();
 
-        $id_de_usuario = $this->request->getPost('id_usuario');
-        $permiso_eliminar = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_de_usuario)->first();
+        $productosImpresos = model('productoPedidoModel')
+            ->selectSum('numero_productos_impresos_en_comanda')
+            ->where('numero_de_pedido', $numero_pedido)
+            ->first();
 
+    
+        // Se permite eliminar si tiene permisos totales o si no hay productos impresos
+        $puedeEliminar = ($permiso_eliminar['idtipo'] == 0) ||
+            ($permiso_eliminar['idtipo'] != 0 && $productosImpresos['numero_productos_impresos_en_comanda'] == 0);
 
-
-        // if (!empty($permiso_eliminar['idusuario_sistema'])) {
-
-        $id_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido)->first();
-
-
-        $valor_pedido = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido)->first();
-
-        $fecha_creacion = model('pedidoModel')->select('fecha_creacion')->where('id', $numero_pedido)->first();
-        $items = model('productoPedidoModel')->productos_borrar($numero_pedido);
-
-        if ($permiso_eliminar['idtipo'] == 1 || $permiso_eliminar['idtipo'] == 0) {
-
+        if ($puedeEliminar) {
+            // Guardar eliminación del pedido
             $pedido_borrado = [
                 'numero_pedido' => $numero_pedido,
-                'valor_pedido' => $valor_pedido['valor_total'],
-                'fecha_eliminacion' =>  date("Y-m-d"),
+                'valor_pedido' => $pedido['valor_total'],
+                'fecha_eliminacion' => date("Y-m-d"),
                 'hora_eliminacion' => date('H:i:s'),
-                'fecha_creacion' => $fecha_creacion['fecha_creacion'],
-                'usuario_eliminacion' => $id_de_usuario,
-                'id_mesero' => $id_usuario['fk_usuario']
+                'fecha_creacion' => $pedido['fecha_creacion'],
+                'usuario_eliminacion' => $id_usuario_eliminador,
+                'id_mesero' => $id_mesero,
             ];
+            model('eliminacionPedidosModel')->insert($pedido_borrado);
 
-            $insert = model('eliminacionPedidosModel')->insert($pedido_borrado);
-
-
-
+            // Guardar los productos eliminados
+            $items = model('productoPedidoModel')->productos_borrar($numero_pedido);
             foreach ($items as $detalle) {
                 $producto = [
                     'codigointernoproducto' => $detalle['codigointernoproducto'],
                     'cantidad' => $detalle['cantidad_producto'],
                     'fecha_eliminacion' => date('Y-m-d'),
                     'hora_eliminacion' => date('H:i:s'),
-                    'usuario_eliminacion' => $id_de_usuario,
+                    'usuario_eliminacion' => $id_usuario_eliminador,
                     'pedido' => $numero_pedido,
-                    'id_mesero' => $id_usuario['fk_usuario']
+                    'id_mesero' => $id_mesero,
                 ];
-
-                $insert = model('productosBorradosModel')->insert($producto);
+                model('productosBorradosModel')->insert($producto);
             }
 
+            // Eliminar productos y pedido
+            model('productoPedidoModel')->where('numero_de_pedido', $numero_pedido)->delete();
+            model('pedidoModel')->where('id', $numero_pedido)->delete();
 
+            // Vaciar tabla temporal partirFacturaModel
+            model('partirFacturaModel')->truncate();
 
-            $model = model('productoPedidoModel');
-            $borrarPedido = $model->where('numero_de_pedido', $numero_pedido);
-            $borrarPedido = $model->delete();
-
-            $model = model('pedidoModel');
-            $borrar = $model->where('id', $numero_pedido);
-            $borrar = $model->delete();
+            // Devolver vista actualizada de las mesas
             $mesas = model('mesasModel')->where('estado', 0)->orderBy('id', 'ASC')->findAll();
-
-            if ($borrarPedido && $borrar) {
-
-                $truncate = model('partirFacturaModel')->truncate();
-
-                $returnData = array(
-                    "resultado" => 1,
-                    "mesas" => view('pedidos/todas_las_mesas_lista', [
-                        "mesas" => $mesas,
-                    ]),
-                );
-                echo  json_encode($returnData);
-            } else {
-                $returnData = array(
-                    "resultado" => 0,
-                );
-                echo  json_encode($returnData);
-            }
-            //} 
-            /* else {
-            echo 0;
-        } */
-        }
-        if ($permiso_eliminar['idtipo'] == 2) {
-            $returnData = array(
-                "resultado" => 0,
-            );
-            echo  json_encode($returnData);
+            echo json_encode([
+                "resultado" => 1,
+                "mesas" => view('pedidos/todas_las_mesas_lista', ["mesas" => $mesas]),
+            ]);
+        } else {
+            echo json_encode(["resultado" => 0]);
         }
     }
+
 
     function restar_producto()
     {
@@ -1799,7 +1781,7 @@ class Mesas extends BaseController
                 }
             }
         }
-        
+
 
         if (($cantidad_producto['cantidad_producto'] == $cantidades_impresas['numero_productos_impresos_en_comanda']) and $tipo_usuario['idtipo'] == 1) {
             $returnData = array(
@@ -1895,7 +1877,7 @@ class Mesas extends BaseController
                         "sub_total" => number_format($valor_pedido[0]['valor_total'] + $propina_final, 0, ",", "."),
                         "propina" => number_format($propina_final, 0, ",", "."),
                         "total" => number_format($valor_pedido[0]['valor_total'], 0, ",", "."),
-                    "valorTotal" => number_format($valorTotal['valor_total'], 0, ",", "."),
+                        "valorTotal" => number_format($valorTotal['valor_total'], 0, ",", "."),
                     );
                     echo  json_encode($returnData);
                 }
@@ -1976,7 +1958,7 @@ class Mesas extends BaseController
                         ]),
                         "total" => number_format($valor_pedido[0]['valor_total'], 0, ",", "."),
                         "valorTotal" => number_format($valorTotal['valor_total'], 0, ",", "."),
-                    
+
                     );
                     echo  json_encode($returnData);
                 }

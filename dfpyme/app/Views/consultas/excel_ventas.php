@@ -15,7 +15,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 <meta charset="UTF-8">
 
 
-<p class="text-center-blue h3">INFORME DE VENTAS </p>
+<p class="text-center-blue h3">Informe de ventas </p>
 
 <table class="table table-borderless">
     <tbody>

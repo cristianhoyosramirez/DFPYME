@@ -478,6 +478,10 @@ $routes->group('empresa', ['namespace' => 'App\Controllers\empresa', 'filter' =>
     $routes->post('editar_resolucion_electronica', 'EmpresaController::editar_resolucion_electronica');
     $routes->post('actualizar_resolucion_electronica', 'EmpresaController::actualizar_resolucion_electronica');
     $routes->get('validarResolucion', 'EmpresaController::validarResolucion');
+    $routes->post('actualizarNombreConsecutivo', 'EmpresaController::actualizarNombreConsecutivo');
+    $routes->post('actualizarSerieConsecutivo', 'EmpresaController::actualizarSerieConsecutivo');
+    $routes->post('crearConsecutivo', 'EmpresaController::crearConsecutivo');
+    $routes->get('bono', 'EmpresaController::bono');
 });
 
 $routes->group('caja_general', ['namespace' => 'App\Controllers\caja_general', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -511,6 +515,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->post('agregar_producto', 'Mesas::agregar_producto');
     $routes->post('agregar_producto_celular', 'Mesas::agregar_producto_celular');
     $routes->post('imprimirComanda', 'Imprimir::imprimirComanda');
+    $routes->post('reimprimirComanda', 'Imprimir::reimprimirComanda');
     $routes->post('pedido', 'Mesas::pedido');
     $routes->post('prefactura', 'Imprimir::imprimir_prefactura');
     $routes->post('nota', 'Mesas::nota');
@@ -554,6 +559,8 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->post('imprimir_categoria_sin_cantidades', 'Imprimir::imprimir_categoria_sin_cantidades');
     $routes->post('mesas_de_salon', 'Mesas::mesas_de_salon');
     $routes->post('actualizarNota', 'TomaPedidosController::actualizarNota');
+    $routes->post('imprimirBono', 'Imprimir::imprimirBono');
+     $routes->GET('reporteHoras', 'PartirFactura::reporteHoras');
 });
 
 $routes->group('inventario', ['namespace' => 'App\Controllers\pedidos', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -671,6 +678,7 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->post('reporte_impuestos', 'ReportesController::reporte_impuestos');
     $routes->get('reporteUsuario', 'ConsultasController::index');
     $routes->post('reporteVentasUsuario', 'ConsultasController::reporteVentasUsuario');
+    $routes->get('ventas_hora', 'ConsultasController::ventas_hora');
 });
 
 $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -724,6 +732,11 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('updateDatosGrupoImpresion', 'Configuracion::updateDatosGrupoImpresion');
     $routes->post('deleteDatosGrupoImpresion', 'Configuracion::deleteDatosGrupoImpresion');
     $routes->post('actualizarNumeroCopias', 'Configuracion::actualizarNumeroCopias');
+    $routes->post('reimpresionComanda', 'Configuracion::reimpresionComanda');
+    $routes->get('configuracionBono', 'Configuracion::configuracionBono');
+    $routes->post('terminosCondiciones', 'Configuracion::terminosCondiciones');
+    $routes->post('mostrarBotonBono', 'Configuracion::mostrarBotonBono');
+    
 });
 
 

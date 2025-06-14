@@ -17,6 +17,7 @@ $impresoras = model('impresorasModel')->findAll();
                 <?php endforeach; ?>
             </select>
         </td>
+        <td><input type="text" class="form-control" onkeyup="actualizacionNumeroCopias(<?php echo $detalleGrupos['id']; ?>,this.value)" value="<?php echo $detalleGrupos['numero_copias']; ?>"></td>
         <td>
             <div class="d-flex gap-2">
                 <button class="btn btn-outline-success btn-icon" data-bs-toggle="tooltip" title="Actualizar" data-bs-placement="bottom" onclick="actualizarGrupo(<?php echo $detalleGrupos['id'] ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/refresh -->

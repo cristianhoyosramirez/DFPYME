@@ -3,11 +3,14 @@
 <form class="row g-3" id="edicion_cliente_electronico" method="POST" action="<?php echo base_url() ?>/clientes/actualizar_datos_cliente">
 
     <input type="hidden" id="id_cliente" value="<?php echo $id_cliente ?>" name="id_cliente">
+    <input type="text" class="form-control" id="name" value="<?php echo $datos_cliente['name'] ?>" hidden>
+    <input type="text" class="form-control" id="nombresCliente" value="<?php echo $datos_cliente['nombrescliente'] ?>" hidden>
+    <input type="text" class="form-control" id="apellidosCliente" value="<?php echo $datos_cliente['last_name'] ?>" hidden>
+
 
     <div class="col-md-3">
-        <label for="inputEmail4" class="form-label">Tipo de persona</label> 
-
-        <select class="form-select" id="tipo_of_persona" name="tipo_depersona" onchange="selectTipoPersona(this.value)">
+        <label for="inputEmail4" class="form-label">Tipo de persona</label>
+        <select class="form-select" id="tipo_of_persona" name="tipo_depersona" onchange="selectTipoPersonaEdicion(this.value)">
             <option value="2" <?= ($datos_cliente['type_person'] == 2) ? 'selected' : '' ?>>Natural</option>
             <option value="1" <?= ($datos_cliente['type_person'] == 1) ? 'selected' : '' ?>>Jurídica</option>
         </select>
@@ -24,16 +27,7 @@
             <option value="31" <?= ($datos_cliente['type_document'] == 31) ? 'selected' : '' ?>>NIT</option>
         </select>
     </div>
-    <!--  <div class="col-3">
-        <label for="inputAddress" class="form-label">Número de identificación </label>
-        <input type="text" class="form-control" id="identificacion" name="identificacion" onkeyup="saltar_factura_pos(event,'dv')" value="<?php echo  $datos_cliente['nitcliente'] ?>">
-        <span class="text-danger error-text identificacion_error"></span>
-    </div>
-    <div class="col-1">
-        <label for="inputAddress2" class="form-label">DV</label>
-        <input type="text" class="form-control" id="dv" name="dv" onkeyup="saltar_factura_pos(event,'nombres')" value="<?php echo  $datos_cliente['dv'] ?>">
-        <span class="text-danger error-text dv_error"></span>
-    </div> -->
+
     <div class="col-md-3">
         <label class="form-label">Número de identificación y DV</label>
         <div class="input-group">
@@ -41,16 +35,26 @@
                 id="identificacion"
                 name="identificacion"
                 placeholder="Identificación"
-                onkeyup="calcularYMostrarDV(this.value);"
                 autocomplete="off"
                 autocorrect="off"
                 autocapitalize="off"
                 spellcheck="false"
-                value="<?php echo $datos_cliente['nitcliente']; ?>">
+                onkeyup="calcularYMostrarDVEdicion(this.value);"
+                value="<?php echo $datos_cliente['nitcliente']; ?>"
+
+                oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                inputmode="numeric"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                required
+                maxlength="15"
+                >
 
             <input type="text"
                 value="<?php echo $datos_cliente['dv']; ?>"
-                class="form-control" id="dv" name="dv" placeholder="DV" style="max-width: 80px;" onkeyup="saltar_factura_pos(event,'nombres');">
+                class="form-control" id="dvEdicion" name="dv" placeholder="DV" style="max-width: 80px;" onkeyup="saltar_factura_pos(event,'nombres');" readonly id="dvEdicion">
         </div>
         <span class="text-danger error-text identificacion_error"></span>
         <span class="text-danger error-text dv_error"></span>
@@ -67,93 +71,37 @@
         </select>
 
     </div>
-    <!--
-    <div class="col-md-3">
-        <label for="inputCity" class="form-label">Tipo de cliente </label>
 
-        <?php $tipo_cliente = model('tipoClienteModel')->findALL(); ?>
-        <select class="form-select" aria-label="Default select example" name="tipo_ventas_cliente" id="tipo_ventas_cliente">
-            <?php foreach ($tipo_cliente as $detalle) : ?>
 
-                <option value="<?php echo $detalle['id'] ?>" <?php if ($detalle['id'] == $datos_cliente['idtipo_cliente']) : ?>selected <?php endif; ?>><?php echo $detalle['descripcion'] ?> </option>
-            <?php endforeach  ?>
-        </select>
-    </div>
-    <div class="col-md-3">
-        <label for="inputCity" class="form-label">Clasificación comercial
-        </label>
-
-        <?php $clasificacion_cliente = model('clasificacionClienteModel')->findALL(); ?>
-        <select class="form-select" aria-label="Default select example" name="clasificacion" id="clasificacion_cliente">
-            <?php foreach ($clasificacion_cliente as $detalle) : ?>
-
-                <option value="<?php echo $detalle['id'] ?>" <?php if ($detalle['id'] == $datos_cliente['id_clasificacion']) : ?>selected <?php endif; ?>><?php echo $detalle['descripcion'] ?> </option>
-
-            <?php endforeach  ?>
-        </select>
-    </div>-->
-
-    <!-- <div class="col-md-3">
-        <label for="inputCity" class="form-label">Nombres
-        </label>
-        <input type="text" class="form-control" id="nombres" name="nombres" onkeyup="saltar_factura_pos(event,'apellidos')" value="<?php echo  $datos_cliente['name'] ?>">
-        <span class="text-danger error-text nombres_error"></span>
-    </div>
-    <div class="col-md-3">
-        <label for="inputCity" class="form-label">Apellidos
-        </label>
-        <input type="text" class="form-control" id="apellidos" name="apellidos" onkeyup="saltar_factura_pos(event,'razon_social')" value="<?php echo  $datos_cliente['last_name'] ?>">
-        <span class="text-danger error-text apellidos_error"></span>
-    </div> -->
-
-    <!-- Nombre y apellidos (Natural) -->
-    <?php if ($datos_cliente['type_person'] == 2): ?>
-        <div id="nombreApellidos" class="row">
-            <div class="col-md-6">
-                <label class="form-label">Nombres</label> 
-                <input type="text" class="form-control" id="nombres" name="nombres" onkeyup="saltar_factura_pos(event,'apellidos')" value="<?php echo ($datos_cliente['name']); ?>" required>
-                <span class="text-danger error-text nombres_error"></span>
+    <div id="tipoPersona">
+        <!-- Nombre y apellidos (Natural) -->
+        <?php if ($datos_cliente['type_person'] == 2): ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">nombres</label>
+                    <input type="text" class="form-control" id="nombres" name="nombres" onkeyup="saltar_factura_pos(event,'apellidos')" value="<?php echo ($datos_cliente['name']); ?>" required>
+                    <span class="text-danger error-text nombres_error"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">apellidos</label>
+                    <input type="text" class="form-control" id="apellidos_edicion" name="apellidos_edicion" onkeyup="saltar_factura_pos(event,'direccion')" value="<?php echo ($datos_cliente['last_name']); ?>" required>
+                    <span class="text-danger error-text apellidos_error"></span>
+                </div>
             </div>
-            <div class="col-md-6">
-                <label class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="apellidos" name="apellidos" onkeyup="saltar_factura_pos(event,'direccion')" value="<?php echo ($datos_cliente['last_name']); ?>" required>
-                <span class="text-danger error-text apellidos_error"></span>
-            </div>
-        </div>
-    <?php endif ?>
+        <?php endif ?>
 
-    <?php if ($datos_cliente['type_person'] == 1): ?>
-        <div class="col-md-12">
-            <label for="inputCity" class="form-label">Razón social
-            </label>
-            <input type="text" class="form-control" id="razon_social" name="razon_social" onkeyup="saltar_factura_pos(event,'nombre_comercial')" value="<?php echo  $datos_cliente['nombrescliente'] ?>">
-            <span class="text-danger error-text razon_social_error"></span>
-        </div>
-    <?php endif ?>
 
-    <!--   <div class="col-md-3">
-        <label for="inputCity" class="form-label">Razón social
-        </label>
-        <input type="text" class="form-control" id="razon_social" name="razon_social" onkeyup="saltar_factura_pos(event,'nombre_comercial')" value="<?php echo  $datos_cliente['nombrescliente'] ?>">
-        <span class="text-danger error-text razon_social_error"></span>
-    </div> -->
-
-    <?php if ($datos_cliente['type_person'] == 2): ?>
-        <div id="nombreComercial" class="row d-none">
+        <?php if ($datos_cliente['type_person'] == 1): ?>
             <div class="col-md-12">
                 <label for="inputCity" class="form-label">Razón social
                 </label>
-                <input type="text" class="form-control" id="razon_social" name="razon_social" onkeyup="saltar_factura_pos(event,'nombre_comercial')">
+                <input type="text" class="form-control" id="razon_social_edicion" name="razon_social_edicion" onkeyup="saltar_factura_pos(event,'nombre_comercial')" value="<?php echo  $datos_cliente['nombrescliente'] ?>">
                 <span class="text-danger error-text razon_social_error"></span>
             </div>
-        </div>
-    <?php endif ?>
-    <!--   <div class="col-md-3">
-        <label for="inputCity" class="form-label">Nombre comercial
-        </label>
-        <input type="text" class="form-control" id="nombre_comercial" name="nombre_comercial" onkeyup="saltar_factura_pos(event,'direccion')" value="<?php echo  $datos_cliente['name_comercial'] ?>">
-        <span class="text-danger error-text nombre_comercial_error"></span>
-    </div -->
+        <?php endif ?>
+    </div>
+
+
     <div class="col-md-4">
         <label for="inputCity" class="form-label">Dirección
         </label>
@@ -187,39 +135,10 @@
         <span class="text-danger error-text ciudad_error"></span>
     </div>
 
-    <!--    <div class="col-md-3">
-        <label for="inputCity" class="form-label">Confirmar ciudad
-        </label>
-
-
-        <select class="form-select" name="municipios" id="confirmar_municipios_cliente">
-            <?php foreach ($ciudad as $detalle) : ?>
-
-                <option value="<?php echo $detalle['idciudad'] ?>" <?php if ($detalle['idciudad'] == $datos_cliente['idciudad']) : ?>selected <?php endif; ?>><?php echo $detalle['nombreciudad']   ?> </option>
-            <?php endforeach ?>
-        </select>
-        <span class="text-danger error-text municipios_error"></span>
-    </div> -->
-
-    <!--  <div class="col-md-3">
-        <label for="inputCity" class="form-label">Código postal
-        </label>
-        <?php $postal = model('CodigoPostalModel')->findAll();  ?>
-
-        <select class="form-select" id="codigo_postal_cliente" name="codigo_postal_editar">
-
-            <?php foreach ($postal as $detalle) { ?>
-                <option value="<?php echo $detalle['c_postal'] ?>" <?php if ($detalle['id'] == $codigo_postal) : ?>selected <?php endif; ?>><?php echo $detalle['ciudad'] . "-" . $detalle['departamento'] . "-" . $detalle['c_postal'] ?> </option>
-            <?php } ?>
-
-        </select>
-        <span class="text-danger error-text codigo_postal_error"></span>
-    </div> -->
-
     <div class="col-md-4">
         <label for="inputCity" class="form-label">Correo electrónico
         </label>
-        <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" value="<?php echo  $datos_cliente['emailcliente'] ?>">
+        <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" value="<?php echo  $datos_cliente['emailcliente'] ?>" required>
         <span class="text-danger error-text correo_electronico_error"></span>
     </div>
     <div class="col-md-4">
@@ -228,48 +147,6 @@
         <input type="text" class="form-control" id="telefono" name="telefono" value="<?php echo  $datos_cliente['celularcliente'] ?>">
         <span class="text-danger error-text telefono_error"></span>
     </div>
-
-    <!--    <div class="col-md-3">
-        <label for="inputCity" class="form-label">Detalles tributarios del cliente </label>
-        <?php $impuestos = model('impuestosModel')->where('estado', 'true')->findAll();  ?>
-        <select name="impuestos_cliente" id="impuestos_cliente">
-            <?php foreach ($impuestos as $detalle) { ?>
-
-                <?php if (!empty($detalles_tributarios)) : ?>
-                    <option value="<?php echo $detalle['codigo'] ?>" <?php if ($detalles_tributarios['codigo'] == $detalle['codigo']) : ?>selected <?php endif; ?>><?php echo $detalle['codigo'] . "_" . $detalle['nombre'] . "_" . $detalle['descripcion'] ?> </option>
-                <?php endif ?>
-                <?php if (empty($detalles_tributarios)) : ?>
-                    <option value="">Seleccione un valor</option>
-                    <option value="<?php echo $detalle['codigo'] ?>"><?php echo $detalle['codigo'] . "_" . $detalle['nombre'] . "_" . $detalle['descripcion'] ?> </option>
-                <?php endif ?>
-
-
-
-            <?php } ?>
-        </select>
-        <span class="text-danger error-text impuestos_error"></span>
-    </div> 
-
-    <div class="col-md-3">
-        <label for="inputCity" class="form-label">Valores de la casilla 53 o 54 de RUT
-        </label>
-        <?php $responsabilidad_fiscal = model('responsabilidadFiscalModel')->where('estado', 'true')->findAll();  ?>
-
-        <select name="responsabilidad_fiscal[]" id="responsabilidad_fiscal_cliente" multiple="multiple">
-            <?php foreach ($responsabilidad_fiscal as $detalle) { ?>
-                <option value="<?php echo $detalle['codigo'] ?>"><?php echo $detalle['descripcion'] ?></option>
-
-
-                <?php foreach ($detalles_rut as $detalle_rut) : ?>
-
-                    <option value="<?php echo $detalle['codigo'] ?>" <?php if ($detalle['codigo'] == $detalle_rut['codigo']) : ?>selected <?php endif; ?>><?php echo $detalle['codigo'] . "_" . $detalle['descripcion'] ?> </option>
-
-                <?php endforeach ?>
-
-            <?php } ?>
-        </select>
-        <span class="text-danger error-text responsabilidad_fiscal_error"></span>
-    </div> -->
 
     <!-- Botones -->
     <div class="modal-footer">
@@ -285,8 +162,6 @@
 
 </form>
 
-
-
 <!-- JQuery 
 <script src="<?= base_url() ?>/Assets/js/jquery-3.5.1.js"></script>-->
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/departamentoCiudad.js"></script>
@@ -294,6 +169,82 @@
 <script src="<?php echo base_url(); ?>/Assets/plugin/select2/select2.min.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/select_2.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/departamentoCiudad.js"></script>
+
+
+<script>
+    function calcularYMostrarDVEdicion(nit) {
+        console.log(nit)
+        const dv = calcularDigitoVerificacion(nit);
+        document.getElementById('dvEdicion').value = dv;
+    }
+</script>
+
+
+<script>
+    function selectTipoPersonaEdicion(tipo) {
+        let nombre = document.getElementById('name').value;
+        let nombresCliente = document.getElementById('nombresCliente').value;
+        let apellidosCliente = document.getElementById('apellidosCliente').value;
+        let razonSocial = document.getElementById('razonSocialOriginal')?.value || ''; // opcional
+
+        let contenedor = document.getElementById('tipoPersona');
+
+        const selecciontTipoDocumento = document.getElementById("tipo_of_persona");
+        const contenedorSelect = document.getElementById('tipo_de_documento');
+
+        if (tipo == 2) {
+            // Persona Natural: mostrar nombres y apellidos
+            contenedor.innerHTML = `
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Nombres</label>
+                    <input type="text" class="form-control" id="nombres" name="nombres" 
+                           onkeyup="saltar_factura_pos(event,'apellidos')" 
+                           value="${nombresCliente}" required>
+                    <span class="text-danger error-text nombres_error"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos_edicion" name="apellidos_edicion" 
+                           onkeyup="saltar_factura_pos(event,'direccion')" 
+                           value="${apellidosCliente}" required>
+                    <span class="text-danger error-text apellidos_error"></span>
+                </div>
+            </div>
+        `;
+            // para que Select2 actualice el valor visualmente
+            contenedorSelect.innerHTML = `
+                    <select class="form-select" id="tipo_of_persona" name="tipo_depersona" onchange="selectTipoPersonaEdicion(this.value)">
+                        <option value="13" selected>CC</option>
+                        <option value="31" >NIT</option>
+                    </select>
+    `;
+        } else if (tipo == 1) {
+            // Persona Jurídica: mostrar razón social
+            contenedor.innerHTML = `
+            <div class="col-md-12">
+                <label for="razon_social_edicion" class="form-label">Razón social</label>
+                <input type="text" class="form-control" id="razon_social_edicion" name="razon_social_edicion" 
+                       onkeyup="saltar_factura_pos(event,'nombre_comercial')" 
+                       value="${razonSocial}">
+                <span class="text-danger error-text razon_social_error"></span>
+            </div>
+        `;
+
+            contenedorSelect.innerHTML = `
+                    <select class="form-select" id="tipo_of_persona" name="tipo_depersona" onchange="selectTipoPersonaEdicion(this.value)">
+                        <option value="13" >CC</option>
+                        <option value="31" selected>NIT</option>
+                    </select>
+    `;
+        } else {
+            // Limpiar el contenedor si tipo no es válido
+            contenedor.innerHTML = '';
+        }
+    }
+</script>
+
+
 
 <script>
     function departamentoCiudadEditar() {
@@ -342,16 +293,17 @@
         theme: "bootstrap-5",
         allowClear: true,
         dropdownParent: $("#editar_cliente"),
-        closeOnSelect: true
+        closeOnSelect: true,
+        minimumResultsForSearch: Infinity
     });
     $("#tipo_de_documento").select2({
         width: "100%",
-        //placeholder: "Filtrar productos por categoria",
         language: "es",
         theme: "bootstrap-5",
         allowClear: true,
         dropdownParent: $("#editar_cliente"),
-        closeOnSelect: true
+        closeOnSelect: true,
+        minimumResultsForSearch: -1 // <--- Oculta la caja de búsqueda
     });
     $("#regimen_cliente").select2({
         width: "100%",

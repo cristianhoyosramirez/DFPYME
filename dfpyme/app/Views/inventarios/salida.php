@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="col-lg-auto ms-lg-auto">
-                    <p class="text-primary h3">SALIDA DE INVENTARIO </p>
+                    <p class="text-primary h3">Salida de inventario  </p>
                 </div>
                 <div class="col-12 col-lg-auto mt-3 mt-lg-0">
                     <a class="nav-link"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" onClick="history.go(-1);" title="Sección anterior"></a>
@@ -79,7 +79,10 @@
 
                             <div class="col-2">
                                 <label class="form-label">Concepto</label>
-                                <?php $concepto = model('KardexConceptoModel')->where('idoperacion', 2)->findAll(); ?>
+                                <?php $concepto = model('KardexConceptoModel')
+                                ->where('idoperacion', 2)
+                                ->where('estado',true)
+                                ->findAll(); ?>
 
                                 <select name="concepto_kardex" id="concepto_kardex" class="form-select" required>
                                     <option value=""></option>

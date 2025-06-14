@@ -14,7 +14,7 @@ Entradas de productos
                 <div class="card-title">
                     <div class="row align-items-center">
                         <div class="col">
-                            <p class="text-center text-primary">CONSULTAR COMPRAS </p>
+                            <p class="text-center text-primary">Consultar compras  </p>
 
                         </div>
                     </div>

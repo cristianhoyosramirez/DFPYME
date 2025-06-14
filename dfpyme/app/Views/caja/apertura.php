@@ -6,7 +6,7 @@ CAJA
 
 <?= $this->section('content') ?>
 
-
+<p class="text-center text-primary ">Apertura de caja </p>
 <div class="card container">
     <div class="card-body">
         <form action="<?= base_url('caja/generar_apertura') ?>" method="POST" id="formulario_apertura">

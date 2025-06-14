@@ -52,7 +52,7 @@ HOME
 
     <div class="card">
         <div class="card-header text-primary">
-            CONSULTAS DE MOVIMIENTO DE PRODUCTO
+            Consultas de mmivimiento de producto
         </div>
         <div class="card-body">
 

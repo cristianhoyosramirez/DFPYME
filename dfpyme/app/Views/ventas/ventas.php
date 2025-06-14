@@ -74,7 +74,7 @@ Ventas
     }
 </style>
 <?= $this->section('content') ?>
-
+<p class="text-primary  text-center ">Consulta de ventas </p>
 <div class="card container">
     <div class="card-body">
         <input type="hidden" value="<?php echo $user_session->id_usuario ?>" id="id_usuario">

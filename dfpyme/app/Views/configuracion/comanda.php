@@ -4,7 +4,7 @@ Configuración
 <?= $this->endSection('title') ?>
 
 <?= $this->section('content') ?>
-<p class="text-center h3 text-primary">Partir comanda</p><br>
+<p class="text-center h3 text-primary">Gestión de comanda</p><br>
 <div class="card container">
     <input type="hidden" value="<?php echo base_url() ?>" id="url">
 
@@ -17,10 +17,14 @@ Configuración
         <div class="container row">
 
             <div class="col-3">
-                <label class="form-label">Número de impresión</label>
-                <input type="text" class="form-control" value="<?php echo $numeroCopias ?>" onkeyup="actualizarNumeroCopias(this.value)">
+                <label class="form-label">Reimprimir comanda</label>
+                <select name="" id="" class="form-select" onchange="reImpresionComanda(this.value)">
+                    <option value="true" <?= $reimpresion === 't' ? 'selected' : '' ?>>Si</option>
+                    <option value="false" <?= $reimpresion === 'f' ? 'selected' : '' ?>>No</option>
+                </select>
+
             </div>
-            <!-- <div class="col-3">
+            <!--<div class="col-3">
                 <label class="form-label">Criterio impresión comanda</label>
                 <select name="" id="" class="form-select" onchange="impresionComanda(this.value)">
                     <option value="1">Categoria</option>
@@ -41,6 +45,36 @@ Configuración
 <!-- Sweet alert -->
 <script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
+
+<script>
+    async function reImpresionComanda(valor) {
+
+        try {
+            let response = await fetch("<?= base_url('configuracion/reimpresionComanda') ?>", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    valor: valor,
+                })
+            });
+
+            if (response.ok) {
+                const resultado = await response.json();
+                if (resultado.response = "success") {
+                    sweet_alert_centrado('success', 'Datos actualizados')
+                }
+            } else {
+                const error = await response.text();
+                alert("Error al crear el grupo: " + error);
+            }
+        } catch (error) {
+            console.error("Error de red:", error);
+            alert("Ocurrió un error al intentar crear el grupo.");
+        }
+    }
+</script>
 
 <script>
     function limpiarSpan() {
@@ -86,7 +120,7 @@ Configuración
 
 <script>
     async function actualizarNumeroCopias(value) {
-        
+
         try {
             let response = await fetch("<?= base_url('configuracion/actualizarNumeroCopias') ?>", {
                 method: 'POST',
@@ -95,7 +129,7 @@ Configuración
                 },
                 body: JSON.stringify({
                     numero: value,
-                   
+
                 })
             });
 
@@ -151,6 +185,7 @@ Configuración
     async function generarGrupo() {
         const nombre = document.getElementById("nombreGrupo").value.trim();
         const idImpresora = document.getElementById("idImpresora").value.trim();
+        const copias = document.getElementById("numeroImpresiones").value.trim();
 
         if (!nombre) {
             document.getElementById('errorNombre').innerHTML = "Debe haber un nombre"
@@ -165,7 +200,8 @@ Configuración
                 },
                 body: JSON.stringify({
                     nombre: nombre,
-                    idImpresora: idImpresora
+                    idImpresora: idImpresora,
+                    copias: copias
                 })
             });
 

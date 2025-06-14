@@ -452,6 +452,16 @@
                   </svg>
                   Tipos de inventario
                 </a>
+                <a class="dropdown-item " href="<?= base_url() ?>/configuracion/configuracionBono">
+                  <!-- Download SVG icon from http://tabler-icons.io/i/archive -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <rect x="3" y="4" width="18" height="4" rx="2" />
+                    <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+                    <line x1="10" y1="12" x2="14" y2="12" />
+                  </svg>
+                  Configuración bono
+                </a>
 
               </div>
           </li>
@@ -492,7 +502,7 @@
         </li>
 
 
-        <?php if ($user_session->tipo == 0 || $user_session->tipo == 1) { ?>
+        <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 5) { ?>
           <li class="nav-item dropdown">
 
             <?php if ($id_tipo['fk_tipo_empresa'] == 1) : ?>
@@ -553,7 +563,7 @@
           </li>
         <?php } ?>
 
-        <?php if ($user_session->tipo == 0 || $user_session->tipo == 1) { ?>
+        <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 5) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
               <span class="text-orange">
@@ -730,6 +740,14 @@
                       Consultar ventas</a>
                 </div>
               <?php } ?>
+              <!-- <a href="<?= base_url() ?>/empresa/bono" class="dropdown-item">
+                 
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
+                  <path d="M12 3v3m0 12v3" />
+                </svg>
+                Bonos </a> -->
             <?php } ?>
 
             </div>
@@ -737,7 +755,7 @@
         <?php } ?>
 
 
-        <?php if ($user_session->tipo == 0) { ?>
+        <?php if ($user_session->tipo == 0 || $user_session->tipo == 5) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
               <span class="text-green">
@@ -960,6 +978,14 @@
                   <path d="M12 3v3m0 12v3" />
                 </svg>Egresos
               </a>
+              <a class="dropdown-item" href="<?= base_url() ?>/reportes/ventas_hora">
+                <!-- Download SVG icon from http://tabler-icons.io/i/clock -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <circle cx="12" cy="12" r="9" />
+                  <polyline points="12 7 12 12 15 15" />
+                </svg>Reporte de ventas por horas
+              </a>
 
               <!-- <a class="dropdown-item" href="<?= base_url() ?>/consultas_y_reportes/ventas_de_mesero">
                 Download SVG icon from http://tabler-icons.io/i/user-check 
@@ -974,7 +1000,7 @@
             </div>
           </li>
         <?php } ?>
-        <?php if ($user_session->tipo == 0) { ?>
+        <?php if ($user_session->tipo == 0 || $user_session->tipo == 5) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
               <span class="text-blue">
@@ -1133,7 +1159,7 @@
             </div>
           </li>
         <?php } ?>
-        <?php if ($user_session->tipo == 0) { ?>
+        <?php if ($user_session->tipo == 0 || $user_session->tipo == 5) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
               <span class="text-blue">

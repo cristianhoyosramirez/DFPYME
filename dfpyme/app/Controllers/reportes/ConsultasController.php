@@ -43,4 +43,8 @@ class ConsultasController extends BaseController
             ])
         ]);
     }
+
+    function ventas_hora(){
+        return view('reportes/reporte_horas');
+    }
 }

@@ -36,5 +36,12 @@ class consecutivosModel extends Model
         ");
        // return $datos->getResultArray();
     }
+    public function actualizarSerie($valor)
+    {
+        echo $datos = ("
+                ALTER SEQUENCE concecutivos_idconsecutivos_seq RESTART WITH $valor;
+        ");
+       // return $datos->getResultArray();
+    }
    
 }

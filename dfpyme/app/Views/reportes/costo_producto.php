@@ -12,7 +12,7 @@ Reporte de costos
 
 
 <div class="container">
-    <p class="text-center text-primary h3">INFORME COSTO DE VENTA POR PRODUCTO </p>
+    <p class="text-center text-primary h3">Informe de costo por producto </p>
 
     <div class="my-4"></div> <!-- Added space between the title and date inputs -->
     <!-- Agregar una barra de progreso -->

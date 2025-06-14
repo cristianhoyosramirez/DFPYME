@@ -9,7 +9,7 @@ class grupoImpresionModel extends Model
     protected $table      = 'grupo_impresion';
     // Uncomment below if you want add primary key
     // protected $primaryKey = 'id';
-    protected $allowedFields = ['nombre', 'id_impresora_asignada'];
+    protected $allowedFields = ['nombre', 'id_impresora_asignada','numero_copias'];
 
     public function impresoraGrupoImpresion()
     {

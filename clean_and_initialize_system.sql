@@ -156,6 +156,9 @@ SET emailcliente = 'correo@corre.com',
     direccioncliente = 'xxx'
 WHERE nitcliente = '222222222222';
 truncate producto_atributos;
+truncate item_impuesto;
+truncate consecutivo_informe;
+truncate consecutivo_informe_general;
 -- ========================================
 -- NOTAS PENDIENTES / TAREAS
 -- ========================================

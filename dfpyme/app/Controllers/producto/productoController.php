@@ -34,7 +34,8 @@ class productoController extends BaseController
         nombrecategoria,
         nombreproducto,
         codigointernoproducto,
-        valorventaproducto
+        valorventaproducto,
+        id_tipo_inventario
         FROM producto
         INNER JOIN categoria ON producto.codigocategoria=categoria.codigocategoria WHERE estadoproducto='true'
         ";
@@ -76,7 +77,14 @@ class productoController extends BaseController
                 if (!empty($cant)) {
                     $cantidad = $cant['cantidad_inventario'];
                 }
+
+                $tipoInvetario = model('tipoInventarioModel')->select('nombre')->where('id', $detalle['id_tipo_inventario'])->first();
+
                 $sub_array = array();
+                //$sub_array[] = $tipoInvetario['nombre'];
+                $nombreCompleto = $tipoInvetario['nombre'];
+                $nombreAbreviado = strlen($nombreCompleto) > 10 ? substr($nombreCompleto, 0, 10) . '...' : $nombreCompleto;
+                $sub_array[] = '<span title="' . htmlspecialchars($nombreCompleto) . '">' . htmlspecialchars($nombreAbreviado) . '</span>';
                 $sub_array[] = $detalle['nombrecategoria'];
                 $sub_array[] = $detalle['codigointernoproducto'];
                 $sub_array[] = $detalle['nombreproducto'];
@@ -176,7 +184,7 @@ class productoController extends BaseController
                 $data['kit'] = $row['kit'];
                 //$data['cantidad'] = $cantidad_producto['cantidad_inventario'];
                 $data['cantidad'] = $cantidad;
-                
+
                 array_push($returnData, $data);
             }
             echo json_encode($returnData);

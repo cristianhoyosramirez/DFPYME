@@ -320,10 +320,11 @@ Bienvenido DFpyme
                                                 Abrir cajon
                                             </a>
                                         </div>
+
                                     <?php endif ?>
                                     <?php if ($user_session->tipo == 3) : ?>
                                         <div class="col-md-3">
-                                            
+
                                         </div>
                                     <?php endif ?>
                                     <div class="col-md-3">
@@ -331,11 +332,52 @@ Bienvenido DFpyme
                                             Cambio de mesa
                                         </a>
                                     </div>
-                                    <div class="col-md-3">
-                                        <a href="#" class="btn btn-outline-purple w-100" onclick="imprimir_comanda()">
-                                            Comanda
-                                        </a>
-                                    </div>
+                                    <?php
+                                    $reimpresionComanda = model('configuracionPedidoModel')->select('reimpresion_comanda')->first();
+
+                                    //mostrarBono = model('configuracionPedidoModel')->select('mostrar_boton_imprimir_bono')->first();
+                                    ?>
+
+                                    <?php if ($reimpresionComanda['reimpresion_comanda'] == 't'): ?>
+                                        <div class="col-md-3">
+                                            <div class="btn-group w-100">
+                                                <a href="#" class="btn btn-outline-purple" onclick="imprimir_comanda()" title="Imprimir comanda">
+                                                    <!-- Download SVG icon from http://tabler-icons.io/i/clipboard-list -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
+                                                        <rect x="9" y="3" width="6" height="4" rx="2" />
+                                                        <line x1="9" y1="12" x2="9.01" y2="12" />
+                                                        <line x1="13" y1="12" x2="15" y2="12" />
+                                                        <line x1="9" y1="16" x2="9.01" y2="16" />
+                                                        <line x1="13" y1="16" x2="15" y2="16" />
+                                                    </svg>
+
+                                                </a>
+                                                <a href="#" class="btn btn-outline-secondary" onclick="reimprimir_comanda()" title="Reimprimir comanda">
+                                                    <!-- Download SVG icon from http://tabler-icons.io/i/clipboard-list -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
+                                                        <rect x="9" y="3" width="6" height="4" rx="2" />
+                                                        <line x1="9" y1="12" x2="9.01" y2="12" />
+                                                        <line x1="13" y1="12" x2="15" y2="12" />
+                                                        <line x1="9" y1="16" x2="9.01" y2="16" />
+                                                        <line x1="13" y1="16" x2="15" y2="16" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    <?php endif ?>
+                                    <?php if ($reimpresionComanda['reimpresion_comanda'] == 'f'): ?>
+                                        <div class="col-md-3">
+                                            <a href="#" class="btn btn-outline-purple w-100" onclick="imprimir_comanda()">
+                                                Comanda
+                                            </a>
+
+                                        </div>
+                                    <?php endif ?>
 
                                     <div class="col-md-3">
                                         <a href="#" class="btn btn-outline-red w-100" onclick="eliminar_pedido()">
@@ -476,6 +518,20 @@ Bienvenido DFpyme
 
                         <div class="container">
                             <div class="row mb-2 gy-2"> <!-- Fila para los botones -->
+                                <?php $mostrarBono = model('configuracionPedidoModel')->select('mostrar_boton_imprimir_bono')->first();
+                                ?>
+                                <?php if ($mostrarBono['mostrar_boton_imprimir_bono'] == 't'): ?>
+                                    <div class="col-md-6">
+
+                                    </div>
+                                    <div class="col-md-6">
+
+
+                                        <button type="button" class="btn btn-outline-azure w-100" data-bs-toggle="modal" data-bs-target="#modalBono">
+                                            Imprimir bono
+                                        </button>
+                                    </div>
+                                <?php endif ?>
                                 <div class="col-md-6">
 
 
@@ -485,6 +541,9 @@ Bienvenido DFpyme
 
                                 </div>
                                 <?php if ($user_session->tipo != 3) : ?>
+
+
+
 
                                     <div class="col-md-6">
                                         <a class="btn btn-outline-muted w-100" onclick="retiro_dinero()">
@@ -501,6 +560,8 @@ Bienvenido DFpyme
                                             Pago parcial
                                         </a>
                                     </div>
+
+
 
                                     <a href="#" class="card card-link card-link-pop">
                                         <div class="card-body">
@@ -543,6 +604,50 @@ Bienvenido DFpyme
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="modalBono" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Impresión de bono </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <label for="" class="form-label">Valor </label>
+                        <input type="text" id="valorBono" name="valorBono" class="form-control" maxlength="11" oninput="formatearMiles(this)">
+                        <span id="errorValor" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <label for="" class="form-label">Nota </label>
+                        <textarea name="notaBono" id="notaBono" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success"  onclick="imprimirBono()">Guardar</button>
+                <button type="button" class="btn btn-outline-danger">Cancelar </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatearMiles(input) {
+            // Elimina todo lo que no sea dígito
+            let valor = input.value.replace(/\D/g, '');
+
+            // Limita a 8 dígitos
+            valor = valor.substring(0, 8);
+
+            // Formatea con puntos cada 3 dígitos desde el final
+            input.value = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            document.getElementById('errorValor').textContent = '';
+        }
+    </script>
 
 
-<?= $this->endSection('content') ?>
+
+
+
+    <?= $this->endSection('content') ?>

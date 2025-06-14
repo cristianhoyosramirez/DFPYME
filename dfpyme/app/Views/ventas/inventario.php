@@ -44,7 +44,7 @@ INVENTARIOS
     <div class="row align-items-center mb-1">
         <!-- Columna para el título centrado -->
         <div class="col text-center">
-            <p class="h3 text-primary mb-0">INVENTARIO GENERAL </p>
+            <p class="h3 text-primary mb-0">Inventario general  </p>
         </div>
         <!-- Columna para el botón alineado a la derecha -->
         <div class="col-auto ms-auto">

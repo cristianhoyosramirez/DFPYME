@@ -299,6 +299,16 @@ Bienvenido DFpyme
 
                                             <input type="text" aria-label="Last name" class="form-control w-1" style="width: 50px;" value=0 onkeyup="calcular_propina(this.value)" id="propina_pesos" placeholder="%">
                                             <input type="text" aria-label="Last name" class="form-control" style="width: 50px;" id="propina_del_pedido" name="propina_del_pedido" onkeyup="total_pedido(this.value)" value=0 placeholder="$">
+                                         <a href="#" class="btn btn-outline-warning text-center" onclick="borradoPropinaMovil()" style="width: 1px;" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Eliminar propina" data-bs-original-title="Eliminar propina"> <!-- Download SVG icon from http://tabler-icons.io/i/mood-happy -->
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/trash -->&nbsp;&nbsp;
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon text-center" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <line x1="4" y1="7" x2="20" y2="7"></line>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                            </svg></a>
                                         </div>
                                     </div>
                                 </div>
@@ -412,6 +422,85 @@ Bienvenido DFpyme
 
     </div>
 </div>
+
+<!-- <script>
+    function borradoPropinaMovil(){
+
+        document.getElementById('propina_del_pedido').value=0
+
+    }
+</script> -->
+
+<script>
+    function borradoPropinaMovil() {
+            var url = document.getElementById("url").value;
+            let id_mesa = document.getElementById("id_mesa_pedido").value;
+            let criterio_propina = document.getElementById("criterio_propina_final").value;
+
+            if (criterio_propina == 1) {
+                $.ajax({
+                    data: {
+                        id_mesa,
+                    },
+                    url: url + "/" + "eventos/borrar_propina",
+                    type: "POST",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
+
+                            $('#propina_pesos').val(0)
+                            $('#propina_del_pedido').val(0)
+                            $('#propina_pesos_final').val(0)
+                            $('#total_propina').val(0)
+                            $('#valor_total_a_pagar').val(resultado.total_sin_formato)
+                            //$('#efectivo').val(resultado.total)
+                            $('#total_pedido').html("Valor pago: " + resultado.total)
+                            $('#valor_pedido').html('$' + resultado.total)
+                        
+                            document.getElementById('propina_del_pedido').value=0
+
+                            sweet_alert_start('success', 'Propina borrada  ');
+
+
+                        }
+                    },
+                });
+            }
+
+            if (criterio_propina == 0) {
+
+                $.ajax({
+                    data: {
+                        id_mesa,
+                    },
+                    url: url + "/" + "eventos/borrar_propina_parcial",
+                    type: "POST",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+                        if (resultado.resultado == 1) {
+
+                            $('#propina_pesos').val(0)
+                            $('#propina_del_pedido').val(0)
+                            $('#propina_pesos_final').val(0)
+                            $('#total_propina').val(0)
+
+                            $('#efectivo').val(resultado.total)
+                            $('#total_pedido').html("Valor pago: " + resultado.total)
+                            $('#valor_pedido').html('$' + resultado.total)
+                            $('#valor_total_a_pagar').val(resultado.total_pedido)
+
+
+                            sweet_alert_start('success', 'Propina borrada  ');
+
+
+                        }
+                    },
+                });
+
+            }
+
+        }
+</script>
 
 
 <script>

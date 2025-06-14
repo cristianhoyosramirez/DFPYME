@@ -113,7 +113,7 @@ PRODUCTO
                 </nav>
             </div>
             <div class="col-lg-auto ms-lg-auto">
-                <p class="text-primary h3">REPORTE DE VENTAS</p>
+                <p class="text-primary h3">Reporte de ventas </p>
             </div>
             <div class="col-12 col-lg-auto mt-3 mt-lg-0">
                 <a class="nav-link"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" onClick="history.go(-1);" title="Sección anterior"></a>

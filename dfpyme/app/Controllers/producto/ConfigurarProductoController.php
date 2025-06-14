@@ -170,8 +170,8 @@ class ConfigurarProductocontroller extends BaseController
 
             return $this->response->setJSON([
                 'response' => 'exits',
-                'produto'=>view('atributos/atributosAsociados',[
-                    'id_atributo'=>$id
+                'producto'=>view('atributos/atributosAsociados',[
+                    'productosAtributos'=>$tieneProductosAsociados
                 ])
             ]);
 
@@ -266,7 +266,10 @@ class ConfigurarProductocontroller extends BaseController
         $idAtributo = $json->idAtributo;
         //$idAtributo = 1;
 
-        $existeAtributo = model('configuracionAtributosProductoModel')->where('id_atributo', $idAtributo)->first();
+        $existeAtributo = model('configuracionAtributosProductoModel')
+        ->where('id_atributo', $idAtributo)
+        ->where('id_producto', $idProducto)
+        ->first();
         //$existeAtributo = model('configuracionAtributosProductoModel')->existeAtributosProducto($idProducto, $idAtributo);
         if (empty($existeAtributo)) {
             $data = [

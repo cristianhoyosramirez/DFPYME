@@ -181,6 +181,7 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/producto_autocomplete.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/pedido_mesa.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/imprimir_comanda.js"></script>
+    <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/reimprimir_comanda.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/insertar_nota.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/limpiar_campos.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/cambiar_mesas.js"></script>
@@ -232,6 +233,52 @@
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/impresion_factura_electronica.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/agregarProductoPedido.js"></script>
+
+    <script>
+        async function imprimirBono() {
+            try {
+                const valor = document.getElementById('valorBono').value;
+                const nota = document.getElementById('notaBono').value;
+                const id_usuario = document.getElementById("id_usuario").value;
+                const observacion = document.getElementById("notaBono").value;
+
+                if (!valor) {
+                    document.getElementById('errorValor').innerHTML = "Debe definir el valor "
+                    return;
+                }
+
+                const response = await fetch("<?= base_url('pedidos/imprimirBono') ?>", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        valor: valor,
+                        nota: nota,
+                        id_usuario: id_usuario,
+                        observacion: observacion
+                    })
+                });
+
+                const data = await response.json();
+
+                console.log(data)
+
+                if (data.response == 'success') {
+                    $('#modalBono').modal('hide')
+                    document.getElementById('valorBono').value = ""
+                    document.getElementById('notaBono').value = ""
+                }
+                return data; // Devolvemos todo el objeto para analizarlo desde pagar()
+            } catch (error) {
+                console.error("Error al imprimir el bono", error);
+                return {
+                    response: 'error',
+                    message: 'Error al imprimir el bono.'
+                };
+            }
+        }
+    </script>
 
 
     <script>
@@ -981,7 +1028,9 @@
                     var resultado = JSON.parse(resultado);
                     if (resultado.resultado == 1) {
 
+                        //$('#val_pedido').innerHTML = resultado.total
 
+                        document.getElementById('val_pedido').innerHTML = resultado.total
 
                         sweet_alert_start('success', 'Propina actualizada  ');
 
@@ -1019,6 +1068,8 @@
                             //$('#efectivo').val(resultado.total)
                             $('#total_pedido').html("Valor pago: " + resultado.total)
                             $('#valor_pedido').html('$' + resultado.total)
+
+                            document.getElementById('propina_del_pedido').value = 0
 
                             sweet_alert_start('success', 'Propina borrada  ');
 
