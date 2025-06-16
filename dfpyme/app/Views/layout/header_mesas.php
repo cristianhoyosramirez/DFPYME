@@ -502,7 +502,7 @@
         </li>
 
 
-        <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 5) { ?>
+        <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 5 || $user_session->tipo == 4) { ?>
           <li class="nav-item dropdown">
 
             <?php if ($id_tipo['fk_tipo_empresa'] == 1) : ?>
@@ -563,7 +563,7 @@
           </li>
         <?php } ?>
 
-        <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 5) { ?>
+        <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 5 || $user_session->tipo == 4) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
               <span class="text-orange">
@@ -682,7 +682,7 @@
                 </div>
               </div>
 
-              <?php if ($user_session->tipo == 0 || $user_session->tipo == 1) { ?>
+              <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 4) { ?>
                 <div class="dropend">
                   <!--  <a class="dropdown-item dropdown-toggle" href="#sidebar-authentication" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                     
@@ -730,14 +730,14 @@
 
                     </div>
                   </div>
-                  <?php if ($user_session->tipo == 0 || $user_session->tipo == 1) { ?>
+                  <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 4) { ?>
                     <a href="<?= base_url() ?>/eventos/consultar_ventas" class="dropdown-item">
                       <!-- Download SVG icon from http://tabler-icons.io/i/activity -->
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M3 12h4l3 8l4 -16l3 8h4" />
                       </svg>
-                      Consultar ventas</a>
+                      Consultar ventas  </a>
                 </div>
               <?php } ?>
               <!-- <a href="<?= base_url() ?>/empresa/bono" class="dropdown-item">
@@ -755,7 +755,7 @@
         <?php } ?>
 
 
-        <?php if ($user_session->tipo == 0 || $user_session->tipo == 5) { ?>
+        <?php if ($user_session->tipo == 0 || $user_session->tipo == 5 ) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
               <span class="text-green">

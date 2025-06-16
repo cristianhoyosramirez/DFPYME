@@ -23,6 +23,7 @@ function intercambio_mesa() {
                 $('#mesa_productos').html(resultado.productos_pedido)
                 $('#valor_pedido').html(resultado.valor_total)
                 sweet_alert('success', 'Cambio de mesas')
+            
                 if (resultado.tipo_pedido=='movil'){
                     location.reload(); 
                 }

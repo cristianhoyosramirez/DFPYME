@@ -1312,7 +1312,7 @@ class Mesas extends BaseController
 
 
 
-            if ($tipo_usuario['idtipo'] == 2) {
+            if ($tipo_usuario['idtipo'] == 2 or $tipo_usuario['idtipo'] == 3 or $tipo_usuario['idtipo'] == 4 or $tipo_usuario['idtipo'] == 5) {
 
                 $returnData = array(
                     "resultado" => 0,  // Se actulizo el registro 
@@ -1582,7 +1582,9 @@ class Mesas extends BaseController
     public function eliminacion_de_pedido()
     {
         $id_mesa = $this->request->getPost('id_mesa');
+        //$id_mesa = 68;
         $id_usuario_eliminador = $this->request->getPost('id_usuario');
+        //$id_usuario_eliminador = 6;
 
         $pedido = model('pedidoModel')->select('id, fk_usuario, fk_mesa, valor_total, fecha_creacion')
             ->where('fk_mesa', $id_mesa)
@@ -1605,57 +1607,69 @@ class Mesas extends BaseController
             ->where('numero_de_pedido', $numero_pedido)
             ->first();
 
-    
-        // Se permite eliminar si tiene permisos totales o si no hay productos impresos
-        $puedeEliminar = ($permiso_eliminar['idtipo'] == 0) ||
-            ($permiso_eliminar['idtipo'] != 0 && $productosImpresos['numero_productos_impresos_en_comanda'] == 0);
+        if ($permiso_eliminar['idtipo'] == 0  or $permiso_eliminar['idtipo'] == 1) {  //Usuario super administrador y super facturador
 
-        if ($puedeEliminar) {
-            // Guardar eliminación del pedido
-            $pedido_borrado = [
-                'numero_pedido' => $numero_pedido,
-                'valor_pedido' => $pedido['valor_total'],
-                'fecha_eliminacion' => date("Y-m-d"),
-                'hora_eliminacion' => date('H:i:s'),
-                'fecha_creacion' => $pedido['fecha_creacion'],
-                'usuario_eliminacion' => $id_usuario_eliminador,
-                'id_mesero' => $id_mesero,
-            ];
-            model('eliminacionPedidosModel')->insert($pedido_borrado);
+            $this->eliminarPedido($numero_pedido, $pedido['valor_total'], $pedido['fecha_creacion'], $id_usuario_eliminador, $pedido['fk_usuario']);
+        } else if ($permiso_eliminar['idtipo'] == 2 or  $permiso_eliminar['idtipo'] == 3 or $permiso_eliminar['idtipo'] == 4 or $permiso_eliminar['idtipo'] == 5) {
+            //echo json_encode(["resultado" => 0]);
 
-            // Guardar los productos eliminados
-            $items = model('productoPedidoModel')->productos_borrar($numero_pedido);
-            foreach ($items as $detalle) {
-                $producto = [
-                    'codigointernoproducto' => $detalle['codigointernoproducto'],
-                    'cantidad' => $detalle['cantidad_producto'],
-                    'fecha_eliminacion' => date('Y-m-d'),
-                    'hora_eliminacion' => date('H:i:s'),
-                    'usuario_eliminacion' => $id_usuario_eliminador,
-                    'pedido' => $numero_pedido,
-                    'id_mesero' => $id_mesero,
-                ];
-                model('productosBorradosModel')->insert($producto);
+            if ($productosImpresos['numero_productos_impresos_en_comanda'] == 0) {
+
+                $this->eliminarPedido($numero_pedido, $pedido['valor_total'], $pedido['fecha_creacion'], $id_usuario_eliminador, $pedido['fk_usuario']);
+            } else if ($productosImpresos['numero_productos_impresos_en_comanda'] > 0) {
+
+                echo json_encode([
+                    "resultado" => 2,
+                    "messagge" => "Hay productos y no se puede eliminar el pedido "
+                ]);
             }
-
-            // Eliminar productos y pedido
-            model('productoPedidoModel')->where('numero_de_pedido', $numero_pedido)->delete();
-            model('pedidoModel')->where('id', $numero_pedido)->delete();
-
-            // Vaciar tabla temporal partirFacturaModel
-            model('partirFacturaModel')->truncate();
-
-            // Devolver vista actualizada de las mesas
-            $mesas = model('mesasModel')->where('estado', 0)->orderBy('id', 'ASC')->findAll();
-            echo json_encode([
-                "resultado" => 1,
-                "mesas" => view('pedidos/todas_las_mesas_lista', ["mesas" => $mesas]),
-            ]);
-        } else {
-            echo json_encode(["resultado" => 0]);
         }
     }
 
+    private function eliminarPedido($numero_pedido, $valor_total, $fecha_creacion, $id_usuario_eliminacion, $id_mesero)
+    {
+
+        $pedido_borrado = [
+            'numero_pedido' => $numero_pedido,
+            'valor_pedido' => $valor_total,
+            'fecha_eliminacion' => date("Y-m-d"),
+            'hora_eliminacion' => date('H:i:s'),
+            'fecha_creacion' => $fecha_creacion,
+            'usuario_eliminacion' => $id_usuario_eliminacion,
+            'id_mesero' => $id_mesero,
+        ];
+        model('eliminacionPedidosModel')->insert($pedido_borrado);
+
+        // Guardar los productos eliminados
+        $items = model('productoPedidoModel')->productos_borrar($numero_pedido);
+        foreach ($items as $detalle) {
+            $producto = [
+                'codigointernoproducto' => $detalle['codigointernoproducto'],
+                'cantidad' => $detalle['cantidad_producto'],
+                'fecha_eliminacion' => date('Y-m-d'),
+                'hora_eliminacion' => date('H:i:s'),
+                'usuario_eliminacion' => $id_usuario_eliminacion,
+                'pedido' => $numero_pedido,
+                'id_mesero' => $id_mesero,
+            ];
+            model('productosBorradosModel')->insert($producto);
+        }
+
+        // Eliminar productos y pedido
+        model('productoPedidoModel')->where('numero_de_pedido', $numero_pedido)->delete();
+        model('pedidoModel')->where('id', $numero_pedido)->delete();
+
+        // Vaciar tabla temporal partirFacturaModel
+        model('partirFacturaModel')->truncate();
+
+        // Devolver vista actualizada de las mesas
+        $mesas = model('mesasModel')->where('estado', 0)->orderBy('id', 'ASC')->findAll();
+
+        echo json_encode([
+            "resultado" => 1,
+            "mesas" => view('pedidos/todas_las_mesas_lista', ["mesas" => $mesas]),
+        ]);
+    }
 
     function restar_producto()
     {

@@ -76,6 +76,9 @@ function eliminar_pedido() {
                         if (resultado.resultado == 0) {
                             sweet_alert_start('error', 'Acción requiere permisos')
                         }
+                        else if (resultado.resultado == 2) {
+                            sweet_alert_centrado('info', 'Acción no se puede completar por que hay productos impresos en comanda ')
+                        }
                     },
                 });
             }

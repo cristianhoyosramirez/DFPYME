@@ -61,6 +61,7 @@ class FacturaElectronica extends BaseController
             $estado = $this->request->getPost('estado');
             $pago_total = $this->request->getPost('pago_total');
             $propina = $this->request->getPost('propina_format');
+            $fechaLimite = $this->request->getPost('fechaLimite');
             $medio_de_pago = strval($this->request->getPost('medio_de_pago'));
             $nota = model('pedidoModel')->select('nota_pedido')->where('fk_mesa', $id_mesa)->first();
 
@@ -129,7 +130,7 @@ class FacturaElectronica extends BaseController
                 //'numero' => $numero,
                 'fecha' => date('Y-m-d'),
                 'hora' => date("H:i:s"),
-                'fecha_limite' => date('Y-m-d'),
+                'fecha_limite' => $fechaLimite,
                 'numero_items' => 0,
                 //'total' => $valor_total['valor_total'],
                 'total' => $valor_total,
@@ -140,7 +141,7 @@ class FacturaElectronica extends BaseController
                 'metodo_pago' => $this->request->getPost('formaPago'),
                 //'medio_pago' => '10',
                 'medio_pago' => $medio_de_pago,
-                'fecha_pago' => date('Y-m-d'),
+                'fecha_pago' => $fechaLimite,
                 'version_ubl' => 'UBL 2.1',
                 'version_dian' => 'DIAN 2.1',
                 'transaccion_id' => '',
@@ -187,7 +188,7 @@ class FacturaElectronica extends BaseController
                 $mesero = $id_mesero['fk_usuario'];
             }
 
-          
+
 
             $data = [
                 'estado' => $estado,
