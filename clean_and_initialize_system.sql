@@ -4,6 +4,7 @@
 
 -- Limpieza de productos y categorías
 TRUNCATE TABLE producto CASCADE;
+TRUNCATE TABLE bonos CASCADE;
 TRUNCATE TABLE categoria CASCADE;
 TRUNCATE TABLE producto_catego_sub;
 TRUNCATE TABLE producto_fabricado;
@@ -129,7 +130,7 @@ INSERT INTO cliente (
 INSERT INTO salones (nombre) VALUES ('PUNTO DE VENTA');
 INSERT INTO mesas (fk_salon, nombre, estado, valor_pedido, fk_usuario)
 VALUES (1, 'VENTA 1', 0, 0, 6),
-       (NULL, 'VENTAS DE MOSTRADOR', 1, 0, 8);
+       (NULL, 'VENTAS DE MOSTRADOR', 1, 0, 6);
 
 -- DIAN
 INSERT INTO dian (
@@ -166,4 +167,6 @@ truncate consecutivo_informe_general;
 -- Verificar que en la tabla "marca" hay un id = 226 (¿dejar o eliminar?)
 -- En la tabla "consecutivos", remisión, devolución venta, egreso e ingreso deben estar en 1
 -- Limpiar campos de credenciales web manualmente si es necesario
+
+--Cuando la base de datos queda en blando se debe crear una resolucion ficticia 
 
