@@ -188,72 +188,17 @@ class Imprimir extends BaseController
         $tipo_usuario = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
         $nombre_mesa = model('mesasModel')->select('nombre')->where('id', $id_mesa)->first();
-
-        $partirComandaCategoria = model('configuracionPedidoModel')->select('partir_comanda')->first();
-        $duplicadoComanda = model('configuracionPedidoModel')->select('comanda')->first();  //Reimpresion
+        //$partirComandaCategoria = model('configuracionPedidoModel')->select('partir_comanda')->first();
+        //$duplicadoComanda = model('configuracionPedidoModel')->select('comanda')->first();  //Reimpresion
+        $tipo = "Comanda";
         $productos = array();
 
 
         if (!empty($pedido)) {  //La mesa tiene pedido 
 
 
-            $tipoAgrupacion = model('configuracionPedidoModel')->select('criterio_impresion_comanda')->where('id', 1)->first();
+            /* $tipoAgrupacion = model('configuracionPedidoModel')->select('criterio_impresion_comanda')->where('id', 1)->first();
 
-            /* if ($tipoAgrupacion['imprimir_comanda_categoria'] === 1) { // aca se imprime agrupado por categorias 
-
-                $categorias = model('productoPedidoModel')->getCategorias($pedido['id']);  //Seleccionar los codigos unicos de las categorias 
-
-                foreach ($categorias as $detalleCategorias) {
-
-                    //$productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
-                    $nombreCategoria = model('categoriasModel')->select('nombrecategoria')->where('codigocategoria', $detalleCategorias['codigo_categoria'])->first();
-                    $productos_pedido = model('productoPedidoModel')->productosPedidoCategoria($pedido['id'], $detalleCategorias['codigo_categoria']);
-
-
-                    if (!empty($productos_pedido)) {
-                        $this->generar_comanda($productos_pedido, $pedido['id'], $nombre_mesa['nombre'], $detalleCategorias['codigo_categoria'], $nombreCategoria['nombrecategoria']);
-                        $returnData = array(
-                            "resultado" => 1
-                        );
-                        echo  json_encode($returnData);
-                    }
-                }
-            } else if ($tipoAgrupacion['imprimir_comanda_categoria'] === 2) { //Agrupacion para la impresion por productos asociados a una impresora 
-
-                $productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
-
-                foreach ($productos_pedido as $keyProductos) {
-
-                    $id_impresora = model('productoModel')->select('id_impresora')->where('codigointernoproducto', $keyProductos['codigointernoproducto'])->first();
-
-                    $model = model('productoPedidoModel');
-
-                    $model->set('id_impresora', $id_impresora['id_impresora'])
-                        ->where('codigointernoproducto', $keyProductos['codigointernoproducto'])
-                        ->where('numero_de_pedido', $pedido['id'])
-                        ->update();
-                }
-
-                $impresoras = model('impresorasModel')->findAll();
-
-
-
-                foreach ($impresoras as $keyImpresoras) {
-
-
-
-                    $productos = model('productoPedidoModel')->productos_impresora($keyImpresoras['id']);
-
-                    if (!empty($productos)) {
-                        $this->generar_comanda_sin_partir($productos, $pedido['id'], $nombre_mesa['nombre'], $keyImpresoras['id']);
-                    }
-                }
-
-                $returnData = array(
-                    "resultado" => 1
-                );
-                echo  json_encode($returnData);
-            } */
 
             switch ($tipoAgrupacion['criterio_impresion_comanda']) {
                 case 1:
@@ -322,8 +267,10 @@ class Imprimir extends BaseController
 
                 case 3:
 
+                    
                     $productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
-
+                    
+                    $tipo = "Comanda";
                     //dd($productos_pedido);
 
                     foreach ($productos_pedido as $keyProductos) {
@@ -360,6 +307,7 @@ class Imprimir extends BaseController
                                     $nombre_mesa['nombre'],
                                     $keyGrupos['id_impresora_asignada'],
                                     $i,
+                                    $tipo
                                 );
                             }
                         }
@@ -374,6 +322,57 @@ class Imprimir extends BaseController
                     $returnData = array("resultado" => 0, "mensaje" => "Tipo de agrupación no válido");
                     echo json_encode($returnData);
                     break;
+            } */
+
+
+            $productos_pedido = model('productoPedidoModel')->productos_pedido($pedido['id']);
+
+            // var_dump( $productos_pedido); exit();
+
+            if (!empty($productos_pedido)) {
+                //dd($productos_pedido);
+                foreach ($productos_pedido as $keyProductos) {
+
+                    $id_grupo = model('productoModel')
+                        ->select('grupo_impresion_comanda')
+                        ->where('codigointernoproducto', $keyProductos['codigointernoproducto'])
+                        ->first();
+                    model('productoPedidoModel')
+                        ->set('id_grupo', $id_grupo['grupo_impresion_comanda'])
+                        ->where('codigointernoproducto', $keyProductos['codigointernoproducto'])
+                        ->where('numero_de_pedido', $pedido['id'])
+                        ->update();
+                }
+
+                $grupos = model('grupoImpresionModel')->findAll();
+
+                foreach ($grupos as $keyGrupos) {
+
+                    $productos = model('productoPedidoModel')->productos_grupo($keyGrupos['id'], $pedido['id']);
+
+                    if (!empty($productos)) {
+
+                        $numeroImpresiones = $keyGrupos['numero_copias'];
+
+                        for ($i = 1; $i <= (int)$numeroImpresiones; $i++) {
+
+                            $this->generar_comanda_grupo(
+                                $productos,
+                                $pedido['id'],
+                                $nombre_mesa['nombre'],
+                                $keyGrupos['id_impresora_asignada'],
+                                $i,
+                                $tipo
+                            );
+                        }
+                    }
+                }
+                $returnData = array("resultado" => 1);
+                echo json_encode($returnData);
+            } else  if (empty($productos_pedido)) {
+
+                $returnData = array("resultado" => 0);
+                echo json_encode($returnData);
             }
         }
     }
@@ -524,6 +523,8 @@ class Imprimir extends BaseController
 
                     $productos_pedido = model('productoPedidoModel')->productosPedidoReimprimir($pedido['id']);
 
+                    $tipo = "Reimpresion de comanda";
+
                     foreach ($productos_pedido as $keyProductos) {
                         $id_grupo = model('productoModel')
                             ->select('grupo_impresion_comanda')
@@ -553,7 +554,8 @@ class Imprimir extends BaseController
                                     $pedido['id'],
                                     $nombre_mesa['nombre'],
                                     $keyGrupos['id_impresora_asignada'],
-                                    $i
+                                    $i,
+                                    $tipo
                                 );
                             }
                         }
@@ -688,7 +690,7 @@ class Imprimir extends BaseController
 
         $printer->close();
     }
-    function generar_comanda_grupo($productos, $numero_pedido, $nombre_mesa, $id_impresora, $i)
+    function generar_comanda_grupo($productos, $numero_pedido, $nombre_mesa, $id_impresora, $i, $tipo)
     {
 
 
@@ -706,9 +708,9 @@ class Imprimir extends BaseController
 
 
         $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->setTextSize(2, 2);
+        $printer->setTextSize(1, 1);
 
-        $printer->text("** COMANDA **" . "\n\n");
+        $printer->text("** $tipo **" . "\n\n");
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->setTextSize(1, 2);
@@ -1575,7 +1577,7 @@ Este monto se distribuye al 100% entre el personal de servicio según el reglame
 
 
 
-     function imprimir_inventario()
+    function imprimir_inventario()
     {
 
         $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
@@ -1628,7 +1630,7 @@ Este monto se distribuye al 100% entre el personal de servicio según el reglame
             "resultado" => 1
         );
         echo  json_encode($returnData);
-    } 
+    }
 
 
 

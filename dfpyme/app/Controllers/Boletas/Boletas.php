@@ -172,7 +172,7 @@ class Boletas extends BaseController
 
         $model = model('productoPedidoModel');
         $actualizar = $model->set('valor_unitario', $valorUnidad);
-        $actualizar = $model->set('valor_total', $total );
+        $actualizar = $model->set('valor_total', $total);
         $actualizar = $model->where('id', $id_producto);
         $actualizar = $model->update();
 
@@ -187,9 +187,9 @@ class Boletas extends BaseController
         $actualizar = $model->update();
 
         $returnData = array(
-            "resultado" => 1, 
+            "resultado" => 1,
             "valorUnitario" => number_format($valorUnidad, 0, ',', '.'),
-            "total"=>$total
+            "total" => $total
 
         );
         echo  json_encode($returnData);
@@ -606,8 +606,11 @@ class Boletas extends BaseController
     function actualizar_cantidades()
     {
         $id_tabla_producto = $this->request->getPost('id_producto');
+        //$id_tabla_producto = 1011;
         $cantidad_actualizar = $this->request->getPost('cantidad_producto');
+        //$cantidad_actualizar = 11;
         $id_usuario = $this->request->getPost('id_usuario');
+        //$id_usuario = 9;
         $numero_pedido = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_tabla_producto)->first();
         $tipo_usuario = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
 
@@ -616,6 +619,8 @@ class Boletas extends BaseController
         $valor_unitario  = model('productoPedidoModel')->select('valor_unitario')->where('id', $id_tabla_producto)->first();
 
         $model_pedido = model('pedidoModel');
+
+        //echo $cantidad_producto['cantidad_producto'];  exit();
 
         if ($cantidad_actualizar > $cantidad_producto['cantidad_producto']) {
 
@@ -644,9 +649,12 @@ class Boletas extends BaseController
 
         if ($cantidad_actualizar < $cantidad_producto['cantidad_producto']) {
 
+            //echo $tipo_usuario['idtipo']; exit();
 
 
-            if ($tipo_usuario['idtipo'] == 1 || $tipo_usuario['idtipo'] == 0) {
+            if ($tipo_usuario['idtipo'] == 4 || $tipo_usuario['idtipo'] == 0) {
+
+
                 $cantidades = [
                     'valor_total' => $cantidad_actualizar * $valor_unitario['valor_unitario'],
                     'cantidad_producto' => $cantidad_actualizar
@@ -1141,15 +1149,15 @@ class Boletas extends BaseController
         $actualizar = $model->where('fk_mesa', $id_mesa);
         $actualizar = $model->update();
 
-        $valorPedido=model('pedidoModel')->select('valor_total')->where('fk_mesa',$id_mesa)->first();
+        $valorPedido = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
 
 
         if ($actualizar) {
 
             $returnData = array(
                 "resultado" => 1,
-                "total"=>number_format($valorPedido['valor_total']+$valor_propina, 0, ",", "." ), // Se actulizo el registro 
-                "propina"=>$this->request->getPost('valor_propina')
+                "total" => number_format($valorPedido['valor_total'] + $valor_propina, 0, ",", "."), // Se actulizo el registro 
+                "propina" => $this->request->getPost('valor_propina')
 
             );
             echo  json_encode($returnData);

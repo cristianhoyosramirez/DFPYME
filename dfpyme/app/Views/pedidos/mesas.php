@@ -496,6 +496,7 @@ Bienvenido DFpyme
                             </form>
 
 
+
                             <!--    <div class="num-pad">
                                 <button class="num-key" onclick="addNumber('1')">1</button>
                                 <button class="num-key" onclick="addNumber('2')">2</button>
@@ -575,6 +576,8 @@ Bienvenido DFpyme
                 </div>
 
                 <!--partida-->
+
+
 
 
 

@@ -1,4 +1,6 @@
 function finalizar_venta() {
+
+  
   var url = document.getElementById("url").value;
   var usuario = document.getElementById("id_usuario_de_facturacion").value;
   var estado = document.getElementById("estado_pos").value;
