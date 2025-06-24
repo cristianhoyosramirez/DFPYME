@@ -710,6 +710,8 @@ class Imprimir extends BaseController
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->setTextSize(1, 1);
 
+
+        $printer->text("\n\n\n\n\n\n\n\n");
         $printer->text("** $tipo **" . "\n\n");
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
