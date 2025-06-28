@@ -31,7 +31,6 @@ class loginController extends BaseController
 
         $estadoLicencia = model('licenciaModel')->select('estado_licencia')->first();
 
-        dd($estadoLicencia);
 
         //if ($estadoLicencia['estado'] == 't') {
             $pin = $this->request->getVar('pin');
