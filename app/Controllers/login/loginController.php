@@ -29,7 +29,7 @@ class loginController extends BaseController
             return redirect()->to(base_url('/'))->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $estadoLicencia = model('licenciaModel')->select('estado_licencia')->first();
+        //$estadoLicencia = model('licenciaModel')->select('estado_licencia')->first();
 
 
         //if ($estadoLicencia['estado'] == 't') {
