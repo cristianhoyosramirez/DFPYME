@@ -170,3 +170,5 @@ truncate consecutivo_informe_general;
 
 --Cuando la base de datos queda en blando se debe crear una resolucion ficticia 
 
+borrar la tabla atributos 
+
