@@ -214,8 +214,7 @@ $user_session = session();
 
                         </div>
 
-                        <div class="row" id="notasDesdeAtributo<?php echo $detalle['id_tabla_producto'] ?>">NOTA DE PRODUCTO
-                            <p class="text-primary fw-bold text-start"><?php echo $detalle['nota_producto'] ?></p>
+                        <div class="row" id="notasDesdeAtributo<?php echo $detalle['id_tabla_producto'] ?>">                            <p class="text-primary fw-bold text-start"><?php echo $detalle['nota_producto'] ?></p>
                         </div>
 
                         <?php if ($mostrarMesero['mostrarmesero'] === "t"): ?>

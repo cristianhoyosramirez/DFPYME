@@ -516,7 +516,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->post('productos_categoria', 'Mesas::productos_categoria');
     $routes->post('agregar_producto', 'Mesas::agregar_producto');
     $routes->post('agregar_producto_celular', 'Mesas::agregar_producto_celular');
-    $routes->get('imprimirComanda', 'Imprimir::imprimirComanda');
+    $routes->post('imprimirComanda', 'Imprimir::imprimirComanda');
     $routes->post('reimprimirComanda', 'Imprimir::reimprimirComanda');
     $routes->post('pedido', 'Mesas::pedido');
     $routes->post('prefactura', 'Imprimir::imprimir_prefactura');
