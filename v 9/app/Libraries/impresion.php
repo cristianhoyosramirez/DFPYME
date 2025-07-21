@@ -517,7 +517,7 @@ class impresion
         $printer->text("\n");
         $printer->text("\n");
 
-         $mesaMesero = model('pagosModel')->getMesaMesero($id_factura);
+        $mesaMesero = model('pagosModel')->getMesaMesero($id_factura);
 
         if (!empty($mesaMesero)) {
             $printer->text("Mesa: " . $mesaMesero[0]['nombre_mesa'] .  "\n");
@@ -1282,7 +1282,7 @@ class impresion
 
     function imprimir_comanda() {}
 
-    function imp_reporte_ventas($id_apertura)
+    /*  function imp_reporte_ventas($id_apertura)
     {
 
         $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
@@ -1338,15 +1338,10 @@ class impresion
             $printer->text("------------------------------------\n\n");
             $productos = model('kardexModel')->temp_categoria_productos($detalle['id_categoria'], $id_apertura);
 
-            /*     foreach ($productos as $valor) {
-                $printer->setJustification(Printer::JUSTIFY_LEFT);
-                // Alinea la cantidad a la derecha con una longitud fija de 10 caracteres
-                $cantidad_alineada = str_pad($valor['cantidad'], 7, ' ', STR_PAD_LEFT);
-                $printer->text($cantidad_alineada . " ____ " . $valor['nombreproducto'] .   "\n");
-                $valor_total = model('kardexModel')->valor_producto($valor['codigo'], $id_apertura);
 
-                $printer->text("      Valor total     $"  . number_format($valor_total[0]['total_producto'], 0, ",", ".") .  "\n\n");
-            } */
+       
+
+
             foreach ($productos as $valor) {
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
 
@@ -1359,22 +1354,20 @@ class impresion
                 // Obtener valor total formateado
                 $valor_total = model('kardexModel')->valor_producto($valor['codigo'], $id_apertura);
                 $valor_formateado = "$" . number_format($valor_total[0]['total_producto'], 0, ",", ".");
-                $valor_texto = " V TOT: " . $valor_formateado;
+                $valor_texto = " TOT: " . $valor_formateado;
 
-                // Longitud total permitida en una línea (ajusta según tu impresora)
-                $ancho_total = 42;
+                // Primera línea: Cantidad + espacio + total
+                $linea1 = $cantidad . $linea_escritura . $valor_texto;
+                $printer->text($linea1 . "\n");
 
-                // Calculamos espacio restante para el nombre del producto
-                $espacio_disponible = $ancho_total - strlen($cantidad . $linea_escritura . $valor_texto);
+                // Segunda línea: Nombre completo del producto
+                $nombre_producto = $valor['nombreproducto'];
+                $printer->text("        " . $nombre_producto . "\n"); // sangría opcional
 
-                // Cortamos el nombre si es demasiado largo
-                $nombre_producto = substr($valor['nombreproducto'], 0, $espacio_disponible);
-
-                // Línea final formateada
-                $linea = $cantidad . $linea_escritura . str_pad($nombre_producto, $espacio_disponible) . $valor_texto;
-
-                $printer->text($linea . "\n");
+                // Línea en blanco para separación
+                $printer->text("\n");
             }
+
 
 
             $valor_total_categoria = model('kardexModel')->valor_total_categoria($detalle['id_categoria'], $id_apertura);
@@ -1398,7 +1391,99 @@ class impresion
             "resultado" => 1
         );
         echo  json_encode($returnData);
+    } */
+
+
+    function imp_reporte_ventas($id_apertura)
+    {
+        $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+        $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
+
+        $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
+        $printer = new Printer($connector);
+
+        // ENCABEZADO EMPRESA
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(1, 1);
+        $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
+        $printer->text("NIT: " . $datos_empresa[0]['nitempresa'] . "\n");
+        $printer->text($datos_empresa[0]['direccionempresa'] . " - " . $datos_empresa[0]['nombreciudad'] . " (" . $datos_empresa[0]['nombredepartamento'] . ")\n");
+        $printer->text("TEL: " . $datos_empresa[0]['telefonoempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
+
+        // TÍTULO
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("\n** REPORTE DE VENTAS **\n");
+
+        // FECHAS
+        $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
+        $hora_apertura = model('aperturaModel')->select('hora')->where('id', $id_apertura)->first();
+        $fecha_cierre = model('cierreModel')->select('fecha')->where('idapertura', $id_apertura)->first();
+        $hora_cierre = model('cierreModel')->select('hora')->where('idapertura', $id_apertura)->first();
+
+        if (!empty($fecha_cierre['fecha'])) {
+            $printer->text("Cierre:  " . $fecha_cierre['fecha'] . " " . $hora_cierre['hora'] . "\n");
+        }
+        $printer->text("Impreso: " . date('Y-m-d H:i') . "\n");
+
+        // CATEGORÍAS Y PRODUCTOS
+        $categorias = model('kardexModel')->temp_categoria($id_apertura);
+        foreach ($categorias as $detalle) {
+            $nombre_categoria = model('categoriasModel')->select('nombrecategoria')->where('codigocategoria', $detalle['id_categoria'])->first();
+            $categoria = $nombre_categoria['nombrecategoria'];
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("\n--- " . strtoupper($categoria) . " ---\n");
+
+            $productos = model('kardexModel')->temp_categoria_productos($detalle['id_categoria'], $id_apertura);
+
+            foreach ($productos as $valor) {
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
+
+                // Cantidad (3 dígitos)
+                $cantidad = str_pad($valor['cantidad'], 3, ' ', STR_PAD_LEFT);
+
+                // Línea para escritura manual si deseas conservarla
+                $linea_escritura = " ____ ";
+
+                // Total formateado
+                $valor_total = model('kardexModel')->valor_producto($valor['codigo'], $id_apertura);
+                $valor_formateado = "$" . number_format($valor_total[0]['total_producto'], 0, ",", ".");
+
+                // Primera línea: cantidad + línea escritura + total
+                $linea = "{$cantidad}{$linea_escritura}";
+                $espacio_total = 42 - strlen($linea . $valor_formateado);
+                $linea .= str_repeat(" ", $espacio_total) . $valor_formateado;
+                $printer->text($linea . "\n");
+
+                // Segunda línea: nombre completo del producto con sangría
+                $printer->text("     " . $valor['nombreproducto'] . "\n");
+            }
+
+
+            // Total por categoría
+            $valor_total_categoria = model('kardexModel')->valor_total_categoria($detalle['id_categoria'], $id_apertura);
+            $printer->text("  Total " . strtoupper($categoria) . ": $" . number_format($valor_total_categoria[0]['total_categoria'], 0, ",", ".") . "\n");
+        }
+
+        // TOTAL GENERAL
+        $total = model('kardexModel')->selectSum('total')->where('id_apertura', $id_apertura)->first();
+        $printer->setJustification(Printer::JUSTIFY_RIGHT);
+        $printer->setTextSize(1, 2);
+        $printer->text("\nTOTAL VENTAS: $" . number_format($total['total'], 0, ",", ".") . "\n");
+
+        // CORTE FINAL
+        $printer->setTextSize(1, 1);
+        $printer->cut();
+        $printer->close();
+
+        echo json_encode(["resultado" => 1]);
     }
+
+
+
     function imp_reporte_ventasSinCantidades($id_apertura)
     {
 
