@@ -82,9 +82,36 @@ class impresoraController extends BaseController
 
     public function administracion()
     {
-        $impresoras = model('impresorasModel')->orderBy('id','desc')->find();
-        return view('impresora/administrar_impresoras',[
-            'impresoras'=>$impresoras
+        $impresoras = model('impresorasModel')->orderBy('id', 'desc')->find();
+        return view('impresora/administrar_impresoras', [
+            'impresoras' => $impresoras
         ]);
+    }
+
+    public function actualizarEstadoLicencia()
+    {
+        $estado = $this->request->getPost('estado');
+        $mensaje = $this->request->getPost('mensaje');
+
+        $data=[
+
+            'estado_licencia'=>$estado,
+            'mensaje_licencia'=>$mensaje
+        ];
+
+        $update=model('licenciaModel')->set($data)->update();
+    }
+    public function actualizarEstadoConsumo()
+    {
+        $estado = $this->request->getPost('estado');
+        $mensaje = $this->request->getPost('mensaje');
+
+        $data=[
+
+            'estado_consumo'=>$estado,
+            'mensaje_consumo'=>$mensaje
+        ];
+
+        $update=model('estadoPagoConsumoModel')->set($data)->update();
     }
 }

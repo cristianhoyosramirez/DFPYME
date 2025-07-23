@@ -159,6 +159,9 @@ $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' 
     $routes->post('atributosDeProducto', 'ConfigurarProductoController::atributosDeProducto');
     $routes->post('adicionDeProducto', 'ConfigurarProductoController::adicionDeProducto');
     $routes->post('validarAtributosDeProducto', 'ConfigurarProductoController::validarAtributosDeProducto');
+    $routes->post('mitadProducto', 'ConfigurarProductoController::mitadProducto');
+    $routes->get('idLicencia', 'ConfigurarProductoController::idLicencia');
+    $routes->get('id_licencia', 'ConfigurarProductoController::id_licencia');
 });
 
 $routes->group('impresora', ['namespace' => 'App\Controllers\impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -168,6 +171,8 @@ $routes->group('impresora', ['namespace' => 'App\Controllers\impresora', 'filter
     $routes->post('editar', 'impresoraController::editar');
     $routes->post('actualizar', 'impresoraController::actualizar');
     $routes->get('administracion', 'impresoraController::administracion');
+    $routes->post('actualizarEstadoLicencia', 'impresoraController::actualizarEstadoLicencia');
+    $routes->post('actualizarEstadoConsumo', 'impresoraController::actualizarEstadoConsumo');
 });
 
 $routes->group('categoria', ['namespace' => 'App\Controllers\categoria', 'filter' => \App\Filters\Auth::class], function ($routes) {

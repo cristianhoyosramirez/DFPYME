@@ -712,4 +712,65 @@ class ConfigurarProductocontroller extends BaseController
             'id_tabla_producto' => $idPedido,
         ]);
     }
+
+    public function mitadProducto()
+    {
+
+        $json = $this->request->getJSON();
+        $id_tabla_producto = $json->id_tabla_producto;
+
+
+        $precio = model('productoPedidoModel')->select('valor_unitario,cantidad_producto,numero_de_pedido')->where('id', $id_tabla_producto)->first();
+
+        $nuevoPrecio = $precio['valor_unitario'] / 2;
+
+
+        $data = [
+            'valor_unitario' => $nuevoPrecio,
+            'valor_total' => $nuevoPrecio * $precio['cantidad_producto']
+        ];
+
+        $update = model('productoPedidoModel')->set($data)->where('id', $id_tabla_producto)->update();
+
+
+        if ($update) {
+            $valorPedido = model('productoPedidoModel')->selectSum('valor_total')->where('numero_de_pedido', $precio['numero_de_pedido'])->first();
+
+            $actualizarPedido = model('pedidoModel')->set('valor_total', $valorPedido['valor_total'])->where('id', $precio['numero_de_pedido'])->update();
+        }
+
+
+        $propina = model('pedidoModel')->select('propina')->where('id', $precio['numero_de_pedido'])->first();
+
+        return $this->response->setJSON([
+            'response' => 'success',
+            'id' => $id_tabla_producto,
+            'valor_total_pedido' => number_format($valorPedido['valor_total'] + $propina['propina'], 0, ',', '.'),
+            'valor_total_producto' => number_format($nuevoPrecio * $precio['cantidad_producto'], 0, ',', '.'),
+            'valor_unitario' => number_format($nuevoPrecio, 0, ',', '.')
+        ]);
+    }
+
+    public function idLicencia()
+    {
+
+
+        $id_licencia = model('licenciaModel')->select('id_instalacion')->first();
+
+        return $this->response->setJSON([
+            'response' => 'success',
+            'id_licencia' => $id_licencia['id_instalacion']
+        ]);
+    }
+
+    public function id_licencia(){
+
+         $id_licencia = model('estadoPagoConsumoModel')->select('id_instalacion')->first();
+
+        return $this->response->setJSON([
+            'response' => 'success',
+            'id_licencia' => $id_licencia['id_instalacion']
+        ]);
+
+    }
 }

@@ -141,6 +141,14 @@ $user_session = session();
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                     <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2m4 -14h6m-6 4h6m-2 4h2" />
                                                 </svg>Atributos</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="mitadProducto(<?= $detalle['id_tabla_producto']; ?>, '<?= addslashes($detalle['nombreproducto']); ?>', <?= $detalle['valor_unitario']; ?>)">
+                                                <!-- Download SVG icon from http://tabler-icons.io/i/divide -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <circle fill="currentColor" cx="12" cy="6" r="1" />
+                                                    <circle fill="currentColor" cx="12" cy="18" r="1" />
+                                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                                </svg>Mitad</a></li>
                                         <?php if ($user_session->tipo == 0 or $user_session->tipo == 1 or $user_session->tipo == 4 or $user_session->tipo == 5):  ?>
                                             <li><a class="dropdown-item" href="#" onclick="porcentajeDescuento(<?php echo $detalle['id_tabla_producto']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
                                                     <!-- Download SVG icon from http://tabler-icons.io/i/percentage -->
@@ -179,6 +187,7 @@ $user_session = session();
                                                         <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
                                                         <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
                                                     </svg>Cortesia</a></li>
+
                                         <?php endif ?>
 
                                     </ul>
@@ -363,12 +372,75 @@ $user_session = session();
 
 
 
-     <!--    <div class="col-12">
+        <!--    <div class="col-12">
             <hr class="my-2">
         </div> -->
 
     <?php } ?>
 </div>
+
+
+<script>
+    async function mitadProducto(id_tabla_producto, nombre, precio) {
+        const confirmacion = await Swal.fire({
+            text: `¿Deseas cobrar la mitad del producto "${nombre}"?\nPrecio original: $${precio}`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Mitad',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: false,
+            focusConfirm: true,
+            customClass: {
+                confirmButton: 'btn btn-outline-success me-2',
+                cancelButton: 'btn btn-outline-danger'
+            },
+            buttonsStyling: false
+        });
+
+        // Verifica si el usuario aceptó
+        if (!confirmacion.isConfirmed) {
+            return; // Usuario canceló
+        }
+
+        try {
+            let respuesta = await fetch('<?= base_url('producto/mitadProducto') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id_tabla_producto: id_tabla_producto
+                })
+            });
+
+            if (!respuesta.ok) {
+                throw new Error(`Error HTTP: ${respuesta.status}`);
+            }
+
+            let resultado = await respuesta.json();
+
+            if (resultado.response === "success") {
+
+                sweet_alert_centrado("success", 'Valor cambiado ');
+
+                document.getElementById('val_uni' + resultado.id).innerHTML = resultado.valor_unitario
+                document.getElementById('total_producto' + resultado.id).innerHTML = resultado.valor_total_producto
+                document.getElementById('valor_pedido').innerHTML = resultado.valor_total_pedido
+                document.getElementById('subtotal_pedido').value = resultado.valor_total_pedido
+
+            } else if (resultado.response === "error") {
+                sweet_alert_centrado("error", resultado.mensaje);
+            }
+
+        } catch (error) {
+            console.error('Error al seleccionar componente:', error.message);
+        }
+    }
+</script>
+
+
+
+
 
 
 <script>
@@ -477,7 +549,7 @@ $user_session = session();
                 //document.getElementById('notasDesdeAtributo' + resultado.id_tabla_producto).innerHTML =
                 //    '<p class="text-primary fw-bold">' + resultado.nota + '</p>';
 
-                document.getElementById('productosOfpedidos').innerHTML = resultado.productos_pedido/*  */;
+                document.getElementById('productosOfpedidos').innerHTML = resultado.productos_pedido /*  */ ;
 
             }
             if (resultado.response == "error") {
