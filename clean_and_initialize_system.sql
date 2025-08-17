@@ -172,3 +172,8 @@ truncate consecutivo_informe_general;
 
 truncate table atributos cascade;
 
+INSERT INTO public.grupo_impresion ( nombre, id_impresora_asignada, numero_copias) VALUES ('FACTURACION', 1, 1);
+
+INSERT INTO public.resolucion_electronica
+ (numero, date_begin, vigency, date_end, prefijo, number_begin, number_end, consecutive, flexible, alerta) VALUES ('1', '2025-08-04', 24, '2030-08-04', 'ABC', 1, 1000000, 1, true, 200);
+
