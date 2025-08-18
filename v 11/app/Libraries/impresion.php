@@ -661,13 +661,18 @@ class impresion
         $inc = model('kardexModel')->get_total_inc($id_factura);
         $iva = model('kardexModel')->get_total_iva($id_factura);
 
-        $total =  model('kardexModel')->get_total_factura($id_factura);
+        //$total =  model('kardexModel')->get_total_factura($id_factura);
+        $total =  model('pagosModel')->select('valor')
+        ->where('id_factura',$id_factura)
+        ->where('id_estado',8)
+        ->first();
 
         $transferencia =  model('kardexModel')->get_recibido_transferencia($id_factura);
         $efectivo =  model('kardexModel')->get_recibido_efectivo($id_factura);
         $propina =  model('pagosModel')->select('propina')->where('id_factura', $id_factura)->first();
 
-        $sub_total = ($total[0]['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva'])) - $propina['propina'];
+        //$sub_total = ($total[0]['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva'])) - $propina['propina'];
+        $sub_total = ($total['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva']));
 
 
         $printer->setJustification(Printer::JUSTIFY_RIGHT);
@@ -684,7 +689,7 @@ class impresion
         $printer->text("\n");
         $printer->setTextSize(1, 2);
         $printer->setEmphasis(true); // Negrita (resaltado)
-        $printer->text(str_pad(" TOTAL", 15) . ":" . "$ " . number_format($total[0]['valor'], 0, ",", ".") . "\n");
+        $printer->text(str_pad(" TOTAL", 15) . ":" . "$ " . number_format($total['valor']+$propina['propina'], 0, ",", ".") . "\n");
         $printer->setEmphasis(false); // Desactiva la negrita
         $printer->text("\n");
         $printer->setTextSize(1, 1);

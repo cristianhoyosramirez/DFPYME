@@ -134,17 +134,55 @@ class data_table
         // Contado
         if ($id_estado == 1 || $id_estado == 6) {
             $sub_array[] = '
-                <a class="btn btn-outline-success btn-icon" title="Imprimir" onclick="imprimir_duplicado_factura(' . $id_factura . ')"> ... </a>
-                <a class="btn btn-outline-muted btn-icon" title="Ver detalle" onclick="detalle_de_factura(' . $id_factura . ')"> ... </a>
-                <a class="btn btn-outline-yellow btn-icon" title="Editar factura" onclick="editar_factura(' . $id_factura . ')"> ... </a>
+                <a class="btn btn-outline-success btn-icon" title="Imprimir" onclick="imprimir_duplicado_factura(' . $id_factura . ')"> 
+                
+                 <!-- Ícono de impresora -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2H5a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"/>
+                            <path d="M17 9V5a2 2 0 0 0 -2 -2H9a2 2 0 0 0 -2 2v4" />
+                            <rect x="7" y="13" width="10" height="8" rx="2"/>
+                        </svg>
+
+                </a>
+                <a class="btn btn-outline-muted btn-icon" title="Ver detalle" onclick="detalle_de_factura(' . $id_factura . ')"> 
+                
+                       <!-- Ícono de ojo -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="2" />
+                            <path d="M22 12c-2.667 4.667 -6 7 -10 7S4.667 16.667 2 12C4.667 7.333 8 5 12 5s7.333 2.333 10 7" />
+                        </svg>
+
+                </a>
+                <a class="btn btn-outline-yellow btn-icon" title="Editar factura" onclick="editar_factura(' . $id_factura . ')"> 
+                
+                 <!-- Ícono de editar -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 6l3 3l-9 9h-3v-3z"/>
+                            <path d="M18 3l3 3"/>
+                        </svg>
+
+                </a>
             ';
         }
 
         // Pre-factura
         if ($id_estado == 7) {
             $sub_array[] = '
-                <a class="btn btn-outline-success btn-icon" title="Imprimir" onclick="imprimir_duplicado_factura(' . $id_factura . ')"> ... </a>
-                <a class="btn btn-outline-muted btn-icon" title="Ver detalle" onclick="detalle_de_factura(' . $id_factura . ')"> ... </a>
+                <a class="btn btn-outline-success btn-icon" title="Imprimir" onclick="imprimir_duplicado_factura(' . $id_factura . ')"> 
+                
+                 <!-- Ícono de impresora -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2H5a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2"/>
+                            <path d="M17 9V5a2 2 0 0 0 -2 -2H9a2 2 0 0 0 -2 2v4" />
+                            <rect x="7" y="13" width="10" height="8" rx="2"/>
+                        </svg>
+
+                </a>
+                <a class="btn btn-outline-muted btn-icon" title="Ver detalle" onclick="detalle_de_factura(' . $id_factura . ')">        <!-- Ícono de ojo -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="2" />
+                            <path d="M22 12c-2.667 4.667 -6 7 -10 7S4.667 16.667 2 12C4.667 7.333 8 5 12 5s7.333 2.333 10 7" />
+                        </svg> </a>
                 <a class="btn btn-outline-warning btn-icon" title="Pasar a factura" onclick="pasar_a_factura(' . $id_factura . ')"> ... </a>
                 <a class="btn btn-outline-yellow btn-icon" title="Editar pre-factura" onclick="editar_factura(' . $id_factura . ')"> ... </a>
             ';

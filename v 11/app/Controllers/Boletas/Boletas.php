@@ -1101,8 +1101,6 @@ class Boletas extends BaseController
         $apertura = $id_apertura[0]['id'];
 
 
-
-
         $sql_count = '';
         $sql_data = '';
 
@@ -1196,8 +1194,8 @@ class Boletas extends BaseController
                 $tipoDocumento = "POS";
             }
             $sub_array[] = $numero_documento;
-            $sub_array[] = "$ " . number_format($detalle['total_documento'], 0, ",", ".");
-            $sub_array[] = "$ " . number_format($detalle['saldo'], 0, ",", ".");
+            $sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
+            $sub_array[] = number_format($detalle['saldo'], 0, ",", ".");
             //$tipo_documento = model('estadoModel')->select('descripcionestado')->where('idestado', $detalle['id_estado'])->first();
 
             // $sub_array[] = $tipo_documento['descripcionestado'];

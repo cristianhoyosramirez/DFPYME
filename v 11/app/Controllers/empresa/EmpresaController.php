@@ -591,7 +591,7 @@ class EmpresaController extends BaseController
             //return "Vencida por fecha.";
             return $this->response->setJSON([
                 'response' => 'false',
-                'message' => "Vencida por fecha.",
+                'message' => "Resolución vencida por fecha.",
             ]);
         }
 
@@ -599,7 +599,7 @@ class EmpresaController extends BaseController
             //return "Vencida por número.";
             return $this->response->setJSON([
                 'response' => 'false',
-                'message' => "Vencida por consecutivos",
+                'message' => "Resolucion vencida por consecutivos",
             ]);
         }
 

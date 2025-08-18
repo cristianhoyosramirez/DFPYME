@@ -347,7 +347,6 @@
                     method: 'GET'
                 });
                 const data = await response.json();
-
                 return data; // devolvemos todo el objeto para analizarlo desde pagar()
             } catch (error) {
                 console.error("Error en la validación de resolución", error);

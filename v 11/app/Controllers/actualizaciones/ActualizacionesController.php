@@ -73,7 +73,7 @@ class ActualizacionesController extends BaseController
     {
 
         $json = $this->request->getJSON();
-        echo $actualizacion = $json->actualizacion;  exit();
+        $actualizacion = $json->actualizacion;
         //$actualizacion = 11;
 
 
@@ -100,8 +100,10 @@ class ActualizacionesController extends BaseController
     }
 
 
-    public function crearActualizaciones(){
-        echo "hola mundo";  exit();
+    public function crearActualizaciones()
+    {
+        echo "hola mundo";
+        exit();
         return view('actualizaciones/generarActualizaciones');
     }
 }

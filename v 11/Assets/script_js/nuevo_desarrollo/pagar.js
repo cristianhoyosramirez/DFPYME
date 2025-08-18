@@ -5,6 +5,15 @@ function pagar() {
 
     validarResolucion().then(data => {
         if (data.response === 'false') {
+
+            //sweet_alert_centrado('warning', data.message);
+
+            Swal.fire({
+                title: data.message,
+                //text: "That thing is still around?",
+                icon: "warning"
+            });
+
             return;
         }
 

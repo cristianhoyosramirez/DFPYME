@@ -542,6 +542,36 @@ BEGIN
 END $$;
 
 
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM public.clase_pago WHERE id = 1) THEN
+        -- Si existe, actualiza
+        UPDATE public.clase_pago 
+        SET nombre = 'Banco'
+        WHERE id = 1;
+    ELSE
+        -- Si no existe, inserta
+        INSERT INTO public.clase_pago (id, nombre) 
+        VALUES (1, 'Banco');
+    END IF;
+END $$;
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM information_schema.columns 
+        WHERE table_name = 'grupo_impresion' 
+        AND column_name = 'numero_copias'
+    ) THEN
+        ALTER TABLE grupo_impresion 
+        ADD COLUMN numero_copias integer DEFAULT 1;
+    END IF;
+END $$;
+
+
+
 UPDATE configuracion_pedido SET mostrar_boton_mitad = 'true';
 UPDATE configuracion_pedido SET version = 11;
 EOT;

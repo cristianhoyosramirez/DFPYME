@@ -50,7 +50,7 @@ RESOLUCIÓN ElECTRÓNICA
 
             <td>Prefijo</td>
             <td>Número resolución</td>
-            <td>Fecha Dian </td>
+            
             <td>Rango inicial</td>
             <td>Rango final</td>
             <td>Fecha inicial</td>
@@ -67,7 +67,7 @@ RESOLUCIÓN ElECTRÓNICA
 
               <td><?php echo $detalle['prefijo'] ?></td>
               <td><?php echo $detalle['numero'] ?></td>
-              <td><?php echo $detalle['date_begin'] ?></td>
+            
               <td><?php echo $detalle['number_begin'] ?></td>
               <td><?php echo $detalle['number_end'] ?></td>
               <td><?php echo $detalle['date_begin'] ?></td>
