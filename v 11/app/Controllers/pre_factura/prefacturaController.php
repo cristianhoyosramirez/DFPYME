@@ -800,6 +800,8 @@ class prefacturaController extends BaseController
 
         $verficar = model('inventarioFisicoModel')->existeProducto($codigo['codigointernoproducto']);
 
+    
+
         if (!empty($verficar)) {
             $actualizar = model('inventarioFisicoModel')->set('cantidad_inventario_fisico', $cantidad)->where('codigointernoproducto', $codigo['codigointernoproducto'])->update();
             $diferencia = model('inventarioModel')->conteo_manual($codigo['codigointernoproducto']);

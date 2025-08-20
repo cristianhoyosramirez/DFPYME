@@ -38,22 +38,25 @@ class Inventario
         $producto_fabricado = model('productoFabricadoModel')
             ->select('*')
             ->where('prod_fabricado', $codigointerno)
-            ->find();
+            ->findAll();
 
 
 
         foreach ($producto_fabricado as $detall) {
+
             $id_producto = model('productoModel')
                 ->select('id')
                 ->where('codigointernoproducto', $detall['prod_proceso'])
                 ->first();
 
-            $cantidad_inventario = model('inventarioModel')
-                ->select('cantidad_inventario')
-                ->where('codigointernoproducto', $detall['prod_proceso'])
-                ->first();
+            if (!empty($id_producto)) {
 
-            //if (!empty($cantidad_inventario['cantidad_inventario'])) {
+                $cantidad_inventario = model('inventarioModel')
+                    ->select('cantidad_inventario')
+                    ->where('codigointernoproducto', $detall['prod_proceso'])
+                    ->first();
+
+                //if (!empty($cantidad_inventario['cantidad_inventario'])) {
                 $descontar_de_inventario = $cantidad * $detall['cantidad'];
                 $inventario_actual = $cantidad_inventario['cantidad_inventario'] - $descontar_de_inventario;
 
@@ -77,7 +80,8 @@ class Inventario
                 ];
 
                 model('MovimientoInsumosModel')->insert($movimiento);
-           //}
+                //}
+            }
         }
     }
 }
