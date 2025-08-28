@@ -34,7 +34,7 @@ function pedido(id_mesa, nombre_mesa) {
     let tipo_pedido = document.getElementById("tipo_pedido").value;
 
     if (requiere_mesero == "t" && (tipo_usuario == 1 || tipo_usuario == 0 || tipo_usuario == 3)) {
-        $("#modal_meseros").modal("show");
+        $("#modalModal").modal("show");
     }
     $("#lista_todas_las_mesas").modal("hide");
     $('#mesasOffcanvas').offcanvas('hide');

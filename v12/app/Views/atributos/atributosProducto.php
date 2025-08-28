@@ -49,7 +49,15 @@
     <?php foreach ($atributos as $index => $detalle): ?>
 
         <p class="fw-bold text-orange"><?php echo $detalle['nombre']; ?></p>
-        <?php $componentes = model('componentesAtributosProductoModel')->select('nombre,id')->where('id_atributo', $detalle['id'])->orderBy('nombre','asc')->findAll(); ?>
+        <?php
+         $componentes = model('componentesAtributosProductoModel')
+         ->select('nombre,id')
+         ->where('id_atributo', $detalle['id'])
+         ->orderBy('nombre','asc')
+         ->findAll(); 
+         ?>
+
+         
 
         <div class="scroll-container">
             <?php foreach ($componentes as $detalleComponentes): ?>

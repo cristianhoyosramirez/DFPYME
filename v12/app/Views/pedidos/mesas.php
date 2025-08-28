@@ -587,7 +587,7 @@ Bienvenido DFpyme
 </div>
 
 
-<?= $this->include('pedidos/modal_meseros') ?>
+
 
 
 <!-- Modal -->

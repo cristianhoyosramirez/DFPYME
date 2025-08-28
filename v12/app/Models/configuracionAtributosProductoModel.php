@@ -19,6 +19,7 @@ FROM   producto_atributos
        INNER JOIN atributos
                ON atributos.id = producto_atributos.id_atributo
 WHERE  id_producto = $idProducto
+order by nombre asc
         ");
         return $datos->getResultArray();
     }
