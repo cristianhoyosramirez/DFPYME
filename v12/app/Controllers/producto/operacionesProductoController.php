@@ -736,95 +736,90 @@ class operacionesProductoController extends BaseController
             echo json_encode(['code' => 0, 'error' => $errors]);
         } else {
 
-            $valor_venta_producto = str_replace('.', '', $this->request->getPost('editar_valor_venta_producto'));
-            $codigo_interno_producto = str_replace('.', '', $this->request->getPost('codigo_interno_producto_editar'));
-            $precio_costo = str_replace('.', '', $this->request->getPost('edicion_de_valor_costo_producto'));
+    $valor_venta_producto    = str_replace([',', '.'], '', $this->request->getPost('editar_valor_venta_producto'));
+    $codigo_interno_producto = str_replace([',', '.'], '', $this->request->getPost('codigo_interno_producto_editar'));
+    $precio_costo            = str_replace([',', '.'], '', $this->request->getPost('edicion_de_valor_costo_producto'));
 
-            $imprimir_comanda = "";
+    $imprimir_comanda = "";
 
+    if (empty($this->request->getPost('editar_impresion_en_comanda'))) {
+        $imprimir_comanda = 'false';
+    }
+    if (!empty($this->request->getPost('editar_impresion_en_comanda'))) {
+        $imprimir_comanda = 'true';
+    }
 
-            if (empty($this->request->getPost('editar_impresion_en_comanda'))) {
-                $imprimir_comanda = 'false';
-                //$impresion_comanda = 'false';
-            }
-            if (!empty($this->request->getPost('editar_impresion_en_comanda'))) {
-                $imprimir_comanda = 'true';
-            }
+    $permite_descuento = "";
+    if (empty($this->request->getPost('editar_descuento'))) {
+        $permite_descuento = 'false';
+    }
+    if (!empty($this->request->getPost('editar_descuento'))) {
+        $permite_descuento = 'true';
+    }
 
-            $permite_descuento = "";
-            if (empty($this->request->getPost('editar_descuento'))) {
-                $permite_descuento = 'false';
-            }
-            if (!empty($this->request->getPost('editar_descuento'))) {
-                $permite_descuento = 'true';
-            }
+    $aplica_ico = "";
 
-            $aplica_ico = "";
+    if ($this->request->getPost('informacion_tributaria') == 1) {  //Tiene INC
+        $aplica_ico = "t";
+        $id_iva = 1;
+        $id_ico = $this->request->getPost('valor_ico');
+    }
+    if ($this->request->getPost('informacion_tributaria') == 2) { // Tiene IVA 
+        $aplica_ico = "f";
+        $id_iva = $this->request->getPost('valor_iva');
+        $id_ico = 1;
+    }
+    if (empty($this->request->getPost('informacion_tributaria'))) {
+        $aplica_ico = "f";
+        $id_iva = 1;
+        $id_ico = 1;
+    }
 
-            if ($this->request->getPost('informacion_tributaria') == 1) {  //Tiene INC
-                $aplica_ico = "t";
-                $id_iva = 1;
-                $id_ico = $this->request->getPost('valor_ico');
-            }
-            if ($this->request->getPost('informacion_tributaria') == 2) { // Tiene IVA 
-                $aplica_ico = "f";
-                $id_iva = $this->request->getPost('valor_iva');
-                $id_ico = 1;
-            }
-            if (empty($this->request->getPost('informacion_tributaria'))) {
-                $aplica_ico = "f";
-                $id_iva = 1;
-                $id_ico = 1;
-            }
+    $temp_precio_2 = $this->request->getPost('precio_2');
 
-            $temp_precio_2 = $this->request->getPost('precio_2');
+    $pre_2    = (str_replace([',', '.'], '', $this->request->getPost('precio_2')) * 100) / $valor_venta_producto;
+    $precio_2 = 100 - $pre_2;
 
-            $pre_2 = (str_replace('.', '', $this->request->getPost('precio_2')) * 100) / $valor_venta_producto;
-            $precio_2 = 100 - $pre_2;
+    $actualizar_precio = [
+        'codigobarrasproducto'    => $this->request->getPost('crear_producto_codigo_de_barras'),
+        'nombreproducto'          => $this->request->getPost('crear_producto_nombre'),
+        'codigocategoria'         => $this->request->getPost('edicion_de_categoria_producto'),
+        'idmarca'                 => $this->request->getPost('editar_marca_producto'),
+        'idiva'                   => $id_iva,
+        'valorventaproducto'      => str_replace([',', '.'], '', $this->request->getPost('editar_valor_venta_producto')),
+        'precio_costo'            => str_replace([',', '.'], '', $this->request->getPost('edicion_de_valor_costo_producto')),
+        'descto_mayor'            => $precio_2,
+        'se_imprime'              => $imprimir_comanda,
+        'id_tipo_inventario'      => $this->request->getPost('tipoProducto'),
+        'id_ico_producto'         => $id_ico,
+        'aplica_ico'              => $aplica_ico,
+        'aplica_descuento'        => $permite_descuento,
+        'valor_impuesto_saludable'=> str_replace([',', '.'], '', $this->request->getPost('edicion_de_valor_costo_producto')),
+        'id_subcategoria'         => $this->request->getPost('sub_categoria'),
+        'favorito'                => $this->request->getPost('favorito_editar'),
+        'precio_3'                => str_replace([',', '.'], '', $this->request->getPost('editar_precio_3')),
+        'grupo_impresion_comanda' => $this->request->getPost('grupoImpresionEdicion'),
+    ];
 
+    $model = model('productoModel');
+    $actualizar = $model->set($actualizar_precio);
+    $actualizar = $model->where('codigointernoproducto', $codigo_interno_producto);
+    $actualizar = $model->update();
 
+    if ($actualizar) {
+        $producto_medida = [
+            'idvalor_unidad_medida' => $this->request->getPost('UnidadMedida')
+        ];
 
+        $actualizar = model('productoMedidaModel')
+            ->set('idvalor_unidad_medida', $this->request->getPost('UnidadMedida'))
+            ->where('codigointernoproducto', $codigo_interno_producto)
+            ->update();
 
+        echo json_encode(['code' => 1, 'msg' => 'Usuario creado']);
+    }
+}
 
-            $actualizar_precio = [
-                'codigobarrasproducto' => $this->request->getPost('crear_producto_codigo_de_barras'),
-                'nombreproducto' => $this->request->getPost('crear_producto_nombre'),
-                'codigocategoria' => $this->request->getPost('edicion_de_categoria_producto'),
-                'idmarca' => $this->request->getPost('editar_marca_producto'),
-                'idiva' => $id_iva,
-                'valorventaproducto' =>  str_replace('.', '', $this->request->getPost('editar_valor_venta_producto')),
-                'precio_costo' =>  str_replace('.', '', $this->request->getPost('edicion_de_valor_costo_producto')),
-                'descto_mayor' => $precio_2,
-                'se_imprime' => $imprimir_comanda,
-                //'se_imprime' => $imprimir_comanda,
-                'id_tipo_inventario' => $this->request->getPost('tipoProducto'),
-                'id_ico_producto' => $id_ico,
-                'aplica_ico' => $aplica_ico,
-                'aplica_descuento' => $permite_descuento,
-                'valor_impuesto_saludable' => $this->request->getPost('edicion_de_valor_costo_producto'),
-                'id_subcategoria' => $this->request->getPost('sub_categoria'),
-                'favorito' => $this->request->getPost('favorito_editar'),
-                'precio_3' =>  str_replace('.', '', $this->request->getPost('editar_precio_3')),
-                'grupo_impresion_comanda' =>  $this->request->getPost('grupoImpresionEdicion'),
-
-            ];
-
-            $model = model('productoModel');
-            $actualizar = $model->set($actualizar_precio);
-            $actualizar = $model->where('codigointernoproducto', $codigo_interno_producto);
-            $actualizar = $model->update();
-            if ($actualizar) {
-
-                $producto_medida = [
-                    'idvalor_unidad_medida' => $this->request->getPost('UnidadMedida')
-
-                ];
-
-                $actualizar = model('productoMedidaModel')->set('idvalor_unidad_medida', $this->request->getPost('UnidadMedida'))->where('codigointernoproducto', $codigo_interno_producto)->update();
-
-                echo json_encode(['code' => 1, 'msg' => 'Usuario creado']);
-            }
-        }
     }
 
     function eliminar_producto_inventario()
