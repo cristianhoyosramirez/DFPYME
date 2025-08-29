@@ -389,7 +389,11 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
     function menuPedidosWhatsapp() {
 
-        return view('whatsapp/configuracion');
+        $consultaPedido=model('configuracionPedidoModel')->select('consultar_pedidos_whatsapp')->first();
+        
+        return view('whatsapp/configuracion',[
+            'consultar'=>$consultaPedido['consultar_pedidos_whatsapp']
+        ]);
 
     }
 }

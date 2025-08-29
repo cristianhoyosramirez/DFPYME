@@ -638,6 +638,8 @@ Bienvenido DFpyme
         </div>
     </div>
 
+    
+
     <script src="<?= base_url() ?>/Assets/script_js/bloqueos/licencia/licencia.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/bloqueos/consumo/consumo.js"></script>
 

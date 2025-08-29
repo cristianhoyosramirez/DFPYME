@@ -13,16 +13,15 @@ Configuración
     <!-- Configuración principal -->
     <div class="card mb-4 shadow-sm">
         <div class="card-body">
-            
-           
+
+
             <div class="mb-3">
                 <label for="salonSelect" class="form-label">Indique si desea habilitar la gestión de pedidos vía WhatsApp.</label>
                 <select id="salonSelect" class="form-select" onchange="salonCambiado(this.value)">
-                    
-                    <option value="true">Si</option>
-                    <option value="false">No</option>
-                    
+                    <option value="true" <?= ($consultar === 't') ? 'selected' : '' ?>>Si</option>
+                    <option value="false" <?= ($consultar === 'f') ? 'selected' : '' ?>>No</option>
                 </select>
+
             </div>
         </div>
     </div>

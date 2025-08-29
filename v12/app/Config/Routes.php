@@ -779,6 +779,7 @@ $routes->get('/qr-codes', 'QrCodeGeneratorController::index');
 
 $routes->group('whatsapp', ['namespace' => 'App\Controllers\whatsapp'], function ($routes) {
     $routes->get('index', 'WhatsappController::index');
+    $routes->get('prueba', 'WhatsappController::prueba');
 });
 
 

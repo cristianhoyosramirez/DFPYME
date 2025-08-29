@@ -10,7 +10,7 @@ class whatsappController extends BaseController
 {
     public function index()
     {
-       
+
 
         $db = \Config\Database::connect('remoteDB');
 
@@ -60,7 +60,7 @@ class whatsappController extends BaseController
             return;
         }
 
-    
+
         $pedidoModel = model('pedidoModel');
         $productoPedidoModel = model('productoPedidoModel');
         $mesasModel = model('mesasModel');
@@ -147,5 +147,10 @@ class whatsappController extends BaseController
 
             echo "Pedido {$pedido['id_pedido']} procesado correctamente.\n";
         }
+    }
+
+    function prueba()
+    {
+        return view('home/home');
     }
 }

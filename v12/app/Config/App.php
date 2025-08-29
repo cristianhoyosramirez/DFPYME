@@ -23,7 +23,7 @@ class App extends BaseConfig
    *
    * @var string
    */
-  public $baseURL = 'http://localhost/dfpyme/';
+  public $baseURL = 'http://10.207.41.128/dfpyme/';
 
 
   #  public $baseURL = 'http://192.168.3.3/dfpyme/';
