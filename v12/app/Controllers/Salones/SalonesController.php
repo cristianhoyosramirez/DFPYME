@@ -174,22 +174,7 @@ class SalonesController extends BaseController
 
         if (!empty($tiene_pedido)) {
             $id_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
-            /*  $nombre = model('mesasModel')->select('nombre')->where('id', $id_mesa)->first();
-            $valor_pedido = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
-            $propina = model('pedidoModel')->select('propina')->where('fk_mesa', $id_mesa)->first();
-            $id_usuario = model('pedidoModel')->select('fk_usuario')->where('fk_mesa', $id_mesa)->first();
-            $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['fk_usuario'])->first();
-            $returnData = array(
-                "resultado" => 1,
-                "mesa" => view('gestion_mesas/mesas', [
-                    'id_mesa' => $id_mesa,
-                    'nombre' => $nombre['nombre'],
-                    'valor_pedido' => $valor_pedido['valor_total'],
-                    'propina' => $propina['propina'],
-                    'usuario'=>$nombre_usuario['nombresusuario_sistema']
-                ]),
-                'id'=>$id_mesa
-            ); */
+        
 
             $productos_pedido = model('productoPedidoModel')->producto_pedido($id_pedido['id']);
             $total_pedido = model('pedidoModel')->select('valor_total')->where('id', $id_pedido['id'])->first();
@@ -236,5 +221,12 @@ class SalonesController extends BaseController
             );
             echo  json_encode($returnData);
         }
+    }
+
+    function whatsApp(){
+
+        $json = $this->request->getJSON();
+        $nombre = $json->nombre;
+
     }
 }

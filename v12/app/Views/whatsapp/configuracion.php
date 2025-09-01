@@ -41,7 +41,7 @@ Configuración
                     <div class="mb-3 d-flex align-items-center">
                         <label for="salonName" class="form-label me-2">Zona:</label>
                         <input type="text" id="salonName" class="form-control me-2" value="Salón WhatsApp">
-                        <button class="btn btn-outline-success btn-icon" type="button" title="Editar Zona">
+                        <button class="btn btn-outline-success btn-icon" type="button" title="Editar Zona" onclick="crearSalon()">
                             <!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -121,10 +121,58 @@ Configuración
     </div>
 </div>
 
+<input type="text" id="url" value="<?php echo base_url() ?>" hidden>
+
 <style>
     .hover-shadow:hover {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         transition: box-shadow 0.2s ease-in-out;
     }
 </style>
+
+
+<script>
+    // función asíncrona para crear un salón
+    async function crearSalon() {
+        const salonName = document.getElementById("salonName").value;
+        const url = document.getElementById("url").value;
+
+        if (!salonName.trim()) {
+            alert("El nombre del salón no puede estar vacío.");
+            return;
+        }
+
+        try {
+            const response = await fetch(url + "/salones/whatsApp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nombre: salonName
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("Error en la petición: " + response.status);
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+                alert("Salón creado con éxito: " + data.salon.nombre);
+            } else {
+                alert("No se pudo crear el salón: " + (data.message || "Error desconocido"));
+            }
+
+        } catch (error) {
+            console.error("Error al crear el salón:", error);
+            alert("Hubo un problema al crear el salón.");
+        }
+    }
+
+    // asociar el click al botón
+    document.querySelector("#crearSalonBtn").addEventListener("click", crearSalon);
+</script>
+
 <?= $this->endSection('content') ?>

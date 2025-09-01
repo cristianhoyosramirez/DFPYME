@@ -44,6 +44,7 @@ $routes->group('salones', ['namespace' => 'App\Controllers\Salones', 'filter' =>
     $routes->post('edit', 'salonesController::editar');
     $routes->post('update', 'salonesController::actualizar');
     $routes->post('consultar_mesa', 'salonesController::consultar_mesa');
+    $routes->post('whatsApp', 'salonesController::whatsApp');
 });
 
 $routes->group('login', ['namespace' => 'App\Controllers\login'], function ($routes) {

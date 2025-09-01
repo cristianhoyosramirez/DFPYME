@@ -153,4 +153,11 @@ class whatsappController extends BaseController
     {
         return view('home/home');
     }
+
+    function salon(){
+        $data = [
+            'nombre' => $this->request->getVar('salonName'),
+        ];
+        $insert = model('salonesModel')->insert($data);
+    }
 }
