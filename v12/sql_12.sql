@@ -1,64 +1,186 @@
- $sql = <<<EOT
 -- ======================================
 -- CREACIÓN DE TABLAS SOLO SI NO EXISTEN
 -- ======================================
 
--- Table: estado_licencia
-CREATE TABLE IF NOT EXISTS estado_licencia
-(
-  id_cliente uuid NOT NULL,
-  estado_licencia character varying(50) NOT NULL,
-  mensaje_licencia text,
-  id_instalacion uuid,
-  CONSTRAINT pk_estado_licencia PRIMARY KEY (id_cliente)
-);
+-- ===========================
+-- Tabla estado_licencia
+-- ===========================
+DO $$
+BEGIN
+   -- Crear tabla solo si no existe
+   IF NOT EXISTS (
+       SELECT 1 FROM information_schema.tables 
+       WHERE table_name = 'estado_licencia'
+         AND table_schema = 'public'
+   ) THEN
+      CREATE TABLE estado_licencia
+      (
+        id_cliente uuid NOT NULL,
+        estado_licencia character varying(50) NOT NULL,
+        mensaje_licencia text,
+        id_instalacion uuid,
+        CONSTRAINT pk_estado_licencia PRIMARY KEY (id_cliente)
+      );
+   END IF;
+END$$;
 
--- Insert solo si no existe
+-- ===========================
+-- Agregar columna id_instalacion si no existe
+-- ===========================
+DO $$
+BEGIN
+   IF NOT EXISTS (
+       SELECT 1
+       FROM information_schema.columns
+       WHERE table_name = 'estado_licencia'
+         AND column_name = 'id_instalacion'
+         AND table_schema = 'public'
+   ) THEN
+      ALTER TABLE estado_licencia ADD COLUMN id_instalacion uuid;
+   END IF;
+END$$;
+
+
+-- ===========================
+-- Insertar solo si la tabla está vacía
+-- ===========================
 INSERT INTO estado_licencia (id_cliente, estado_licencia, mensaje_licencia, id_instalacion)
-SELECT '960caf31-47f9-4b87-aa03-37fd5c03bf74', 'Activa', 'Su servicio esta temporalmente inactivo.', '337542e0-e18a-4e53-9cb2-19b976b146f1'
+SELECT '960caf31-47f9-4b87-aa03-37fd5c03bf74',
+       'Activa',
+       'Su servicio esta temporalmente inactivo.',
+       '337542e0-e18a-4e53-9cb2-19b976b146f1'
 WHERE NOT EXISTS (
-    SELECT 1 FROM estado_licencia WHERE id_cliente = '960caf31-47f9-4b87-aa03-37fd5c03bf74'
+    SELECT 1 FROM estado_licencia
 );
 
--- Table: clase_pago
-CREATE TABLE IF NOT EXISTS clase_pago
-(
-  id serial NOT NULL,
-  nombre character varying(50),
-  CONSTRAINT pk_clase_pago PRIMARY KEY (id)
-);
-COMMENT ON TABLE clase_pago IS 'Esta almacena los valores para los pagos que son diferentes al efectivo y se mostranran el ventana de finalizar venta ';
 
--- Table: estado_pago_consumo
-CREATE TABLE IF NOT EXISTS estado_pago_consumo
-(
-  id_cliente uuid NOT NULL,
-  estado_consumo character varying(50) NOT NULL,
-  mensaje_consumo text,
-  id_instalacion uuid,
-  CONSTRAINT pk_estado_pago_consumo PRIMARY KEY (id_cliente)
-);
+-- ===========================
+-- Tabla clase_pago
+-- ===========================
+DO $$
+BEGIN
+   -- Crear tabla solo si no existe
+   IF NOT EXISTS (
+       SELECT 1 FROM information_schema.tables 
+       WHERE table_name = 'clase_pago'
+         AND table_schema = 'public'
+   ) THEN
+      CREATE TABLE clase_pago
+      (
+        id serial NOT NULL,
+        nombre character varying(50),
+        CONSTRAINT pk_clase_pago PRIMARY KEY (id)
+      );
+   END IF;
+END$$;
 
+-- ===========================
+-- Comentario (se aplica solo si la tabla existe)
+-- ===========================
+DO $$
+BEGIN
+   IF EXISTS (
+       SELECT 1 FROM information_schema.tables
+       WHERE table_name = 'clase_pago'
+         AND table_schema = 'public'
+   ) THEN
+      COMMENT ON TABLE clase_pago IS 'Esta almacena los valores para los pagos que son diferentes al efectivo y se mostraran en la ventana de finalizar venta';
+   END IF;
+END$$;
+
+-- ===========================
+-- Tabla estado_pago_consumo
+-- ===========================
+DO $$
+BEGIN
+   -- Crear tabla solo si no existe
+   IF NOT EXISTS (
+       SELECT 1 FROM information_schema.tables 
+       WHERE table_name = 'estado_pago_consumo'
+         AND table_schema = 'public'
+   ) THEN
+      CREATE TABLE estado_pago_consumo
+      (
+        id_cliente uuid NOT NULL,
+        estado_consumo character varying(50) NOT NULL,
+        mensaje_consumo text,
+        id_instalacion uuid,
+        CONSTRAINT pk_estado_pago_consumo PRIMARY KEY (id_cliente)
+      );
+   END IF;
+END$$;
+
+-- ===========================
+-- Agregar columna id_instalacion si no existe
+-- ===========================
+DO $$
+BEGIN
+   IF NOT EXISTS (
+       SELECT 1
+       FROM information_schema.columns
+       WHERE table_name = 'estado_pago_consumo'
+         AND column_name = 'id_instalacion'
+         AND table_schema = 'public'
+   ) THEN
+      ALTER TABLE estado_pago_consumo ADD COLUMN id_instalacion uuid;
+   END IF;
+END$$;
+
+
+-- ===========================
+-- Insertar solo si no existe el cliente
+-- ===========================
 INSERT INTO estado_pago_consumo (id_cliente, estado_consumo, mensaje_consumo, id_instalacion)
-SELECT '960caf31-47f9-4b87-aa03-37fd5c03bf74', 'Al día', 'Es en mora de factura No 369, favor reportar el pago al 3698852', '337542e0-e18a-4e53-9cb2-19b976b146f1'
+SELECT '960caf31-47f9-4b87-aa03-37fd5c03bf74',
+       'Al día',
+       'Es en mora de factura No 369, favor reportar el pago al 3698852',
+       '337542e0-e18a-4e53-9cb2-19b976b146f1'
 WHERE NOT EXISTS (
-    SELECT 1 FROM estado_pago_consumo WHERE id_cliente = '960caf31-47f9-4b87-aa03-37fd5c03bf74'
+    SELECT 1 
+    FROM estado_pago_consumo 
+    WHERE id_cliente = '960caf31-47f9-4b87-aa03-37fd5c03bf74'
 );
 
--- Table: grupo_impresion
-CREATE TABLE IF NOT EXISTS grupo_impresion
-(
-  id serial NOT NULL,
-  nombre character varying(50),
-  id_impresora_asignada integer,
-  numero_copias integer DEFAULT 1,
-  CONSTRAINT pk_grupo_impresion PRIMARY KEY (id),
-  CONSTRAINT fk_impresora FOREIGN KEY (id_impresora_asignada)
-      REFERENCES impresora (id)
-);
-COMMENT ON TABLE grupo_impresion IS 'Tabla utilizada para agrupar productos en comandas cuando la configuración de impresión es por grupo.';
-COMMENT ON COLUMN grupo_impresion.nombre IS 'Nombre del grupo de impresion ';
-COMMENT ON COLUMN grupo_impresion.id_impresora_asignada IS 'Establece la relación con la tabla impresoras mediante su ID, indicando la impresora asignada a cada grupo de impresión de comandas.';
+
+-- ===========================
+-- Tabla grupo_impresion
+-- ===========================
+DO $$
+BEGIN
+   -- Crear tabla solo si no existe
+   IF NOT EXISTS (
+       SELECT 1 FROM information_schema.tables 
+       WHERE table_name = 'grupo_impresion'
+         AND table_schema = 'public'
+   ) THEN
+      CREATE TABLE grupo_impresion
+      (
+        id serial NOT NULL,
+        nombre character varying(50),
+        id_impresora_asignada integer,
+        numero_copias integer DEFAULT 1,
+        CONSTRAINT pk_grupo_impresion PRIMARY KEY (id),
+        CONSTRAINT fk_impresora FOREIGN KEY (id_impresora_asignada)
+            REFERENCES impresora (id)
+      );
+   END IF;
+END$$;
+
+-- ===========================
+-- Comentarios (se ejecutan solo si la tabla existe)
+-- ===========================
+DO $$
+BEGIN
+   IF EXISTS (
+       SELECT 1 FROM information_schema.tables
+       WHERE table_name = 'grupo_impresion'
+         AND table_schema = 'public'
+   ) THEN
+      COMMENT ON TABLE grupo_impresion IS 'Tabla utilizada para agrupar productos en comandas cuando la configuración de impresión es por grupo.';
+      COMMENT ON COLUMN grupo_impresion.nombre IS 'Nombre del grupo de impresion ';
+      COMMENT ON COLUMN grupo_impresion.id_impresora_asignada IS 'Establece la relación con la tabla impresoras mediante su ID, indicando la impresora asignada a cada grupo de impresión de comandas.';
+   END IF;
+END$$;
 
 -- ======================================
 -- AGREGAR COLUMNAS SOLO SI NO EXISTEN
@@ -214,7 +336,7 @@ END $$;
 
 
 UPDATE configuracion_pedido SET mostrar_boton_mitad = 'true';
-UPDATE configuracion_pedido SET version = 12;
+
 
 DO $$
 BEGIN
@@ -687,3 +809,257 @@ END$$;
 -- aseguramos que siempre tenga default true
 ALTER TABLE configuracion_pedido 
     ALTER COLUMN permitir_impresion_texto_propina SET DEFAULT true;
+
+
+-- ===========================
+-- Columnas en configuracion_pedido
+-- ===========================
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name='configuracion_pedido' AND column_name='altura'
+    ) THEN
+        ALTER TABLE configuracion_pedido ADD COLUMN altura integer;
+    END IF;
+END$$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name='configuracion_pedido' AND column_name='codigo_pantalla'
+    ) THEN
+        ALTER TABLE configuracion_pedido ADD COLUMN codigo_pantalla boolean DEFAULT false;
+        COMMENT ON COLUMN configuracion_pedido.codigo_pantalla IS 'Este campo me permite ver en pantalla al momento de llamar los productos si concateno el codigo con el nombre del producto';
+    END IF;
+END$$;
+
+-- ===========================
+-- Columna en categoria
+-- ===========================
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name='categoria' AND column_name='orden'
+    ) THEN
+        ALTER TABLE categoria ADD COLUMN orden integer;
+    END IF;
+END$$;
+
+-- ===========================
+-- Columna en medio_pago
+-- ===========================
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name='medio_pago' AND column_name='nombre_comercial'
+    ) THEN
+        ALTER TABLE medio_pago ADD COLUMN nombre_comercial character varying(100);
+    END IF;
+END$$;
+
+-- ===========================
+-- Tabla entradas_salidas
+-- ===========================
+-- ============================================
+-- Tabla entradas_salidas (idempotente)
+-- ============================================
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_name = 'entradas_salidas'
+    ) THEN
+        CREATE TABLE entradas_salidas
+        (
+            id serial PRIMARY KEY,
+            cantidad double precision,
+            id_documento integer,
+            id_concepto_kardex integer,
+            id_operacion integer,
+            fecha date,
+            inventario_anterior double precision,
+            tabla character varying(50)
+        );
+    END IF;
+END$$;
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_name = 'entradas_salidas'
+          AND column_name = 'id_concepto_kardex'
+    ) THEN
+        ALTER TABLE entradas_salidas
+        ADD COLUMN id_concepto_kardex integer;
+    END IF;
+END;
+$$;
+
+
+
+-- ============================================
+-- Constraint fk_id_concepto
+-- ============================================
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.table_constraints 
+        WHERE constraint_name = 'fk_id_concepto'
+          AND table_name = 'entradas_salidas'
+    ) THEN
+        ALTER TABLE entradas_salidas
+        ADD CONSTRAINT fk_id_concepto
+        FOREIGN KEY (id_concepto_kardex)
+        REFERENCES concepto_kardex (id)
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION;
+    END IF;
+END$$;
+
+-- ============================================
+-- Constraint fk_operacion
+-- ============================================
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.table_constraints 
+        WHERE constraint_name = 'fk_operacion'
+          AND table_name = 'entradas_salidas'
+    ) THEN
+        ALTER TABLE entradas_salidas
+        ADD CONSTRAINT fk_operacion
+        FOREIGN KEY (id_operacion)
+        REFERENCES operacion (id)
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION;
+    END IF;
+END$$;
+
+-- ============================================
+-- Comentarios (idempotentes)
+-- Nota: COMMENT no es condicional, pero se puede repetir sin error.
+-- ============================================
+COMMENT ON COLUMN entradas_salidas.id_documento IS
+  'Este campo se refiere a la llave primaria de los movimientos que se generan (Ventas , devoluciones , remisiones etc...)';
+
+COMMENT ON COLUMN entradas_salidas.id_concepto_kardex IS
+  'Este sirve para referirse a la tabla concepto kardex para ver el nombre del concepto y formar el constraint hacia esa tabla ';
+
+COMMENT ON COLUMN entradas_salidas.id_operacion IS
+  'Este campo sirve para determinar si es entrada o salida y formar constraint a la tabla operacion que es la que la que me dice si es entrada o salida ';
+
+-- ===========================
+-- Columnas en item_documento_electronico
+-- ===========================
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name='item_documento_electronico' AND column_name='inventario_anterior'
+    ) THEN
+        ALTER TABLE item_documento_electronico ADD COLUMN inventario_anterior double precision;
+    END IF;
+END$$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name='item_documento_electronico' AND column_name='inventario_actual'
+    ) THEN
+        ALTER TABLE item_documento_electronico ADD COLUMN inventario_actual double precision;
+    END IF;
+END$$;
+
+-- ===========================
+-- Columnas en kardex
+-- ===========================
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name='kardex' AND column_name='saldo_anterior'
+    ) THEN
+        ALTER TABLE kardex ADD COLUMN saldo_anterior double precision;
+    END IF;
+END$$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name='kardex' AND column_name='nuevo_saldo'
+    ) THEN
+        ALTER TABLE kardex ADD COLUMN nuevo_saldo double precision;
+    END IF;
+END$$;
+
+
+DO $$
+BEGIN
+    -- 1. Verificar si la columna id existe
+    IF NOT EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_name = 'medio_pago'
+          AND column_name = 'id'
+    ) THEN
+        -- 2. Agregar columna id
+        ALTER TABLE medio_pago ADD COLUMN id integer;
+
+        -- 3. Crear secuencia si no existe
+        IF NOT EXISTS (
+            SELECT 1 FROM pg_class WHERE relname = 'medio_pago_id_seq'
+        ) THEN
+            CREATE SEQUENCE medio_pago_id_seq;
+        END IF;
+
+        -- 4. Asignar valores a registros existentes
+        UPDATE medio_pago
+        SET id = nextval('medio_pago_id_seq')
+        WHERE id IS NULL;
+
+        -- 5. Configurar default con la secuencia
+        ALTER TABLE medio_pago
+        ALTER COLUMN id SET DEFAULT nextval('medio_pago_id_seq');
+
+        -- 6. Definir como PRIMARY KEY (opcional, si quieres que sea pk)
+        -- ALTER TABLE medio_pago ADD CONSTRAINT pk_medio_pago_id PRIMARY KEY (id);
+    END IF;
+END;
+$$;
+
+
+
+
+-- ===========================
+-- Updates a medio_pago
+-- ===========================
+-- ===========================
+-- Updates a medio_pago
+-- ===========================
+UPDATE medio_pago SET nombre = 'Instrumento no definido ', estado = FALSE, nombre_comercial = 'INSTRUMENTO NO DEFINIDO' WHERE id = 1;
+UPDATE medio_pago SET nombre = 'CASH', estado = TRUE, nombre_comercial = 'EFECTIVO' WHERE id = 10;
+UPDATE medio_pago SET nombre = 'Reversión Crédito Ahorro ', estado = FALSE, nombre_comercial = 'REVERSIÓN CRÉDITO AHORRO' WHERE id = 11;
+UPDATE medio_pago SET nombre = 'Reversión Débito Ahorro ', estado = FALSE, nombre_comercial = 'REVERSIÓN DÉBITO AHORRO' WHERE id = 12;
+UPDATE medio_pago SET nombre = 'Crédito Ahorro ', estado = FALSE, nombre_comercial = 'CRÉDITO AHORRO' WHERE id = 13;
+UPDATE medio_pago SET nombre = 'Débito Ahorro ', estado = FALSE, nombre_comercial = 'DÉBITO AHORRO' WHERE id = 14;
+UPDATE medio_pago SET nombre = 'Bookentry Crédito ', estado = FALSE, nombre_comercial = 'BOOKENTRY CRÉDITO' WHERE id = 15;
+UPDATE medio_pago SET nombre = 'Bookentry Débito ', estado = FALSE, nombre_comercial = 'BOOKENTRY DÉBITO' WHERE id = 16;
+UPDATE medio_pago SET nombre = 'Crédito Pago negocio corporativo (CTP) ', estado = FALSE, nombre_comercial = 'CRÉDITO PAGO NEGOCIO CORPORATIVO (CTP)' WHERE id = 19;
+UPDATE medio_pago SET nombre = 'Crédito ACH ', estado = FALSE, nombre_comercial = 'CRÉDITO ACH' WHERE id = 2;
+
+update configuracion_pedido set codigo_pantalla= 'false';
+
+
+
+
+UPDATE configuracion_pedido SET version = 12;
