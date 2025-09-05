@@ -1059,6 +1059,22 @@ UPDATE medio_pago SET nombre = 'Crédito ACH ', estado = FALSE, nombre_comercial
 
 update configuracion_pedido set codigo_pantalla= 'false';
 
+-- ====================================
+-- Columna: alerta en resolucion_electronica
+-- ====================================
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_name = 'resolucion_electronica'
+        AND column_name = 'alerta'
+    ) THEN
+        ALTER TABLE resolucion_electronica ADD COLUMN alerta integer;
+    END IF;
+END
+$$;
+
 
 
 
