@@ -585,70 +585,128 @@ class Imprimir extends BaseController
 
         $numeroImpresion = model('configuracionPedidoModel')->select('numero_copias_comanda')->first();
         $imprimirPrecios = model('configuracionPedidoModel')->select('precios_comanda')->first();
+        $tamaño = model('configuracionPedidoModel')->select('tamano_comanda')->first();
 
+
+
+        $mapa_tamanos = [
+            "pequena" => [1, 1],   // ancho=1, alto=1
+            "mediana" => [2, 1],   // ancho=2, alto=1
+            "grande"  => [2, 2],   // ancho=2, alto=2
+        ];
+
+        // Traer configuración desde la BD
+        $tamano_config = model('configuracionPedidoModel')
+            ->select('tamano_comanda')
+            ->first();
+
+        // Definir valores por defecto
+        $ancho_texto = 1;
+        $alto_texto  = 1;
+
+        // Validar si existe el tamaño configurado
+        if (isset($mapa_tamanos[$tamano_config['tamano_comanda']])) {
+            [$ancho_texto, $alto_texto] = $mapa_tamanos[$tamano_config['tamano_comanda']];
+        }
+
+        // Aplicar tamaño base
+        $printer->setTextSize($ancho_texto, $alto_texto);
+
+        // ================================
+        // Lógica de impresión
+        // ================================
         $total_general = 0; // inicializar acumulador antes del foreach
 
-foreach ($productos as $producto) {
+        foreach ($productos as $producto) {
 
-    // Obtener cantidades
-    $cantidad_impresa = model('productoPedidoModel')
-        ->select('numero_productos_impresos_en_comanda')
-        ->where('id', $producto['id'])
-        ->first();
+            // Obtener cantidades
+            $cantidad_impresa = model('productoPedidoModel')
+                ->select('numero_productos_impresos_en_comanda')
+                ->where('id', $producto['id'])
+                ->first();
 
-    $cantidad_total = model('productoPedidoModel')
-        ->select('cantidad_producto')
-        ->where('id', $producto['id'])
-        ->first();
+            $cantidad_total = model('productoPedidoModel')
+                ->select('cantidad_producto')
+                ->where('id', $producto['id'])
+                ->first();
 
-    $cant_impresa  = $cantidad_impresa['numero_productos_impresos_en_comanda'];
-    $cant_total    = $cantidad_total['cantidad_producto'];
-    $cant_restante = $cant_total - $cant_impresa;
+            $cant_impresa  = $cantidad_impresa['numero_productos_impresos_en_comanda'];
+            $cant_total    = $cantidad_total['cantidad_producto'];
+            $cant_restante = $cant_total - $cant_impresa;
 
-    // Calcular el total del producto (unitario x cantidad)
-    $total_producto = $producto['valor_unitario'] * $cant_total;
+            // Calcular el total del producto (unitario x cantidad)
+            $total_producto = $producto['valor_unitario'] * $cant_total;
 
-    // Actualizar productos impresos
-    if ($i == 1) {
-        $data = [
-            'numero_productos_impresos_en_comanda' => $cant_total
-        ];
-        model('productoPedidoModel')->set($data)->where('id', $producto['id'])->update();
-    }
+            // Actualizar productos impresos
+            if ($i == 1) {
+                $data = [
+                    'numero_productos_impresos_en_comanda' => $cant_total
+                ];
+                model('productoPedidoModel')
+                    ->set($data)
+                    ->where('id', $producto['id'])
+                    ->update();
+            }
 
-    // --- Impresión producto ---
-    $printer->setJustification(Printer::JUSTIFY_LEFT);
-    $printer->setTextSize(2, 1);
-    $printer->text($producto['nombreproducto'] . "\n");
+            // --- Impresión producto ---
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->setTextSize($ancho_texto, $alto_texto);
+            $printer->text($producto['nombreproducto'] . "\n");
 
-    $printer->setTextSize(2, 1);
-    $printer->text("Cant. " . ($cant_restante > 0 ? $cant_restante : $cant_total) . "\n");
+            $printer->setTextSize($ancho_texto, $alto_texto);
+            $printer->text("Cant. " . ($cant_restante > 0 ? $cant_restante : $cant_total) . "\n");
 
-    // Notas y atributos (se queda igual que antes)...
+            // --- Atributos del producto ---
+            $atributos = model('atributosDeProductoModel')->getAtributosPedido($producto['id']);
+            if (!empty($atributos)) {
+                foreach ($atributos as $atributo) {
+                    $componentes = model('atributosDeProductoModel')->getComponentes($producto['id'], $atributo['id_atributo']);
+                    $componentesNombres = array_map(fn($c) => $c['nombre'], $componentes);
 
-    $printer->text("\n");
-    $printer->setTextSize(1, 1);
+                    $printer->setTextSize($ancho_texto, $alto_texto);
+                    $linea_atributo = "* " . $atributo['nombre'] . " (" . implode("- ", $componentesNombres) . ")";
+                    $printer->text($linea_atributo . "\n");
+                }
+            }
 
-    $printer->text("V unitario. " . number_format($producto['valor_unitario'], 0, ",", ".") . "\n");
-    $printer->text("V total. " . number_format($producto['valor_unitario']*$cant_restante, 0, ",", ".") . "\n");
+            // --- Notas del producto ---
+            if (!empty($producto['nota_producto'])) {
+                $printer->text("NOTAS:\n");
+                $printer->setTextSize($ancho_texto, $alto_texto);
+                $printer->text($producto['nota_producto'] . "\n");
+                $printer->setTextSize($ancho_texto, $alto_texto); // asegurar volver al tamaño base
+            }
 
-    // 👉 Acumulamos el total general
-    $total_general += $producto['valor_unitario']*$cant_restante;
 
-    // Línea separadora
-    $printer->text("---------------------------------------------\n");
-}
+            $printer->text("\n");
+            $printer->setTextSize(1, 1); // reset a tamaño normal para precios
 
-// =====================================
-// Después de imprimir todos los productos
-// =====================================
-$printer->setJustification(Printer::JUSTIFY_RIGHT);
-$printer->setTextSize(2, 1);
-$printer->setEmphasis(true);
-$printer->text("TOTAL: " . number_format($total_general, 0, ",", ".") . "\n");
-$printer->setEmphasis(false);
-$printer->setJustification(Printer::JUSTIFY_LEFT);
+            // --- Precios ---
+            if ($imprimirPrecios['precios_comanda'] == "t") {
+                $printer->text("V unitario. " . number_format($producto['valor_unitario'], 0, ",", ".") . "\n");
+                $printer->text("V total. " . number_format($producto['valor_unitario'] * $cant_restante, 0, ",", ".") . "\n");
+            }
 
+            // 👉 Acumular el total general
+            $total_general += $producto['valor_unitario'] * $cant_restante;
+
+            // Línea separadora
+            $printer->text("---------------------------------------------\n");
+        }
+
+        // ================================
+        // Total general al final
+        // ================================
+        if ($imprimirPrecios['precios_comanda'] == "t") {
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $printer->setTextSize($ancho_texto, $alto_texto);
+            $printer->setEmphasis(true);
+            $printer->text("TOTAL: " . number_format($total_general, 0, ",", ".") . "\n");
+            $printer->setEmphasis(false);
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+        }
+
+      
 
 
         $observaciones_genereles = model('pedidoModel')->select('nota_pedido')->where('id', $numero_pedido)->first();

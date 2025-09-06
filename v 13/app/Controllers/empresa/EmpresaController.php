@@ -460,7 +460,12 @@ class EmpresaController extends BaseController
 
     function comprobante_transaccion()
     {
-        return view('empresa/configuracion_impresion_transferencias');
+        $comprobante=model('cajaModel')->select('imp_comprobante_transferencia')->first();
+
+        return view('empresa/configuracion_impresion_transferencias',[
+            'imprimir'=>$comprobante['imp_comprobante_transferencia']
+        ]);
+        
     }
 
     function configuracion_impresion()
