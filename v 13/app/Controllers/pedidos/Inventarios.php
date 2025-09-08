@@ -129,7 +129,7 @@ class Inventarios extends BaseController
         if (!empty($producto)) {
             $productos = model('inventarioModel')->producto($producto);
         }
-        
+
         $returnData = array(
             "resultado" => 1,
             'productos' => view('pedido/productos', [
@@ -180,13 +180,35 @@ class Inventarios extends BaseController
     function productos_borrados()
     {
         $id_pedido = $this->request->getPost('id_pedido');
+       //$id_pedido = 15720;
+
+        $numero_pedido = model('productosBorradosModel')
+            ->distinct() // activa el DISTINCT
+            ->select('pedido')
+            ->where('pedido', $id_pedido)
+            ->first();
+
+        $fecha_eliminacion = model('productosBorradosModel')
+            ->distinct() // activa el DISTINCT
+            ->select('fecha_eliminacion')
+            ->where('pedido', $id_pedido)
+            ->first();
+
+        $creacion = model('eliminacionPedidosModel')->select('fecha_creacion')->where('numero_pedido', $id_pedido)->first();
+        $valor_pedido = model('eliminacionPedidosModel')->select('valor_pedido')->where('numero_pedido', $id_pedido)->first();
+
+
 
         $productos = model('productosBorradosModel')->get_productos_borrados($id_pedido);
 
         $returnData = array(
             "resultado" => 1,
             "productos" => view('consultas/detalle_productos_borrados', [
-                'productos' => $productos
+                'productos' => $productos,
+                'numero_pedido' => $numero_pedido['pedido'],
+                'fecha_eliminacion' => $fecha_eliminacion['fecha_eliminacion'],
+                'fecha_creacion' => $creacion['fecha_creacion'],
+                'valor_pedido' => number_format($valor_pedido['valor_pedido'], 0, ",", ".")
             ]),
 
         );

@@ -1374,6 +1374,14 @@ class Boletas extends BaseController
 
             $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
             $sub_array[] = $detalle['fecha'];
+            $sub_array[] = $detalle['hora'];
+                       if (!empty($detalle['id_mesa'])) {
+                $tempNombreMesa = model('mesasModel')->select('nombre')->where('id', $detalle['id_mesa'])->first();
+                $mesa = $tempNombreMesa['nombre'] ?? '';
+            } else {
+                $mesa = "";
+            }
+
             $sub_array[] = $detalle['nit_cliente'];
             $sub_array[] =  $nombre_cliente['nombrescliente'];
             $sub_array[] = $detalle['documento'];
@@ -1382,6 +1390,7 @@ class Boletas extends BaseController
             $documento = model('estadoModel')->select('descripcionestado')->where('idestado', $detalle['id_estado'])->first();
 
             $sub_array[] = $documento['descripcionestado'];
+            $sub_array[] = $mesa;
             $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura']);
 
             $sub_array[] = $acciones;

@@ -187,18 +187,7 @@ class operacionesProductoController extends BaseController
                         'required' => 'Dato necesario',
                     ],
                 ],
-                /* 'marca_producto' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesarios',
-                    ],
-                ],
-                  'informacion_tributaria' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'Dato necesario',
-                    ],
-                ], */
+              
             ])
         ) {
             $errors = $this->validator->getErrors();

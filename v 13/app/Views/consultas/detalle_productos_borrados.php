@@ -1,13 +1,13 @@
-
 <div class="row ">
     <div class="col">Pedido número </div>
-    <div class="col"></div>
+    <div class="col text-primary"><?php echo $numero_pedido; ?></div>
     <div class="col">Fecha pedido </div>
-    <div class="col"></div>
-      <div class="col">Fecha eliminación </div>
-    <div class="col"></div>
+    <div class="col text-primary"><?php  echo $fecha_creacion; 
+                        ?></div>
+    <div class="col">Fecha eliminación </div>
+    <div class="col text-primary"><?php echo $fecha_creacion; ?></div>
 </div>
-  
+
 
 <div class="mb-3"></div>
 
@@ -39,3 +39,5 @@
         <?php endforeach ?>
     </tbody>
 </table>
+
+<p class="text-end h3 text-primary">Total pedido: <?php echo $valor_pedido; ?></p>

@@ -740,6 +740,9 @@ class Imprimir extends BaseController
 
         $pie = model('configuracionPedidoModel')->select('espacios_comanda_pie')->first();
         $printer->text(str_repeat("\n", (int)$pie['espacios_comanda_pie']));
+
+        $printer->getPrintConnector()->write("\x1B\x42\x03\x02");
+
         $printer->cut();
 
         $printer->close();

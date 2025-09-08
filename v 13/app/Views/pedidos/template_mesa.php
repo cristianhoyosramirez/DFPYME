@@ -1543,6 +1543,10 @@
                     var resultado = JSON.parse(resultado);
                     if (resultado.resultado == 1) {
 
+                        $("#mesasConPedido, #cardtodas")
+                            .removeClass("bg-indigo-lt")
+                            .blur();
+
                         $('#mesas_all').html(resultado.mesas)
                         $("#lista_todas_las_mesas").modal("hide");
 

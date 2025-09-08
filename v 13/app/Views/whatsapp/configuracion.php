@@ -84,6 +84,9 @@ Configuración
                     <div class="row g-2">
                         <div class="" id="mesasWhatsApp">
                             <div class="row g-3">
+
+                            <?php if (!empty($mesas)): ?>
+
                                 <?php foreach ($mesas as $index => $mesa): ?>
                                     <div class="col-6 col-md-4 col-lg-3">
                                         <div class="card shadow-sm h-100" id="card<?php echo $mesa['id']; ?>">
@@ -128,6 +131,10 @@ Configuración
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
+
+                                <?php  endif ?>
+
+
                             </div>
 
                         </div>

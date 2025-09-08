@@ -390,29 +390,35 @@ class edicionEliminacionFacturaPedidoController extends BaseController
         return view('menu/administracion');
     }
 
-    function menuPedidosWhatsapp()
-    {
+   public function menuPedidosWhatsapp()
+{
+    $config = model('configuracionPedidoModel')
+        ->select('consultar_pedidos_whatsapp')
+        ->first();
 
-        $consultaPedido = model('configuracionPedidoModel')
-            ->select('consultar_pedidos_whatsapp')
-            ->first();
+    $estado = $config['consultar_pedidos_whatsapp'] ?? 'f'; // valor por defecto
+    $nombreSalon = "No hay salón creado";
+    $mesas = [];
 
+    if ($estado === 't') {
         $salon = model('salonesModel')
-            ->select('nombre,id')
+            ->select('nombre, id')
             ->where('tipo', 1)
             ->first();
 
-        if (empty($salon)) {
-            $nombre = "No hay salon creado";
-        } else {
-            $nombre = $salon['nombre'];
+        if (!empty($salon)) {
+            $nombreSalon = $salon['nombre'];
+            $mesas = model('mesasModel')
+                ->where('fk_salon', $salon['id'])
+                ->findAll();
         }
-
-        $mesas = model('mesasModel')->where('fk_salon', $salon['id'])->findAll();
-        return view('whatsapp/configuracion', [
-            'consultar' => $consultaPedido['consultar_pedidos_whatsapp'],
-            'nombre'    => $nombre,
-            'mesas' => $mesas
-        ]);
     }
+
+    return view('whatsapp/configuracion', [
+        'consultar' => $estado,
+        'nombre'    => $nombreSalon,
+        'mesas'     => $mesas
+    ]);
+}
+
 }
