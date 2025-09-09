@@ -524,6 +524,18 @@ class impresion
             $printer->text("Mesero: " . $mesaMesero[0]['nombre_mesero'] . "\n");
         }
 
+
+        $textoPropina = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();
+
+        if ($textoPropina['permitir_impresion_texto_propina'] == 't') {
+
+            $printer->text("\n");
+
+            $texto = model('configuracionPedidoModel')->select('texto_propina')->first();
+
+            $printer->text($texto['texto_propina'] . "\n");
+        }
+
         $printer->text("\n");
 
         $total = model('facturaElectronicaModel')->select('total')->where('id', $id_factura)->first();
@@ -663,9 +675,9 @@ class impresion
 
         //$total =  model('kardexModel')->get_total_factura($id_factura);
         $total =  model('pagosModel')->select('valor')
-        ->where('id_factura',$id_factura)
-        ->where('id_estado',8)
-        ->first();
+            ->where('id_factura', $id_factura)
+            ->where('id_estado', 8)
+            ->first();
 
         $transferencia =  model('kardexModel')->get_recibido_transferencia($id_factura);
         $efectivo =  model('kardexModel')->get_recibido_efectivo($id_factura);
@@ -689,7 +701,7 @@ class impresion
         $printer->text("\n");
         $printer->setTextSize(1, 2);
         $printer->setEmphasis(true); // Negrita (resaltado)
-        $printer->text(str_pad(" TOTAL", 15) . ":" . "$ " . number_format($total['valor']+$propina['propina'], 0, ",", ".") . "\n");
+        $printer->text(str_pad(" TOTAL", 15) . ":" . "$ " . number_format($total['valor'] + $propina['propina'], 0, ",", ".") . "\n");
         $printer->setEmphasis(false); // Desactiva la negrita
         $printer->text("\n");
         $printer->setTextSize(1, 1);
@@ -825,6 +837,19 @@ class impresion
             $printer->text("Mesa: " . $mesaMesero[0]['nombre_mesa'] .  "\n");
             $printer->text("Mesero: " . $mesaMesero[0]['nombre_mesero'] . "\n");
         }
+
+
+        $textoPropina = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();
+
+        if ($textoPropina['permitir_impresion_texto_propina'] == 't') {
+
+            $printer->text("\n");
+
+            $texto = model('configuracionPedidoModel')->select('texto_propina')->first();
+
+            $printer->text($texto['texto_propina'] . "\n");
+        }
+
         $printer->text("\n");
         $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->text("SOFTWARE DFPYME \n");

@@ -977,9 +977,21 @@ class Imprimir extends BaseController
             $printer->setTextSize(1, 1);
             $printer->text("---------------------------------------------" . "\n");
 
-            $printer->text("Este establecimiento sugiere un aporte de servicio voluntario del 10% del valor de la cuenta. Usted puede aceptarlo, rechazarla o modificarlo según su valoración del servicio. 
+            /*             $printer->text("Este establecimiento sugiere un aporte de servicio voluntario del 10% del valor de la cuenta. Usted puede aceptarlo, rechazarla o modificarlo según su valoración del servicio. 
 Este monto se distribuye al 100% entre el personal de servicio según el reglamento interno.
-" . "\n");
+" . "\n"); */
+
+            $textoPropina = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();
+
+            if ($textoPropina['permitir_impresion_texto_propina'] == 't') {
+
+                $texto = model('configuracionPedidoModel')->select('texto_propina')->first();
+
+                $printer->text($texto['texto_propina'] . "\n");
+            }
+
+
+
 
             $printer->setJustification(Printer::JUSTIFY_CENTER);
             $printer->text("GRACIAS POR SU VISITA " . "\n");
