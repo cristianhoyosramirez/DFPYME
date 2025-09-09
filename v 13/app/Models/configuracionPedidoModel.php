@@ -17,6 +17,7 @@ class configuracionPedidoModel extends Model
         'notaPedido','mostrarmesero','recetasmodal','criterio_impresion_comanda','version',
         'numero_copias_comanda','reimpresion_comanda','mostrar_boton_imprimir_bono','terminos_condiones',
         'numero_copias_comanda','espacios_comanda_encabezado','espacios_comanda_pie','tamano_comanda','mostrar_boton_mitad',
-        'texto_propina','permitir_impresion_texto_propina','consultar_pedidos_whatsapp','precios_comanda'
+        'texto_propina','permitir_impresion_texto_propina','consultar_pedidos_whatsapp','precios_comanda',
+        'informe_fiscal','beep'
     ];
 }

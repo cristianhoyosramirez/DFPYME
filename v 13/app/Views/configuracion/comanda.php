@@ -21,7 +21,7 @@ Configuración
                     </div>
                 </div>
             </div>
-
+            <p class="text-center h3 text-primary">Parametrización de comanda</p>
             <div class="row mt-3"> <!-- Añadí un margen superior para mejor separación visual -->
                 <div class="col-3">
                     <label class="form-label">Reimprimir comanda</label>
@@ -68,8 +68,17 @@ Configuración
 
                 </div>
                 <div class="col-3">
-                    <label class="form-label">Permitir impresión de precios en comanda </label>
+                    <label class="form-label">Impresión de precios en comanda </label>
                     <select name="" id="imprimirPrecios" class="form-select" onchange="impresionPrecios(this.value)">
+                        <option value="t" <?= $precios == 't' ? 'selected' : '' ?>>Si</option>
+                        <option value="f" <?= $precios == 'f' ? 'selected' : '' ?>>No</option>
+                    </select>
+
+                </div>
+
+                <div class="col-3">
+                    <label class="form-label">Beep impresora  </label>
+                    <select name="" id="imprimirPrecios" class="form-select" onchange="beepImpresora(this.value)">
                         <option value="t" <?= $precios == 't' ? 'selected' : '' ?>>Si</option>
                         <option value="f" <?= $precios == 'f' ? 'selected' : '' ?>>No</option>
                     </select>
@@ -86,6 +95,43 @@ Configuración
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
 
 
+
+<script>
+    async function beepImpresora(valor) {
+
+        try {
+            let respuesta = await fetch("<?= base_url('configuracion/beep') ?>", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest' // para detectar llamadas AJAX
+                },
+                body: JSON.stringify({
+                    valor: valor
+                })
+            });
+
+            const resultado = await respuesta.json();
+
+            if (resultado.response == "success") {
+                sweet_alert_centrado('success', 'Se imprimen los precios en la comanda');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: resultado.message || 'No se pudo actualizar.'
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error de red o del servidor.'
+            });
+        }
+    }
+</script>
 
 <script>
     async function impresionPrecios(valor) {

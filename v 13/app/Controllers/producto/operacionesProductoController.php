@@ -617,6 +617,9 @@ class operacionesProductoController extends BaseController
         $id_iva = model('productoModel')->select('idiva')->where('codigointernoproducto', $id_producto)->first();
         $id_ico = model('productoModel')->select('id_ico_producto')->where('codigointernoproducto', $id_producto)->first();
         $id_categoria = model('productoModel')->select('codigocategoria')->where('codigointernoproducto', $id_producto)->first();
+
+        $permiteSubCategoria=model('categoriasModel')->select('subcategoria')->where('codigocategoria',$id_categoria['codigocategoria'])->first();
+
         $descto_mayor = model('productoModel')->select('descto_mayor')->where('codigointernoproducto', $id_producto)->first();
         $temp_precio_2 = ($descto_mayor['descto_mayor'] * $valor_venta['valorventaproducto']) / 100;
         $precio_2 = $valor_venta['valorventaproducto'] - $temp_precio_2;
@@ -672,7 +675,8 @@ class operacionesProductoController extends BaseController
                 'tipoProducto' => $tipoProducto['id_tipo_inventario'],
                 'UnidadMedida' => $unidad_medida,
                 'favorito' => $favorito['favorito'],
-                'grupo_impresion' => $grupo_impresion['grupo_impresion_comanda']
+                'grupo_impresion' => $grupo_impresion['grupo_impresion_comanda'],
+                'permiteSubCategoria'=>$permiteSubCategoria['subcategoria']
 
             ])
         );

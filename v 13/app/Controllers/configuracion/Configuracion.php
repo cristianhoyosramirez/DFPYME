@@ -677,7 +677,7 @@ class Configuracion extends BaseController
                 'pie' => $espaciosPie['espacios_comanda_pie'],
                 'encabezado' => $espaciosEncabezado['espacios_comanda_encabezado'],
                 'tamano' => $tamano['tamano_comanda'],
-                'precios'=>$precios['precios_comanda']
+                'precios' => $precios['precios_comanda']
             ]
         );
     }
@@ -1284,6 +1284,34 @@ class Configuracion extends BaseController
         $valor = $json->valor;
 
         $update = model('configuracionPedidoModel')->set('precios_comanda', $valor)->update();
+
+
+        return $this->response->setJSON([
+            'response' => 'success'
+        ]);
+    }
+
+    function beep()
+    {
+
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+
+        $update = model('configuracionPedidoModel')->set('beep', $valor)->update();
+
+
+        return $this->response->setJSON([
+            'response' => 'success'
+        ]);
+    }
+
+    function update_imprimir_texto()
+    {
+
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+
+        $update = model('configuracionPedidoModel')->set('permitir_impresion_texto_propina', $valor)->update();
 
 
         return $this->response->setJSON([

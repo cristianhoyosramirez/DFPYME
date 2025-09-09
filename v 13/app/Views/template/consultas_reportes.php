@@ -1695,13 +1695,78 @@
             }
             if (resultado.resultado == 0) {
 
-              sweet_alert_centrado('warning','No hay datos para apertura de caja ')
+              sweet_alert_centrado('warning', 'No hay datos para apertura de caja ')
             }
           },
         });
 
       }
     </script>
+
+<!--     <script>
+      async function fiscal_electronico() {
+        try {
+          let baseUrl = document.getElementById("url").value;
+          let url = `${baseUrl}/edicion_eliminacion_factura_pedido/consultarFe`;
+          let id_apertura = document.getElementById("id_aperturas").value;
+
+          let response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({
+              id_apertura: id_apertura
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error("Error en la petición: " + response.status);
+          }
+
+          let data = await response.json();
+          // console.log("Respuesta del servidor:", data);
+
+          if (data.response === "success") {
+            fiscal_electronico_1();
+          } else if (data.response === "no_permitido") {
+            Swal.fire({
+              icon: "error",
+              title: "Acción no permitida ❌",
+              text: data.message,
+              confirmButtonText: "Entendido",
+              confirmButtonColor: "#d33"
+            });
+          } else if (data.response === "fail") {
+            Swal.fire({
+              icon: "error",
+              title: data.message,
+              //text: data.message,
+              confirmButtonText: "Entendido",
+              confirmButtonColor: "#d33"
+            });
+          }
+
+        } catch (error) {
+          console.error("Error en fiscal_electronico():", error);
+          Swal.fire({
+            icon: "error",
+            title: "Error inesperado ❗",
+            text: "Ocurrió un error al guardar.",
+            confirmButtonText: "Cerrar",
+            confirmButtonColor: "#d33"
+          });
+        }
+      }
+    </script> -->
+
+
+
+
+
+
+
     <script>
       function fiscal() {
 

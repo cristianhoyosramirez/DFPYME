@@ -16,7 +16,12 @@ HOME
     <div class="row g-3">
 
 
-
+ <!-- Gestión de factura electrónica  -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <a href="<?= base_url() ?>/edicion_eliminacion_factura_pedido/gestionFe" class="card card-link card-link-pop h-100">
+                <div class="card-body text-center">Caja </div>
+            </a>
+        </div>
 
 
         <!-- Comanda -->
@@ -67,6 +72,7 @@ HOME
                 <div class="card-body text-center">Encabezado y Pie de Factura</div>
             </a>
         </div>
+       
 
         <!-- Gestión -->
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">

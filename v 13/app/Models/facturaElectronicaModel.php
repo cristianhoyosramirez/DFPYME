@@ -192,4 +192,23 @@ WHERE
     ");
         return $datos->getResultArray();
     }
+
+    public function  regIniRegFin($idInicial,$idFinal)
+    {
+        $datos = $this->db->query("
+   WITH numeros AS (
+    SELECT numero,
+           CAST(REGEXP_REPLACE(numero, '\D', '', 'g') AS INTEGER) AS num_valor
+    FROM documento_electronico
+    WHERE id BETWEEN $idInicial AND $idFinal
+)
+SELECT 
+    (SELECT numero FROM numeros ORDER BY num_valor ASC LIMIT 1) AS minimo,
+    (SELECT numero FROM numeros ORDER BY num_valor DESC LIMIT 1) AS maximo;
+
+
+
+    ");
+        return $datos->getResultArray();
+    }
 }

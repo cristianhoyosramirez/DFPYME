@@ -1,80 +1,80 @@
 const number = document.querySelector("#transaccion_cierre");
 
 function formatNumber(n) {
-    // Quitamos todo excepto dígitos
-    n = String(n).replace(/\D/g, "");
-    if (n === "") return "";
+  // Quitamos todo excepto dígitos
+  n = String(n).replace(/\D/g, "");
+  if (n === "") return "";
 
-    // Quitamos ceros iniciales
-    n = n.replace(/^0+/, "");
+  // Quitamos ceros iniciales
+  n = n.replace(/^0+/, "");
 
-    // Formateamos con puntos cada tres dígitos
-    return n.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  // Formateamos con puntos cada tres dígitos
+  return n.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 number.addEventListener("keyup", (e) => {
-    const element = e.target;
-    let value = element.value;
+  const element = e.target;
+  let value = element.value;
 
-    // Si el valor es 0 y se empieza a digitar, lo eliminamos
-    if (value === "0") {
-        element.value = "";
-        return;
-    }
+  // Si el valor es 0 y se empieza a digitar, lo eliminamos
+  if (value === "0") {
+    element.value = "";
+    return;
+  }
 
-    element.value = formatNumber(value);
+  element.value = formatNumber(value);
 });
 
 
 const number_efectivo = document.querySelector("#efectivo_de_cierre");
 
 function formatNumber(n) {
-    // Quitamos todo excepto dígitos
-    n = String(n).replace(/\D/g, "");
-    if (n === "") return "";
+  // Quitamos todo excepto dígitos
+  n = String(n).replace(/\D/g, "");
+  if (n === "") return "";
 
-    // Quitamos ceros iniciales
-    n = n.replace(/^0+/, "");
+  // Quitamos ceros iniciales
+  n = n.replace(/^0+/, "");
 
-    // Formateamos con puntos cada tres dígitos
-    return n.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  // Formateamos con puntos cada tres dígitos
+  return n.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 number_efectivo.addEventListener("keyup", (e) => {
-    const element = e.target;
-    let value = element.value;
+  const element = e.target;
+  let value = element.value;
 
-    // Si el valor es 0 y se empieza a digitar, lo eliminamos
-    if (value === "0") {
-        element.value = "";
-        return;
-    }
+  // Si el valor es 0 y se empieza a digitar, lo eliminamos
+  if (value === "0") {
+    element.value = "";
+    return;
+  }
 
-    element.value = formatNumber(value);
+  element.value = formatNumber(value);
 });
 
 
-function cierre_caja() {
-// Obtener valores de los inputs
-var cierre_efectivo = document.getElementById("efectivo_de_cierre").value;
-var cierre_transaccion = document.getElementById("transaccion_cierre").value;
+function cierre_caja_1() {
+  // Obtener valores de los inputs
+  var cierre_efectivo = document.getElementById("efectivo_de_cierre").value;
+  var cierre_transaccion = document.getElementById("transaccion_cierre").value;
 
-// Quitar puntos existentes para evitar errores
-var efectivoFormat = cierre_efectivo.replace(/\./g, "");
-var transaccionFormat = cierre_transaccion.replace(/\./g, "");
+  // Quitar puntos existentes para evitar errores
+  var efectivoFormat = cierre_efectivo.replace(/\./g, "");
+  var transaccionFormat = cierre_transaccion.replace(/\./g, "");
 
-// Sumar los valores
-var sub_total = parseInt(efectivoFormat) + parseInt(transaccionFormat);
+  // Sumar los valores
+  var sub_total = parseInt(efectivoFormat) + parseInt(transaccionFormat);
 
-// Función para formatear con punto siempre
-function formatearConPunto(num) {
+  // Función para formatear con punto siempre
+  function formatearConPunto(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
+  }
 
-// Resultado final con puntos
-var resultado = formatearConPunto(sub_total);
+  // Resultado final con puntos
+  var resultado = formatearConPunto(sub_total);
 
-console.log(resultado); // Ej: "12.345.678"
+  console.log(resultado); // Ej: "12.345.678"
 
 
   Swal.fire({
@@ -198,7 +198,7 @@ console.log(resultado); // Ej: "12.345.678"
                                       type: "POST",
                                       success: function (resultado) {
                                         var resultado = JSON.parse(resultado);
-                
+
                                         if (resultado.resultado == 1) {
                                           Swal.fire({
                                             icon: "success",
@@ -398,3 +398,56 @@ console.log(resultado); // Ej: "12.345.678"
     }
   });
 }
+
+
+
+async function cierre_caja() {
+  try {
+    let baseUrl = document.getElementById("url").value;
+    let url = `${baseUrl}/edicion_eliminacion_factura_pedido/consultarFe`;
+
+    let response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Error en la petición: " + response.status);
+    }
+
+    let data = await response.json();
+    console.log("Respuesta del servidor:", data);
+
+    if (data.response === "success") {
+      cierre_caja_1()
+    } else if (data.response === "fail") {
+      Swal.fire({
+        icon: "warning",
+        title: "Hay facturas pendientes por transmitir",
+        confirmButtonText: "Entendido",
+        customClass: {
+          confirmButton: "btn btn-outline-success" // Bootstrap outline
+        },
+        buttonsStyling: false // necesario para que use las clases de Bootstrap
+      });
+    }
+
+
+  } catch (error) {
+    console.error("Error en cierre_caja():", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error inesperado ⚠️",
+      text: "Ocurrió un problema al intentar cerrar la caja.",
+      confirmButtonText: "Ok",
+      confirmButtonColor: "#d33"
+    });
+  }
+}
+
+
+
+
+

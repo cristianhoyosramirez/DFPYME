@@ -72,8 +72,8 @@
         <span class="text-danger error-text categoria_producto_error"></span>
     </div>
 
+    <?php if ($sub_categoria != 0 || $permiteSubCategoria == 't'): ?>
 
-    <?php if ($sub_categoria != 0) : ?>
 
         <?php $id_sub_categoria = model('productoModel')->select('id_subcategoria')->where('codigointernoproducto', $codigo_interno_producto)->first();
 
@@ -86,7 +86,7 @@
                 <input type="hidden" id="requiere_categoria" value=0>
                 <label for="">Sub categoria</label>
                 <select class="form-select" id="sub_categoria" name="sub_categoria">
-                    <option value="">Seleccione una sub categoria </option>
+                    
                     <?php foreach ($sub_categorias as $valor) { ?>
 
                         <option value="<?php echo $valor['id'] ?>" <?php if ($valor['id'] == $id_sub_categoria['id_subcategoria']) : ?>selected <?php endif; ?>><?php echo $valor['nombre'] ?> </option>

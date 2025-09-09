@@ -390,35 +390,129 @@ class edicionEliminacionFacturaPedidoController extends BaseController
         return view('menu/administracion');
     }
 
-   public function menuPedidosWhatsapp()
-{
-    $config = model('configuracionPedidoModel')
-        ->select('consultar_pedidos_whatsapp')
-        ->first();
-
-    $estado = $config['consultar_pedidos_whatsapp'] ?? 'f'; // valor por defecto
-    $nombreSalon = "No hay salón creado";
-    $mesas = [];
-
-    if ($estado === 't') {
-        $salon = model('salonesModel')
-            ->select('nombre, id')
-            ->where('tipo', 1)
+    public function menuPedidosWhatsapp()
+    {
+        $config = model('configuracionPedidoModel')
+            ->select('consultar_pedidos_whatsapp')
             ->first();
 
-        if (!empty($salon)) {
-            $nombreSalon = $salon['nombre'];
-            $mesas = model('mesasModel')
-                ->where('fk_salon', $salon['id'])
-                ->findAll();
+        $estado = $config['consultar_pedidos_whatsapp'] ?? 'f'; // valor por defecto
+        $nombreSalon = "No hay salón creado";
+        $mesas = [];
+
+        if ($estado === 't') {
+            $salon = model('salonesModel')
+                ->select('nombre, id')
+                ->where('tipo', 1)
+                ->first();
+
+            if (!empty($salon)) {
+                $nombreSalon = $salon['nombre'];
+                $mesas = model('mesasModel')
+                    ->where('fk_salon', $salon['id'])
+                    ->findAll();
+            }
         }
+
+        return view('whatsapp/configuracion', [
+            'consultar' => $estado,
+            'nombre'    => $nombreSalon,
+            'mesas'     => $mesas
+        ]);
     }
 
-    return view('whatsapp/configuracion', [
-        'consultar' => $estado,
-        'nombre'    => $nombreSalon,
-        'mesas'     => $mesas
-    ]);
-}
+    function gestionFe()
+    {
 
+        $informeFiscal = model('configuracionPedidoModel')->select('informe_fiscal')->first();
+
+        return view('configuracion/fe', [
+            'informe' => $informeFiscal['informe_fiscal']
+        ]);
+    }
+
+
+    function updateGestionFe()
+    {
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+
+        $informeFiscal = model('configuracionPedidoModel')->set('informe_fiscal', $valor)->update();
+
+
+        return $this->response->setJSON([
+            'response' => 'success',
+
+        ]);
+    }
+
+    /* function consultarFe()
+    {
+
+        $json = $this->request->getJSON();
+        $id_apertura = $json->id_apertura;
+
+        $factura = model('facturaElectronicaModel')
+        ->where('id_status', 1)
+        ->where('id_apertura',$id_apertura)
+        ->first();
+
+        $informeFiscal = model('configuracionPedidoModel')->select('informe_fiscal')->first();
+
+    
+
+        if ($informeFiscal['informe_fiscal'] == 't' and !empty($factura)) {
+            return $this->response->setJSON([
+                'response' => 'success',
+                'message' => 'Hay facturas pendientes por enviar a la Dian se debe primero trasmitir'
+
+            ]);
+        }
+
+        if ($informeFiscal['informe_fiscal'] == 'f' && (empty($factura) || $factura === "NULL")) {
+            return $this->response->setJSON([
+                'response' => 'fail',
+                'message' => 'Hay facturas por trasmitir.'
+
+            ]);
+        }
+        
+        if ($informeFiscal['informe_fiscal'] == 'f' and !empty($factura)) {
+            return $this->response->setJSON([
+                'response' => 'fail',
+                'message' => 'Desde configuracion no se permite generar facturas hay facturas por trasmitir.'
+
+            ]);
+        }
+
+        if ($informeFiscal['informe_fiscal'] == 't' and empty($factura)) {
+            return $this->response->setJSON([
+                'response' => 'success',
+
+            ]);
+        }
+    } */
+
+    function consultarFe()
+    {
+
+        $json = $this->request->getJSON();
+
+
+
+        $permitir = model('configuracionPedidoModel')->select('informe_fiscal')->first();
+
+        if ($permitir['informe_fiscal'] == 't') {
+            return $this->response->setJSON([
+                'response' => 'success',
+
+            ]);
+        }
+        if ($permitir['informe_fiscal'] == 'f') {
+            return $this->response->setJSON([
+                'response' => 'fail',
+
+            ]);
+        }
+    }
 }

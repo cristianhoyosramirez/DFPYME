@@ -2063,9 +2063,12 @@ class cajaDiariaController extends BaseController
             $total_registros = model('pagosModel')->get_total_registros_electronicos($id_inicial[0]['id'], $id_final[0]['id']);
 
 
-            $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
+            //$reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
 
-            $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
+            //$reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
+
+
+            $numero=model('facturaElectronicaModel')->regIniRegFin($id_inicial[0]['id'],$id_final[0]['id']);
 
 
             /**
@@ -2252,8 +2255,8 @@ class cajaDiariaController extends BaseController
                     "direccion" => $datos_empresa[0]['direccionempresa'],
                     "nombre_ciudad" => $nombre_ciudad['nombreciudad'],
                     "nombre_departamento" => $nombre_departamento['nombredepartamento'],
-                    "registro_inicial" => $reg_inicial['numero'], // "registro_final" => $registro_final[0]['id'],
-                    "registro_final" => $reg_final['numero'],
+                    "registro_inicial" => $numero[0]['minimo'], // "registro_final" => $registro_final[0]['id'],
+                    "registro_final" => $numero[0]['maximo'],
                     "total_registros" => $total_registros[0]['id'],
                     "iva" => $array_iva,
                     "ico" => $array_ico,

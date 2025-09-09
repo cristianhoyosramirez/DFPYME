@@ -830,9 +830,12 @@ class informeFiscalVentasController extends BaseController
         if (!empty($id_inicial[0]['id']) and !empty($id_final[0]['id'])) {
             //$total_registros = model('pagosModel')->get_total_registros_electronicos($id_apertura);
             $total_registros = model('pagosModel')->get_total_registros_electronicos($id_inicial[0]['id'],$id_final[0]['id']);
-            $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
 
-            $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
+           /*  $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
+
+            $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first(); */
+
+             $numero=model('facturaElectronicaModel')->regIniRegFin($id_inicial[0]['id'],$id_final[0]['id']);
 
             /**
              * Discriminación de las bases tributarias tanto iva como impuesto al consumo 
@@ -950,11 +953,13 @@ class informeFiscalVentasController extends BaseController
             $array_devoluciones_iva = array();
             // if (!empty($iva_devolucion)) {
 
+            
+
             foreach ($iva_devolucion as $detalle) {
 
                 $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
 
-                if ($aplica_ico['aplica_ico'] == 't') {
+              /*   if ($aplica_ico['aplica_ico'] == 't') {
                     $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre, $detalle['codigo']);
 
                     $temp_porcentaje = $detalle['iva'] / 100;
@@ -967,7 +972,7 @@ class informeFiscalVentasController extends BaseController
                     $data_devo_iva['impuesto'] = $impuesto;
                     $data_devo_iva['total'] = $total;
                     array_push($array_devoluciones_iva, $data_devo_iva);
-                }
+                } */
             }
 
 
@@ -1013,9 +1018,9 @@ class informeFiscalVentasController extends BaseController
                 "direccion" => $datos_empresa[0]['direccionempresa'],
                 "nombre_ciudad" => $nombre_ciudad['nombreciudad'],
                 "nombre_departamento" => $nombre_departamento['nombredepartamento'],
-               "registro_inicial" => $reg_inicial['numero'],
+               "registro_inicial" => $numero[0]['minimo'],
                 //"registro_inicial" => $registro_inicial[0]['id'],
-                "registro_final" => $reg_final['numero'],
+                "registro_final" => $numero[0]['maximo'],
                 //"registro_final" => $registro_final[0]['id'],
                 //"total_registros" => $total_registros[0]['total_registros'],
                 "total_registros" => $total_registros[0]['id'],

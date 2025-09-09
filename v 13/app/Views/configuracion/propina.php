@@ -6,7 +6,9 @@ Configuración
 
 <?= $this->section('content') ?>
 
+<p class="text-primary text-center h3 bold"> Configuración de propina </p>
 <div class="card container">
+    
     <div class="card-body">
         <form action="<?= base_url('configuracion/configuracion_propina') ?>" method="POST">
             <input type="hidden" value="<?php echo base_url() ?>" id="url">
@@ -50,7 +52,7 @@ Configuración
                 </div>
                 <div class="col-4">
                     <label for="" class="form-label">Permitir impresion de texto propina en orden de pedido , prefactura y factura </label>
-                    <select name="imprimirTexto" id="imprimirTexto" class="form-select" onchange="actualizarImprimirTexto(this.value)">
+                    <select name="imprimirTexto" id="imprimirTexto" class="form-select" onchange="permitirImprimirTexto(this.value)">
                         <option value="t" <?= ($imprimirTexto === 't') ? 'selected' : '' ?>>Si</option>
                         <option value="f" <?= ($imprimirTexto === 'f') ? 'selected' : '' ?>>No</option>
                     </select>
@@ -80,6 +82,59 @@ Configuración
         </form>
     </div>
 </div>
+
+
+<script>
+  async function permitirImprimirTexto(valor) {
+    try {
+      let baseUrl = document.getElementById("url").value;
+      let url = `${baseUrl}/configuracion/update_imprimir_texto`;
+
+      let response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({ valor: valor })
+      });
+
+      if (!response.ok) {
+        throw new Error("Error en la petición: " + response.status);
+      }
+
+      let data = await response.json();
+      console.log("Respuesta del servidor:", data);
+
+      if (data.response=="success") {
+        Swal.fire({
+          icon: "success",
+          title: "Configuración actualizada ✅",
+          text: data.message || "Se guardó correctamente",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#198754"
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "No se pudo guardar ❌",
+          text: data.message || "Ocurrió un error en la actualización",
+          confirmButtonText: "Entendido",
+          confirmButtonColor: "#dc3545"
+        });
+      }
+    } catch (error) {
+      console.error("Error en permitirImprimirTexto():", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error inesperado",
+        text: "No se pudo procesar la petición.",
+        confirmButtonText: "Cerrar",
+        confirmButtonColor: "#dc3545"
+      });
+    }
+  }
+</script>
 
 
 <script>

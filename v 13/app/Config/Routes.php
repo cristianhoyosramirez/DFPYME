@@ -334,6 +334,9 @@ $routes->group('edicion_eliminacion_factura_pedido', ['namespace' => 'App\Contro
     $routes->get('menu', 'edicionEliminacionFacturaPedidoController::menu');
     $routes->get('menuPedidosWhatsapp', 'edicionEliminacionFacturaPedidoController::menuPedidosWhatsapp');
     $routes->post('importPedidosWhatsapp', 'edicionEliminacionFacturaPedidoController::importPedidosWhatsapp');
+    $routes->get('gestionFe', 'edicionEliminacionFacturaPedidoController::gestionFe');
+    $routes->post('updateGestionFe', 'edicionEliminacionFacturaPedidoController::updateGestionFe');
+    $routes->get('consultarFe', 'edicionEliminacionFacturaPedidoController::consultarFe');
 });
 
 
@@ -763,6 +766,8 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('precios_comanda', 'Configuracion::precios_comanda');
     $routes->post('actualizar_texto_propina', 'Configuracion::actualizar_texto_propina');
     $routes->post('actualizar_imprimir', 'Configuracion::actualizar_imprimir');
+    $routes->post('beep', 'Configuracion::beep');
+    $routes->post('update_imprimir_texto', 'Configuracion::update_imprimir_texto');
 });
 
 

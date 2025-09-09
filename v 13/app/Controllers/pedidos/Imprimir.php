@@ -706,7 +706,7 @@ class Imprimir extends BaseController
             $printer->setJustification(Printer::JUSTIFY_LEFT);
         }
 
-      
+
 
 
         $observaciones_genereles = model('pedidoModel')->select('nota_pedido')->where('id', $numero_pedido)->first();
@@ -741,8 +741,11 @@ class Imprimir extends BaseController
         $pie = model('configuracionPedidoModel')->select('espacios_comanda_pie')->first();
         $printer->text(str_repeat("\n", (int)$pie['espacios_comanda_pie']));
 
-        $printer->getPrintConnector()->write("\x1B\x42\x03\x02");
+        $beep = model('configuracionPedidoModel')->select('beep')->first();
 
+        if ($beep['beep'] == 't') {
+            $printer->getPrintConnector()->write("\x1B\x42\x03\x02");
+        }
         $printer->cut();
 
         $printer->close();
@@ -1241,12 +1244,14 @@ Este monto se distribuye al 100% entre el personal de servicio según el reglame
         if (!empty($id_inicial[0]['id']) and !empty($id_final[0]['id'])) {
             //$total_registros = model('pagosModel')->get_total_registros_electronicos($id_apertura);
             $total_registros = model('pagosModel')->get_total_registros_electronicos($id_inicial[0]['id'], $id_final[0]['id']);
-            $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
+            //$reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
             $fecha_hora_inicial = model('facturaElectronicaModel')->select('fecha,hora')->where('id', $id_inicial[0]['id'])->first();
 
 
-            $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
+            //$reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
             $fecha_hora_final = model('facturaElectronicaModel')->select('fecha,hora')->where('id', $id_final[0]['id'])->first();
+
+            $numero = model('facturaElectronicaModel')->regIniRegFin($id_inicial[0]['id'], $id_final[0]['id']);
 
             /**
              * Discriminación de las bases tributarias tanto iva como impuesto al consumo 
@@ -1435,8 +1440,8 @@ Este monto se distribuye al 100% entre el personal de servicio según el reglame
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->text("Informe N°       : " . $consecutivo_fiscal['numero']  . "\n");
             $printer->text("Fecha            : " . $fecha_apertura['fecha'] . "\n");
-            $printer->text("Registro inicial : " . $reg_inicial['numero'] . " "  . $fecha_hora_inicial['fecha'] . " " . $hora_inicial . "\n");
-            $printer->text("Registro final   : " . $reg_final['numero'] . " " . $fecha_hora_final['fecha'] . " " . $hora_final . "\n");
+            $printer->text("Registro inicial : " . $numero[0]['minimo'] . " "  . $fecha_hora_inicial['fecha'] . " " . $hora_inicial . "\n");
+            $printer->text("Registro final   : " . $numero[0]['maximo'] . " " . $fecha_hora_final['fecha'] . " " . $hora_final . "\n");
             $printer->text("Total registros  : " . $total_registros[0]['id'] . "\n");
             $printer->text("Fecha generacion : " . date('Y-m-d H:i:s') . "\n");
             $printer->text("Usuario          : " . $nombreUsuario['nombresusuario_sistema'] . "\n\n");
