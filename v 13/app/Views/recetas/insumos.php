@@ -23,8 +23,19 @@ foreach ($productos as $detalleInsumo):
 
 
         </td>
-        <td><?php echo $detalleInsumo['precio_costo']; ?></td>
-        <td id="costoTotal<?php echo $detalleInsumo['id']; ?>"><?php echo ($detalleInsumo['precio_costo'] * $detalleInsumo['cantidad']); ?></td>
+        <td>
+            <input
+                type="text"
+                class="form-control"
+                value="<?php echo $detalleInsumo['precio_costo']; ?>"
+                id="costo<?php echo $detalleInsumo['id']; ?>"
+                onkeyup="formatearNumero(this); actualizarCosto(this.value.replace(/\./g,''), '<?php echo $detalleInsumo['codigointernoproducto']; ?>', '<?php echo $detalleInsumo['id']; ?>')" />
+        </td>
+
+        <td id="costoTotal<?php echo $detalleInsumo['id']; ?>">
+            <?php echo number_format(($detalleInsumo['precio_costo'] * $detalleInsumo['cantidad']), 0, '', '.'); ?>
+        </td>
+
         <td><button type="button" class="btn btn-outline-danger btn-icon" onclick="borrarInsumo(<?php echo $detalleInsumo['id']; ?>)"><!-- Download SVG icon from http://tabler-icons.io/i/trash -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />

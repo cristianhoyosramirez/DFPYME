@@ -18,7 +18,7 @@
 <?php $session = session(); ?>
 
 <input type="hidden" value="<?php echo base_url() ?>" id="url">
-<input type="text" value="<?php echo $modal ?>" id="modal">
+<input type="text" value="<?php echo $modal ?>" id="modal" hidden>
 
 <body>
     <div class="wrapper">
@@ -469,8 +469,67 @@
     }
 </script>
 
+<script>
+    async function actualizarCosto(valor, codigointerno, id) {
+        try {
+            // Preparar el cuerpo de la solicitud
+            let payload = {
+                valor: valor,
+                id: id,
+                codigointerno: codigointerno
+            };
+
+            // Hacer una solicitud a la API en PHP
+            let response = await fetch("<?= base_url('login/updateCosto') ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            // Verificar si la respuesta es correcta
+            if (!response.ok) {
+                throw new Error("Error en la solicitud: " + response.status);
+            }
+
+            // Convertir respuesta a JSON
+            let data = await response.json();
+
+            // Actualizar los campos en el DOM
+            document.getElementById("totalCosto").value = data.costo;
+            document.getElementById("precioVenta").value = data.precio_venta;
+            document.getElementById("rentabilidad").value = data.rentabilidad;
+            
+            // Asegurarse que el id dinámico existe antes de asignar
+            let costoTotalElem = document.getElementById("costoTotal" + data.id);
+            if (costoTotalElem) {
+                costoTotalElem.innerHTML = data.costoTotal;
+            }
+
+        } catch (error) {
+            console.error("Error en actualizarCosto:", error);
+        }
+    }
+</script>
 
 
+<script>
+    function formatearNumero(input) {
+        // Obtiene el valor sin separadores
+        let valor = input.value.replace(/\./g, '').replace(/,/g, '');
+
+        if (valor === "") return;
+
+        // Convierte a número
+        let numero = parseInt(valor, 10);
+
+        if (!isNaN(numero)) {
+            // Formatea con separador de miles
+            input.value = numero.toLocaleString('es-CO'); // Usa puntos como miles y coma como decimal
+        }
+    }
+</script>
 
 
 

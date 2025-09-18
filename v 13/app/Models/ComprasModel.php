@@ -24,7 +24,7 @@ class ComprasModel extends Model
         'inventario_actual'
     ];
 
-   /*  public function insertar($data)
+    /*  public function insertar($data)
     {
         $datos = $this->db->table('producto_factura_proveedor_temp');
         $datos->insert($data);
@@ -32,15 +32,15 @@ class ComprasModel extends Model
         return $this->db->insertID();
     } */
 
-     public function insertar($data)
+    public function insertar($data)
     {
         $datos = $this->db->table('producto_factura_prov_temp');
         $datos->insert($data);
 
         return $this->db->insertID();
-    } 
+    }
 
-/*     public function productos($id_usuario)
+    /*     public function productos($id_usuario)
     {
         $datos = $this->db->query("
          SELECT
@@ -56,7 +56,7 @@ class ComprasModel extends Model
          ");
         return $datos->getResultArray();
     } */
-     public function productos($id_usuario)
+    public function productos($id_usuario)
     {
         $datos = $this->db->query("
         SELECT
@@ -71,7 +71,7 @@ class ComprasModel extends Model
         order by id desc
          ");
         return $datos->getResultArray();
-    } 
+    }
     public function borrado($id_usuario)
     {
         $datos = $this->db->query("
@@ -95,7 +95,7 @@ WHERE
 
     public function eliminar($data)
     {
-        $delete = $this->db->table('producto_factura_proveedor_temp');
+        $delete = $this->db->table('producto_factura_prov_temp');
         $delete->where($data);
         return $delete->delete();
     }
@@ -113,11 +113,11 @@ WHERE
 
     public function actualizar_producto($data, $id)
     {
-        // Accede directamente a la tabla usando el método update()
-        return $this->db->table('producto_factura_proveedor_temp')
-            ->where('id', $id)
-            ->update($data); // Actualiza los datos
+        return $this->db->table('producto_factura_prov_temp')
+            ->where('id', $id) // usa la columna real de la PK
+            ->update($data);
     }
+
 
     public function cantidad($id)
     {

@@ -39,18 +39,17 @@ class loginController extends BaseController
         ");
         // $resultado = $query->getRow();
 
-        
+
 
         if ($query->getNumRows() === 0) {
-           
-           return view('actualizaciones/generarActualizaciones');
 
+            return view('actualizaciones/generarActualizaciones');
         }
 
 
         $estadoLicencia = model('licenciaModel')->select('estado_licencia')->first();
 
-    
+
 
 
 
@@ -347,6 +346,7 @@ class loginController extends BaseController
         }
     }
 
+
     function updateCantidadInsumo()
     {
 
@@ -386,6 +386,37 @@ class loginController extends BaseController
             'id' => $id
         ]);
     }
+
+    function updateCosto()
+    {
+
+        $json = $this->request->getJSON();
+        $codigointerno = $json->codigointerno;
+        //$id = 39;
+        $id = $json->id;
+        $valor = $json->valor;
+        //$valor = 22;
+
+        $valor = str_replace(['.', ','], '', $valor);
+        $actualizar = model('productoModel')->set('precio_costo', $valor)->where('codigointernoproducto', $codigointerno)->update();
+
+        if ($actualizar) {
+
+            $cantidad = model('productoFabricadoModel')->select('cantidad')->where('id', $id)->first();
+
+            $costoTotal = $cantidad['cantidad'] * $valor;
+
+
+            return $this->response->setJSON([
+                'response' => 'success',
+                'id' => $id,
+                'costoTotal'=>number_format($costoTotal, 0, ',', '.')
+            ]);
+        }
+    }
+
+
+
 
     function updateMedida()
     {

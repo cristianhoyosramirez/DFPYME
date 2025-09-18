@@ -931,7 +931,7 @@ WHERE (id_tipo_inventario = 3 OR id_tipo_inventario = 7)
         ");
         return $datos->getResultArray();
     } */
-
+/* 
     function GetInsumos($valor)
     {
 
@@ -950,7 +950,23 @@ id_tipo_inventario= 7 ;
 
         ");
         return $datos->getResultArray();
-    }
+    } */
+
+
+    function GetInsumos($valor)
+    {
+
+        $datos = $this->db->query("
+  SELECT codigointernoproducto, nombreproducto, precio_costo, valorventaproducto, id_tipo_inventario
+FROM producto
+WHERE (nombreproducto ILIKE '%$valor%' 
+       OR codigointernoproducto ILIKE '%$valor%')
+  AND (id_tipo_inventario IN (1,4,7));
+        ");
+        return $datos->getResultArray();
+    } 
+
+
     function GetAllInsumos()
     {
 

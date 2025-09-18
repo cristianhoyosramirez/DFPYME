@@ -703,7 +703,11 @@ class Inventarios extends BaseController
 
         ];
 
+    
+
         $actualizar = model('ComprasModel')->actualizar_producto($data, $id);
+
+        exit();
 
         if ($actualizar) {
 

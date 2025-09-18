@@ -61,6 +61,7 @@ $routes->group('login', ['namespace' => 'App\Controllers\login'], function ($rou
     $routes->put('updateMedida', 'LoginController::updateMedida');
     $routes->get('allRecetas', 'LoginController::allRecetas');
     $routes->get('allInsumos', 'LoginController::allInsumos');
+    $routes->post('updateCosto', 'LoginController::updateCosto');
 
 });
 

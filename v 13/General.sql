@@ -1205,5 +1205,108 @@ END$$;
 
 
 
+TRUNCATE medio_pago;
+
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('1', 'Instrumento no definido ', false, 'INSTRUMENTO NO DEFINIDO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('10', 'CASH', true, 'EFECTIVO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('11', 'Reversión Crédito Ahorro ', false, 'REVERSIÓN CRÉDITO AHORRO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('12', 'Reversión Débito Ahorro ', false, 'REVERSIÓN DÉBITO AHORRO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('13', 'Crédito Ahorro ', false, 'CRÉDITO AHORRO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('14', 'Débito Ahorro ', false, 'DÉBITO AHORRO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('15', 'Bookentry Crédito ', false, 'BOOKENTRY CRÉDITO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('16', 'Bookentry Débito ', false, 'BOOKENTRY DÉBITO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('19', 'Crédito Pago negocio corporativo (CTP) ', false, 'CRÉDITO PAGO NEGOCIO CORPORATIVO (CTP)');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('2', 'Crédito ACH ', false, 'CRÉDITO ACH');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('20', 'Cheque ', false, 'CHEQUE');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('21', 'Poyecto bancario ', false, 'PROYECTO BANCARIO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('24', 'Nota cambiaria esperando aceptación ', false, 'NOTA CAMBIARIA ESPERANDO ACEPTACIÓN');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('25', 'Cheque certificado ', false, 'CHEQUE CERTIFICADO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('26', 'Cheque Local ', false, 'CHEQUE LOCAL');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('3', 'Débito ACH ', false, 'DÉBITO ACH');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('31', 'DEBIT_TRANSFER', true, 'TRANSFERENCIA DÉBITO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('34', 'Pago y depósito pre acordado (PPD) ', false, 'PAGO Y DEPÓSITO PRE ACORDADO (PPD)');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('37', 'Pago Negocio Corporativo Ahorros Crédito (CTP) ', false, 'PAGO NEGOCIO CORPORATIVO AHORROS CRÉDITO (CTP)');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('4', 'Reversión débito de demanda ACH ', false, 'REVERSIÓN DÉBITO DE DEMANDA ACH');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('42', 'Consiganción bancaria ', false, 'CONSIGNACIÓN BANCARIA');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('44', 'Nota cambiaria ', false, 'NOTA CAMBIARIA');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('45', 'Transferencia Crédito Bancario ', false, 'TRANSFERENCIA CRÉDITO BANCARIO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('46', 'Transferencia Débito Interbancario ', false, 'TRANSFERENCIA DÉBITO INTERBANCARIO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('47', 'Transferencia Débito Bancaria ', false, 'TRANSFERENCIA DÉBITO BANCARIA');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('48', 'CREDIT_CARD', true, 'TARJETA DE CRÉDITO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('49', 'DEBIT_CARD', true, 'TARJETA DÉBITO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('5', 'Reversión crédito de demanda ACH  ', false, 'REVERSIÓN CRÉDITO DE DEMANDA ACH');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('50', 'Postgiro ', false, 'POSTGIRO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('52', 'Pago comercial urgente ', false, 'PAGO COMERCIAL URGENTE');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('53', 'Pago Tesorería Urgente ', false, 'PAGO TESORERÍA URGENTE');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('6', 'Crédito de demanda ACH ', false, 'CRÉDITO DE DEMANDA ACH');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('60', 'Nota promisoria ', false, 'NOTA PROMISORIA');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('61', 'Nota promisoria firmada por el acreedor ', false, 'NOTA PROMISORIA FIRMADA POR EL ACREEDOR');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('62', 'Nota promisoria firmada por el acreedor, avalada por el banco ', false, 'NOTA PROMISORIA FIRMADA POR EL ACREEDOR, AVALADA POR EL BANCO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('63', 'Nota promisoria firmada por el acreedor, avalada por un tercero ', false, 'NOTA PROMISORIA FIRMADA POR EL ACREEDOR, AVALADA POR UN TERCERO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('64', 'Nota promisoria firmada pro el banco ', false, 'NOTA PROMISORIA FIRMADA POR EL BANCO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('65', 'Nota promisoria firmada por un banco avalada por otro banco ', false, 'NOTA PROMISORIA FIRMADA POR UN BANCO AVALADA POR OTRO BANCO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('66', 'Nota promisoria firmada  ', false, 'NOTA PROMISORIA FIRMADA');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('67', 'Nota promisoria firmada por un tercero avalada por un banco ', false, 'NOTA PROMISORIA FIRMADA POR UN TERCERO AVALADA POR UN BANCO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('7', 'Débito de demanda ACH ', false, 'DÉBITO DE DEMANDA ACH');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('71', 'Bonos ', false, 'BONOS');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('72', 'Vales ', false, 'VALES');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('77', 'Retiro de una nota por el acreedor sobre un tercero ', false, 'RETIRO DE UNA NOTA POR EL ACREEDOR SOBRE UN TERCERO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('78', 'Retiro de una nota por el acreedor sobre un tercero avalada por un banco ', false, 'RETIRO DE UNA NOTA POR EL ACREEDOR SOBRE UN TERCERO AVALADA POR UN BANCO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('9', 'Clearing Nacional o Regional ', false, 'CLEARING NACIONAL O REGIONAL');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('93', 'Giro referenciado ', false, 'GIRO REFERENCIADO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('94', 'Giro urgente ', false, 'GIRO URGENTE');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('95', 'Giro formato abierto ', false, 'GIRO FORMATO ABIERTO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('96', 'Método de pago solicitado no usuado ', false, 'MÉTODO DE PAGO SOLICITADO NO USADO');
+INSERT INTO public.medio_pago (codigo, nombre, estado, nombre_comercial) VALUES ('97', 'Clearing entre partners ', false, 'CLEARING ENTRE PARTNERS');
+
+
+DO $$
+BEGIN
+    -- Verificar si la tabla 'bonos' ya existe
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_class c
+        JOIN pg_namespace n ON n.oid = c.relnamespace
+        WHERE c.relname = 'bonos'
+          AND c.relkind = 'r'
+          AND n.nspname = 'public'
+    ) THEN
+        CREATE TABLE bonos
+        (
+          id serial NOT NULL,
+          id_usuario integer,
+          fecha_generacion date,
+          hora time with time zone,
+          observacion text,
+          valor double precision,
+          CONSTRAINT "Pk_bono" PRIMARY KEY (id),
+          CONSTRAINT fk_usuario FOREIGN KEY (id_usuario)
+              REFERENCES usuario_sistema (idusuario_sistema) MATCH SIMPLE
+              ON UPDATE NO ACTION ON DELETE NO ACTION
+        )
+        WITH (OIDS=FALSE);
+        
+        ALTER TABLE bonos OWNER TO postgres;
+    END IF;
+END
+$$;
+
+
+-- Consecutivo 103 - Cortesía (numeroconsecutivo fijo en 1)
+INSERT INTO consecutivos (idconsecutivos, conceptoconsecutivo, numeroconsecutivo)
+SELECT 103, 'cortesia', 1
+WHERE NOT EXISTS (
+    SELECT 1 FROM consecutivos WHERE idconsecutivos = 103
+);
+
+-- Consecutivo 104 - Informe (numeroconsecutivo dinámico según tabla consecutivo_informe)
+INSERT INTO consecutivos (idconsecutivos, conceptoconsecutivo, numeroconsecutivo)
+SELECT 104, 'consecutivo_informe',
+       COALESCE((SELECT MAX(numero) FROM consecutivo_informe), 1)  -- si no hay registros, usa 1
+WHERE NOT EXISTS (
+    SELECT 1 FROM consecutivos WHERE idconsecutivos = 104
+);
+
+
 
 UPDATE configuracion_pedido SET version = 13;
