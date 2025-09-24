@@ -37,6 +37,7 @@ class Mesas extends BaseController
 
         
         $mesas = model('mesasModel')->where('estado', 0)->orderBy('id', 'ASC')->findAll();
+    
         $estado = model('estadoModel')->orderBy('idestado', 'ASC')->findAll();
         $cliente_dian = model('clientesModel')->where('nitcliente', '222222222222')->first();
         $bancos = model('BancoModel')->findAll();

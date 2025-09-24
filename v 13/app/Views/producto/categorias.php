@@ -74,7 +74,10 @@ HOME
                                                 </div>
                                             </div>
 
-                                            <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto,id_impresora')->where('id_subcategoria', $KeySubCategoria['id'])->find(); ?>
+                                            <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto,id_impresora')
+                                            ->where('id_subcategoria', $KeySubCategoria['id'])
+                                            ->where('estadoproducto',true)
+                                            ->find(); ?>
 
 
                                             <?php foreach ($productos_subcategoria as $keyProductoSubCategoria): ?>
@@ -176,7 +179,11 @@ HOME
 
 
                                     <?php if ($sub_categoria['subcategoria'] == 'f'): ?>
-                                        <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto,codigointernoproducto,aplica_ico')->where('codigocategoria', $KeyCategorias['codigocategoria'])->find(); ?>
+                                        <?php $productos_subcategoria = model('productoModel')
+                                        ->select('id,nombreproducto,valorventaproducto,codigointernoproducto,aplica_ico')
+                                        ->where('codigocategoria', $KeyCategorias['codigocategoria'])
+                                        ->where('estadoproducto',true)
+                                        ->find(); ?>
 
                                         <?php foreach ($productos_subcategoria as $keySubCategoria): ?>
                                             <?php $tipo_producto = model('productoModel')->getTipoProducto($keySubCategoria['id']);

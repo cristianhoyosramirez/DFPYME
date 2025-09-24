@@ -381,7 +381,7 @@ class loginController extends BaseController
             'precio_venta' => number_format($precioVenta[0]['valorventaproducto'], 0, ',', '.'),
             //'costoTotal' => ($costoUnitario[0]['precio_costo'] * $valor),
             //'costoTotal' => round($costoUnitario[0]['precio_costo'] * $valor, 2),
-            'costoTotal' => number_format($costoUnitario[0]['precio_costo'] * $valor, 2, '.', ','),
+            'costoTotal' => number_format($costoUnitario[0]['precio_costo'] * $valor, 0, '.', ','),
 
             'id' => $id
         ]);

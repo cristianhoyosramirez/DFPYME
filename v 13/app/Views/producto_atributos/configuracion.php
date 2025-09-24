@@ -154,7 +154,7 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="nombreAtributo" onkeyup="validarAtributo()">
+                                    <input type="text" class="form-control" id="nombreAtributo" >
                                     <span id="nombreAtributoError" class="text-danger"></span>
                                 </div>
                             </div>

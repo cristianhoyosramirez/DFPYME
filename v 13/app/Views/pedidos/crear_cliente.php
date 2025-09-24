@@ -142,10 +142,10 @@
           <!-- Ciudad -->
           <div class="col-md-4">
             <label class="form-label">Ciudad</label>
-            <select class="form-select" id="ciudad" name="ciudad">
+            <select class="form-select" id="ciudad" name="ciudad"  >
               <option value="<?php echo $datos_empresa[0]['idciudad'];  ?>"><?php echo $datos_empresa[0]['nombreciudad'];  ?></option>
               <?php foreach ($ciudades as $detalleCiudades): ?>
-                <option value="<?php $detalleCiudades['idciudad'] ?>"><?php echo $detalleCiudades['nombreciudad'];  ?></option>
+                <option value="<?php echo $detalleCiudades['idciudad'] ?>"><?php echo $detalleCiudades['nombreciudad'];  ?></option>
               <?php endforeach ?>
             </select>
             <span class="text-danger error-text ciudad_error"></span>

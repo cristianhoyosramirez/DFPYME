@@ -438,7 +438,7 @@ class operacionesProductoController extends BaseController
 
                     $producto_medida = [
                         'codigointernoproducto' => $this->request->getPost('crear_producto_codigo_interno'),
-                        'idvalor_unidad_medida' => 3
+                        'idvalor_unidad_medida' => $this->request->getPost('UnidadMedida')
 
                     ];
 
@@ -446,7 +446,7 @@ class operacionesProductoController extends BaseController
 
                     $inventario = [
                         'codigointernoproducto' => $this->request->getPost('crear_producto_codigo_interno'),
-                        'idvalor_unidad_medida' => 3,
+                        'idvalor_unidad_medida' => $this->request->getPost('UnidadMedida'),
                         'idcolor' => 0,
                         'cantidad_inventario' => 0
 
@@ -545,7 +545,7 @@ class operacionesProductoController extends BaseController
 
                     $producto_medida = [
                         'codigointernoproducto' => $this->request->getPost('crear_producto_codigo_interno'),
-                        'idvalor_unidad_medida' => 3
+                        'idvalor_unidad_medida' => $this->request->getPost('UnidadMedida')
 
                     ];
 
@@ -553,7 +553,7 @@ class operacionesProductoController extends BaseController
 
                     $inventario = [
                         'codigointernoproducto' => $this->request->getPost('crear_producto_codigo_interno'),
-                        'idvalor_unidad_medida' => 3,
+                        'idvalor_unidad_medida' => $this->request->getPost('UnidadMedida'),
                         'idcolor' => 0,
                         'cantidad_inventario' => 0
 

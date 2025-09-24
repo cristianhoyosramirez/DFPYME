@@ -30,23 +30,23 @@ class ConfigurarProductocontroller extends BaseController
             ->select('nombre')
             ->where('LOWER(nombre)', strtolower($nombre))
             ->first();
-        if (empty($existe)) {
-            $insert = model('atributosProductoModel')->insert($data);
+        //if (empty($existe)) {
+        $insert = model('atributosProductoModel')->insert($data);
 
-            $atributos = model('atributosProductoModel')->orderBy('id', 'desc')->findAll();
+        $atributos = model('atributosProductoModel')->orderBy('id', 'desc')->findAll();
 
-            return $this->response->setJSON([
-                'response' => 'success',
-                'atributos' => view('producto/atributos', [
-                    'atributos' => $atributos
-                ])
-            ]);
-        }
+        return $this->response->setJSON([
+            'response' => 'success',
+            'atributos' => view('producto/atributos', [
+                'atributos' => $atributos
+            ])
+        ]);
+        /*  }
         if (!empty($existe)) {
             return $this->response->setJSON([
                 'response' => 'exists',
             ]);
-        }
+        } */
     }
 
     function validarAtributo()
@@ -711,7 +711,7 @@ class ConfigurarProductocontroller extends BaseController
             'nombreProducto' => $producto['nombreproducto'],
             'id_tabla_producto' => $idPedido,
             //'hora'=> $total_pedido['fecha_creacion']
-            'hora'=> "Hora: ".date('H:i:s', strtotime($total_pedido['fecha_creacion']))
+            'hora' => "Hora: " . date('H:i:s', strtotime($total_pedido['fecha_creacion']))
         ]);
     }
 
@@ -725,7 +725,7 @@ class ConfigurarProductocontroller extends BaseController
         //$precio = model('productoPedidoModel')->select('valor_unitario,cantidad_producto,numero_de_pedido')->where('id', $id_tabla_producto)->first();
         $precio = model('productoPedidoModel')->select('cantidad_producto,numero_de_pedido,codigointernoproducto')->where('id', $id_tabla_producto)->first();
 
-        $precioUnidad=model('productoModel')->select('valorventaproducto')->where('codigointernoproducto',$precio['codigointernoproducto'])->first();
+        $precioUnidad = model('productoModel')->select('valorventaproducto')->where('codigointernoproducto', $precio['codigointernoproducto'])->first();
 
         //$nuevoPrecio = $precio['valor_unitario'] / 2;
         $nuevoPrecio = $precioUnidad['valorventaproducto'] / 2;
@@ -766,7 +766,7 @@ class ConfigurarProductocontroller extends BaseController
         //$precio = model('productoPedidoModel')->select('valor_unitario,cantidad_producto,numero_de_pedido')->where('id', $id_tabla_producto)->first();
         $precio = model('productoPedidoModel')->select('cantidad_producto,numero_de_pedido,codigointernoproducto')->where('id', $id_tabla_producto)->first();
 
-        $precioUnidad=model('productoModel')->select('valorventaproducto')->where('codigointernoproducto',$precio['codigointernoproducto'])->first();
+        $precioUnidad = model('productoModel')->select('valorventaproducto')->where('codigointernoproducto', $precio['codigointernoproducto'])->first();
 
         //$nuevoPrecio = $precio['valor_unitario'] / 2;
         $nuevoPrecio = $precioUnidad['valorventaproducto'];
@@ -810,14 +810,14 @@ class ConfigurarProductocontroller extends BaseController
         ]);
     }
 
-    public function id_licencia(){
+    public function id_licencia()
+    {
 
-         $id_licencia = model('estadoPagoConsumoModel')->select('id_instalacion')->first();
+        $id_licencia = model('estadoPagoConsumoModel')->select('id_instalacion')->first();
 
         return $this->response->setJSON([
             'response' => 'success',
             'id_licencia' => $id_licencia['id_instalacion']
         ]);
-
     }
 }

@@ -1,10 +1,10 @@
 <div class="row ">
     <div class="col">Pedido número </div>
     <div class="col text-primary"><?php echo $numero_pedido; ?></div>
-    <div class="col">Fecha pedido </div>
+    <div class="col">F pedido </div>
     <div class="col text-primary"><?php  echo $fecha_creacion; 
                         ?></div>
-    <div class="col">Fecha eliminación </div>
+    <div class="col">F eliminación </div>
     <div class="col text-primary"><?php echo $fecha_creacion; ?></div>
 </div>
 
