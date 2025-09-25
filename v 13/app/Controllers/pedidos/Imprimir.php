@@ -977,9 +977,7 @@ class Imprimir extends BaseController
             $printer->setTextSize(1, 1);
             $printer->text("---------------------------------------------" . "\n");
 
-            /*             $printer->text("Este establecimiento sugiere un aporte de servicio voluntario del 10% del valor de la cuenta. Usted puede aceptarlo, rechazarla o modificarlo según su valoración del servicio. 
-Este monto se distribuye al 100% entre el personal de servicio según el reglamento interno.
-" . "\n"); */
+
 
             $textoPropina = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();
 
@@ -1024,6 +1022,141 @@ Este monto se distribuye al 100% entre el personal de servicio según el reglame
             );
             echo  json_encode($returnData);
         }
+    }
+
+    public function imprimir_op()
+    {
+
+        $json = $this->request->getJSON();
+        $idImpresora = $json->idImpresora;
+        $idMesa = $json->id_mesa;
+
+
+        $id_mesa = $idMesa;
+        //$id_mesa = 418;
+        //$propina = $this->request->getPost('propina');
+        $tempPropina = model('pedidoModel')->select('propina')->where('fk_mesa', $id_mesa)->first();
+        $propina = $tempPropina['propina'];
+        $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
+        $numero_pedido = $pedido['id'];
+
+        $id_usuario = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
+        $id_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido)->first();
+        $nombre_mesa = model('mesasModel')->select('nombre')->where('id', $id_mesa['fk_mesa'])->first();
+        $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['fk_usuario'])->first();
+        $id_mesero = model('pedidoModel')->select('fk_usuario')->where('id', $id_mesa['fk_mesa'])->first();
+
+        //$nombre_mesero = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_mesero['fk_usuario'])->first();
+
+
+
+        $nombre_de_impresora = model('impresorasModel')->select('nombre')->where('id', $idImpresora)->first();
+        $connector = new WindowsPrintConnector($nombre_de_impresora['nombre']);
+        $printer = new Printer($connector);
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(2, 2);
+        $printer->text("Orden de pedido " . "\n");
+
+
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setTextSize(1, 1);
+        $printer->text("Pedido N°   " . $numero_pedido . "\n");
+        $printer->text("Mesa   N°   " . $nombre_mesa['nombre'] . "\n");
+        if (!empty($nombre_mesero)) {
+            $printer->text("Mesero:     " .    $nombre_mesero['nombresusuario_sistema'] . "\n");
+        }
+        if (empty($nombre_mesero)) {
+            $printer->text("Mesero:     " .    $nombre_usuario['nombresusuario_sistema'] . "\n");
+        }
+
+
+        $printer->text("Fecha :  " . "   " . date('d/m/Y ') . "\n");
+        $printer->text("Hora  :  " .  "   " .     date('h:i:s a', time()) . "\n");
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("----------------------------------------------- \n");
+        $printer->text("CÓDIGO   PRODUCTO      CANTIDAD     NOTAS  \n");
+        $printer->text("----------------------------------------------- \n");
+
+
+        $items = model('productoPedidoModel')->pre_factura($numero_pedido);
+
+
+        foreach ($items as $productos) {
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->setTextSize(1, 1);
+            $printer->text("Cod." . $productos['codigointernoproducto'] . "      " . $productos['nombreproducto'] . "\n");
+            $printer->text("Cant. " . $productos['cantidad_producto'] . "      " . "$" . number_format($productos['valor_unitario'], 0, ',', '.') . "                   " . "$" . number_format($productos['valor_total'], 0, ',', '.') . "\n");
+            if (!empty($productos['nota_producto'])) {
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->text("NOTAS:\n");
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
+                $printer->text($productos['nota_producto'] . "\n");
+            }
+            $printer->text("_______________________________________________ \n");
+            $printer->text("\n");
+        }
+
+        $observacion_general = model('pedidoModel')->select('nota_pedido')->where('id', $numero_pedido)->first();
+        if (!empty($observacion_general['nota_pedido'])) {
+            $printer->setTextSize(2, 1);
+            $printer->text("OBSERVACION GENERAL\n");
+            $printer->text($observacion_general['nota_pedido'] . "\n");
+        }
+
+        $total = model('pedidoModel')->select('valor_total')->where('id', $numero_pedido)->first();
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setTextSize(2, 1);
+        $printer->setTextSize(1, 1);
+        $printer->text("SUB TOTAL  :" . "$" . number_format($total['valor_total'], 0, ",", ".") . "\n");
+        $printer->text("SERVICIO    :" . "$" . number_format($propina, 0, ",", ".") . "\n");
+        $printer->text("---------------------------------------------" . "\n");
+
+        $printer->setTextSize(2, 2);
+        $printer->text("TOTAL      :" . "$" . number_format($total['valor_total'] + $propina, 0, ",", ".") . "\n");
+        $printer->setTextSize(1, 1);
+        $printer->text("---------------------------------------------" . "\n");
+
+
+
+        $textoPropina = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();
+
+        if ($textoPropina['permitir_impresion_texto_propina'] == 't') {
+
+            $texto = model('configuracionPedidoModel')->select('texto_propina')->first();
+
+            $printer->text($texto['texto_propina'] . "\n");
+        }
+
+
+
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("GRACIAS POR SU VISITA " . "\n");
+
+        /*
+            Cortamos el papel. Si nuestra impresora
+            no tiene soporte para ello, no generará
+            ningún error
+            */
+        $printer->cut();
+
+        /*
+            Por medio de la impresora mandamos un pulso.
+            Esto es útil cuando la tenemos conectada
+            por ejemplo a un cajón
+            */
+        //$printer->pulse();
+        $printer->close();
+        # $printer = new Printer($connector);
+
+        //$milibreria = new Ejemplolibreria();
+        //$data = $milibreria->getRegistros();
+        
+        return $this->response->setJSON([
+            'response' => 'success'
+        ]);
     }
 
 

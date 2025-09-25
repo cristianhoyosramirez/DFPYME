@@ -390,6 +390,14 @@ class edicionEliminacionFacturaPedidoController extends BaseController
         return view('menu/administracion');
     }
 
+    function confOrdenPedido()
+    {
+        //$idSalon=model('salonesModel')->where('tipo',1)->first();
+
+
+        return view('menu/orden_pedido');
+    }
+
     public function menuPedidosWhatsapp()
     {
         $config = model('configuracionPedidoModel')
@@ -514,5 +522,43 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
             ]);
         }
+    }
+
+    function updateConfOrdenPedido()
+    {
+
+        $json = $this->request->getJSON();
+        $valor = $json->preguntar_impresora_prefactura;
+
+        $actualizar = model('configuracionPedidoModel')->set('permitir_impresion_texto_propina', $valor)->update();
+
+        if ($actualizar) {
+            return $this->response->setJSON([
+                'response' => 'success',
+            ]);
+        }
+    }
+    function updateFacturarCero()
+    {
+
+        $json = $this->request->getJSON();
+        $valor = $json->facturar_cero;
+
+        $actualizar = model('configuracionPedidoModel')->set('facturar_cero', $valor)->update();
+
+        if ($actualizar) {
+            return $this->response->setJSON([
+                'response' => 'success',
+            ]);
+        }
+    }
+
+    function facturacion()
+    {
+
+        $configuracion=model('configuracionPedidoModel')->select('facturar_cero')->first();
+        return view('menu/facturacion',[
+            'configuracion'=>$configuracion['facturar_cero']
+        ]);
     }
 }

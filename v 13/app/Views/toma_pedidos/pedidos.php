@@ -207,12 +207,12 @@ Bienvenido DFpyme
                                     </a>
                                 </div>
                                 <?php
-                                $reimpresionComanda = model('configuracionPedidoModel')->select('reimpresion_comanda')->first();
+                                $reimpresionComanda = model('configuracionPedidoModel')->select('reimpresion_meseros')->first();
 
                                 //mostrarBono = model('configuracionPedidoModel')->select('mostrar_boton_imprimir_bono')->first();
                                 ?>
                         
-                                    <?php if ($reimpresionComanda['reimpresion_comanda'] == 't'): ?>
+                                    <?php if ($reimpresionComanda['reimpresion_meseros'] == 't'): ?>
                                         <div class="col-md-3">
                                             <div class="btn-group w-100 d-flex" role="group">
                                                 <a href="#" class="btn btn-outline-purple flex-fill" onclick="imprimir_comanda()" title="Imprimir comanda">
@@ -246,7 +246,7 @@ Bienvenido DFpyme
                                             </div>
                                         </div>
                                     <?php endif ?>
-                                    <?php if ($reimpresionComanda['reimpresion_comanda'] == 'f'): ?>
+                                    <?php if ($reimpresionComanda['reimpresion_meseros'] == 'f'): ?>
                                         <div class="col-md-3">
                                             <a href="#" class="btn btn-outline-purple w-100" onclick="imprimir_comanda()">
                                                 Comanda

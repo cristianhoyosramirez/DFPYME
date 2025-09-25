@@ -84,6 +84,14 @@ Configuración
                     </select>
 
                 </div>
+                <div class="col-3">
+                    <label class="form-label">B reimpresion comanda en p mesero   </label>
+                    <select name="" id="reImprimirMesero" class="form-select" onchange="reImprimirMesero(this.value)">
+                        <option value="t" <?= $reimprimir_meseros == 't' ? 'selected' : '' ?>>Si</option>
+                        <option value="f" <?= $reimprimir_meseros == 'f' ? 'selected' : '' ?>>No</option>
+                    </select>
+
+                </div>
             </div>
         </div>
 
@@ -101,6 +109,43 @@ Configuración
 
         try {
             let respuesta = await fetch("<?= base_url('configuracion/beep') ?>", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest' // para detectar llamadas AJAX
+                },
+                body: JSON.stringify({
+                    valor: valor
+                })
+            });
+
+            const resultado = await respuesta.json();
+
+            if (resultado.response == "success") {
+                sweet_alert_centrado('success', 'Se imprimen los precios en la comanda');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: resultado.message || 'No se pudo actualizar.'
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error de red o del servidor.'
+            });
+        }
+    }
+</script>
+
+<script>
+    async function reImprimirMesero(valor) {
+
+        try {
+            let respuesta = await fetch("<?= base_url('configuracion/reImprimirMesero') ?>", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -118,16 +118,36 @@ class PartirFactura extends BaseController
                     $requiere_factura_electronica = "no";
                 }
 
-                $returnData = array(
-                    "resultado" => 1,
-                    "total" => "Total: $" . number_format($valor_pedido['valor_total'], 0, ",", "."),
-                    "sub_total" => "Sub total: $" . number_format($valor_pedido['valor_total'], 0, ",", "."),
-                    "valor_total" => $valor_pedido['valor_total'],
-                    "factura_electronica" => $factura_electronica,
-                    "requiere_factura_electronica" => $requiere_factura_electronica,
-                    "estado_licencia" => $estado_licencia['estado_licencia']
-                );
-                echo  json_encode($returnData);
+                //$temp_pedido =$numero_pedido['id'];
+
+
+                $productoCero = model('productoPedidoModel')
+                    ->where('valor_unitario', 0)
+                    ->where('numero_de_pedido', $numero_pedido['id'])
+                    ->first();
+
+                $facturarCero = model('configuracionPedidoModel')->select('facturar_cero')->first();
+
+
+                if (!empty($productoCero) and $facturarCero['facturar_cero'] == 't') {  // se permite la facturacion asi hayan productos con valor cero
+
+                    $returnData = array(
+                        "resultado" => 1,
+                        "total" => "Total: $" . number_format($valor_pedido['valor_total'], 0, ",", "."),
+                        "sub_total" => "Sub total: $" . number_format($valor_pedido['valor_total'], 0, ",", "."),
+                        "valor_total" => $valor_pedido['valor_total'],
+                        "factura_electronica" => $factura_electronica,
+                        "requiere_factura_electronica" => $requiere_factura_electronica,
+                        "estado_licencia" => $estado_licencia['estado_licencia']
+                    );
+                    echo  json_encode($returnData);
+                } else if (!empty($productoCero) and $facturarCero['facturar_cero'] == 'f') {
+
+                    $returnData = array(
+                        "resultado" => 2
+                    );
+                    echo  json_encode($returnData);
+                }
             } else if (empty($tiene_apertura['id'])) {
                 $returnData = array(
                     "resultado" => 0,

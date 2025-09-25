@@ -669,6 +669,7 @@ class Configuracion extends BaseController
         $espaciosPie = model('configuracionPedidoModel')->select('espacios_comanda_pie')->first();
         $tamano = model('configuracionPedidoModel')->select('tamano_comanda')->first();
         $precios = model('configuracionPedidoModel')->select('precios_comanda')->first();
+        $reimprimir_meseros = model('configuracionPedidoModel')->select('reimpresion_meseros')->first();
 
         return view(
             'configuracion/comanda',
@@ -677,7 +678,8 @@ class Configuracion extends BaseController
                 'pie' => $espaciosPie['espacios_comanda_pie'],
                 'encabezado' => $espaciosEncabezado['espacios_comanda_encabezado'],
                 'tamano' => $tamano['tamano_comanda'],
-                'precios' => $precios['precios_comanda']
+                'precios' => $precios['precios_comanda'],
+                'reimprimir_meseros'=>$reimprimir_meseros['reimpresion_meseros']
             ]
         );
     }
@@ -1298,6 +1300,20 @@ class Configuracion extends BaseController
         $valor = $json->valor;
 
         $update = model('configuracionPedidoModel')->set('beep', $valor)->update();
+
+
+        return $this->response->setJSON([
+            'response' => 'success'
+        ]);
+    }
+
+    function reImprimirMesero()
+    {
+
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+
+        $update = model('configuracionPedidoModel')->set('reimpresion_meseros', $valor)->update();
 
 
         return $this->response->setJSON([

@@ -536,9 +536,19 @@ Bienvenido DFpyme
                                 <div class="col-md-6">
 
 
+                                    <?php $configuracionImpresionOrden = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();  ?>
+
+                                    <input
+                                        type="text"
+                                        value="<?php echo $configuracionImpresionOrden['permitir_impresion_texto_propina'] ?>"
+                                        id="configuracionOrden"
+                                        hidden>
+
                                     <a href="#" class="btn btn-outline-cyan w-100" onclick="prefactura()">
                                         Orden pedido
                                     </a>
+
+
 
                                 </div>
                                 <?php if ($user_session->tipo != 3) : ?>
@@ -578,7 +588,35 @@ Bienvenido DFpyme
 
                 <!--partida-->
 
+                <!-- Modal -->
+                <div class="modal fade" id="modalConfOp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Impresión de orden de pedido </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php $impresoras = model('impresorasModel')->findAll();   ?>
 
+                                <div id="contenedor-select-impresora">
+                                    <select name="impresora" id="impresoraOp" class="form-select" onchange="impresionOp(this.value)">
+                                        <option value="">-- Seleccione una impresora --</option>
+                                        <?php foreach ($impresoras as $detalleImp): ?>
+                                            <option value="<?= $detalleImp['id'] ?>">
+                                                <?= $detalleImp['nombre'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-success" onclick="guardarImpresora()">Imprimir</button>
+                                <button type="button" class="btn btn-outline-danger">Cancelar </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -653,6 +691,73 @@ Bienvenido DFpyme
 
     <script src="<?= base_url() ?>/Assets/script_js/bloqueos/licencia/licencia.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/bloqueos/consumo/consumo.js"></script>
+
+
+    <script>
+        async function guardarImpresora() {
+            try {
+                let id_mesa = document.getElementById("id_mesa_pedido").value;
+                let tem_propina = document.getElementById("propina_del_pedido").value;
+                let propina = tem_propina.replace(/\./g, '');
+                let id_impresora = document.getElementById("impresoraOp").value;
+
+                // ✅ Validar que se haya seleccionado una impresora válida
+                if (!id_impresora || id_impresora.trim() === "") {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Impresora no seleccionada",
+                        text: "Debe seleccionar una impresora válida antes de continuar.",
+                        confirmButtonText: "Entendido",
+                        focusConfirm: true
+                    });
+                    return;
+                }
+
+                let response = await fetch("<?= base_url('pedidos/imprimir_op') ?>", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: JSON.stringify({
+                        idImpresora: id_impresora,
+                        id_mesa: id_mesa,
+                        propina: propina
+                    })
+                });
+
+                let data = await response.json();
+
+                if (data.response == "success") {
+                    // ✅ Mostrar alerta de éxito
+                    sweet_alert_centrado('success', 'Impresión exitosa');
+
+                    // ✅ Cerrar modal
+                    $("#modalConfOp").modal("hide");
+
+                    // ✅ Reiniciar y reconstruir el select con impresoras
+                    let selectHtml = `
+        <select name="impresora" id="impresoraOp" class="form-select" onchange="impresionOp(this.value)">
+            <option value="">-- Seleccione una impresora --</option>
+            <?php foreach ($impresoras as $detalleImp): ?>
+                <option value="<?= $detalleImp['id'] ?>">
+                    <?= $detalleImp['nombre'] ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    `;
+
+                    // Reemplazar el select en el DOM (asegúrate que haya un contenedor con id="contenedor-select-impresora")
+                    document.getElementById("contenedor-select-impresora").innerHTML = selectHtml;
+                } else {
+                    alert("⚠️ Error al guardar la impresora");
+                }
+            } catch (error) {
+                console.error("Error en la petición:", error);
+            }
+        }
+    </script>
+
 
 
     <script>

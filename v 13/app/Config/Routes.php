@@ -338,6 +338,10 @@ $routes->group('edicion_eliminacion_factura_pedido', ['namespace' => 'App\Contro
     $routes->get('gestionFe', 'edicionEliminacionFacturaPedidoController::gestionFe');
     $routes->post('updateGestionFe', 'edicionEliminacionFacturaPedidoController::updateGestionFe');
     $routes->get('consultarFe', 'edicionEliminacionFacturaPedidoController::consultarFe');
+    $routes->get('confOrdenPedido', 'edicionEliminacionFacturaPedidoController::confOrdenPedido');
+    $routes->post('updateConfOrdenPedido', 'edicionEliminacionFacturaPedidoController::updateConfOrdenPedido');
+    $routes->get('facturacion', 'edicionEliminacionFacturaPedidoController::facturacion');
+    $routes->post('updateFacturarCero', 'edicionEliminacionFacturaPedidoController::updateFacturarCero');
 });
 
 
@@ -584,6 +588,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
      $routes->post('reporteHoras', 'PartirFactura::reporteHoras');
      $routes->post('editarPrefactura', 'PartirFactura::editarPrefactura');
      $routes->post('actualizarPrefactura', 'PartirFactura::actualizarPrefactura');
+     $routes->post('imprimir_op', 'Imprimir::imprimir_op');
 });
 
 $routes->group('inventario', ['namespace' => 'App\Controllers\pedidos', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -769,6 +774,7 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('actualizar_imprimir', 'Configuracion::actualizar_imprimir');
     $routes->post('beep', 'Configuracion::beep');
     $routes->post('update_imprimir_texto', 'Configuracion::update_imprimir_texto');
+    $routes->post('reImprimirMesero', 'Configuracion::reImprimirMesero');
 });
 
 

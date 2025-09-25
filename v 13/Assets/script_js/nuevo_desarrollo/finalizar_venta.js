@@ -77,6 +77,16 @@ function finalizar_venta() {
                         icon: 'warning'
                     })
                 }
+                if (resultado.resultado == 2) {
+
+                    Swal.fire({
+                        title: '¡ No es posible facturar por que productos con valor de venta con valor cero  ! ',
+                        showDenyButton: false,
+                        showCancelButton: false,
+                        confirmButtonText: 'Aceptar',
+                        icon: 'warning'
+                    })
+                }
             },
         });
     }
