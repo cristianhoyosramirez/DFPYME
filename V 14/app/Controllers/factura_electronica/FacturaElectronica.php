@@ -24,7 +24,13 @@ class FacturaElectronica extends BaseController
 
     function pre_factura()
     {
-        //var_dump($this->request->getPost());
+        if ($this->request->getPost('clasePago') !== null && $this->request->getPost('clasePago') !== '') {
+            $clase_pago = $this->request->getPost('clasePago');
+        } else {
+            $clase_pago = 0;
+        }
+
+       
         $id_mesa = $this->request->getPost('id_mesa');
         // $id_mesa = 6;
 
@@ -509,7 +515,8 @@ class FacturaElectronica extends BaseController
                     'saldo' => $saldo,
                     'nit_cliente' => $nit_cliente,
                     'id_pedido' => $numero_pedido,
-                    'id_mesa' => $id_mesa['fk_mesa']
+                    'id_mesa' => $id_mesa['fk_mesa'],
+                    'id_clase_pago' => $clase_pago
                 ];
 
                 $pagos = model('pagosModel')->insert($pagos);

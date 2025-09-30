@@ -562,7 +562,7 @@
                         <line x1="15" y1="16" x2="15" y2="20" />
                       </svg>Cierre de caja
                     </a>
-                    <?php if ($user_session->tipo == 0 || $user_session->tipo == 5) { ?>
+                    <?php if ($user_session->tipo == 0 ) { ?>
                       <a class="dropdown-item" href="<?= base_url() ?>/consultas_y_reportes/consultas_caja">
                         <!-- Download SVG icon from http://tabler-icons.io/i/question-mark -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -577,7 +577,7 @@
                 <?php  } ?>
               </div>
 
-              <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 4) { ?>
+              <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 4 || $user_session->tipo == 5) { ?>
                 <div class="dropend">
 
 
@@ -608,7 +608,7 @@
                         Electrónica</a>
                     </div>
                   </div>
-                  <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 4) { ?>
+                  <?php if ($user_session->tipo == 0 || $user_session->tipo == 1 || $user_session->tipo == 4 || $user_session->tipo == 5) { ?>
                     <a href="<?= base_url() ?>/eventos/consultar_ventas" class="dropdown-item">
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />

@@ -28,6 +28,9 @@
 
 <br>
 
+
+
+
 <div class="table-responsive">
     <table class="table table-striped table-hover">
         <thead class="table-dark">
@@ -42,6 +45,7 @@
                 <td scope="col">TRANSFERENCIA</th>
                 <td scope="col">TOTAL MEDIO DE PAGO</th>
                     <!-- <td scope="col">CAMBIO </th> -->
+                <td>Clase pago </td>
                 <td scope="col">USUARIO </th>
                 <td scope="col">Accion </th>
             </tr>
@@ -81,6 +85,21 @@
                     <td><?php echo "$ " . number_format($valor['total_pago'], 0, ",", ".") ?></td>
                     <!-- <td><?php #echo "$ " . number_format($valor['cambio'], 0, ",", ".") 
                                 ?></td> -->
+                    <td>
+                        <?php
+                        if (!empty($valor['id_clase_pago'])) {
+                            $nombreMedio = model('clasePagoModel')
+                                ->select('nombre')
+                                ->where('id', $valor['id_clase_pago'])
+                                ->first();
+
+                            echo $nombreMedio ? $nombreMedio['nombre'] : 'Desconocido';
+                        } else {
+                            echo 'Efectivo'; // lo que quieras mostrar si no hay id_clase_pago
+                        }
+                        ?>
+                    </td>
+
                     <td><?php echo $nombre_usuario['nombresusuario_sistema'] ?></td>
                     <td><a href="#" class="btn btn-outline-success  btn-icon" onclick="editar_pago(<?php echo $valor['id'] ?>)">
                             <!-- Download SVG icon from http://tabler-icons.io/i/pencil -->

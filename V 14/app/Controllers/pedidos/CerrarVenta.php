@@ -21,11 +21,11 @@ class CerrarVenta extends BaseController
         return view('home/home');
     }
 
-    public function cerrar_venta()
+  public function cerrar_venta()
     {
 
-       // $id_mesa = $this->request->getPost('id_mesa');
-        $id_mesa = 1;
+        $id_mesa = $this->request->getPost('id_mesa');
+        //$id_mesa = 1;
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
         $numero_pedido = $pedido['id'];
 
@@ -39,8 +39,9 @@ class CerrarVenta extends BaseController
 
         
 
+
        // if ($validar_pedido[0]['total'] == 0 and $suma_pedido[0]['total'] == $total_pedido['valor_total']) {
-        if ( $suma_pedido[0]['total'] == $total_pedido['valor_total']) {
+       // if ( $suma_pedido[0]['total'] == $total_pedido['valor_total']) {
 
         
 
@@ -80,8 +81,8 @@ class CerrarVenta extends BaseController
             $tipo_pago = 1; */
 
             //var_dump($this->request->getPost()); exit();
-            //$estado = $_POST['estado'];
-            $estado=6;
+            $estado = $_POST['estado'];
+            //$estado=6;
 
 
             if ($estado != 6) {
@@ -92,23 +93,23 @@ class CerrarVenta extends BaseController
                 $efectivo = 0;
                 $transaccion = 0;
             }
-             $valor_venta = 475000;
+            /*  $valor_venta = 475000;
             $nit_cliente = 222222222222;
             $id_usuario = 6;
             $estado = 6;
             $propina = 0;
             $descuento = 0;
-            $tipo_pago = 1; 
+            $tipo_pago = 1; */
 
 
-        /*     $valor_venta = $_POST['valor_venta'];
+            $valor_venta = $_POST['valor_venta'];
             $nit_cliente = $_POST['nit_cliente'];
             $id_usuario = $_POST['id_usuario'];
             $estado = $_POST['estado'];
             $propina = $_POST['propina_Format'];
             $descuento = 0;
             $tipo_pago = $_POST['tipo_pago'];
- */
+
 
 
             $rol = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
@@ -565,7 +566,7 @@ class CerrarVenta extends BaseController
                 }
             }
         //} else if ($validar_pedido[0]['total'] > 0) {
-        } else if ($validar_pedido[0]['total'] == 0 and $suma_pedido[0]['total'] != $total_pedido['valor_total']) {
+        /* } else if ($validar_pedido[0]['total'] == 0 and $suma_pedido[0]['total'] != $total_pedido['valor_total']) {
 
        
             $returnData = array(
@@ -575,7 +576,7 @@ class CerrarVenta extends BaseController
 
             );
             echo  json_encode($returnData);
-        }
+        } */
     }
 
 

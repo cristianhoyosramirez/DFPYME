@@ -47,6 +47,18 @@ class pagosModel extends Model
         return $datos->getResultArray();
     }
 
+    public function medioPago($id_apertura)
+    {
+        $datos = $this->db->query("
+    SELECT DISTINCT id_clase_pago
+FROM pagos
+WHERE id_apertura = $id_apertura
+  AND id_clase_pago <> 0;
+
+    ");
+        return $datos->getResultArray();
+    }
+
     public function set_ventas_electronicas($id_apertura)
     {
         $datos = $this->db->query("

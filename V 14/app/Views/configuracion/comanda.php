@@ -85,7 +85,7 @@ Configuración
 
                 </div>
                 <div class="col-3">
-                    <label class="form-label">B reimpresion comanda en p mesero   </label>
+                    <label class="form-label">Reimpresion comanda mesero   </label>
                     <select name="" id="reImprimirMesero" class="form-select" onchange="reImprimirMesero(this.value)">
                         <option value="t" <?= $reimprimir_meseros == 't' ? 'selected' : '' ?>>Si</option>
                         <option value="f" <?= $reimprimir_meseros == 'f' ? 'selected' : '' ?>>No</option>

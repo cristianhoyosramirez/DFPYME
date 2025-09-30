@@ -147,7 +147,8 @@ class Ventas extends BaseController
         $sheet->setCellValue('G8', 'Efectivo');
         $sheet->setCellValue('H8', 'Transferencia');
         $sheet->setCellValue('I8', 'Total medio de pago');
-        $sheet->setCellValue('J8', 'Usuario');
+        $sheet->setCellValue('J8', 'Clase  de pago');
+        $sheet->setCellValue('K8', 'Usuario');
 
         $row = 9; // Comienza en la fila siguiente a los encabezados (fila 8)
 
@@ -169,7 +170,24 @@ class Ventas extends BaseController
             $sheet->setCellValue('G' . $row, $valor['efectivo']); // Asigna el efectivo
             $sheet->setCellValue('H' . $row, $valor['transferencia']); // Asigna la transferencia
             $sheet->setCellValue('I' . $row, $valor['total_pago']); // Asigna el total de medios de pago
-            $sheet->setCellValue('J' . $row, $nombre_usuario['nombresusuario_sistema']); // Asigna el usuario
+            if (!empty($valor['id_clase_pago'])) {
+                $nombreMedio = model('clasePagoModel')
+                    ->select('nombre')
+                    ->where('id', $valor['id_clase_pago'])
+                    ->first();
+
+                // Validar que exista el registro
+                $medioPago = $nombreMedio ? $nombreMedio['nombre'] : 'Desconocido';
+            } else {
+                // Si no hay id_clase_pago
+                $medioPago = 'Efectivo';
+            }
+
+            // Asignar siempre el valor a la celda
+            $sheet->setCellValue('J' . $row, $medioPago);
+
+
+            $sheet->setCellValue('K' . $row, $nombre_usuario['nombresusuario_sistema']); // Asigna el usuario
 
             $row++; // Avanza a la siguiente fila
         }
@@ -308,7 +326,7 @@ class Ventas extends BaseController
         $fecha_inicial = $this->request->getPost('fecha_inicial');
         $fecha_final = $this->request->getPost('fecha_final');
         $opcion = $this->request->getPost('periodo');
-    
+
 
         /*  $fecha_inicial = '2025-09-24';
         $fecha_final = date('Y-m-d');

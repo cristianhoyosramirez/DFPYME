@@ -344,6 +344,9 @@ $routes->group('edicion_eliminacion_factura_pedido', ['namespace' => 'App\Contro
     $routes->post('updateConfOrdenPedido', 'edicionEliminacionFacturaPedidoController::updateConfOrdenPedido');
     $routes->get('facturacion', 'edicionEliminacionFacturaPedidoController::facturacion');
     $routes->post('updateFacturarCero', 'edicionEliminacionFacturaPedidoController::updateFacturarCero');
+    $routes->post('actualizarClasePago', 'edicionEliminacionFacturaPedidoController::actualizarClasePago');
+    $routes->post('guardarMedioPago', 'edicionEliminacionFacturaPedidoController::guardarMedioPago');
+    $routes->post('eliminarClasePago', 'edicionEliminacionFacturaPedidoController::eliminarClasePago');
 });
 
 
@@ -558,7 +561,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->post('productos_pedido', 'Mesas::productos_pedido');
     $routes->post('partir_factura', 'PartirFactura::partir_factura');
     $routes->post('valor', 'PartirFactura::valor');
-    $routes->get('cerrar_venta', 'CerrarVenta::cerrar_venta');
+    $routes->post('cerrar_venta', 'CerrarVenta::cerrar_venta');
     $routes->post('imprimir_factura', 'Imprimir::imprimir_factura');
     $routes->post('actualizar_cantidad_pago_parcial', 'PartirFactura::actualizar_cantidad_pago_parcial');
     $routes->post('restar_partir_factura', 'PartirFactura::restar_partir_factura');

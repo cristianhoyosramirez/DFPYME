@@ -12,7 +12,7 @@ Reporte formas pago
 
 
 <div class="container">
-    <p class="text-center text-primary h3">Informe de formas de pago  </p>
+    <p class="text-center text-primary h3">Informe de formas de pago </p>
 
     <div class="my-4"></div> <!-- Added space between the title and date inputs -->
     <!-- Agregar una barra de progreso -->
@@ -60,6 +60,7 @@ Reporte formas pago
                     <td scope="col">VALOR DOCUMENTO</th>
                     <td>PAGO EFECTIVO </td>
                     <td>PAGO BANCO</td>
+                    <td>CLASE PAGO</td>
                 </tr>
             </thead>
             <tbody id="resFormasPago">
@@ -107,6 +108,21 @@ Reporte formas pago
                         <td>
                             <?php echo number_format($detalle['transferencia'], 0, ',', '.'); ?>
                         </td>
+                        <td>
+                            <?php
+                            if (!empty($detalle['id_clase_pago'])) {
+                                $nombreMedio = model('clasePagoModel')
+                                    ->select('nombre')
+                                    ->where('id', $detalle['id_clase_pago'])
+                                    ->first();
+
+                                echo $nombreMedio ? $nombreMedio['nombre'] : 'Efectivo';
+                            } else {
+                                echo 'Efectivo';
+                            }
+                            ?>
+                        </td>
+
                     </tr>
                 <?php endforeach ?>
             </tbody>
@@ -140,8 +156,8 @@ Reporte formas pago
 
             //document.getElementById('tbodyInsumos').innerHTML = data.productos;
 
-            if (data.response=="success"){
-             document.getElementById('resFormasPago').innerHTML=data.formasPago
+            if (data.response == "success") {
+                document.getElementById('resFormasPago').innerHTML = data.formasPago
             }
 
         } catch (error) {

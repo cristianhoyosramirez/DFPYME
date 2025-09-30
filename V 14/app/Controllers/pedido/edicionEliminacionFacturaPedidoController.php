@@ -556,9 +556,95 @@ class edicionEliminacionFacturaPedidoController extends BaseController
     function facturacion()
     {
 
-        $configuracion=model('configuracionPedidoModel')->select('facturar_cero')->first();
-        return view('menu/facturacion',[
-            'configuracion'=>$configuracion['facturar_cero']
+        $configuracion = model('configuracionPedidoModel')->select('facturar_cero')->first();
+        //$clasePago = model('clasePagoModel')->where('estado', 'true')->findAll();
+        $clasePago = model('clasePagoModel')->where('estado', 'true')->orderby('nombre', 'asc')->findAll();
+
+        //dd($clasePago);
+
+        return view('menu/facturacion', [
+            'configuracion' => $configuracion['facturar_cero'],
+            'clase_pago' => $clasePago
         ]);
+    }
+
+
+    function actualizarClasePago()
+    {
+
+        $json = $this->request->getJSON();
+        $id = $json->id;
+        $nombre = $json->nombre;
+
+
+        $actualizar = model('clasePagoModel')->set('nombre', $nombre)->where('id', $id)->update();
+
+        if ($actualizar) {
+
+            return $this->response->setJSON([
+                'response' => 'success',
+                'id' => $id,
+            ]);
+        }
+    }
+    function guardarMedioPago()
+    {
+
+        $json = $this->request->getJSON();
+        $nombre = $json->nombre;
+
+        $insertar = model('clasePagoModel')->insert([
+            'nombre' => $nombre,
+            'estado' => true
+        ]);
+
+
+        if ($insertar) {
+
+            $clasePago = model('clasePagoModel')->where('estado', 'true')->orderby('nombre', 'asc')->findAll();
+
+            return $this->response->setJSON([
+                'response' => 'success',
+                'clase_pago' => $clasePago
+
+            ]);
+        }
+    }
+
+    public function eliminarClasePago()
+    {
+        $json = $this->request->getJSON();
+        $id   = $json->id ?? null;
+
+        if (!$id) {
+            return $this->response->setJSON([
+                'response' => 'error',
+                'message'  => 'ID no proporcionado'
+            ]);
+        }
+
+        // Verificar si hay movimientos asociados a ese medio de pago
+        $tieneMovimientos = model('pagosModel')->where('id_clase_pago', $id)->first();
+
+        if (!empty($tieneMovimientos)) {
+            // Si tiene movimientos, solo desactivar (estado = false)
+            model('clasePagoModel')
+                ->set('estado', false) // mejor usar boolean en vez de string
+                ->where('id', $id)
+                ->update();
+
+            return $this->response->setJSON([
+                'response' => 'success',
+                'message'  => 'Clase de pago desactivada correctamente'
+            ]);
+        } else {
+            // Si no tiene movimientos, se puede eliminar
+            model('clasePagoModel')->where('id', $id)->delete();
+
+            return $this->response->setJSON([
+                'response' => 'success',
+                'message'  => 'Clase de pago eliminada correctamente'
+            ]);
+        }
     }
 }

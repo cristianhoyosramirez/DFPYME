@@ -294,7 +294,8 @@
                     </div>
                     <div class="col-sm-9">
                       <div class="input-group">
-                        <?php $clasePago = model('clasePagoModel')->findAll(); ?>
+                        <?php $clasePago = model('clasePagoModel')->where('estado', 'true')->orderby('nombre','asc')->findAll();
+ ?>
 
 
                         <select name="clase_pago" id="clase_pago" class="form-select" onchange="limpiarErrorSelect()">

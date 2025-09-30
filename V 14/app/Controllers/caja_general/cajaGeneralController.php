@@ -1184,6 +1184,7 @@ class cajaGeneralController extends BaseController
         $sheet->setCellValue('D8', 'Valor documento');
         $sheet->setCellValue('E8', 'Pago efectivo ');
         $sheet->setCellValue('F8', 'Pago banco ');
+        $sheet->setCellValue('G8', 'Clase pago ');
 
 
         $row = 9;
@@ -1226,6 +1227,20 @@ class cajaGeneralController extends BaseController
             $sheet->setCellValue("D$row", $detalle['total_documento']);
             $sheet->setCellValue("E$row", $detalle['efectivo']);
             $sheet->setCellValue("F$row", $detalle['transferencia']);
+
+
+            if (!empty($detalle['id_clase_pago'])) {
+                $nombreMedio = model('clasePagoModel')
+                    ->select('nombre')
+                    ->where('id', $detalle['id_clase_pago'])
+                    ->first();
+
+                $medioPago = $nombreMedio ? $nombreMedio['nombre'] : 'Efectivo';
+            } else {
+                $medioPago = 'Efectivo';
+            }
+
+            $sheet->setCellValue("G$row", $medioPago);
 
             $row++;
         }

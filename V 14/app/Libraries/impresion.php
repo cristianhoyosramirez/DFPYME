@@ -95,8 +95,52 @@ class impresion
         //dd($efectivo);
         $printer->text("Valor apertura: " . "        $ " . number_format($valor_apertura['valor'], 0, ",", ".") . "\n");
         $printer->text("Ingresos efectivo:      " . "$ " . number_format($ingresos_efectivo[0]['efectivo'], 0, ",", ".") . "\n");
-        $printer->text("Ingresos transacción: " . "  $ " . number_format($ingresos_transaccion[0]['transferencia'], 0, ",", ".") . "\n");
+        //$printer->text("Ingresos transacción: " . "  $ " . number_format($ingresos_transaccion[0]['transferencia'], 0, ",", ".") . "\n");
         //$total_ingresos = model('facturaFormaPagoModel')->total_ingresos($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_actual);
+
+        $result = model('pagosModel')->medioPago($id_apertura);
+
+
+        foreach ($result as $resultado) {
+            // Sumar transferencias
+            $total = model('pagosModel')
+                ->selectSum('transferencia', 'suma_transferencia')
+                ->where('id_clase_pago', $resultado['id_clase_pago'])
+                ->where('id_apertura', $id_apertura)
+                ->get()
+                ->getRow();
+
+            $total = $total ? $total->suma_transferencia : 0;
+
+            // Buscar nombre del medio de pago
+            $nombreMedio = model('clasePagoModel')
+                ->select('nombre')
+                ->where('id', $resultado['id_clase_pago'])
+                ->first();
+
+            $nombreMedio = $nombreMedio ? $nombreMedio['nombre'] : 'Desconocido';
+
+            // Definir ancho fijo para las columnas
+            $anchoNombre = 17; // máximo 20 caracteres para la columna de nombres
+            $anchoValor  = 15; // ancho para los valores
+
+            // Cortar el nombre si es más largo que el ancho permitido
+            $col1 = mb_strimwidth($nombreMedio, 0, $anchoNombre, "", "UTF-8");
+
+            // Rellenar a la derecha con espacios hasta el ancho fijo
+            $col1 = str_pad($col1, $anchoNombre, " ", STR_PAD_RIGHT);
+
+            // Alinear el valor a la derecha
+            $col2 = str_pad("$ " . number_format($total, 0, ",", "."), $anchoValor, " ", STR_PAD_LEFT);
+
+            // Imprimir fila
+            $printer->text($col1 . $col2 . "\n");
+        }
+
+
+
+
+
         $printer->text("Total ingresos          " . "$ " . number_format(($ingresos_efectivo[0]['efectivo']  + $valor_apertura['valor'] + $ingresos_transaccion[0]['transferencia']), 0, ",", ".") . "\n");
 
 
