@@ -560,7 +560,7 @@ $routes->group('pedidos', ['namespace' => 'App\Controllers\pedidos', 'filter' =>
     $routes->post('restar_producto', 'Mesas::restar_producto');
     $routes->post('productos_pedido', 'Mesas::productos_pedido');
     $routes->post('partir_factura', 'PartirFactura::partir_factura');
-    $routes->post('valor', 'PartirFactura::valor');
+    $routes->POST('valor', 'PartirFactura::valor');
     $routes->post('cerrar_venta', 'CerrarVenta::cerrar_venta');
     $routes->post('imprimir_factura', 'Imprimir::imprimir_factura');
     $routes->post('actualizar_cantidad_pago_parcial', 'PartirFactura::actualizar_cantidad_pago_parcial');

@@ -62,11 +62,11 @@ class PartirFactura extends BaseController
         }
     }
 
-    function valor()
+    /*    function valor()
     {
 
-        $id_usuario = $this->request->getPost('id_usuario');
-        //$id_usuario = 6; 
+        //$id_usuario = $this->request->getPost('id_usuario');
+        $id_usuario = 6;
 
         $rol = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
 
@@ -75,7 +75,10 @@ class PartirFactura extends BaseController
 
             $estado_licencia = model('configuracionPedidoModel')->select('estado_licencia')->first();
 
-            if (!empty($tiene_apertura['id'])) {
+
+
+            //if (!empty($tiene_apertura['id'])) {
+            if ($tiene_apertura != NULL) {
                 $impuestos = new Impuestos();
 
 
@@ -148,19 +151,126 @@ class PartirFactura extends BaseController
                 }
 
                 echo json_encode($returnData);
-            }
-        } else if (empty($tiene_apertura['id'])) {
-            $returnData = array(
-                "resultado" => 0,
-            );
-            echo  json_encode($returnData);
-        } else if ($rol['idtipo'] != 1) {
+            } else if ($tiene_apertura == NULL) {
+                $returnData = array(
+                    "resultado" => 0,
+                );
+                echo  json_encode($returnData);
+            } else if ($rol['idtipo'] != 1) {
 
+                //} else if (empty($tiene_apertura['id'])) {
+            }
             $returnData = array(
                 "resultado" => 2,
             );
             echo  json_encode($returnData);
         }
+    }
+ */
+
+    function valor()
+    {
+        $id_usuario = $this->request->getPost('id_usuario');
+        //$id_usuario = 6;
+
+        // Obtener rol del usuario
+        $rol = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
+
+        // Validar si el rol tiene permisos
+        if (in_array($rol['idtipo'], [0, 1, 4, 5])) {
+
+            // Obtener apertura y estado de licencia
+            $tiene_apertura = model('aperturaRegistroModel')->select('id')->first();
+            $estado_licencia = model('configuracionPedidoModel')->select('estado_licencia')->first();
+
+            if ($tiene_apertura && array_key_exists('id', $tiene_apertura)) {
+                $impuestos = new Impuestos();
+
+                $id_mesa = $this->request->getPost('id_mesa');
+                //$id_mesa = 1;
+                $base = 0;
+                $tributos = 0;
+                $factura_electronica = "";
+
+                // Obtener pedido y número de pedido
+                $valor_pedido = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
+                $numero_pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
+
+                // Productos del pedido
+                $productos = model('productoPedidoModel')->where('numero_de_pedido', $numero_pedido['id'])->find();
+                $totalBase = 0;
+
+                foreach ($productos as $detalle) {
+                    $calculo = $impuestos->calcular_impuestos(
+                        $detalle['codigointernoproducto'],
+                        $detalle['valor_total'],
+                        $detalle['valor_unitario'],
+                        $detalle['cantidad_producto']
+                    );
+
+                    foreach ($calculo as $valor) {
+                        $totalBase += $valor['base_ico'] + $valor['base_iva'];
+                    }
+                }
+
+                // Obtener límite de venta
+                $maxVenta = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 48)->first();
+
+                $requiere_factura_electronica = "";
+                if ($totalBase >= $maxVenta['numeroconsecutivo']) {
+                    $factura_electronica = '
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>El valor del documento supera el monto permitido para FACTURA POS, seleccione FACTURACIÓN ELECTRÓNICA </strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+                    $requiere_factura_electronica = "si";
+                } else {
+                    $factura_electronica = "";
+                    $requiere_factura_electronica = "no";
+                }
+
+                // Validar productos con valor cero
+                $productoCero = model('productoPedidoModel')
+                    ->where('valor_unitario', 0)
+                    ->where('numero_de_pedido', $numero_pedido['id'])
+                    ->first();
+
+                $facturarCero = model('configuracionPedidoModel')->select('facturar_cero')->first();
+
+                $resultado = ($productoCero !== null && $facturarCero['facturar_cero'] === 'f') ? 2 : 1;
+
+                $returnData = [
+                    "resultado" => $resultado
+                ];
+
+                if ($resultado === 1) {
+                    $returnData += [
+                        "total" => "Total: $" . number_format($valor_pedido['valor_total'], 0, ",", "."),
+                        "sub_total" => "Sub total: $" . number_format($valor_pedido['valor_total'], 0, ",", "."),
+                        "valor_total" => $valor_pedido['valor_total'],
+                        "factura_electronica" => $factura_electronica,
+                        "requiere_factura_electronica" => $requiere_factura_electronica,
+                        "estado_licencia" => $estado_licencia['estado_licencia']
+                    ];
+                }
+
+                echo json_encode($returnData);
+                return;
+            }
+
+            // Si no hay apertura
+            $returnData = [
+                "resultado" => 0
+            ];
+            echo json_encode($returnData);
+            return;
+        }
+
+        // Si el rol no tiene permisos
+        $returnData = [
+            "resultado" => 2
+        ];
+        echo json_encode($returnData);
     }
 
     function actualizar_cantidad_pago_parcial()
