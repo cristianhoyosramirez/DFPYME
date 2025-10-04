@@ -61,6 +61,18 @@
           </a>
         </div>
       </div>
+      <div class="nav-item dropdown d-none d-md-flex me-3">
+        <a href="<?= base_url() ?>/login/closeSesion" class="nav-link px-0" title="Cerrar sesión" data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="ocultar_menu()">
+          <!-- Download SVG icon from http://tabler-icons.io/i/power -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M7 6a7.75 7.75 0 1 0 10 0" />
+            <line x1="12" y1="4" x2="12" y2="12" />
+          </svg>
+
+        </a>
+
+      </div>
     </div>
     <?php $id_tipo = model('empresaModel')->select('fk_tipo_empresa')->first() ?>
 
@@ -562,7 +574,7 @@
                         <line x1="15" y1="16" x2="15" y2="20" />
                       </svg>Cierre de caja
                     </a>
-                    <?php if ($user_session->tipo == 0 ) { ?>
+                    <?php if ($user_session->tipo == 0) { ?>
                       <a class="dropdown-item" href="<?= base_url() ?>/consultas_y_reportes/consultas_caja">
                         <!-- Download SVG icon from http://tabler-icons.io/i/question-mark -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

@@ -63,6 +63,14 @@
             }
         </script>  -->
 
+        <script>
+            function categoria(valor){
+
+                alert(valor)
+
+            }
+        </script>
+
 
         <script>
             // Función para eliminar cualquier formato (como separadores de miles) y dejar solo el número
