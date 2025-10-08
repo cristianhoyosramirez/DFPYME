@@ -28,15 +28,16 @@ class Ventas extends BaseController
     {
 
         $id_apertura = $this->request->getPost('id_apertura');
-        //$id_apertura = 61;
+        // $id_apertura = 438;
         $movimientos = model('pagosModel')->where('id_apertura', $id_apertura)->orderBy('id', 'desc')->findAll();
         $ventas_pos = model('pagosModel')->set_ventas_pos($id_apertura);
 
         $ventas_electronicas = model('pagosModel')->set_ventas_electronicas($id_apertura);
         //dd($ventas_electronicas);
         $propinas = model('pagosModel')->selectSum('propina')->where('id_apertura', $id_apertura)->findAll();
-        $efectivo = model('pagosModel')->selectSum('recibido_efectivo')->where('id_apertura', $id_apertura)->findAll();
-        $transferencia = model('pagosModel')->selectSum('recibido_transferencia')->where('id_apertura', $id_apertura)->findAll();
+        //$efectivo = model('pagosModel')->selectSum('recibido_efectivo')->where('id_apertura', $id_apertura)->findAll();
+        $efectivo = model('pagosModel')->selectSum('efectivo')->where('id_apertura', $id_apertura)->findAll();
+        $transferencia = model('pagosModel')->selectSum('transferencia')->where('id_apertura', $id_apertura)->findAll();
         $cambio = model('pagosModel')->selectSum('cambio')->where('id_apertura', $id_apertura)->findAll();
 
 
@@ -53,9 +54,9 @@ class Ventas extends BaseController
             "ventas_pos" => "$" . number_format($ventas_pos[0]['valor'], 0, ",", "."),
             "ventas_electronicas" => "$" . number_format($ventas_electronicas[0]['valor'], 0, ",", "."),
             "propinas" => "$" . number_format($propinas[0]['propina'], 0, ",", "."),
-            "efectivo" => "$" . number_format($efectivo[0]['recibido_efectivo'], 0, ",", "."),
-            "transferencia" => "$" . number_format($transferencia[0]['recibido_transferencia'], 0, ",", "."),
-            "total_ingresos" => "$" . number_format(($transferencia[0]['recibido_transferencia'] + $efectivo[0]['recibido_efectivo']) - $cambio[0]['cambio'], 0, ",", "."),
+            "efectivo" => "$" . number_format($efectivo[0]['efectivo'], 0, ",", "."),
+            "transferencia" => "$" . number_format($transferencia[0]['transferencia'], 0, ",", "."),
+            "total_ingresos" => "$" . number_format(($transferencia[0]['transferencia'] + $efectivo[0]['efectivo']), 0, ",", "."),
             "valor" => "$" . number_format($valor[0]['valor'], 0, ",", "."),
             "total_documento" => "$" . number_format($total_documento[0]['total_documento'], 0, ",", "."),
             //"total_documento" => "$" . number_format($ventas_pos[0]['valor'] + $ventas_electronicas[0]['valor'], 0, ",", "."),
@@ -70,6 +71,7 @@ class Ventas extends BaseController
     function exportar_excel()
     {
         $id_apertura = $this->request->getPost('id_apertura');
+        //$id_apertura = 441;
         $fechaApertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
 
         $fechaCierre = model('cierreModel')->select('fecha')->where('idapertura', $id_apertura)->first();
@@ -197,8 +199,8 @@ class Ventas extends BaseController
         $ventas_electronicas = model('pagosModel')->set_ventas_electronicas($id_apertura);
         $ventas_pos = model('pagosModel')->set_ventas_pos($id_apertura);
         $propinas = model('pagosModel')->selectSum('propina')->where('id_apertura', $id_apertura)->findAll();
-        $transferencia = model('pagosModel')->selectSum('recibido_transferencia')->where('id_apertura', $id_apertura)->findAll();
-        $efectivo = model('pagosModel')->selectSum('recibido_efectivo')->where('id_apertura', $id_apertura)->findAll();
+        $transferencia = model('pagosModel')->selectSum('transferencia')->where('id_apertura', $id_apertura)->findAll();
+        $efectivo = model('pagosModel')->selectSum('efectivo')->where('id_apertura', $id_apertura)->findAll();
 
         $sheet->setCellValue('A' . $row, 'Venta Electrónica'); // Coloca "Venta Electrónica" en la columna A
         $sheet->setCellValue('B' . $row, $ventas_electronicas[0]['valor']); // Coloca 1 millón en la columna D
@@ -211,9 +213,111 @@ class Ventas extends BaseController
         $sheet->setCellValue('B' . $row, $transferencia[0]['recibido_transferencia']); // */
 
 
-        $pago = model('pagosModel')->total_formas_pago($id_apertura);
+        //$pago = model('pagosModel')->total_formas_pago($id_apertura);
+        /*     $pago = model('pagosModel')->id_forma_pago($id_apertura);
+        //$pago_efectivo = model('pagosModel')->id_forma_pago_efectivo($id_apertura);
 
-        foreach ($pago as $keyPago) {
+
+
+
+        if (!empty($pago)) {
+            foreach ($pago as $keyPago) {
+                $nombre_comercial = model('clasePagoModel')
+                    ->select('nombre')
+                    ->where('id', $keyPago['id_clase_pago'])
+                    ->first();
+
+                $total = model('pagosModel')
+                    ->selectSum('transferencia')
+                    ->where('id_clase_pago !=', 0)
+                    ->where('id_clase_pago', $keyPago['id_clase_pago'])
+                    ->where('id_apertura', $id_apertura)
+                    ->first();
+
+
+                
+                // Limita el texto del nombre comercial
+                $nombre = $nombre_comercial['nombre'] ?? 'Sin nombre';
+
+                // Formatea el monto con separación de miles
+                $monto = $total['transferencia'];
+
+            
+
+                // Escribe los datos en el Excel
+                $row++;
+                $sheet->setCellValue('A' . $row, $nombre);
+                $sheet->setCellValue('B' . $row, $monto);
+            }
+        } 
+            // Si $pago está vacío
+
+            $total_efectivo = model('pagosModel')
+                ->selectSum('efectivo')
+                ->where('id_apertura', $id_apertura)
+                ->where('id_clase_pago', 0)
+                ->first();
+
+            // Limita el texto del nombre comercial
+            $nombre = "EFECTIVO";
+
+            // Formatea el monto con separación de miles
+            $monto = number_format($total['efectivo'] ?? 0, 0, ',', '.');
+
+            // Escribe los datos en el Excel
+            $row++;
+            $sheet->setCellValue('A' . $row, $nombre);
+            $sheet->setCellValue('B' . $row, $monto); */
+
+
+        $pago = model('pagosModel')->id_forma_pago($id_apertura);
+
+        if (!empty($pago)) {
+            foreach ($pago as $keyPago) {
+                $nombre_comercial = model('clasePagoModel')
+                    ->select('nombre')
+                    ->where('id', $keyPago['id_clase_pago'])
+                    ->first();
+
+                $total = model('pagosModel')
+                    ->selectSum('transferencia')
+                    ->where('id_clase_pago !=', 0)
+                    ->where('id_clase_pago', $keyPago['id_clase_pago'])
+                    ->where('id_apertura', $id_apertura)
+                    ->first();
+
+                // Limita el texto del nombre comercial
+                $nombre = $nombre_comercial['nombre'] ?? 'Sin nombre';
+
+                // Formatea el monto con separación de miles
+                $monto = $total['transferencia'] ;
+
+                // Escribe los datos en el Excel
+                $row++;
+                $sheet->setCellValue('A' . $row, $nombre);
+                $sheet->setCellValue('B' . $row, $monto);
+            }
+        } 
+        //else {
+            // Si no existen pagos con clase, pinta el total en efectivo
+            $total_efectivo = model('pagosModel')
+                ->selectSum('efectivo')
+                ->where('id_apertura', $id_apertura)
+                //->where('efectivo >', 0)
+                ->first();
+
+            $nombre = "EFECTIVO";
+            $monto = $total_efectivo['efectivo'] ;
+
+            $row++;
+            $sheet->setCellValue('A' . $row, $nombre);
+            $sheet->setCellValue('B' . $row, $monto);
+       // }
+
+
+
+
+        /*   foreach ($pago as $keyPago) {
             $nombre_comercial = model('medioPagoModel')->getNombre($keyPago['medio_pago']);
             $total = model('medioPagoModel')->getTotalExcel($keyPago['medio_pago'], $id_apertura);
 
@@ -228,11 +332,11 @@ class Ventas extends BaseController
             $row++;
             $sheet->setCellValue('A' . $row, $nombre); // Escribe el nombre comercial en la columna A
             $sheet->setCellValue('B' . $row, $monto);  // Escribe el monto en la columna B
-        }
+        } */
 
         $row++;
         $sheet->setCellValue('A' . $row, 'Total ingresos'); // Coloca "Valor Neto" en la columna A
-        $sheet->setCellValue('B' . $row, $transferencia[0]['recibido_transferencia'] + $efectivo[0]['recibido_efectivo']); //
+        $sheet->setCellValue('B' . $row, $transferencia[0]['transferencia'] + $efectivo[0]['efectivo']); //
 
         $writer = new Xlsx($spreadsheet);
         $writer->save($file_name);
@@ -1257,9 +1361,13 @@ class Ventas extends BaseController
         $valor_apertura = model('aperturaModel')->select('valor')->where('id', $id_apertura['idapertura'])->first();
         $fecha_y_hora_apertura = model('aperturaModel')->select('fecha_y_hora_apertura')->where('id', $id_apertura['idapertura'])->first();
 
-        $data = [
+       /*  $data = [
             'valor' => str_replace(".", "", $valor_cierre)
-        ];
+        ]; */
+
+        $data = [
+    'valor' => str_replace([".", ","], "", $valor_cierre)
+];
 
         $model = model('cierreFormaPagoModel');
         $actualizar = $model->set($data);

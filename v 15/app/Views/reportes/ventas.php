@@ -80,7 +80,7 @@
                     <td><?php echo "$ " . number_format($valor['valor'], 0, ",", ".") ?></td>
                     <td><?php echo "$ " . number_format($valor['propina'], 0, ",", ".") ?></td>
                     <td><?php echo "$ " . number_format($valor['total_documento'], 0, ",", ".") ?></td>
-                    <td><?php echo "$ " . number_format($valor['recibido_efectivo'], 0, ",", ".") ?></td>
+                    <td><?php echo "$ " . number_format($valor['efectivo'], 0, ",", ".") ?></td>
                     <td><?php echo "$ " . number_format($valor['recibido_transferencia'], 0, ",", ".") ?></td>
                     <td><?php echo "$ " . number_format($valor['total_pago'], 0, ",", ".") ?></td>
                     <!-- <td><?php #echo "$ " . number_format($valor['cambio'], 0, ",", ".") 

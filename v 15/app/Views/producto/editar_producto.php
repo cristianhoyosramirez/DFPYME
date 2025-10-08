@@ -42,7 +42,7 @@
 
     <div class="col-md-3">
         <label for="inputPassword4" class="form-label">Nombre producto</label>
-        <input type="text" class="form-control" id="crear_producto_nombre" name="crear_producto_nombre" onkeyup="saltar_creacion_producto(event,'categoria_producto'),minusculasAmayusculas()" value="<?php echo $nombre_producto ?>">
+        <input type="text" class="form-control" id="crear_producto_nombre" name="crear_producto_nombre" onkeyup="saltar_creacion_producto(event,'editar_categoria_producto'),minusculasAmayusculas()" value="<?php echo $nombre_producto ?>">
         <span class="text-danger error-text crear_producto_nombre_error"></span>
     </div>
 
@@ -52,7 +52,7 @@
 
 
         <div class="input-group">
-            <select class="form-select" id="editar_categoria_producto" name="edicion_de_categoria_producto" onkeyup="saltar_creacion_producto(event,'marca_producto')" onchange="categoria(this.value)">
+            <select class="form-select" id="editar_categoria_producto" name="edicion_de_categoria_producto" onkeyup="saltar_creacion_producto(event,'edicion_de_valor_costo_producto')" onchange="categoria(this.value)">
 
                 <?php foreach ($categorias as $detalle) { ?>
 
@@ -166,7 +166,7 @@
                     <path d="M12 6v2m0 8v2" />
                 </svg>
             </span>
-            <input type="text" class="form-control" id="edicion_de_valor_costo_producto" value="<?php echo number_format($valor_costo, 0, ",", ".") ?>" name="edicion_de_valor_costo_producto" onkeyup="saltar_creacion_producto(event,'valor_venta_producto')">
+            <input type="text" class="form-control" id="edicion_de_valor_costo_producto" value="<?php echo number_format($valor_costo, 0, ",", ".") ?>" name="edicion_de_valor_costo_producto" onkeyup="saltar_creacion_producto(event,'editar_valor_venta_producto')">
         </div>
         <span class="text-danger error-text edicion_de_valor_costo_producto_error"></span>
     </div>
@@ -265,7 +265,7 @@
                     <path d="M12 6v2m0 8v2" />
                 </svg>
             </span>
-            <input type="text" class="form-control" id="editar_valor_venta_producto" name="editar_valor_venta_producto" value="<?php echo number_format($valor_venta, 0, ",", ".") ?>" onkeyup="saltar_creacion_producto(event,'precio_2')">
+            <input type="text" class="form-control" id="editar_valor_venta_producto" name="editar_valor_venta_producto" value="<?php echo number_format($valor_venta, 0, ",", ".") ?>" onkeyup="saltar_creacion_producto(event,'editar_precio_2')">
         </div>
         <span class="text-danger error-text editar_valor_venta_producto_error"></span>
     </div>
@@ -282,7 +282,7 @@
                     <path d="M12 6v2m0 8v2" />
                 </svg>
             </span>
-            <input type="text" class="form-control" id="editar_precio_2" name="precio_2" onkeyup="saltar_creacion_producto(event,'btn_crear_producto'),hablilitar_boton(event)" value="<?php echo $precio_2 ?>">
+            <input type="text" class="form-control" id="editar_precio_2" name="precio_2" onkeyup="saltar_creacion_producto(event,'editar_precio_3'),hablilitar_boton(event)" value="<?php echo $precio_2 ?>">
         </div>
         <span class="text-danger error-text precio_2_error"></span>
     </div>
@@ -362,7 +362,7 @@
 
 
     <div class="col-6">
-        <button type="submit" class="btn btn-success" id="btnguardar_cambios_edicion_producto">Guardar cambios</button>
+        <button type="button" class="btn btn-success" id="btnguardar_cambios_edicion_producto">Guardar cambios</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
     </div>
 </form>
@@ -457,7 +457,7 @@
 </script>
 
 
-<!--Actualizar precio  producto -->
+<!--Actualizar precio  producto 
 <script>
     $('#cambiar_datos_de_producto').submit(function(e) {
         e.preventDefault();
@@ -499,6 +499,73 @@
                         Toast.fire({
                             icon: 'success',
                             title: 'Edición de producto correcta  '
+                        })
+                    } else {
+                        alert(data.msg);
+                    }
+                } else {
+                    $.each(data.error, function(prefix, val) {
+                        $(form).find('span.' + prefix + '_error').text(val);
+                    });
+                }
+            }
+        });
+    });
+</script>-->
+
+
+<script>
+    // Detectar click en el botón
+    $('#btnguardar_cambios_edicion_producto').click(function() {
+        // Cambiar el tipo a submit
+        $(this).attr('type', 'submit');
+        // Disparar el submit del formulario
+        $('#cambiar_datos_de_producto').submit();
+        // Volver a dejar el botón como tipo button para evitar envíos múltiples accidentales
+        $(this).attr('type', 'button');
+    });
+
+    // Tu código AJAX para enviar el formulario
+    $('#cambiar_datos_de_producto').submit(function(e) {
+        e.preventDefault();
+        var form = this;
+        let button = document.querySelector("#btnguardar_cambios_edicion_producto");
+        button.disabled = true;
+
+        $.ajax({
+            url: $(form).attr('action'),
+            method: $(form).attr('method'),
+            data: new FormData(form),
+            processData: false,
+            dataType: 'json',
+            contentType: false,
+            beforeSend: function() {
+                $(form).find('span.error-text').text('');
+                button.disabled = false;
+            },
+            success: function(data) {
+                if ($.isEmptyObject(data.error)) {
+                    if (data.code == 1) {
+                        $("#edicion_de_producto").modal("hide");
+                        $(form)[0].reset();
+                        table = $('#example').DataTable();
+                        table.draw();
+
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Edición de producto correcta'
                         })
                     } else {
                         alert(data.msg);

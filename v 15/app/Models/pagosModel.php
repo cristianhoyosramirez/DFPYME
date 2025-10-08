@@ -59,6 +59,19 @@ WHERE id_apertura = $id_apertura
         return $datos->getResultArray();
     }
 
+    public function id_forma_pago($id_apertura)
+    {
+        $datos = $this->db->query("
+            SELECT DISTINCT(id_clase_pago)
+FROM pagos
+WHERE id_apertura = $id_apertura
+AND id_clase_pago IS NOT NULL
+AND id_clase_pago <> 0;
+;
+    ");
+        return $datos->getResultArray();
+    }
+
     public function set_ventas_electronicas($id_apertura)
     {
         $datos = $this->db->query("
