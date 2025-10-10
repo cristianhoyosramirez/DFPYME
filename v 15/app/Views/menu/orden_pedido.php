@@ -19,13 +19,14 @@ HOME
         <select name="preguntar_impresora_prefactura" id="preguntar_impresora_prefactura"
             class="form-select"
             onchange="guardarConfiguracion(this.value)">
-            <option value="true" <?= (isset($config) && $config->preguntar_impresora_prefactura) ? 'selected' : '' ?>>
+            <option value="true" <?= ($modoImpresion === 't') ? 'selected' : '' ?>>
                 Preguntar impresora
             </option>
-            <option value="false" <?= (isset($config) && !$config->preguntar_impresora_prefactura) ? 'selected' : '' ?>>
+            <option value="false" <?= ($modoImpresion === 'f') ? 'selected' : '' ?>>
                 Imprimir directo
             </option>
         </select>
+
     </div>
 </div>
 

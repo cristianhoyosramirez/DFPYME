@@ -63,13 +63,37 @@
             }
         </script>  -->
 
-        <script>
-            function categoria(valor){
+     <script>
+async function categoria(valor) {
+    try {
+        // Ejemplo: enviar el valor al servidor
+        const response = await fetch("<?= base_url('reportes/consultasCategoria') ?>", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ categoria: valor })
+        });
 
-                alert(valor)
+        if (!response.ok) {
+            throw new Error("Error en la petición: " + response.status);
+        }
 
-            }
-        </script>
+        // Convertir la respuesta a JSON
+        const data = await response.json();
+
+        // Mostrar respuesta en consola o procesarla
+        console.log("Respuesta del servidor:", data);
+
+        // Aquí puedes actualizar el DOM si lo necesitas
+        // document.getElementById("resultado").innerText = data.mensaje;
+
+    } catch (error) {
+        console.error("Ocurrió un error:", error);
+    }
+}
+</script>
+
 
 
         <script>

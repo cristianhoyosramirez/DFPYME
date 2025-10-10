@@ -44,26 +44,47 @@ class ConsultasController extends BaseController
         ]);
     }
 
-    function ventas_hora(){
+    function ventas_hora()
+    {
 
         return view('reportes/reporte_horas');
-        
     }
 
 
-    function validarMesaPedido(){
+    function validarMesaPedido()
+    {
 
         $json = $this->request->getJSON();
         $idMesa = $json->id_mesa;
 
 
-        $tienePedido=model('pedidoModel')->where('fk_mesa',$idMesa)->first();
+        $tienePedido = model('pedidoModel')->where('fk_mesa', $idMesa)->first();
 
         //if ()
-          return $this->response->setJSON([
+        return $this->response->setJSON([
             'response' => 'success',
-          
-        ]);
 
+        ]);
+    }
+
+
+    function consultasCategoria()
+    {
+
+        $json = $this->request->getJSON();
+        $codigoCategoria = $json->categoria;
+
+        $subCategorias = model('categoriasModel')->select('subcategoria')->where('codigocategoria', $codigoCategoria)->first();
+
+
+        if ($subCategorias['subcategoria'] == 't') {
+
+            $subCategorias=model('subCategoriaModel')->select('id,nombre')->where('id_categoria',$codigoCategoria)->first();
+
+            return $this->response->setJSON([
+                'response' => 'success',
+
+            ]);
+        }
     }
 }

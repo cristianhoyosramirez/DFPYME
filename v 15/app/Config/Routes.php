@@ -713,6 +713,7 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->get('reporteUsuario', 'ConsultasController::index');
     $routes->post('reporteVentasUsuario', 'ConsultasController::reporteVentasUsuario');
     $routes->get('ventas_hora', 'ConsultasController::ventas_hora');
+    $routes->post('consultasCategoria', 'ConsultasController::consultasCategoria');
 });
 
 

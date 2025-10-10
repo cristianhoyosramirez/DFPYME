@@ -93,6 +93,8 @@
             </thead>
             <tbody>
 
+            
+
                 <?php foreach ($iva as $detalle) { ?>
                     <tr>
                         <th><?php echo $detalle['tarifa_iva'] ?>%</th> <!-- TARIFA IVA  -->

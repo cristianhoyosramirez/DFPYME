@@ -552,11 +552,11 @@ Bienvenido DFpyme
                                 <div class="col-md-6">
 
 
-                                    <?php $configuracionImpresionOrden = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();  ?>
+                                    <?php $configuracionImpresionOrden = model('configuracionPedidoModel')->select('preguntar_impresora_prefactura')->first();  ?>
 
                                     <input
                                         type="text"
-                                        value="<?php echo $configuracionImpresionOrden['permitir_impresion_texto_propina'] ?>"
+                                        value="<?php echo $configuracionImpresionOrden['preguntar_impresora_prefactura'] ?>"
                                         id="configuracionOrden"
                                         hidden>
 

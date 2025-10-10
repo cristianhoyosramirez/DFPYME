@@ -394,8 +394,11 @@ class edicionEliminacionFacturaPedidoController extends BaseController
     {
         //$idSalon=model('salonesModel')->where('tipo',1)->first();
 
+        $modoImopresion = model('configuracionPedidoModel')->select('preguntar_impresora_prefactura')->first();
 
-        return view('menu/orden_pedido');
+        return view('menu/orden_pedido',[
+            'modoImpresion'=>$modoImopresion['preguntar_impresora_prefactura']
+        ]);
     }
 
     public function menuPedidosWhatsapp()
@@ -529,8 +532,9 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
         $json = $this->request->getJSON();
         $valor = $json->preguntar_impresora_prefactura;
+        //$valor = false;
 
-        $actualizar = model('configuracionPedidoModel')->set('permitir_impresion_texto_propina', $valor)->update();
+        $actualizar = model('configuracionPedidoModel')->set('preguntar_impresora_prefactura', $valor)->update();
 
         if ($actualizar) {
             return $this->response->setJSON([

@@ -2120,6 +2120,8 @@ class cajaDiariaController extends BaseController
                 array_push($array_iva, $data_iva);
             }
 
+        
+
             $ico = model('kardexModel')->fiscal_ico($id_inicial[0]['id'], $id_final[0]['id']);
             //  $array_ico = array();
 

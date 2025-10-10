@@ -1153,7 +1153,7 @@ class Imprimir extends BaseController
 
         //$milibreria = new Ejemplolibreria();
         //$data = $milibreria->getRegistros();
-        
+
         return $this->response->setJSON([
             'response' => 'success'
         ]);
@@ -1335,7 +1335,9 @@ class Imprimir extends BaseController
     {
 
         $id_apertura = $this->request->getPost('id_apertura');
+        //$id_apertura = 311;
         $id_usuario = $this->request->getPost('id_usuario');
+        //$id_usuario = 6;
         $nombreUsuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario)->first();
         //$id_apertura = 38;
 
@@ -1405,6 +1407,7 @@ class Imprimir extends BaseController
             $iva = model('pagosModel')->fiscal_iva($id_inicial[0]['id'], $id_final[0]['id']);
             $array_iva = array();
 
+
             $facturas = model('facturaElectronicaModel')->getFacturasTrasmitidas($id_inicial[0]['id'], $id_final[0]['id']);
             $array_iva = []; // Arreglo para almacenar los resultados finales.
 
@@ -1422,8 +1425,10 @@ class Imprimir extends BaseController
                         $iva_factura = model('kardexModel')->get_iva_electronico($keyFacturas['id'], $tarifa_iva);   //Obtengo el IVA de la factura 
                         $total_factura = model('kardexModel')->total_iva_electronico($keyFacturas['id'], $tarifa_iva); //Obtengo el total de la factura 
 
+
                         if (!empty($iva_factura) && !empty($total_factura)) {
                             // Acumular valores por tarifa.
+
                             $total_base += $total_factura[0]['total'] - $iva_factura[0]['iva'];
                             $total_iva += $iva_factura[0]['iva'];
                             $total_venta += $total_factura[0]['total'];
@@ -1437,6 +1442,9 @@ class Imprimir extends BaseController
                         'total_iva' => $total_iva,
                         'valor_venta' => $total_venta,
                     ];
+
+
+
                     array_push($array_iva, $data_iva);
                 }
             } else {
@@ -1446,6 +1454,8 @@ class Imprimir extends BaseController
                 $data_iva['valor_venta'] = 0;
                 array_push($array_iva, $data_iva);
             }
+
+
 
             $ico = model('kardexModel')->fiscal_ico($id_inicial[0]['id'], $id_final[0]['id']);
             //  $array_ico = array();
@@ -1593,21 +1603,40 @@ class Imprimir extends BaseController
 
             // Título de la tabla
             $printer->setEmphasis(true);
-            $printer->text("-----------------------------------------------\n");
+            /*  $printer->text("-----------------------------------------------\n");
             $printer->text("Tarifa    Base gravable   Valor IVA   Val total\n");
             $printer->text("-----------------------------------------------\n");
             $printer->setEmphasis(false);
 
+        
             // Añadir los datos de la tabla
             foreach ($array_iva as $detalle) {
                 //$printer->text($detalle['tarifa_iva']%  "   "  .$detalle['total_iva']."  ".$detalle['valor_venta'] );
                 $printer->text(
                     $detalle['tarifa_iva'] . "%         " .
-                        "$" . number_format($detalle['total_iva'], 0, ",", ".") . "            " .
+                        "$" . number_format($detalle['base'], 0, ",", ".") . "            " .
                         0 . "          " .
                         "$" . number_format($detalle['valor_venta'], 0, ",", ".") . "\n"
                 );
+            } */
+
+            $printer->text("-----------------------------------------------\n");
+            $printer->text("Tarifa   Base Gravable   Valor IVA   Val Total\n");
+            $printer->text("-----------------------------------------------\n");
+            $printer->setEmphasis(false);
+
+            // Añadir los datos de la tabla
+            foreach ($array_iva as $detalle) {
+
+                $tarifa       = str_pad($detalle['tarifa_iva'] . "%", 2, " ", STR_PAD_RIGHT);
+                $base         = str_pad("$" . number_format($detalle['base'], 0, ",", "."), 15, " ", STR_PAD_LEFT);
+                $valor_iva    = str_pad("$" . number_format($detalle['total_iva'] ?? 0, 0, ",", "."), 13, " ", STR_PAD_LEFT);
+                $valor_total  = str_pad("$" . number_format($detalle['valor_venta'], 0, ",", "."), 13, " ", STR_PAD_LEFT);
+
+                $printer->text("$tarifa$base$valor_iva$valor_total\n");
             }
+
+
 
 
             $printer->text("\n");
