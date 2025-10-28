@@ -226,7 +226,7 @@
                                                                     value="<?= $detalleInsumo['nombreproducto']; ?>"
                                                                     class="form-control"
                                                                     id="nombreProducto_<?= $detalleInsumo['codigointernoproducto']; ?>"
-                                                                    placeholder="Nombre del producto">
+                                                                    placeholder="Nombre del producto" title="<?= $detalleInsumo['nombreproducto']; ?>">
 
                                                                 <button class="btn btn-outline-success btn-icon" title="Actualizar el nombre"
                                                                     type="button"
@@ -275,7 +275,7 @@
                                                                 <!-- Botón Eliminar -->
                                                                 <button class="btn btn-outline-danger btn-icon"
                                                                     id="del<?= $detalleInsumo['codigointernoproducto']; ?>"
-                                                                    onclick="eliminacionReceta(<?= $detalleInsumo['codigointernoproducto']; ?>, '<?= addslashes($detalleRecetas['nombreproducto']); ?>')">
+                                                                    onclick="eliminacionReceta(<?= $detalleInsumo['codigointernoproducto']; ?>, '<?= addslashes($detalleInsumo['nombreproducto']); ?>')">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
                                                                         stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -434,7 +434,7 @@
     }
 </script>
 
-<script>
+<!-- <script>
     async function eliminacionReceta(codigoProducto, nombreProducto) {
         const confirmacion = await Swal.fire({
             title: "¿Estás seguro?",
@@ -495,7 +495,78 @@
             console.error(error);
         }
     }
+</script> -->
+
+
+<script>
+    async function eliminacionReceta(codigoProducto, nombreProducto) {
+        const confirmacion = await Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Esta acción eliminará de forma permanente el producto: " + nombreProducto,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6"
+        });
+
+        // ✅ Aquí se valida si el usuario canceló
+        if (!confirmacion.isConfirmed) {
+            Swal.fire({
+                icon: "info",
+                title: "Cancelado",
+                text: "La eliminación ha sido cancelada."
+            });
+            return; // 🚫 Detiene la ejecución
+        }
+
+        try {
+            Swal.fire({
+                title: "Eliminando...",
+                text: "Por favor espera un momento.",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            const response = await fetch('<?= base_url('login/eliminarProducto') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    codigo: codigoProducto
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.response === "success") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Producto eliminado",
+                    text: "El producto se ha eliminado correctamente."
+                }).then(() => location.reload());
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: result.message || "No se pudo eliminar el producto."
+                });
+            }
+
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Error de conexión",
+                text: "No se pudo contactar con el servidor."
+            });
+            console.error(error);
+        }
+    }
 </script>
+
 
 
 

@@ -140,7 +140,7 @@ class loginController extends BaseController
             //->where('id_tipo_inventario', 3)
             //->where('id_tipo_inventario', 6)
             ->whereIn('id_tipo_inventario', [3, 7])
-            ->where('estadoproducto',true)
+            ->where('estadoproducto', true)
             ->orderBy('nombreproducto', 'asc')
             ->findAll();
 
@@ -634,6 +634,7 @@ class loginController extends BaseController
     {
         $json = $this->request->getJSON();
         $codigo = (string) ($json->codigo ?? '');
+        //$codigo = (string) (220 ?? '');
 
         if (empty($codigo)) {
             return $this->response->setJSON(['response' => 'error', 'message' => 'Código no proporcionado']);
@@ -656,6 +657,10 @@ class loginController extends BaseController
             case 1:
             case 4:
             case 7:
+                $idProducto = model('productoModel')->select('id')->where('codigointernoproducto', $codigo)->first();
+                model('EntradasSalidasManualesModel')->where('id_producto', $idProducto['id'])->delete();
+                model('inventarioFisicoModel')->where('codigointernoproducto', $codigo)->delete();
+
                 model('kardexModel')->where('codigo', $codigo)->delete();
                 model('itemFacturaElectronicaModel')->where('codigo', $codigo)->delete();
                 model('inventarioModel')->where('codigointernoproducto', $codigo)->delete();
