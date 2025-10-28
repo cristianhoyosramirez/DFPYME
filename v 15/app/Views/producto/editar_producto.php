@@ -81,23 +81,29 @@
         <?php $manejaSubCategoria = model('categoriasModel')->select('subcategoria')->where('codigocategoria', $id_categoria)->first(); ?>
 
 
+
         <?php if ($manejaSubCategoria['subcategoria'] == 't'): ?>
-            <div class="col-md-3" id="div_sub_categoria">
-                <input type="hidden" id="requiere_categoria" value=0>
-                <label for="">Sub categoria</label>
-                <select class="form-select" id="sub_categoria" name="sub_categoria">
-                    
-                    <?php foreach ($sub_categorias as $valor) { ?>
 
-                        <option value="<?php echo $valor['id'] ?>" <?php if ($valor['id'] == $id_sub_categoria['id_subcategoria']) : ?>selected <?php endif; ?>><?php echo $valor['nombre'] ?> </option>
+            <input type="hidden" id="requiere_categoria" value=0>
+            <label for="">Sub categoria</label>
+            <select class="form-select" id="sub_categoria" name="sub_categoria">
 
-                    <?php } ?>
-                </select>
+                <?php foreach ($sub_categorias as $valor) { ?>
 
-                <span class="text-danger " id="error_sub_categoria"></span>
-            </div>
+                    <option value="<?php echo $valor['id'] ?>" <?php if ($valor['id'] == $id_sub_categoria['id_subcategoria']) : ?>selected <?php endif; ?>><?php echo $valor['nombre'] ?> </option>
+
+                <?php } ?>
+            </select>
+
+            <span class="text-danger " id="error_sub_categoria"></span>
+
         <?php endif ?>
+
     <?php endif ?>
+
+    <div  id="edicion_div_sub_categoria">
+
+    </div>
 
     <div class="col-md-3" style="display: none;">
         <label for="">Marca</label>

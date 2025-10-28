@@ -9,8 +9,22 @@ class pedidoModel extends Model
     protected $table      = 'pedido';
     // Uncomment below if you want add primary key
     // protected $primaryKey = 'id';
-    protected $allowedFields = ['fk_mesa', 'fk_usuario', 'valor_total', 'nota_pedido', 'cantidad_de_productos', 'fecha', 'numero_factura', 'base_iva', 'impuesto_iva', 'base_ico', 
-    'impuesto_ico','consulta_valor_pedido','propina','propina_parcial'];
+    protected $allowedFields = [
+        'fk_mesa',
+        'fk_usuario',
+        'valor_total',
+        'nota_pedido',
+        'cantidad_de_productos',
+        'fecha',
+        'numero_factura',
+        'base_iva',
+        'impuesto_iva',
+        'base_ico',
+        'impuesto_ico',
+        'consulta_valor_pedido',
+        'propina',
+        'propina_parcial'
+    ];
 
     protected $useTimestamps = true;
     // protected $createdField  = 'created_at';
@@ -106,5 +120,16 @@ class pedidoModel extends Model
         INNER JOIN usuario_sistema ON usuario_sistema.idusuario_sistema = pedido.fk_usuario
         ");
         return $datos->getResultArray();
+    }
+
+    public function resetNumeracion()
+    {
+        try {
+            $this->db->query("ALTER SEQUENCE pedido_id_seq RESTART WITH 1;");
+            return true; // ✅ Éxito
+        } catch (\Exception $e) {
+            log_message('error', 'Error al reiniciar la numeración: ' . $e->getMessage());
+            return false; // ❌ Error
+        }
     }
 }

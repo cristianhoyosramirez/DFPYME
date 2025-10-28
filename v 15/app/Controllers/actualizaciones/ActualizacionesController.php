@@ -97,7 +97,7 @@ class ActualizacionesController extends BaseController
 
                 break;
             case 12:
-               
+
                 $actualizar = model('ActualizacionesModel')->doce();
 
                 return $this->response->setJSON([
@@ -115,5 +115,18 @@ class ActualizacionesController extends BaseController
         echo "hola mundo";
         exit();
         return view('actualizaciones/generarActualizaciones');
+    }
+
+    function reinciarSecuencia()
+    {
+
+        $reset = model('pedidoModel')->resetNumeracion();
+
+        if ($reset) {
+            return $this->response->setJSON([
+                'response' => 'success',
+
+            ]);
+        }
     }
 }

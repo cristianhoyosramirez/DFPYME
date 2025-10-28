@@ -30,7 +30,7 @@ class FacturaElectronica extends BaseController
             $clase_pago = 0;
         }
 
-       
+
         $id_mesa = $this->request->getPost('id_mesa');
         // $id_mesa = 6;
 
@@ -69,7 +69,14 @@ class FacturaElectronica extends BaseController
             $propina = $this->request->getPost('propina_format');
             $fechaLimite = $this->request->getPost('fechaLimite');
             $medio_de_pago = strval($this->request->getPost('medio_de_pago'));
-            $nota = model('pedidoModel')->select('nota_pedido')->where('fk_mesa', $id_mesa)->first();
+            $tempNota = model('pedidoModel')->select('nota_pedido')->where('fk_mesa', $id_mesa)->first();
+
+            if (empty($tempNota) || empty($tempNota['nota_pedido'])) {
+                $nota = '';
+            } else {
+                $nota = $tempNota['nota_pedido'];
+            }
+
 
 
             /* 
@@ -156,7 +163,7 @@ class FacturaElectronica extends BaseController
                 'fecha_y_hora_factura_venta' => $fecha_y_hora,
                 'id_apertura' => $apertura['numero'],
                 'propina' => $propina,
-                'nota' => $nota['nota_pedido']
+                'nota' => $nota
 
             ];
 

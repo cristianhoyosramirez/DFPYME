@@ -105,7 +105,11 @@ class impresionFacturaController extends BaseController
     {
 
 
-        $proveedores = model('ProveedorModel')->select('id, nombrecomercialproveedor, nitproveedor, direccionproveedor, telefonoproveedor')->orderBy('id', 'desc')->findAll();
+        $proveedores = model('ProveedorModel')
+            ->select('id, nombrecomercialproveedor, nitproveedor, direccionproveedor, telefonoproveedor')
+            ->orderBy('id', 'desc')
+            ->where('estadoproveedor', 'true')
+            ->findAll();
 
         return view('proveedor/proveedor', [
             'proveedores' => $proveedores
@@ -148,7 +152,9 @@ class impresionFacturaController extends BaseController
 
         ];
         $insert = model('ProveedorModel')->insert($data);
-        $proveedores = model('ProveedorModel')->select('id, nombrecomercialproveedor, nitproveedor, direccionproveedor, telefonoproveedor')->orderBy('id', 'desc')->findAll();
+        $proveedores = model('ProveedorModel')->select('id, nombrecomercialproveedor, nitproveedor, direccionproveedor, telefonoproveedor')
+            ->where('estadoproveedor', true)
+            ->orderBy('id', 'desc')->findAll();
 
         if ($insert) {
 
@@ -294,5 +300,39 @@ class impresionFacturaController extends BaseController
             'mensaje' => $estadoConsumo['mensaje_consumo'],
         );
         echo  json_encode($returnData);
+    }
+
+
+    public function eliminarProveedor()
+    {
+
+
+        $id = $this->request->getPost('id');
+
+
+        $codigo_proveedor = model('ProveedorModel')->select('codigointernoproveedor')->where('id', $id)->first();
+
+
+        // Buscar si el proveedor tiene compras asociadas 
+        $tieneCompra = model('FacturaCompraModel')
+            ->where('codigointernoproveedor', $codigo_proveedor['codigointernoproveedor'])
+            ->first();
+
+
+
+
+        if (empty($tieneCompra)) {
+
+            model('ProveedorModel')->where('id', $id)->delete();
+
+            return $this->response->setJSON(['success' => 'success', 'message' => 'Proveedor eliminado.']);
+        } else {
+
+            model('ProveedorModel')->set('estadoproveedor', 'false')
+                ->where('id', $id)
+                ->update();
+
+            return $this->response->setJSON(['success' => 'success', 'message' => 'Proveedor inactivo .']);
+        }
     }
 }

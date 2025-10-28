@@ -63,36 +63,43 @@
             }
         </script>  -->
 
-     <script>
-async function categoria(valor) {
-    try {
-        // Ejemplo: enviar el valor al servidor
-        const response = await fetch("<?= base_url('reportes/consultasCategoria') ?>", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ categoria: valor })
-        });
+        <script>
+            async function categoria(valor) {
+                try {
+                    // Ejemplo: enviar el valor al servidor
+                    const response = await fetch("<?= base_url('reportes/consultasCategoria') ?>", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            categoria: valor
+                        })
+                    });
 
-        if (!response.ok) {
-            throw new Error("Error en la petición: " + response.status);
-        }
+                    if (!response.ok) {
+                        throw new Error("Error en la petición: " + response.status);
+                    }
 
-        // Convertir la respuesta a JSON
-        const data = await response.json();
+                    // Convertir la respuesta a JSON
+                    const data = await response.json();
 
-        // Mostrar respuesta en consola o procesarla
-        console.log("Respuesta del servidor:", data);
+                    // Mostrar respuesta en consola o procesarla
+                    
+                    if (data.response == "success") {
+                        document.getElementById('edicion_div_sub_categoria').innerHTML = data.sub_categorias
+                    }
+                    if (data.response == "false") {
+                        document.getElementById('edicion_div_sub_categoria').innerHTML = ""
+                    }
+                    // Aquí puedes actualizar el DOM si lo necesitas
+                    // document.getElementById("resultado").innerText = data.mensaje;
 
-        // Aquí puedes actualizar el DOM si lo necesitas
-        // document.getElementById("resultado").innerText = data.mensaje;
-
-    } catch (error) {
-        console.error("Ocurrió un error:", error);
-    }
-}
-</script>
+                } catch (error) {
+                    console.error("Ocurrió un error:", error);
+                }
+            }
+        </script>
 
 
 
@@ -786,12 +793,12 @@ async function categoria(valor) {
                         if ($.isEmptyObject(data.error)) {
                             if (data.code == 1) {
 
-                                document.getElementById('crear_producto_nombre').value="";
-                                document.getElementById('valor_costo_producto').value=0;
-                                document.getElementById('valor_venta_producto').value=0;
-                                document.getElementById('precio_2').value=0;
-                                document.getElementById('precio_3').value=0;
-                                
+                                document.getElementById('crear_producto_nombre').value = "";
+                                document.getElementById('valor_costo_producto').value = 0;
+                                document.getElementById('valor_venta_producto').value = 0;
+                                document.getElementById('precio_2').value = 0;
+                                document.getElementById('precio_3').value = 0;
+
                                 $("#crear_producto").modal("hide");
                                 $("#div_sub_categoria").hide();
 

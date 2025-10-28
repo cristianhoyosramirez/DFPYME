@@ -889,7 +889,7 @@ class Inventarios extends BaseController
                         'codigointernoproducto' => $detalle['codigointernoproducto'],
                         'idvalor_unidad_medida' => 3,
                         'idcolor' => 0,
-                        'idlote' => 2,
+                        'idlote' => NULL,
                         'cantidadproducto_factura_proveedor' => $detalle['cantidad'],
                         'valoringresoproducto_factura_proveedor' => $detalle['valor'],
                         'ivaproducto_factura_proveedor' => 0,

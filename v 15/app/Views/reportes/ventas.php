@@ -53,7 +53,7 @@
         <tbody class="table-scroll">
             <?php foreach ($movimientos as $valor) :
 
-                $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $valor['id_mesero'])->first();
+                $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $valor['id_usuario_facturacion'])->first();
 
             ?>
 

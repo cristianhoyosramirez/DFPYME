@@ -62,6 +62,8 @@ $routes->group('login', ['namespace' => 'App\Controllers\login'], function ($rou
     $routes->get('allRecetas', 'LoginController::allRecetas');
     $routes->get('allInsumos', 'LoginController::allInsumos');
     $routes->post('updateCosto', 'LoginController::updateCosto');
+    $routes->post('actualizarNombre', 'LoginController::actualizarNombre');
+    $routes->post('eliminarProducto', 'LoginController::eliminarProducto');
 
 });
 
@@ -321,6 +323,7 @@ $routes->group('administracion_impresora', ['namespace' => 'App\Controllers\admi
     $routes->get('ProductosInventario', 'impresionFacturaController::ProductosInventario');
     $routes->post('getFormasPago', 'impresionFacturaController::getFormasPago');
     $routes->get('estadoConsumo', 'impresionFacturaController::estadoConsumo');
+    $routes->POST('eliminarProveedor', 'impresionFacturaController::eliminarProveedor');
 });
 
 
@@ -797,6 +800,7 @@ $routes->group('actualizacion', ['namespace' => 'App\Controllers\actualizaciones
     $routes->post('actualizar_mesero', 'ParametrizacionController::actualizar_mesero');
     $routes->post('consultarPrecio', 'ParametrizacionController::consultarPrecio');
     $routes->get('crearActualizaciones', 'ActualizacionesController::crearActualizaciones');  
+    $routes->get('reinciarSecuencia', 'ActualizacionesController::reinciarSecuencia');  
 });
 
 $routes->get('/qr-codes', 'QrCodeGeneratorController::index');

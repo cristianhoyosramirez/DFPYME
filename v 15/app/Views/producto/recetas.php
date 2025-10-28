@@ -82,7 +82,7 @@
 
                                                 <?php foreach ($recetas as $detalleRecetas): ?>
 
-                                                    <tr id="rowInsumo<?php echo $detalleRecetas['codigointernoproducto']; ?>" onclick="detalleReceta(<?php echo $detalleRecetas['codigointernoproducto']; ?>)" style="cursor: pointer;">
+                                                    <tr id="rowInsumo<?php echo $detalleRecetas['codigointernoproducto']; ?>" style="cursor: pointer;">
                                                         <td><?php echo $detalleRecetas['codigointernoproducto']; ?></td>
                                                         <?php
                                                         // Determinar el título según el tipo de inventario
@@ -100,16 +100,59 @@
                                                                     <path d="M11 14v-.01" />
                                                                 </svg>
                                                             <?php endif; ?>
-                                                            <?= $detalleRecetas['nombreproducto']; ?>
+
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                    value="<?= $detalleRecetas['nombreproducto']; ?>"
+                                                                    class="form-control"
+                                                                    id="nombreProducto_<?= $detalleRecetas['codigointernoproducto']; ?>"
+                                                                    placeholder="Nombre del producto">
+
+                                                                <button class="btn btn-outline-success btn-icon" title="Actualizar el nombre"
+                                                                    type="button"
+                                                                    onclick="actualizarNombreProducto(<?= $detalleRecetas['codigointernoproducto']; ?>)">
+                                                                    <!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                        <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                                        <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+
                                                         </td>
 
 
 
                                                         <td><?php echo number_format($detalleRecetas['precio_costo'], 0, ',', '.'); ?></td>
                                                         <td><?php echo number_format($detalleRecetas['valorventaproducto'], 0, ',', '.'); ?></td>
-                                                        <td>
-                                                            <button class="btn btn-outline-primary btn-sm" onclick="detalleReceta(<?php echo $detalleRecetas['codigointernoproducto']; ?>)">Ver</button>
+                                                        <td class="d-flex justify-content-center gap-2">
+                                                            <button class="btn btn-outline-primary btn-icon"
+                                                                onclick="detalleReceta(<?php echo $detalleRecetas['codigointernoproducto']; ?>)">
+                                                                <!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                    <circle cx="12" cy="12" r="2" />
+                                                                    <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" />
+                                                                </svg>
+                                                            </button>
+
+
+                                                            <button class="btn btn-outline-danger  btn-icon"
+                                                                onclick="eliminacionReceta(<?php echo $detalleRecetas['codigointernoproducto']; ?>,'<?php echo $detalleRecetas['nombreproducto']; ?>')">
+                                                                <!-- Download SVG icon from http://tabler-icons.io/i/trash -->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                    <line x1="4" y1="7" x2="20" y2="7" />
+                                                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                                </svg>
+                                                            </button>
+
                                                         </td>
+
 
                                                     </tr>
 
@@ -172,7 +215,33 @@
                                                 ?>
                                                     <tr>
                                                         <td><?php echo $detalleInsumo['codigointernoproducto'] ?></td>
-                                                        <td><?php echo $detalleInsumo['nombreproducto'] ?></td>
+
+
+                                                        <td>
+
+
+
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                    value="<?= $detalleInsumo['nombreproducto']; ?>"
+                                                                    class="form-control"
+                                                                    id="nombreProducto_<?= $detalleInsumo['codigointernoproducto']; ?>"
+                                                                    placeholder="Nombre del producto">
+
+                                                                <button class="btn btn-outline-success btn-icon" title="Actualizar el nombre"
+                                                                    type="button"
+                                                                    onclick="actualizarNombreProducto(<?= $detalleRecetas['codigointernoproducto']; ?>)">
+                                                                    <!-- Download SVG icon from http://tabler-icons.io/i/refresh -->
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                        <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                                                        <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+
+
+                                                        </td>
                                                         <td>
                                                             <select name="" class="form-select" onchange="cambiarUnidadMedida(this, '<?php echo $detalleInsumo['codigointernoproducto']; ?>')">
                                                                 <!-- Opción seleccionada por defecto -->
@@ -189,12 +258,37 @@
                                                             </select>
                                                         </td>
                                                         <td><?php echo number_format($detalleInsumo['precio_costo'], 0, ',', '.') ?></td>
-                                                        <td><button class="btn btn-outline-success btn-icon btn-sm" id="insu<?= $detalleInsumo['codigointernoproducto']; ?>" onclick="selectInsumo(<?= $detalleInsumo['codigointernoproducto']; ?>, '<?= htmlspecialchars($detalleInsumo['nombreproducto'], ENT_QUOTES, 'UTF-8'); ?>')"><!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                                                </svg></button></td>
+                                                        <td class="text-center">
+                                                            <div class="d-flex justify-content-center gap-2">
+                                                                <!-- Botón Ver -->
+                                                                <button class="btn btn-outline-success btn-icon"
+                                                                    id="insu<?= $detalleInsumo['codigointernoproducto']; ?>"
+                                                                    onclick="selectInsumo(<?= $detalleInsumo['codigointernoproducto']; ?>, '<?= htmlspecialchars($detalleInsumo['nombreproducto'], ENT_QUOTES, 'UTF-8'); ?>')">
+                                                                    <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                                                    </svg>
+                                                                </button>
+
+                                                                <!-- Botón Eliminar -->
+                                                                <button class="btn btn-outline-danger btn-icon"
+                                                                    id="del<?= $detalleInsumo['codigointernoproducto']; ?>"
+                                                                    onclick="eliminacionReceta(<?= $detalleInsumo['codigointernoproducto']; ?>, '<?= addslashes($detalleRecetas['nombreproducto']); ?>')">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                                                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                        <line x1="4" y1="7" x2="20" y2="7" />
+                                                                        <line x1="10" y1="11" x2="10" y2="17" />
+                                                                        <line x1="14" y1="11" x2="14" y2="17" />
+                                                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+
                                                     </tr>
                                                 <?php endforeach ?>
                                             </tbody>
@@ -301,6 +395,111 @@
             </div>
         </div>
 </body>
+
+
+<script>
+    async function actualizarNombreProducto(codigoProducto) {
+        // Obtener el valor del input correspondiente
+        let nombre = document.getElementById('nombreProducto_' + codigoProducto).value;
+
+        try {
+            // Mostrar en consola la acción actual
+            console.log(`Actualizando producto ${codigoProducto} con nombre: ${nombre}`);
+
+            // Petición al backend (ajusta la URL según tu ruta real en CodeIgniter)
+            const response = await fetch('<?= base_url('login/actualizarNombre') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    codigo: codigoProducto,
+                    nombre: nombre
+                })
+            });
+
+            // Convertir respuesta a JSON
+            const result = await response.json();
+
+            if (result.response == true) {
+                sweet_alert_centrado('success', 'Nombre de producto corregido')
+            } else {
+                console.error('❌ Error al actualizar el nombre:', result.message || 'Error desconocido');
+            }
+
+        } catch (error) {
+            console.error('⚠️ Error de conexión:', error);
+        }
+    }
+</script>
+
+<script>
+    async function eliminacionReceta(codigoProducto, nombreProducto) {
+        const confirmacion = await Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Esta acción eliminará de forma permanente el producto: " + nombreProducto,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6"
+        });
+
+
+
+        try {
+            Swal.fire({
+                title: "Eliminando...",
+                text: "Por favor espera un momento.",
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            const response = await fetch('<?= base_url('login/eliminarProducto') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    codigo: codigoProducto
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.response == "success") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Producto eliminado",
+                    text: "El producto se ha eliminado correctamente."
+                }).then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: result.message || "No se pudo eliminar el producto."
+                });
+            }
+
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Error de conexión",
+                text: "No se pudo contactar con el servidor."
+            });
+            console.error(error);
+        }
+    }
+</script>
+
+
+
+
 
 <script>
     async function resetarRecetas() {
@@ -471,7 +670,7 @@
 
 <script>
     async function actualizarCosto(valor, codigointerno, id) {
-        
+
         try {
             // Preparar el cuerpo de la solicitud
             let payload = {
@@ -501,7 +700,7 @@
             document.getElementById("totalCosto").value = data.costoReceta;
             document.getElementById("precioVenta").value = data.precio_venta;
             document.getElementById("rentabilidad").value = data.rentabilidad;
-            
+
             // Asegurarse que el id dinámico existe antes de asignar
             let costoTotalElem = document.getElementById("costoTotal" + data.id);
             if (costoTotalElem) {

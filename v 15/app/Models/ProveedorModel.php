@@ -30,10 +30,13 @@ class ProveedorModel extends Model
     {
 
         $datos = $this->db->query("
-                select codigointernoproveedor,nombrecomercialproveedor,nitproveedor from  proveedor 
-                where nombrecomercialproveedor ilike '%$valor%' or nitproveedor ilike '%$valor%'
+                SELECT codigointernoproveedor, nombrecomercialproveedor, nitproveedor
+FROM proveedor
+WHERE (nombrecomercialproveedor ILIKE '%$valor%' 
+       OR nitproveedor ILIKE '%$valor%')
+  AND estadoproveedor = 'true';
+
         ");
         return $datos->getResultArray();
     }
-    
 }

@@ -77,14 +77,32 @@ class ConsultasController extends BaseController
         $subCategorias = model('categoriasModel')->select('subcategoria')->where('codigocategoria', $codigoCategoria)->first();
 
 
+
         if ($subCategorias['subcategoria'] == 't') {
 
-            $subCategorias=model('subCategoriaModel')->select('id,nombre')->where('id_categoria',$codigoCategoria)->first();
+            
+
+            $sub_categorias = model('subCategoriaModel')->select('id,nombre')->where('id_categoria', $codigoCategoria)->findAll();
+
+
 
             return $this->response->setJSON([
                 'response' => 'success',
+                'sub_categorias' => view('categoria/subCategorias', [
+                    'sub_categorias' => $sub_categorias
+                ])
 
             ]);
         }
+        if ($subCategorias['subcategoria'] == 'f') {
+
+              return $this->response->setJSON([
+                'response' => 'false',
+                
+
+            ]);
+
+        }
+
     }
 }

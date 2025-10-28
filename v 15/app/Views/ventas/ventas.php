@@ -384,7 +384,7 @@ Ventas
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Eliminación de factura electrónica </h5>
-                <button type="button" class="btn-close" onclick="cerrarModal()"></button>
+                <button type="button" class="btn-close" onclick="cierreModal()"></button>
             </div>
             <div class="modal-body">
 
@@ -575,7 +575,8 @@ Ventas
 
 
 <script>
-    function cerrarModal() {
+    function cierreModal() {
+
 
         $('#modal_eliminacion_f_e').modal('hide');
         $('#password').val('');

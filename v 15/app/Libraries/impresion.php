@@ -662,7 +662,20 @@ class impresion
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("FACTURA ELECTRÓNICA DE VENTA NÚMERO: " . $numero['numero'] . "\n");
-        $printer->text("TIPO DE VENTA:   ELECTRÓNICA DE CONTADO \n");
+
+        $metodoPago=model('facturaElectronicaModel')->select('metodo_pago')->where('id',$id_factura)->first();
+
+        if ($metodoPago['metodo_pago']==1){
+            $venta="CONTADO";
+        }
+
+        if ($metodoPago['metodo_pago']==2){
+            $venta="CRÉDITO";
+        }
+
+        $printer->text("TIPO DE VENTA: ".$venta." \n");
+
+
         /* $printer->text("FECHA Y HORA DE GENERACIÓN: " . $fecha['fecha'] ." ".$hora['hora'] ."\n"); */
         $printer->text("FECHA GENERACIÓN: " . $fecha['fecha'] . "      HORA: " . $hora['hora'] . "\n");
         $printer->text("FECHA VALIDACIÓN: " . $fecha['fecha'] . "      HORA: " . $hora['hora'] . "\n");
@@ -737,7 +750,14 @@ class impresion
         $printer->text(str_pad("SUB TOTAL", 15) . ": " . str_pad("$ " . number_format($sub_total, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
 
         if ($id_regimen['idregimen'] == 1) {
-            $printer->text(str_pad("INC", 15) . ": " . str_pad("$ " . number_format($inc[0]['total_inc'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            //$printer->text(str_pad("INC", 15) . ": " . str_pad("$ " . number_format($inc[0]['total_inc'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+
+            $printer->text(
+                str_pad("INC", 15) . ": " .
+                    str_pad("$ " . number_format($inc[0]['total_inc'] ?? 0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n"
+            );
+
+
             $printer->text(str_pad("IVA", 15) . ": " . str_pad("$ " . number_format($iva[0]['total_iva'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
         }
         //$printer->text("\n");

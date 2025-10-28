@@ -162,12 +162,12 @@ class Boletas extends BaseController
 
 
         $codigo_interno = model('productoPedidoModel')->select('codigointernoproducto')->where('id', $id_producto)->first();
-        $nombreProducto=model('productoModel')->select('nombreproducto')->where('codigointernoproducto',$codigo_interno['codigointernoproducto'])->first();
+        $nombreProducto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $codigo_interno['codigointernoproducto'])->first();
         $cantidad = model('productoPedidoModel')->select('cantidad_producto')->where('id', $id_producto)->first();
 
         $model = model('productoPedidoModel');
         $actualizar = $model->set('valor_unitario', $nuevoPrecio);
-        $actualizar = $model->set('valor_total', $nuevoPrecio*$cantidad['cantidad_producto']);
+        $actualizar = $model->set('valor_total', $nuevoPrecio * $cantidad['cantidad_producto']);
         $actualizar = $model->where('id', $id_producto);
         $actualizar = $model->update();
 
@@ -181,28 +181,23 @@ class Boletas extends BaseController
         $actualizar = $model->update();
 
 
-        $valorPedido=model('pedidoModel')->select('valor_total,propina')->where('id', $numero_pedido['numero_de_pedido'])->first();
-        
+        $valorPedido = model('pedidoModel')->select('valor_total,propina')->where('id', $numero_pedido['numero_de_pedido'])->first();
+
 
         $returnData = array(
             "resultado" => 1,
-            "valorUnitario" => "$ ".number_format($nuevoPrecio, 0, ',', '.'),
-            "total" => "$ ".number_format($nuevoPrecio*$cantidad['cantidad_producto'], 0, ',', '.'),
-            'id'=>$id_producto,
-            'porcentaje'=>$porcentaje,
-            'nombreProducto'=>$nombreProducto['nombreproducto'],
-            'sub_total'=>"$".number_format($valorPedido['valor_total'], 0, ',', '.'),
-            'total_pedido'=>"$".number_format($valorPedido['valor_total']+$valorPedido['propina'], 0, ',', '.')
+            "valorUnitario" => "$ " . number_format($nuevoPrecio, 0, ',', '.'),
+            "total" => "$ " . number_format($nuevoPrecio * $cantidad['cantidad_producto'], 0, ',', '.'),
+            'id' => $id_producto,
+            'porcentaje' => $porcentaje,
+            'nombreProducto' => $nombreProducto['nombreproducto'],
+            'sub_total' => "$" . number_format($valorPedido['valor_total'], 0, ',', '.'),
+            'total_pedido' => "$" . number_format($valorPedido['valor_total'] + $valorPedido['propina'], 0, ',', '.')
 
-            
+
 
         );
         echo  json_encode($returnData);
-        
-
-
-
-        
     }
 
     function restablecerPrecio()
@@ -211,16 +206,16 @@ class Boletas extends BaseController
 
         $id_usuario = $this->request->getPost('id_usuario');
         //$nuevoPrecio = $this->request->getPost('nuevoPrecio');}
-       
+
 
 
         $codigo_interno = model('productoPedidoModel')->select('codigointernoproducto')->where('id', $id_producto)->first();
-        $datosProducto=model('productoModel')->select('nombreproducto,valorventaproducto')->where('codigointernoproducto',$codigo_interno['codigointernoproducto'])->first();
+        $datosProducto = model('productoModel')->select('nombreproducto,valorventaproducto')->where('codigointernoproducto', $codigo_interno['codigointernoproducto'])->first();
         $cantidad = model('productoPedidoModel')->select('cantidad_producto')->where('id', $id_producto)->first();
 
         $model = model('productoPedidoModel');
         $actualizar = $model->set('valor_unitario', $datosProducto['valorventaproducto']);
-        $actualizar = $model->set('valor_total', $datosProducto['valorventaproducto']*$cantidad['cantidad_producto']);
+        $actualizar = $model->set('valor_total', $datosProducto['valorventaproducto'] * $cantidad['cantidad_producto']);
         $actualizar = $model->where('id', $id_producto);
         $actualizar = $model->update();
 
@@ -234,28 +229,23 @@ class Boletas extends BaseController
         $actualizar = $model->update();
 
 
-        $valorPedido=model('pedidoModel')->select('valor_total,propina')->where('id', $numero_pedido['numero_de_pedido'])->first();
-        
+        $valorPedido = model('pedidoModel')->select('valor_total,propina')->where('id', $numero_pedido['numero_de_pedido'])->first();
+
 
         $returnData = array(
             "resultado" => 1,
-            "valorUnitario" => "$ ".number_format($datosProducto['valorventaproducto'], 0, ',', '.'),
-            "total" => "$ ".number_format($datosProducto['valorventaproducto']*$cantidad['cantidad_producto'], 0, ',', '.'),
-            'id'=>$id_producto,
+            "valorUnitario" => "$ " . number_format($datosProducto['valorventaproducto'], 0, ',', '.'),
+            "total" => "$ " . number_format($datosProducto['valorventaproducto'] * $cantidad['cantidad_producto'], 0, ',', '.'),
+            'id' => $id_producto,
             //'porcentaje'=>$porcentaje,
-            'nombreProducto'=>$datosProducto['nombreproducto'],
-            'sub_total'=>"$".number_format($valorPedido['valor_total'], 0, ',', '.'),
-            'total_pedido'=>"$".number_format($valorPedido['valor_total']+$valorPedido['propina'], 0, ',', '.')
+            'nombreProducto' => $datosProducto['nombreproducto'],
+            'sub_total' => "$" . number_format($valorPedido['valor_total'], 0, ',', '.'),
+            'total_pedido' => "$" . number_format($valorPedido['valor_total'] + $valorPedido['propina'], 0, ',', '.')
 
-            
+
 
         );
         echo  json_encode($returnData);
-        
-
-
-
-        
     }
 
     /* function actualizar_producto_porcentaje()
@@ -1375,7 +1365,7 @@ class Boletas extends BaseController
             $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
             $sub_array[] = $detalle['fecha'];
             $sub_array[] = $detalle['hora'];
-                       if (!empty($detalle['id_mesa'])) {
+            if (!empty($detalle['id_mesa'])) {
                 $tempNombreMesa = model('mesasModel')->select('nombre')->where('id', $detalle['id_mesa'])->first();
                 $mesa = $tempNombreMesa['nombre'] ?? '';
             } else {
@@ -1492,7 +1482,7 @@ class Boletas extends BaseController
         $datos = $this->db->query($sql_data)->getResultArray();
         $data = [];
 
-        
+
 
         $accion = new data_table();
         foreach ($datos as $detalle) {
@@ -1519,10 +1509,10 @@ class Boletas extends BaseController
             //$sub_array[] = $tipo_documento['descripcionestado'];
             $sub_array[] = "FE";
 
-            $nombreMesa=model('mesasModel')->getNombremesas($detalle['id']);
+            $nombreMesa = model('mesasModel')->getNombremesas($detalle['id']);
 
-           // d($nombreMesa);
-            
+            // d($nombreMesa);
+
             $sub_array[] = $nombreMesa[0]['nombre_mesa'];
 
             $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura']);
@@ -1666,6 +1656,8 @@ class Boletas extends BaseController
 
         if ($borrar) {
             $borrar_documento = model('facturaElectronicaModel')->where('id', $id)->delete();
+            $borrar_item = model('itemFacturaElectronicaModel')->where('id_de', $id)->delete();
+            $borrar_pago = model('FacturaElectronicaformaPago')->where('id_de', $id)->delete();
         }
 
         $returnData = array(
@@ -1712,15 +1704,7 @@ class Boletas extends BaseController
 
     public function consultar_entradas()
     {
-
         $valor_buscado = $_GET['search']['value'];
-
-        /**
-         * Tipo de busqueda
-         * Al cargar la tabla se hace un busqueda de todas las compras 
-         * hay otro criterio que es entre fechas , por fechas y proveedor y solo proveedor 
-         */
-
         $busqueda = $this->request->getGet('buscar_por');
 
         if ($busqueda == "general") {
@@ -1728,12 +1712,8 @@ class Boletas extends BaseController
             $temp_sql = $sql->getAllCompras();
         }
 
-        //$sql_count = '';
-        //$sql_data = '';
-
         $sql_count = $temp_sql['sql_count'];
-        $sql_data = $temp_sql['sql_data'];
-
+        $sql_data  = $temp_sql['sql_data'];
 
         $table_map = [
             0 => 'id',
@@ -1741,61 +1721,79 @@ class Boletas extends BaseController
             2 => 'nitproveedor',
             3 => 'usuario',
             4 => 'nombre_proveedor',
-
         ];
-
 
         $condition = "";
 
         if (!empty($valor_buscado)) {
-            $condition .= " AND cliente.nitcliente ILIKE '%" . $valor_buscado . "%'";
+            $condition .= " AND (cliente.nitcliente ILIKE '%" . $valor_buscado . "%'";
             $condition .= " OR cliente.nombrescliente ILIKE '%" . $valor_buscado . "%'";
-            $condition .= " OR documento ILIKE '%" . $valor_buscado . "%'";
+            $condition .= " OR documento ILIKE '%" . $valor_buscado . "%')";
         }
 
         $sql_count .= $condition;
-        $sql_data .= $condition;
+        $sql_data  .= $condition;
 
+        // Ejecutar conteo
         $total_count = $this->db->query($sql_count)->getRow();
 
-        $sql_data .= " ORDER BY " . $table_map[$_GET['order'][0]['column']] . " " . $_GET['order'][0]['dir'] . " " . "LIMIT " . $_GET['length'] . " OFFSET " . $_GET['start'];
+        // Controlar si no hay resultados
+        if (!$total_count || $total_count->total == 0) {
+            $json_data = [
+                'draw' => intval($this->request->getGet('draw')),
+                'recordsTotal' => 0,
+                'recordsFiltered' => 0,
+                'data' => [] // <-- Data vacía, evita el error de DataTable
+            ];
+
+            return $this->response->setJSON($json_data);
+        }
+
+        // Solo ejecutar la consulta si hay resultados
+        $sql_data .= " ORDER BY " . $table_map[$_GET['order'][0]['column']] . " " . $_GET['order'][0]['dir'] .
+            " LIMIT " . $_GET['length'] . " OFFSET " . $_GET['start'];
 
         $datos = $this->db->query($sql_data)->getResultArray();
 
-
-
-
+        $data = []; // Inicializar para evitar undefined variable
         foreach ($datos as $detalle) {
-            $sub_array = array();
+            $sub_array = [];
 
             $total = model('ComprasModel')->total_compra($detalle['id']);
 
-            $sub_array[] =  $detalle['fecha_ingreso'];
-            $sub_array[] =  $detalle['nombre_proveedor'];
-            $sub_array[] =  $detalle['nitproveedor'];
-            $sub_array[] =  number_format($total[0]['total_compra'], 0, ',', '.');
-            $sub_array[] =  $detalle['usuario'];
-            $sub_array[] =  $sub_array[] = '
-                <a  class="btn btn-outline-success btn-icon " title="Imprimir compra " onclick="imprimir_compra(' . $detalle['id'] . ')" >
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" /><path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" /><rect x="7" y="13" width="10" height="8" rx="2" /></svg>
-                </a>
-
-              <a  class="btn bg-outline-muted-lt btn-icon " title="Ver productos" onclick="detalle_compra(' . $detalle['id'] . ')"  ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
-               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
-               </a>
-               ';
+            $sub_array[] = $detalle['fecha_ingreso'];
+            $sub_array[] = $detalle['nombre_proveedor'];
+            $sub_array[] = $detalle['nitproveedor'];
+            //$sub_array[] = number_format($total[0]['total_compra'], 0, ',', '.');
+            $sub_array[] = number_format($total[0]['total_compra'] ?? 0, 0, ',', '.');
+            $sub_array[] = $detalle['usuario'];
+            $sub_array[] = '
+            <a class="btn btn-outline-success btn-icon" title="Imprimir compra" onclick="imprimir_compra(' . $detalle['id'] . ')">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" />
+                    <path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" />
+                    <rect x="7" y="13" width="10" height="8" rx="2" />
+                </svg>
+            </a>
+            <a class="btn btn-outline-secondary btn-icon" title="Ver productos" onclick="detalle_compra(' . $detalle['id'] . ')">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <circle cx="12" cy="12" r="2" />
+                    <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" />
+                </svg>
+            </a>';
 
             $data[] = $sub_array;
         }
 
         $json_data = [
-            'draw' => intval($this->request->getGEt(index: 'draw')),
+            'draw' => intval($this->request->getGet('draw')),
             'recordsTotal' => $total_count->total,
             'recordsFiltered' => $total_count->total,
-            'data' => $data,
-
+            'data' => $data
         ];
 
-        echo  json_encode($json_data);
+        return $this->response->setJSON($json_data);
     }
 }

@@ -929,6 +929,10 @@ class Configuracion extends BaseController
     private function eliminarFacturaCompleta($idFactura)
     {
         model('facturaElectronicaModel')->where('id', $idFactura)->delete();
+        model('itemFacturaElectronicaModel')->where('id_de', $idFactura)->delete();
+        model('FacturaElectronicaformaPago')->where('id_de', $idFactura)->delete();
+
+
         model('pagosModel')->where('id_factura', $idFactura)->delete();
         model('kardexModel')->where('id_factura', $idFactura)->delete();
     }

@@ -113,8 +113,7 @@ class CerrarVenta extends BaseController
 
 
             $rol = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
-            if ($rol['idtipo'] == 1 or $rol['idtipo'] == 0) {
-
+            if ($rol['idtipo'] == 1 or $rol['idtipo'] == 0  or $rol['idtipo'] == 4  or $rol['idtipo'] == 5) {
                 $alerta_facturacion = "";
                 /**
                  * Datos dian

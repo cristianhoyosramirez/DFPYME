@@ -140,6 +140,7 @@ class loginController extends BaseController
             //->where('id_tipo_inventario', 3)
             //->where('id_tipo_inventario', 6)
             ->whereIn('id_tipo_inventario', [3, 7])
+            ->where('estadoproducto',true)
             ->orderBy('nombreproducto', 'asc')
             ->findAll();
 
@@ -548,5 +549,140 @@ class loginController extends BaseController
 
             ]);
         }
+    }
+
+    function actualizarNombre()
+    {
+
+        $json = $this->request->getJSON();
+        $codigo = $json->codigo;
+        //$codigo = 2;
+        $nombre = $json->nombre;
+        //$nombre = 'aaaa';
+
+        //$actualizar = model('productoModel')->set('nombreproducto', $nombre)->where('codigointernoproducto', string $codigo)->update();
+
+
+
+        //$actualizar = model('productoModel')->update($codigo, ['nombreproducto' => $nombre]);
+        $actualizar = model('productoModel')->editarNombre($nombre, $codigo);
+
+        return $this->response->setJSON([
+            'response' => true,
+        ]);
+    }
+
+    /*  function eliminarProducto()
+    {
+
+        $json = $this->request->getJSON();
+        $codigo = $json->codigo;
+        //$codigo = 26;
+
+        $codigo = (string)  $codigo;
+
+
+        $idTipoInventario = model('productoModel')->select('id_tipo_inventario')->where('codigointernoproducto', $codigo)->first();
+
+        $idTipoInventario['id_tipo_inventario'];
+
+
+
+        if ($idTipoInventario['id_tipo_inventario'] == 1 or $idTipoInventario['id_tipo_inventario'] == 4  or $idTipoInventario['id_tipo_inventario'] == 7) {
+
+            //Es un insumo y se puede borrar 
+
+            $eliminarKardex = model('kardexModel')->where('codigo', $codigo)->delete();
+            $itemDocumentoElectronico = model('itemFacturaElectronicaModel')->where('codigo', $codigo)->delete();
+            $inventario = model('inventarioModel')->where('codigointernoproducto', $codigo)->delete();
+            $insumo = model('productoFabricadoModel')->where('prod_proceso', $codigo)->delete();
+
+            $eliminar = model('productoModel')
+                ->where('codigointernoproducto', (string) $codigo)
+                ->delete();
+
+
+            return $this->response->setJSON([
+                'response' => 'success',
+            ]);
+        } else if (($idTipoInventario['id_tipo_inventario'] == 3)) {
+
+            $tieneMovimientos = model('itemFacturaElectronicaModel')->where('codigo', $codigo)->first();
+
+            if (!empty($tieneMovimientos)) {
+                $seActualiza = model('productoModel')->set('estadoproducto', FALSE)->where('codigointernoproducto', $codigo)->update();
+                return $this->response->setJSON([
+                    'response' => 'success',
+
+                ]);
+            } else if (empty($tieneMovimientos)) {
+
+                $eliminar = model('productoModel')
+                    ->where('codigointernoproducto', (string) $codigo)
+                    ->delete();
+
+
+                return $this->response->setJSON([
+                    'response' => 'success',
+
+                ]);
+            }
+        }
+    } */
+
+    public function eliminarProducto()
+    {
+        $json = $this->request->getJSON();
+        $codigo = (string) ($json->codigo ?? '');
+
+        if (empty($codigo)) {
+            return $this->response->setJSON(['response' => 'error', 'message' => 'Código no proporcionado']);
+        }
+
+        $productoModel = model('productoModel');
+        $idTipoInventario = $productoModel
+            ->select('id_tipo_inventario')
+            ->where('codigointernoproducto', $codigo)
+            ->first();
+
+        if (empty($idTipoInventario)) {
+            return $this->response->setJSON(['response' => 'error', 'message' => 'Producto no encontrado']);
+        }
+
+        $tipo = (int) $idTipoInventario['id_tipo_inventario'];
+
+        switch ($tipo) {
+            // Tipos de insumo o productos simples
+            case 1:
+            case 4:
+            case 7:
+                model('kardexModel')->where('codigo', $codigo)->delete();
+                model('itemFacturaElectronicaModel')->where('codigo', $codigo)->delete();
+                model('inventarioModel')->where('codigointernoproducto', $codigo)->delete();
+                model('productoFabricadoModel')->where('prod_proceso', $codigo)->delete();
+                $productoModel->where('codigointernoproducto', $codigo)->delete();
+                break;
+
+            // Tipo 3: producto con posibles movimientos
+            case 3:
+                $tieneMovimientos = model('itemFacturaElectronicaModel')
+                    ->where('codigo', $codigo)
+                    ->first();
+
+                if (!empty($tieneMovimientos)) {
+                    $productoModel
+                        ->set('estadoproducto', false)
+                        ->where('codigointernoproducto', $codigo)
+                        ->update();
+                } else {
+                    $productoModel->where('codigointernoproducto', $codigo)->delete();
+                }
+                break;
+
+            default:
+                return $this->response->setJSON(['response' => 'error', 'message' => 'Tipo de inventario no manejado']);
+        }
+
+        return $this->response->setJSON(['response' => 'success']);
     }
 }

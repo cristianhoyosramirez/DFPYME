@@ -49,7 +49,7 @@ HOME
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <a href="<?= base_url() ?>/edicion_eliminacion_factura_pedido/confOrdenPedido" class="card card-link card-link-pop h-100">
                 <div class="card-body text-center">
-               
+
                     <i class="bi bi-printer-fill fs-2 text-primary mb-2"></i>
                     <div>Conf. Imp. Orden pedido</div>
                 </div>
@@ -159,6 +159,13 @@ HOME
             </a>
         </div>
 
+        <!-- Asignación de usuario a venta -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <a onclick="reinciarNumeracionPedidos()" class="card card-link card-link-pop h-100 cursor-pointer">
+                <div class="card-body text-center">Reiniciar numeración de pedidos</div>
+            </a>
+        </div>
+
         <!-- Resolución Facturación Electrónica -->
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <a href="<?= base_url() ?>/empresa/resolucion_electronica" class="card card-link card-link-pop h-100">
@@ -224,6 +231,60 @@ HOME
 
     </div>
 </div>
+
+
+
+<script>
+    async function reinciarNumeracionPedidos() {
+        const result = await Swal.fire({
+            title: '¿Reiniciar numeración de pedidos?',
+            text: 'Esta acción reiniciará la secuencia de pedidos. ¿Deseas continuar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, reiniciar',
+            cancelButtonText: 'Cancelar',
+            buttonsStyling: false,
+            customClass: {
+                confirmButton: 'btn btn-outline-success me-2',
+                cancelButton: 'btn btn-outline-danger'
+            }
+        });
+
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch("<?= base_url('actualizacion/reinciarSecuencia') ?>", {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Numeración reiniciada',
+                        text: 'La secuencia de pedidos se ha reiniciado correctamente.',
+                        confirmButtonText: 'Aceptar',
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: 'btn btn-outline-success'
+                        }
+                    });
+                } else {
+                    throw new Error('Error al reiniciar la numeración.');
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un problema al reiniciar la numeración.',
+                    confirmButtonText: 'Aceptar',
+                    buttonsStyling: false,
+                    customClass: {
+                        confirmButton: 'btn btn-outline-danger'
+                    }
+                });
+            }
+        }
+    }
+</script>
 
 
 

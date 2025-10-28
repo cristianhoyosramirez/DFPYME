@@ -42,12 +42,12 @@ HOME
                             <td><?php echo $detalle['nombrecomercialproveedor'] ?></td>
                             <td><?php echo $detalle['telefonoproveedor'] ?></td>
                             <td><?php echo $detalle['direccionproveedor'] ?></td>
-                            <td class="text-end">
-                                <div class="row">
-                                    <div class="col">
-                                        <button onclick="editar_proveedor(<?php echo $detalle['id'] ?>)" class="btn btn-outline-success">Editar</button>&nbsp;
-                                    </div>
+                            <td class="text-start">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button onclick="editar_proveedor(<?php echo $detalle['id'] ?>)" class="btn btn-outline-success">Editar</button>
+                                    <button onclick="eliminar_proveedor(<?php echo $detalle['id'] ?>,'<?php echo $detalle['nombrecomercialproveedor'] ?>')" class="btn btn-outline-danger">Eliminar</button>
                                 </div>
+
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -144,6 +144,70 @@ HOME
         </div>
     </div>
 </div>
+
+
+
+
+<script>
+    async function eliminar_proveedor(id, nombreProveedor) {
+
+        const confirmacion = await Swal.fire({
+            title: '¿Eliminar proveedor?',
+            html: `<strong>${nombreProveedor}</strong>`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '<i class="fas fa-check"></i> Sí, eliminar',
+            cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
+            customClass: {
+                confirmButton: 'btn btn-outline-success mx-2',
+                cancelButton: 'btn btn-outline-danger mx-2'
+            },
+            buttonsStyling: false
+        });
+
+        if (confirmacion.isConfirmed) {
+            try {
+                // Crear el cuerpo de la solicitud
+                const formData = new FormData();
+                formData.append('id', id);
+
+                // Enviar la solicitud POST
+                const respuesta = await fetch(`<?php echo base_url('administracion_impresora/eliminarProveedor') ?>`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const data = await respuesta.json();
+
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Eliminado',
+                        text: `El proveedor "${nombreProveedor}"` + data.message,
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+
+                    setTimeout(() => location.reload(), 2000);
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: data.message || 'No se pudo eliminar el proveedor.',
+                        icon: 'error'
+                    });
+                }
+
+            } catch (error) {
+                console.error(error);
+                Swal.fire('Error', 'Ocurrió un problema con la conexión.', 'error');
+            }
+        }
+    }
+</script>
+
 
 
 
@@ -307,13 +371,17 @@ HOME
         <td>${detalle.nombrecomercialproveedor || ''}</td>
         <td>${detalle.telefonoproveedor || ''}</td>
         <td>${detalle.direccionproveedor || ''}</td>
-        <td class="text-center">
-            <div class="row">
-                <div class="col">
-                    <button onclick="editar_proveedor(${detalle.id})" class="btn btn-outline-success">Editar</button>
-                </div>
-            </div>
-        </td>
+       <td class="text-center">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <button onclick="editar_proveedor(${detalle.id})" class="btn btn-outline-success">Editar</button>
+        </div>
+        <div class="col-auto">
+            <button onclick="eliminar_proveedor(${detalle.id}, '${detalle.nombrecomercialproveedor}')" class="btn btn-outline-danger">Eliminar</button>
+        </div>
+    </div>
+</td>
+
     `;
             tabla.appendChild(fila);
         });

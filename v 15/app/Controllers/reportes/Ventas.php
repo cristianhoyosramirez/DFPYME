@@ -155,7 +155,7 @@ class Ventas extends BaseController
         $row = 9; // Comienza en la fila siguiente a los encabezados (fila 8)
 
         foreach ($movimientos as $valor) {
-            $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $valor['id_mesero'])->first();
+            $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $valor['id_usuario_facturacion'])->first();
             $documento = model('facturaElectronicaModel')->select('numero')->where('id', $valor['id_factura'])->first();
             if (empty($documento)) {
                 $factura = $valor['documento'];

@@ -931,7 +931,7 @@ WHERE (id_tipo_inventario = 3 OR id_tipo_inventario = 7)
         ");
         return $datos->getResultArray();
     } */
-/* 
+    /* 
     function GetInsumos($valor)
     {
 
@@ -964,7 +964,7 @@ WHERE (nombreproducto ILIKE '%$valor%'
   AND (id_tipo_inventario IN (1,4,7));
         ");
         return $datos->getResultArray();
-    } 
+    }
 
 
     function GetAllInsumos()
@@ -1037,4 +1037,24 @@ order by nombreproducto asc;
         ");
         return $datos->getResultArray();
     }
+
+      function editarNombre($nombre,$codigo)
+    {
+
+        $datos = $this->db->query("
+           update producto set nombreproducto ='$nombre' where codigointernoproducto='$codigo';
+        ");
+        //return $datos->getResultArray();
+        return $datos;
+    } 
+
+   /*  function editarNombre($nombre, $codigo)
+    {
+        $sql = "
+        UPDATE producto 
+        SET nombreproducto = $nombre 
+        WHERE codigointernoproducto = ?
+    ";
+        return $this->db->query($sql, [$nombre, $codigo]);
+    } */
 }
