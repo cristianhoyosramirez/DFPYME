@@ -20,7 +20,7 @@ function agregar_al_pedido(id_producto) {
                 var resultado = JSON.parse(resultado);
                 if (resultado.resultado == 1) {
 
-                    
+
 
                     const Toast = Swal.mixin({
                         toast: true,
@@ -51,6 +51,10 @@ function agregar_al_pedido(id_producto) {
                     $('#producto').focus();
                     document.getElementById("id_tabla_producto").value = resultado.id;
                     document.getElementById("asigCompo").innerHTML = resultado.atributos;
+
+                    let nota = $('#nota_pedido').val();
+                    // 👉 Ejecutamos nuevamente la función igual que el oninput
+                    insertarDatos(nota);
 
 
                     if (resultado.estado == 1) {

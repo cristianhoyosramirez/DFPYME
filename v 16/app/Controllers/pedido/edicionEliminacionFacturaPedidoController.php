@@ -387,11 +387,13 @@ class edicionEliminacionFacturaPedidoController extends BaseController
         //$idSalon=model('salonesModel')->where('tipo',1)->first();
 
         $imprimir = model('configuracionPedidoModel')->select('imprimir_nota_producto')->first();
+        $ip = model('configuracionPedidoModel')->select('ip')->first();
 
         //echo $imprimir['imprimir_nota_producto']; exit();
 
-        return view('menu/administracion',[
-            'imprimir'=>$imprimir['imprimir_nota_producto']
+        return view('menu/administracion', [
+            'imprimir' => $imprimir['imprimir_nota_producto'],
+            'ip'=>$ip['ip']
         ]);
     }
 
@@ -462,20 +464,25 @@ class edicionEliminacionFacturaPedidoController extends BaseController
         ]);
     }
 
-    /* function consultarFe()
+    function consultarFe()
     {
 
         $json = $this->request->getJSON();
-        $id_apertura = $json->id_apertura;
+
+        //$id_apertura = $json->id_apertura;
+
+        $temp_id_apertura=model('aperturaRegistroModel')->select('numero')->first();
+
+        $id_apertura=$temp_id_apertura['numero'];
 
         $factura = model('facturaElectronicaModel')
-        ->where('id_status', 1)
-        ->where('id_apertura',$id_apertura)
-        ->first();
+            ->where('id_status', 1)
+            ->where('id_apertura', $id_apertura)
+            ->first();
 
         $informeFiscal = model('configuracionPedidoModel')->select('informe_fiscal')->first();
 
-    
+
 
         if ($informeFiscal['informe_fiscal'] == 't' and !empty($factura)) {
             return $this->response->setJSON([
@@ -487,12 +494,12 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
         if ($informeFiscal['informe_fiscal'] == 'f' && (empty($factura) || $factura === "NULL")) {
             return $this->response->setJSON([
-                'response' => 'fail',
+                'response' => 'success',
                 'message' => 'Hay facturas por trasmitir.'
 
             ]);
         }
-        
+
         if ($informeFiscal['informe_fiscal'] == 'f' and !empty($factura)) {
             return $this->response->setJSON([
                 'response' => 'fail',
@@ -507,9 +514,9 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
             ]);
         }
-    } */
+    }
 
-    function consultarFe()
+    /*  function consultarFe()
     {
 
         $json = $this->request->getJSON();
@@ -530,7 +537,7 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
             ]);
         }
-    }
+    } */
 
     function updateConfOrdenPedido()
     {

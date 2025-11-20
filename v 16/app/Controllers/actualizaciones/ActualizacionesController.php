@@ -129,4 +129,17 @@ class ActualizacionesController extends BaseController
             ]);
         }
     }
+
+function ip()
+{
+    $json = $this->request->getJSON();
+    $ip   = $json->ip;
+
+    model('configuracionPedidoModel')
+        ->set(['ip' => $ip])
+        ->where('id', 1)   // <--- MUY IMPORTANTE
+        ->update();
+
+    return $this->response->setJSON(['status' => 'success']);
+}
 }

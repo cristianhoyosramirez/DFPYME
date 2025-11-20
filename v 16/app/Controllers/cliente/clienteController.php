@@ -221,7 +221,7 @@ class ClienteController extends BaseController
 
         if (!empty($resultado)) {
             foreach ($resultado as $row) {
-                $data['value'] =  $row['telefonocliente'] . " " . "/" . " " . $row['nombrescliente'];
+                $data['value'] =  $row['telefonocliente'] . " " . "/" . " " . $row['nombrescliente']." / ".$row['nitcliente'];
               $data['datos'] = "Cliente: " . $row['nombrescliente'] . "\n" .
                  "Teléfono: " . $row['telefonocliente'] . "\n" .
                  "Dirección: " . $row['direccioncliente'];

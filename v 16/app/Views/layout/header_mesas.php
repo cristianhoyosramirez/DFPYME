@@ -550,7 +550,7 @@
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                       <line x1="3" y1="19" x2="21" y2="19" />
                       <rect x="5" y="6" width="14" height="10" rx="1" />
-                    </svg> Caja
+                    </svg> Caja 
                   </a>
                   <div class="dropdown-menu">
                     <input type="hidden" value="<?php echo $user_session->id_usuario; ?>" id="id_usuario" name="id_usuario">
@@ -574,7 +574,7 @@
                         <line x1="15" y1="16" x2="15" y2="20" />
                       </svg>Cierre de caja
                     </a>
-                    <?php if ($user_session->tipo == 0) { ?>
+                    <?php if ($user_session->tipo == 0 || $user_session->tipo == 5) { ?>
                       <a class="dropdown-item" href="<?= base_url() ?>/consultas_y_reportes/consultas_caja">
                         <!-- Download SVG icon from http://tabler-icons.io/i/question-mark -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

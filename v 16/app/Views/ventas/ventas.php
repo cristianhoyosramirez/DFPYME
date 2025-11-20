@@ -486,6 +486,8 @@ Ventas
     </div>
 </div>
 
+<?php $ip = model('configuracionPedidoModel')->select('ip')->first(); ?>
+<input type="text" class="form-control" value="<?php  echo $ip['ip']; ?>" hidden id="ip">
 
 
 

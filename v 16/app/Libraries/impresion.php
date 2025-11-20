@@ -399,7 +399,18 @@ class impresion
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("ORDEN DE PEDIDO  " . $numero['numero'] . "\n");
-        $printer->text("TIPO DE VENTA:   PREFACTURA DE VENTA  \n");
+
+        $tipoVenta=model('facturaElectronicaModel')->select('metodo_pago')->where('id',$id_factura)->first();
+
+        if ( $tipoVenta['metodo_pago']==1){
+            $venta="CONTADO";
+        }else if ($tipoVenta['metodo_pago']==2){
+            $venta="CRÉDITO"; 
+        }
+
+        $printer->text("TIPO DE VENTA:   $venta  \n");
+
+
         $printer->text("FECHA:           " . date('Y-m-d') . "\n");
         $printer->text("CAJA:            1"  . "\n");
         $printer->text("CAJERO:          Usuario administrador"  . "\n");
@@ -571,6 +582,12 @@ class impresion
 
         $textoPropina = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();
 
+        $actividadEconimica = model('empresaCiiuModel')->select('codigo')->first();
+        $printer->text("\n");
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("Actividad Economica Principal: " . $actividadEconimica['codigo'] . "\n");
+        
+
         if ($textoPropina['permitir_impresion_texto_propina'] == 't') {
 
             $printer->text("\n");
@@ -663,17 +680,17 @@ class impresion
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("FACTURA ELECTRÓNICA DE VENTA NÚMERO: " . $numero['numero'] . "\n");
 
-        $metodoPago=model('facturaElectronicaModel')->select('metodo_pago')->where('id',$id_factura)->first();
+        $metodoPago = model('facturaElectronicaModel')->select('metodo_pago')->where('id', $id_factura)->first();
 
-        if ($metodoPago['metodo_pago']==1){
-            $venta="CONTADO";
+        if ($metodoPago['metodo_pago'] == 1) {
+            $venta = "CONTADO";
         }
 
-        if ($metodoPago['metodo_pago']==2){
-            $venta="CRÉDITO";
+        if ($metodoPago['metodo_pago'] == 2) {
+            $venta = "CRÉDITO";
         }
 
-        $printer->text("TIPO DE VENTA: ".$venta." \n");
+        $printer->text("TIPO DE VENTA: " . $venta . " \n");
 
 
         /* $printer->text("FECHA Y HORA DE GENERACIÓN: " . $fecha['fecha'] ." ".$hora['hora'] ."\n"); */
@@ -876,11 +893,16 @@ class impresion
         $printer->qrCode($qr['qrcode'], Printer::QR_ECLEVEL_L, 4);
 
         $printer->text("\n");
-
+        $actividadEconimica = model('empresaCiiuModel')->select('codigo')->first();
+        $printer->text("\n");
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("Actividad Economica Principal: " . $actividadEconimica['codigo'] . "\n");
+        $printer->text("\n");
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->text("CUFE: \n" . $cufe['cufe'] . "\n");
 
 
-        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
         $printer->setTextSize(1, 1);
         $printer->text("_______________________________________________ ");
         $printer->text("\n");

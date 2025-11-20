@@ -549,9 +549,9 @@
 
 
 
-   <script>
-    async function validarResolucion() {
-        let documento = document.getElementById('documento').value;
+    <script>
+        async function validarResolucion() {
+            let documento = document.getElementById('documento').value;
 
             try {
                 const response = await fetch("<?= base_url('empresa/validarResolucion') ?>", {
@@ -559,7 +559,9 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ documento: documento })
+                    body: JSON.stringify({
+                        documento: documento
+                    })
                 });
 
                 const data = await response.json();
@@ -571,9 +573,9 @@
                     message: 'Error en la validación de resolución.'
                 };
             }
-        
-    }
-</script>
+
+        }
+    </script>
 
 
 
@@ -920,6 +922,22 @@
                                     type: "POST",
                                     success: function(resultado) {
                                         var resultado = JSON.parse(resultado);
+                                        /*     if (resultado.resultado == 1) {
+
+                                                $('#producto').val('');
+                                                $('#mesa_productos').html(resultado.productos_pedido)
+                                                $('#valor_pedido').html(resultado.total_pedido)
+                                                $('#subtotal_pedido').val(resultado.total_pedido)
+                                                $('#id_mesa_pedido').val(resultado.id_mesa)
+
+                                                if (resultado.estado == 1) {
+                                                    $('#mesa_pedido').html('Ventas de mostrador ')
+                                                    //$('#input' + resultado.id).select()
+                                                    $('#producto').focus();
+
+                                                }
+                                            } */
+
                                         if (resultado.resultado == 1) {
 
                                             $('#producto').val('');
@@ -930,11 +948,15 @@
 
                                             if (resultado.estado == 1) {
                                                 $('#mesa_pedido').html('Ventas de mostrador ')
-                                                //$('#input' + resultado.id).select()
                                                 $('#producto').focus();
-
                                             }
+
+                                            // 👉 Capturamos el valor actual de la nota
+                                            let nota = $('#nota_pedido').val();
+                                            // 👉 Ejecutamos nuevamente la función igual que el oninput
+                                            insertarDatos(nota);
                                         }
+
                                     },
                                 });
                                 /* } else if (kit === "t") {

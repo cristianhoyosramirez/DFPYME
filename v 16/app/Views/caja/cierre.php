@@ -7,13 +7,8 @@ CAJA
 <?= $this->section('content') ?>
 
 <div class="container">
-    
-        
-    
-            <p class="text-primary h3 text-center">Cierre de caja   </p>
-        
-       
 
+    <p class="text-primary h3 text-center">Cierre de caja </p>
 </div>
 <div class="card container">
     <div class="card-body">
@@ -24,7 +19,7 @@ CAJA
                 <input type="text" value="<?php echo date('Y-m-d'); ?>" class="form-control" readonly id="inputEmail4">
             </div>
             <input type="hidden" class="form-control" id="inputPassword4" readonly value="1">
-            
+
             <div class="col-1">
                 <label for="inputAddress" class="form-label">Caja</label>
                 <select name="numero_caja" class="form-select" id="numero_caja">

@@ -298,7 +298,7 @@
                         ?>
 
 
-                        <!--   <select name="clase_pago" id="clase_pago" class="form-select" onchange="limpiarErrorSelect()">
+                        <select name="clase_pago" id="clase_pago" class="form-select" onchange="limpiarErrorSelect()">
                           <option value="">Seleccione un banco</option>
                           <?php foreach ($clasePago as $detalleClasePago): ?>
                             <option value="<?= esc($detalleClasePago['id']) ?>"
@@ -306,16 +306,16 @@
                               <?= esc($detalleClasePago['nombre']) ?>
                             </option>
                           <?php endforeach ?>
-                        </select> -->
+                        </select>
 
-                        <select name="clase_pago" id="clase_pago" class="form-select" onchange="limpiarErrorSelect()">
+                        <!--  <select name="clase_pago" id="clase_pago" class="form-select" onchange="limpiarErrorSelect()">
                           <option value="">Seleccione un banco</option>
                           <?php foreach ($clasePago as $detalleClasePago): ?>
                             <option value="<?= esc($detalleClasePago['id']) ?>">
                               <?= esc($detalleClasePago['nombre']) ?>
                             </option>
                           <?php endforeach ?>
-                        </select>
+                        </select> -->
 
 
 

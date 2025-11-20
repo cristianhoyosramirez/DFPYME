@@ -12,7 +12,9 @@ async function sendInvoice(iddoc) {
     $("#respuesta_de_dian").html('Esperando respuesta DIAN');
     $("#texto_dian").html('')
     $("#opciones_dian").hide();
-    let url = new URL("http://localhost:5000/api/Invoice/id");
+    let ip = document.getElementById('ip').value;
+    //let url = new URL("http://localhost:5000/api/Invoice/id");
+    let url = new URL("http://" + ip + ":5000/api/Invoice/id");
     //let url = new URL("http://localhost:3000/api2");
     url.search = new URLSearchParams({ id: iddoc });
     const response = await fetch(url, { method: "GET" });

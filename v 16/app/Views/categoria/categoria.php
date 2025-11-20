@@ -17,7 +17,7 @@ CATEGORIAS
         </div>
 
         <div class="col-lg-auto ms-lg-auto">
-            <p class="text-primary h3">Lista general de categorias de producto  </p>
+            <p class="text-primary h3">Lista general de categorias de producto </p>
         </div>
         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
             <a class="nav-link"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" onClick="history.go(-1);" title="Sección anterior"></a>
@@ -60,9 +60,13 @@ CATEGORIAS
                     <td>
                         Subcategoria
                     </td>
+                    <td>
+                        Orden
+                    </td>
                 </tr>
             </thead>
             <tbody id="tabla_categorias">
+
                 <?php foreach ($categorias as $detalle) { ?>
 
                     <input type="hidden" name="codigo_categoria" value="<?php echo $detalle['codigocategoria'] ?>">
@@ -96,7 +100,7 @@ CATEGORIAS
                         </td>
                         <td>
 
-                            <select class="form-select" aria-label="Default select example"  onchange="sub_categoria(this.options[this.selectedIndex].value,<?php echo $detalle['codigocategoria'] ?>)">
+                            <select class="form-select" aria-label="Default select example" onchange="sub_categoria(this.options[this.selectedIndex].value,<?php echo $detalle['codigocategoria'] ?>)">
 
                                 <?php if ($detalle['subcategoria'] == 't') : ?>
                                     <option value="true" selected>Si </option>
@@ -104,11 +108,14 @@ CATEGORIAS
 
                                 <?php endif ?>
                                 <?php if ($detalle['subcategoria'] == 'f') : ?>
-                                    <option value="true" >Si </option>
-                                    <option value="false" selected >No </option>
+                                    <option value="true">Si </option>
+                                    <option value="false" selected>No </option>
 
                                 <?php endif ?>
                             </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" value="<?php echo $detalle['orden']; ?>" onkeyup="actualizarOrden(this.value,<?php echo $detalle['id'];  ?>)">
                         </td>
                     </tr>
 
@@ -118,4 +125,38 @@ CATEGORIAS
     </div>
 </div>
 <?= $this->include('categoria/modal_nueva_categoria') ?>
+<!-- Sweet alert -->
+<script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
+ <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
+<script>
+    async function actualizarOrden(valor, id) {
+
+        try {
+            // Mensaje inicial (puedes quitarlo si ya no lo necesitas)
+
+
+            // Ejemplo de petición asíncrona (ajústala a tu backend)
+            const response = await fetch('<?= base_url('categoria/actualizarOrden') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    orden: valor,
+                    id: id
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success == true) {
+                sweet_alert_centrado('success', 'Cambio realizado')
+            }
+
+        } catch (error) {
+            console.error("Error en actualizarOrden:", error);
+        }
+    }
+</script>
+
 <?= $this->endSection('content') ?>

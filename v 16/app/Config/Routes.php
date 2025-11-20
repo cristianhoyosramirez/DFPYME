@@ -207,6 +207,7 @@ $routes->group('categoria', ['namespace' => 'App\Controllers\categoria', 'filter
     $routes->post('componentes_producto', 'categoriaController::componentes_producto');
     $routes->get('verRecetas', 'categoriaController::verRecetas');
     $routes->post('buscarProducto', 'categoriaController::buscarProducto');
+    $routes->post('actualizarOrden', 'categoriaController::actualizarOrden');
 });
 
 $routes->group('pedido', ['namespace' => 'App\Controllers\pedido', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -804,6 +805,8 @@ $routes->group('actualizacion', ['namespace' => 'App\Controllers\actualizaciones
     $routes->post('consultarPrecio', 'ParametrizacionController::consultarPrecio');
     $routes->get('crearActualizaciones', 'ActualizacionesController::crearActualizaciones');  
     $routes->get('reinciarSecuencia', 'ActualizacionesController::reinciarSecuencia');  
+    $routes->post('ip', 'ActualizacionesController::ip');  
+    $routes->post('actualizar_nota', 'ParametrizacionController::actualizar_nota');  
 });
 
 $routes->get('/qr-codes', 'QrCodeGeneratorController::index');

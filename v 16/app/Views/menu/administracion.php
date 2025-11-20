@@ -109,8 +109,11 @@ HOME
 
         <!-- Impresoras -->
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <a href="<?= base_url() ?>/impresora/listado" class="card card-link card-link-pop h-100">
-                <div class="card-body text-center">IP para  factura electrónica </div>
+            <a href="#"
+                class="card card-link card-link-pop h-100"
+                data-bs-toggle="modal"
+                data-bs-target="#modal_ip">
+                <div class="card-body text-center">IP para factura electrónica</div>
             </a>
         </div>
         <!-- Impresoras -->
@@ -247,6 +250,39 @@ HOME
 
 
 <!-- Modal -->
+<div class="modal fade" id="modal_ip" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Asignar ip para la trasmisión de factura electrónica </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="" class="form-label">Ip para factura electrónica </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="ip_facturacion"
+                            placeholder="Ej: 192.168.1.10"
+                            inputmode="numeric"
+                            maxlength="15" value="<?php  echo $ip; ?>">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success" onclick="guardarIP()">Guardar </button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
 <div class="modal fade" id="imprimirNota" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -271,6 +307,50 @@ HOME
         </div>
     </div>
 </div>
+
+<script>
+    async function guardarIP() {
+        const ip = document.getElementById('ip_facturacion').value.trim();
+
+
+
+        try {
+            const response = await fetch("<?= base_url('actualizacion/ip') ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: JSON.stringify({
+                    ip: ip
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.status === "success") {
+                sweet_alert_centrado('success', 'Registro actualizado')
+                const modal = bootstrap.Modal.getInstance(document.getElementById('modal_ip'));
+                modal.hide();
+
+            } else {
+                alert("Error al guardar la IP");
+            }
+
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            alert("Ocurrió un error al conectarse al servidor");
+        }
+    }
+</script>
+
+<script>
+    // Cuando el modal se abre, poner foco en el input
+    const modalIp = document.getElementById('modal_ip');
+    modalIp.addEventListener('shown.bs.modal', function() {
+        document.getElementById('ip_facturacion').focus();
+    });
+</script>
 
 <script>
     function guardarPreferencia() {

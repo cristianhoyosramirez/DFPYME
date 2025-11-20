@@ -1,5 +1,5 @@
 function pedido(id_mesa, nombre_mesa) {
-    
+
     const cardHeader = document.getElementById('myCardHeader');
     if (cardHeader) {
         cardHeader.classList.remove('border-1', 'bg-indigo-lt');
@@ -28,7 +28,10 @@ function pedido(id_mesa, nombre_mesa) {
         mesa.textContent = 'Mesa:';
 
     }
+
+    let nota_pedido = document.getElementById("nota_pedido").value;
     limpiar_todo();
+    document.getElementById("nota_pedido").value = nota_pedido;
     let requiere_mesero = document.getElementById("requiere_mesero").value;
     let tipo_usuario = document.getElementById("tipo_usuario").value;
     let tipo_pedido = document.getElementById("tipo_pedido").value;
@@ -47,7 +50,7 @@ function pedido(id_mesa, nombre_mesa) {
     }
 
     if (tipo_pedido == "movil") {
-        sweet_alert_centrado('success','Mesa seleccionada '+nombre_mesa)
+        sweet_alert_centrado('success', 'Mesa seleccionada ' + nombre_mesa)
     }
 
     let pedido = document.getElementById("pedido");
@@ -84,9 +87,9 @@ function pedido(id_mesa, nombre_mesa) {
                 $('#propina_pesos_final').val(resultado.propina)
                 sweet_alert_start('success', 'Venta con pedido')
             }
-             if (resultado.resultado == 0) {
-                
-             }
+            if (resultado.resultado == 0) {
+
+            }
         },
         error: function (xhr, status, error) {
             console.error("Error en la solicitud AJAX:", status, error);

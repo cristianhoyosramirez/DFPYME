@@ -90,37 +90,140 @@ HOME
         </div>
 
     </div>
-    <div class="col-4">
-        <div class="accordion" id="accordionMesero">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingMesero">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMesero" aria-expanded="false" aria-controls="collapseMesero">
-                        Usuario que registró el producto en el pedido
-                    </button>
-                </h2>
-                <div id="collapseMesero" class="accordion-collapse collapse" aria-labelledby="headingMesero">
-                    <div class="accordion-body">
-                        <div class="row">
-                            <div class="col d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <label for="mostrar_mesero" class="form-label">¿Desea mostrar el usuario que registró el producto en el pedido?</label>
 
-                                    <select id="mostrar_mesero" class="form-select" onchange="actualizarMesero(this.value)">
-                                        <option value="t" <?= $mesero === 't' ? 'selected' : '' ?>>Sí</option>
-                                        <option value="f" <?= $mesero === 'f' ? 'selected' : '' ?>>No</option>
-                                    </select>
+    <div class="row">
+        <div class="col-4">
+            <div class="accordion" id="accordionMesero">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingMesero">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMesero" aria-expanded="false" aria-controls="collapseMesero">
+                            Usuario que registró el producto en el pedido
+                        </button>
+                    </h2>
+                    <div id="collapseMesero" class="accordion-collapse collapse" aria-labelledby="headingMesero">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <label for="mostrar_mesero" class="form-label">¿Desea mostrar el usuario que registró el producto en el pedido?</label>
+
+                                        <select id="mostrar_mesero" class="form-select" onchange="actualizarMesero(this.value)">
+                                            <option value="t" <?= $mesero === 't' ? 'selected' : '' ?>>Sí</option>
+                                            <option value="f" <?= $mesero === 'f' ? 'selected' : '' ?>>No</option>
+                                        </select>
+
+                                    </div>
 
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
+        <div class="col-4">
+            <div class="accordion" id="accordionNota">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingNota">
+                        <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseNota"
+                            aria-expanded="false"
+                            aria-controls="collapseNota">
+                            En la mesas mostrar mesero o nota
+                        </button>
+                    </h2>
+
+                    <div id="collapseNota" class="accordion-collapse collapse " aria-labelledby="headingNota" data-bs-parent="#accordionNota">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col d-flex align-items-center">
+                                    <div class="flex-grow-1">
+
+                                        <label for="mostrar_mesero" class="form-label">
+                                            ¿En la vista general de las mesas mostrar el mesero o la nota?
+                                        </label>
+
+                                        <select id="mostrar_mesero" class="form-select" onchange="actualizarNota(this.value)">
+                                            <option value="f" <?= $nota === 'f' ? 'selected' : '' ?>>Mesero</option>
+                                            <option value="t" <?= $nota === 't' ? 'selected' : '' ?>>Nota</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
     </div>
+
+
 </div>
+
+<script>
+    async function actualizarMesero(valor) {
+
+        try {
+            let url = document.getElementById("url").value;
+            const response = await fetch(url + '/actualizacion/actualizar_mesero', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    mostrar_boton_mitad: valor
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                Swal.fire('Actualizado', 'La configuración fue guardada correctamente', 'success');
+            } else {
+                Swal.fire('Error', data.mensaje || 'No se pudo guardar la configuración', 'error');
+            }
+        } catch (error) {
+            console.error('Error al actualizar:', error);
+            Swal.fire('Error', 'Ocurrió un problema al comunicarse con el servidor', 'error');
+        }
+    }
+</script>
+
+<script>
+    async function actualizarNota(valor) {
+
+        try {
+            let url = document.getElementById("url").value;
+            const response = await fetch(url + '/actualizacion/actualizar_nota', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    mostrar_boton_mitad: valor
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                Swal.fire('Actualizado', 'La configuración fue guardada correctamente', 'success');
+            } else {
+                Swal.fire('Error', data.mensaje || 'No se pudo guardar la configuración', 'error');
+            }
+        } catch (error) {
+            console.error('Error al actualizar:', error);
+            Swal.fire('Error', 'Ocurrió un problema al comunicarse con el servidor', 'error');
+        }
+    }
+</script>
 
 <script>
     async function actualizarMesero(valor) {

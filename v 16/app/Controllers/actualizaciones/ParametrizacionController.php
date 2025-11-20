@@ -13,12 +13,14 @@ class ParametrizacionController extends BaseController
         $altura = model('configuracionPedidoModel')->select('altura')->first();
         $mostrar_boton_mitad = model('configuracionPedidoModel')->select('mostrar_boton_mitad')->first();
         $mesero = model('configuracionPedidoModel')->select('mostrarmesero')->first();
+        $nota = model('configuracionPedidoModel')->select('notaPedido')->first();
 
         return view('parametrizacion/parametrizacion', [
             'codigo_pantalla' => $codigo_pantalla['codigo_pantalla'],
             'altura' => $altura['altura'],
             'mostrar_boton_mitad' => $mostrar_boton_mitad['mostrar_boton_mitad'],
-            'mesero'=>$mesero['mostrarmesero']
+            'mesero'=>$mesero['mostrarmesero'],
+            'nota'=>$nota['notaPedido']
         ]);
     }
 
@@ -101,6 +103,21 @@ class ParametrizacionController extends BaseController
         $valor = $json->mostrar_boton_mitad;
 
         $actualizar = model('configuracionPedidoModel')->set('mostrarmesero', $valor)->update();
+
+        if ($actualizar) {
+            return $this->response->setJSON([
+                'response' => 'success',
+            ]);
+        }
+    }
+
+    function actualizar_nota()
+    {
+
+        $json = $this->request->getJSON();
+        $valor = $json->mostrar_boton_mitad;
+
+        $actualizar = model('configuracionPedidoModel')->set('notaPedido', $valor)->update();
 
         if ($actualizar) {
             return $this->response->setJSON([

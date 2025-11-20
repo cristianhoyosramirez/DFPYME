@@ -121,7 +121,7 @@ WHERE
 
     public function cantidad($id)
     {
-        $cantidad = $this->db->query("SELECT cantidad   FROM producto_factura_proveedor_temp where id=$id");
+        $cantidad = $this->db->query("SELECT cantidad   FROM producto_factura_prov_temp where id=$id");
         return $cantidad->getResultArray();
     }
     public function valor_unitario($id)

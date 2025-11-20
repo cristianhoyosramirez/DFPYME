@@ -22,9 +22,11 @@ async function enviarDoc(iddoc) {
     $("#barra_de_progreso").show();
     $("#respuesta_de_dian").html('Esperando respuesta DIAN');
     $("#texto_dian").html('')
+    let ip = document.getElementById('ip').value;
 
+    let url = new URL("http://" + ip + ":5000/api/Invoice/id");
 
-    let url = new URL("http://localhost:5000/api/Invoice/id");
+    //let url = new URL("http://localhost:5000/api/Invoice/id");
     //let url = new URL("http://localhost:3000/api");
     url.search = new URLSearchParams({
         id: iddoc
@@ -164,7 +166,7 @@ function sendInvoice(iddoc) {
 }
 
 
- function sendInvoiceDian(id_fact) {
+function sendInvoiceDian(id_fact) {
 
     var url = document.getElementById("url").value;
 
@@ -193,7 +195,7 @@ function sendInvoice(iddoc) {
 
                 $("#barra_progreso").modal("hide");
 
-                sweet_alert_start('success','Factura firmada por la DIAN')
+                sweet_alert_start('success', 'Factura firmada por la DIAN')
 
 
             }
@@ -210,7 +212,7 @@ function sendInvoice(iddoc) {
         },
     });
 
-} 
+}
 
 
 /* function sendInvoiceDian(id_fact) {

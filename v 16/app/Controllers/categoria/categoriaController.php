@@ -13,6 +13,8 @@ class categoriaController extends BaseController
         $categorias = model('categoriasModel')->select('permitir_categoria');
         $categorias = model('categoriasModel')->select('impresora');
         $categorias = model('categoriasModel')->select('subcategoria');
+        $categorias = model('categoriasModel')->select('orden');
+        $categorias = model('categoriasModel')->select('id');
         $categorias = model('categoriasModel')->select('nombrecategoria')->orderBy('codigocategoria', 'asc')->find();
         $impresoras = model('impresorasModel')->select('*')->find();
 
@@ -422,14 +424,14 @@ class categoriaController extends BaseController
 
         $categorias = model('categoriasModel')->select('codigocategoria,nombrecategoria,id')->orderBy('orden', 'asc')->findAll();
 
-        $rectas=model('productoModel')->select('codigointernoproducto,id,nombreproducto')->where('id_tipo_inventario',3)->findAll();
-        $insumos=model('productoModel')->select('codigointernoproducto,id,nombreproducto')->where('id_tipo_inventario',4)->findAll();
+        $rectas = model('productoModel')->select('codigointernoproducto,id,nombreproducto')->where('id_tipo_inventario', 3)->findAll();
+        $insumos = model('productoModel')->select('codigointernoproducto,id,nombreproducto')->where('id_tipo_inventario', 4)->findAll();
 
-    
+
         return view('producto/categorias', [
             'categorias' => $categorias,
-            'recetas'=>$rectas,
-            'ingredientes'=>$insumos
+            'recetas' => $rectas,
+            'ingredientes' => $insumos
         ]);
     }
 
@@ -563,11 +565,29 @@ class categoriaController extends BaseController
         //echo $valor = $this->request->getJSON()->valor; 
         $data = $this->request->getJSON();
 
-        $valor=$data->valor;
+        $valor = $data->valor;
 
         return $this->response->setJSON([
             'success' => true,
-          
+
         ]);
+    }
+
+    function actualizarOrden()
+    {
+
+        $data = $this->request->getJSON();
+
+        $orden = $data->orden;
+        $id = $data->id;
+
+        $actualizar = model('categoriasModel')->set('orden', $orden)->where('id', $id)->update();
+
+        if ($actualizar) {
+            return $this->response->setJSON([
+                'success' => true,
+
+            ]);
+        }
     }
 }
