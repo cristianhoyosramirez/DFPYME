@@ -22,6 +22,13 @@ function mesas_salon(id_salon) {
                 limpiar_todo();
                 $("#todas_las_mesas").html(resultado.mesas);
                 $("#lista_categorias").html(resultado.categorias);
+                const campo = document.getElementById('nota_pedido');
+
+                // Volver a poner readonly
+                campo.setAttribute('readonly', true);
+
+                // Restaurar placeholder original
+                campo.placeholder = "Para agregar notas al pedido debe seleccionar una mesa";
 
             }
         },

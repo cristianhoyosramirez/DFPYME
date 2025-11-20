@@ -404,11 +404,14 @@ Bienvenido DFpyme
                             </div>
                             <div class="row container"> <!-- Fila para el textarea -->
                                 <div class="col-md-11">
-                                    <textarea class="form-control" rows="1" 
-    id="nota_pedido" 
-    placeholder="Nota general del pedido"
-    oninput="this.title = this.value; insertarDatos(this.value)">
-</textarea>
+                                    <textarea
+                                        class="form-control"
+                                        rows="1"
+                                        id="nota_pedido"
+                                        placeholder="Para agregar notas al pedido debe seleccionar una mesa "
+                                        oninput="this.title = this.value; insertarDatos(this.value)"
+                                        readonly></textarea>
+
 
                                 </div>
                                 <div class="col-md-1 mb-2">
@@ -722,44 +725,46 @@ Bienvenido DFpyme
 
 
 
-<script>
-    async function buscarCliente() {
-        let id_mesa = document.getElementById("id_mesa_pedido").value;
+    <script>
+        async function buscarCliente() {
+            let id_mesa = document.getElementById("id_mesa_pedido").value;
 
-        if (id_mesa === "" || id_mesa === null) {
-            sweet_alert_centrado('warning', 'No hay mesa seleccionada');
-            return false;
-        }
-
-        try {
-            let url = document.getElementById("url").value + "/mesas/mesaPedido";
-
-            let response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id_mesa: id_mesa })
-            });
-
-            let data = await response.json();
-
-            if (data.response=="success") {
-                $('#notaCliente').modal('show');
-            } else {
-                sweet_alert_centrado('error', data.message || 'No se pudo validar la mesa');
+            if (id_mesa === "" || id_mesa === null) {
+                sweet_alert_centrado('warning', 'No hay mesa seleccionada');
+                return false;
             }
 
-        } catch (error) {
-            sweet_alert_centrado('error', 'Error de conexión con el servidor');
-            console.error(error);
+            try {
+                let url = document.getElementById("url").value + "/mesas/mesaPedido";
+
+                let response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        id_mesa: id_mesa
+                    })
+                });
+
+                let data = await response.json();
+
+                if (data.response == "success") {
+                    $('#notaCliente').modal('show');
+                } else {
+                    sweet_alert_centrado('error', data.message || 'No se pudo validar la mesa');
+                }
+
+            } catch (error) {
+                sweet_alert_centrado('error', 'Error de conexión con el servidor');
+                console.error(error);
+            }
         }
-    }
-</script>
+    </script>
 
 
 
-    
+
 
 
 

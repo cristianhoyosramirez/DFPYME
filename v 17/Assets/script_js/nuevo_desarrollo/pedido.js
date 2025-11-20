@@ -1,5 +1,14 @@
 function pedido(id_mesa, nombre_mesa) {
 
+   const campo = document.getElementById('nota_pedido');
+
+    // Quitar readonly
+    campo.removeAttribute('readonly');
+
+    // Cambiar placeholder
+    campo.placeholder = "Nota general del pedido ";
+
+
     const cardHeader = document.getElementById('myCardHeader');
     if (cardHeader) {
         cardHeader.classList.remove('border-1', 'bg-indigo-lt');

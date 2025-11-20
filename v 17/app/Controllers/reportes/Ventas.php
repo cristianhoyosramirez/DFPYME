@@ -290,29 +290,29 @@ class Ventas extends BaseController
                 $nombre = $nombre_comercial['nombre'] ?? 'Sin nombre';
 
                 // Formatea el monto con separación de miles
-                $monto = $total['transferencia'] ;
+                $monto = $total['transferencia'];
 
                 // Escribe los datos en el Excel
                 $row++;
                 $sheet->setCellValue('A' . $row, $nombre);
                 $sheet->setCellValue('B' . $row, $monto);
             }
-        } 
+        }
         //else {
-            // Si no existen pagos con clase, pinta el total en efectivo
-            $total_efectivo = model('pagosModel')
-                ->selectSum('efectivo')
-                ->where('id_apertura', $id_apertura)
-                //->where('efectivo >', 0)
-                ->first();
+        // Si no existen pagos con clase, pinta el total en efectivo
+        $total_efectivo = model('pagosModel')
+            ->selectSum('efectivo')
+            ->where('id_apertura', $id_apertura)
+            //->where('efectivo >', 0)
+            ->first();
 
-            $nombre = "EFECTIVO";
-            $monto = $total_efectivo['efectivo'] ;
+        $nombre = "EFECTIVO";
+        $monto = $total_efectivo['efectivo'];
 
-            $row++;
-            $sheet->setCellValue('A' . $row, $nombre);
-            $sheet->setCellValue('B' . $row, $monto);
-       // }
+        $row++;
+        $sheet->setCellValue('A' . $row, $nombre);
+        $sheet->setCellValue('B' . $row, $monto);
+        // }
 
 
 
@@ -1361,13 +1361,13 @@ class Ventas extends BaseController
         $valor_apertura = model('aperturaModel')->select('valor')->where('id', $id_apertura['idapertura'])->first();
         $fecha_y_hora_apertura = model('aperturaModel')->select('fecha_y_hora_apertura')->where('id', $id_apertura['idapertura'])->first();
 
-       /*  $data = [
+        /*  $data = [
             'valor' => str_replace(".", "", $valor_cierre)
         ]; */
 
         $data = [
-    'valor' => str_replace([".", ","], "", $valor_cierre)
-];
+            'valor' => str_replace([".", ","], "", $valor_cierre)
+        ];
 
         $model = model('cierreFormaPagoModel');
         $actualizar = $model->set($data);

@@ -20,6 +20,13 @@ function get_mesas() {
         success: function (resultado) {
             var resultado = JSON.parse(resultado);
             if (resultado.resultado == 1) {
+                const campo = document.getElementById('nota_pedido');
+
+                // Volver a poner readonly
+                campo.setAttribute('readonly', true);
+
+                // Restaurar placeholder original
+                campo.placeholder = "Para agregar notas al pedido debe seleccionar una mesa";
                 $("#todas_las_mesas").html(resultado.mesas);
 
             }
