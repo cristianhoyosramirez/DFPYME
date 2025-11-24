@@ -57,11 +57,17 @@ class Configuracion extends BaseController
         $propina = model('configuracionPedidoModel')->select('calculo_propina')->first();
         $texto = model('configuracionPedidoModel')->select('texto_propina')->first();
         $imprimirTexto = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();
+        $calculoPropina = model('configuracionPedidoModel')->select('propina_sobre_base_tributaria')->first();
+        $propinaRedondeo = model('configuracionPedidoModel')->select('propina')->first();
+
+
         return view('configuracion/propina', [
             'porcetaje_propina' => $porcentaje['valor_defecto_propina'],
             'propina' => $propina['calculo_propina'],
             'texto' => $texto['texto_propina'],
-            'imprimirTexto' => $imprimirTexto['permitir_impresion_texto_propina']
+            'imprimirTexto' => $imprimirTexto['permitir_impresion_texto_propina'],
+            'calculoPrpina' => $calculoPropina['propina_sobre_base_tributaria'],
+            'propinaRedondeo'=>$propinaRedondeo['propina']
         ]);
     }
 
@@ -679,7 +685,7 @@ class Configuracion extends BaseController
                 'encabezado' => $espaciosEncabezado['espacios_comanda_encabezado'],
                 'tamano' => $tamano['tamano_comanda'],
                 'precios' => $precios['precios_comanda'],
-                'reimprimir_meseros'=>$reimprimir_meseros['reimpresion_meseros']
+                'reimprimir_meseros' => $reimprimir_meseros['reimpresion_meseros']
             ]
         );
     }
@@ -1332,6 +1338,34 @@ class Configuracion extends BaseController
         $valor = $json->valor;
 
         $update = model('configuracionPedidoModel')->set('permitir_impresion_texto_propina', $valor)->update();
+
+
+        return $this->response->setJSON([
+            'response' => 'success'
+        ]);
+    }
+
+    function calculoPropina()
+    {
+
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+
+        $update = model('configuracionPedidoModel')->set('propina_sobre_base_tributaria', $valor)->update();
+
+
+        return $this->response->setJSON([
+            'response' => 'success'
+        ]);
+    }
+
+    function propinaRedondeo()
+    {
+
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+
+        $update = model('configuracionPedidoModel')->set('propina', $valor)->update();
 
 
         return $this->response->setJSON([

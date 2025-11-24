@@ -1675,7 +1675,7 @@
         });
     </script>
 
-    <script>
+    <!--   <script>
         function actualizacion_cantidades(cantidad, id) {
             if (parseInt(cantidad) <= 0) {
                 // Mostrar alerta si se ingresa 0 o un número negativo
@@ -1728,7 +1728,69 @@
                 },
             });
         }
+    </script> -->
+
+
+    <script>
+        let timerCantidad = null;
+
+        function actualizacion_cantidades(cantidad, id) {
+
+            clearTimeout(timerCantidad); // Cancela un evento previo
+
+            // Esperar 400 ms antes de ejecutar
+            timerCantidad = setTimeout(function() {
+
+                // Validación: evitar 0 o negativos
+                if (parseFloat(cantidad) <= 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Cantidad inválida',
+                        text: 'La cantidad debe ser mayor que cero.',
+                    });
+                    document.getElementById("input_cantidad" + id).value = 1;
+                    return;
+                }
+
+                var url = document.getElementById("url").value;
+                var id_producto = id;
+                var cantidad_producto = cantidad;
+                var id_usuario = document.getElementById("id_usuario").value;
+
+                $.ajax({
+                    data: {
+                        id_producto,
+                        cantidad_producto,
+                        id_usuario
+                    },
+                    url: url + "/eventos/actualizar_cantidades",
+                    type: "post",
+                    success: function(resultado) {
+                        var resultado = JSON.parse(resultado);
+
+                        if (resultado.resultado == 1) {
+                            $("#editar_cantidades").modal("hide");
+                            $('#mesa_productos').html(resultado.productos_pedido);
+                            $('#valor_pedido').html(resultado.total_pedido);
+                            $('#val_pedido').html(resultado.total_pedido);
+                            $('#pedido_mesa').html('Pedido: ' + resultado.numero_pedido);
+                            $('#subtotal_pedido').val(resultado.total_pedido);
+
+                            if (resultado.estado_mesa == 0) header_pedido();
+                            if (resultado.estado_mesa == 1) header_mesa();
+                        }
+
+                        if (resultado.resultado == 0) {
+                            sweet_alert_start('warning', 'No se puede eliminar ');
+                        }
+                    },
+                });
+
+            }, 400); // <-- retraso en milisegundos
+
+        }
     </script>
+
 
     <script>
         function abrir_modal_editar_cantidad(id) {

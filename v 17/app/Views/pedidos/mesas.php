@@ -412,6 +412,9 @@ Bienvenido DFpyme
                                         oninput="this.title = this.value; insertarDatos(this.value)"
                                         readonly></textarea>
 
+                                    <?php $ip = model('configuracionPedidoModel')->select('ip')->first(); ?>
+                                    <input type="text" class="form-control" value="<?php echo $ip['ip']; ?>" hidden id="ip">
+
 
                                 </div>
                                 <div class="col-md-1 mb-2">

@@ -1,6 +1,6 @@
 function pedido(id_mesa, nombre_mesa) {
 
-   const campo = document.getElementById('nota_pedido');
+    const campo = document.getElementById('nota_pedido');
 
     // Quitar readonly
     campo.removeAttribute('readonly');
@@ -97,7 +97,7 @@ function pedido(id_mesa, nombre_mesa) {
                 sweet_alert_start('success', 'Venta con pedido')
             }
             if (resultado.resultado == 0) {
-
+                const campo = document.getElementById('nota_pedido').value = "";
             }
         },
         error: function (xhr, status, error) {

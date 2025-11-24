@@ -388,12 +388,13 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
         $imprimir = model('configuracionPedidoModel')->select('imprimir_nota_producto')->first();
         $ip = model('configuracionPedidoModel')->select('ip')->first();
-
+        
         //echo $imprimir['imprimir_nota_producto']; exit();
 
         return view('menu/administracion', [
             'imprimir' => $imprimir['imprimir_nota_producto'],
-            'ip'=>$ip['ip']
+            'ip' => $ip['ip'],
+            
         ]);
     }
 
@@ -471,9 +472,9 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
         //$id_apertura = $json->id_apertura;
 
-        $temp_id_apertura=model('aperturaRegistroModel')->select('numero')->first();
+        $temp_id_apertura = model('aperturaRegistroModel')->select('numero')->first();
 
-        $id_apertura=$temp_id_apertura['numero'];
+        $id_apertura = $temp_id_apertura['numero'];
 
         $factura = model('facturaElectronicaModel')
             ->where('id_status', 1)

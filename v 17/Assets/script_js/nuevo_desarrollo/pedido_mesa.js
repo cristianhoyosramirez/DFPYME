@@ -1,6 +1,14 @@
 
 function pedido_mesa(id_mesa, nombre_mesa) {
 
+    // Quitar readonly
+    const campo = document.getElementById('nota_pedido');
+
+    campo.removeAttribute('readonly');
+
+    // Cambiar placeholder
+    campo.placeholder = "Nota general del pedido ";
+
     $('#error_producto').html('')
     $('#producto').val('')
 
@@ -48,11 +56,11 @@ function pedido_mesa(id_mesa, nombre_mesa) {
     }
     if (tipo_pedido == "movil") {
 
-       sweet_alert_centrado('success','Mesa seleccionada '+nombre_mesa)
+        sweet_alert_centrado('success', 'Mesa seleccionada ' + nombre_mesa)
 
     }
 
-   
+
 
     $("#lista_todas_las_mesas").modal("hide");
     $('#mesasOffcanvas').offcanvas('hide');

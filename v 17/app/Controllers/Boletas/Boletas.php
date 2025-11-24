@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Libraries\data_table;
 use App\Libraries\tipo_consulta;
 use App\Libraries\Propina;
+use App\Libraries\convertirAdecimal;
 
 
 require APPPATH . "Controllers/phpqrcode/qrlib.php";
@@ -703,17 +704,26 @@ class Boletas extends BaseController
     function actualizar_cantidades()
     {
         $id_tabla_producto = $this->request->getPost('id_producto');
-        //$id_tabla_producto = 1011;
+        //$id_tabla_producto = 16068;
         $cantidad_actualizar = $this->request->getPost('cantidad_producto');
-        //$cantidad_actualizar = 11;
-        $id_usuario = $this->request->getPost('id_usuario');
-        //$id_usuario = 9;
+        //$cantidad_actualizar = "1.5";
+
+        $temPConvertirNumero = new convertirAdecimal();
+        $numero  = $temPConvertirNumero->convertirAdecimal($cantidad_actualizar);
+
+        $numeroDecimal = $numero;
+
+        //$cantidad_actualizar = 1;
+        //$id_usuario = $this->request->getPost('id_usuario');
+        $id_usuario = 6;
         $numero_pedido = model('productoPedidoModel')->select('numero_de_pedido')->where('id', $id_tabla_producto)->first();
         $tipo_usuario = model('usuariosModel')->select('idtipo')->where('idusuario_sistema', $id_usuario)->first();
 
         $cantidad_producto = model('productoPedidoModel')->select('cantidad_producto')->where('id', $id_tabla_producto)->first();
         $cantidad_impresos = model('productoPedidoModel')->select('numero_productos_impresos_en_comanda')->where('id', $id_tabla_producto)->first();
         $valor_unitario  = model('productoPedidoModel')->select('valor_unitario')->where('id', $id_tabla_producto)->first();
+
+
 
         $model_pedido = model('pedidoModel');
 
@@ -730,8 +740,9 @@ class Boletas extends BaseController
                 'cantidad_producto' => $cantidad_actualizar
             ];
 
-            $actualizar = model('productoPedidoModel')->actualizacion_cantidad_producto($id_tabla_producto, $cantidades);
 
+
+            $actualizar = model('productoPedidoModel')->actualizacion_cantidad_producto($id_tabla_producto, $cantidades);
 
             $total_pedido = $model->selectSum('valor_total')->where('numero_de_pedido', $numero_pedido['numero_de_pedido'])->find();
 

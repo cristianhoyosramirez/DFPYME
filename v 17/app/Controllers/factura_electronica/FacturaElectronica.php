@@ -333,7 +333,7 @@ class FacturaElectronica extends BaseController
                             //'id_pedido'=>$numero_pedido
                             'saldo_anterior' => $cantidad_inventario,
                             'nuevo_saldo' => $inventario_final,
-                            'nota_producto'=>$detalle['nota_producto']
+                            'nota_producto' => $detalle['nota_producto']
                         ];
 
                         $insertar = model('kardexModel')->insert($data);
@@ -364,6 +364,13 @@ class FacturaElectronica extends BaseController
                     $inventario_final = $cantidad_inventario['cantidad_inventario'] - $detalle['cantidad_producto'];
                     $id_usuario = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
 
+                    $tempNota = model('pedidoModel')->select('nota_pedido')->where('fk_mesa', $id_mesa)->first();
+
+                    if (empty($tempNota) || empty($tempNota['nota_pedido'])) {
+                        $nota = '';
+                    } else {
+                        $nota = $tempNota['nota_pedido'];
+                    }
 
                     $data = [
                         'idcompra' => 0,
@@ -392,7 +399,7 @@ class FacturaElectronica extends BaseController
                         'saldo_anterior' => $cantidad_inventario,
                         'nuevo_saldo' => $inventario_final,
                         //'id_mesero'=>$id_usuario['fk_usuario']
-                         'nota_producto'=>$detalle['nota_producto']
+                        'nota_producto' => $nota
 
                     ];
 
@@ -579,7 +586,7 @@ class FacturaElectronica extends BaseController
 
                     if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
 
-                        $idUlt = model('pagosModel')->insertID;
+                        $idUlt = model('pagosModel')->insertID();
 
                         $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
                         $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);
@@ -760,7 +767,7 @@ class FacturaElectronica extends BaseController
 
                     if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
 
-                        $idUlt = model('pagosModel')->insertID;
+                        $idUlt = model('pagosModel')->insertID();
 
                         $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
                         $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);

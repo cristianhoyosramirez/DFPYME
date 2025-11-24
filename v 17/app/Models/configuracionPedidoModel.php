@@ -22,6 +22,7 @@ class configuracionPedidoModel extends Model
         'reimpresion_meseros',
         'justificacion',
         'preguntar_impresora_prefactura',
-        'ip'
+        'ip',
+        'propina_sobre_base_tributaria'
     ];
 }

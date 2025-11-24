@@ -787,6 +787,8 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('actualizar_imprimir', 'Configuracion::actualizar_imprimir');
     $routes->post('beep', 'Configuracion::beep');
     $routes->post('update_imprimir_texto', 'Configuracion::update_imprimir_texto');
+    $routes->post('calculoPropina', 'Configuracion::calculoPropina');
+    $routes->post('propinaRedondeo', 'Configuracion::propinaRedondeo');
     $routes->post('reImprimirMesero', 'Configuracion::reImprimirMesero');
 });
 

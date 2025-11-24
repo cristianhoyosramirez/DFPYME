@@ -14,10 +14,12 @@ class Propina
         // Obtener el valor total del pedido
         $valor_pedido = model('pedidoModel')->select('valor_total')->where('fk_mesa', $id_mesa)->first();
 
+    
+
         // Obtener la configuración de la propina
         $tipo_propina = model('configuracionPedidoModel')->select('propina')->first();
         $temp_porcentaje_propina = model('configuracionPedidoModel')->select('valor_defecto_propina')->first();
-
+    
         // Calcular el porcentaje de propina
         $porcentaje_propina = $temp_porcentaje_propina['valor_defecto_propina'] / 100;
 
