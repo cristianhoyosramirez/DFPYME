@@ -142,7 +142,6 @@ function factura_electronica(
                                         let button = document.querySelector("#btn_pagar");
                                         button.disabled = false; // Habilitar el botón
 
-alert('2')
 
                                         limpiar_todo();
                                         var mesas = document.getElementById("todas_las_mesas");

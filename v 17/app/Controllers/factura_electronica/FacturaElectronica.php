@@ -306,6 +306,13 @@ class FacturaElectronica extends BaseController
 
                         $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
                         $inventario_final = $cantidad_inventario['cantidad_inventario'] - $detalle['cantidad_producto'];
+                        
+                        if (empty($detalle['nota_producto'])){
+                            $tempNota="";
+                        }else if (empty($detalle['nota_producto'])){
+                            $tempNota=$detalle['nota_producto'];
+                        }
+                        
                         $data = [
                             'idcompra' => 0,
                             'codigo' => $detalle['codigointernoproducto'],
@@ -333,7 +340,7 @@ class FacturaElectronica extends BaseController
                             //'id_pedido'=>$numero_pedido
                             'saldo_anterior' => $cantidad_inventario,
                             'nuevo_saldo' => $inventario_final,
-                            'nota_producto' => $detalle['nota_producto']
+                            'nota_producto' => $tempNota
                         ];
 
                         $insertar = model('kardexModel')->insert($data);

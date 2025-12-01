@@ -17,8 +17,6 @@ class EmpresaController extends BaseController
 
         $actividadEconimica=model('empresaCiiuModel')->select('codigo')->first();
 
-        //d($actividadEconimica);
-
         return view('empresa/datos', [
             'regimen' => $regimen,
             'departamentos' => $departamentos,

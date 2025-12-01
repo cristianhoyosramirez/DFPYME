@@ -100,7 +100,7 @@ PRODUCTO
 
         <div class="col-md-2">
           <label for="inputState" class="form-label">Email</label>
-          <input type="text" class="form-control" name="email" value="<?php echo $datos_empresa[0]['telefonoempresa'] ?>">
+          <input type="text" class="form-control" name="email" value="<?php echo $datos_empresa[0]['emailempresa'] ?>">
         </div>
 
         <div class="col-md-2">
@@ -121,8 +121,6 @@ PRODUCTO
             title="Solo se permiten números (máximo 4 dígitos)"
             oninput="this.value = this.value.replace(/[^0-9]/g, '');"
             required>
-
-
         </div>
 
         <div class="row mt-3">

@@ -1786,7 +1786,7 @@
                     },
                 });
 
-            }, 400); // <-- retraso en milisegundos
+            }, 1000); // <-- retraso en milisegundos
 
         }
     </script>
