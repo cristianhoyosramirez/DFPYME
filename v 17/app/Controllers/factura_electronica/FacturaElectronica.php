@@ -306,13 +306,13 @@ class FacturaElectronica extends BaseController
 
                         $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $detalle['codigointernoproducto'])->first();
                         $inventario_final = $cantidad_inventario['cantidad_inventario'] - $detalle['cantidad_producto'];
-                        
-                        if (empty($detalle['nota_producto'])){
-                            $tempNota="";
-                        }else if (empty($detalle['nota_producto'])){
-                            $tempNota=$detalle['nota_producto'];
+
+                        if (empty($detalle['nota_producto'])) {
+                            $tempNota = "";
+                        } else if (empty($detalle['nota_producto'])) {
+                            $tempNota = $detalle['nota_producto'];
                         }
-                        
+
                         $data = [
                             'idcompra' => 0,
                             'codigo' => $detalle['codigointernoproducto'],
@@ -593,8 +593,13 @@ class FacturaElectronica extends BaseController
 
                     if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
 
-                        $idUlt = model('pagosModel')->insertID();
+                        //$idUlt = model('pagosModel')->insertID();
 
+                        $pagosModel = model('pagosModel');
+                        $ultimoPago = $pagosModel->orderBy('id', 'DESC')->first(); // 'id' es tu PK
+                        $idUlt = $ultimoPago['id'];
+
+                    
                         $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
                         $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);
 
@@ -623,6 +628,9 @@ class FacturaElectronica extends BaseController
                                 $imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $efectivo, $total_efectivo);
                             }
                         } */
+
+                        //var_dump($movimientos_transaccion);
+                        //exit();
 
                         if (!empty($movimientos_transaccion)) {
                             if ($movimientos_transaccion[0]['recibido_transferencia'] > 0) {

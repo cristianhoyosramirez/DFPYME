@@ -478,6 +478,7 @@ class EmpresaController extends BaseController
     {
         $comprobante = model('cajaModel')->select('imp_comprobante_transferencia')->first();
 
+
         return view('empresa/configuracion_impresion_transferencias', [
             'imprimir' => $comprobante['imp_comprobante_transferencia']
         ]);
