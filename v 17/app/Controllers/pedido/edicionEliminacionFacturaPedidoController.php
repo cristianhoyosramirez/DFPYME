@@ -388,13 +388,13 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
         $imprimir = model('configuracionPedidoModel')->select('imprimir_nota_producto')->first();
         $ip = model('configuracionPedidoModel')->select('ip')->first();
-        
+
         //echo $imprimir['imprimir_nota_producto']; exit();
 
         return view('menu/administracion', [
             'imprimir' => $imprimir['imprimir_nota_producto'],
             'ip' => $ip['ip'],
-            
+
         ]);
     }
 
@@ -465,14 +465,14 @@ class edicionEliminacionFacturaPedidoController extends BaseController
         ]);
     }
 
-    function consultarFe()
+    /*  function consultarFe()
     {
 
         $json = $this->request->getJSON();
 
         //$id_apertura = $json->id_apertura;
 
-        $temp_id_apertura = model('aperturaRegistroModel')->select('numero')->first();
+        $temp_id_apertura = model('aperturaRegistroModel')->select('id')->first();
 
         $id_apertura = $temp_id_apertura['numero'];
 
@@ -515,7 +515,64 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
             ]);
         }
+    } */
+
+    function consultarFe()
+    {
+
+        $json = $this->request->getJSON();
+
+        // Buscar apertura activa
+        $temp_id_apertura = model('aperturaRegistroModel')->select('id, numero')->first();
+
+        // 🔴 VALIDAR SI NO HAY APERTURA (CAJA CERRADA)
+        if (empty($temp_id_apertura)) {
+            return $this->response->setJSON([
+                'response' => 'fail',
+                'message'  => 'La caja fue cerrada. Debe abrir caja para continuar.'
+            ]);
+        }
+
+        $id_apertura = $temp_id_apertura['numero'];
+
+        $factura = model('facturaElectronicaModel')
+            ->where('id_status', 1)
+            ->where('id_apertura', $id_apertura)
+            ->first();
+
+        $informeFiscal = model('configuracionPedidoModel')
+            ->select('informe_fiscal')
+            ->first();
+
+        // Resto de condiciones
+        if ($informeFiscal['informe_fiscal'] == 't' and !empty($factura)) {
+            return $this->response->setJSON([
+                'response' => 'success',
+                'message' => 'Hay facturas pendientes por enviar a la Dian se debe primero transmitir'
+            ]);
+        }
+
+        if ($informeFiscal['informe_fiscal'] == 'f' && (empty($factura) || $factura === "NULL")) {
+            return $this->response->setJSON([
+                'response' => 'success',
+                'message' => 'Hay facturas por transmitir.'
+            ]);
+        }
+
+        if ($informeFiscal['informe_fiscal'] == 'f' and !empty($factura)) {
+            return $this->response->setJSON([
+                'response' => 'fail',
+                'message' => 'Desde configuración no se permite generar facturas. Hay facturas por transmitir.'
+            ]);
+        }
+
+        if ($informeFiscal['informe_fiscal'] == 't' and empty($factura)) {
+            return $this->response->setJSON([
+                'response' => 'success',
+            ]);
+        }
     }
+
 
     /*  function consultarFe()
     {

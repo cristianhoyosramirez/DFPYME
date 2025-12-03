@@ -503,11 +503,11 @@ class impresion
 
 
         if ($efectivo[0]['recibido_efectivo'] > 0) {
-            $printer->text(str_pad("PAGO EFECTIVO ", 15) . ": " . str_pad("$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("PAGO ", 15) . ": " . str_pad("$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
         }
 
         if ($transferencia[0]['recibido_transferencia'] > 0) {
-            $printer->text(str_pad("PAGO TRANSFERENCIA", 15) . ": " . str_pad("$ " . number_format($transferencia[0]['recibido_transferencia'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("PAGO", 15) . ": " . str_pad("$ " . number_format($transferencia[0]['recibido_transferencia'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
         }
 
         $printer->text(str_pad("CAMBIO", 15) . ": " . str_pad("$ " . number_format($cambio['cambio'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
@@ -804,11 +804,11 @@ class impresion
 
         $cambio = model('kardexModel')->cambio($id_factura);
         if ($efectivo[0]['recibido_efectivo'] > 0) {
-            $printer->text(str_pad("PAGO EFECTIVO ", 15) . ": " . str_pad("$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("PAGO ", 15) . ": " . str_pad("$ " . number_format($efectivo[0]['recibido_efectivo'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
         }
 
         if ($transferencia[0]['recibido_transferencia'] > 0) {
-            $printer->text(str_pad("PAGO TRANSFERENCIA", 15) . ": " . str_pad("$ " . number_format($transferencia[0]['recibido_transferencia'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("PAGO ", 15) . ": " . str_pad("$ " . number_format($transferencia[0]['recibido_transferencia'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
         }
 
         $printer->text(str_pad("CAMBIO", 15) . ": " . str_pad("$ " . number_format($cambio[0]['cambio'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");

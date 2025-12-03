@@ -424,7 +424,7 @@ async function cierre_caja() {
     } else if (data.response === "fail") {
       Swal.fire({
         icon: "warning",
-        title: "Hay facturas pendientes por transmitir",
+        title: data.message,
         confirmButtonText: "Entendido",
         customClass: { confirmButton: "btn btn-outline-success" },
         buttonsStyling: false
