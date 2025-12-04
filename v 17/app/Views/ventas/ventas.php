@@ -96,6 +96,7 @@ Ventas
                 <label for="" class="form-label">Tipo de documento </label>
                 <select name="tipo_documento" id="tipo_documento" class="form-select" onchange="limpiar_error_documento(this.value)">
 
+                <?php  $estado = model('estadoModel')->findAll(); ?>
                     <?php foreach ($estado as $detalle) : ?>
                         <option value="<?php echo $detalle['idestado'] ?>" <?php if ($detalle['idestado'] == 5) : ?>selected <?php endif; ?>><?php echo $detalle['descripcionestado'] ?> </option>
                     <?php endforeach ?>

@@ -855,11 +855,14 @@ class Boletas extends BaseController
 
         $estado = model('estadoModel')->consultar_ventas();
 
-        //$estado = model('estadoModel')->findAll();
+        $estado = model('estadoModel')->findAll();
 
         $consulta = "select * from documento_electronico";
 
+      
+
         $documentos = model('pagosModel')->get_ventas_credito($consulta);
+        
         return view('ventas/ventas', [
             'estado' => $estado,
             'documentos' => $documentos
