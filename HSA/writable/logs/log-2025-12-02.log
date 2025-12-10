@@ -1,0 +1,62 @@
+CRITICAL - 2025-12-02 05:35:58 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dist.php"
+[Method: GET, Route: hsa/index]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dist.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dist', [], true)
+ 3 APPPATH\Controllers\HSA\HsaController.php(14): view('dist')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\HSA\HsaController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HSA\HsaController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(57): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-02 05:36:19 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dist.php"
+[Method: GET, Route: hsa/index]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dist.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dist', [], true)
+ 3 APPPATH\Controllers\HSA\HsaController.php(14): view('dist')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\HSA\HsaController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HSA\HsaController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(57): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-02 05:36:31 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "dist/index.php"
+[Method: GET, Route: hsa/index]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('dist/index.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dist/index', [], true)
+ 3 APPPATH\Controllers\HSA\HsaController.php(14): view('dist/index')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\HSA\HsaController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HSA\HsaController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(57): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-02 16:22:07 --> ArgumentCountError: Too few arguments to function view(), 0 passed in C:\xampp\htdocs\HSA\app\Controllers\HSA\HsaController.php on line 145 and at least 1 expected
+[Method: GET, Route: hsa/component/renombrar_form]
+in SYSTEMPATH\Common.php on line 1155.
+ 1 APPPATH\Controllers\HSA\HsaController.php(145): view()
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\HSA\HsaController->componente('renombrar_form')
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HSA\HsaController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(57): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-02 16:32:09 --> CodeIgniter\Exceptions\CriticalError: The required PHP extension "pgsql" is not loaded. Install and enable it to use "Postgre" driver.
+[Method: POST, Route: hsa/renombrar]
+in SYSTEMPATH\Database\Database.php on line 182.
+ 1 SYSTEMPATH\Database\Database.php(59): CodeIgniter\Database\Database->checkDbExtension('Postgre')
+ 2 SYSTEMPATH\Database\Config.php(82): CodeIgniter\Database\Database->load([...], 'default')
+ 3 SYSTEMPATH\Model.php(155): CodeIgniter\Database\Config::connect('default')
+ 4 SYSTEMPATH\Config\Factories.php(236): CodeIgniter\Model->__construct(null)
+ 5 SYSTEMPATH\Config\Factories.php(170): CodeIgniter\Config\Factories::createInstance('models', 'App\\Models\\XmlModel', [...])
+ 6 SYSTEMPATH\Common.php(801): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 7 APPPATH\Controllers\HSA\HsaController.php(43): model('XmlModel')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\HSA\HsaController->insertarArchivos()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HSA\HsaController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(57): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
