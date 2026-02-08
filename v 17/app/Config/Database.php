@@ -33,7 +33,7 @@ class Database extends Config
      */
     public $default = [
         //'DSN'      => 'pgsql:host=localhost;port=5432;dbname=HELADERIA;user=postgres;password=123456',
-        'DSN'      => 'pgsql:host=localhost;port=5432;dbname=CARRAAPLAN;user=postgres;password=123456',
+        'DSN'      => 'pgsql:host=localhost;port=5432;dbname=FACTURACION;user=postgres;password=123456',
         'hostname' => 'localhost',
         'username' => '',
         'password' => '',
