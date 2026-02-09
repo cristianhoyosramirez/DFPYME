@@ -683,6 +683,7 @@ class ReportesController extends BaseController
 
         $efectivo = $request->getPost('efectivo_factura') ?? 0;
         $transferencia = $request->getPost('transferencia_factura') ?? 0;
+        $id_clase_pago = $request->getPost('forma_pago');
 
         // Limpiar formato moneda
         $efectivo = (int) preg_replace('/\D/', '', $efectivo);
@@ -731,6 +732,7 @@ class ReportesController extends BaseController
             'total_pago' => $totalPago,
             'recibido_efectivo' => $efectivo,
             'recibido_transferencia' => $transferencia,
+            'id_clase_pago'=>$id_clase_pago
         ];
 
         $update = model('pagosModel')
@@ -756,10 +758,11 @@ class ReportesController extends BaseController
     function datos_pagos()
     {
         $id = $this->request->getPost('id');
-        //$id = 7607;
+        // $id = 4046;
         $pagos = model('pagosModel')->pagos($id);
         $clasePago = model('clasePagoModel')->where('estado', 'true')->orderby('nombre', 'asc')->findAll();
 
+        //dd($pagos);
 
         /*   $returnData = array(
             "resultado" => 1,
@@ -769,13 +772,13 @@ class ReportesController extends BaseController
 
         ); */
 
-    
+
 
 
         if ($pagos[0]['transferencia'] == 0) {
             $nombre_pago = "";
         } else if ($pagos[0]['transferencia'] > 0) {
-            $nombre_pago = $pagos[0]['clase_pago'];
+            $nombre_pago = $pagos[0]['nombre_pago'];
         }
 
         $returnData = array(
