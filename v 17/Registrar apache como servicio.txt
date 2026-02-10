@@ -1,3 +1,0 @@
-cd C:\xampp\apache\bin
-httpd.exe -k install -n "ApacheXAMPP"
-net start ApacheXAMPP
