@@ -1,0 +1,24 @@
+CRITICAL - 2026-01-07 22:39:10 --> Undefined array key "nombre_comercial"
+#0 C:\xampp\htdocs\dfpyme\app\Libraries\impresion.php(511): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 511)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(1254): App\Libraries\impresion->imprimir_factura_electronica('6')
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->impresion_factura_electronica()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-01-07 22:39:11 --> Undefined array key "nombre_comercial"
+#0 C:\xampp\htdocs\dfpyme\app\Libraries\impresion.php(511): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 511)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(1254): App\Libraries\impresion->imprimir_factura_electronica('6')
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->impresion_factura_electronica()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-01-07 22:39:21 --> Undefined array key "nombre_comercial"
+#0 C:\xampp\htdocs\dfpyme\app\Libraries\impresion.php(511): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 511)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(1254): App\Libraries\impresion->imprimir_factura_electronica('6')
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->impresion_factura_electronica()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}

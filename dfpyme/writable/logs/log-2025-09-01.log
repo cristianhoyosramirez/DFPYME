@@ -1,0 +1,51 @@
+CRITICAL - 2025-09-01 17:19:46 --> Undefined variable $mesas
+#0 C:\xampp\htdocs\dfpyme\app\Views\whatsapp\configuracion.php(85): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 85)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('whatsapp/config...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(410): view('whatsapp/config...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->menuPedidosWhatsapp()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-01 17:22:32 --> Undefined variable $mesas
+#0 C:\xampp\htdocs\dfpyme\app\Views\whatsapp\configuracion.php(85): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 85)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('whatsapp/config...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(414): view('whatsapp/config...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->menuPedidosWhatsapp()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-01 17:22:34 --> Undefined variable $mesas
+#0 C:\xampp\htdocs\dfpyme\app\Views\whatsapp\configuracion.php(85): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 85)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('whatsapp/config...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(414): view('whatsapp/config...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->menuPedidosWhatsapp()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-01 17:23:03 --> Undefined variable $mesas
+#0 C:\xampp\htdocs\dfpyme\app\Views\whatsapp\configuracion.php(85): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 85)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('whatsapp/config...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(415): view('whatsapp/config...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->menuPedidosWhatsapp()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-01 17:24:26 --> Undefined array key "id"
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(411): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 411)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->menuPedidosWhatsapp()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}

@@ -1,0 +1,1386 @@
+CRITICAL - 2025-10-27 14:30:13 --> Undefined property: stdClass::$nomnbre
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(557): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined prope...', 'C:\\xampp\\htdocs...', 557)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->actualizarNombre()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2025-10-27 14:41:49 --> There is no data to update.
+#0 C:\xampp\htdocs\dfpyme\system\BaseModel.php(846): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+#1 C:\xampp\htdocs\dfpyme\system\Model.php(651): CodeIgniter\BaseModel->update(NULL, Array)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(561): CodeIgniter\Model->update()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->actualizarNombre()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+ERROR - 2025-10-27 14:42:44 --> ErrorException: pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 2
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos. in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'UPDATE "product...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('UPDATE "product...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE "product...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1913): CodeIgniter\Database\BaseConnection->query('UPDATE "product...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(298): CodeIgniter\Database\BaseBuilder->update()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(865): CodeIgniter\Model->doUpdate(NULL, Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(651): CodeIgniter\BaseModel->update(NULL, Array)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(561): CodeIgniter\Model->update()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->actualizarNombre()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 14:42:44 --> pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 2
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos.
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'UPDATE "product...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('UPDATE "product...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE "product...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1913): CodeIgniter\Database\BaseConnection->query('UPDATE "product...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(298): CodeIgniter\Database\BaseBuilder->update()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(865): CodeIgniter\Model->doUpdate(NULL, Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(651): CodeIgniter\BaseModel->update(NULL, Array)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(561): CodeIgniter\Model->update()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->actualizarNombre()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 14:42:44 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2025-10-27 14:44:34 --> ErrorException: pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 2
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos. in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'UPDATE "product...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('UPDATE "product...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE "product...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1913): CodeIgniter\Database\BaseConnection->query('UPDATE "product...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(298): CodeIgniter\Database\BaseBuilder->update()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(865): CodeIgniter\Model->doUpdate(NULL, Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(651): CodeIgniter\BaseModel->update(NULL, Array)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(563): CodeIgniter\Model->update()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->actualizarNombre()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 14:44:34 --> pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 2
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos.
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'UPDATE "product...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('UPDATE "product...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE "product...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1913): CodeIgniter\Database\BaseConnection->query('UPDATE "product...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(298): CodeIgniter\Database\BaseBuilder->update()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(865): CodeIgniter\Model->doUpdate(NULL, Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(651): CodeIgniter\BaseModel->update(NULL, Array)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(563): CodeIgniter\Model->update()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->actualizarNombre()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:23:53 --> ErrorException: pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos. in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(579): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:23:53 --> pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos.
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(579): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:23:53 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2025-10-27 15:37:18 --> ErrorException: pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos. in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:37:18 --> pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos.
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:37:33 --> ErrorException: pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos. in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:37:33 --> pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos.
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:38:31 --> ErrorException: pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos. in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:38:31 --> pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos.
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:38:34 --> ErrorException: pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos. in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:38:34 --> pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos.
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:39:05 --> ErrorException: pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos. in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:39:05 --> pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigointernoproducto&quot; = 9
+                                      ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos.
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(580): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:40:05 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:40:05 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:41:34 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:41:34 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:42:01 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:42:01 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:43:39 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:43:39 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:16 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:16 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:17 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:17 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:18 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:18 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:18 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:18 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:19 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:19 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:20 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:20 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:20 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:20 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:21 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:21 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:21 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:21 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:21 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:21 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:24 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:24 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:45:24 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:45:24 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:46:49 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:46:49 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:46:50 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:46:50 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:46:52 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:46:52 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:46:52 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:46:52 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:46:52 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:46:52 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:47:03 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:47:03 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:47:04 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:47:04 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:47:06 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:47:06 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:47:06 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:47:06 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:47:06 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:47:06 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:47:07 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:47:07 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:47:07 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:47:07 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:47:08 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:47:08 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_kardex» en la tabla «kardex»
+DETAIL:  La llave (codigointernoproducto)=(9) todavía es referida desde la tabla «kardex».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(582): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2025-10-27 15:56:57 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(2) todavía es referida desde la tabla «producto_factura_venta». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(597): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:56:57 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(2) todavía es referida desde la tabla «producto_factura_venta».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(597): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:56:57 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2025-10-27 15:57:51 --> Undefined array key 0
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(207): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 207)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->SearchInsumosRecetas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2025-10-27 15:58:25 --> Attempt to read property "codigo" on null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(576): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read...', 'C:\\xampp\\htdocs...', 576)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+ERROR - 2025-10-27 15:58:35 --> ErrorException: pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigo&quot; = 9
+                       ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos. in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "ka...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "ka...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "ka...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "ka...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(588): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2025-10-27 15:58:35 --> pg_query(): Query failed: ERROR:  el operador no existe: character varying = integer
+LINE 2: WHERE &quot;codigo&quot; = 9
+                       ^
+HINT:  Ningún operador coincide con el nombre y el tipo de los argumentos. Puede ser necesario agregar conversiones explícitas de tipos.
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "ka...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "ka...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "ka...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "ka...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(588): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
