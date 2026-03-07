@@ -1024,158 +1024,239 @@ class cajaController extends BaseController
         }
     } */
 
-    function exportar_a_excel_reporte_categorias()
-    {
+  public function exportar_a_excel_reporte_categorias()
+{
+    $datos_empresa = model('empresaModel')->find();
 
-        $datos_empresa = model('empresaModel')->find();
+    $fechaInicial = $this->request->getPost('fechaInicial');
+    $fechaFinal   = $this->request->getPost('fechaFinal');
+    $horaInicial  = $this->request->getPost('horaInicial');
+    $horaFinal    = $this->request->getPost('horaFinal');
 
+    $inicial = $fechaInicial . " " . $horaInicial;
+    $final   = $fechaFinal . " " . $horaFinal;
 
+    $categorias = model('reporteProductoModel')->getCategorias($inicial, $final);
 
-        $fechaInicial = $this->request->getPost('fechaInicial');
-        $fechaFinal = $this->request->getPost('fechaFinal');
-        $horaInicial = $this->request->getPost('horaInicial');
-        $horaFinal = $this->request->getPost('horaFinal');
+    $file_name = 'Reporte de venta de producto del ' . $fechaInicial . ' al ' . $fechaFinal . '.xlsx';
 
-        $inicial = $fechaInicial . " " . $horaInicial;
-        $final = $fechaFinal . " " . $horaFinal;
+    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
 
-        $categorias = model('reporteProductoModel')->getCategorias($inicial, $final);
+    // Fuente por defecto
+    $spreadsheet->getDefaultStyle()->getFont()->setName('Aptos Narrow')->setSize(11);
 
-        $file_name = 'Reporte de venta de producto del ' . $fechaInicial . ' al ' . $fechaFinal . '.xlsx';
+    // ==========================
+    // ENCABEZADO EMPRESA
+    // ==========================
+    $sheet->setCellValue('A1', $datos_empresa[0]['nombrejuridicoempresa']);
+    $sheet->mergeCells('A1:G1');
+    $sheet->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setCellValue('A2', $datos_empresa[0]['nombrecomercialempresa']);
+    $sheet->mergeCells('A2:G2');
+    $sheet->getStyle('A2:G2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-        // Aplicar la fuente Aptos Narrow de tamaño 11 a todas las celdas
-        $spreadsheet->getDefaultStyle()->getFont()->setName('Aptos Narrow')->setSize(11);
+    $sheet->setCellValue('A3', 'NIT: ' . $datos_empresa[0]['nitempresa']);
+    $sheet->mergeCells('A3:G3');
+    $sheet->getStyle('A3:G3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-        // Establecer el estilo de las celdas del encabezado
-        $headerStyle = [
+    $sheet->mergeCells('A4:G4');
+
+    $sheet->setCellValue('A5', 'REPORTE DE COSTO DE VENTA');
+    $sheet->mergeCells('A5:G5');
+    $sheet->getStyle('A5:G5')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle('A5:G5')->getFont()->setBold(true)->setSize(14);
+
+    $sheet->setCellValue('A6', "Fecha inicial:");
+    $sheet->setCellValue('B6', $fechaInicial);
+
+    $sheet->setCellValue('D6', "Fecha final:");
+    $sheet->setCellValue('E6', $fechaFinal);
+
+    $sheet->getStyle('A6:E6')->getFont()->setBold(true);
+
+    // ==========================
+    // INICIO DATOS
+    // ==========================
+    $row = 9;
+
+    $totalGeneral = 0;
+
+    foreach ($categorias as $categoria) {
+
+        // Nombre categoría
+        $sheet->setCellValue("A$row", strtoupper($categoria['nombrecategoria']));
+        $sheet->mergeCells("A$row:G$row");
+
+        $sheet->getStyle("A$row:G$row")->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 12,
-                'color' => ['argb' => '000000'], // Fuente en color negro
-                'name' => 'Aptos Narrow',
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '305496']
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+        ]);
+
+        $row++;
+
+        // Encabezados tabla
+        $sheet->setCellValue("A$row", "Código");
+        $sheet->setCellValue("B$row", "Fecha");
+        $sheet->setCellValue("C$row", "Hora");
+        $sheet->setCellValue("D$row", "Producto");
+        $sheet->setCellValue("E$row", "Valor unidad");
+        $sheet->setCellValue("F$row", "Cantidad");
+        $sheet->setCellValue("G$row", "Total");
+
+        $sheet->getStyle("A$row:G$row")->applyFromArray([
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '000000'],
+            ],
+            'font' => [
+                'color' => ['rgb' => 'FFFFFF'],
+                'bold' => true,
             ],
             'alignment' => [
                 'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                 'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
             ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => 'FFFFFF'],
+                ],
+            ],
+        ]);
+
+        $row++;
+
+        // Productos por categoría
+        $productos = model('reporteProductoModel')->getProductosCategorias($inicial, $final, $categoria['id_categoria']);
+
+        $subtotalCategoria = 0;
+
+        foreach ($productos as $producto) {
+
+            $sheet->setCellValue("A$row", $producto['codigo']);
+            $sheet->setCellValue("B$row", $producto['fecha']);
+            $sheet->setCellValue("C$row", $producto['hora']);
+            $sheet->setCellValue("D$row", $producto['nombreproducto']);
+            $sheet->setCellValue("E$row", $producto['valor_unitario']);
+            $sheet->setCellValue("F$row", $producto['cantidad']);
+            $sheet->setCellValue("G$row", $producto['total']);
+
+            // Formato moneda
+            $sheet->getStyle("E$row")->getNumberFormat()->setFormatCode('#,##0');
+            $sheet->getStyle("G$row")->getNumberFormat()->setFormatCode('#,##0');
+
+            // Bordes
+            $sheet->getStyle("A$row:G$row")->applyFromArray([
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['rgb' => 'D9D9D9'],
+                    ],
+                ],
+            ]);
+
+            $subtotalCategoria += $producto['total'];
+            $totalGeneral += $producto['total'];
+
+            $row++;
+        }
+
+        // TOTAL CATEGORÍA
+        $sheet->setCellValue("F$row", "TOTAL CATEGORÍA:");
+        $sheet->setCellValue("G$row", $subtotalCategoria);
+
+        $sheet->getStyle("F$row:G$row")->applyFromArray([
+            'font' => [
+                'bold' => true,
+            ],
             'fill' => [
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => ['argb' => 'F2F2F2'], // Fondo gris más claro
+                'startColor' => ['rgb' => 'F2F2F2'],
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
             ],
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                    'color' => ['argb' => '000000'], // Bordes negros
+                    'color' => ['rgb' => '000000'],
                 ],
             ],
-        ];
+        ]);
 
+        $sheet->getStyle("G$row")->getNumberFormat()->setFormatCode('#,##0');
 
-
-        $sheet->setCellValue('A1', $datos_empresa[0]['nombrejuridicoempresa']);
-        $sheet->mergeCells('A1:G1');
-        $sheet->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-        $sheet->setCellValue('A2', $datos_empresa[0]['nombrecomercialempresa']);
-        $sheet->mergeCells('A2:G2');
-        $sheet->getStyle('A2:G2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A2:G2')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-        $sheet->setCellValue('A3', 'NIT: ' . $datos_empresa[0]['nitempresa']);
-        $sheet->mergeCells('A3:G3');
-        $sheet->getStyle('A3:G3')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A3:G3')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-        /*     $sheet->setCellValue(
-            'A4',
-            'Dirección: ' . $datos_empresa[0]['direccionempresa'] . " " . $datos_empresa[0]['nombreciudad'] . " " . $datos_empresa[0]['nombredepartamento']
-        ); */
-        $sheet->mergeCells('A4:G4');
-        $sheet->getStyle('A4:G4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A4:G4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-        $sheet->setCellValue('A5', 'REPORTE DE COSTO DE VENTA');
-        $sheet->mergeCells('A5:G5');
-
-        // Aplicar alineación centrada
-        $sheet->getStyle('A5')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('A5')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
-        $sheet->setCellValue('A6', "Fecha inicial");
-        $sheet->setCellValue('B6', $fechaInicial);
-
-        $sheet->setCellValue('D6', "Fecha final");
-        $sheet->setCellValue('E6', $fechaFinal);
-
-
-
-
-
-        $row = 9;
-
-
-
-
-        foreach ($categorias as $categoria) {
-            $sheet->setCellValue("A$row", $categoria['nombrecategoria']);
-            $row++;
-
-            // Encabezado para productos de la categoría
-            $sheet->setCellValue("A$row", "Código");
-            $sheet->setCellValue("B$row", "Fecha");
-            $sheet->setCellValue("C$row", "Hora");
-            $sheet->setCellValue("D$row", "Producto");
-            $sheet->setCellValue("E$row", "Valor unidad ");
-            $sheet->setCellValue("F$row", "Cantidad ");
-            $sheet->setCellValue("G$row", "Total ");
-
-            // Estilo: fondo negro y letra blanca
-            $sheet->getStyle("A$row:G$row")->applyFromArray([
-                'fill' => [
-                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => '000000'],
-                ],
-                'font' => [
-                    'color' => ['rgb' => 'FFFFFF'],
-                    'bold' => true,
-                ],
-            ]);
-            $row++;
-
-            // Cuerpo de productos
-            $productos = model('reporteProductoModel')->getProductosCategorias($inicial, $final, $categoria['id_categoria']);
-
-            foreach ($productos as $producto) {
-                $sheet->setCellValue("A$row", $producto['codigo']);
-                $sheet->setCellValue("B$row", $producto['fecha']);
-                $sheet->setCellValue("C$row", $producto['hora']);
-
-                $sheet->setCellValue("D$row", $producto['nombreproducto']);
-                $sheet->setCellValue("E$row", $producto['valor_unitario']);
-                $sheet->setCellValue("F$row", $producto['cantidad']);
-                $sheet->setCellValue("G$row", $producto['total']);
-                $row++;
-            }
-        }
-
-
-        $writer = new Xlsx($spreadsheet);
-        $writer->save($file_name);
-
-        header("Content-Type: application/vnd.ms-excel");
-        header('Content-Disposition: attachment; filename="' . basename($file_name) . '"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length:' . filesize($file_name));
-        flush();
-        readfile($file_name);
-        exit;
+        $row += 2; // Espacio entre categorías
     }
+
+    // ==========================
+    // TOTAL GENERAL
+    // ==========================
+    $sheet->setCellValue("F$row", "TOTAL GENERAL:");
+    $sheet->setCellValue("G$row", $totalGeneral);
+
+    $sheet->getStyle("F$row:G$row")->applyFromArray([
+        'font' => [
+            'bold' => true,
+            'size' => 13,
+            'color' => ['rgb' => 'FFFFFF'],
+        ],
+        'fill' => [
+            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+            'startColor' => ['rgb' => 'C00000'],
+        ],
+        'alignment' => [
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+            'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+        ],
+        'borders' => [
+            'allBorders' => [
+                'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                'color' => ['rgb' => '000000'],
+            ],
+        ],
+    ]);
+
+    $sheet->getStyle("G$row")->getNumberFormat()->setFormatCode('#,##0');
+
+    // ==========================
+    // AJUSTAR COLUMNAS AUTOMÁTICO
+    // ==========================
+    foreach (range('A', 'G') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    // ==========================
+    // DESCARGAR ARCHIVO
+    // ==========================
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+
+    // Guardar temporal
+    $temp_file = tempnam(sys_get_temp_dir(), 'excel_');
+    $writer->save($temp_file);
+
+    header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    header('Content-Disposition: attachment; filename="' . $file_name . '"');
+    header('Cache-Control: max-age=0');
+
+    readfile($temp_file);
+    unlink($temp_file);
+    exit;
+}
+
 
 
     function exportable_excel_reporte_categorias()

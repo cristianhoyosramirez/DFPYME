@@ -859,10 +859,10 @@ class Boletas extends BaseController
 
         $consulta = "select * from documento_electronico";
 
-      
+
 
         $documentos = model('pagosModel')->get_ventas_credito($consulta);
-        
+
         return view('ventas/ventas', [
             'estado' => $estado,
             'documentos' => $documentos
@@ -957,14 +957,18 @@ class Boletas extends BaseController
                 $mesa = "";
             }
 
-            $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
+            //$nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
+             $nombre = model('clientesModel')
+                ->select('nombrescliente')
+                ->where('nitcliente', $detalle['nit_cliente'])
+                ->first()['nombrescliente'] ?? 'CLIENTE EDITADO';
             $sub_array[] = $detalle['fecha'];
             $hora_original = $detalle['hora']; // Por ejemplo, '14:30:00'
             $hora_formateada = date('h:i A', strtotime($hora_original));
             $sub_array[] = $hora_formateada;
             //$sub_array[] = $detalle['hora'];
             $sub_array[] = $detalle['nit_cliente'];
-            $sub_array[] =  $nombre_cliente['nombrescliente'];
+            $sub_array[] =  $nombre;
 
             //$sub_array[] = $detalle['documento'];
 
@@ -1180,9 +1184,20 @@ class Boletas extends BaseController
             }
 
             $sub_array[] = $detalle['fecha'];
-            $hora_original = $detalle['hora']; // Por ejemplo, '14:30:00'
+            /*    $hora_original = $detalle['hora']; // Por ejemplo, '14:30:00'
             $hora_formateada = date('h:i A', strtotime($hora_original));
+            $sub_array[] = $hora_formateada; */
+
+            $hora_original = $detalle['hora']; // "15:23:57+01"
+
+            // quitar el offset (+01 o -05)
+            $hora_sin_zona = preg_replace('/[+-]\d{2}$/', '', $hora_original);
+
+            // convertir a AM/PM sin alterar la hora
+            $hora_formateada = date('h:i A', strtotime($hora_sin_zona));
+
             $sub_array[] = $hora_formateada;
+            
             $sub_array[] = $detalle['nit_cliente'];
             $sub_array[] =  $nombre_cliente['nombrescliente'];
 

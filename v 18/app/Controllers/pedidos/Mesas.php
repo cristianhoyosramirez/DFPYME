@@ -580,10 +580,10 @@ class Mesas extends BaseController
                 $propina = $temp_propina->calcularPropina($id_mesa);
                 $sub_total = $total_pedido['valor_total'];
 
-                $model = model('pedidoModel');
+                /* $model = model('pedidoModel');
                 $configuracion = $model->set('propina', $propina['propina']);
                 $actualizar = $model->where('id', $numero_pedido['id']);
-                $configuracion = $model->update();
+                $configuracion = $model->update(); */
 
                 $propina_final = $propina['propina'];
             }

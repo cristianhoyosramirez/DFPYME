@@ -49,8 +49,7 @@
                 autocapitalize="off"
                 spellcheck="false"
                 required
-                maxlength="15"
-                >
+                maxlength="15">
 
             <input type="text"
                 value="<?php echo $datos_cliente['dv']; ?>"
@@ -452,7 +451,12 @@
                             window.location.reload();
                         }, 1000);
                     } else {
-                        alert(data.msg);
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Atención',
+                            text: data.msg,
+                            confirmButtonText: 'Aceptar'
+                        });
                     }
                 } else {
                     $.each(data.error, function(prefix, val) {

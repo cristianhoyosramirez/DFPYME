@@ -57,7 +57,7 @@ HOME
                 <table class="table table-bordered table-striped table-hover">
                     <thead class="table-dark" style="position: sticky; top: 0; z-index: 1;">
                         <tr>
-                            <td scope="col">Codigo</td>
+                            <td scope="col">Codigo </td>
                             <td scope="col">Producto</td>
                             <td scope="col">Cantidad sistema</td>
                             <td scope="col">Cantidad conteo</td>
@@ -319,7 +319,7 @@ HOME
                 <table class="table">
                     <thead class="table-dark">
                         <tr>
-                            <td scope="col">Codigo </td>
+                            <td scope="col">Codigo 1 </td>
                             <td scope="col">Producto </td>
                             <td scope="col">Cantidad conteo </td>
                             <td scope="col">Cantidad sistema </td>
@@ -738,7 +738,7 @@ HOME
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             ingresarInv(valor, id);
-        }, 500); // Espera 500 milisegundos después de la última escritura
+        }, 500);
     }
 
     async function ingresarInv(valor, id) {
@@ -746,13 +746,17 @@ HOME
             const baseUrl = "<?php echo base_url(); ?>";
             const url = `${baseUrl}/pre_factura/ingresarInv`;
 
-            if (valor === null || valor === '' || isNaN(valor) || Number(valor) <= 0) {
+            // Convertimos a número
+            let numero = Number(valor);
+
+            // Permitir 0 pero no permitir negativos ni valores inválidos
+            if (valor === null || valor === '' || isNaN(numero) || numero < 0) {
                 return;
             }
 
             const payload = {
                 id: id,
-                valor: valor
+                valor: numero
             };
 
             const response = await fetch(url, {
@@ -783,6 +787,7 @@ HOME
         }
     }
 </script>
+
 
 
 

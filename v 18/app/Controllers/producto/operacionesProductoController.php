@@ -1105,6 +1105,9 @@ class operacionesProductoController extends BaseController
 
         $resultado = model('productoModel')->GetInventarioSalida($valor);
 
+        //var_dump( $resultado); 
+        
+
         if (!empty($resultado)) {
             foreach ($resultado as $row) {
                 $cantidad_producto = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $row['codigointernoproducto'])->first();

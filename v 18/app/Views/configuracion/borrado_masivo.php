@@ -23,6 +23,7 @@ Borrado
                     </div>
                     <button type="button" id="btnEnviar" class="btn btn-primary w-100" onclick="validar_pin()">Enviar</button>
                     <input type="hidden" value="<?php echo base_url() ?>" id="url">
+                    <input type="hidden" value="<?php echo $user_session->id_usuario ?>" id="id_usuario">
                 </div>
             </div>
         </div>
@@ -60,30 +61,43 @@ Borrado
                     // Aquí puedes manejar el resultado como desees
                     if (resultado.resultado == 1) {
 
-                        //$('#btnEnviar').attr('type', 'submit');
-                        //$('#formulario').submit(); // Envía el formular
-                        document.getElementById('borrado').style.display = 'block';
+                        Swal.fire({
+                            title: 'Procesando...',
+                            text: 'Por favor espera',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
 
                         $.ajax({
                             url: url + "/" + "configuracion/eliminacion_masiva",
                             type: "POST",
                             success: function(resultado) {
+
                                 var resultado = JSON.parse(resultado);
-                                // Aquí puedes manejar el resultado como desees
+
                                 if (resultado.resultado == 1) {
+
+                                    Swal.close(); // 👈 cerrar spinner
+
                                     const input = document.getElementById('pin');
                                     input.value = '';
                                     input.focus();
-                                    document.getElementById('borrado').style.display = 'none';
-                                    sweet_alert_start('success', 'Registros actualizados ');
-                                    
+
+                                    sweet_alert_start('success', 'Registros actualizados');
                                 }
                             },
                             error: function(xhr, status, error) {
+
+                                Swal.close();
+
                                 console.error("Error en la solicitud AJAX:", status, error);
+
+                                sweet_alert_start('error', 'Ocurrió un error');
                             }
                         });
-
                     }
 
                     if (resultado.resultado == 0) {

@@ -515,7 +515,7 @@ function pagar() {
                 //valor_venta = parseInt(subtotal_propina) + parseInt(subtotal_venta)
 
                 //console.log(valor_venta)
-
+//alert('el tipo de pago es '+ tipo_pago)
                 valor_venta = subtotal_venta
             }
 

@@ -16,7 +16,7 @@ Reporte de costos
 <link href="<?php echo base_url(); ?>/Assets/plugin/select2/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
 
 <div class="container">
-    <p class="text-center text-primary h3">INFORME DE VENTA </p>
+    <p class="text-center text-primary h3">Informe de ventas  </p>
 
     <div class="my-4"></div> <!-- Added space between the title and date inputs -->
 

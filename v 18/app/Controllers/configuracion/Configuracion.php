@@ -67,7 +67,7 @@ class Configuracion extends BaseController
             'texto' => $texto['texto_propina'],
             'imprimirTexto' => $imprimirTexto['permitir_impresion_texto_propina'],
             'calculoPrpina' => $calculoPropina['propina_sobre_base_tributaria'],
-            'propinaRedondeo'=>$propinaRedondeo['propina']
+            'propinaRedondeo' => $propinaRedondeo['propina']
         ]);
     }
 
@@ -926,6 +926,10 @@ class Configuracion extends BaseController
         /*  session()->setFlashdata('iconoMensaje', 'success');
     session()->setFlashdata('mensaje', 'Gestión exitosa');
     return redirect()->to(base_url('pedidos/mesas')); */
+
+        $completarFacturas = model('pagosModel')->getFacturas();
+        $completarProductos = model('productosHistoricoModel')->getProductos();
+
         $returnData = array(
             "resultado" => 1,
         );
@@ -934,6 +938,54 @@ class Configuracion extends BaseController
 
     private function eliminarFacturaCompleta($idFactura)
     {
+
+        $datos = model('facturaElectronicaModel')->where('id', $idFactura)->first();
+
+
+        $usuarioCreacion = model('pagosModel')->select('id_usuario_facturacion')
+            ->where('id_factura', $idFactura)
+            ->where('id_estado', 8)
+            ->first();
+
+        $idUsuario = $usuarioCreacion['id_usuario_facturacion'] ?? null;
+        $nombre = model('clientesModel')
+            ->select('nombrescliente')
+            ->where('nitcliente', $datos['nit_cliente'])
+            ->first()['nombrescliente'] ?? 'CLIENTE EDITADO';
+
+        if (!empty($datos)) {
+            //print_r($detalle);
+            $uuid = bin2hex(random_bytes(16));
+            $dataDelete = [
+                'tipo_documento' => 'ORDE DE PEDIDO',
+                'numero_documento' => $datos['numero'],
+                'sub_total' => $datos['total'],
+                'propina' => $datos['propina'],
+                'id_apertura' => $datos['id_apertura'],
+                'fecha_documento' => $datos['fecha'],
+                'hora_documento' => $datos['hora'],
+                'id_usuario_creacion' =>  $idUsuario,
+                'id_usuario_eliminacion' => $idUsuario,
+                'fecha_eliminacion' => date('Y-m-d'),
+                'hora_eliminacion' => date('H:i:s'),
+                'id_factura' => $datos['id'],
+                'id_estado' => 8,
+                'eliminada' => 'true',
+                'nit' => $datos['nit_cliente'],
+                'cliente'=>$nombre,
+                //'uuid' => $uuid
+            ];
+
+            $insertar = model('historicoModel')->insert($dataDelete);
+            /* $productos=model('kardexModel')->select('codigo,cantidad,valor_unitario,total,ico,iva,valor_ico,valor_iva')
+            ->where('id_factura',$idFactura)
+            ->where('id_estado',8)
+            ->findAll(); */
+            $productos=model('productosHistoricoModel')->productos($idFactura);
+        }
+
+
+
         model('facturaElectronicaModel')->where('id', $idFactura)->delete();
         model('itemFacturaElectronicaModel')->where('id_de', $idFactura)->delete();
         model('FacturaElectronicaformaPago')->where('id_de', $idFactura)->delete();

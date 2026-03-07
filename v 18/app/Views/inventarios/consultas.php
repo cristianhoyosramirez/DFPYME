@@ -52,7 +52,7 @@ HOME
 
     <div class="card">
         <div class="card-header text-primary">
-            Consultas de mmivimiento de producto
+            Consulta de Movimientos de Producto
         </div>
         <div class="card-body">
 
@@ -60,6 +60,18 @@ HOME
             <input type="hidden" value="<?php echo $user_session->id_usuario ?>" id="id_usuario">
 
             <div class="row mb-3">
+                <!-- <div class="col-3">
+
+                    Tipo de Consulta 
+                    <label class="form-label fw-bold">Tipo de consulta</label>
+                    <select class="form-select" id="tipo_consulta" onchange="cambiarTipoConsulta()">
+                        <option value="1" selected>Producto específico</option>
+                        <option value="2">Todos los productos</option>
+                    </select>
+                    <small class="text-muted">Selecciona si deseas buscar un producto o todos.</small>
+
+                </div>
+-->
 
                 <div class="col-3">
                     <label for="" class="form-label">Movimiento</label>
@@ -68,7 +80,7 @@ HOME
                         <option value="3">Entradas y salidas </option>
                         <option value="1">Entradas </option>
                         <option value="2">Salidas </option>
-                        
+
                         <!-- <?php foreach ($conceptos as $detalle): ?>
                             <option value="<?php echo $detalle['id'] ?>"><?php echo $detalle['nombre'] ?></option>
                         <?php endforeach ?> -->

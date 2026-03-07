@@ -910,7 +910,8 @@ class prefacturaController extends BaseController
         $datos = $this->request->getJSON();
         $busqueda = $datos->valor;
 
-        $productos = model('productoModel')->getProducto($busqueda);
+        $productos = model('productoModel')->getProducto($busqueda); 
+        
 
         if (!empty($productos)) {
 

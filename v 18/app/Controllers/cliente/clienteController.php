@@ -31,7 +31,7 @@ class ClienteController extends BaseController
     }
 
 
-     public function agregar()
+    public function agregar()
     {
         if (
             !$this->validate([
@@ -113,7 +113,7 @@ class ClienteController extends BaseController
         $apellidos = $_POST['apellidos'];
 
         if ($tipoPersona == 2) {  // Tipo de persona Natural 
-            $nombre = $_POST['nombres']." ".$apellidos;
+            $nombre = $_POST['nombres'] . " " . $apellidos;
         }
         if ($tipoPersona == 1) {  // Tipo de persona Natural 
             $nombre = $_POST['razon_social'];
@@ -149,7 +149,7 @@ class ClienteController extends BaseController
         $insert = model('clientesModel')->insert($data);
 
 
-      /*   $model = model('ciudadModel');
+        /*   $model = model('ciudadModel');
         $ciudad = $model->set('code', '834');
         $ciudad = $model->set('code_postal', '050001');
         $ciudad = $model->where('idciudad', $id_ciudad);
@@ -175,7 +175,7 @@ class ClienteController extends BaseController
         ];
 
         $insert = model('detallesRutModel')->insert($rut);
- 
+
 
         $regimen = model('regimenModel')->orderBy('idregimen', 'desc')->findAll();
         $tipo_cliente = model('tipoClienteModel')->orderBy('id', 'asc')->findAll();
@@ -202,10 +202,10 @@ class ClienteController extends BaseController
 
         );
         echo  json_encode($returnData);
-    } 
+    }
 
 
-    
+
 
 
     public function clientes_autocompletadoNota()
@@ -221,10 +221,10 @@ class ClienteController extends BaseController
 
         if (!empty($resultado)) {
             foreach ($resultado as $row) {
-                $data['value'] =  $row['telefonocliente'] . " " . "/" . " " . $row['nombrescliente']." / ".$row['nitcliente'];
-              $data['datos'] = "Cliente: " . $row['nombrescliente'] . "\n" .
-                 "Teléfono: " . $row['telefonocliente'] . "\n" .
-                 "Dirección: " . $row['direccioncliente'];
+                $data['value'] =  $row['telefonocliente'] . " " . "/" . " " . $row['nombrescliente'] . " / " . $row['nitcliente'];
+                $data['datos'] = "Cliente: " . $row['nombrescliente'] . "\n" .
+                    "Teléfono: " . $row['telefonocliente'] . "\n" .
+                    "Dirección: " . $row['direccioncliente'];
 
 
 
@@ -482,16 +482,16 @@ class ClienteController extends BaseController
         $codigo_postal = model('ciudadModel')->select('code_postal')->where('idciudad', $datos_cliente['idciudad'])->first();
 
 
-  
+
         //$tipos_persona = model('clientesModel')->get_tipos_persona();
         //$tipos_documento = model('clientesModel')->get_tipos_documento();
 
         $detallles_tributarios = model('detallesTributariosModel')->where('nit_cliente', $datos_cliente['nitcliente'])->first();
-    
+
         //dd($detallles_tributarios);
 
         $detallles_rut = model('detallesRutModel')->where('nit_cliente', $datos_cliente['nitcliente'])->findAll();
-  
+
         $returnData = array(
             "resultado" => 1,
             "datos_cliente" => view('clientes/formulario_editar_cliente', [
@@ -517,8 +517,16 @@ class ClienteController extends BaseController
 
         //$identificacion="10897202353";
         $identificacion = $this->request->getPost('identificacion');
+        $id_cliente = $this->request->getPost('id_cliente');
+        $nitSinActualizar = model('clientesModel')
+            ->select('nitcliente')
+            ->find($id_cliente)['nitcliente'] ?? null;
 
-        /*  $data = [
+        $clienteTieneFacuras = model('facturaElectronicaModel')->getClienteFacturas($nitSinActualizar);
+
+        if (empty($clienteTieneFacuras)) {
+
+            /*  $data = [
             'nitcliente' => $identificacion,
             'idregimen' => 1,
             'nombrescliente' => '',
@@ -542,45 +550,45 @@ class ClienteController extends BaseController
 
 
 
-        $tipoPersona = $_POST['tipo_depersona'];
-        //$tipoPersona = 1;
-        if ($tipoPersona == 2) {  // Tipo de persona Natural 
-            $nombre = $_POST['nombres'] . " " . $_POST['apellidos_edicion'];
-            $apellidos = $_POST['apellidos_edicion'];
-        }
-        if ($tipoPersona == 1) {  // Tipo de persona Natural 
-            //$nombre = $_POST['razon_social'];
-            $nombre = $_POST['razon_social_edicion'];
-            $apellidos = "";
-        }
+            $tipoPersona = $_POST['tipo_depersona'];
+            //$tipoPersona = 1;
+            if ($tipoPersona == 2) {  // Tipo de persona Natural 
+                $nombre = $_POST['nombres'] . " " . $_POST['apellidos_edicion'];
+                $apellidos = $_POST['apellidos_edicion'];
+            }
+            if ($tipoPersona == 1) {  // Tipo de persona Natural 
+                //$nombre = $_POST['razon_social'];
+                $nombre = $_POST['razon_social_edicion'];
+                $apellidos = "";
+            }
 
 
 
-        $data = [
-            'nitcliente' => $identificacion,
-            'idregimen' => $this->request->getPost('regimen'),
-            'nombrescliente' => $nombre,
-            'telefonocliente' => $this->request->getPost('telefono'),
-            'celularcliente' => $this->request->getPost('telefono'),
-            'emailcliente' => $this->request->getPost('correo_electronico'),
-            'idciudad' => $this->request->getPost('ciudad_edicion'),
-            'direccioncliente' => $this->request->getPost('direccion'),
-            'estadocliente' => 'true',
-            'idtipo_cliente' => 1,
-            'punto' => 0,
-            'id_clasificacion' => 1,
-            'name' => $nombre,
-            'last_name' => $apellidos,
-            'dv' => $this->request->getPost('dv'),
-            'type_person' => $this->request->getPost('tipo_depersona'),
-            'type_document' => $this->request->getPost('tipo_documento'),
-            'name_comercial' => $nombre,
-            'is_customer' => 'true'
-        ];
+            $data = [
+                'nitcliente' => $identificacion,
+                'idregimen' => $this->request->getPost('regimen'),
+                'nombrescliente' => $nombre,
+                'telefonocliente' => $this->request->getPost('telefono'),
+                'celularcliente' => $this->request->getPost('telefono'),
+                'emailcliente' => $this->request->getPost('correo_electronico'),
+                'idciudad' => $this->request->getPost('ciudad_edicion'),
+                'direccioncliente' => $this->request->getPost('direccion'),
+                'estadocliente' => 'true',
+                'idtipo_cliente' => 1,
+                'punto' => 0,
+                'id_clasificacion' => 1,
+                'name' => $nombre,
+                'last_name' => $apellidos,
+                'dv' => $this->request->getPost('dv'),
+                'type_person' => $this->request->getPost('tipo_depersona'),
+                'type_document' => $this->request->getPost('tipo_documento'),
+                'name_comercial' => $nombre,
+                'is_customer' => 'true'
+            ];
 
 
 
-        /* 
+            /* 
         $data = [
             'nitcliente'        => "1089720235",                                 // ["nitcliente"]
             'idregimen'         => "1",                                          // ["idregimen"]
@@ -608,27 +616,33 @@ class ClienteController extends BaseController
 
 
 
-        $id_cliente = $this->request->getPost('id_cliente');
+            $pagos = model('pagosModel')
+                ->set('nit_cliente', $identificacion)
+                ->where('nit_cliente', $nitSinActualizar)
+                ->update();
+
+            $documento_electronico = model('facturaElectronicaModel')
+                ->set('nit_cliente', $identificacion)
+                ->where('nit_cliente', $nitSinActualizar)
+                ->update();
+
+            $model = model('clientesModel');
+            $cliente = $model->set($data);
+            $cliente = $model->where('id', $id_cliente);
+            $cliente = $model->update();
 
 
 
-        $model = model('clientesModel');
-        $cliente = $model->set($data);
-        $cliente = $model->where('id', $id_cliente);
-        $cliente = $model->update();
-
-
-
-        /* 
+            /* 
         $model = model('detallesTributariosModel');
         $cliente = $model->where('nit_cliente', $this->request->getPost('identificacion'));
         $cliente = $model->delete(); */
 
-        //$descripcion_impuesto = model('impuestosModel')->select('descripcion')->where('codigo', $_POST['impuestos_cliente'])->first();
+            //$descripcion_impuesto = model('impuestosModel')->select('descripcion')->where('codigo', $_POST['impuestos_cliente'])->first();
 
 
 
-        /*    $impuestos = [
+            /*    $impuestos = [
             'nit_cliente' => $identificacion,
             'codigo' => 'ZZ',
             'nombre' => 'No aplica',
@@ -665,10 +679,15 @@ class ClienteController extends BaseController
 */
 
 
-        if ($cliente) {
-            echo json_encode(['code' => 1, 'msg' => 'Datos cambiados ']);
+            if ($cliente) {
+                echo json_encode(['code' => 1, 'msg' => 'Datos cambiados ']);
+            }
+        } else {
+            echo json_encode([
+                'code' => 0,
+                'msg'  => 'El número de  documento ' . $nitSinActualizar . ' tiene facturas registradas ante la DIAN. Por esta razón no es posible modificar el NIT del cliente. Se recomienda crear un nuevo cliente con la información actualizada.'
+            ]);
         }
-        //}
     }
 
     function deleteCliente()

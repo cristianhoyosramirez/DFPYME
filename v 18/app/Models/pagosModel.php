@@ -713,4 +713,105 @@ WHERE de.id = $idFactura;
             ");
         return $datos->getResultArray();
     }
+
+
+/*       public function getFacturas()
+    {
+        $datos = $this->db->query("
+            
+  INSERT INTO factura_historico (
+    tipo_documento,
+    numero_documento,
+    sub_total,
+    propina,
+    id_apertura,
+    fecha_documento,
+    hora_documento,
+    id_usuario_creacion,
+    id_factura,
+    id_estado
+)
+SELECT DISTINCT ON (p.id_factura, p.id_estado)
+    'FACTURA',
+    p.documento,
+    p.valor,
+    p.propina,
+    p.id_apertura,
+    p.fecha,
+    p.hora::time,
+    p.id_usuario_facturacion,
+    p.id_factura,
+    p.id_estado
+FROM pagos p
+WHERE p.id_factura IS NOT NULL
+AND NOT EXISTS (
+    SELECT 1
+    FROM factura_historico fh
+    WHERE fh.id_factura = p.id_factura
+    AND fh.id_estado = p.id_estado
+)
+ORDER BY p.id_factura, p.id_estado, p.id;
+
+
+            
+            ");
+        
+    } */
+
+public function getFacturas()
+{
+    $this->db->query("
+INSERT INTO factura_historico (
+    tipo_documento,
+    numero_documento,
+    sub_total,
+    propina,
+    id_apertura,
+    fecha_documento,
+    hora_documento,
+    id_usuario_creacion,
+    id_factura,
+    id_estado,
+    nit,
+    cliente,
+    uuid
+)
+SELECT
+    'FACTURA',
+    COALESCE(de.numero, p.documento),
+    p.valor,
+    p.propina,
+    p.id_apertura,
+    p.fecha,
+    p.hora::time,
+    p.id_usuario_facturacion,
+    base.id_factura,
+    base.id_estado,
+    p.nit_cliente,
+    c.nombrescliente,
+    fh_existing.uuid  -- Solo usamos el UUID que ya existe
+FROM (
+    SELECT id_factura, id_estado, MIN(id) as id_pago
+    FROM pagos
+    WHERE id_factura IS NOT NULL
+    GROUP BY id_factura, id_estado
+) base
+JOIN pagos p 
+    ON p.id = base.id_pago
+LEFT JOIN cliente c 
+    ON c.nitcliente = p.nit_cliente
+LEFT JOIN documento_electronico de
+    ON de.id = p.id_factura
+LEFT JOIN factura_historico fh_existing
+    ON fh_existing.id_factura = base.id_factura
+    AND fh_existing.id_estado = base.id_estado
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM factura_historico fh
+    WHERE fh.id_factura = base.id_factura
+    AND fh.id_estado = base.id_estado
+);
+    ");
+}
+
 }

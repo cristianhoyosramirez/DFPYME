@@ -1029,7 +1029,12 @@ class cajaGeneralController extends BaseController
             $iva = model('kardexModel')->getIva($detalle['id_factura'], $detalle['id_estado']);
             //$inc = model('kardexModel')->selectSum('ico')->where('id_factura', $detalle['id_factura'])->findAll();
             $inc = model('kardexModel')->getInc($detalle['id_factura'], $detalle['id_estado']);
-            $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
+            // $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
+
+            $nombre = model('clientesModel')
+                ->select('nombrescliente')
+                ->where('nitcliente', $detalle['nit_cliente'])
+                ->first()['nombrescliente'] ?? 'CLIENTE EDITADO';
 
             if ($detalle['id_estado'] == 8) {
                 $documento = model('facturaElectronicaModel')->select('numero')->where('id', $detalle['id_factura'])->first();
@@ -1042,7 +1047,7 @@ class cajaGeneralController extends BaseController
             $sheet->setCellValue("A$row", $detalle['fecha']);
             //$sheet->setCellValueExplicit("B$row", $detalle['nit_cliente'], DataType::TYPE_STRING);
             $sheet->setCellValue("B$row", "'" . $detalle['nit_cliente']);
-            $sheet->setCellValue("C$row", $nombre_cliente['nombrescliente']);
+            $sheet->setCellValue("C$row", $nombre);
             //$sheet->setCellValue("D$row", $tipo_documento['descripcionestado']);
             //d($tipo_documento['descripcionestado']);
             $sheet->setCellValue("D$row", "FACTURA ELECTRONICA ");

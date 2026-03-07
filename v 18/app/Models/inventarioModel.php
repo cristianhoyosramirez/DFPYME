@@ -42,14 +42,18 @@ class inventarioModel extends Model
     public function inventario()
     {
         $datos = $this->db->query("
-       SELECT inventario.codigointernoproducto,
-            cantidad_inventario,
-            nombreproducto,valorventaproducto,precio_costo
-        FROM   inventario
-        INNER JOIN producto
-               ON producto.codigointernoproducto =
-                  inventario.codigointernoproducto
-        ORDER  BY nombreproducto ASC 
+  SELECT 
+    inventario.codigointernoproducto,
+    inventario.cantidad_inventario,
+    producto.nombreproducto,
+    producto.valorventaproducto,
+    producto.precio_costo
+FROM inventario
+INNER JOIN producto
+    ON producto.codigointernoproducto = inventario.codigointernoproducto
+WHERE producto.estadoproducto = true
+ORDER BY producto.nombreproducto ASC;
+
          ");
         return $datos->getResultArray();
     }
@@ -115,6 +119,7 @@ INNER JOIN
 WHERE 
     corte_inventario_fisico = 'false' 
     AND (cantidad_inventario_fisico - cantidad_inventario) != 0
+    and producto.estadoproducto=true
 ORDER BY 
     nombreproducto DESC;
 ;

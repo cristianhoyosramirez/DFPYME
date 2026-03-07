@@ -155,6 +155,8 @@ function factura_electronica(
                                     lista_categorias.style.display = "none";
                                 }
 
+
+
                                 Swal.fire({
                                     title: 'Información de pago',
                                     showDenyButton: true,
@@ -267,7 +269,7 @@ function factura_electronica(
                 } else if (pago_total < parseInt(valor_venta)) {
                     $('#valor_pago_error').html('¡ Pago insuficiente !')
                 }
-            } 
+            }
 
             if (estadoLicencia === "Suspendido" || estadoLicencia === "Bloqueado") {
                 Swal.fire({
@@ -360,6 +362,8 @@ function factura_electronica(
                                         if (lista_categorias) {
                                             lista_categorias.style.display = "none";
                                         }
+
+
 
                                         Swal.fire({
                                             title: 'Información de pago',
@@ -550,6 +554,8 @@ function factura_electronica(
                                     lista_categorias.style.display = "none";
                                 }
 
+
+
                                 Swal.fire({
                                     title: 'Información de pago',
                                     showDenyButton: true,
@@ -590,8 +596,20 @@ function factura_electronica(
 
                                     } else if (result.isDenied) {
                                         let id_factura = resultado.id_factura
-                                        location.reload();
-                                        $.ajax({
+                                        //location.reload();
+                                        if (resultado.tipo_pago == 0) {
+                                            $('#todas_las_mesas').html(resultado.mesas)
+                                            //$('#id_mesa_pedido').val(resultado.id_mesa)
+                                            $('#id_mesa_pedido').val(resultado.id_mesa.fk_mesa);
+
+                                            $('#pedido_mesa').html("Pedido: "+resultado.pedido)
+                                            $('#mesa_pedido').html("Mesa: "+resultado.nombre_mesa)
+                                            //$('#nombre_mesero').html("Mesero: "+resultado.pedido)
+                                            $('#documentos_factura').html(resultado.documentos)
+                                            $('#tipo_pago').val(1)
+
+                                        }
+                                        /* $.ajax({
                                             data: {
                                                 id_factura,
                                             },
@@ -626,7 +644,7 @@ function factura_electronica(
 
                                                 }
                                             },
-                                        });
+                                        }); */
                                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                                         // Acción para el botón "Imprimir prefactura"
                                         let id_factura = resultado.id_factura

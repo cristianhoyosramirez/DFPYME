@@ -215,12 +215,12 @@ class ReportesController extends BaseController
             $iva = model('kardexModel')->selectSum('iva')->where('id_factura', $detalle['id_factura'])->findAll();
             $inc = model('kardexModel')->selectSum('ico')->where('id_factura', $detalle['id_factura'])->findAll();
 
-            if ($detalle['id_factura'] == 8) {
+            if ($detalle['id_estado'] == 8) {
                 $temp_documento = model('facturaElectronicaModel')->select('numero')->where('id', $detalle['id_factura'])->first();
                 $documento = $temp_documento['numero'];
             }
 
-            if ($detalle['id_factura'] != 8) {
+            if ($detalle['id_estado'] != 8) {
                 $documento = $detalle['documento'];
             }
 
@@ -732,7 +732,7 @@ class ReportesController extends BaseController
             'total_pago' => $totalPago,
             'recibido_efectivo' => $efectivo,
             'recibido_transferencia' => $transferencia,
-            'id_clase_pago'=>$id_clase_pago
+            'id_clase_pago' => $id_clase_pago
         ];
 
         $update = model('pagosModel')

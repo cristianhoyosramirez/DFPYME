@@ -763,7 +763,7 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->get('actualizar_impuestos', 'Configuracion::actualizar_impuestos');
     $routes->get('reset_producto', 'Configuracion::reset_producto');
     $routes->post('validar_pin', 'Configuracion::validar_pin');
-    $routes->post('eliminacion_masiva', 'Configuracion::eliminacion_masiva');
+    $routes->get('eliminacion_masiva', 'Configuracion::eliminacion_masiva');
     $routes->post('propina_parcial', 'Configuracion::propina_parcial');
     $routes->get('sincronizar', 'Configuracion::sincronizar');
     $routes->get('asignar', 'Configuracion::asignar');

@@ -211,4 +211,18 @@ SELECT
     ");
         return $datos->getResultArray();
     }
+
+        public function  getClienteFacturas($nit)
+    {
+        $datos = $this->db->query("
+       SELECT 
+            id
+        FROM 
+            documento_electronico
+        WHERE 
+            nit_cliente = '$nit'
+            AND id_status = 2;
+    ");
+        return $datos->getResultArray();
+    }
 }

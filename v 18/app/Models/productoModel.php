@@ -170,7 +170,7 @@ WHERE
         codigobarrasproducto ILIKE '%$valor%' 
         OR codigointernoproducto ILIKE '%$valor%'
         OR nombreproducto ILIKE '%$valor%'
-    );
+    ) and producto.estadoproducto=true
 
         ");
         return $datos->getResultArray();
@@ -180,24 +180,29 @@ WHERE
     {
 
         $datos = $this->db->query("
-     SELECT
+    SELECT
     categoria.codigocategoria,
-    codigointernoproducto,
-    codigobarrasproducto,
-    id_tipo_inventario,
-    nombreproducto,
-    valorventaproducto,
-    aplica_descuento
+    producto.codigointernoproducto,
+    producto.codigobarrasproducto,
+    producto.id_tipo_inventario,
+    producto.nombreproducto,
+    producto.valorventaproducto,
+    producto.aplica_descuento
 FROM
     public.producto
-INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
+INNER JOIN categoria 
+    ON producto.codigocategoria = categoria.codigocategoria
 WHERE
-    id_tipo_inventario IN (1, 4)  --  Filtro principal
+    producto.id_tipo_inventario IN (1, 4)
+    AND producto.estadoproducto = true
     AND (
-        codigobarrasproducto ILIKE '%$valor%' 
-        OR codigointernoproducto ILIKE '%$valor%'
-        OR nombreproducto ILIKE '%$valor%'
-    );
+        producto.codigobarrasproducto ILIKE '%$valor%' 
+        OR producto.codigointernoproducto ILIKE '%$valor%'
+        OR producto.nombreproducto ILIKE '%$valor%'
+    )
+ORDER BY 
+    producto.nombreproducto ASC;
+
 
         ");
         return $datos->getResultArray();
@@ -362,44 +367,29 @@ WHERE
     {
         $datos = $this->db->query("
         SELECT
-             codigobarrasproducto,
-             codigointernoproducto,
-             nombreproducto,
-             valorventaproducto,
-             categoria.permitir_categoria    
-        FROM
-            public.producto
-        INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
-        WHERE
-            codigointernoproducto = '$codigointernoproducto' AND id_tipo_inventario = '1' AND permitir_categoria = 'true'
-        OR  codigointernoproducto = '$codigointernoproducto' AND id_tipo_inventario = '3' AND permitir_categoria = 'true'
-        OR   
-            codigobarrasproducto = '$codigointernoproducto' AND id_tipo_inventario = '1' AND permitir_categoria = 'true'
-        OR  codigobarrasproducto = '$codigointernoproducto' AND id_tipo_inventario = '3' AND permitir_categoria = 'true'  
+    codigobarrasproducto,
+    codigointernoproducto,
+    nombreproducto,
+    valorventaproducto,
+    categoria.permitir_categoria    
+FROM public.producto
+INNER JOIN categoria 
+    ON producto.codigocategoria = categoria.codigocategoria
+WHERE 
+    permitir_categoria = true
+    AND estadoproducto = true
+    AND id_tipo_inventario IN (1,3)
+    AND (
+        codigointernoproducto = '$codigointernoproducto'
+        OR codigobarrasproducto = '$codigointernoproducto'
+        OR codigo_2 = '$codigointernoproducto'
+        OR codigo_3 = '$codigointernoproducto'
+        OR codigo_4 = '$codigointernoproducto'
+        OR codigo_5 = '$codigointernoproducto'
+        OR codigo_6 = '$codigointernoproducto'
+        OR codigo_7 = '$codigointernoproducto'
+    );
 
-        OR 
-            codigo_2 = '$codigointernoproducto' AND id_tipo_inventario = '1' AND permitir_categoria = 'true'
-        OR  codigo_2 = '$codigointernoproducto' AND id_tipo_inventario = '3' AND permitir_categoria = 'true'  
-
-        OR 
-            codigo_3 = '$codigointernoproducto' AND id_tipo_inventario = '1' AND permitir_categoria = 'true'
-        OR  codigo_3 = '$codigointernoproducto' AND id_tipo_inventario = '3' AND permitir_categoria = 'true'
-
-        OR 
-            codigo_4 = '$codigointernoproducto' AND id_tipo_inventario = '1' AND permitir_categoria = 'true'
-        OR  codigo_4 = '$codigointernoproducto' AND id_tipo_inventario = '3' AND permitir_categoria = 'true'
-
-        OR 
-            codigo_5 = '$codigointernoproducto' AND id_tipo_inventario = '1' AND permitir_categoria = 'true'
-        OR  codigo_5 = '$codigointernoproducto' AND id_tipo_inventario = '3' AND permitir_categoria = 'true'
-
-        OR 
-            codigo_6 = '$codigointernoproducto' AND id_tipo_inventario = '1' AND permitir_categoria = 'true'
-        OR  codigo_6 = '$codigointernoproducto' AND id_tipo_inventario = '3' AND permitir_categoria = 'true'
-
-        OR 
-            codigo_7 = '$codigointernoproducto' AND id_tipo_inventario = '1' AND permitir_categoria = 'true'
-        OR  codigo_7 = '$codigointernoproducto' AND id_tipo_inventario = '3' AND permitir_categoria = 'true'
         ");
         return $datos->getResultArray();
     }
@@ -689,20 +679,20 @@ GROUP BY
     {
 
         $datos = $this->db->query("
-    SELECT 
+SELECT  
     producto.id,
     producto.codigointernoproducto,
     producto.nombreproducto,
     inventario.cantidad_inventario
-FROM 
-    producto
-INNER JOIN 
-    inventario 
+FROM producto
+INNER JOIN inventario 
     ON producto.codigointernoproducto = inventario.codigointernoproducto
 WHERE 
     id_tipo_inventario IN (1, 4, 2)
+    AND producto.estadoproducto = true
 ORDER BY 
     producto.nombreproducto ASC;
+;
 
         ");
         return $datos->getResultArray();
@@ -728,7 +718,7 @@ INNER JOIN
     categoria 
     ON producto.codigocategoria = categoria.codigocategoria
 WHERE 
-    id_tipo_inventario IN (1, 4, 2,3)
+    id_tipo_inventario IN (1, 4, 2,3)  and estadoproducto=true
 ORDER BY 
     categoria.nombrecategoria ASC,
     producto.nombreproducto ASC;
@@ -783,7 +773,29 @@ WHERE
         ");
         return $datos->getResultArray();
     }
-    function getProducto($codigo)
+    /*     function getProducto($codigo)
+    {
+
+        $datos = $this->db->query("
+SELECT 
+    producto.id,
+    producto.codigointernoproducto,
+    producto.nombreproducto,
+    inventario.cantidad_inventario
+FROM 
+    producto
+INNER JOIN inventario 
+    ON inventario.codigointernoproducto = producto.codigointernoproducto
+WHERE 
+    (producto.codigointernoproducto ILIKE '%$codigo%' 
+     OR producto.nombreproducto ILIKE '%$codigo%')
+    AND inventario.id_tipo_inventario IN (1, 2, 4)
+    AND producto.estadoproducto = true;
+
+        ");
+        return $datos->getResultArray();
+    } */
+   function getProducto($codigo)
     {
 
         $datos = $this->db->query("
@@ -798,10 +810,12 @@ FROM
     inner join inventario on inventario.codigointernoproducto=producto.codigointernoproducto
 WHERE 
     (producto.codigointernoproducto ILIKE '%$codigo%' OR nombreproducto ILIKE '%$codigo%')
+    and estadoproducto=true
     AND id_tipo_inventario IN (1, 2, 4);
         ");
         return $datos->getResultArray();
     }
+
     function TotalInv()
     {
 
@@ -859,18 +873,21 @@ WHERE
     producto.codigointernoproducto,
     producto.nombreproducto,
     inventario.cantidad_inventario,
-    REPLACE(TO_CHAR(precio_costo, 'FM999,999,999'), ',', '.') AS costo_unitario,  -- Reemplazamos las comas por puntos
-    REPLACE(TO_CHAR(precio_costo * cantidad_inventario, 'FM999,999,999'), ',', '.') AS costo_producto  -- Reemplazamos las comas por puntos
+    REPLACE(TO_CHAR(precio_costo, 'FM999,999,999'), ',', '.') AS costo_unitario,
+    REPLACE(TO_CHAR(precio_costo * cantidad_inventario, 'FM999,999,999'), ',', '.') AS costo_producto
 FROM 
     producto
-INNER JOIN 
-    inventario 
+INNER JOIN inventario 
     ON producto.codigointernoproducto = inventario.codigointernoproducto
-INNER JOIN 
-    categoria 
+INNER JOIN categoria 
     ON producto.codigocategoria = categoria.codigocategoria
 WHERE 
-    id_tipo_inventario IN (1, 4, 2,3,7)  AND (producto.nombreproducto ILIKE '%$valor%' OR producto.codigointernoproducto ILIKE '%$valor%')
+    id_tipo_inventario IN (1, 4, 2, 3, 7)
+    AND producto.estadoproducto = true
+    AND (
+        producto.nombreproducto ILIKE '%$valor%' 
+        OR producto.codigointernoproducto ILIKE '%$valor%'
+    )
 ORDER BY 
     categoria.nombrecategoria ASC,
     producto.nombreproducto ASC;
@@ -1038,7 +1055,7 @@ order by nombreproducto asc;
         return $datos->getResultArray();
     }
 
-      function editarNombre($nombre,$codigo)
+    function editarNombre($nombre, $codigo)
     {
 
         $datos = $this->db->query("
@@ -1046,9 +1063,9 @@ order by nombreproducto asc;
         ");
         //return $datos->getResultArray();
         return $datos;
-    } 
+    }
 
-   /*  function editarNombre($nombre, $codigo)
+    /*  function editarNombre($nombre, $codigo)
     {
         $sql = "
         UPDATE producto 
