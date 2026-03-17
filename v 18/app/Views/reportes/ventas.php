@@ -62,7 +62,15 @@
                 <tr>
                     <td><?php echo $valor['fecha'] ?></td>
 
-                    <td><?php echo date("h:i A", strtotime($valor['hora'])) ?></td>
+                    <!-- <td><?php #echo date("h:i A", strtotime($valor['hora'])) 
+                                ?></td> -->
+                    <td>
+                        
+                        <?php
+                        $hora = new DateTime($valor['hora']);
+                        echo $hora->format('h:i A');
+                        ?>
+                    </td>
                     <td>
 
                         <?php

@@ -164,7 +164,9 @@ class Ventas extends BaseController
                 $factura = $documento['numero'];
             }
             $sheet->setCellValue('A' . $row, $valor['fecha']); // Asigna la fecha
-            $sheet->setCellValue('B' . $row, date("h:i A", strtotime($valor['hora']))); // Asigna la hora
+            //$sheet->setCellValue('B' . $row, date("h:i A", strtotime($valor['hora']))); // Asigna la hora
+            $hora = substr($valor['hora'], 0, 8); // Toma solo HH:MM:SS
+            $sheet->setCellValue('B' . $row, date("h:i A", strtotime($hora)));
             $sheet->setCellValue('C' . $row, $factura); // Asigna el documento
             $sheet->setCellValue('D' . $row, $valor['valor']); // Asigna el valor de la venta
             $sheet->setCellValue('E' . $row, $valor['propina']); // Asigna la propina

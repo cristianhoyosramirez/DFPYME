@@ -524,7 +524,20 @@ class ClienteController extends BaseController
 
         $clienteTieneFacuras = model('facturaElectronicaModel')->getClienteFacturas($nitSinActualizar);
 
-        if (empty($clienteTieneFacuras)) {
+        $tipoPersona = $_POST['tipo_depersona'];
+        //$tipoPersona = 1;
+        if ($tipoPersona == 2) {  // Tipo de persona Natural 
+            //$nombre = $_POST['nombres'] . " " . $_POST['apellidos_edicion'];
+            $nombre = $_POST['nombres'];
+            $apellidos = $_POST['apellidos_edicion'];
+        }
+        if ($tipoPersona == 1) {  // Tipo de persona Natural 
+            //$nombre = $_POST['razon_social'];
+            $nombre = $_POST['razon_social_edicion'];
+            $apellidos = "";
+        }
+
+        if (empty($clienteTieneFacuras)) {   //Se actualiza ya que no tiene facturas ascociadas 
 
             /*  $data = [
             'nitcliente' => $identificacion,
@@ -550,17 +563,7 @@ class ClienteController extends BaseController
 
 
 
-            $tipoPersona = $_POST['tipo_depersona'];
-            //$tipoPersona = 1;
-            if ($tipoPersona == 2) {  // Tipo de persona Natural 
-                $nombre = $_POST['nombres'] . " " . $_POST['apellidos_edicion'];
-                $apellidos = $_POST['apellidos_edicion'];
-            }
-            if ($tipoPersona == 1) {  // Tipo de persona Natural 
-                //$nombre = $_POST['razon_social'];
-                $nombre = $_POST['razon_social_edicion'];
-                $apellidos = "";
-            }
+
 
 
 
@@ -683,9 +686,39 @@ class ClienteController extends BaseController
                 echo json_encode(['code' => 1, 'msg' => 'Datos cambiados ']);
             }
         } else {
+
+            $data = [
+                'idregimen' => $this->request->getPost('regimen'),
+                'nombrescliente' => $nombre,
+                'telefonocliente' => $this->request->getPost('telefono'),
+                'celularcliente' => $this->request->getPost('telefono'),
+                'emailcliente' => $this->request->getPost('correo_electronico'),
+                'idciudad' => $this->request->getPost('ciudad_edicion'),
+                'direccioncliente' => $this->request->getPost('direccion'),
+                'estadocliente' => 'true',
+                'idtipo_cliente' => 1,
+                'punto' => 0,
+                'id_clasificacion' => 1,
+                'name' => $nombre,
+                'last_name' => $apellidos,
+                'dv' => $this->request->getPost('dv'),
+                'type_person' => $this->request->getPost('tipo_depersona'),
+                'type_document' => $this->request->getPost('tipo_documento'),
+                'name_comercial' => $nombre,
+                'is_customer' => 'true'
+            ];
+
+
+        
+            $model = model('clientesModel');
+            $cliente = $model->set($data);
+            $cliente = $model->where('id', $id_cliente);
+            $cliente = $model->update();
+
+
             echo json_encode([
                 'code' => 0,
-                'msg'  => 'El número de  documento ' . $nitSinActualizar . ' tiene facturas registradas ante la DIAN. Por esta razón no es posible modificar el NIT del cliente. Se recomienda crear un nuevo cliente con la información actualizada.'
+                'msg'  => 'El número de  documento ' . $nitSinActualizar . ' tiene facturas registradas ante la DIAN. Por esta razón no es posible modificar el NIT del cliente los otros datos se cambiaron con éxito. Se recomienda crear un nuevo cliente con la información actualizada.'
             ]);
         }
     }

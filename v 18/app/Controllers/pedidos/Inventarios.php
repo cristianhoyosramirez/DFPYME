@@ -180,7 +180,7 @@ class Inventarios extends BaseController
     function productos_borrados()
     {
         $id_pedido = $this->request->getPost('id_pedido');
-       //$id_pedido = 15720;
+        //$id_pedido = 15720;
 
         $numero_pedido = model('productosBorradosModel')
             ->distinct() // activa el DISTINCT
@@ -703,11 +703,11 @@ class Inventarios extends BaseController
 
         ];
 
-    
+
 
         $actualizar = model('ComprasModel')->actualizar_producto($data, $id);
 
-    
+
 
         if ($actualizar) {
 
@@ -917,6 +917,8 @@ class Inventarios extends BaseController
                     $inve = $prod->set('precio_costo', $detalle['valor']);
                     $inve = $prod->where('codigointernoproducto', $detalle['codigointernoproducto']);
                     $inve = $prod->update();
+
+                  $actualizarCosto = model('productoFabricadoModel')->actualizarCostoReceta($detalle['codigointernoproducto']);
                 }
 
                 $data_eli = [

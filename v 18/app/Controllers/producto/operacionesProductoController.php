@@ -803,6 +803,8 @@ class operacionesProductoController extends BaseController
             
             //cho $this->request->getPost('UnidadMedida'); exit();
 
+            $actualizarCosto = model('productoFabricadoModel')->actualizarCostoReceta($codigo_interno_producto);
+
             if ($actualizar) {
                 $producto_medida = [
                     'idvalor_unidad_medida' => $this->request->getPost('UnidadMedida')

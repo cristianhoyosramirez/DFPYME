@@ -48,6 +48,7 @@ class EmpresaController extends BaseController
             'iddepartamento' => $this->request->getPost('departamento'),
             'idciudad' => $this->request->getPost('municipio'),
             'direccionempresa' => $this->request->getPost('direccion'),
+            'dv'=>$this->request->getPost('digito_verificacion'),
             'estadoempresa' => 'true',
             'descripcion' => '0',
             'recauda_iva' => 'false',

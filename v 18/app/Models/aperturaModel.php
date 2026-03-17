@@ -95,4 +95,22 @@ class aperturaModel extends Model
          ");
         return $datos->getResultArray();
     }
+    public function getAperturas()
+    {
+        $datos = $this->db->query("
+      
+SELECT 
+    a.id AS id_apertura,
+    a.fecha AS fecha_apertura,
+    a.hora AS hora_apertura,
+    c.fecha AS fecha_cierre,
+    c.hora AS hora_cierre
+FROM apertura a
+LEFT JOIN cierre c 
+    ON c.idapertura = a.id
+ORDER BY a.fecha DESC;
+        
+         ");
+        return $datos->getResultArray();
+    }
 }

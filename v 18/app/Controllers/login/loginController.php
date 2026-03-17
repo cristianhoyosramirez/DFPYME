@@ -241,6 +241,16 @@ class loginController extends BaseController
         $receta = model('productoModel')->GetReceta($codigo);
         $precioVenta = model('productoModel')->GetValVenta($codigo);
 
+        $costoFinal = 0;
+
+        if (!empty($costo) && isset($costo[0]['costo']) && $costo[0]['costo'] !== null) {
+            $costoFinal = $costo[0]['costo'];
+        }
+
+        $actualizarCosto = model('productoFabricadoModel')->actualizarCosto($codigo, $costoFinal);
+
+
+
         if (!empty($productos)) {
             return $this->response->setJSON([
                 'response' => 'success',
@@ -248,9 +258,13 @@ class loginController extends BaseController
                 'productos' =>  view('recetas/insumos', [
                     'productos' => $productos
                 ]),
-                'receta' => '<span class="text-primary">Componentes receta:</span> <span class="text-orange">' . htmlspecialchars($receta[0]['nombreproducto'], ENT_QUOTES, 'UTF-8') . '</span>',
+                //'receta' => '<span class="text-primary">Componentes receta:</span> <span class="text-orange">' . htmlspecialchars($codigo."/".$receta[0]['nombreproducto'], ENT_QUOTES, 'UTF-8') . '</span>',
+                'receta' => 
+    '<span class="text-primary">Componentes receta:</span> ' .
+    '<span class="badge bg-info text-dark">Código: ' . htmlspecialchars($codigo, ENT_QUOTES, 'UTF-8') . '</span> ' .
+    '<span class="text-orange">' . htmlspecialchars($receta[0]['nombreproducto'], ENT_QUOTES, 'UTF-8') . '</span>',
 
-                'costo' => $costo[0]['costo'],
+                'costo' =>  number_format($costo[0]['costo'], 0, ',', '.'),
                 'precioVenta' => number_format($precioVenta[0]['valorventaproducto'], 0, ',', '.'),
                 'rentabilidad' => number_format($precioVenta[0]['valorventaproducto'] - $costo[0]['costo'], 0, ',', '.'),
                 'codigo' => $codigo,
@@ -284,8 +298,21 @@ class loginController extends BaseController
 
         if ($borrar) {
 
+            /*  $costo = model('productoFabricadoModel')->GetCosto($codigoReceta);
+            $precioVenta = model('productoModel')->GetValVenta($codigoReceta);
+
+            $actualizarCosto = model('productoFabricadoModel')->actualizarCosto($codigoReceta, $costo[0]['costo']); */
+
             $costo = model('productoFabricadoModel')->GetCosto($codigoReceta);
             $precioVenta = model('productoModel')->GetValVenta($codigoReceta);
+
+            $costoFinal = 0;
+
+            if (!empty($costo) && isset($costo[0]['costo']) && $costo[0]['costo'] !== null) {
+                $costoFinal = $costo[0]['costo'];
+            }
+
+            $actualizarCosto = model('productoFabricadoModel')->actualizarCosto($codigoReceta, $costoFinal);
 
             return $this->response->setJSON([
                 'response' => 'success',
@@ -298,8 +325,9 @@ class loginController extends BaseController
                 ),
 
                 'costo' => number_format($costo[0]['costo'], 0, ',', '.'),
-                'precio_venta' => number_format($precioVenta[0]['valorventaproducto'], 0, ',', '.')
-
+                'precio_venta' => number_format($precioVenta[0]['valorventaproducto'], 0, ',', '.'),
+                'costo_final' => number_format($costoFinal, 0, ',', '.'),
+                'codigoReceta' => $codigoReceta
             ]);
         }
     }
@@ -371,6 +399,14 @@ class loginController extends BaseController
                 $costo = model('productoFabricadoModel')->GetCosto($codigoReceta);
                 $precioVenta = model('productoModel')->GetValVenta($codigoReceta);
 
+                $costoFinal = 0;
+
+                if (!empty($costo) && isset($costo[0]['costo']) && $costo[0]['costo'] !== null) {
+                    $costoFinal = $costo[0]['costo'];
+                }
+
+                $actualizarCosto = model('productoFabricadoModel')->actualizarCosto($codigoReceta, $costoFinal);
+
                 return $this->response->setJSON([
                     'response' => 'success',
                     'insumos' =>  view('recetas/insumos', [
@@ -384,7 +420,10 @@ class loginController extends BaseController
                     ),
 
                     'costo' => number_format($costo[0]['costo'], 0, ',', '.'),
-                    'precio_venta' => number_format($precioVenta[0]['valorventaproducto'], 0, ',', '.')
+                    'precio_venta' => number_format($precioVenta[0]['valorventaproducto'], 0, ',', '.'),
+                    'costo_final' => number_format($costoFinal, 0, ',', '.'),
+                    'codigoReceta' => $codigoReceta
+
                 ]);
             }
         }
@@ -410,6 +449,8 @@ class loginController extends BaseController
         $costoUnitario = model('productoModel')->GetCostoUnitario($prod_proceso['prod_proceso']);
 
         $precioVenta = model('productoModel')->GetValVenta($codigoReceta);
+        
+        $actualizarCostos=model('productoModel')->set('precio_costo',$costo[0]['costo'])->where('codigointernoproducto',$codigoReceta)->update();
 
         return $this->response->setJSON([
             'response' => 'success',
@@ -421,13 +462,14 @@ class loginController extends BaseController
                 '.'
             ),
 
-            'costo' => $costo[0]['costo'],
+            'costo' => number_format($costo[0]['costo'], 0, ',', '.'),
             'precio_venta' => number_format($precioVenta[0]['valorventaproducto'], 0, ',', '.'),
             //'costoTotal' => ($costoUnitario[0]['precio_costo'] * $valor),
             //'costoTotal' => round($costoUnitario[0]['precio_costo'] * $valor, 2),
-            'costoTotal' => number_format($costoUnitario[0]['precio_costo'] * $valor, 0, '.', ','),
+            'costoTotal' => number_format($costoUnitario[0]['precio_costo'] * $valor, 0, ',', '.'),
 
-            'id' => $id
+            'id' => $id,
+            'codigoReceta'=>$codigoReceta
         ]);
     }
 
@@ -483,6 +525,9 @@ class loginController extends BaseController
             ->where('codigointernoproducto', $codigointerno)
             ->update();
 
+        $actualizarCosto = model('productoFabricadoModel')->actualizarCostoReceta($codigointerno);
+
+
         if (!$actualizar) {
             return $this->response->setJSON([
                 'response' => 'error',
@@ -511,6 +556,18 @@ class loginController extends BaseController
         $costoReceta = model('productoFabricadoModel')->GetCosto($codigProductoFabricado['prod_fabricado']);
         $precioVenta = model('productoModel')->GetValVenta($codigProductoFabricado['prod_fabricado']);
 
+        $receta = model('productoFabricadoModel')->select('prod_fabricado')->where('id', $id)->first();
+        $codigoReceta = $receta['prod_fabricado'];
+
+        $costoFinal = 0;
+
+        if (!empty($costoReceta) && isset($costoReceta[0]['costo']) && $costoReceta[0]['costo'] !== null) {
+            $costoFinal = $costoReceta[0]['costo'];
+        }
+
+        $actualizarCosto = model('productoFabricadoModel')->actualizarCosto($codigoReceta, $costoFinal);
+
+
         return $this->response->setJSON([
             'response'   => 'success',
             'id'         => $id,
@@ -523,6 +580,8 @@ class loginController extends BaseController
                 ',',
                 '.'
             ),
+            'id'=>$id,
+            'codigoReceta'=>$codigoReceta
 
         ]);
     }

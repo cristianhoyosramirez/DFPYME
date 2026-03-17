@@ -958,7 +958,7 @@ class Boletas extends BaseController
             }
 
             //$nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
-             $nombre = model('clientesModel')
+            $nombre = model('clientesModel')
                 ->select('nombrescliente')
                 ->where('nitcliente', $detalle['nit_cliente'])
                 ->first()['nombrescliente'] ?? 'CLIENTE EDITADO';
@@ -1102,7 +1102,7 @@ class Boletas extends BaseController
     }
 
 
-    public function tipo_documento()
+  public function tipo_documento()
     {
         $valor_buscado = $_GET['search']['value'];
         $id_apertura = model('aperturaModel')->selectMax('id')->findAll();
@@ -1129,23 +1129,29 @@ class Boletas extends BaseController
                      inner join cliente on cliente.nitcliente=nit_cliente
                     where id_apertura=$apertura";
 
-        $sql_data = "SELECT
-                    pagos.id as id,
-                    fecha,
-                    documento,
-                    valor as total_documento,
-                    id_factura,
-                    id_estado,
-                    nit_cliente,
-                    id_estado,
-                    id_factura,
-                    saldo,
-                    id_mesa,
-                    hora
-                FROM
-                    pagos 
-                    inner join cliente on cliente.nitcliente=nit_cliente
-                    where id_apertura=$apertura
+        $sql_data = "
+        SELECT
+    pagos.id,
+    pagos.fecha,
+    pagos.documento,
+    pagos.valor as total_documento,
+    pagos.id_factura,
+    pagos.id_estado,
+    pagos.nit_cliente,
+    pagos.saldo,
+    pagos.id_mesa,
+    pagos.hora,
+    cliente.nombrescliente,
+    mesas.nombre as mesa,
+    documento_electronico.numero as numero_fe
+FROM pagos
+INNER JOIN cliente 
+    ON cliente.nitcliente = pagos.nit_cliente
+LEFT JOIN mesas 
+    ON mesas.id = pagos.id_mesa
+LEFT JOIN documento_electronico 
+    ON documento_electronico.id = pagos.id_factura
+WHERE pagos.id_apertura = $apertura
                     
                     ";
 
@@ -1171,63 +1177,40 @@ class Boletas extends BaseController
 
 
 
-        foreach ($datos as $detalle) {
-            $sub_array = array();
+      foreach ($datos as $detalle) {
 
-            $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
+    $sub_array = [];
 
-            if (!empty($detalle['id_mesa'])) {
-                $tempNombreMesa = model('mesasModel')->select('nombre')->where('id', $detalle['id_mesa'])->first();
-                $mesa = $tempNombreMesa['nombre'] ?? '';
-            } else {
-                $mesa = "";
-            }
+    $sub_array[] = $detalle['fecha'];
 
-            $sub_array[] = $detalle['fecha'];
-            /*    $hora_original = $detalle['hora']; // Por ejemplo, '14:30:00'
-            $hora_formateada = date('h:i A', strtotime($hora_original));
-            $sub_array[] = $hora_formateada; */
+    $hora_original = $detalle['hora'];
+    $hora_sin_zona = preg_replace('/[+-]\d{2}$/', '', $hora_original);
+    $hora_formateada = date('h:i A', strtotime($hora_sin_zona));
 
-            $hora_original = $detalle['hora']; // "15:23:57+01"
+    $sub_array[] = $hora_formateada;
+    $sub_array[] = $detalle['nit_cliente'];
+    $sub_array[] = $detalle['nombrescliente'];
 
-            // quitar el offset (+01 o -05)
-            $hora_sin_zona = preg_replace('/[+-]\d{2}$/', '', $hora_original);
+    if ($detalle['id_estado'] == 8) {
+        $numero_documento = $detalle['numero_fe'];
+        $tipoDocumento = "FE";
+    } else {
+        $numero_documento = $detalle['documento'];
+        $tipoDocumento = "POS";
+    }
 
-            // convertir a AM/PM sin alterar la hora
-            $hora_formateada = date('h:i A', strtotime($hora_sin_zona));
+    $sub_array[] = $numero_documento;
+    $sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
+    $sub_array[] = number_format($detalle['saldo'], 0, ",", ".");
+    $sub_array[] = $tipoDocumento;
 
-            $sub_array[] = $hora_formateada;
-            
-            $sub_array[] = $detalle['nit_cliente'];
-            $sub_array[] =  $nombre_cliente['nombrescliente'];
+    $sub_array[] = $detalle['mesa'];
 
+    $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura']);
+    $sub_array[] = $acciones;
 
-            if ($detalle['id_estado'] == 8) {
-                $documento = model('facturaElectronicaModel')->select('numero')->where('id', $detalle['id_factura'])->first();
-                $numero_documento = $documento['numero'];
-                $tipoDocumento = "FE";
-            }
-
-            if ($detalle['id_estado'] != 8) {
-                $numero_documento = $detalle['documento'];
-                $tipoDocumento = "POS";
-            }
-            $sub_array[] = $numero_documento;
-            $sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
-            $sub_array[] = number_format($detalle['saldo'], 0, ",", ".");
-            //$tipo_documento = model('estadoModel')->select('descripcionestado')->where('idestado', $detalle['id_estado'])->first();
-
-            // $sub_array[] = $tipo_documento['descripcionestado'];
-            $sub_array[] = $tipoDocumento;
-
-            $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura']);
-
-            $sub_array[] = $mesa;
-            $sub_array[] = $acciones;
-
-
-            $data[] = $sub_array;
-        }
+    $data[] = $sub_array;
+}
 
 
 
@@ -1266,7 +1249,133 @@ class Boletas extends BaseController
         ];
 
         echo  json_encode($json_data);
+    } 
+
+
+/*         public function tipo_documento()
+{
+    $request = service('request');
+
+    $valor_buscado = $request->getGet('search')['value'] ?? '';
+    $start = (int)$request->getGet('start');
+    $length = (int)$request->getGet('length');
+    $draw = (int)$request->getGet('draw');
+
+    $orderColumn = $request->getGet('order')[0]['column'];
+    $orderDir = $request->getGet('order')[0]['dir'];
+
+    $table_map = [
+        0 => 'pagos.id',
+        1 => 'pagos.fecha',
+        2 => 'pagos.nit_cliente',
+        3 => 'cliente.nombrescliente',
+        4 => 'pagos.documento',
+        5 => 'pagos.valor'
+    ];
+
+    $orderBy = $table_map[$orderColumn] ?? 'pagos.id';
+
+    // apertura actual
+    $apertura = model('aperturaModel')
+        ->select('id')
+        ->orderBy('id','DESC')
+        ->first()['id'];
+
+    $db = \Config\Database::connect();
+
+    $condition = "";
+
+    if (!empty($valor_buscado)) {
+
+        $valor_buscado = strtolower($valor_buscado);
+
+        $condition = " AND (
+            LOWER(cliente.nitcliente) LIKE '%$valor_buscado%'
+            OR LOWER(cliente.nombrescliente) LIKE '%$valor_buscado%'
+            OR LOWER(pagos.documento) LIKE '%$valor_buscado%'
+        )";
     }
+
+    $sql = "
+    SELECT
+        pagos.id,
+        pagos.fecha,
+        pagos.documento,
+        pagos.valor AS total_documento,
+        pagos.id_factura,
+        pagos.id_estado,
+        pagos.nit_cliente,
+        pagos.saldo,
+        pagos.id_mesa,
+        pagos.hora,
+        cliente.nombrescliente,
+        mesas.nombre AS mesa,
+        documento_electronico.numero AS numero_fe
+    FROM pagos
+    INNER JOIN cliente 
+        ON cliente.nitcliente = pagos.nit_cliente
+    LEFT JOIN mesas 
+        ON mesas.id = pagos.id_mesa
+    LEFT JOIN documento_electronico 
+        ON documento_electronico.id = pagos.id_factura
+    WHERE pagos.id_apertura = $apertura
+    $condition
+    ORDER BY $orderBy $orderDir
+    LIMIT $length OFFSET $start
+    ";
+
+    $datos = $db->query($sql)->getResultArray();
+
+    $data = [];
+    $accion = new data_table();
+
+    foreach ($datos as $detalle) {
+
+        $sub_array = [];
+
+        $sub_array[] = $detalle['fecha'];
+
+        $hora = preg_replace('/[+-]\d{2}$/', '', $detalle['hora']);
+        $sub_array[] = date('h:i A', strtotime($hora));
+
+        $sub_array[] = $detalle['nit_cliente'];
+        $sub_array[] = $detalle['nombrescliente'];
+
+        if ($detalle['id_estado'] == 8) {
+            $numero_documento = $detalle['numero_fe'];
+            $tipoDocumento = "FE";
+        } else {
+            $numero_documento = $detalle['documento'];
+            $tipoDocumento = "POS";
+        }
+
+        $sub_array[] = $numero_documento;
+        $sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
+        $sub_array[] = number_format($detalle['saldo'], 0, ",", ".");
+        $sub_array[] = $tipoDocumento;
+        $sub_array[] = $detalle['mesa'];
+
+        $sub_array[] = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura']);
+
+        $data[] = $sub_array;
+    }
+
+    // conteo optimizado
+    $count = $db->query("
+        SELECT COUNT(*)
+        FROM pagos
+        WHERE id_apertura = $apertura
+    ")->getRow()->count;
+
+    $json_data = [
+        "draw" => $draw,
+        "recordsTotal" => $count,
+        "recordsFiltered" => $count,
+        "data" => $data
+    ];
+
+    echo json_encode($json_data);
+} */
 
     function actualizar_propina()
     {

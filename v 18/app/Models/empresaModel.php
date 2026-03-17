@@ -22,6 +22,7 @@ class empresaModel extends Model
     'iddepartamento',
     'idciudad',
     'direccionempresa',
+    'dv',
     'estadoempresa',
     'descripcion',
     'recauda_iva',

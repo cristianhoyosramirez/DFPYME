@@ -78,7 +78,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <label class="form-label">nombres</label>
-                    <input type="text" class="form-control" id="nombres" name="nombres" onkeyup="saltar_factura_pos(event,'apellidos')" value="<?php echo ($datos_cliente['name']); ?>" required>
+                    <input type="text" class="form-control" id="nombres" name="nombres" onkeyup="saltar_factura_pos(event,'apellidos')" value="<?php echo ($datos_cliente['nombrescliente']); ?>" required>
                     <span class="text-danger error-text nombres_error"></span>
                 </div>
                 <div class="col-md-6">
@@ -451,12 +451,20 @@
                             window.location.reload();
                         }, 1000);
                     } else {
+
                         Swal.fire({
                             icon: 'warning',
                             title: 'Atención',
                             text: data.msg,
                             confirmButtonText: 'Aceptar'
                         });
+
+                        let myModal = bootstrap.Modal.getInstance(
+                            document.getElementById("editar_cliente")
+                        );
+
+                        myModal.hide();
+
                     }
                 } else {
                     $.each(data.error, function(prefix, val) {

@@ -1424,7 +1424,7 @@ class impresion
 
 
 
-    function imp_reporte_ventas($id_apertura)
+    /*     function imp_reporte_ventas($id_apertura)
     {
 
         $limpiar = model('reporteProductoModel')->truncate();
@@ -1470,61 +1470,6 @@ class impresion
 
         // CATEGORÍAS Y PRODUCTOS
         $categorias = model('kardexModel')->temp_categoria($id_apertura);
-        /*  foreach ($categorias as $detalle) {
-            $nombre_categoria = model('categoriasModel')->select('nombrecategoria')->where('codigocategoria', $detalle['id_categoria'])->first();
-            $categoria = $nombre_categoria['nombrecategoria'];
-
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("\n--- " . strtoupper($categoria) . " ---\n");
-
-            $productos = model('kardexModel')->temp_categoria_productos($detalle['id_categoria'], $id_apertura);
-
-            $total_categoria = 0;
-
-            foreach ($productos as $valor) {
-                $printer->setJustification(Printer::JUSTIFY_LEFT);
-
-                // Cantidad (3 dígitos, alineado a la izquierda)
-                $cantidad = str_pad($valor['cantidad'], 3, ' ', STR_PAD_LEFT);
-
-                // Línea para escritura manual
-                $linea_escritura = " ____ ";
-
-                // Total individual del producto
-                $valor_total = model('kardexModel')->valor_producto($valor['codigo'], $id_apertura);
-                $valor_num = (int)$valor_total[0]['total_producto'];
-                $valor_formateado = "$" . number_format($valor_num, 0, ",", ".");
-
-                // Sumar al total de la categoría
-                $total_categoria += $valor_num;
-
-                // Línea 1: nombre del producto con sangría
-                $printer->text("     " . $valor['nombreproducto'] . "\n");
-
-                // Línea 2: cantidad + línea manual + total alineado a la derecha
-                $linea_izquierda = "{$cantidad}{$linea_escritura}";
-                $espacios = 42 - strlen($linea_izquierda . $valor_formateado);
-                $linea = $linea_izquierda . str_repeat(" ", $espacios) . $valor_formateado;
-
-                $printer->text($linea . "\n");
-            }
-
-            // Línea en blanco para separación
-            $printer->text("\n");
-
-            // Total de la categoría alineado a la derecha
-            $printer->setJustification(Printer::JUSTIFY_RIGHT);
-            $printer->text("Total categoría: $" . number_format($total_categoria, 0, ",", ".") . "\n");
-
-            // Justificación por defecto
-            $printer->setJustification(Printer::JUSTIFY_LEFT);
-
-
-
-            // Total por categoría
-            $valor_total_categoria = model('kardexModel')->valor_total_categoria($detalle['id_categoria'], $id_apertura);
-            $printer->text("  Total " . strtoupper($categoria) . ": $" . number_format($valor_total_categoria[0]['total_categoria'], 0, ",", ".") . "\n");
-        } */
 
         $productos_distinct = model('kardexModel')->get_productos($id_apertura);
 
@@ -1550,113 +1495,106 @@ class impresion
         }
 
 
-       $ancho = 42;
+        $anchoCategoria = 47;
 
-foreach ($categorias as $detalle) {
+        foreach ($categorias as $detalle) {
 
-    /* ===============================
-       OBTENER CATEGORÍA
-    ===============================*/
-    $nombre_categoria = model('categoriasModel')
-        ->select('nombrecategoria')
-        ->where('codigocategoria', $detalle['id_categoria'])
-        ->first();
 
-    $categoria = strtoupper($nombre_categoria['nombrecategoria'] ?? '');
+            $nombre_categoria = model('categoriasModel')
+                ->select('nombrecategoria')
+                ->where('codigocategoria', $detalle['id_categoria'])
+                ->first();
 
-    /* ===============================
-       TÍTULO CATEGORÍA
-    ===============================*/
-    $printer->setJustification(Printer::JUSTIFY_CENTER);
-    $printer->text("\n" . str_repeat("-", $ancho) . "\n");
-    $printer->text($categoria . "\n");
-    $printer->text(str_repeat("-", $ancho) . "\n");
+            $categoria = strtoupper($nombre_categoria['nombrecategoria'] ?? '');
 
-    /* ===============================
-       ENCABEZADO COLUMNAS
-    ===============================*/
-    $printer->setJustification(Printer::JUSTIFY_LEFT);
 
-    $header =
-        str_pad("CANT", 5) .
-        str_pad("PRODUCTO", 21) .
-        str_pad("V/U", 8, " ", STR_PAD_LEFT) .
-        str_pad("TOTAL", 8, " ", STR_PAD_LEFT);
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $anchoSeparacion = 30;
+            $header =
+                str_pad("C", 3) .
+                str_pad("PRODUCTO", 18) .
+                str_pad("CONTEO", 10) .
+                str_pad("V/U", 8, " ", STR_PAD_LEFT) .
+                str_pad("TOTAL", 8, " ", STR_PAD_LEFT);
 
-    $printer->text($header . "\n");
-    $printer->text(str_repeat("-", $ancho) . "\n");
+            $printer->text($header . "\n");
 
-    /* ===============================
-       PRODUCTOS
-    ===============================*/
-    $productos = model('reporteProductoModel')
-        ->where('id_categoria', $detalle['id_categoria'])
-        ->orderBy('codigo_interno_producto', 'asc')
-        ->findAll();
 
-    foreach ($productos as $valor) {
+            $productos = model('reporteProductoModel')
+                ->where('id_categoria', $detalle['id_categoria'])
+                ->orderBy('codigo_interno_producto', 'asc')
+                ->findAll();
 
-        // ---- Configuración columnas ----
-        $ancho_cant = 5;
-        $ancho_nombre = 21;
-        $ancho_unitario = 8;
-        $ancho_total = 8;
+            foreach ($productos as $valor) {
 
-        // Cantidad
-        $cantidad = str_pad($valor['cantidad'], $ancho_cant, " ", STR_PAD_LEFT);
+                // ---- CONFIGURACIÓN DE COLUMNAS ----
+                $ancho_cant = 3;
+                $ancho_nombre = 18;
+                $ancho_linea = 10;
+                $ancho_unitario = 8;
+                $ancho_total = 8;
 
-        // Valores
-        $valor_unitario = number_format($valor['valor_unitario'], 0, ",", ".");
-        $valor_unitario = str_pad($valor_unitario, $ancho_unitario, " ", STR_PAD_LEFT);
+                // Cantidad
+                $cantidad = str_pad($valor['cantidad'], $ancho_cant, " ", STR_PAD_RIGHT);
 
-        $valor_total = number_format($valor['valor_total'], 0, ",", ".");
-        $valor_total = str_pad($valor_total, $ancho_total, " ", STR_PAD_LEFT);
+                // Valores
+                $valor_unitario = number_format($valor['valor_unitario'], 0, ",", ".");
+                $valor_unitario = str_pad($valor_unitario, $ancho_unitario, " ", STR_PAD_LEFT);
 
-        // ===== WRAP NOMBRE =====
-        $nombre_producto = strtoupper($valor['nombre_producto']);
-        $lineas_nombre = explode("\n", wordwrap($nombre_producto, $ancho_nombre));
+                $valor_total = number_format($valor['valor_total'], 0, ",", ".");
+                $valor_total = str_pad($valor_total, $ancho_total, " ", STR_PAD_LEFT);
 
-        // Primera línea (con valores)
-        $nombre = str_pad($lineas_nombre[0], $ancho_nombre);
+                // Línea para conteo manual
+                $linea = str_pad("__________", $ancho_linea, " ", STR_PAD_RIGHT);
 
-        $printer->text(
-            $cantidad .
-            $nombre .
-            $valor_unitario .
-            $valor_total . "\n"
-        );
+                // ===== FORMATO NOMBRE =====
+                $nombre_producto = strtoupper(trim($valor['nombre_producto']));
+                $lineas_nombre = explode("\n", wordwrap($nombre_producto, $ancho_nombre, "\n", true));
 
-        // Líneas adicionales solo nombre
-        for ($i = 1; $i < count($lineas_nombre); $i++) {
+                // ---- PRIMERA LINEA ----
+                $nombre = str_pad($lineas_nombre[0], $ancho_nombre, " ", STR_PAD_RIGHT);
 
-            $nombre_extra = str_pad($lineas_nombre[$i], $ancho_nombre);
+                $printer->text(
+                    $cantidad .
+                        $nombre .
+                        $linea .
+                        $valor_unitario .
+                        $valor_total .
+                        "\n"
+                );
 
-            $printer->text(
-                str_repeat(" ", $ancho_cant) .
-                $nombre_extra . "\n"
-            );
+                // ---- LINEAS EXTRA DEL NOMBRE ----
+                if (count($lineas_nombre) > 1) {
+                    for ($i = 1; $i < count($lineas_nombre); $i++) {
+
+                        $nombre_extra = str_pad($lineas_nombre[$i], $ancho_nombre, " ", STR_PAD_RIGHT);
+
+                        $printer->text(
+                            str_repeat(" ", $ancho_cant) .
+                                $nombre_extra .
+                                "\n"
+                        );
+                    }
+                }
+            }
+
+
+            $total_categoria = model('kardexModel')
+                ->get_total_categoria($detalle['id_categoria']);
+
+            $total_cat_valor = number_format($total_categoria[0]['total'] ?? 0, 0, ",", ".");
+
+            $printer->text("\n");
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $label = "TOTAL " . $categoria;
+            $linea_total =
+                str_pad($label, $anchoSeparacion - strlen($total_cat_valor)) .
+                $total_cat_valor;
+
+            $printer->text($linea_total . "\n");
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text(str_repeat("-", $anchoCategoria) . "\n");
         }
-    }
-
-    /* ===============================
-       TOTAL POR CATEGORÍA
-    ===============================*/
-    $total_categoria = model('kardexModel')
-        ->get_total_categoria($detalle['id_categoria']);
-
-    $total_cat_valor = number_format($total_categoria[0]['total'] ?? 0, 0, ",", ".");
-
-    $printer->text(str_repeat("-", $ancho) . "\n");
-
-    $label = "TOTAL " . $categoria;
-    $linea_total =
-        str_pad($label, $ancho - strlen($total_cat_valor)) .
-        $total_cat_valor;
-
-    $printer->text($linea_total . "\n");
-}
-
-
 
         // TOTAL GENERAL
         $total = model('kardexModel')->selectSum('total')->where('id_apertura', $id_apertura)->first();
@@ -1670,8 +1608,185 @@ foreach ($categorias as $detalle) {
         $printer->close();
 
         echo json_encode(["resultado" => 1]);
-    }
+    } */
 
+    function imp_reporte_ventas($id_apertura)
+    {
+
+        $limpiar = model('reporteProductoModel')->truncate();
+        $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
+        $datos_empresa = model('empresaModel')->datosEmpresa();
+        $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
+
+        $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
+        $printer = new Printer($connector);
+
+        // FUENTE MAS COMPACTA
+        //$printer->selectPrintMode(Printer::MODE_FONT_B);
+        $printer->selectPrintMode();
+
+        // ENCABEZADO EMPRESA
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(1, 1);
+
+        $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
+        $printer->text("NIT: " . $datos_empresa[0]['nitempresa'] . "\n");
+        $printer->text($datos_empresa[0]['direccionempresa'] . " - " . $datos_empresa[0]['nombreciudad'] . " (" . $datos_empresa[0]['nombredepartamento'] . ")\n");
+        $printer->text("TEL: " . $datos_empresa[0]['telefonoempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
+        $printer->text($datos_empresa[0]['nombreciudad'] . " - " . $datos_empresa[0]['nombredepartamento'] . "\n");
+$printer->text("\n");
+        // TITULO
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("** REPORTE DE VENTAS **\n");
+
+        // FECHAS
+        $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
+        $hora_apertura  = model('aperturaModel')->select('hora')->where('id', $id_apertura)->first();
+
+        $fecha_cierre = model('cierreModel')->select('fecha')->where('idapertura', $id_apertura)->first();
+        $hora_cierre  = model('cierreModel')->select('hora')->where('idapertura', $id_apertura)->first();
+
+        if (!empty($fecha_apertura['fecha'])) {
+            $printer->text("APERTURA: " . $fecha_apertura['fecha'] . " " . $hora_apertura['hora'] . "\n");
+        }
+
+        if (!empty($fecha_cierre['fecha'])) {
+            $printer->text("CIERRE: " . $fecha_cierre['fecha'] . " " . $hora_cierre['hora'] . "\n");
+        }
+
+        $printer->text("IMP: " . date('Y-m-d H:i') . "\n");
+
+        // PRODUCTOS
+        $productos_distinct = model('kardexModel')->get_productos($id_apertura);
+        $categorias = model('kardexModel')->get_categorias($id_apertura);
+
+        foreach ($productos_distinct as $detalle) {
+
+            $total = model('kardexModel')->get_total($id_apertura, $detalle['valor_unitario'], $detalle['codigo']);
+
+            $nombre_producto = model('productoModel')
+                ->select('nombreproducto')
+                ->where('codigointernoproducto', $detalle['codigo'])
+                ->first();
+
+            $cantidad = $total[0]['cantidad'];
+
+            $data = [
+                'cantidad' => $cantidad,
+                'nombre_producto' => $nombre_producto['nombreproducto'],
+                'precio_venta' => $detalle['valor_unitario'],
+                'valor_total' => $detalle['valor_unitario'] * $cantidad,
+                'id_categoria' => $detalle['id_categoria'],
+                'codigo_interno_producto' => $detalle['codigo'],
+                'valor_unitario' => $detalle['valor_unitario']
+            ];
+
+            model('reporteProductoModel')->insert($data);
+        }
+
+        $anchoCategoria = 45;
+
+        foreach ($categorias as $detalle) {
+
+            $nombre_categoria = model('categoriasModel')
+                ->select('nombrecategoria')
+                ->where('codigocategoria', $detalle['id_categoria'])
+                ->first();
+
+            $categoria = strtoupper($nombre_categoria['nombrecategoria'] ?? '');
+
+            // TITULO CATEGORIA
+            $printer->text("\n" . $categoria . "\n");
+
+            // HEADER
+            $header =
+                str_pad("C", 3) .
+                str_pad("PRODUCTO", 18) .
+                str_pad("CONTEO", 8) .
+                str_pad("V/U", 6, " ", STR_PAD_LEFT) .
+                str_pad("TOTAL", 7, " ", STR_PAD_LEFT);
+
+            $printer->text($header . "\n");
+
+            $productos = model('reporteProductoModel')
+                ->where('id_categoria', $detalle['id_categoria'])
+                ->orderBy('codigo_interno_producto', 'asc')
+                ->findAll();
+
+            foreach ($productos as $valor) {
+
+                $ancho_cant = 3;
+                $ancho_nombre = 18;
+                $ancho_linea = 8;
+                $ancho_unitario = 6;
+                $ancho_total = 7;
+
+                $cantidad = str_pad($valor['cantidad'], $ancho_cant, " ", STR_PAD_RIGHT);
+
+                $valor_unitario = number_format($valor['valor_unitario'], 0, ",", ".");
+                $valor_unitario = str_pad($valor_unitario, $ancho_unitario, " ", STR_PAD_LEFT);
+
+                $valor_total = number_format($valor['valor_total'], 0, ",", ".");
+                $valor_total = str_pad($valor_total, $ancho_total, " ", STR_PAD_LEFT);
+
+                // linea conteo manual corta
+                $linea = "______";
+
+                $nombre_producto = strtoupper(trim($valor['nombre_producto']));
+                $lineas_nombre = explode("\n", wordwrap($nombre_producto, $ancho_nombre, "\n", true));
+
+                $nombre = str_pad($lineas_nombre[0], $ancho_nombre, " ", STR_PAD_RIGHT);
+
+                $printer->text(
+                    $cantidad .
+                        $nombre .
+                        $linea .
+                        $valor_unitario .
+                        $valor_total .
+                        "\n"
+                );
+
+                if (count($lineas_nombre) > 1) {
+
+                    for ($i = 1; $i < count($lineas_nombre); $i++) {
+
+                        $nombre_extra = str_pad($lineas_nombre[$i], $ancho_nombre, " ", STR_PAD_RIGHT);
+
+                        $printer->text(
+                            str_repeat(" ", $ancho_cant) .
+                                $nombre_extra .
+                                "\n"
+                        );
+                    }
+                }
+            }
+
+            $total_categoria = model('kardexModel')->get_total_categoria($detalle['id_categoria']);
+            $total_cat_valor = number_format($total_categoria[0]['total'] ?? 0, 0, ",", ".");
+
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $printer->text("TOTAL " . $categoria . ": " . $total_cat_valor . "\n");
+
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text(str_repeat("-", $anchoCategoria) . "\n");
+        }
+
+        // TOTAL GENERAL
+        $total = model('kardexModel')->selectSum('total')->where('id_apertura', $id_apertura)->first();
+
+        $printer->setJustification(Printer::JUSTIFY_RIGHT);
+        $printer->setTextSize(1, 2);
+        $printer->text("TOTAL: $" . number_format($total['total'], 0, ",", ".") . "\n");
+
+        // CORTE
+        $printer->setTextSize(1, 1);
+        $printer->cut();
+        $printer->close();
+
+        echo json_encode(["resultado" => 1]);
+    }
 
 
     function imp_reporte_ventasSinCantidades($id_apertura)

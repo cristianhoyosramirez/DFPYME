@@ -124,7 +124,10 @@
 
 
 
-                                                        <td><?php echo number_format($detalleRecetas['precio_costo'], 0, ',', '.'); ?></td>
+                                                        <td id="rowCosto<?php echo $detalleRecetas['codigointernoproducto']; ?>">
+                                                            <?php echo number_format($detalleRecetas['precio_costo'], 0, ',', '.'); ?>
+                                                        </td>
+
                                                         <td><?php echo number_format($detalleRecetas['valorventaproducto'], 0, ',', '.'); ?></td>
                                                         <td class="d-flex justify-content-center gap-2">
                                                             <button class="btn btn-outline-primary btn-icon"
@@ -326,20 +329,31 @@
                                 </table>
 
                                 <div class="row w-100">
+
                                     <div class="col-4">
-                                        <label for="total_costo" class="form-label">Total Costo</label>
-                                        <input type="text" class="form-control" id="totalCosto" readonly>
+                                        <label for="totalCosto" class="form-label">Total Costo</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" id="totalCosto" readonly>
+                                        </div>
                                     </div>
 
                                     <div class="col-4">
-                                        <label for="precio_venta" class="form-label">Precio Venta</label>
-                                        <input type="text" class="form-control" id="precioVenta" readonly>
+                                        <label for="precioVenta" class="form-label">Precio Venta</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" id="precioVenta" readonly>
+                                        </div>
                                     </div>
 
                                     <div class="col-4">
                                         <label for="rentabilidad" class="form-label">Rentabilidad</label>
-                                        <input type="text" class="form-control" id="rentabilidad" readonly>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="text" class="form-control" id="rentabilidad" readonly>
+                                        </div>
                                     </div>
+
                                 </div>
 
 
@@ -731,6 +745,7 @@
             document.getElementById('precioVenta').value = data.precio_venta;
             document.getElementById('rentabilidad').value = data.rentabilidad;
             document.getElementById('costoTotal' + data.id).innerHTML = data.costoTotal;
+            document.getElementById('rowCosto' + data.codigoReceta).innerText = data.costo;
 
         } catch (error) {
             console.error('Error:', error);
@@ -771,12 +786,12 @@
             document.getElementById("totalCosto").value = data.costoReceta;
             document.getElementById("precioVenta").value = data.precio_venta;
             document.getElementById("rentabilidad").value = data.rentabilidad;
+            document.getElementById('rowCosto' + data.codigoReceta).innerText = data.costoReceta;
+            document.getElementById('costoTotal' + data.id).innerText = data.costoTotal;
 
             // Asegurarse que el id dinámico existe antes de asignar
-            let costoTotalElem = document.getElementById("costoTotal" + data.id);
-            if (costoTotalElem) {
-                costoTotalElem.innerHTML = data.costoTotal;
-            }
+            let costoTotalElem = document.getElementById("costoTotal" + data.id).innerText = data.costoTotal;;
+
 
         } catch (error) {
             console.error("Error en actualizarCosto:", error);
@@ -882,6 +897,7 @@
                 document.getElementById('totalCosto').value = data.costo;
                 document.getElementById('precioVenta').value = data.precio_venta;
                 document.getElementById('rentabilidad').value = data.rentabilidad;
+                document.getElementById('rowCosto' + data.codigoReceta).innerText = data.costo_final;
                 sweet_alert_centrado('success', 'Insumo adicionado')
                 /* 
                             var modalInstance = bootstrap.Modal.getInstance(document.getElementById('adicionarInsumo'));
@@ -1189,6 +1205,9 @@
             document.getElementById('totalCosto').value = data.costo;
             document.getElementById('precioVenta').value = data.precio_venta;
             document.getElementById('rentabilidad').value = data.rentabilidad;
+            //document.getElementById('rowCosto'+data.codigoReceta).value = data.costo_final;
+
+            document.getElementById('rowCosto' + data.codigoReceta).innerText = data.costo_final; // 1.234.567
 
 
             sweet_alert_centrado('success', 'Insumo borrado')

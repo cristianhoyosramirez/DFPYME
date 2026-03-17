@@ -76,5 +76,40 @@ WHERE
         ");
         return $datos->getResultArray();
     }
+    function actualizarCosto($codigo,$costo)
+    {
+
+        $datos = $this->db->query("
+       UPDATE producto
+SET precio_costo = $costo
+WHERE codigointernoproducto = '$codigo';
+        ");
+        //return $datos->getResultArray();
+    }
+
+    function actualizarCostoReceta($codigo)
+    {
+
+        $datos = $this->db->query("
+UPDATE producto p
+SET precio_costo = sub.costo
+FROM (
+    SELECT 
+        pf.prod_fabricado,
+        SUM(p2.precio_costo * pf.cantidad) AS costo
+    FROM 
+        producto_fabricado pf
+    INNER JOIN 
+        producto p2 ON p2.codigointernoproducto = pf.prod_proceso
+    WHERE 
+        pf.prod_proceso = '$codigo'
+    GROUP BY 
+        pf.prod_fabricado
+) AS sub
+WHERE 
+    p.codigointernoproducto = sub.prod_fabricado;
+        ");
+        //return $datos->getResultArray();
+    }
    
 }

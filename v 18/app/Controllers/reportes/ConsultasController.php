@@ -9,18 +9,18 @@ class ConsultasController extends BaseController
     public function index()
     {
         $meseros = model('usuariosModel')->select('idusuario_sistema,nombresusuario_sistema')->findAll();
+        $aperturas=model('aperturaModel')->getAperturas();
+        
 
         $fechaInicial = date('Y-m-d');
         $fechaFinal = date('Y-m-d');
 
-        $usuarios = model('pagosModel')->getUsuarioVenta($fechaInicial, $fechaFinal);
-
-
+        $ventas = model('pagosModel')->getUsuarioVenta($fechaInicial, $fechaFinal);
+        
         return view('reportes/mesero', [
             'meseros' => $meseros,
-            'fechaInicial' => $fechaInicial,
-            'fechaFinal' => $fechaFinal,
-            'usuarios' => $usuarios
+            'ventas' => $ventas,
+            'aperturas'=>$aperturas
         ]);
     }
 
@@ -80,7 +80,7 @@ class ConsultasController extends BaseController
 
         if ($subCategorias['subcategoria'] == 't') {
 
-            
+
 
             $sub_categorias = model('subCategoriaModel')->select('id,nombre')->where('id_categoria', $codigoCategoria)->findAll();
 
@@ -96,31 +96,28 @@ class ConsultasController extends BaseController
         }
         if ($subCategorias['subcategoria'] == 'f') {
 
-              return $this->response->setJSON([
+            return $this->response->setJSON([
                 'response' => 'false',
-                
+
 
             ]);
-
         }
-
     }
 
-    function eliminarRetiros(){
+    function eliminarRetiros()
+    {
 
         $json = $this->request->getJSON();
         $id_retiro = $this->request->getPost('id_retiro');
 
 
-        $deleteFormaRetiro=model('retiroFormaPagoModel')->where('idretiro',$id_retiro)->delete();
+        $deleteFormaRetiro = model('retiroFormaPagoModel')->where('idretiro', $id_retiro)->delete();
 
-        if ($deleteFormaRetiro){
+        if ($deleteFormaRetiro) {
 
             return $this->response->setJSON([
                 'response' => 'true',
             ]);
-
         }
-
     }
 }

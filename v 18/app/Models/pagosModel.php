@@ -665,12 +665,20 @@ WHERE
     {
         $datos = $this->db->query("
             
-                SELECT DISTINCT
-                    (idusuario)
-                FROM
-                    kardex
-                WHERE
-                    fecha BETWEEN '$fechaInicial' AND '$fechaFinal'
+           SELECT 
+    p.id_mesero,
+    u.nombresusuario_sistema,
+    COUNT(DISTINCT p.id_mesa) AS mesas_atendidas,
+    COUNT(DISTINCT p.id_factura) AS facturas,
+    SUM(p.valor) AS total_vendido,
+    ROUND(SUM(p.valor) / COUNT(DISTINCT p.id_factura),2) AS promedio_venta,
+    SUM(p.propina) AS total_propinas,
+    ROUND(AVG(p.propina),2) AS promedio_propina
+FROM pagos p
+INNER JOIN usuario_sistema u 
+    ON u.idusuario_sistema = p.id_mesero
+WHERE p.fecha BETWEEN '$fechaInicial' AND '$fechaFinal'
+GROUP BY p.id_mesero, u.nombresusuario_sistema;
             
             ");
         return $datos->getResultArray();
@@ -813,5 +821,28 @@ WHERE NOT EXISTS (
 );
     ");
 }
+
+    public function getUsuarioVentaMesa($fechaInicial, $fechaFinal, $id_usuario)
+    {
+        $datos = $this->db->query("
+            
+           SELECT 
+    p.id_mesero,
+    u.nombresusuario_sistema,
+    COUNT(DISTINCT p.id_mesa) AS mesas_atendidas,
+    COUNT(DISTINCT p.id_factura) AS facturas,
+    SUM(p.valor) AS total_vendido,
+    ROUND(SUM(p.valor) / COUNT(DISTINCT p.id_factura),2) AS promedio_venta,
+    SUM(p.propina) AS total_propinas,
+    ROUND(AVG(p.propina),2) AS promedio_propina
+FROM pagos p
+INNER JOIN usuario_sistema u 
+    ON u.idusuario_sistema = p.id_mesero
+WHERE p.fecha BETWEEN '$fechaInicial' AND '$fechaFinal'
+GROUP BY p.id_mesero, u.nombresusuario_sistema;
+            
+            ");
+        return $datos->getResultArray();
+    }
 
 }
