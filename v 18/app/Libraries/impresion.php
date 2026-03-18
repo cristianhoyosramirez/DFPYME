@@ -435,8 +435,6 @@ class impresion
         $printer->text("---------------------------------------------" . "\n");
 
 
-
-
         foreach ($items as $productos) {
 
             $printer->setTextSize(1, 1);
@@ -462,8 +460,15 @@ class impresion
         $total =  model('kardexModel')->get_total_factura($id_factura);
 
         //$total =  model('pagosModel')->select('total_documento')->where('id_factura', $id_factura)->first();
-        $cambio =  model('pagosModel')->select('cambio')->where('id_factura', $id_factura)->first();
-        $propina =  model('pagosModel')->select('propina')->where('id_factura', $id_factura)->first();
+        $cambio =  model('pagosModel')->select('cambio')
+            ->where('id_factura', $id_factura)
+            ->where('id_estado', 8)
+            ->first();
+
+        $propina =  model('pagosModel')->select('propina')
+            ->where('id_factura', $id_factura)
+            ->where('id_estado', 8)
+            ->first();
 
 
         $transferencia =  model('kardexModel')->get_recibido_transferencia($id_factura);
@@ -1636,7 +1641,7 @@ class impresion
         $printer->text("TEL: " . $datos_empresa[0]['telefonoempresa'] . "\n");
         $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
         $printer->text($datos_empresa[0]['nombreciudad'] . " - " . $datos_empresa[0]['nombredepartamento'] . "\n");
-$printer->text("\n");
+        $printer->text("\n");
         // TITULO
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("** REPORTE DE VENTAS **\n");
