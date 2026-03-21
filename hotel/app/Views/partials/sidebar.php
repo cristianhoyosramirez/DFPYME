@@ -50,6 +50,16 @@
                         <ul class="nav nav-collapse">
 
                             <!-- REPORTE HABITACIONES -->
+
+
+                            <!-- REPORTE VEHÍCULOS -->
+                            <li>
+                                <a href="<?= base_url('reportes/vehiculos') ?>" class="ajax-link"
+                                    data-title="Reporte Vehículos" data-icon="fas fa-car">
+                                    <i class="fas fa-car text-danger"></i>
+                                    <span class="sub-item">Vehículos</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="<?= base_url('reportes/ventas') ?>" class="ajax-link"
                                     data-title="Reporte Habitaciones" data-icon="fas fa-bed">
@@ -58,21 +68,13 @@
                                 </a>
                             </li>
 
-                            <!-- REPORTE VEHÍCULOS -->
-                            <li>
-                                <a href="<?= base_url('reportes/vehiculos') ?>" class="ajax-link"
-                                    data-title="Reporte Vehículos" data-icon="fas fa-car">
-                                    <i class="fas fa-car text-success"></i>
-                                    <span class="sub-item">Vehículos</span>
-                                </a>
-                            </li>
-
                             <!-- REPORTE RESERVAR -->
                             <li>
                                 <a href="<?= base_url('reportes/registro') ?>" class="ajax-link"
                                     data-title="Reporte Reservas" data-icon="fas fa-calendar-check">
-                                    <i class="fas fa-calendar-check text-danger"></i>
-                                    <span class="sub-item">Reservar</span>
+                                    <!-- Opción libro -->
+                                    <i class="fas fa-book text-success"></i>
+                                    <span class="sub-item">Registro</span>
                                 </a>
                             </li>
 

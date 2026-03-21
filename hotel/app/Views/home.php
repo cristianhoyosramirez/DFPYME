@@ -152,22 +152,17 @@
            INICIALIZADOR DE VISTAS
         ========================== */
         function initView(url) {
-
-            // 🔥 aquí decides qué ejecutar según la vista
-            if (url.includes("reportes/ventas")) {
-                if (typeof initVentas === "function") {
-                    initVentas();
-                }
+            if (url.includes("reportes/ventas") && typeof initVentas === "function") {
+                initVentas();
             }
-
-            // puedes seguir agregando:
-            // if (url.includes("clientes")) { initClientes(); }
+            // Agrega más inicializadores según tus vistas:
+            // if (url.includes("clientes")) initClientes();
         }
 
         /* =========================
            CARGA AJAX
         ========================== */
-        async function loadPage(url, pushState = true) {
+        async function loadPage(url) {
             try {
                 showLoader();
 
@@ -188,16 +183,9 @@
                     content.style.transition = "opacity 0.3s ease";
                     content.style.opacity = 1;
 
-                    // 🔥 inicializa scripts de la vista
+                    // Inicializa scripts de la vista
                     initView(url);
-
                 }, 150);
-
-                if (pushState) {
-                    history.pushState({
-                        url
-                    }, "", url);
-                }
 
             } catch (error) {
                 content.innerHTML = `
@@ -212,43 +200,208 @@
         }
 
         /* =========================
-           CLICK EN LINKS
+           CLICK EN LINKS AJAX
         ========================== */
         document.addEventListener("click", function(e) {
             const link = e.target.closest(".ajax-link");
-
             if (!link) return;
 
             e.preventDefault();
-
             const url = link.getAttribute("href");
-            const currentPath = window.location.pathname;
-            const newPath = new URL(url, window.location.origin).pathname;
-
-            // 🔥 si es la misma URL → recargar contenido sin pushState
-            if (currentPath === newPath) {
-                loadPage(url, false);
-                return;
-            }
-
-            loadPage(url);
+            loadPage(url); // ⚡ Siempre AJAX, nunca cambia la URL
         });
 
         /* =========================
-           BOTÓN ATRÁS / ADELANTE
-        ========================== */
-        window.addEventListener("popstate", function(e) {
-            if (e.state && e.state.url) {
-                loadPage(e.state.url, false);
-            }
-        });
-
-        /* =========================
-           PRIMERA CARGA (IMPORTANTE)
+           PRIMERA CARGA
         ========================== */
         initView(window.location.pathname);
 
     });
+</script>
+
+
+<script>
+    async function saveHabitacion() {
+        const formHabitacion = document.getElementById('formHabitacion');
+        const btnGuardar = document.getElementById('btnGuardarHabitacion');
+
+        // Crear objeto con los datos del formulario
+        const formData = new FormData(formHabitacion);
+        const data = {};
+        formData.forEach((value, key) => data[key] = value.trim());
+
+        // Validaciones básicas
+        if (!data.numero || !data.tipo || !data.capacidad || !data.precio || !data.estado) {
+            Swal.fire('Error', 'Por favor complete todos los campos', 'warning');
+            return;
+        }
+
+        try {
+            // Deshabilitar botón mientras se procesa
+            btnGuardar.disabled = true;
+
+            // Mostrar loader
+            Swal.fire({
+                title: 'Creando habitación...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            // Llamada al backend
+            const response = await fetch('<?= base_url() ?>/habitaciones/crear', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            Swal.close();
+            btnGuardar.disabled = false;
+
+            if (result.success) {
+                // Mostrar mensaje de éxito
+                Swal.fire('¡Éxito!', 'Habitación creada correctamente', 'success');
+
+                // Limpiar formulario
+                formHabitacion.reset();
+
+                // Cerrar el modal
+                const modalEl = document.getElementById('modalHabitacion');
+                const modal = bootstrap.Modal.getInstance(modalEl); // Obtener instancia existente
+                if (modal) modal.hide();
+
+                // Actualizar la tabla
+                const tbody = document.getElementById('tablaHabitaciones');
+                tbody.innerHTML = ''; // Limpiar contenido actual
+
+                result.habitaciones.forEach(habitacion => {
+                    const tbody = document.getElementById('tablaHabitaciones');
+                    tbody.innerHTML = ''; // Limpiar contenido actual
+
+                    result.habitaciones.forEach(habitacion => {
+                        const tr = document.createElement('tr');
+
+                        tr.innerHTML = `
+        <td>${habitacion.nombre_mesa}</td>
+        <td>${habitacion.tipo}</td>
+        <td>${habitacion.capacidad}</td>
+        <td>${Number(habitacion.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })}</td>
+        <td>
+            ${habitacion.estado_mesa == 0 
+                ? '<span class="badge bg-success">Disponible</span>' 
+                : '<span class="badge bg-danger">Ocupada</span>'}
+        </td>
+        <td>
+            <!-- Reservar -->
+            <button class="btn btn-primary btn-sm" title="Reservar habitación" onclick="reservar(${habitacion.id_mesa})">
+                <i class="fas fa-bed"></i>
+            </button>
+
+            <!-- Editar -->
+            <button class="btn btn-warning btn-sm" title="Editar habitación" onclick="editar(${habitacion.id_mesa})">
+                <i class="fas fa-edit"></i>
+            </button>
+
+            <!-- Eliminar -->
+            <button class="btn btn-danger btn-sm" title="Eliminar habitación" onclick="eliminar(${habitacion.id_mesa})">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+
+            <!-- Ver detalles -->
+            <button class="btn btn-info btn-sm" title="Ver detalles de la habitación" onclick="verDetalles(${habitacion.id_mesa})">
+                <i class="fas fa-eye"></i>
+            </button>
+        </td>
+    `;
+
+                        tbody.appendChild(tr);
+                    });
+                });
+            } else {
+                Swal.fire('Error', result.message || 'Ocurrió un error al crear la habitación', 'error');
+            }
+
+        } catch (error) {
+            Swal.close();
+            btnGuardar.disabled = false;
+            Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
+            console.error(error);
+        }
+    }
+</script>
+
+
+<script>
+async function agregarVehiculo() {
+    const tipo = document.getElementById('tipo').value;
+    const placa = document.getElementById('placa').value;
+    const formVehiculo = document.getElementById('formVehiculo');
+
+    if (!tipo || !placa) {
+        Swal.fire('Error', 'Todos los campos son obligatorios', 'warning');
+        return;
+    }
+
+    try {
+        // Enviar datos al servidor
+        const response = await fetch('<?= base_url("vehiculos/crear") ?>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ tipo, placa })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Mostrar mensaje de éxito
+            Swal.fire('¡Éxito!', result.message, 'success');
+
+            // Limpiar formulario
+            formVehiculo.reset();
+
+            // Cerrar modal
+            const modalEl = document.getElementById('modalVehiculo');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+
+            // Actualizar tabla
+            const tbody = document.getElementById('tablaVehiculos');
+            tbody.innerHTML = ''; // Limpiar tabla
+
+            result.vehiculos.forEach(vehiculo => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${vehiculo.tipo}</td>
+                    <td>${vehiculo.placa}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" title="Editar vehículo" onclick="editarVehiculo(${vehiculo.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" title="Eliminar vehículo" onclick="eliminarVehiculo(${vehiculo.id})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button class="btn btn-info btn-sm" title="Ver detalles del vehículo" onclick="verDetallesVehiculo(${vehiculo.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+        } else {
+            Swal.fire('Error', result.message, 'error');
+        }
+
+    } catch (error) {
+        console.error(error);
+        Swal.fire('Error', 'Ocurrió un error al guardar el vehículo', 'error');
+    }
+}
 </script>
 
 

@@ -40,6 +40,11 @@ $routes->get('reportes/ventas', 'Reportes\ReportesController::ventas');
 $routes->get('reportes/vehiculos', 'Reportes\ReportesController::vehiculos');
 $routes->get('reportes/registro', 'Reportes\ReportesController::registro');
 
+$routes->group('habitaciones', ['namespace' => 'App\Controllers\habitaciones'], function ($routes) {
+    $routes->post('crear', 'HabitacionesController::crear');
+    $routes->post('crearVehiculo', 'HabitacionesController::crearVehiculo');
+}); 
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

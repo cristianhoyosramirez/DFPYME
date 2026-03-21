@@ -13,18 +13,20 @@ class ReportesController extends BaseController
 
     public function ventas()
     {
-        $facturas = model('historicoModel')->findAll();
+        $habitaciones = model('habitacionesModel')->getHabitaciones();
+
+
 
         return $this->render('reportes/ventas', [
-            'facturas' => $facturas
+            'habitaciones' => $habitaciones
         ]);
     }
     public function vehiculos()
     {
-        $facturas = model('historicoModel')->findAll();
+        $vehiculos = model('vehiculosModel')->findAll();
         //dd($facturas);
         return view('reportes/vehiculos', [
-            'facturas' => $facturas
+            'vehiculos' => $vehiculos
         ]);
     }
     public function registro()
