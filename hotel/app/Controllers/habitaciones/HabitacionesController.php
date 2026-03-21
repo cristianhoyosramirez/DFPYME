@@ -69,10 +69,43 @@ class HabitacionesController extends BaseController
         }
     }
 
-    public function crearVehiculo()
-    {
+public function crearVehiculo()
+{
+    $input = $this->request->getJSON(true);
 
-        $input = $this->request->getJSON(true);
-    
+    $tipo  = $input['tipo'] ?? null;
+    $placa = $input['placa'] ?? null;
+
+    // Validación básica
+    if (!$tipo || !$placa) {
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Todos los campos son obligatorios'
+        ]);
     }
+
+    try {
+        $vehiculosModel = model('VehiculosModel');
+
+        $id = $vehiculosModel->insert([
+            'tipo'  => $tipo,
+            'placa' => $placa
+        ]);
+
+        // Obtener lista actualizada
+        $vehiculos = $vehiculosModel->findAll();
+
+        return $this->response->setJSON([
+            'success'   => true,
+            'message'   => 'Vehículo creado correctamente',
+            'vehiculos' => $vehiculos
+        ]);
+
+    } catch (\Exception $e) {
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Error: ' . $e->getMessage()
+        ]);
+    }
+}
 }

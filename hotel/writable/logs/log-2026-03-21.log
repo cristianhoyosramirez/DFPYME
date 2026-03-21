@@ -358,3 +358,9 @@ CRITICAL - 2026-03-21 15:04:34 --> Call to a member function findAll() on null
 #2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
 #3 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
 #4 {main}
+CRITICAL - 2026-03-21 15:43:26 --> Call to a member function insert() on int
+#0 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crearVehiculo()
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}

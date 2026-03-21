@@ -346,7 +346,7 @@ async function agregarVehiculo() {
 
     try {
         // Enviar datos al servidor
-        const response = await fetch('<?= base_url("vehiculos/crear") ?>', {
+        const response = await fetch('<?= base_url("habitaciones/crearVehiculo") ?>', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
