@@ -1,0 +1,165 @@
+CRITICAL - 2026-03-03 08:40:24 --> Invalid file: reporte/ventas.php
+#0 C:\xampp\htdocs\pruebas\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('reporte/ventas....')
+#1 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reporte/ventas', Array, true)
+#2 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(15): view('reporte/ventas')
+#3 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#4 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-03 08:40:28 --> Invalid file: reporte/ventas.php
+#0 C:\xampp\htdocs\pruebas\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('reporte/ventas....')
+#1 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reporte/ventas', Array, true)
+#2 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(15): view('reporte/ventas')
+#3 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#4 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-03 08:41:14 --> Invalid file: reporte/ventas.php
+#0 C:\xampp\htdocs\pruebas\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('reporte/ventas....')
+#1 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reporte/ventas', Array, true)
+#2 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(15): view('reporte/ventas')
+#3 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#4 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-03 08:41:35 --> Undefined variable $facturas
+#0 C:\xampp\htdocs\pruebas\app\Views\reportes\ventas.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 32)
+#1 C:\xampp\htdocs\pruebas\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pruebas\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas', Array, true)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(15): view('reportes/ventas')
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-03 08:42:46 --> Undefined variable $facturas
+#0 C:\xampp\htdocs\pruebas\app\Views\reportes\ventas.php(57): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 57)
+#1 C:\xampp\htdocs\pruebas\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pruebas\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas', Array, true)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(15): view('reportes/ventas')
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+ERROR - 2026-03-03 09:09:10 --> Error connecting to the database: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+CRITICAL - 2026-03-03 09:09:10 --> Unable to connect to the database.
+Main connection [MySQLi]: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+#0 C:\xampp\htdocs\pruebas\system\Database\BaseConnection.php(577): CodeIgniter\Database\BaseConnection->initialize()
+#1 C:\xampp\htdocs\pruebas\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#2 C:\xampp\htdocs\pruebas\system\Model.php(183): CodeIgniter\Database\BaseBuilder->get()
+#3 C:\xampp\htdocs\pruebas\system\BaseModel.php(584): CodeIgniter\Model->doFindAll(0, 0)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(16): CodeIgniter\BaseModel->findAll()
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+ERROR - 2026-03-03 09:09:13 --> Error connecting to the database: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+CRITICAL - 2026-03-03 09:09:13 --> Unable to connect to the database.
+Main connection [MySQLi]: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+#0 C:\xampp\htdocs\pruebas\system\Database\BaseConnection.php(577): CodeIgniter\Database\BaseConnection->initialize()
+#1 C:\xampp\htdocs\pruebas\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#2 C:\xampp\htdocs\pruebas\system\Model.php(183): CodeIgniter\Database\BaseBuilder->get()
+#3 C:\xampp\htdocs\pruebas\system\BaseModel.php(584): CodeIgniter\Model->doFindAll(0, 0)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(16): CodeIgniter\BaseModel->findAll()
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+ERROR - 2026-03-03 09:09:29 --> Error connecting to the database: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+CRITICAL - 2026-03-03 09:09:29 --> Unable to connect to the database.
+Main connection [MySQLi]: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+#0 C:\xampp\htdocs\pruebas\system\Database\BaseConnection.php(577): CodeIgniter\Database\BaseConnection->initialize()
+#1 C:\xampp\htdocs\pruebas\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#2 C:\xampp\htdocs\pruebas\system\Model.php(183): CodeIgniter\Database\BaseBuilder->get()
+#3 C:\xampp\htdocs\pruebas\system\BaseModel.php(584): CodeIgniter\Model->doFindAll(0, 0)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(16): CodeIgniter\BaseModel->findAll()
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+ERROR - 2026-03-03 09:10:45 --> Error connecting to the database: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+CRITICAL - 2026-03-03 09:10:45 --> Unable to connect to the database.
+Main connection [MySQLi]: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+#0 C:\xampp\htdocs\pruebas\system\Database\BaseConnection.php(577): CodeIgniter\Database\BaseConnection->initialize()
+#1 C:\xampp\htdocs\pruebas\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#2 C:\xampp\htdocs\pruebas\system\Model.php(183): CodeIgniter\Database\BaseBuilder->get()
+#3 C:\xampp\htdocs\pruebas\system\BaseModel.php(584): CodeIgniter\Model->doFindAll(0, 0)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(16): CodeIgniter\BaseModel->findAll()
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-03 09:11:39 --> Invalid file: reportes/ventas,.php
+#0 C:\xampp\htdocs\pruebas\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('reportes/ventas...')
+#1 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas...', Array, true)
+#2 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(18): view('reportes/ventas...', Array)
+#3 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#4 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-03 09:22:02 --> Undefined variable $facturas
+#0 C:\xampp\htdocs\pruebas\app\Views\reportes\ventas.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 32)
+#1 C:\xampp\htdocs\pruebas\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pruebas\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas', Array, true)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(19): view('reportes/ventas', Array)
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-03 09:22:02 --> Undefined variable $facturas
+#0 C:\xampp\htdocs\pruebas\app\Views\reportes\ventas.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 32)
+#1 C:\xampp\htdocs\pruebas\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pruebas\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas', Array, true)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(19): view('reportes/ventas', Array)
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-03 09:22:05 --> Undefined variable $facturas
+#0 C:\xampp\htdocs\pruebas\app\Views\reportes\ventas.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 32)
+#1 C:\xampp\htdocs\pruebas\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pruebas\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas', Array, true)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(19): view('reportes/ventas', Array)
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-03 09:24:31 --> Undefined array key "tipo_documeto"
+#0 C:\xampp\htdocs\pruebas\app\Views\reportes\ventas.php(34): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 34)
+#1 C:\xampp\htdocs\pruebas\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pruebas\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas', Array, true)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(19): view('reportes/ventas', Array)
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-03 09:24:40 --> Undefined array key "tipo_documeto"
+#0 C:\xampp\htdocs\pruebas\app\Views\reportes\ventas.php(34): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 34)
+#1 C:\xampp\htdocs\pruebas\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\pruebas\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\pruebas\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas', Array, true)
+#4 C:\xampp\htdocs\pruebas\app\Controllers\Reportes\ReportesController.php(19): view('reportes/ventas', Array)
+#5 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#6 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\pruebas\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\pruebas\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
