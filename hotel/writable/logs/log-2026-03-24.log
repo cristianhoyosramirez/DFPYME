@@ -1,0 +1,1214 @@
+ERROR - 2026-03-24 08:31:36 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «estado_mesa» en la relación «mesas»
+LINE 1: ... (&quot;fk_salon&quot;, &quot;nombre&quot;, &quot;estado&quot;, &quot;valor_pedido&quot;, &quot;estado_me...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "me...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "me...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "me...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "me...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(40): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2026-03-24 08:35:28 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «disponible»
+LINE 1: ...valor_pedido&quot;, &quot;id_estado&quot;) VALUES (2, '2', 0, 0, 'disponibl...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "me...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "me...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "me...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "me...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(41): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2026-03-24 08:37:53 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «disponible»
+LINE 1: ...valor_pedido&quot;, &quot;id_estado&quot;) VALUES (2, '4', 0, 0, 'disponibl...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "me...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "me...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "me...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "me...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(52): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2026-03-24 08:39:15 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «disponible»
+LINE 1: ...valor_pedido&quot;, &quot;id_estado&quot;) VALUES (2, '1', 0, 0, 'disponibl...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "me...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "me...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "me...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "me...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(40): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2026-03-24 08:41:47 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna h.piso
+LINE 6:     h.piso,
+            ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, '\r\n     \r\n  SELE...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\n  SELE...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\n  SELE...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(48): CodeIgniter\Database\BaseConnection->query('\r\n     \r\n  SELE...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(53): App\Models\habitacionesModel->getHabitacionesInsert()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+ERROR - 2026-03-24 08:43:24 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna m.estado_mesa
+LINE 8:     m.estado_mesa,
+            ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, '\r\n     \r\n  SELE...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\n  SELE...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\n  SELE...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(48): CodeIgniter\Database\BaseConnection->query('\r\n     \r\n  SELE...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(53): App\Models\habitacionesModel->getHabitacionesInsert()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+ERROR - 2026-03-24 08:43:46 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna h.piso
+LINE 16:     h.piso ASC,      -- después ordenar por piso
+             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, '\r\n     \r\n  SELE...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\n  SELE...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\n  SELE...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(48): CodeIgniter\Database\BaseConnection->query('\r\n     \r\n  SELE...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(53): App\Models\habitacionesModel->getHabitacionesInsert()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+ERROR - 2026-03-24 08:46:38 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «estado_mesa» en la relación «mesas»
+LINE 1: ... (&quot;fk_salon&quot;, &quot;nombre&quot;, &quot;estado&quot;, &quot;valor_pedido&quot;, &quot;estado_me...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "me...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "me...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "me...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "me...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(40): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2026-03-24 08:47:19 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «disponible»
+LINE 1: ...alor_pedido&quot;, &quot;id_estado&quot;) VALUES (2, '1A', 0, 0, 'disponibl...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "me...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "me...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "me...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "me...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(40): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2026-03-24 10:17:37 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «20.000»
+LINE 1: ...o&quot;, &quot;capacidad&quot;, &quot;precio&quot;) VALUES (45, 'doble', 1, '20.000')
+                                                              ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "ha...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "ha...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "ha...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "ha...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(55): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 10:57:52 --> Undefined array key "id_habitacion"
+#0 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(186): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 186)
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->consultarReserva()
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-03-24 11:01:04 --> Undefined array key "id_habitacion"
+#0 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(186): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 186)
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->consultarReserva()
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-03-24 11:01:14 --> Undefined array key "id_habitacion"
+#0 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(186): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 186)
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->consultarReserva()
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-03-24 11:01:16 --> Undefined array key "id_habitacion"
+#0 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(186): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 186)
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->consultarReserva()
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-03-24 11:03:58 --> Undefined array key "id_habitacion"
+#0 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(186): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 186)
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->consultarReserva()
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+ERROR - 2026-03-24 12:22:08 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 12:22:08 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 12:22:08 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 12:22:54 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 12:22:54 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 12:22:54 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 12:49:12 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ...cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('17', '', '', '2...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 12:49:12 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ...cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('17', '', '', '2...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 12:49:12 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-03-24 13:36:31 --> Undefined variable $municipios
+#0 C:\xampp\htdocs\hotel\app\Views\home.php(30): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 30)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('home', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Controllers\Home.php(9): view('home')
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Home->index()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+ERROR - 2026-03-24 13:37:13 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 13:37:13 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 13:37:13 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 13:56:43 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 13:56:43 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 13:56:43 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 13:57:44 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 13:57:44 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 13:57:44 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 13:58:20 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 13:58:20 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 13:58:20 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 14:25:23 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 14:25:23 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('', '', ''...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 14:25:23 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-03-24 14:27:43 --> Undefined array key "procendia"
+#0 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(213): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 213)
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->checkIn()
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-03-24 14:49:02 --> Undefined variable $m
+#0 C:\xampp\htdocs\hotel\app\Views\habitaciones\registrar.php(65): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 65)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('habitaciones/re...', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Views\reportes\ventas.php(370): view('habitaciones/re...')
+#5 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#7 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas', Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(21): view('reportes/ventas', Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 14:49:05 --> Undefined variable $m
+#0 C:\xampp\htdocs\hotel\app\Views\habitaciones\registrar.php(65): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 65)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('habitaciones/re...', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Views\reportes\ventas.php(370): view('habitaciones/re...')
+#5 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#7 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas', Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(21): view('reportes/ventas', Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 15:15:30 --> syntax error, unexpected token "}"
+#0 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs...')
+#1 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers...')
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(797): class_exists('\\App\\Controller...', true)
+#4 C:\xampp\htdocs\hotel\system\CodeIgniter.php(406): CodeIgniter\CodeIgniter->startController()
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-24 15:15:33 --> syntax error, unexpected token "}"
+#0 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs...')
+#1 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers...')
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(797): class_exists('\\App\\Controller...', true)
+#4 C:\xampp\htdocs\hotel\system\CodeIgniter.php(406): CodeIgniter\CodeIgniter->startController()
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-24 15:15:43 --> syntax error, unexpected token "}"
+#0 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs...')
+#1 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers...')
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(797): class_exists('\\App\\Controller...', true)
+#4 C:\xampp\htdocs\hotel\system\CodeIgniter.php(406): CodeIgniter\CodeIgniter->startController()
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-24 15:16:14 --> syntax error, unexpected token "}"
+#0 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs...')
+#1 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers...')
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(797): class_exists('\\App\\Controller...', true)
+#4 C:\xampp\htdocs\hotel\system\CodeIgniter.php(406): CodeIgniter\CodeIgniter->startController()
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-24 15:16:43 --> syntax error, unexpected token "}"
+#0 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs...')
+#1 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers...')
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(797): class_exists('\\App\\Controller...', true)
+#4 C:\xampp\htdocs\hotel\system\CodeIgniter.php(406): CodeIgniter\CodeIgniter->startController()
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-24 15:17:46 --> syntax error, unexpected token "}"
+#0 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs...')
+#1 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers...')
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(797): class_exists('\\App\\Controller...', true)
+#4 C:\xampp\htdocs\hotel\system\CodeIgniter.php(406): CodeIgniter\CodeIgniter->startController()
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-24 15:21:20 --> syntax error, unexpected token "}"
+#0 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs...')
+#1 C:\xampp\htdocs\hotel\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers...')
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(797): class_exists('\\App\\Controller...', true)
+#4 C:\xampp\htdocs\hotel\system\CodeIgniter.php(406): CodeIgniter\CodeIgniter->startController()
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-03-24 15:33:50 --> Undefined variable $cliente
+#0 C:\xampp\htdocs\hotel\app\Views\habitaciones\ciudades.php(7): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 7)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('habitaciones/ci...', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(256): view('habitaciones/ci...', Array)
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->buscarCiudadProcedencia()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-24 15:33:50 --> Undefined variable $cliente
+#0 C:\xampp\htdocs\hotel\app\Views\habitaciones\ciudades.php(7): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 7)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('habitaciones/ci...', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(256): view('habitaciones/ci...', Array)
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->buscarCiudadProcedencia()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-24 15:33:50 --> Undefined variable $cliente
+#0 C:\xampp\htdocs\hotel\app\Views\habitaciones\ciudades.php(7): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 7)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('habitaciones/ci...', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(256): view('habitaciones/ci...', Array)
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->buscarCiudadProcedencia()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-24 15:33:53 --> Undefined variable $cliente
+#0 C:\xampp\htdocs\hotel\app\Views\habitaciones\ciudades.php(7): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 7)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('habitaciones/ci...', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(256): view('habitaciones/ci...', Array)
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->buscarCiudadProcedencia()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-24 16:32:47 --> Undefined array key "procendia"
+#0 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(212): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 212)
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->checkIn()
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-03-24 16:33:20 --> Undefined array key "procendia"
+#0 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(212): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 212)
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->checkIn()
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-03-24 16:42:48 --> Undefined array key "procendia"
+#0 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(212): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 212)
+#1 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->checkIn()
+#2 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#3 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+ERROR - 2026-03-24 17:39:16 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ...cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('38', '', '', '2...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 17:39:16 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ...cliente&quot;, &quot;notas&quot;, &quot;fecha_reserva&quot;) VALUES ('38', '', '', '2...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 17:39:16 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 17:55:12 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ...n&quot;, &quot;id_municipio_destino&quot;, &quot;id_reserva&quot;) VALUES ('', '', '3...
+                                                             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(227): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->checkIn()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 19:10:16 --> Undefined array key "nombre_completo"
+#0 C:\xampp\htdocs\hotel\app\Views\reportes\registro.php(20): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 20)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('reportes/regist...', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(37): view('reportes/regist...', Array)
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->registro()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-24 19:11:25 --> Undefined array key "nombrecliente"
+#0 C:\xampp\htdocs\hotel\app\Views\reportes\registro.php(20): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 20)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('reportes/regist...', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(37): view('reportes/regist...', Array)
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->registro()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-03-24 19:11:28 --> Undefined array key "nombrecliente"
+#0 C:\xampp\htdocs\hotel\app\Views\reportes\registro.php(20): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 20)
+#1 C:\xampp\htdocs\hotel\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\hotel\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\hotel\system\Common.php(1089): CodeIgniter\View\View->render('reportes/regist...', Array, true)
+#4 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(37): view('reportes/regist...', Array)
+#5 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->registro()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+ERROR - 2026-03-24 19:39:27 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «vehiculos»
+LINE 2: FROM &quot;vehiculos&quot;
+             ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'SELECT *\nFROM "...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT *\nFROM "...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM "...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM "...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(183): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(584): CodeIgniter\Model->doFindAll(0, 0)
+#7 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(26): CodeIgniter\BaseModel->findAll()
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->vehiculos()
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-03-24 19:39:27 --> pg_query(): Query failed: ERROR:  no existe la relación «vehiculos»
+LINE 2: FROM &quot;vehiculos&quot;
+             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'SELECT *\nFROM "...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT *\nFROM "...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM "...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM "...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(183): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(584): CodeIgniter\Model->doFindAll(0, 0)
+#7 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(26): CodeIgniter\BaseModel->findAll()
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->vehiculos()
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-03-24 19:39:27 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 19:40:38 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «habitaciones»
+LINE 12: FROM habitaciones AS h
+              ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-03-24 19:40:38 --> pg_query(): Query failed: ERROR:  no existe la relación «habitaciones»
+LINE 12: FROM habitaciones AS h
+              ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-03-24 19:40:38 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 19:41:01 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «estado_habitaciones»
+LINE 15: INNER JOIN estado_habitaciones AS eh
+                    ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-03-24 19:41:01 --> pg_query(): Query failed: ERROR:  no existe la relación «estado_habitaciones»
+LINE 15: INNER JOIN estado_habitaciones AS eh
+                    ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-03-24 19:41:01 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 19:41:04 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «estado_habitaciones»
+LINE 15: INNER JOIN estado_habitaciones AS eh
+                    ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-03-24 19:41:04 --> pg_query(): Query failed: ERROR:  no existe la relación «estado_habitaciones»
+LINE 15: INNER JOIN estado_habitaciones AS eh
+                    ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-03-24 19:41:04 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 19:41:16 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «estado_habitaciones»
+LINE 15: INNER JOIN estado_habitaciones AS eh
+                    ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-03-24 19:41:16 --> pg_query(): Query failed: ERROR:  no existe la relación «estado_habitaciones»
+LINE 15: INNER JOIN estado_habitaciones AS eh
+                    ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+ERROR - 2026-03-24 19:49:14 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna m.id_estado
+LINE 16:     ON eh.id = m.id_estado
+                        ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-03-24 19:49:14 --> pg_query(): Query failed: ERROR:  no existe la columna m.id_estado
+LINE 16:     ON eh.id = m.id_estado
+                        ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #121, '\r\n     \r\nSELECT...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n     \r\nSELECT...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n     \r\nSELECT...')
+#4 C:\xampp\htdocs\hotel\app\Models\habitacionesModel.php(25): CodeIgniter\Database\BaseConnection->query('\r\n     \r\nSELECT...')
+#5 C:\xampp\htdocs\hotel\app\Controllers\Reportes\ReportesController.php(16): App\Models\habitacionesModel->getHabitaciones()
+#6 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\Reportes\ReportesController->ventas()
+#7 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Reportes\ReportesController))
+#8 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+ERROR - 2026-03-24 19:50:52 --> ErrorException: pg_query(): Query failed: ERROR:  inserción o actualización en la tabla «mesas» viola la llave foránea «fk_salon»
+DETAIL:  La llave (fk_salon)=(2) no está presente en la tabla «salones». in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "me...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "me...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "me...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "me...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(49): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->crear()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2026-03-24 19:53:48 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «reservas»
+LINE 1: INSERT INTO &quot;reservas&quot; (&quot;id_habitacion&quot;, &quot;id_cliente&quot;, &quot;nota...
+                    ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 19:53:48 --> pg_query(): Query failed: ERROR:  no existe la relación «reservas»
+LINE 1: INSERT INTO &quot;reservas&quot; (&quot;id_habitacion&quot;, &quot;id_cliente&quot;, &quot;nota...
+                    ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 19:53:48 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 19:54:53 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la relación «reservas»
+LINE 1: INSERT INTO &quot;reservas&quot; (&quot;id_habitacion&quot;, &quot;id_cliente&quot;, &quot;nota...
+                    ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 19:54:53 --> pg_query(): Query failed: ERROR:  no existe la relación «reservas»
+LINE 1: INSERT INTO &quot;reservas&quot; (&quot;id_habitacion&quot;, &quot;id_cliente&quot;, &quot;nota...
+                    ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(166): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->reservar()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-03-24 19:54:53 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\hotel\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\hotel\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\hotel\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-03-24 20:07:59 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ..., &quot;id_reserva&quot;, &quot;id_vehiculo&quot;) VALUES ('3', '1007', '1', '')
+                                                                    ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(233): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->checkIn()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+ERROR - 2026-03-24 20:23:51 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 1: ...o&quot;, &quot;id_reserva&quot;, &quot;id_vehiculo&quot;) VALUES ('1', '29', '2', '')
+                                                                    ^ in C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\hotel\system\Database\Postgre\Connection.php(135): pg_query(Resource id #123, 'INSERT INTO "re...')
+#2 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "re...')
+#3 C:\xampp\htdocs\hotel\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "re...')
+#4 C:\xampp\htdocs\hotel\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "re...', Array, false)
+#5 C:\xampp\htdocs\hotel\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\hotel\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\hotel\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\hotel\app\Controllers\habitaciones\HabitacionesController.php(233): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\hotel\system\CodeIgniter.php(832): App\Controllers\habitaciones\HabitacionesController->checkIn()
+#10 C:\xampp\htdocs\hotel\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\habitaciones\HabitacionesController))
+#11 C:\xampp\htdocs\hotel\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\hotel\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
