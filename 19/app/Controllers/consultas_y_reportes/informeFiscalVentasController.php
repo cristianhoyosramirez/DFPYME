@@ -779,7 +779,7 @@ class informeFiscalVentasController extends BaseController
         $dompdf->stream("Informe fiscal $fecha.pdf", array("Attachment" => true));
     }
 
- 
+
 
     function expotar_informe_electronico_pdf()
     {
@@ -829,13 +829,23 @@ class informeFiscalVentasController extends BaseController
 
         if (!empty($id_inicial[0]['id']) and !empty($id_final[0]['id'])) {
             //$total_registros = model('pagosModel')->get_total_registros_electronicos($id_apertura);
-            $total_registros = model('pagosModel')->get_total_registros_electronicos($id_inicial[0]['id'],$id_final[0]['id']);
+            $total_registros = model('pagosModel')->get_total_registros_electronicos($id_inicial[0]['id'], $id_final[0]['id']);
 
-           /*  $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
+            /*  $reg_inicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
 
             $reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first(); */
 
-             $numero=model('facturaElectronicaModel')->regIniRegFin($id_inicial[0]['id'],$id_final[0]['id']);
+            // $numero=model('facturaElectronicaModel')->regIniRegFin($id_inicial[0]['id'],$id_final[0]['id']);
+
+            $numeroInicial = model('facturaElectronicaModel')
+                ->select('numero')
+                ->where('id', $id_inicial[0]['id'])
+                ->first();
+
+            $numeroFinal = model('facturaElectronicaModel')
+                ->select('numero')
+                ->where('id', $id_final[0]['id'])
+                ->first();
 
             /**
              * Discriminación de las bases tributarias tanto iva como impuesto al consumo 
@@ -953,13 +963,13 @@ class informeFiscalVentasController extends BaseController
             $array_devoluciones_iva = array();
             // if (!empty($iva_devolucion)) {
 
-            
+
 
             foreach ($iva_devolucion as $detalle) {
 
                 $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
 
-              /*   if ($aplica_ico['aplica_ico'] == 't') {
+                /*   if ($aplica_ico['aplica_ico'] == 't') {
                     $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre, $detalle['codigo']);
 
                     $temp_porcentaje = $detalle['iva'] / 100;
@@ -979,7 +989,7 @@ class informeFiscalVentasController extends BaseController
             $ico_devolucion = model('devolucionModel')->tarifa_ico($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
             $array_devoluciones_ico = array();
-            if (!empty($ico_devolucion and $ico_devolucion[0]['ico'] != 0 )) {
+            if (!empty($ico_devolucion and $ico_devolucion[0]['ico'] != 0)) {
 
                 foreach ($ico_devolucion as $detalle) {
 
@@ -995,8 +1005,8 @@ class informeFiscalVentasController extends BaseController
                     $data_devo_ico['total'] = $total;
                     array_push($array_devoluciones_ico, $data_devo_ico);
                 }
-            //} else if ($ico_devolucion[0]['ico'] == 0) {
-            }else if (empty($ico_devolucion) || (isset($ico_devolucion[0]['ico']) && $ico_devolucion[0]['ico'] == 0)) {
+                //} else if ($ico_devolucion[0]['ico'] == 0) {
+            } else if (empty($ico_devolucion) || (isset($ico_devolucion[0]['ico']) && $ico_devolucion[0]['ico'] == 0)) {
 
                 $data_devo_ico['base'] =  0;
                 $data_devo_ico['tarifa'] = 0;
@@ -1008,7 +1018,7 @@ class informeFiscalVentasController extends BaseController
 
             $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
             $consecutivo_fiscal = model('consecutivoInformeModel')->select('numero')->where('id_apertura', $id_apertura)->first();
-            $pago =model('pagosModel')->total_formas_pago($id_apertura);
+            $pago = model('pagosModel')->total_formas_pago($id_apertura);
 
             $dompdf->loadHtml(view('consultas_y_reportes/informe_fiscal_ventas_pdf', [
                 "nombre_comercial" => $datos_empresa[0]['nombrecomercialempresa'],
@@ -1018,9 +1028,9 @@ class informeFiscalVentasController extends BaseController
                 "direccion" => $datos_empresa[0]['direccionempresa'],
                 "nombre_ciudad" => $nombre_ciudad['nombreciudad'],
                 "nombre_departamento" => $nombre_departamento['nombredepartamento'],
-               "registro_inicial" => $numero[0]['minimo'],
+                "registro_inicial" => $numeroInicial['numero'],
                 //"registro_inicial" => $registro_inicial[0]['id'],
-                "registro_final" => $numero[0]['maximo'],
+                "registro_final" => $numeroFinal['numero'],
                 //"registro_final" => $registro_final[0]['id'],
                 //"total_registros" => $total_registros[0]['total_registros'],
                 "total_registros" => $total_registros[0]['id'],
@@ -1035,8 +1045,8 @@ class informeFiscalVentasController extends BaseController
                 "id_apertura" => $id_apertura,
                 "fecha" => $fecha_apertura['fecha'],
                 "titulo" => "INFORME FISCAL DE VENTAS ELECTRÓNICAS",
-                "pago"=>$pago
-    
+                "pago" => $pago
+
             ]));
 
 

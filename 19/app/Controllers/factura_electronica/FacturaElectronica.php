@@ -36,7 +36,7 @@ class FacturaElectronica extends BaseController
 
 
 
-    
+
         $id_mesa = $this->request->getPost('id_mesa');
         // $id_mesa = 6;
 
@@ -788,7 +788,10 @@ class FacturaElectronica extends BaseController
 
                     if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
 
-                        $idUlt = model('pagosModel')->insertID();
+                        //$id_ultimo = model('pagosModel')->insertID();
+                        $id_ultimo = model('pagosModel')->selectMax('id')->first();
+
+                        $idUlt = $id_ultimo['id'];
 
                         $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
                         $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);
@@ -808,9 +811,33 @@ class FacturaElectronica extends BaseController
                         }
 
 
-                        if (!empty($movimientos_transaccion)) {
-                            $imp = new impresion();
-                            $imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $transaccion, $efectivo, $total_efectivo);
+                        
+
+                        if (!empty($movimientos_transaccion) && isset($movimientos_transaccion[0])) {
+
+                            $recibido = isset($movimientos_transaccion[0]['recibido_transferencia'])
+                                ? (float)$movimientos_transaccion[0]['recibido_transferencia']
+                                : 0;
+
+                            if ($recibido > 0) {
+
+                                $imp = new impresion();
+
+                                $total_efectivo = 0;
+                                $efectivo = 0;
+
+                                if (!empty($movimientos_efectivo) && isset($movimientos_efectivo[0]['total_pago'])) {
+                                    $total_efectivo = (float)$movimientos_efectivo[0]['total_pago'];
+                                    $efectivo = $total_efectivo;
+                                }
+
+                                $imprimir = $imp->imprimir_comprobnate_transferencia(
+                                    $idUlt,
+                                    $recibido,
+                                    $efectivo,
+                                    $total_efectivo
+                                );
+                            }
                         }
                     }
 

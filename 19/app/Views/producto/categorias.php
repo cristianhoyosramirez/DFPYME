@@ -259,7 +259,7 @@ HOME
                                                 </div>
                                                 <div class="col-1">
                                                     <label for="" class="form-label"><?php echo $tipo_impuesto ?></label>
-                                                    <input type="text" class="form-control" value="<?php echo $impuesto . " %"; ?>">
+                                                    <input type="text" class="form-control" value="<?php echo $impuesto . " %"; ?>" disabled>
                                                 </div>
 
                                              <!--    <div class="col-1">

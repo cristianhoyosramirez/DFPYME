@@ -23,11 +23,7 @@
                 </div>
 
                 <div class="col-3">
-
-
-
                     <div class="input-icon">
-
                         <span class="input-icon-addon">
                             <!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -60,7 +56,7 @@
                             </a>
                         </div>
 
-                        <input type="number" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id'] ?>)" id="input_cantidad<?php echo $detalle['id'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id'] ?>)" title="cantidad">
+                        <input type="text" class="form-control form-control-sm text-center custom-width" value="<?php echo $detalle['cantidad'] ?>" oninput="actualizacion_cantidades(this.value, <?php echo $detalle['id'] ?>)" id="input_cantidad<?php echo $detalle['id'] ?>" onclick="resaltar_cantidad(<?php echo $detalle['id'] ?>)" title="cantidad">
                         <div class="input-group-append">
                             <a href="#" class="btn bg-muted-lt btn-icon" onclick="actualizar_cantidades('<?php echo $detalle['id'] ?>')" title="Agregar producto">
                                 <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -76,15 +72,6 @@
 
                 <div class="col">
                     <div class="input-icon">
-                        <!--<span class="input-icon-addon">
-                        Download SVG icon from http://tabler-icons.io/i/currency-dollar 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
-                            <path d="M12 3v3m0 12v3" />
-                        </svg>
-                    </span>-->
-                        <!-- <input type="text" title ="valor total" class="form-control" id="total_producto<?php echo $detalle['id'] ?>" value="<?php echo  number_format($valor = $detalle['valor'] * $detalle['cantidad'], 0, ",", "."); ?>" readonly> -->
                         <span id="total_producto<?php echo $detalle['id'] ?>"><?php echo  number_format($valor = $detalle['valor'] * $detalle['cantidad'], 0, ",", "."); ?> </span>
                     </div>
                 </div>

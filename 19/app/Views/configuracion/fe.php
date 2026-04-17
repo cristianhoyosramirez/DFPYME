@@ -11,13 +11,13 @@ HOME
 
 <div class="container mt-5">
     <h3 class="text-center text-primary mb-4">
-        Realizar cierre de caja con facturas pendiente por trasmitir a la DIAN 
+        Realizar cierre de caja con facturas pendiente por trasmitir a la DIAN
     </h3>
 
     <div class="row justify-content-start">
-        <div class="col-md-6 text-center">
+        <div class="col-md-4 text-center">
             <label for="generar_fiscal" class="form-label fw-bold">
-                Habilitar el cierre de caja aun cuando existan prefacturas pendientes de envío a la DIAN
+                Cerrar con prefacturas pendientes de envío a la DIAN
             </label>
 
             <select id="generar_fiscal" class="form-select text-center" onchange="informe(this.value)">
@@ -26,9 +26,32 @@ HOME
             </select>
 
         </div>
+        <div class="col-md-4 text-center">
+            <label for="generar_fiscal" class="form-label fw-bold">
+                Permitir cerrar caja con pedidos pendientes
+            </label>
+
+            <select id="generar_fiscal" class="form-select text-center" onchange="cierreCaja(this.value)">
+                <option value="t" <?= ($cierre_caja === 't') ? 'selected' : '' ?>>❌ No</option>
+                <option value="f" <?= ($cierre_caja === 'f') ? 'selected' : '' ?>>✅ Si</option>
+            </select>
+
+        </div>
+        <div class="col-md-4 text-center">
+            <label for="generar_fiscal" class="form-label fw-bold">
+                Boton borrar prefacturas
+            </label>
+
+            <select id="generar_fiscal" class="form-select text-center" onchange="prefactura(this.value)">
+                <option value="t" <?= ($borar_prefacturas === 't') ? 'selected' : '' ?>> ✅ Si</option>
+                <option value="f" <?= ($borar_prefacturas === 'f') ? 'selected' : '' ?>>❌ No</option>
+            </select>
+
+        </div>
     </div>
 </div>
-<input type="text" id="url" value="<?php  echo base_url()?>" hidden>
+<input type="text" id="url" value="<?php echo base_url() ?>" hidden>
+
 <script>
     async function informe(valor) {
         try {
@@ -50,11 +73,85 @@ HOME
             }
 
             let data = await response.json();
-            
+
 
             // Opcional: feedback al usuario
-            if (data.response=="success") {
-                sweet_alert_centrado('success','Configuración correcta ')
+            if (data.response == "success") {
+                sweet_alert_centrado('success', 'Configuración correcta ')
+            } else {
+                alert("No se pudo guardar la configuración ❌");
+            }
+
+        } catch (error) {
+            console.error("Error en informe():", error);
+            alert("Ocurrió un error al guardar.");
+        }
+    }
+</script>
+
+<script>
+    async function cierreCaja(valor) {
+        try {
+            let url = document.getElementById("url").value + "/edicion_eliminacion_factura_pedido/updateGestionPedidos";
+
+            let response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest" // buena práctica para diferenciar AJAX
+                },
+                body: JSON.stringify({
+                    valor: valor
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("Error en la petición: " + response.status);
+            }
+
+            let data = await response.json();
+
+
+            // Opcional: feedback al usuario
+            if (data.response == "success") {
+                sweet_alert_centrado('success', 'Configuración correcta ')
+            } else {
+                alert("No se pudo guardar la configuración ❌");
+            }
+
+        } catch (error) {
+            console.error("Error en informe():", error);
+            alert("Ocurrió un error al guardar.");
+        }
+    }
+</script>
+
+<script>
+    async function prefactura(valor) {
+        try {
+            let url = document.getElementById("url").value + "/edicion_eliminacion_factura_pedido/updateGestionPrefacturas";
+
+            let response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest" // buena práctica para diferenciar AJAX
+                },
+                body: JSON.stringify({
+                    valor: valor
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("Error en la petición: " + response.status);
+            }
+
+            let data = await response.json();
+
+
+            // Opcional: feedback al usuario
+            if (data.response == "success") {
+                sweet_alert_centrado('success', 'Configuración correcta ')
             } else {
                 alert("No se pudo guardar la configuración ❌");
             }

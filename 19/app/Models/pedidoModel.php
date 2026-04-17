@@ -112,7 +112,8 @@ class pedidoModel extends Model
             pedido.fk_usuario,
             usuario_sistema.nombresusuario_sistema,
             valor_total,
-            propina
+            propina,
+            nota_pedido
             
         FROM
             pedido

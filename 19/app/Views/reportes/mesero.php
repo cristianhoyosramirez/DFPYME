@@ -27,8 +27,7 @@ Reporte de ventas por usuario
 
         <div class="card-body">
 
-            <form action="<?= base_url() ?>/factura_directa/exportCostoExcel" method="POST">
-
+            
                 <div class="row g-3">
 
                     <!-- Ventas por mesero -->
@@ -40,45 +39,45 @@ Reporte de ventas por usuario
 
                             <div class="card-body">
 
-                            
 
-                                    <div class="row g-3">
 
-                                        <!-- Mesero -->
-                                        <div class="col-md-4">
-                                            <label class="form-label">Mesero</label>
-                                            <select name="idMesero" class="form-select">
-                                                <option value="todos">Todos</option>
-                                                <?php foreach ($meseros as $m): ?>
-                                                    <option value="<?php echo $m['idusuario_sistema'] ?>">
-                                                        <?php echo $m['nombresusuario_sistema'] ?>
-                                                    </option>
-                                                <?php endforeach ?>
-                                            </select>
-                                        </div>
+                                <div class="row g-3">
 
-                                        <!-- Fecha inicial -->
-                                        <div class="col-md-4">
-                                            <label class="form-label">Fecha inicial</label>
-                                            <input type="date" name="fecha_inicial" class="form-control" value="<?php echo date('Y-m-d') ?>">
-                                        </div>
-
-                                        <!-- Fecha final -->
-                                        <div class="col-md-4">
-                                            <label class="form-label">Fecha final</label>
-                                            <input type="date" name="fecha_final" class="form-control" value="<?php echo date('Y-m-d') ?>">
-                                        </div>
-
-                                        <!-- Botón -->
-                                        <div class="col-12">
-                                            <button onclick="bucarVentaMesero()" class="btn btn-success w-100">
-                                                Buscar
-                                            </button>
-                                        </div>
-
+                                    <!-- Mesero -->
+                                    <div class="col-md-4">
+                                        <label class="form-label">Mesero</label>
+                                        <select name="id_mesero" id="id_mesero" class="form-select">
+                                         
+                                            <?php foreach ($meseros as $m): ?>
+                                                <option value="<?php echo $m['idusuario_sistema'] ?>">
+                                                    <?php echo $m['nombresusuario_sistema'] ?>
+                                                </option>
+                                            <?php endforeach ?>
+                                        </select>
                                     </div>
 
-                                
+                                    <!-- Fecha inicial -->
+                                    <div class="col-md-4">
+                                        <label class="form-label">Fecha inicial</label>
+                                        <input type="date" name="fecha_inicial" id="fecha_inicial" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                                    </div>
+
+                                    <!-- Fecha final -->
+                                    <div class="col-md-4">
+                                        <label class="form-label">Fecha final</label>
+                                        <input type="date" name="fecha_final" id="fecha_final" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                                    </div>
+
+                                    <!-- Botón -->
+                                    <div class="col-12">
+                                        <button onclick="bucarVentaMesero()" class="btn btn-success w-100">
+                                            Buscar
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
 
                                 <div id="resultadoBusqueda"></div>
 
@@ -103,8 +102,8 @@ Reporte de ventas por usuario
                                     <!-- Mesero -->
                                     <div class="col-md-3">
                                         <label class="form-label">Mesero</label>
-                                        <select name="idMesero" class="form-select">
-                                            <option value="todos">Todos</option>
+                                        <select name="idMesero" id="idMesero" class="form-select">
+                                            
                                             <?php foreach ($meseros as $m): ?>
                                                 <option value="<?php echo $m['idusuario_sistema'] ?>"><?php echo $m['nombresusuario_sistema'] ?></option>
                                             <?php endforeach ?>
@@ -133,6 +132,7 @@ Reporte de ventas por usuario
                                                                 <input
                                                                     type="radio"
                                                                     name="id_apertura"
+                                                                    id="id_apertura"
                                                                     value="<?php echo $a['id_apertura'] ?>">
                                                             </td>
                                                             <td>
@@ -156,7 +156,7 @@ Reporte de ventas por usuario
 
                                     <!-- Botón -->
                                     <div class="col-12 text-end">
-                                        <button class="btn btn-success w-100">
+                                        <button class="btn btn-success w-100" onclick="consultarMovimientoCaja()">
                                             Buscar
                                         </button>
                                     </div>
@@ -171,14 +171,14 @@ Reporte de ventas por usuario
 
                 </div>
 
-            </form>
+            
 
 
             <table class="table table-striped mt-4">
                 <thead class="table-dark">
                     <tr>
                         <td>Mesero</th>
-                        <td>Mesas</th>
+                    
                         <td>Facturas</th>
                         <td>Ventas</th>
                         <td>Promedio ventas</th>
@@ -218,63 +218,133 @@ Reporte de ventas por usuario
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-    async function bucarVentaMesero() {
-   
+async function bucarVentaMesero() {
 
-        // Obtener el formulario
-        const form = document.getElementById('formReporteMeseros');
-        const formData = new FormData(form);
+    // Obtener valores correctamente
+    const id_mesero = document.getElementById('id_mesero').value;
+    const fecha_inicial = document.getElementById('fecha_inicial').value;
+    const fecha_final = document.getElementById('fecha_final').value;
 
-        // Mostrar spinner de SweetAlert2
-        Swal.fire({
-            title: 'Generando reporte...',
-            text: 'Por favor espera',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading(); // Muestra el spinner
-            }
+    // Crear FormData
+    const formData = new FormData();
+    formData.append('id_mesero', id_mesero);
+    formData.append('fecha_inicial', fecha_inicial);
+    formData.append('fecha_final', fecha_final);
+
+    // Mostrar spinner
+    Swal.fire({
+        title: 'Generando reporte...',
+        text: 'Por favor espera',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    try {
+        const response = await fetch("<?= base_url('reportes/ventasPorMesero') ?>", {
+            method: 'POST',
+            body: formData
         });
 
-        try {
-            // Enviar los datos al servidor
-            const response = await fetch('ruta/al/controlador/meseros', {
-                method: 'POST',
-                body: formData
+        const data = await response.json();
+
+        Swal.close();
+
+        if (data.response=="success") {
+            Swal.fire({
+                icon: 'success',
+                title: 'Reporte generado',
+                text: 'Ventas del mesero cargadas correctamente'
             });
 
-            const data = await response.json();
+            document.getElementById('datosUsuario').innerHTML=data.ventas
 
-            // Cerrar el spinner
-            Swal.close();
-
-            // Manejar la respuesta
-            if (data.success) {
-                // Aquí podrías mostrar los resultados en una tabla
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Reporte generado',
-                    text: 'Ventas del mesero cargadas correctamente'
-                });
-                console.log('Ventas del mesero:', data.ventas);
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Sin resultados',
-                    text: 'No se encontraron ventas para los criterios seleccionados'
-                });
-            }
-
-        } catch (error) {
-            Swal.close();
-            console.error('Error al buscar ventas:', error);
+        } else {
             Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ocurrió un error al consultar las ventas'
+                icon: 'warning',
+                title: 'Sin resultados',
+                text: 'No se encontraron ventas para los criterios seleccionados'
             });
         }
+
+    } catch (error) {
+        Swal.close();
+        console.error('Error al buscar ventas:', error);
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al consultar las ventas'
+        });
     }
+}
+</script>
+
+<script>
+async function consultarMovimientoCaja() {
+
+    // Obtener valores correctamente
+    const id_mesero = document.getElementById('idMesero').value;
+    const id_apertura = document.getElementById('id_apertura').value;
+    
+
+    // Crear FormData
+    const formData = new FormData();
+    formData.append('id_mesero', id_mesero);
+    formData.append('id_apertura', id_apertura);
+
+
+    // Mostrar spinner
+    Swal.fire({
+        title: 'Generando reporte...',
+        text: 'Por favor espera',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    try {
+        const response = await fetch("<?= base_url('reportes/ventasPorApertura') ?>", {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        Swal.close();
+
+        if (data.response=="success") {
+            Swal.fire({
+                icon: 'success',
+                title: 'Reporte generado',
+                text: 'Ventas del mesero cargadas correctamente'
+            });
+
+            document.getElementById('datosUsuario').innerHTML=data.ventas
+
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sin resultados',
+                text: 'No se encontraron ventas para los criterios seleccionados'
+            });
+        }
+
+    } catch (error) {
+        Swal.close();
+        console.error('Error al buscar ventas:', error);
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al consultar las ventas'
+        });
+    }
+}
 </script>
 
 

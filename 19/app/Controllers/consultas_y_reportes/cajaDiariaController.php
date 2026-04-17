@@ -1159,7 +1159,7 @@ class cajaDiariaController extends BaseController
 
         $truncate = model('reporteProductoModel')->truncate();
         // $id_apertura = 851;
-        $id_apertura = $this->request->getPost('id_apertura');  
+        $id_apertura = $this->request->getPost('id_apertura');
 
 
 
@@ -2023,7 +2023,8 @@ class cajaDiariaController extends BaseController
     function informe_fiscal_electronico()
     {
 
-        $id_apertura = $this->request->getPost('id_apertura');
+         $id_apertura = $this->request->getPost('id_apertura');
+        //$id_apertura = 60;
         //$id_apertura = 79;
 
         $fecha_y_hora_cierre = "";
@@ -2068,7 +2069,10 @@ class cajaDiariaController extends BaseController
             //$reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
 
 
-            $numero=model('facturaElectronicaModel')->regIniRegFin($id_inicial[0]['id'],$id_final[0]['id']);
+            //$numero=model('facturaElectronicaModel')->regIniRegFin($id_inicial[0]['id'],$id_final[0]['id']);
+
+            $numeroInicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
+            $numeroFinal = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
 
 
             /**
@@ -2120,7 +2124,7 @@ class cajaDiariaController extends BaseController
                 array_push($array_iva, $data_iva);
             }
 
-        
+
 
             $ico = model('kardexModel')->fiscal_ico($id_inicial[0]['id'], $id_final[0]['id']);
             //  $array_ico = array();
@@ -2257,8 +2261,8 @@ class cajaDiariaController extends BaseController
                     "direccion" => $datos_empresa[0]['direccionempresa'],
                     "nombre_ciudad" => $nombre_ciudad['nombreciudad'],
                     "nombre_departamento" => $nombre_departamento['nombredepartamento'],
-                    "registro_inicial" => $numero[0]['minimo'], // "registro_final" => $registro_final[0]['id'],
-                    "registro_final" => $numero[0]['maximo'],
+                    "registro_inicial" => $numeroInicial['numero'], // "registro_final" => $registro_final[0]['id'],
+                    "registro_final" =>$numeroFinal['numero'],
                     "total_registros" => $total_registros[0]['id'],
                     "iva" => $array_iva,
                     "ico" => $array_ico,

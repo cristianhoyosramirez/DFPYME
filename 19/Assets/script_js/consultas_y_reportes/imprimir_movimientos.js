@@ -1,6 +1,24 @@
 function imprimir_movimientos() {
     var url = document.getElementById("url").value;
     let id_apertura = document.getElementById("id_apertura").value;
+
+    Swal.fire({
+        title: 'Procesando impresión...',
+        html: 'Por favor espere <b></b>',
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+
+            const b = Swal.getHtmlContainer().querySelector('b');
+            let timerInterval = setInterval(() => {
+                if (Swal.getTimerLeft()) {
+                    b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) + " segundos";
+                }
+            }, 100);
+        }
+    });
+
     $.ajax({
         data: {
             id_apertura
@@ -8,29 +26,37 @@ function imprimir_movimientos() {
         url: url + "/" + "pedidos/imprimir_movimiento_caja",
         type: "POST",
         success: function (resultado) {
+            Swal.close(); // cerrar loader
+
             var resultado = JSON.parse(resultado);
 
             if (resultado.resultado == 1) {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-
-                Toast.fire({
+                Swal.fire({
                     icon: 'success',
-                    title: 'Impresión de movimientos de caja correcto'
-                })
+                    title: 'Impresión correcta',
+                    text: 'Movimientos de caja impresos correctamente',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true
+                });
             }
+
             if (resultado.resultado == 2) {
-                alert('no se pudo imprimir')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo imprimir'
+                });
             }
         },
+        error: function () {
+            Swal.close();
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error en la comunicación con el servidor'
+            });
+        }
     });
 }

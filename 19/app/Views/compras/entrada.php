@@ -42,7 +42,7 @@ COMPRAS-ENTRADA
             <input type="hidden" value="<?php echo $user_session->id_usuario ?>" id="id_usuario">
             <div class="col-12 col-sm-12 col-md-8 col-xl-8" id="productos" style="display: block">
 
-                <div class="card" style="height: calc(<?php echo $alturaCalc; ?>)">
+                <div class="card" style="height: calc(100vh - 100px);">
                     <div class="card-body ">
 
                         <!--  <div class="row">
@@ -159,10 +159,29 @@ COMPRAS-ENTRADA
 
 
                         <div class="card-body-scrollable card-body-scrollable-shadow mb-1">
-                            <div id="productos_compra">
 
-
+                            <!-- ENCABEZADO -->
+                            <div class="row fw-bold text-muted border-bottom pb-2 mb-2">
+                                <div class="col-3">
+                                    Producto
+                                </div>
+                                <div class="col-3 ">
+                                    Valor unidad
+                                </div>
+                                <div class="col-2 text-center">
+                                    Cantidad
+                                </div>
+                                <div class="col-2 text-center">
+                                    Total
+                                </div>
+                                <div class="col-2 text-center">
+                                    Acción
+                                </div>
                             </div>
+
+                            <!-- DETALLE -->
+                            <div id="productos_compra"></div>
+
                         </div>
                     </div>
 

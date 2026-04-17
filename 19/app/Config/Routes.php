@@ -342,7 +342,11 @@ $routes->group('edicion_eliminacion_factura_pedido', ['namespace' => 'App\Contro
     $routes->get('menuPedidosWhatsapp', 'edicionEliminacionFacturaPedidoController::menuPedidosWhatsapp');
     $routes->post('importPedidosWhatsapp', 'edicionEliminacionFacturaPedidoController::importPedidosWhatsapp');
     $routes->get('gestionFe', 'edicionEliminacionFacturaPedidoController::gestionFe');
+
+    $routes->post('updateGestionPrefacturas', 'edicionEliminacionFacturaPedidoController::updateGestionPrefacturas');
+
     $routes->post('updateGestionFe', 'edicionEliminacionFacturaPedidoController::updateGestionFe');
+    $routes->post('updateGestionPedidos', 'edicionEliminacionFacturaPedidoController::updateGestionPedidos');
     $routes->get('consultarFe', 'edicionEliminacionFacturaPedidoController::consultarFe');
     $routes->get('confOrdenPedido', 'edicionEliminacionFacturaPedidoController::confOrdenPedido');
     $routes->post('updateConfOrdenPedido', 'edicionEliminacionFacturaPedidoController::updateConfOrdenPedido');
@@ -723,6 +727,9 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->post('consultasCategoria', 'ConsultasController::consultasCategoria');
     $routes->post('eliminarRetiros', 'ConsultasController::eliminarRetiros');
     $routes->post('ventasMesero', 'ConsultasController::ventasMesero');
+    $routes->post('ventasPorMesero', 'ConsultasController::ventasPorMesero');
+    $routes->post('ventasPorApertura', 'ConsultasController::ventasPorApertura');
+    $routes->get('ventas_fecha', 'ConsultasController::ventas_fecha');
 });
 
 
@@ -764,7 +771,7 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->get('actualizar_impuestos', 'Configuracion::actualizar_impuestos');
     $routes->get('reset_producto', 'Configuracion::reset_producto');
     $routes->post('validar_pin', 'Configuracion::validar_pin');
-    $routes->post('eliminacion_masiva', 'Configuracion::eliminacion_masiva');
+    $routes->get('eliminacion_masiva', 'Configuracion::eliminacion_masiva');
     $routes->post('propina_parcial', 'Configuracion::propina_parcial');
     $routes->get('sincronizar', 'Configuracion::sincronizar');
     $routes->get('asignar', 'Configuracion::asignar');

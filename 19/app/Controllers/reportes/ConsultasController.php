@@ -9,18 +9,60 @@ class ConsultasController extends BaseController
     public function index()
     {
         $meseros = model('usuariosModel')->select('idusuario_sistema,nombresusuario_sistema')->findAll();
-        $aperturas=model('aperturaModel')->getAperturas();
-        
+        $aperturas = model('aperturaModel')->getAperturas();
+
 
         $fechaInicial = date('Y-m-d');
         $fechaFinal = date('Y-m-d');
 
         $ventas = model('pagosModel')->getUsuarioVenta($fechaInicial, $fechaFinal);
-        
+
         return view('reportes/mesero', [
             'meseros' => $meseros,
             'ventas' => $ventas,
-            'aperturas'=>$aperturas
+            'aperturas' => $aperturas
+        ]);
+    }
+    public function ventasPorMesero()
+    {
+        $request = service('request');
+
+        // Recibir datos del POST
+        $id_mesero     = $request->getPost('id_mesero');
+        $fecha_inicial = $request->getPost('fecha_inicial');
+        $fecha_final   = $request->getPost('fecha_final');
+
+         $ventas = model('pagosModel')->ventasPorMesero($fecha_inicial, $fecha_final,$id_mesero);
+        //view('reportes/ventas_mesero');
+
+
+        return $this->response->setJSON([
+            'response' => 'success',
+            'ventas' => view('reportes/ventas_mesero', [
+                'ventas' => $ventas,
+
+            ])
+        ]);
+    }
+    public function ventasPorApertura()
+    {
+        $request = service('request');
+
+        // Recibir datos del POST
+        $id_mesero     = $request->getPost('id_mesero');
+        $id_apertura = $request->getPost('id_apertura');
+      
+
+         $ventas = model('pagosModel')->ventasPorApertura($id_apertura,$id_mesero);
+        //view('reportes/ventas_mesero');
+
+
+        return $this->response->setJSON([
+            'response' => 'success',
+            'ventas' => view('reportes/ventas_mesero', [
+                'ventas' => $ventas,
+
+            ])
         ]);
     }
 
@@ -48,6 +90,11 @@ class ConsultasController extends BaseController
     {
 
         return view('reportes/reporte_horas');
+    }
+    function ventas_fecha()
+    {
+
+        return view('reportes/reporte_entre_fechas');
     }
 
 

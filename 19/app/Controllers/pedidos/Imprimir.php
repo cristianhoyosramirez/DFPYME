@@ -1369,7 +1369,7 @@ class Imprimir extends BaseController
         } else if (!empty($fecha_cierre['fecha_y_hora_cierre'])) {
             $fecha_y_hora_cierre = $fecha_cierre['fecha_y_hora_cierre'];
         }
-       
+
 
         $id_inicial = model('pagosModel')->get_min_id_electronico($id_apertura);
         $id_final = model('pagosModel')->get_max_id_electronico($id_apertura);
@@ -1384,7 +1384,17 @@ class Imprimir extends BaseController
             //$reg_final = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
             $fecha_hora_final = model('facturaElectronicaModel')->select('fecha,hora')->where('id', $id_final[0]['id'])->first();
 
-            $numero = model('facturaElectronicaModel')->regIniRegFin($id_inicial[0]['id'], $id_final[0]['id']);
+            //$numero = model('facturaElectronicaModel')->regIniRegFin($id_inicial[0]['id'], $id_final[0]['id']);
+
+            $numeroInicial = model('facturaElectronicaModel')
+                ->select('numero')
+                ->where('id', $id_inicial[0]['id'])
+                ->first();
+
+            $numeroFinal = model('facturaElectronicaModel')
+                ->select('numero')
+                ->where('id', $id_final[0]['id'])
+                ->first();
 
             $iva = model('pagosModel')->fiscal_iva($id_inicial[0]['id'], $id_final[0]['id']);
             $array_iva = array();
@@ -1492,7 +1502,7 @@ class Imprimir extends BaseController
                 $ventas_credito = $venta_credito[0]['total_ventas_credito'];
             }
 
-           
+
 
             $iva_devolucion = model('devolucionModel')->tarifa_iva($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
@@ -1502,7 +1512,6 @@ class Imprimir extends BaseController
             foreach ($iva_devolucion as $detalle) {
 
                 $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
-              
             }
 
 
@@ -1556,15 +1565,15 @@ class Imprimir extends BaseController
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->text("Informe N°       : " . $consecutivo_fiscal['numero']  . "\n");
             $printer->text("Fecha            : " . $fecha_apertura['fecha'] . "\n");
-            $printer->text("Registro inicial : " . $numero[0]['minimo'] . " "  . $fecha_hora_inicial['fecha'] . " " . $hora_inicial . "\n");
-            $printer->text("Registro final   : " . $numero[0]['maximo'] . " " . $fecha_hora_final['fecha'] . " " . $hora_final . "\n");
+            $printer->text("Registro inicial : " . $numeroInicial['numero'] . " "  . $fecha_hora_inicial['fecha'] . " " . $hora_inicial . "\n");
+            $printer->text("Registro final   : " . $numeroFinal['numero'] . " " . $fecha_hora_final['fecha'] . " " . $hora_final . "\n");
             $printer->text("Total registros  : " . $total_registros[0]['id'] . "\n");
             $printer->text("Fecha generacion : " . date('Y-m-d H:i:s') . "\n");
             $printer->text("Usuario          : " . $nombreUsuario['nombresusuario_sistema'] . "\n\n");
 
             // Título de la tabla
             $printer->setEmphasis(true);
-           
+
 
             $printer->text("-----------------------------------------------\n");
             $printer->text("Tarifa   Base Gravable   Valor IVA   Val Total\n");

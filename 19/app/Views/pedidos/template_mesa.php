@@ -718,21 +718,30 @@
                     var resultado = JSON.parse(resultado);
                     if (resultado.resultado == 1) {
 
-                        let mesas = resultado.mesas;
+               let mesas = resultado.mesas;
 
-                        mesas.forEach(function(mesa) {
+mesas.forEach(function(mesa) {
 
-                            // Aseguramos que los valores sean números
-                            let total = parseFloat(mesa.valor_total) + parseFloat(mesa.propina);
+    // Total
+    let total = parseFloat(mesa.valor_total) + parseFloat(mesa.propina);
 
-                            // Formateamos el total a moneda con separador de miles y 2 decimales
-                            let totalFormateado = total.toLocaleString('es-CO', {
-                                style: 'currency',
-                                currency: 'COP',
-                                minimumFractionDigits: 0
-                            });
+    let totalFormateado = total.toLocaleString('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        minimumFractionDigits: 0
+    });
 
-                            let card = `
+    // 🔥 LÓGICA CLAVE
+    let textoBase = (mesa.nota_pedido === 't')
+        ? (mesa.nota || '')   // asegúrate que venga este campo
+        : (mesa.nombresusuario_sistema || '');
+
+    // Limitar texto
+    let textoMostrado = textoBase.length > 15
+        ? textoBase.substring(0, 15) + '...'
+        : textoBase;
+
+    let card = `
     <div class="cursor-pointer card card_mesas text-white bg-red-lt" onclick="pedido_mesa('${mesa.fk_mesa}', '${mesa.nombre}')" style="height: auto;">
         <div class="row">
             <div class="col-3">
@@ -744,14 +753,23 @@
                 <div class="text-center">
                     <strong style="font-size: 12px;">${mesa.nombre}</strong>
                 </div>
-                <div class="text-center"><strong style="font-size: 12px;">${totalFormateado}</strong></div>
-                <div class="text-center"><strong style="font-size: 12px; height: 1em; overflow: hidden;">${mesa.nombresusuario_sistema.substr(0, 10)}...</strong></div>
+                <div class="text-center">
+                    <strong style="font-size: 12px;">${totalFormateado}</strong>
+                </div>
+                <div class="text-center">
+                    <strong style="
+                        font-size: 12px;
+                        display: block;
+                        white-space: normal;
+                        line-height: 1.2;
+                    ">
+                        ${textoMostrado}
+                    </strong>
+                </div>
             </div>
         </div>
     </div>`;
-
-                            $('#UpdateMesa' + mesa.fk_mesa).html(card);
-                        });
+});
 
 
                         // Asumiendo que tienes una tabla con un cuerpo de tabla con el id "tabla-mesas"

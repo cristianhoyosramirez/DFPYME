@@ -444,9 +444,13 @@ class edicionEliminacionFacturaPedidoController extends BaseController
     {
 
         $informeFiscal = model('configuracionPedidoModel')->select('informe_fiscal')->first();
+        $cierreCaja = model('configuracionPedidoModel')->select('facturacion')->first();
+        $prefacturas = model('configuracionPedidoModel')->select('borrarFe')->first();
 
         return view('configuracion/fe', [
-            'informe' => $informeFiscal['informe_fiscal']
+            'informe' => $informeFiscal['informe_fiscal'],
+            'cierre_caja'=>$cierreCaja['facturacion'],
+            'borar_prefacturas'=> $prefacturas['borrarFe']
         ]);
     }
 
@@ -457,6 +461,34 @@ class edicionEliminacionFacturaPedidoController extends BaseController
         $valor = $json->valor;
 
         $informeFiscal = model('configuracionPedidoModel')->set('informe_fiscal', $valor)->update();
+
+
+        return $this->response->setJSON([
+            'response' => 'success',
+
+        ]);
+    }
+
+    function updateGestionPrefacturas()
+    {
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+
+        $prefacturas = model('configuracionPedidoModel')->set('borrarFe', $valor)->update();
+
+
+        return $this->response->setJSON([
+            'response' => 'success',
+
+        ]);
+    }
+
+    function updateGestionPedidos()
+    {
+        $json = $this->request->getJSON();
+        $valor = $json->valor;
+
+        $pedidos = model('configuracionPedidoModel')->set('facturacion', $valor)->update();
 
 
         return $this->response->setJSON([
@@ -526,7 +558,7 @@ class edicionEliminacionFacturaPedidoController extends BaseController
 
         $hayPedidos = model('pedidoModel')->findAll();
 
-        //var_dump($facturarPedidos); exit();
+        
 
         if ($facturarPedidos['facturacion'] == 't' and  !empty($hayPedidos)) {   // en este caso se deben de facturar todos los pedidos 
 
@@ -535,8 +567,8 @@ class edicionEliminacionFacturaPedidoController extends BaseController
                 'message'  => 'Hay pedidos pendientes por facturar .'
             ]);
         }
-
-        if ($facturarPedidos['facturacion'] == 't' and  empty($hayPedidos)) {  // se puede facturar por que no hay pedidos pendientes 
+var_dump($facturarPedidos); exit();
+        if ($facturarPedidos['facturacion'] == 't' and  empty($hayPedidos)) {  // se puede cerrar por que no hay pedidos pendientes 
             // Buscar apertura activa
             $temp_id_apertura = model('aperturaRegistroModel')->select('id, numero')->first();
 

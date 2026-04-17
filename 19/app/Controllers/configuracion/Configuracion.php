@@ -973,7 +973,7 @@ class Configuracion extends BaseController
                 'eliminada' => 'true',
                 'nit' => $datos['nit_cliente'],
                 'cliente'=>$nombre,
-                //'uuid' => $uuid
+                'uuid' => $uuid
             ];
 
             $insertar = model('historicoModel')->insert($dataDelete);

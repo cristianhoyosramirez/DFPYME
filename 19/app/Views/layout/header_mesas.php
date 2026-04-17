@@ -550,7 +550,7 @@
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                       <line x1="3" y1="19" x2="21" y2="19" />
                       <rect x="5" y="6" width="14" height="10" rx="1" />
-                    </svg> Caja 
+                    </svg> Caja
                   </a>
                   <div class="dropdown-menu">
                     <input type="hidden" value="<?php echo $user_session->id_usuario; ?>" id="id_usuario" name="id_usuario">
@@ -749,7 +749,7 @@
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                       <circle cx="12" cy="7" r="4" />
                       <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                    </svg> Ventas por mesero </a>
+                    </svg> informe de productividad mesero </a>
 
                   <a class="dropdown-item" href="<?= base_url() ?>/reportes/ventas_hora">
                     <!-- Download SVG icon from http://tabler-icons.io/i/clock -->
@@ -758,6 +758,16 @@
                       <circle cx="12" cy="12" r="9" />
                       <polyline points="12 7 12 12 15 15" />
                     </svg>Reporte de ventas por horas
+                  </a>
+                  <a class="dropdown-item" href="<?= base_url() ?>/reportes/ventas_fecha">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-align-box-right-top">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14" />
+                      <path d="M15 13h2" />
+                      <path d="M11 10h6" />
+                      <path d="M13 7h4" />
+                    </svg>
+                    Reporte de ventas por rango de fechas
                   </a>
                 </div>
               </div>
@@ -805,36 +815,36 @@
           </li>
         <?php } ?>
         <?php if ($user_session->tipo == 0 || $user_session->tipo == 5 || $user_session->tipo == 4) { ?>
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-        <span class="text-blue">
-            <!-- Icono lápiz -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
-                <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
-            </svg>
-        </span>
-        <span class="nav-link-title">Inventario</span>
-    </a>
-    <div class="dropdown-menu">
-        <input type="hidden" value="<?php echo $user_session->id_usuario; ?>" id="id_usuario" name="id_usuario">
-
-        <?php if ($user_session->tipo == 0 || $user_session->tipo == 5) { ?>
-            <!-- Usuarios 0 y 5: acceso completo -->
-
-            <a class="dropdown-item" href="<?= base_url() ?>/categoria/marcas">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+              <span class="text-blue">
+                <!-- Icono lápiz -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                  <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                </svg>
+              </span>
+              <span class="nav-link-title">Inventario</span>
+            </a>
+            <div class="dropdown-menu">
+              <input type="hidden" value="<?php echo $user_session->id_usuario; ?>" id="id_usuario" name="id_usuario">
+
+              <?php if ($user_session->tipo == 0 || $user_session->tipo == 5) { ?>
+                <!-- Usuarios 0 y 5: acceso completo -->
+
+                <a class="dropdown-item" href="<?= base_url() ?>/categoria/marcas">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <line x1="15" y1="5" x2="15" y2="7" />
                     <line x1="15" y1="11" x2="15" y2="13" />
                     <line x1="15" y1="17" x2="15" y2="19" />
                     <path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-3a2 2 0 0 0 0 -4v-3a2 2 0 0 1 2 -2" />
-                </svg> Marcas
-            </a>
+                  </svg> Marcas
+                </a>
 
-            <a class="dropdown-item" href="<?= base_url() ?>/categoria/index">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <a class="dropdown-item" href="<?= base_url() ?>/categoria/index">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <line x1="9" y1="6" x2="20" y2="6" />
                     <line x1="9" y1="12" x2="20" y2="12" />
@@ -842,11 +852,11 @@
                     <line x1="5" y1="6" x2="5" y2="6.01" />
                     <line x1="5" y1="12" x2="5" y2="12.01" />
                     <line x1="5" y1="18" x2="5" y2="18.01" />
-                </svg> Categorías
-            </a>
+                  </svg> Categorías
+                </a>
 
-            <a class="dropdown-item" href="<?= base_url() ?>/configuracion/crear_sub_categoria">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <a class="dropdown-item" href="<?= base_url() ?>/configuracion/crear_sub_categoria">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <line x1="9" y1="6" x2="20" y2="6" />
                     <line x1="9" y1="12" x2="20" y2="12" />
@@ -854,62 +864,63 @@
                     <line x1="5" y1="6" x2="5" y2="6.01" />
                     <line x1="5" y1="12" x2="5" y2="12.01" />
                     <line x1="5" y1="18" x2="5" y2="18.01" />
-                </svg> Subcategorías
-            </a>
+                  </svg> Subcategorías
+                </a>
 
-            <a class="dropdown-item" href="<?= base_url() ?>/producto/lista_de_productos">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <a class="dropdown-item" href="<?= base_url() ?>/producto/lista_de_productos">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M10 5h4v-2a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v2z" />
                     <path d="M14 3.5c0 1.626 .507 3.212 1.45 4.537l.05 .07a8.093 8.093 0 0 1 1.5 4.694v6.199a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2v-6.2c0 -1.682 .524 -3.322 1.5 -4.693l.05 -.07a7.823 7.823 0 0 0 1.45 -4.537" />
                     <path d="M7.003 14.803a2.4 2.4 0 0 0 .997 -.803a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 1 -.805" />
-                </svg> Producto
-            </a>
+                  </svg> Producto
+                </a>
 
-            <a class="dropdown-item" href="<?= base_url() ?>/login/recetas">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <a class="dropdown-item" href="<?= base_url() ?>/login/recetas">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M5 11h14v-3h-14z" />
                     <path d="M17.5 11l-1.5 10h-8l-1.5 -10" />
                     <path d="M6 8v-1a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v1" />
                     <path d="M15 5v-2" />
-                </svg> Productos compuestos
-            </a>
+                  </svg> Productos compuestos
+                </a>
 
-            <a class="dropdown-item" href="<?= base_url() ?>/producto/atributos">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <a class="dropdown-item" href="<?= base_url() ?>/producto/atributos">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />
-                </svg> Atributos de producto
-            </a>
+                  </svg> Atributos de producto
+                </a>
 
-            <div class="dropend">
-                <a class="dropdown-item dropdown-toggle" href="#sidebar-error" data-bs-toggle="dropdown" data-bs-auto-close="outside">Inventario</a>
-                <div class="dropdown-menu">
+                <div class="dropend">
+                  <a class="dropdown-item dropdown-toggle" href="#sidebar-error" data-bs-toggle="dropdown" data-bs-auto-close="outside">Inventario</a>
+                  <div class="dropdown-menu">
                     <a href="<?= base_url() ?>/inventario/ingreso" class="dropdown-item">Entradas</a>
                     <a href="<?= base_url() ?>/inventario/salida" class="dropdown-item">Salidas</a>
                     <a href="<?= base_url() ?>/administracion_impresora/inventario" class="dropdown-item">Consultar inventario</a>
+                  </div>
                 </div>
+
+                <a class="dropdown-item" href="<?= base_url() ?>/inventario/consultar_entrada_salida">Movimiento de producto</a>
+                <a class="dropdown-item" href="<?= base_url() ?>/consultas_y_reportes/cruce_inventario">Cruce de inventario</a>
+                <a class="dropdown-item" href="<?= base_url() ?>/categoria/productos_categoria">Categorías producto</a>
+
+              <?php } elseif ($user_session->tipo == 4) { ?>
+                <!-- Usuario 4: solo entradas -->
+                <a href="<?= base_url() ?>/inventario/ingreso" class="dropdown-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg> Entradas
+                </a>
+              <?php } ?>
             </div>
-
-            <a class="dropdown-item" href="<?= base_url() ?>/inventario/consultar_entrada_salida">Movimiento de producto</a>
-            <a class="dropdown-item" href="<?= base_url() ?>/consultas_y_reportes/cruce_inventario">Cruce de inventario</a>
-            <a class="dropdown-item" href="<?= base_url() ?>/categoria/productos_categoria">Categorías producto</a>
-
-        <?php } elseif ($user_session->tipo == 4) { ?>
-            <!-- Usuario 4: solo entradas -->
-            <a href="<?= base_url() ?>/inventario/ingreso" class="dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <line x1="12" y1="5" x2="12" y2="19"/>
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                </svg> Entradas
-            </a>
+          </li>
         <?php } ?>
-    </div>
-</li>
-<?php } ?>
-        <?php if ($user_session->tipo == 0 || $user_session->tipo == 5) { ?>
+
+        <?php if (in_array($user_session->tipo, [0, 4, 5])) { ?>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
               <span class="text-blue">

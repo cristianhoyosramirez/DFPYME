@@ -960,10 +960,17 @@ class ReportesController extends BaseController
     {
         $mesas = model('pedidoModel')->update_mesa();
 
+        $notaPedidoConfig = model('configuracionPedidoModel')
+            ->select('notaPedido')
+            ->first();
+
+             $notaPedidoConfig['notaPedido'];
+
 
         $returnData = array(
             "resultado" => 1,
-            "mesas" => $mesas
+            "mesas" => $mesas,
+            "nota_pedido"=>$notaPedidoConfig['notaPedido']
         );
 
         echo  json_encode($returnData);

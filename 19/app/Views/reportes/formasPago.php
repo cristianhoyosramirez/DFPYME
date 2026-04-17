@@ -2,7 +2,7 @@
     <tr>
 
         <td>
-            <?php echo $detalle['numero'] ?>
+            <?php echo $detalle['id_pedido'] ?>
         </td>
         <td>
             <?php

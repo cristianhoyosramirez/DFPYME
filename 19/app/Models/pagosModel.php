@@ -684,6 +684,55 @@ GROUP BY p.id_mesero, u.nombresusuario_sistema;
         return $datos->getResultArray();
     }
 
+    public function ventasPorMesero($fechaInicial, $fechaFinal, $id_usuario)
+    {
+        $datos = $this->db->query("
+            
+ SELECT 
+    p.id_mesero,
+    u.nombresusuario_sistema,
+    COUNT(DISTINCT p.id_mesa) AS mesas_atendidas,
+    COUNT(DISTINCT p.id_factura) AS facturas,
+    SUM(p.valor) AS total_vendido,
+    ROUND(SUM(p.valor) / COUNT(DISTINCT p.id_factura), 2) AS promedio_venta,
+    SUM(p.propina) AS total_propinas,
+    ROUND(AVG(p.propina), 2) AS promedio_propina
+FROM pagos p
+INNER JOIN usuario_sistema u 
+    ON u.idusuario_sistema = p.id_mesero
+WHERE p.fecha BETWEEN '$fechaInicial' AND '$fechaFinal'
+  AND p.id_mesero = $id_usuario
+GROUP BY p.id_mesero, u.nombresusuario_sistema;
+            
+            ");
+        return $datos->getResultArray();
+    }
+
+    public function ventasPorApertura($id_apertura, $id_usuario)
+    {
+        $sql = "
+        SELECT 
+            p.id_mesero,
+            u.nombresusuario_sistema,
+            COUNT(DISTINCT p.id_mesa) AS mesas_atendidas,
+            COUNT(DISTINCT p.id_factura) AS facturas,
+            SUM(p.valor) AS total_vendido,
+            ROUND(SUM(p.valor) / COUNT(DISTINCT p.id_factura), 2) AS promedio_venta,
+            SUM(p.propina) AS total_propinas,
+            ROUND(AVG(p.propina), 2) AS promedio_propina
+        FROM pagos p
+        INNER JOIN usuario_sistema u 
+            ON u.idusuario_sistema = p.id_mesero
+        WHERE p.id_apertura = ?
+          AND p.id_mesero = ?
+        GROUP BY p.id_mesero, u.nombresusuario_sistema
+    ";
+
+        $datos = $this->db->query($sql, [$id_apertura, $id_usuario]);
+
+        return $datos->getResultArray();
+    }
+
     public function getMesaMesero($idFactura)
     {
         $datos = $this->db->query("
@@ -723,7 +772,7 @@ WHERE de.id = $idFactura;
     }
 
 
-/*       public function getFacturas()
+    /*       public function getFacturas()
     {
         $datos = $this->db->query("
             
@@ -766,9 +815,9 @@ ORDER BY p.id_factura, p.id_estado, p.id;
         
     } */
 
-public function getFacturas()
-{
-    $this->db->query("
+    public function getFacturas()
+    {
+        $this->db->query("
 INSERT INTO factura_historico (
     tipo_documento,
     numero_documento,
@@ -820,7 +869,7 @@ WHERE NOT EXISTS (
     AND fh.id_estado = base.id_estado
 );
     ");
-}
+    }
 
     public function getUsuarioVentaMesa($fechaInicial, $fechaFinal, $id_usuario)
     {
@@ -844,5 +893,4 @@ GROUP BY p.id_mesero, u.nombresusuario_sistema;
             ");
         return $datos->getResultArray();
     }
-
 }

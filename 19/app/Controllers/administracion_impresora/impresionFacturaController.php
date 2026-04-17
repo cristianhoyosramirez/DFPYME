@@ -274,6 +274,7 @@ class impresionFacturaController extends BaseController
 
         $formasPago = model('formaPagoModel')->getFacturas($fecha_inicial, $fecha_final);
 
+        
         if (!empty($formasPago)) {
             return $this->response->setJSON([
                 'response' => 'success',

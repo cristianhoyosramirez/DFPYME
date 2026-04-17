@@ -126,7 +126,7 @@ WHERE
     }
     public function valor_unitario($id)
     {
-        $cantidad = $this->db->query("SELECT valor   FROM producto_factura_proveedor_temp where id=$id");
+        $cantidad = $this->db->query("SELECT valor   FROM producto_factura_prov_temp where id=$id");
         return $cantidad->getResultArray();
     }
 

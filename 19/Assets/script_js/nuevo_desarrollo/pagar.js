@@ -87,7 +87,7 @@ function pagar() {
                 if (estado == 8 || estado == 11) {    // Validacion de que este seleccionada la factura electronica 
 
                     factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta, tipo_pago,
-                        efectivo, transaccion, id_usuario, propina_Format, medio_de_pago, forma_pago, fechaLimite, clase_pago)
+                        efectivo, transaccion, id_usuario, propina_Format, medio_de_pago, forma_pago, fechaLimite, clase_pago,data.response)
                 } else if (estado != 8 || estado != 11) {
                     $('#error_documento').html('! Para continuar por favor seleccione Factura electrónica !')
                 }
@@ -99,7 +99,7 @@ function pagar() {
                 if (estado == 8) {
                     if (pago_total >= parseInt(valor_venta)) {
                         factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta, tipo_pago, efectivo,
-                            transaccion, id_usuario, propina_Format, medio_de_pago, forma_pago, fechaLimite, clase_pago)
+                            transaccion, id_usuario, propina_Format, medio_de_pago, forma_pago, fechaLimite, clase_pago,data.response)
                     }
                     if (pago_total < parseInt(valor_venta)) {
                         $('#valor_pago_error').html('¡ Pago insuficiente  !')
@@ -528,7 +528,7 @@ function pagar() {
 
 
                     factura_electronica(id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta, tipo_pago,
-                        efectivo, transaccion, id_usuario, propina_Format, medio_de_pago, forma_pago, fechaLimite, clase_pago)
+                        efectivo, transaccion, id_usuario, propina_Format, medio_de_pago, forma_pago, fechaLimite, clase_pago,data.response)
                 } else if (estado != 8 || estado != 11) {
                     $('#error_documento').html('! Para continuar por favor seleccione Factura electrónica !')
                 }
@@ -541,7 +541,7 @@ function pagar() {
 
                         factura_electronica(id_mesa, estado, nit_cliente, id_usuario,
                             url, pago_total, valor_venta, tipo_pago, efectivo, transaccion, id_usuario, propina_Format,
-                            medio_de_pago, forma_pago, fechaLimite, clase_pago)
+                            medio_de_pago, forma_pago, fechaLimite, clase_pago,data.response)
                     }
                     if (pago_total < parseInt(valor_venta)) {
                         $('#valor_pago_error').html('¡ Pago insuficiente  !')

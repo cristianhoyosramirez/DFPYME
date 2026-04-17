@@ -72,8 +72,9 @@ async function sendInvoice(iddoc) {
 function factura_electronica(
     id_mesa, estado, nit_cliente, id_usuario, url, pago_total, valor_venta,
     tipo_pago, efectivo, transaccion, id_usuario_2, propina_format, medio_de_pago,
-    formaPago, fechaLimite, clasePago
+    formaPago, fechaLimite, clasePago, respuesta
 ) {
+    
     $.ajax({
         url: url + '/administracion_impresora/estadoConsumo',
         method: 'GET',
@@ -186,6 +187,15 @@ function factura_electronica(
                                         '</div>',
                                     confirmButtonColor: '#58C269', // Se intercambia con denyButtonColor
                                     denyButtonColor: '#6782EF', // Se intercambia con confirmButtonColor
+
+                                    didOpen: () => {
+                                        if (respuesta === 'false') {
+                                            Swal.getConfirmButton().disabled = true;
+                                            Swal.getConfirmButton().style.opacity = '0.5'; // opcional visual
+                                            Swal.getConfirmButton().style.cursor = 'not-allowed';
+                                        }
+                                    }
+
                                 }).then((result) => {
 
                                     if (result.isConfirmed) {
@@ -394,6 +404,15 @@ function factura_electronica(
                                                 '</div>',
                                             confirmButtonColor: '#58C269', // Se intercambia con denyButtonColor
                                             denyButtonColor: '#6782EF', // Se intercambia con confirmButtonColor
+
+                                            didOpen: () => {
+                                                if (respuesta === 'false') {
+                                                    Swal.getConfirmButton().disabled = true;
+                                                    Swal.getConfirmButton().style.opacity = '0.5'; // opcional visual
+                                                    Swal.getConfirmButton().style.cursor = 'not-allowed';
+                                                }
+                                            }
+
                                         }).then((result) => {
 
                                             if (result.isConfirmed) {
@@ -585,6 +604,15 @@ function factura_electronica(
                                         '</div>',
                                     confirmButtonColor: '#58C269', // Se intercambia con denyButtonColor
                                     denyButtonColor: '#6782EF', // Se intercambia con confirmButtonColor
+
+                                    didOpen: () => {
+                                        if (respuesta === 'false') {
+                                            Swal.getConfirmButton().disabled = true;
+                                            Swal.getConfirmButton().style.opacity = '0.5'; // opcional visual
+                                            Swal.getConfirmButton().style.cursor = 'not-allowed';
+                                        }
+                                    }
+
                                 }).then((result) => {
 
                                     if (result.isConfirmed) {
@@ -602,8 +630,8 @@ function factura_electronica(
                                             //$('#id_mesa_pedido').val(resultado.id_mesa)
                                             $('#id_mesa_pedido').val(resultado.id_mesa.fk_mesa);
 
-                                            $('#pedido_mesa').html("Pedido: "+resultado.pedido)
-                                            $('#mesa_pedido').html("Mesa: "+resultado.nombre_mesa)
+                                            $('#pedido_mesa').html("Pedido: " + resultado.pedido)
+                                            $('#mesa_pedido').html("Mesa: " + resultado.nombre_mesa)
                                             //$('#nombre_mesero').html("Mesero: "+resultado.pedido)
                                             $('#documentos_factura').html(resultado.documentos)
                                             $('#tipo_pago').val(1)

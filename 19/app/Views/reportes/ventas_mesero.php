@@ -2,7 +2,7 @@
 
       <tr>
           <td><?= $detalle['nombresusuario_sistema']; ?></td>
-          <td><?= $detalle['mesas_atendidas']; ?></td>
+          
           <td><?= $detalle['facturas']; ?></td>
 
           <td>$ <?= number_format($detalle['total_vendido'], 0, '', '.'); ?></td>
