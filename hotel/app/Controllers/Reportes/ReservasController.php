@@ -29,6 +29,22 @@ class ReservasController extends BaseController
             ])
         ]);
     }
+
+    public function cambiarVehiculo()
+    {
+        $request = service('request');
+        $data = $request->getJSON();
+
+        $vehiculo = $data->vehiculo ?? '';
+        $id = $data->id_registro ?? '';
+        $reservas = model('reservasModel')->set('vehiculo',$vehiculo)->where('id',$id)->update();
+        //dd($reservas);
+        return $this->response->setJSON([
+            'success' => true,
+           
+        ]);
+    }
+
     public function buscarHabitaiconesFecha()
     {
         $request = service('request');

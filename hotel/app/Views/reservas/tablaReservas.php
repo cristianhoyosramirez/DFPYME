@@ -51,11 +51,9 @@
         <!-- ===================================================== -->
         <!-- FECHA -->
         <!-- ===================================================== -->
-        <td style="min-width: 200px;">
+        <td style="min-width: 220px;">
 
             <?php if ($estado == 1): ?>
-
-                <!-- Editable -->
 
                 <div class="d-flex gap-2 align-items-center">
 
@@ -81,8 +79,6 @@
 
             <?php else: ?>
 
-                <!-- Solo lectura -->
-
                 <div class="fw-semibold text-muted">
 
                     <i class="fas fa-calendar-alt me-1"></i>
@@ -92,6 +88,73 @@
                 </div>
 
             <?php endif; ?>
+
+        </td>
+
+
+        <!-- ===================================================== -->
+        <!-- VEHÍCULO -->
+        <!-- ===================================================== -->
+        <td style="min-width: 200px;">
+
+            <?php if ($estado == 1): ?>
+
+                <select class="form-select form-select-sm"
+                    onchange="cambiarVehiculo(this.value, <?= $detalle['id_reserva'] ?>)">
+
+                    <option value="Tractomula"
+                        <?= $detalle['vehiculo'] == 'Tractomula' ? 'selected' : '' ?>>
+                        Tractomula
+                    </option>
+
+                    <option value="Carro"
+                        <?= $detalle['vehiculo'] == 'Carro' ? 'selected' : '' ?>>
+                        Carro
+                    </option>
+
+                    <option value="Moto"
+                        <?= $detalle['vehiculo'] == 'Moto' ? 'selected' : '' ?>>
+                        Moto
+                    </option>
+
+                    <option value="Camioneta"
+                        <?= $detalle['vehiculo'] == 'Camioneta' ? 'selected' : '' ?>>
+                        Camioneta
+                    </option>
+
+                    <option value="Camión"
+                        <?= $detalle['vehiculo'] == 'Camión' ? 'selected' : '' ?>>
+                        Camión
+                    </option>
+
+                    <option value="Bus"
+                        <?= $detalle['vehiculo'] == 'Bus' ? 'selected' : '' ?>>
+                        Bus
+                    </option>
+
+                    <option value="Doble troque"
+                        <?= $detalle['vehiculo'] == 'Doble troque' ? 'selected' : '' ?>>
+                        Doble troque
+                    </option>
+
+                    <option value="Tractor"
+                        <?= $detalle['vehiculo'] == 'Tractor' ? 'selected' : '' ?>>
+                        Tractor
+                    </option>
+
+                </select>
+
+            <?php else: ?>
+
+                <span class="fw-semibold text-muted">
+
+                    <?= esc($detalle['vehiculo']) ?>
+
+                </span>
+
+            <?php endif; ?>
+
+            
 
         </td>
 
@@ -113,11 +176,9 @@
         <!-- ===================================================== -->
         <!-- NOTAS -->
         <!-- ===================================================== -->
-        <td style="min-width: 280px;">
+        <td style="min-width: 300px;">
 
             <?php if ($estado == 1): ?>
-
-                <!-- Editable -->
 
                 <div class="position-relative">
 
@@ -135,9 +196,7 @@
 
                 </div>
 
-            <?php elseif ($estado == 6): ?>
-
-                <!-- Solo lectura -->
+            <?php else: ?>
 
                 <div class="bg-light border rounded-3 p-2 shadow-sm">
 
@@ -188,13 +247,9 @@
 
                 <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
 
-                    <!-- ========================================= -->
-                    <!-- ESTADO PENDIENTE -->
-                    <!-- ========================================= -->
                     <?php if ($estado == 1): ?>
 
                         <!-- Confirmar -->
-
                         <li>
 
                             <a
@@ -216,7 +271,6 @@
                         </li>
 
                         <!-- Cancelar -->
-
                         <li>
 
                             <a
@@ -232,15 +286,12 @@
 
                         </li>
 
-                       
                     <?php endif; ?>
 
 
-                    <!-- ========================================= -->
-                    <!-- ESTADO CONFIRMADA -->
-                    <!-- ========================================= -->
                     <?php if ($estado == 6): ?>
 
+                        <!-- Ver detalle -->
                         <li>
 
                             <a

@@ -18,7 +18,7 @@ class ReportesController extends BaseController
 
         return view('reportes/ventas', [
             'habitaciones' => $habitaciones,
-            'estado_habitaciones'=>$estado_habitaciones
+            'estado_habitaciones' => $estado_habitaciones
         ]);
     }
     public function vehiculos()
@@ -35,6 +35,46 @@ class ReportesController extends BaseController
         //dd($facturas);
         return view('reportes/registro', [
             'registro' => $registro
+        ]);
+    }
+
+    public function buscarRegistroHotelero()
+    {
+        $data = $this->request->getJSON();
+
+        $valor = $data->valor;
+
+        $registro = model('habitacionesModel')
+            ->buscarRegistroHotelero($valor);
+
+        return $this->response->setJSON([
+
+            'response' => 'ok',
+
+            'registro' => view('registro/tabla_registro', [
+                'registro' => $registro
+            ])
+
+        ]);
+    }
+    public function fechasRegistroHotelero()
+    {
+        $data = $this->request->getJSON();
+
+        $fecha_inicial = $data->fecha_inicio;
+        $fecha_final = $data->fecha_final;
+
+        $registro = model('habitacionesModel')
+            ->fechasRegistroHotelero($fecha_inicial,$fecha_final);
+
+        return $this->response->setJSON([
+
+            'response' => 'ok',
+
+            'registro' => view('registro/tabla_registro', [
+                'registro' => $registro
+            ])
+
         ]);
     }
 }

@@ -14,7 +14,8 @@ class reservasModel extends Model
         'notas',
         'fecha_reserva',
         'id_estado_reservas',
-        'id_cliente'
+        'id_cliente',
+        'vehiculo'
 
 
     ];
@@ -132,6 +133,7 @@ WHERE r.id = $id_reserva
                 r.id_estado_reservas,
                 r.fecha_reserva,
                 r.notas,
+                r.vehiculo,
                 er.descripcion AS estado_reserva
 
             FROM reservas r

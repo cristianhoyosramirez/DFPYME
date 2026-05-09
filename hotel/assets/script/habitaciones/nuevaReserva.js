@@ -6,9 +6,10 @@ async function nuevaReserva() {
         const data = {
             id_habitacion: document.getElementById('id_habitacionNuevaReserva').value,
             fecha: document.getElementById('fechaNuevaReserva').value,
-            observaciones: document.getElementById('observacionesNuevaReserva').value
+            observaciones: document.getElementById('observacionesNuevaReserva').value,
+            vehiculo: document.getElementById('tipoVehiculo').value
         };
-
+       
         // Loader
         Swal.fire({
             title: 'Guardando reserva...',

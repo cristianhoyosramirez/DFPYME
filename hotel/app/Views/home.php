@@ -280,6 +280,176 @@
     </div>
 </div>
 
+<script>
+    async function filtrarRegistroHotelero() {
+
+        try {
+
+            const fecha_inicio =
+                document.getElementById('fecha_inicio').value;
+
+            const fecha_final =
+                document.getElementById('fecha_final').value;
+
+            // Spinner SweetAlert
+            Swal.fire({
+                title: 'Consultando registros',
+                text: 'Espere un momento...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            const response = await fetch('<?= base_url('reportes/fechasRegistroHotelero') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fecha_inicio: fecha_inicio,
+                    fecha_final: fecha_final,
+                })
+            });
+
+            const result = await response.json();
+
+            // Cerrar spinner
+            Swal.close();
+
+            if (result.response === 'ok') {
+
+                document.getElementById('registroHotelero').innerHTML =
+                    result.registro;
+
+            } else {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Sin resultados',
+                    text: result.message
+                });
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            Swal.close();
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un problema al filtrar el registro'
+            });
+
+        }
+
+    }
+
+    // Eventos automáticos
+    document.getElementById('fecha_inicio')
+        .addEventListener('change', filtrarRegistroHotelero);
+
+    document.getElementById('fecha_final')
+        .addEventListener('change', filtrarRegistroHotelero);
+</script>
+
+
+<script>
+    async function buscarClienteRegistro(valor) {
+
+        try {
+
+            // Evitar búsquedas vacías
+            if (valor.trim() === '') {
+
+                document.getElementById('resultadoClientes').innerHTML = '';
+                return;
+
+            }
+
+            const response = await fetch('<?= base_url('reportes/buscarRegistroHotelero') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    valor: valor
+                })
+            });
+
+            const result = await response.json();
+
+            document.getElementById('registroHotelero').innerHTML = result.registro;
+
+        } catch (error) {
+
+            console.error(error);
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error',
+                text: 'No hay resultados'
+            });
+
+        }
+
+    }
+</script>
+
+<script>
+    async function cambiarVehiculo(vehiculo, id_registro) {
+
+        try {
+
+            const response = await fetch('<?= base_url('reservas/cambiarVehiculo') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    vehiculo: vehiculo,
+                    id_registro: id_registro
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success === true) {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Vehículo actualizado',
+                    timer: 1200,
+                    showConfirmButton: false
+                });
+
+            } else {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: result.message
+                });
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un problema al actualizar el vehículo'
+            });
+
+        }
+
+    }
+</script>
 
 
 

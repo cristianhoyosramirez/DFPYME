@@ -80,8 +80,8 @@
                             <option value="Camioneta">Camioneta</option>
                             <option value="Camión">Camión</option>
                             <option value="Bus">Bus</option>
-                            <option value="Bicicleta">Tractomula</option>
-                            <option value="Furgón">Doble troque</option>
+                            <option value="Tractomula">Tractomula</option>
+                            <option value="Doble troque">Doble troque</option>
                             <option value="Tractor">Tractor</option>
                         </select>
                     </div>

@@ -212,7 +212,7 @@ async function checkIn() {
             document.getElementById('destino')
                 .value = '';
 
-            document.getElementById('placa_vehiculo')
+            document.getElementById('placavehiculo')
                 .value = '';
 
          

@@ -190,6 +190,7 @@ class HabitacionesController extends BaseController
         $id_habitacion = $data->id_habitacion;
         $fecha = $data->fecha;
         $observaciones = $data->observaciones;
+        $vehiculo = $data->vehiculo;
 
 
         $insert = model('reservasModel')->insert([
@@ -197,7 +198,9 @@ class HabitacionesController extends BaseController
             //'id_estado' => 2,
             'notas' => $observaciones,
             'fecha_reserva' => $fecha,
-            'id_estado_reservas' => 1
+            'id_estado_reservas' => 1,
+            'vehiculo'=>$vehiculo
+
         ]);
 
         if ($insert) {
@@ -249,7 +252,7 @@ class HabitacionesController extends BaseController
         //$id_habitacion = 2;
         $datos_reserva = model('reservasModel')->datosReservas($id_reserva);
 
-    
+
         return $this->response->setJSON([
             'response' => 'ok',
             'fecha' => $datos_reserva[0]['fecha_reserva'],
@@ -260,10 +263,10 @@ class HabitacionesController extends BaseController
             'notas' => $datos_reserva[0]['notas'],
             'precio' => number_format($datos_reserva[0]['valor_hospedaje'], 0, ',', '.'),
             'id_reserva' => $id_reserva,
-            'vehiculo'=>$datos_reserva[0]['tipo']."/".$datos_reserva[0]['placa'],
-            'origen'=>$datos_reserva[0]['origen'],
-            'destino'=>$datos_reserva[0]['destino'],
-            'numero_reserva'=>"Reserva N° ".$id_reserva
+            'vehiculo' => $datos_reserva[0]['tipo'] . "/" . $datos_reserva[0]['placa'],
+            'origen' => $datos_reserva[0]['origen'],
+            'destino' => $datos_reserva[0]['destino'],
+            'numero_reserva' => "Reserva N° " . $id_reserva
         ]);
     }
 
@@ -291,6 +294,8 @@ class HabitacionesController extends BaseController
         $tienePedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa[0]['id_mesa'])->first();
 
         $actualizarReserva = model('reservasModel')->set('id_cliente', $id_cliente)->where('id', $id_reserva)->update();
+
+
 
         if (empty($tienePedido)) {
 

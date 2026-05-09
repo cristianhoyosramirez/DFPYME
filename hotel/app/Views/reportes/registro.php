@@ -1,17 +1,73 @@
 <!-- Filtros -->
-<form method="GET" class="row g-3 mb-3">
-    <div class="col-md-3">
-        <label for="fecha" class="form-label">Fecha</label>
-        <input type="date" id="fecha" name="fecha" class="form-control" value="<?= htmlspecialchars($_GET['fecha'] ?? '') ?>">
+<form method="GET" class="row g-3 mb-4">
+
+    <!-- Fecha inicial -->
+    <div class="col-12 col-md-3">
+
+        <label for="fecha_inicio" class="form-label fw-semibold small">
+            Fecha inicial
+        </label>
+
+        <input type="date"
+            id="fecha_inicio"
+            name="fecha_inicio"
+            class="form-control"
+            value="<?= date('Y-m-d') ?>">
+
     </div>
-    <div class="col-md-3">
-        <label for="habitacion" class="form-label">Habitación</label>
-        <input type="text" id="habitacion" name="habitacion" class="form-control" placeholder="Número o nombre" value="<?= htmlspecialchars($_GET['habitacion'] ?? '') ?>">
+
+    <!-- Fecha final -->
+    <div class="col-12 col-md-3">
+
+        <label for="fecha_final" class="form-label fw-semibold small">
+            Fecha final
+        </label>
+
+        <input type="date"
+            id="fecha_final"
+            name="fecha_final"
+            class="form-control"
+            value="<?= date('Y-m-d') ?>">
+
     </div>
-    <div class="col-md-3 align-self-end">
-        <button type="submit" class="btn btn-primary">Filtrar</button>
-        <a href="<?= $_SERVER['PHP_SELF'] ?>" class="btn btn-secondary">Reset</a>
+
+    <!-- Cliente -->
+    <div class="col-12 col-md-4">
+
+        <label for="cliente" class="form-label fw-semibold small">
+            Cliente
+        </label>
+
+        <input type="text"
+            id="cliente"
+            name="cliente"
+            class="form-control"
+            placeholder="Nombre o identificación"
+            value="<?= htmlspecialchars($_GET['cliente'] ?? '') ?>"
+            onkeyup="buscarClienteRegistro(this.value)">
+
     </div>
+
+    <!-- Botones -->
+    <div class="col-12 col-md-2 d-flex align-items-end gap-2">
+
+        <button type="button" onclick="filtrarRegistroHotelero()" class="btn btn-outline-primary w-100">
+
+            <i class="fas fa-search me-1"></i>
+            Filtrar
+
+        </button>
+
+        <a href="<?= $_SERVER['PHP_SELF'] ?>"
+            class="btn btn-outline-success w-100">
+
+            <i class="fas fa-undo me-1"></i>
+            Excel
+
+        </a>
+
+    </div>
+
 </form>
 
 <!-- Tabla responsive con head fijo -->
@@ -31,21 +87,21 @@
                 <th>Notas</th>
             </tr>
         </thead>
-        <tbody>
-            <?php if(!empty($registro)): ?>
-                <?php foreach($registro as $row): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['habitacion']) ?></td>
-                    <td><?= htmlspecialchars($row['nombrescliente'] . ' | ' . $row['nitcliente']) ?></td>
-                    <td><?= htmlspecialchars($row['codigo_documento']) ?></td>
-                    <td><?= htmlspecialchars($row['nitcliente']) ?></td>
-                    <td><?= htmlspecialchars($row['tipo_vehiculo'] ?? '-') ?></td>
-                    <td><?= htmlspecialchars($row['placa_vehiculo'] ?? '-') ?></td>
-                    <td><?= htmlspecialchars($row['origen']) ?></td>
-                    <td><?= htmlspecialchars($row['destino']) ?></td>
-                    <td><?= htmlspecialchars($row['hora_salida'] ?? '-') ?></td>
-                    <td><?= htmlspecialchars($row['notas_reserva'] ?? '-') ?></td>
-                </tr>
+        <tbody id="registroHotelero">
+            <?php if (!empty($registro)): ?>
+                <?php foreach ($registro as $row): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['habitacion']) ?></td>
+                        <td><?= htmlspecialchars($row['nombrescliente'] . ' | ' . $row['nitcliente']) ?></td>
+                        <td><?= htmlspecialchars($row['codigo_documento']) ?></td>
+                        <td><?= htmlspecialchars($row['nitcliente']) ?></td>
+                        <td><?= htmlspecialchars($row['tipo_vehiculo'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($row['placa_vehiculo'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($row['origen']) ?></td>
+                        <td><?= htmlspecialchars($row['destino']) ?></td>
+                        <td><?= htmlspecialchars($row['hora_salida'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($row['notas_reserva'] ?? '-') ?></td>
+                    </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>

@@ -77,6 +77,7 @@
             <tr>
                 <th>Habitación</th>
                 <th>Fecha reserva </th>
+                <th>Tipo vehiculo</th>
                 <th>Estado reserva</th>
                 <th>Notas reserva</th>
                 <th>Acciones</th>

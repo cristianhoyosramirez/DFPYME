@@ -144,4 +144,106 @@ WHERE re.id_estado_reservas = 6;
          ");
         return $datos->getResultArray();
     }
+
+
+    public function buscarRegistroHotelero($valor)
+    {
+        $datos = $this->db->query("
+SELECT DISTINCT
+    m1.nombre AS origen,
+    m2.nombre AS destino,
+    r.fecha,
+    r.hora_salida,
+    me.nombre AS habitacion,
+    c.nombrescliente,
+    c.nitcliente,
+    d.descripcion AS codigo_documento,
+    v.tipo AS tipo_vehiculo,
+    v.placa AS placa_vehiculo,
+    re.notas AS notas_reserva
+
+FROM registro_hotelero r
+
+INNER JOIN municipio m1 
+    ON m1.id = r.id_municipio_origen
+
+INNER JOIN municipio m2 
+    ON m2.id = r.id_municipio_destino
+
+INNER JOIN reservas re 
+    ON re.id = r.id_reserva
+
+INNER JOIN habitaciones h 
+    ON h.id = re.id_habitacion
+
+INNER JOIN mesas me 
+    ON me.id = h.id_mesa
+
+INNER JOIN cliente c 
+    ON c.id = re.id_cliente
+
+INNER JOIN documento_identidad d 
+    ON d.codigo = c.type_document
+
+INNER JOIN vehiculos v 
+    ON v.id = r.id_vehiculo
+
+WHERE 
+    re.id_estado_reservas = 6
+    AND (
+        c.nombrescliente ILIKE '%$valor%'
+        OR c.nitcliente ILIKE '%$valor%'
+    )
+         ");
+        return $datos->getResultArray();
+    }
+    public function fechasRegistroHotelero($fecha_inicial,$fecha_final)
+    {
+        $datos = $this->db->query("
+SELECT DISTINCT
+    m1.nombre AS origen,
+    m2.nombre AS destino,
+    r.fecha,
+    r.hora_salida,
+    me.nombre AS habitacion,
+    c.nombrescliente,
+    c.nitcliente,
+    d.descripcion AS codigo_documento,
+    v.tipo AS tipo_vehiculo,
+    v.placa AS placa_vehiculo,
+    re.notas AS notas_reserva
+
+FROM registro_hotelero r
+
+INNER JOIN municipio m1 
+    ON m1.id = r.id_municipio_origen
+
+INNER JOIN municipio m2 
+    ON m2.id = r.id_municipio_destino
+
+INNER JOIN reservas re 
+    ON re.id = r.id_reserva
+
+INNER JOIN habitaciones h 
+    ON h.id = re.id_habitacion
+
+INNER JOIN mesas me 
+    ON me.id = h.id_mesa
+
+INNER JOIN cliente c 
+    ON c.id = re.id_cliente
+
+INNER JOIN documento_identidad d 
+    ON d.codigo = c.type_document
+
+INNER JOIN vehiculos v 
+    ON v.id = r.id_vehiculo
+
+WHERE 
+    re.id_estado_reservas = 6
+
+    AND r.fecha BETWEEN '$fecha_inicial' AND '$fecha_final'
+         ");
+        return $datos->getResultArray();
+    }
 }
