@@ -230,12 +230,40 @@ class HabitacionesController extends BaseController
             'response' => 'ok',
             'fecha' => $datos_reserva[0]['fecha_reserva'],
             'habitacion' => $datos_reserva[0]['nombre_habitacion'],
+            //'numero_documento' => $datos_reserva[0]['numero_identificacion'],
+            // 'documento' => $datos_reserva[0]['identificacion'],
+            //'nombres' => $datos_reserva[0]['nombre_completo'],
+            'notas' => $datos_reserva[0]['notas'],
+            'precio' => number_format($datos_reserva[0]['valor_hospedaje'], 0, ',', '.'),
+            'id_reserva' => $id_reserva
+        ]);
+    }
+
+    function datosReserva()
+    {
+        $data = $this->request->getJSON(true);
+
+
+        $id_reserva = $data['id_reserva'];
+
+        //$id_habitacion = 2;
+        $datos_reserva = model('reservasModel')->datosReservas($id_reserva);
+
+    
+        return $this->response->setJSON([
+            'response' => 'ok',
+            'fecha' => $datos_reserva[0]['fecha_reserva'],
+            'habitacion' => $datos_reserva[0]['nombre_habitacion'],
             'numero_documento' => $datos_reserva[0]['numero_identificacion'],
             'documento' => $datos_reserva[0]['identificacion'],
             'nombres' => $datos_reserva[0]['nombre_completo'],
             'notas' => $datos_reserva[0]['notas'],
             'precio' => number_format($datos_reserva[0]['valor_hospedaje'], 0, ',', '.'),
-            'id_reserva' => $id_reserva
+            'id_reserva' => $id_reserva,
+            'vehiculo'=>$datos_reserva[0]['tipo']."/".$datos_reserva[0]['placa'],
+            'origen'=>$datos_reserva[0]['origen'],
+            'destino'=>$datos_reserva[0]['destino'],
+            'numero_reserva'=>"Reserva N° ".$id_reserva
         ]);
     }
 
@@ -257,68 +285,88 @@ class HabitacionesController extends BaseController
         $id_destino = $datos['id_destino'] ?? null;
         $notas = $datos['notas'] ?? null;
         $id_reserva = $datos['id_reserva'] ?? null;
+        $id_cliente = $datos['id_cliente'] ?? null;
+        $id_mesa = model('pedidoModel')->mesaId($id_reserva);
+
+        $tienePedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa[0]['id_mesa'])->first();
+
+        $actualizarReserva = model('reservasModel')->set('id_cliente', $id_cliente)->where('id', $id_reserva)->update();
+
+        if (empty($tienePedido)) {
 
 
-        $reservaModel = model('registroHoteleroModel'); // Asegúrate de tener este modelo
+            $reservaModel = model('registroHoteleroModel'); // Asegúrate de tener este modelo
 
 
-        try {
-            $reservaId = $reservaModel->insert([
-                'id_municipio_origen'       =>  $id_procedencia ?? null,
-                'id_municipio_destino'      => $id_destino,
-                'id_reserva'                => $id_reserva,
-                'id_vehiculo'               => $id_placa
-            ]);
-
-            $id_habitacion = model('reservasModel')->select('id_habitacion')->where('id', $id_reserva)->first();
-            $id_mesa = model('habitacionesModel')->select('id_mesa')
-                ->where('id', $id_habitacion['id_habitacion'])
-                ->first();
-
-            $actualizarMesa = model('mesasModel')->set('id_estado', 3)->where('id', $id_mesa['id_mesa'])->update();
-            //$habitaciones = model('habitacionesModel')->getHabitaciones();
-
-            $actualizarReserva = model('reservasModel')
-                ->where('id', $id_reserva)
-                ->set(['id_estado_reservas' => 6])
-                ->update();
+            try {
+                $reservaId = $reservaModel->insert([
+                    'id_municipio_origen'       =>  $id_procedencia ?? null,
+                    'id_municipio_destino'      => $id_destino,
+                    'id_reserva'                => $id_reserva,
+                    'id_vehiculo'               => $id_placa
+                ]);
 
 
-            $data = [
-                'fk_mesa' => $id_mesa['id_mesa'],
-                'fk_usuario' => 6,
-                'valor_total' => $valor_hospedaje,
-                'cantidad_de_productos' => 1,
-                'tiene_pedido' => true
 
-            ];
-            $insertPedido = model('pedidoModel')->insert($data);
 
-            $insertar = model('pedidoModel')->insertar(
-                $insertPedido,
-                $valor_hospedaje,
-                false,
-                8,
-                512,
-                1,
-                6,
-                date('Y-m-d'),
-                date('H:i:s'),
-                $nota = ""
-            );
+                $id_habitacion = model('reservasModel')->select('id_habitacion')->where('id', $id_reserva)->first();
+                $id_mesa = model('habitacionesModel')->select('id_mesa')
+                    ->where('id', $id_habitacion['id_habitacion'])
+                    ->first();
 
-            $reservas = model('reservasModel')->getResrvasHabitaicones();
-            return $this->response->setJSON([
-                'success' => true,
-                'id_reserva' => $id_reserva,
-                'reservas' => view('reservas/tablaReservas', [
-                    'reservas' => $reservas
-                ])
-            ]);
-        } catch (\Exception $e) {
+                $actualizarMesa = model('mesasModel')->set('id_estado', 3)->where('id', $id_mesa['id_mesa'])->update();
+                //$habitaciones = model('habitacionesModel')->getHabitaciones();
+
+                $actualizarReserva = model('reservasModel')
+                    ->where('id', $id_reserva)
+                    ->set(['id_estado_reservas' => 6])
+                    ->update();
+
+
+                $data = [
+                    'fk_mesa' => $id_mesa['id_mesa'],
+                    'fk_usuario' => 6,
+                    'valor_total' => $valor_hospedaje,
+                    'cantidad_de_productos' => 1,
+                    'tiene_pedido' => true,
+                    'id_reserva' => $id_reserva
+
+                ];
+                $insertPedido = model('pedidoModel')->insert($data);
+
+                $insertar = model('pedidoModel')->insertar(
+                    $insertPedido,
+                    $valor_hospedaje,
+                    false,
+                    8,
+                    512,
+                    1,
+                    6,
+                    date('Y-m-d'),
+                    date('H:i:s'),
+                    $nota = "",
+                    $id_reserva
+                );
+
+                $reservas = model('reservasModel')->getResrvasHabitaicones();
+                return $this->response->setJSON([
+                    'success' => true,
+                    'id_reserva' => $id_reserva,
+                    'reservas' => view('reservas/tablaReservas', [
+                        'reservas' => $reservas
+                    ])
+                ]);
+            } catch (\Exception $e) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Error al guardar la reserva: ' . $e->getMessage()
+                ]);
+            }
+        } else if (!empty($tienePedido)) {
+
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'Error al guardar la reserva: ' . $e->getMessage()
+                'message' => 'La habitacion tiene una reserva confirnmada y esta pendiente por facturar '
             ]);
         }
     }

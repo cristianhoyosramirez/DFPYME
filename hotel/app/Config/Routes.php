@@ -52,6 +52,9 @@ $routes->group('reservas', function($routes) {
     $routes->post('eliminar', 'Reportes\ReservasController::eliminar');
     $routes->post('busquedaPorHabitacion', 'Reportes\ReservasController::busquedaPorHabitacion');
     $routes->post('busquedaPorEstado', 'Reportes\ReservasController::busquedaPorEstado');
+    $routes->post('cancelarReserva', 'Reportes\ReservasController::cancelarReserva');
+    $routes->post('buscarHabitaiconesFecha', 'Reportes\ReservasController::buscarHabitaiconesFecha');
+    $routes->post('actualizarFechaReserva', 'Reportes\ReservasController::actualizarFechaReserva');
 });
 
 $routes->group('habitaciones', ['namespace' => 'App\Controllers\habitaciones'], function ($routes) {
@@ -65,6 +68,7 @@ $routes->group('habitaciones', ['namespace' => 'App\Controllers\habitaciones'], 
     $routes->post('buscarCiudadDestino', 'HabitacionesController::buscarCiudadDestino');
     $routes->post('buscarPlaca', 'HabitacionesController::buscarPlaca');
     $routes->post('nuevaReserva', 'HabitacionesController::nuevaReserva');
+    $routes->post('datosReserva', 'HabitacionesController::datosReserva');
 }); 
 
 /*

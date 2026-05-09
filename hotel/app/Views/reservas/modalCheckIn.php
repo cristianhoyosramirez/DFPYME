@@ -13,7 +13,7 @@
                     <div class="card-body p-4">
 
                         <div class="mb-3 position-relative">
-                            <label class="form-label fw-semibold small">Huésped</label>
+                            <label class="form-label fw-semibold small">Huéspedddd</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fas fa-user"></i>

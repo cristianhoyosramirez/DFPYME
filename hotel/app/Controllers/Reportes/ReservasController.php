@@ -29,6 +29,22 @@ class ReservasController extends BaseController
             ])
         ]);
     }
+    public function buscarHabitaiconesFecha()
+    {
+        $request = service('request');
+        $data = $request->getJSON();
+
+        $fechaInicial = $data->fechaInicial ?? '';
+        $fechaFinal = $data->fechaFinal ?? '';
+        $reservas = model('reservasModel')->buscarHabitaicones($fechaInicial, $fechaFinal);
+        //dd($reservas);
+        return $this->response->setJSON([
+            'success' => true,
+            'reservas' => view('reservas/tablaReservas', [
+                'reservas' => $reservas
+            ])
+        ]);
+    }
     public function busquedaPorEstado()
     {
         $request = service('request');
@@ -140,5 +156,39 @@ class ReservasController extends BaseController
                 'message' => $e->getMessage()
             ]);
         }
+    }
+
+    public function cancelarReserva()
+    {
+
+        $request = service('request');
+        $data = $request->getJSON();
+
+        $id_reserva = $data->id_reserva ?? '';
+
+        $borrar = model('reservasModel')->where('id', $id_reserva)->delete();
+
+        return $this->response->setJSON([
+            'success' => 'ok',
+            'id_reserva' => $id_reserva,
+
+        ]);
+    }
+    public function actualizarFechaReserva()
+    {
+
+        $request = service('request');
+        $data = $request->getJSON();
+
+        $id_reserva = $data->id_reserva ?? '';
+        $fecha_reserva = $data->fecha_reserva ?? '';
+
+        $actualizar = model('reservasModel')->set('fecha_reserva', $fecha_reserva)->where('id', $id_reserva)->update();
+
+        return $this->response->setJSON([
+            'success' => 'ok',
+            'id_reserva' => $id_reserva,
+
+        ]);
     }
 }

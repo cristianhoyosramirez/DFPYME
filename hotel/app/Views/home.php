@@ -37,11 +37,403 @@
 <script src="<?= base_url('assets/script/habitaciones/procesar_confirmacion.js') ?>"></script>
 <script src="<?= base_url('assets/script/habitaciones/generarReserva.js') ?>"></script>
 <script src="<?= base_url('assets/script/habitaciones/nuevaReserva.js') ?>"></script>
+<script src="<?= base_url('assets/script/reservas/cancelar_reserva.js') ?>"></script>
+<script src="<?= base_url('assets/script/reservas/buscarHabitacion.js') ?>"></script>
+<script src="<?= base_url('assets/script/reservas/buscarHabitacionFecha.js') ?>"></script>
 
 <?= $this->include('reservas/modalConfirmarReserva'); ?>
 <?= $this->include('reservas/modalCheckIn'); ?>
 <?= $this->include('reservas/modalConfirmarIngreso'); ?>
 <?= $this->include('habitaciones/modalNuevaReserva'); ?>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalEditarReserva" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloReserva">Datos reserv</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formRegistroHuesped">
+
+                    <!-- IDs ocultos -->
+                    <input type="hidden" id="id_de_habitacion" name="id_de_habitacion">
+                    <input type="hidden" id="id_habitacion_reserva" name="id_habitacion_reserva">
+                    <input type="hidden" id="id_cliente" name="id_cliente">
+                    <input type="hidden" id="id_reserva_edicion" name="id_reserva_edicion">
+
+                    <div class="card-body p-4">
+
+                        <div class="row g-3">
+
+                            <!-- =========================
+        FILA 1
+    ========================== -->
+
+                            <!-- Fecha -->
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small">
+                                    Fecha reserva
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </span>
+
+                                    <input type="date"
+                                        class="form-control"
+                                        name="fecha_reserva"
+                                        id="fechaReserva"
+                                        required>
+                                </div>
+                            </div>
+
+                            <!-- Habitación -->
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small">
+                                    Habitación
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-bed"></i>
+                                    </span>
+
+                                    <input type="text"
+                                        class="form-control bg-light"
+                                        name="habitacion_reserva"
+                                        id="habitacionReserva"
+                                        readonly>
+                                </div>
+                            </div>
+
+                            <!-- Valor -->
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small">
+                                    Valor hospedaje
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </span>
+
+                                    <input type="text"
+                                        class="form-control"
+                                        name="valor_hospedaje"
+                                        id="valorHospedaje"
+                                        inputmode="numeric"
+                                        placeholder="0"
+                                        oninput="formatCurrency(this)"
+                                        required>
+                                </div>
+                            </div>
+
+                            <!-- =========================
+        FILA 2
+    ========================== -->
+
+                            <!-- Huésped -->
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small">
+                                    Huésped
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+
+                                    <input type="text"
+                                        class="form-control bg-light"
+                                        id="nombreCompleto"
+                                        readonly>
+                                </div>
+                            </div>
+
+                            <!-- Vehículo -->
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small">
+                                    Vehículo
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-car"></i>
+                                    </span>
+
+                                    <input type="text"
+                                        class="form-control text-uppercase"
+                                        name="placaVehiculo"
+                                        id="placaVehiculoEditar"
+                                        placeholder="ABC123">
+
+                                    <span class="input-group-text">
+                                        <i class="fas fa-plus"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+
+
+                            <!-- =========================
+        FILA 3
+    ========================== -->
+
+                            <!-- Procedencia -->
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small">
+                                    Procedencia
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+
+                                    <input type="text"
+                                        class="form-control"
+                                        id="procedenciaEditar"
+                                        name="procedencia"
+                                        placeholder="Ciudad de origen">
+
+                                    <button type="button"
+                                        class="btn btn-outline-secondary">
+
+                                        <i class="fas fa-times"></i>
+
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <!-- Destino -->
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small">
+                                    Destino
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="fas fa-map-pin"></i>
+                                    </span>
+
+                                    <input type="text"
+                                        class="form-control"
+                                        id="destinoEditar"
+                                        name="destino"
+                                        placeholder="Ciudad destino">
+
+                                    <button type="button"
+                                        class="btn btn-outline-secondary">
+
+                                        <i class="fas fa-times"></i>
+
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <!-- =========================
+        FILA 4
+    ========================== -->
+
+                            <!-- Notas -->
+                            <div class="col-3">
+
+                                <label class="form-label fw-semibold small">
+                                    Notas / Observaciones
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text align-items-start pt-2">
+                                        <i class="fas fa-sticky-note"></i>
+                                    </span>
+
+                                    <textarea class="form-control"
+                                        rows="3"
+                                        id="notasReserva"
+                                        name="notas_reserva"
+                                        placeholder="Comentarios adicionales de la reserva..."></textarea>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Aceptar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    async function editarReserva(id_reserva) {
+
+        try {
+
+            const response = await fetch('<?= base_url('habitaciones/datosReserva') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id_reserva: id_reserva
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.response === 'ok') {
+
+                // Ejemplo de llenado de campos
+                document.getElementById('fechaReserva').value = result.fecha;
+                document.getElementById('habitacionReserva').value = result.habitacion;
+                document.getElementById('valorHospedaje').value = result.precio;
+                document.getElementById('placaVehiculoEditar').value = result.vehiculo;
+                document.getElementById('nombreCompleto').value =
+                    result.numero_documento + ' / ' + result.nombres;
+                document.getElementById('procedenciaEditar').value = result.origen;
+                document.getElementById('destinoEditar').value = result.destino;
+                document.getElementById('notasReserva').value = result.notas;
+                document.getElementById('tituloReserva').innerHTML = result.numero_reserva;
+
+                // Abrir modal después de cargar datos
+                const modal = new bootstrap.Modal(
+                    document.getElementById('modalEditarReserva')
+                );
+
+                modal.show();
+
+            } else {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: result.message
+                });
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un problema al consultar la reserva'
+            });
+
+        }
+
+    }
+</script>
+
+
+
+
+
+
+
+
+<script>
+    async function actualizar_fecha_reserva(id_reserva, fecha_reserva) {
+
+        try {
+
+            if (!fecha_reserva) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    text: 'Debe seleccionar una fecha'
+                });
+
+                return;
+            }
+
+            // Spinner SweetAlert
+            Swal.fire({
+                title: 'Actualizando fecha',
+                text: 'Espere un momento...',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            const response = await fetch('<?= base_url('reservas/actualizarFechaReserva') ?>', {
+
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify({
+                    id_reserva: id_reserva,
+                    fecha_reserva: fecha_reserva
+                })
+
+            });
+
+            const data = await response.json();
+
+            // Cerrar spinner
+            Swal.close();
+
+            if (data.success == 'ok') {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Fecha actualizada',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+            } else {
+
+                Swal.fire({
+                    icon: 'error',
+                    text: data.message || 'No fue posible actualizar'
+                });
+
+            }
+
+        } catch (error) {
+
+            // Cerrar spinner si ocurre error
+            Swal.close();
+
+            console.error(error);
+
+            Swal.fire({
+                icon: 'error',
+                text: 'Ocurrió un error al actualizar'
+            });
+
+        }
+
+    }
+</script>
+
 
 
 <script>
@@ -69,36 +461,6 @@
 
         } catch (error) {
             console.error('Error:', error);
-        }
-    }
-</script>
-
-<script>
-    async function buscarHabitacion(valor) {
-        try {
-            //if (!valor.trim()) return;
-
-            //const response = await fetch('/ruta-a-tu-api', {
-            const response = await fetch('<?= base_url('reservas/busquedaPorHabitacion') ?>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    busqueda: valor
-                })
-            });
-
-            const data = await response.json();
-
-            document.getElementById('reservasHabitaciones').innerHTML = data.reservas;
-
-            // Aquí actualizas tu lista o tabla
-            // ejemplo:
-            // renderizarResultados(data);
-
-        } catch (error) {
-            console.error('Error en la búsqueda:', error);
         }
     }
 </script>

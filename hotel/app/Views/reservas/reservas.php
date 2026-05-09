@@ -1,48 +1,72 @@
 <h3 class="mb-3">Gestión de Reservas</h3>
 
 <!-- 🔹 FILTROS RÁPIDOS -->
-<div class="row mb-3 g-3 align-items-end">
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
 
-    <!-- 🔍 Buscar por habitación -->
-    <div class="col-md-3">
-        <label class="form-label small fw-semibold">Habitación</label>
-        <input type="text" class="form-control" placeholder="Buscar por habitación" onkeyup="buscarHabitacion(this.value)">
-    </div>
-    <?php $estados = model('estadoReservasModel')->findAll(); ?>
-    <div class="col-md-3">
-        <label class="form-label small fw-semibold">Estado</label>
-        <select name="estado" id="estado" class="form-select" onchange="cambiarEstado(this.value)">
-            
-            <?php foreach ($estados as $s): ?>
-                <option value="<?= $s['id'] ?>">
-                    <?= $s['descripcion'] ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </div>
+        <div class="row g-3 align-items-end">
 
-    <!-- 📅 Fecha inicio -->
-    <div class=" col-md-2">
-        <label class="form-label small fw-semibold">Fecha inicio</label>
-        <input type="date" class="form-control"
-            value="<?= date('Y-m-d') ?>">
-    </div>
+            <!-- 🔍 Buscar habitación -->
+            <div class="col-lg-3 col-md-6">
+                <label class="form-label fw-semibold small text-muted">
+                    Buscar habitación
+                </label>
 
-    <!-- 📅 Fecha fin -->
-    <div class="col-md-2">
-        <label class="form-label small fw-semibold">Fecha fin</label>
-        <input type="date" class="form-control"
-            value="<?= date('Y-m-d') ?>">
-    </div>
+                <div class="input-group">
+                    <span class="input-group-text bg-light">
+                        <i class="fas fa-search text-secondary"></i>
+                    </span>
 
-    <!-- ➕ Botón -->
-    <div class="col-md-2">
-        <label class="form-label small fw-semibold invisible">Acción</label>
-        <button class="btn btn-success w-100" onclick="modalNuevaReserva()">
-            <i class="fas fa-plus"></i> Nueva reserva
-        </button>
-    </div>
+                    <input type="text"
+                        class="form-control"
+                        placeholder="Número o nombre"
+                        onkeyup="buscarHabitacion(this.value)">
+                </div>
+            </div>
 
+            <!-- 📅 Fecha inicio -->
+            <div class="col-lg-2 col-md-3">
+                <label class="form-label fw-semibold small text-muted">
+                    Fecha inicio
+                </label>
+
+                <input type="date" id="fechaInicial"
+                    class="form-control"
+                    value="<?= date('Y-m-d') ?>">
+            </div>
+
+            <!-- 📅 Fecha fin -->
+            <div class="col-lg-2 col-md-3">
+                <label class="form-label fw-semibold small text-muted">
+                    Fecha fin
+                </label>
+
+                <input type="date"
+                    class="form-control" id="fechaFinal"
+                    value="<?= date('Y-m-d') ?>">
+            </div>
+
+            <!-- 🔎 Buscar por fechas -->
+            <div class="col-lg-2 col-md-6">
+                <button class="btn btn-outline-primary w-100" onclick="buscarHabitacionFecha()">
+                    <i class="fas fa-calendar-check me-2"></i>
+                    Buscar fechas
+                </button>
+            </div>
+
+            <!-- ➕ Nueva reserva -->
+            <div class="col-lg-3 col-md-6">
+                <button class="btn btn-success w-100 fw-semibold"
+                    onclick="modalNuevaReserva()">
+
+                    <i class="fas fa-plus-circle me-2"></i>
+                    Nueva reserva
+                </button>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
 <!-- 🔹 TABLA DE RESERVAS -->
@@ -59,11 +83,7 @@
             </tr>
         </thead>
         <tbody id="reservasHabitaciones">
-
             <?= $this->include('reservas/tablaReservas'); ?>
-
-
-
         </tbody>
     </table>
 </div>

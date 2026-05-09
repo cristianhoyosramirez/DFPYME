@@ -23,7 +23,8 @@ class pedidoModel extends Model
         'impuesto_ico',
         'consulta_valor_pedido',
         'propina',
-        'propina_parcial'
+        'propina_parcial',
+        'id_reserva'
     ];
 
     protected $useTimestamps = true;
@@ -32,7 +33,7 @@ class pedidoModel extends Model
     protected $updatedField  = 'fecha_actualizacion';
     protected $deletedField  = 'deleted_at';
 
-       public function insertar(
+    public function insertar(
         $ultimo_id_pedido,
         $valor_unitario,
         $se_imprime_en_comanda,
@@ -67,5 +68,20 @@ class pedidoModel extends Model
 
         return $this->db->insertID();
     }
-   
+
+    public function mesaId($idReserva)
+    {
+        $datos = $this->db->query("
+            SELECT 
+                h.id_mesa
+
+            FROM reservas r
+
+            INNER JOIN habitaciones h
+                ON r.id_habitacion = h.id
+
+            WHERE r.id = $idReserva;
+         ");
+        return $datos->getResultArray();
+    }
 }
