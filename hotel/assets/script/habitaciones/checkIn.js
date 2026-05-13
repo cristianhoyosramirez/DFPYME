@@ -80,7 +80,14 @@ async function checkIn() {
                 document.getElementById('id_habitacion_reserva').value,
 
             id_cliente:
-                document.getElementById('id_cliente').value
+                document.getElementById('id_cliente').value,
+
+            hora_salida:
+                document.getElementById('hora_salida').value,
+
+            telefono:
+                document.getElementById('telefono_cliente').value
+
         };
 
         // =========================
@@ -118,7 +125,7 @@ async function checkIn() {
         // SUCCESS
         // =========================
 
-        if (data.success) {
+        if (data.success==true) {
 
             // Actualizar badge estado
             let badge =
@@ -175,6 +182,8 @@ async function checkIn() {
                 form.reset();
             }
 
+            document.getElementById('reservasHabitaciones').innerHTML=data.reservas
+
             // =========================
             // LIMPIAR CAMPOS EXTRA
             // =========================
@@ -213,6 +222,10 @@ async function checkIn() {
                 .value = '';
 
             document.getElementById('placavehiculo')
+                .value = '';
+
+                
+            document.getElementById('hora_salida')
                 .value = '';
 
          

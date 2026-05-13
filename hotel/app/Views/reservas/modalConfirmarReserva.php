@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Confirmar Reserva</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="limpiarReserva()"></button>
             </div>
             <div class="modal-body">
                 <form id="formRegistroHuesped">
@@ -11,7 +11,7 @@
                     <!-- IDs ocultos -->
                     <input type="hidden" id="id_de_habitacion" name="id_de_habitacion">
                     <input type="hidden" id="id_habitacion_reserva" name="id_habitacion_reserva">
-                    <input type="hidden" id="id_cliente" name="id_cliente" >
+                    <input type="hidden" id="id_cliente" name="id_cliente">
                     <input type="hidden" id="id_reserva_edicion" name="id_reserva_edicion">
 
                     <div class="card-body p-4">
@@ -100,7 +100,7 @@
                             <div class="col-12 col-lg-4 position-relative">
 
                                 <label class="form-label fw-semibold small">
-                                    Huésped
+                                    Cliente
                                 </label>
 
                                 <div class="input-group">
@@ -128,16 +128,16 @@
 
                                 </div>
 
-                                
+
 
                                 <div id="listaClientes"></div>
 
-                                
+
 
                             </div>
 
                             <!-- Nombre completo -->
-                            <div class="col-12 col-lg-8">
+                            <div class="col-12 col-lg-4">
 
                                 <label class="form-label fw-semibold small">
                                     Nombres y apellidos
@@ -150,10 +150,11 @@
                                     </span>
 
                                     <input type="text"
-                                        class="form-control bg-light"
+                                        class="form-control bg-light text-dark fw-bold fs-5"
                                         name="nombre_completo"
                                         id="nombre_completo"
-                                        placeholder="Nombre completo del huésped" required
+                                        placeholder="Nombre completo del huésped"
+                                        required
                                         readonly>
 
                                 </div>
@@ -163,7 +164,18 @@
 
                             </div>
 
-                           
+                            <div class="col-12 col-lg-4">
+                                <label class="form-label fw-semibold small">
+                                    Teléfono
+                                </label>
+
+                                <input type="text"
+                                    class="form-control bg-light"
+                                    name="nombre_completo"
+                                    id="telefono_cliente"
+                                    placeholder="Teléfono" required>
+                            </div>
+
                             <!-- =========================
                                     FILA 3
                             ========================== -->
@@ -187,6 +199,10 @@
                                         class="form-control text-uppercase"
                                         name="placaVehiculo"
                                         id="placavehiculo"
+                                        autocomplete="off"
+                                        autocorrect="off"
+                                        autocapitalize="characters"
+                                        spellcheck="false"
                                         onkeyup="buscarPlaca(this.value)"
                                         placeholder="Ej: ABC123">
 
@@ -224,6 +240,10 @@
                                         id="procedencia"
                                         name="procedencia"
                                         placeholder="Ciudad de origen"
+                                        autocomplete="off"
+                                        autocorrect="off"
+                                        autocapitalize="words"
+                                        spellcheck="false"
                                         onkeyup="buscarCiudadProcedencia(this.value)">
 
                                     <button type="button"
@@ -268,6 +288,10 @@
                                         id="destino"
                                         name="destino"
                                         placeholder="Ciudad destino"
+                                        autocomplete="off"
+                                        autocorrect="off"
+                                        autocapitalize="words"
+                                        spellcheck="false"
                                         onkeyup="buscarCiudadDestino(this.value)">
 
                                     <button type="button"
@@ -294,8 +318,30 @@
                                 FILA 4
                             ========================== -->
 
+                            <!-- Hora de salida -->
+                            <div class="col-12 col-md-4">
+
+                                <label class="form-label fw-semibold small">
+                                    Hora de salida
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="fas fa-clock"></i>
+                                    </span>
+
+                                    <input type="time"
+                                        class="form-control"
+                                        name="hora_salida"
+                                        id="hora_salida">
+
+                                </div>
+
+                            </div>
+
                             <!-- Notas -->
-                            <div class="col-12">
+                            <div class="col-12 col-md-4">
 
                                 <label class="form-label fw-semibold small">
                                     Notas / Observaciones
@@ -324,7 +370,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" onclick="limpiarReserva()">
                     Cerrar
                 </button>
 

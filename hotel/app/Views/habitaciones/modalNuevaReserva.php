@@ -73,7 +73,7 @@
                                         <?php foreach ($habitaciones as $h): ?>
 
                                             <option value="<?= $h['id_habitacion'] ?>">
-                                                <?= $h['nombre_habitacion'] ?>
+                                                <?= $h['nombre_habitacion'] . ' - ' . $h['tipo'] ?>
                                             </option>
 
                                         <?php endforeach; ?>
@@ -114,6 +114,7 @@
                                         <option value="Bus">Bus</option>
                                         <option value="Doble troque">Doble troque</option>
                                         <option value="Tractor">Tractor</option>
+                                        <option value="No aplica">No aplica </option>
 
                                     </select>
 

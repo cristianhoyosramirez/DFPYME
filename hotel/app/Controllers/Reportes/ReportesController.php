@@ -65,7 +65,7 @@ class ReportesController extends BaseController
         $fecha_final = $data->fecha_final;
 
         $registro = model('habitacionesModel')
-            ->fechasRegistroHotelero($fecha_inicial,$fecha_final);
+            ->fechasRegistroHotelero($fecha_inicial, $fecha_final);
 
         return $this->response->setJSON([
 
@@ -76,5 +76,48 @@ class ReportesController extends BaseController
             ])
 
         ]);
+    }
+
+    public function actualizarVehiculo()
+    {
+
+        $data = $this->request->getJSON();
+
+        $tipo = $data->tipo;
+        $id_vehiculo = $data->id;
+
+
+        $vehiculos = model('vehiculosModel')->set('tipo', $tipo)->where('id', $id_vehiculo)->update();
+
+
+          return $this->response->setJSON([
+
+            'response' => 'ok',
+
+        ]);
+
+
+
+    }
+    public function actualizarPlaca()
+    {
+
+        $data = $this->request->getJSON();
+
+        $placa = $data->placa;
+        $id_vehiculo = $data->id;
+
+
+        $vehiculos = model('vehiculosModel')->set('placa', $placa)->where('id', $id_vehiculo)->update();
+
+
+          return $this->response->setJSON([
+
+            'response' => 'ok',
+
+        ]);
+
+
+
     }
 }

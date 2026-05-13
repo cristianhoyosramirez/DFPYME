@@ -9,7 +9,7 @@ async function nuevaReserva() {
             observaciones: document.getElementById('observacionesNuevaReserva').value,
             vehiculo: document.getElementById('tipoVehiculo').value
         };
-       
+
         // Loader
         Swal.fire({
             title: 'Guardando reserva...',
@@ -32,7 +32,7 @@ async function nuevaReserva() {
 
         Swal.close();
 
-        if (result.success) {
+        if (result.success == true) {
 
             // Cerrar modal
             const modalEl = document.getElementById('modalNuevaReserva');
@@ -69,11 +69,14 @@ async function nuevaReserva() {
 
             }, 300);
 
-        } else {
+        } else if (result.success == false) {
             Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: result.message || 'No se pudo guardar la reserva'
+                icon: 'warning',
+                title: 'Apertura de caja requerida',
+                text: 'Debe realizar la apertura de caja antes de continuar.',
+                confirmButtonText: 'Aceptar',
+                timer: 2500,
+                timerProgressBar: true
             });
         }
 

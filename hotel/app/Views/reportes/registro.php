@@ -35,14 +35,14 @@
     <div class="col-12 col-md-4">
 
         <label for="cliente" class="form-label fw-semibold small">
-            Cliente
+            Buscar huésped / documento / habitación / placa
         </label>
 
         <input type="text"
             id="cliente"
             name="cliente"
             class="form-control"
-            placeholder="Nombre o identificación"
+            placeholder="Ingrese nombre, documento, habitación o placa"
             value="<?= htmlspecialchars($_GET['cliente'] ?? '') ?>"
             onkeyup="buscarClienteRegistro(this.value)">
 
@@ -75,10 +75,13 @@
     <table class="table table-striped table-bordered">
         <thead class="table-dark" style="position: sticky; top: 0; z-index: 10;">
             <tr>
+
+                <th>Fecha</th>
                 <th>Habitación</th>
                 <th>Nombre y apellidos</th>
                 <th>Tipo Documento</th>
                 <th>Número Documento</th>
+                <th>Teléfono</th>
                 <th>Tipo Vehículo</th>
                 <th>Placa</th>
                 <th>Lugar Procedencia</th>
@@ -91,15 +94,24 @@
             <?php if (!empty($registro)): ?>
                 <?php foreach ($registro as $row): ?>
                     <tr>
+                        <td><?= htmlspecialchars($row['fecha']) ?></td>
                         <td><?= htmlspecialchars($row['habitacion']) ?></td>
-                        <td><?= htmlspecialchars($row['nombrescliente'] . ' | ' . $row['nitcliente']) ?></td>
+                        <td><?= htmlspecialchars($row['nombrescliente'] . ' / ' . $row['nitcliente']) ?></td>
                         <td><?= htmlspecialchars($row['codigo_documento']) ?></td>
                         <td><?= htmlspecialchars($row['nitcliente']) ?></td>
+                        <td><?= htmlspecialchars($row['telefonocliente']) ?></td>
+
+
+
                         <td><?= htmlspecialchars($row['tipo_vehiculo'] ?? '-') ?></td>
                         <td><?= htmlspecialchars($row['placa_vehiculo'] ?? '-') ?></td>
                         <td><?= htmlspecialchars($row['origen']) ?></td>
                         <td><?= htmlspecialchars($row['destino']) ?></td>
-                        <td><?= htmlspecialchars($row['hora_salida'] ?? '-') ?></td>
+                        <td>
+                            <?= !empty($row['hora_salida'])
+                                ? date('h:i A', strtotime($row['hora_salida']))
+                                : '-' ?>
+                        </td>
                         <td><?= htmlspecialchars($row['notas_reserva'] ?? '-') ?></td>
                     </tr>
                 <?php endforeach; ?>

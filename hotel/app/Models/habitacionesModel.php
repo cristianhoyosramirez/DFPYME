@@ -43,6 +43,20 @@ ORDER BY
         ");
         return $datos->getResultArray();
     }
+
+
+        public function updateCliente($telefono, $id)
+    {
+        $datos = $this->db->query("
+     
+            update cliente set telefonocliente='$telefono' where id = $id;
+            update cliente set celularcliente='$telefono' where id = $id;
+        ");
+        //return $datos->getResultArray();
+    }
+
+
+
     public function getHabitacionesInsert()
     {
         $datos = $this->db->query("
@@ -72,7 +86,7 @@ ORDER BY
     {
         $datos = $this->db->query("
          SELECT
-        nitcliente,nombrescliente,id
+        nitcliente,nombrescliente,id,telefonocliente
     FROM
         cliente
     WHERE
@@ -83,7 +97,7 @@ ORDER BY
     public function getTodasHabitaciones()
     {
         $datos = $this->db->query("
-      SELECT mesas.nombre as nombre_habitacion,habitaciones.id as id_habitacion
+      SELECT mesas.nombre as nombre_habitacion,habitaciones.id as id_habitacion,habitaciones.tipo
         FROM habitaciones
     INNER JOIN mesas ON mesas.id = habitaciones.id_mesa order by mesas.nombre  asc
          ");
@@ -127,19 +141,36 @@ SELECT DISTINCT
     me.nombre AS habitacion,
     c.nombrescliente,
     c.nitcliente,
+    c.telefonocliente,
     d.descripcion AS codigo_documento,
     v.tipo AS tipo_vehiculo,
     v.placa AS placa_vehiculo,
     re.notas AS notas_reserva
 FROM registro_hotelero r
-INNER JOIN municipio m1 ON m1.id = r.id_municipio_origen
-INNER JOIN municipio m2 ON m2.id = r.id_municipio_destino
-INNER JOIN reservas re ON re.id = r.id_reserva
-INNER JOIN habitaciones h ON h.id = re.id_habitacion
-INNER JOIN mesas me ON me.id = h.id_mesa
-INNER JOIN cliente c ON c.id = re.id_cliente
-INNER JOIN documento_identidad d ON d.codigo = c.type_document
-INNER JOIN vehiculos v ON v.id = r.id_vehiculo
+INNER JOIN municipio m1 
+    ON m1.id = r.id_municipio_origen
+
+INNER JOIN municipio m2 
+    ON m2.id = r.id_municipio_destino
+
+INNER JOIN reservas re 
+    ON re.id = r.id_reserva
+
+INNER JOIN habitaciones h 
+    ON h.id = re.id_habitacion
+
+INNER JOIN mesas me 
+    ON me.id = h.id_mesa
+
+INNER JOIN cliente c 
+    ON c.id = re.id_cliente
+
+INNER JOIN documento_identidad d 
+    ON d.codigo = c.type_document
+
+INNER JOIN vehiculos v 
+    ON v.id = r.id_vehiculo
+
 WHERE re.id_estado_reservas = 6;
          ");
         return $datos->getResultArray();
@@ -157,6 +188,7 @@ SELECT DISTINCT
     me.nombre AS habitacion,
     c.nombrescliente,
     c.nitcliente,
+    c.telefonocliente,
     d.descripcion AS codigo_documento,
     v.tipo AS tipo_vehiculo,
     v.placa AS placa_vehiculo,
@@ -193,8 +225,10 @@ WHERE
     AND (
         c.nombrescliente ILIKE '%$valor%'
         OR c.nitcliente ILIKE '%$valor%'
-    )
-         ");
+        OR c.telefonocliente ILIKE '%$valor%'
+        OR v.placa ILIKE '%$valor%'
+        OR me.nombre ILIKE '%$valor%'
+    )");
         return $datos->getResultArray();
     }
     public function fechasRegistroHotelero($fecha_inicial,$fecha_final)
@@ -208,6 +242,7 @@ SELECT DISTINCT
     me.nombre AS habitacion,
     c.nombrescliente,
     c.nitcliente,
+    c.telefonocliente,
     d.descripcion AS codigo_documento,
     v.tipo AS tipo_vehiculo,
     v.placa AS placa_vehiculo,

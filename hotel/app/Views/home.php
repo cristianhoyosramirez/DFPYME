@@ -139,7 +139,7 @@
                             <!-- Huésped -->
                             <div class="col-12 col-md-3">
                                 <label class="form-label fw-semibold small">
-                                    Huésped
+                                    Nombre(s)
                                 </label>
 
                                 <div class="input-group">
@@ -150,6 +150,40 @@
                                     <input type="text"
                                         class="form-control bg-light"
                                         id="nombreCompleto"
+                                        readonly>
+                                </div>
+                            </div>
+                            <!-- Huésped -->
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small">
+                                    Telefono
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+
+                                    <input type="text"
+                                        class="form-control bg-light"
+                                        id="telefono_del_cliente"
+                                        readonly>
+                                </div>
+                            </div>
+                            <!-- Huésped -->
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small">
+                                    Hora de salida 
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+
+                                    <input type="text"
+                                        class="form-control bg-light"
+                                        id="hora_de_salida"
                                         readonly>
                                 </div>
                             </div>
@@ -279,6 +313,128 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    function limpiarReserva() {
+        
+
+        document.getElementById('id_de_habitacion').value="";
+        document.getElementById('id_habitacion_reserva').value="";
+        document.getElementById('id_cliente').value="";
+        document.getElementById('id_reserva_edicion').value="";
+        document.getElementById('nombre_completo').value="";
+        document.getElementById('telefono_cliente').value="";
+        document.getElementById('id_placa').value="";
+        document.getElementById('placavehiculo').value="";
+        document.getElementById('id_procedencia').value="";
+        document.getElementById('procedencia').value="";
+        document.getElementById('id_procedenciaError').value="";
+        document.getElementById('id_destino').value="";
+        document.getElementById('destino').value="";
+        document.getElementById('hora_salida').value="";
+        document.getElementById('notas_reserva').value="";
+
+        document.getElementById('listaClientes').innerHTML="";
+        document.getElementById('id_clienteError').innerHTML="";
+        document.getElementById('id_placaError').innerHTML="";
+        document.getElementById('listaVehiculos').innerHTML="";
+        document.getElementById('listaMunicipiosProcedencia').innerHTML="";
+        document.getElementById('id_destinoError').innerHTML="";
+        document.getElementById('listaMunicipiosDestino').innerHTML="";
+
+    }
+
+</script>
+
+<script>
+    function actualizarPlaca(placa, id_vehiculo) {
+
+        fetch("<?= base_url('reportes/actualizarPlaca') ?>", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    id: id_vehiculo,
+                    placa: placa
+                })
+
+            })
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                if (data.response === 'ok') {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Actualizado',
+                        text: 'Placa actualizada correctamente',
+                        timer: 1200,
+                        showConfirmButton: false
+                    });
+
+                } else {
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se pudo actualizar la placa'
+                    });
+
+                }
+
+            });
+
+    }
+</script>
+
+
+<script>
+    function actualizarTipoVehiculo(tipo, id_vehiculo) {
+
+        fetch("<?= base_url('reportes/actualizarVehiculo') ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: id_vehiculo,
+                    tipo: tipo
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                if (data.response === 'ok') {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Actualizado',
+                        text: 'Tipo de vehículo actualizado'
+                    });
+
+                } else {
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se pudo actualizar'
+                    });
+
+                }
+
+            });
+
+    }
+</script>
+
+
 
 <script>
     async function filtrarRegistroHotelero() {
@@ -483,6 +639,8 @@
                 document.getElementById('destinoEditar').value = result.destino;
                 document.getElementById('notasReserva').value = result.notas;
                 document.getElementById('tituloReserva').innerHTML = result.numero_reserva;
+                document.getElementById('telefono_del_cliente').value = result.telefono;
+                document.getElementById('hora_de_salida').value = result.hora_salida;
 
                 // Abrir modal después de cargar datos
                 const modal = new bootstrap.Modal(

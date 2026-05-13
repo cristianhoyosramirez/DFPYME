@@ -8,11 +8,21 @@ class ReservasController extends BaseController
 {
     public function index()
     {
-        $reservas = model('reservasModel')->getResrvasHabitaicones();
-        //dd($reservas);
-        return view('reservas/reservas', [
-            'reservas' => $reservas
-        ]);
+        $numero_apertura = model('aperturaRegistroModel')
+            ->select('numero')
+            ->first();
+
+        if (!empty($numero_apertura['numero'])) {
+
+            $reservas = model('reservasModel')
+                ->getResrvasHabitaicones($numero_apertura['numero']);
+
+            return view('reservas/reservas', [
+                'reservas' => $reservas
+            ]);
+        }
+
+        return view('reservas/error');
     }
     public function busquedaPorHabitacion()
     {
@@ -37,11 +47,11 @@ class ReservasController extends BaseController
 
         $vehiculo = $data->vehiculo ?? '';
         $id = $data->id_registro ?? '';
-        $reservas = model('reservasModel')->set('vehiculo',$vehiculo)->where('id',$id)->update();
+        $reservas = model('reservasModel')->set('vehiculo', $vehiculo)->where('id', $id)->update();
         //dd($reservas);
         return $this->response->setJSON([
             'success' => true,
-           
+
         ]);
     }
 
@@ -52,7 +62,7 @@ class ReservasController extends BaseController
 
         $fechaInicial = $data->fechaInicial ?? '';
         $fechaFinal = $data->fechaFinal ?? '';
-        $reservas = model('reservasModel')->buscarHabitaicones($fechaInicial, $fechaFinal);
+        $reservas = model('reservasModel')->buscarHabitaiconesFecha(date('Y-m-d'), date('Y-m-d'));
         //dd($reservas);
         return $this->response->setJSON([
             'success' => true,

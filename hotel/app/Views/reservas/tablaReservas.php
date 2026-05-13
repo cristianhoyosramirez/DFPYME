@@ -12,13 +12,13 @@
     $estados = [
 
         1 => [
-            'texto' => 'Pendiente',
-            'badge' => 'bg-warning text-dark'
+            'texto' => 'Pendiente de confirmar',
+            'badge' => 'bg-warning text-white'
         ],
 
         6 => [
-            'texto' => 'Confirmada',
-            'badge' => 'bg-success'
+            'texto' => 'Confirmada y pendiente de facturar ',
+            'badge' => 'bg-success text-white'
         ]
 
     ];
@@ -141,6 +141,10 @@
                         <?= $detalle['vehiculo'] == 'Tractor' ? 'selected' : '' ?>>
                         Tractor
                     </option>
+                    <option value="No aplica"
+                        <?= $detalle['vehiculo'] == 'No aplica' ? 'selected' : '' ?>>
+                        No aplica
+                    </option>
 
                 </select>
 
@@ -154,7 +158,7 @@
 
             <?php endif; ?>
 
-            
+
 
         </td>
 
@@ -163,13 +167,10 @@
         <!-- ESTADO -->
         <!-- ===================================================== -->
         <td>
-
-            <span class="badge rounded-pill px-3 py-2 <?= $configEstado['badge'] ?>">
-
-                <?= $configEstado['texto'] ?>
-
-            </span>
-
+             <button type="button"
+        class="btn btn-sm <?= esc($configEstado['badge'] ?? 'bg-secondary text-white') ?>">
+        <?= esc($configEstado['texto'] ?? 'Sin estado') ?>
+    </button>
         </td>
 
 

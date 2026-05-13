@@ -6,7 +6,7 @@
 
         <div class="row g-3 align-items-end">
 
-            <!-- 🔍 Buscar habitación -->
+            <!-- 🔍 Buscar habitación
             <div class="col-lg-3 col-md-6">
                 <label class="form-label fw-semibold small text-muted">
                     Buscar habitación
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <!-- 📅 Fecha inicio -->
+            
             <div class="col-lg-2 col-md-3">
                 <label class="form-label fw-semibold small text-muted">
                     Fecha inicio
@@ -35,7 +35,7 @@
                     value="<?= date('Y-m-d') ?>">
             </div>
 
-            <!-- 📅 Fecha fin -->
+            
             <div class="col-lg-2 col-md-3">
                 <label class="form-label fw-semibold small text-muted">
                     Fecha fin
@@ -46,16 +46,18 @@
                     value="<?= date('Y-m-d') ?>">
             </div>
 
-            <!-- 🔎 Buscar por fechas -->
+           
             <div class="col-lg-2 col-md-6">
                 <button class="btn btn-outline-primary w-100" onclick="buscarHabitacionFecha()">
                     <i class="fas fa-calendar-check me-2"></i>
                     Buscar fechas
                 </button>
+            </div> -->
+            <div class="col-lg-10 col-md-6">
             </div>
 
             <!-- ➕ Nueva reserva -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-2 col-md-6 text-start">
                 <button class="btn btn-success w-100 fw-semibold"
                     onclick="modalNuevaReserva()">
 

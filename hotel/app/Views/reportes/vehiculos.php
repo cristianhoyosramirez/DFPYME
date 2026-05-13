@@ -29,24 +29,69 @@
                     <tbody id="tablaVehiculos">
                         <?php foreach ($vehiculos as $vehiculo): ?>
                             <tr>
-                                <td><?= $vehiculo['tipo'] ?></td>
-                                <td><?= $vehiculo['placa'] ?></td>
                                 <td>
-                                    <!-- Editar -->
-                                    <button class="btn btn-warning btn-sm" title="Editar vehículo" onclick="editarVehiculo(<?= $vehiculo['id'] ?>)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
 
-                                    <!-- Eliminar -->
-                                    <button class="btn btn-danger btn-sm" title="Eliminar vehículo" onclick="eliminarVehiculo(<?= $vehiculo['id'] ?>)">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
+                                    <select
+                                        class="form-select"
+                                        id="tipo"
+                                        name="tipo"
+                                        onchange="actualizarTipoVehiculo(this.value, <?= $vehiculo['id'] ?>)"
+                                        required>
 
-                                    <!-- Ver detalles -->
-                                    <button class="btn btn-info btn-sm" title="Ver detalles del vehículo" onclick="verDetallesVehiculo(<?= $vehiculo['id'] ?>)">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
+                                        <option value="" disabled <?= empty($vehiculo['tipo']) ? 'selected' : '' ?>>
+                                            Seleccione un tipo
+                                        </option>
+
+                                        <option value="Carro" <?= ($vehiculo['tipo'] == 'Carro') ? 'selected' : '' ?>>
+                                            Carro
+                                        </option>
+
+                                        <option value="Moto" <?= ($vehiculo['tipo'] == 'Moto') ? 'selected' : '' ?>>
+                                            Moto
+                                        </option>
+
+                                        <option value="Camioneta" <?= ($vehiculo['tipo'] == 'Camioneta') ? 'selected' : '' ?>>
+                                            Camioneta
+                                        </option>
+
+                                        <option value="Camión" <?= ($vehiculo['tipo'] == 'Camión') ? 'selected' : '' ?>>
+                                            Camión
+                                        </option>
+
+                                        <option value="Bus" <?= ($vehiculo['tipo'] == 'Bus') ? 'selected' : '' ?>>
+                                            Bus
+                                        </option>
+
+                                        <option value="Tractomula" <?= ($vehiculo['tipo'] == 'Tractomula') ? 'selected' : '' ?>>
+                                            Tractomula
+                                        </option>
+
+                                        <option value="Doble troque" <?= ($vehiculo['tipo'] == 'Doble troque') ? 'selected' : '' ?>>
+                                            Doble troque
+                                        </option>
+
+                                        <option value="Tractor" <?= ($vehiculo['tipo'] == 'Tractor') ? 'selected' : '' ?>>
+                                            Tractor
+                                        </option>
+
+                                        <option value="No aplica" <?= ($vehiculo['tipo'] == 'No aplica') ? 'selected' : '' ?>>
+                                            No aplica
+                                        </option>
+
+                                    </select>
+
                                 </td>
+                                <td><input
+                                        type="text"
+                                        class="form-control"
+                                        id="placa"
+                                        name="placa"
+                                        value="<?= $vehiculo['placa'] ?>"
+                                        placeholder="Ej: ABC-123"
+                                        required
+                                        oninput="this.value = this.value.toUpperCase()"
+                                        onchange="actualizarPlaca(this.value, <?= $vehiculo['id'] ?>)"></td>
+
                             </tr>
                         <?php endforeach ?>
                     </tbody>
@@ -83,6 +128,7 @@
                             <option value="Tractomula">Tractomula</option>
                             <option value="Doble troque">Doble troque</option>
                             <option value="Tractor">Tractor</option>
+                            <option value="No aplica">No aplica</option>
                         </select>
                     </div>
 

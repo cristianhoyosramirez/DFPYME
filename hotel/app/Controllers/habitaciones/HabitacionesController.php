@@ -192,30 +192,41 @@ class HabitacionesController extends BaseController
         $observaciones = $data->observaciones;
         $vehiculo = $data->vehiculo;
 
+        $numero_apertura = model('aperturaRegistroModel')->select('numero')->first();
 
-        $insert = model('reservasModel')->insert([
-            'id_habitacion' => $id_habitacion,
-            //'id_estado' => 2,
-            'notas' => $observaciones,
-            'fecha_reserva' => $fecha,
-            'id_estado_reservas' => 1,
-            'vehiculo'=>$vehiculo
+        if (!empty($numero_apertura)) {
 
-        ]);
+            $insert = model('reservasModel')->insert([
+                'id_habitacion' => $id_habitacion,
+                //'id_estado' => 2,
+                'notas' => $observaciones,
+                'fecha_reserva' => $fecha,
+                'id_estado_reservas' => 1,
+                'vehiculo' => $vehiculo,
+                'id_apertura' => $numero_apertura['numero']
 
-        if ($insert) {
-            $id_mesa = model('habitacionesModel')->select('id_mesa')->where('id', $id_habitacion)->first();
-            //model('mesasModel')->update('id_estado', 2)->where('id', $id_mesa['id_mesa'])->update();
+            ]);
 
-            //model('mesasModel')->update($id_mesa['id_mesa'], ['id_estado' => 2]);
-            model('mesasModel')->set('id_estado', 2)->where('id', $id_mesa['id_mesa'])->update();
-            // $habitaciones = model('habitacionesModel')->getHabitaciones();
-            $reservas = model('reservasModel')->getResrvasHabitaicones();
+            if ($insert) {
+                $id_mesa = model('habitacionesModel')->select('id_mesa')->where('id', $id_habitacion)->first();
+                //model('mesasModel')->update('id_estado', 2)->where('id', $id_mesa['id_mesa'])->update();
+
+                //model('mesasModel')->update($id_mesa['id_mesa'], ['id_estado' => 2]);
+                model('mesasModel')->set('id_estado', 2)->where('id', $id_mesa['id_mesa'])->update();
+                // $habitaciones = model('habitacionesModel')->getHabitaciones();
+                $reservas = model('reservasModel')->getResrvasHabitaicones();
+                return $this->response->setJSON([
+                    'success' => true,
+                    'reservas' => view('reservas/tablaReservas', [
+                        'reservas' => $reservas
+                    ])
+                ]);
+            }
+        } else if (empty($numero_apertura)) {
+
             return $this->response->setJSON([
-                'success' => true,
-                'reservas' => view('reservas/tablaReservas', [
-                    'reservas' => $reservas
-                ])
+                'success' => false,
+                
             ]);
         }
     }
@@ -266,6 +277,9 @@ class HabitacionesController extends BaseController
             'vehiculo' => $datos_reserva[0]['tipo'] . "/" . $datos_reserva[0]['placa'],
             'origen' => $datos_reserva[0]['origen'],
             'destino' => $datos_reserva[0]['destino'],
+            'telefono' => $datos_reserva[0]['telefono'],
+           'hora_salida' => date('h:i A', strtotime($datos_reserva[0]['hora_salida'])),
+
             'numero_reserva' => "Reserva N° " . $id_reserva
         ]);
     }
@@ -289,11 +303,16 @@ class HabitacionesController extends BaseController
         $notas = $datos['notas'] ?? null;
         $id_reserva = $datos['id_reserva'] ?? null;
         $id_cliente = $datos['id_cliente'] ?? null;
+        $hora_salida = $datos['hora_salida'] ?? null;
+        $telefono = $datos['telefono'] ?? null;
+
         $id_mesa = model('pedidoModel')->mesaId($id_reserva);
 
         $tienePedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa[0]['id_mesa'])->first();
 
         $actualizarReserva = model('reservasModel')->set('id_cliente', $id_cliente)->where('id', $id_reserva)->update();
+        $actualizarNotasReserva = model('reservasModel')->set('notas', $notas)->where('id', $id_reserva)->update();
+        $valroReserva = model('reservasModel')->set('notas', $notas)->where('id', $id_reserva)->update();
 
 
 
@@ -302,11 +321,14 @@ class HabitacionesController extends BaseController
 
             $reservaModel = model('registroHoteleroModel'); // Asegúrate de tener este modelo
 
+            $actualizarCliente=model('habitacionesModel')->updateCliente($telefono, $id_cliente);
+
 
             try {
                 $reservaId = $reservaModel->insert([
                     'id_municipio_origen'       =>  $id_procedencia ?? null,
                     'id_municipio_destino'      => $id_destino,
+                    'hora_salida'               => $hora_salida,
                     'id_reserva'                => $id_reserva,
                     'id_vehiculo'               => $id_placa
                 ]);

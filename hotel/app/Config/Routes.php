@@ -44,6 +44,8 @@ $routes->group('reportes', function($routes) {
     $routes->get('registro', 'Reportes\ReportesController::registro');
     $routes->post('buscarRegistroHotelero', 'Reportes\ReportesController::buscarRegistroHotelero');
     $routes->post('fechasRegistroHotelero', 'Reportes\ReportesController::fechasRegistroHotelero');
+    $routes->post('actualizarVehiculo', 'Reportes\ReportesController::actualizarVehiculo');
+    $routes->post('actualizarPlaca', 'Reportes\ReportesController::actualizarPlaca');
 });
 
 // 🔹 GRUPO RESERVAS
@@ -55,7 +57,7 @@ $routes->group('reservas', function($routes) {
     $routes->post('busquedaPorHabitacion', 'Reportes\ReservasController::busquedaPorHabitacion');
     $routes->post('busquedaPorEstado', 'Reportes\ReservasController::busquedaPorEstado');
     $routes->post('cancelarReserva', 'Reportes\ReservasController::cancelarReserva');
-    $routes->post('buscarHabitaiconesFecha', 'Reportes\ReservasController::buscarHabitaiconesFecha');
+    $routes->get('buscarHabitaiconesFecha', 'Reportes\ReservasController::buscarHabitaiconesFecha');
     $routes->post('actualizarFechaReserva', 'Reportes\ReservasController::actualizarFechaReserva');
     $routes->post('cambiarVehiculo', 'Reportes\ReservasController::cambiarVehiculo');
 });
