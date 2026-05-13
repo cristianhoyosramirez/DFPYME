@@ -130,37 +130,37 @@ WHERE r.id = $id_reserva;
         return $datos->getResultArray();
     } 
 
-    public function getResrvasHabitaicones()
+    public function getResrvasHabitaicones($fecha_inicial,$fecha_final)
     {
         $datos = $this->db->query("
-            SELECT 
-                r.id AS id_reserva,
-                h.id AS id_habitacion,
-                m.nombre,
-                r.id_estado_reservas,
-                r.fecha_reserva,
-                r.notas,
-                r.vehiculo,
-                er.descripcion AS estado_reserva
+          SELECT 
+    r.id AS id_reserva,
+    h.id AS id_habitacion,
+    m.nombre,
+    r.id_estado_reservas,
+    r.fecha_reserva,
+    r.notas,
+    r.vehiculo,
+    er.descripcion AS estado_reserva
 
-            FROM reservas r
+FROM reservas r
 
-            INNER JOIN habitaciones h 
-                ON r.id_habitacion = h.id
+INNER JOIN habitaciones h 
+    ON r.id_habitacion = h.id
 
-            INNER JOIN mesas m 
-                ON h.id_mesa = m.id
+INNER JOIN mesas m 
+    ON h.id_mesa = m.id
 
-            INNER JOIN estado_reservas er 
-                ON er.id = r.id_estado_reservas
+INNER JOIN estado_reservas er 
+    ON er.id = r.id_estado_reservas
 
-            WHERE r.id_estado_reservas IN (1, 6)
+WHERE r.id_estado_reservas IN (1, 6)
 
-            ORDER BY 
-                h.id,
-                r.id_estado_reservas ASC
+AND r.fecha_reserva BETWEEN '$fecha_inicial' AND '$fecha_final'
 
-            LIMIT 100;
+ORDER BY 
+    h.id,
+    r.id_estado_reservas ASC;;
         ");
         return $datos->getResultArray();
     }

@@ -147,6 +147,7 @@ SELECT DISTINCT
     v.placa AS placa_vehiculo,
     re.notas AS notas_reserva
 FROM registro_hotelero r
+
 INNER JOIN municipio m1 
     ON m1.id = r.id_municipio_origen
 
@@ -171,7 +172,8 @@ INNER JOIN documento_identidad d
 INNER JOIN vehiculos v 
     ON v.id = r.id_vehiculo
 
-WHERE re.id_estado_reservas = 6;
+WHERE re.id_estado_reservas = 6
+AND r.fecha = CURRENT_DATE;;
          ");
         return $datos->getResultArray();
     }

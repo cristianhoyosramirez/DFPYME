@@ -8,19 +8,17 @@ class ReservasController extends BaseController
 {
     public function index()
     {
-        $numero_apertura = model('aperturaRegistroModel')
-            ->select('numero')
-            ->first();
+       
 
-        if (!empty($numero_apertura['numero'])) {
+        //if (!empty($numero_apertura['numero'])) {
 
             $reservas = model('reservasModel')
-                ->getResrvasHabitaicones($numero_apertura['numero']);
+                ->getResrvasHabitaicones(date('Y-m-d'),date('Y-m-d'));
 
             return view('reservas/reservas', [
                 'reservas' => $reservas
             ]);
-        }
+        //}
 
         return view('reservas/error');
     }
