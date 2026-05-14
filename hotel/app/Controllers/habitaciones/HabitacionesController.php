@@ -188,9 +188,15 @@ class HabitacionesController extends BaseController
 
         $data = $this->request->getJSON();
         $id_habitacion = $data->id_habitacion;
+        //$id_habitacion = 1;
         $fecha = $data->fecha;
+        //$fecha = '2026-05-13';
         $observaciones = $data->observaciones;
+        //$observaciones = "";
         $vehiculo = $data->vehiculo;
+        //$vehiculo = "Tracto mula";
+
+    
 
         $numero_apertura = model('aperturaRegistroModel')->select('numero')->first();
 
@@ -214,7 +220,7 @@ class HabitacionesController extends BaseController
                 //model('mesasModel')->update($id_mesa['id_mesa'], ['id_estado' => 2]);
                 model('mesasModel')->set('id_estado', 2)->where('id', $id_mesa['id_mesa'])->update();
                 // $habitaciones = model('habitacionesModel')->getHabitaciones();
-                $reservas = model('reservasModel')->getResrvasHabitaicones();
+                $reservas = model('reservasModel')->getResrvasHabitaicones(date('Y-m-d'),date('Y-m-d'));
                 return $this->response->setJSON([
                     'success' => true,
                     'reservas' => view('reservas/tablaReservas', [
@@ -226,7 +232,7 @@ class HabitacionesController extends BaseController
 
             return $this->response->setJSON([
                 'success' => false,
-                
+
             ]);
         }
     }
@@ -278,7 +284,7 @@ class HabitacionesController extends BaseController
             'origen' => $datos_reserva[0]['origen'],
             'destino' => $datos_reserva[0]['destino'],
             'telefono' => $datos_reserva[0]['telefono'],
-           'hora_salida' => date('h:i A', strtotime($datos_reserva[0]['hora_salida'])),
+            'hora_salida' => date('h:i A', strtotime($datos_reserva[0]['hora_salida'])),
 
             'numero_reserva' => "Reserva N° " . $id_reserva
         ]);
@@ -321,7 +327,7 @@ class HabitacionesController extends BaseController
 
             $reservaModel = model('registroHoteleroModel'); // Asegúrate de tener este modelo
 
-            $actualizarCliente=model('habitacionesModel')->updateCliente($telefono, $id_cliente);
+            $actualizarCliente = model('habitacionesModel')->updateCliente($telefono, $id_cliente);
 
 
             try {
@@ -375,7 +381,7 @@ class HabitacionesController extends BaseController
                     $id_reserva
                 );
 
-                $reservas = model('reservasModel')->getResrvasHabitaicones();
+                $reservas = model('reservasModel')->getResrvasHabitaicones(date('Y-m-d'),date('Y-m-d'));
                 return $this->response->setJSON([
                     'success' => true,
                     'id_reserva' => $id_reserva,
