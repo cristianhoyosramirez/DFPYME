@@ -446,6 +446,8 @@ Ventas
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/f_e.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/imprimir_electronica.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/impreasion_factura_electronica.js"></script>
+<script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/pago_transaccion.js"></script>
+<script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/cambio_transaccion.js"></script>
 
 <!-- Modal -->
 <div class="modal fade" id="edicionFactura" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -490,6 +492,435 @@ Ventas
 
 <?php $ip = model('configuracionPedidoModel')->select('ip')->first(); ?>
 <input type="text" class="form-control" value="<?php echo $ip['ip']; ?>" hidden id="ip">
+
+
+
+
+<div class="modal fade" id="finalizar_venta" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="modal-title">Realizar abono</h5>
+                        </div>
+                        <div class="col-12">
+                            <div id="mensaje_factura"></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="cancelar_pagar()"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row row-cards">
+
+                    <div class="col-md-6 col-lg-6">
+                        <?= $this->include('cartera/datos_factura_credito') ?>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6">
+                        <div class="card shadow-sm border-0 w-100 h-100">
+
+                            <div class="card-header bg-dark text-white">
+                                <h5 class="mb-0">Información de pago </h5>
+                            </div>
+
+                            <div class="card-body">
+
+                                <form>
+
+                                    <!-- TOTAL -->
+                                    <div class="mb-4 text-center">
+                                        <h1 id="total_pedido" class="fw-bold text-success mb-1"></h1>
+                                        <p id="valor_pago_error" class="text-danger fw-bold mb-0"></p>
+                                    </div>
+
+                                    <input type="text" id="valor_total_a_pagar" hidden>
+                                    <input type="text" id="id_factura_a_pagar" hidden>
+                                    <input type="text" id="estado_factura_a_pagar" hidden>
+                                    <!-- METODOS DE PAGO -->
+                                    <div class="row g-3 mb-4">
+
+                                        <!-- EFECTIVO -->
+                                        <div class="col-md-6">
+
+                                            <input
+                                                type="radio"
+                                                class="btn-check"
+                                                name="form-payment"
+                                                id="radio_efectivo"
+                                                checked
+                                                autocomplete="off">
+                                            <label
+                                                class="btn btn-outline-success w-100 p-3 text-start text-dark"
+                                                for="radio_efectivo"
+                                                onclick="pago_efectivo()">
+
+                                                <div class="fw-bold mb-2 text-dark">
+                                                    💵 Efectivo
+                                                </div>
+
+                                                <div class="form-floating">
+
+                                                    <input
+                                                        type="text"
+                                                        class="form-control text-dark"
+                                                        id="efectivo"
+                                                        value="0"
+                                                        autocomplete="off"
+                                                        onkeyup="formatearMiles(this); cambio(this.value)"
+                                                        style="color:#000 !important;">
+
+                                                    <label
+                                                        for="efectivo"
+                                                        class="text-dark"
+                                                        style="color:#000 !important;">
+                                                        Valor efectivo
+                                                    </label>
+
+                                                </div>
+
+                                            </label>
+
+                                        </div>
+
+                                        <!-- BANCO -->
+                                        <div class="col-md-6">
+
+                                            <input
+                                                type="radio"
+                                                class="btn-check"
+                                                name="form-payment"
+                                                id="radio_transaccion"
+                                                autocomplete="off">
+                                            <label
+                                                class="btn btn-outline-primary w-100 p-3 text-start text-dark"
+                                                for="radio_transaccion"
+                                                onclick="pago_transaccion()">
+
+                                                <div class="fw-bold mb-2 text-dark">
+                                                    🏦 Banco
+                                                </div>
+
+                                                <div class="form-floating">
+
+                                                    <input
+                                                        type="text"
+                                                        class="form-control text-dark"
+                                                        id="transaccion"
+                                                        value="0"
+                                                        autocomplete="off"
+                                                        onkeyup="formatearMiles(this); cambio_transaccion(this.value)"
+                                                        style="color:#000 !important;">
+
+                                                    <label
+                                                        for="transaccion"
+                                                        class="text-dark"
+                                                        style="color:#000 !important;">
+                                                        Valor banco
+                                                    </label>
+
+                                                </div>
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- SELECT BANCO -->
+                                    <div class="mb-4">
+
+                                        <label for="clase_pago" class="form-label fw-bold">
+                                            Banco
+                                        </label>
+
+                                        <?php
+                                        $clasePago = model('clasePagoModel')
+                                            ->where('estado', 'true')
+                                            ->orderBy('nombre', 'asc')
+                                            ->findAll();
+                                        ?>
+
+                                        <select
+                                            name="clase_pago"
+                                            id="clase_pago"
+                                            class="form-select"
+                                            onchange="limpiarErrorSelect()">
+
+                                            <option value="">
+                                                Seleccione un banco
+                                            </option>
+
+                                            <?php foreach ($clasePago as $detalleClasePago): ?>
+
+                                                <option
+                                                    value="<?= esc($detalleClasePago['id']) ?>"
+                                                    <?= (count($clasePago) === 1) ? 'selected' : '' ?>>
+
+                                                    <?= esc($detalleClasePago['nombre']) ?>
+
+                                                </option>
+
+                                            <?php endforeach ?>
+
+                                        </select>
+
+                                        <span class="text-danger" id="errorClasePago"></span>
+
+                                    </div>
+
+                                    <!-- RESUMEN -->
+                                    <div class="card border-0 shadow-sm mb-4">
+
+                                        <div class="card-body">
+
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span class="fw-bold">Valor pago</span>
+                                                <span id="pago" class="h5 mb-0">0</span>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span class="fw-bold">Faltante</span>
+                                                <span id="faltante" class="h5 mb-0 text-danger">0</span>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between">
+                                                <span class="fw-bold">Cambio</span>
+                                                <span id="cambio" class="h5 mb-0 text-success">0</span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- HIDDEN -->
+                                    <input type="hidden" id="tipo_pago" value="1">
+                                    <input type="hidden" id="requiere_factura_electronica">
+
+                                    <!-- BOTONES -->
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-success px-5"
+                                            id="btn_pagar"
+                                            onclick="pagar()">
+                                            Pagar
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger px-5"
+                                            onclick="cancelar_pagar()">
+                                            Cancelar
+                                        </button>
+
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/cambio.js"></script>
+<script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/pago_efectivo.js"></script>
+
+<script>
+    async function pagar() {
+
+        try {
+
+            Swal.fire({
+                title: 'Procesando pago...',
+                html: 'Espere un momento',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            let valor_efectivo =
+                document.getElementById("efectivo").value;
+
+            let id_factura =
+                document.getElementById("id_factura_a_pagar").value;
+
+            let id_estado =
+                document.getElementById("estado_factura_a_pagar").value;
+
+            let efectivoFormat =
+                valor_efectivo.replace(/[.]/g, "");
+
+            let valor_e =
+                efectivoFormat === "" ?
+                0 :
+                parseInt(efectivoFormat);
+
+            let valor_t =
+                document.getElementById("transaccion").value;
+
+            let valor_t_Format =
+                valor_t.replace(/[.]/g, "");
+
+            let transaccion =
+                valor_t_Format === "" ?
+                0 :
+                parseInt(valor_t_Format);
+
+            let clase_pago =
+                document.getElementById("clase_pago").value;
+
+            let id_usuario =
+                document.getElementById("id_usuario").value;
+
+            // VALIDAR BANCO
+            if (transaccion > 0 && clase_pago == "") {
+
+                Swal.close();
+
+                document.getElementById('errorClasePago')
+                    .innerHTML = "Debe seleccionar un banco";
+
+                return;
+            }
+
+            const response = await fetch(
+                "<?= base_url('consultas_y_reportes/abonar') ?>", {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        id_factura: id_factura,
+                        id_estado: id_estado,
+                        efectivo: valor_e,
+                        transaccion: transaccion,
+                        clase_pago: clase_pago,
+                        id_usuario: id_usuario
+
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            Swal.close();
+
+            if (result.success == true) {
+
+                $("#finalizar_venta").modal("hide");
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Correcto',
+                    text: result.message,
+                    timer: 1000,
+                    showConfirmButton: false
+                });
+
+            } else {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: result.message
+                });
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            Swal.close();
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al procesar el pago'
+            });
+
+        }
+
+    }
+</script>
+
+
+<script>
+    function formatearMiles(input) {
+
+        // Eliminar puntos y caracteres no numéricos
+        let valor = input.value.replace(/\./g, '').replace(/\D/g, '');
+
+        // Evitar vacío
+        if (valor === '') {
+            valor = 0;
+        }
+
+        // Formatear número
+        input.value = parseInt(valor).toLocaleString('es-CO');
+
+    }
+</script>
+
+<script>
+    async function ver_saldo(id_factura, id_estado) {
+        try {
+            const response = await fetch("<?= base_url('consultas_y_reportes/saldo_factura') ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id_factura: id_factura,
+                    id_estado: id_estado
+                })
+            });
+
+            const data = await response.json();
+
+
+
+            if (data.resultado == 1) {
+
+                document.getElementById('numero_de_factura').innerHTML = data.documento
+                document.getElementById('nombre_cliente').innerHTML = data.cliente
+                document.getElementById('fecha_factura').innerHTML = data.fecha
+                document.getElementById('total_factura').innerHTML = data.valor
+                document.getElementById('abonado').innerHTML = data.tota_pagado
+                document.getElementById('saldo_pendiente').innerHTML = data.saldo
+                document.getElementById('valor_total_a_pagar').value = data.pendiente_de_pago
+                document.getElementById('id_factura_a_pagar').value = data.id_factura
+                document.getElementById('estado_factura_a_pagar').value = data.id_estado
+
+                $("#finalizar_venta").modal("show");
+
+
+            } else {
+                alert("Error: " + data.message);
+            }
+
+        } catch (error) {
+            console.error("Error en la petición:", error);
+            alert("Ocurrió un error al consultar el saldo");
+        }
+    }
+</script>
+
+
+
 
 
 
@@ -588,6 +1019,7 @@ Ventas
 
     }
 </script>
+
 <script>
     function cerrarModalTrasmision() {
 

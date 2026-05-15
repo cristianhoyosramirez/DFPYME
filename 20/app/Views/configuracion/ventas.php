@@ -389,96 +389,77 @@ Reporte de costos
         var url = document.getElementById("url").value;
         var fecha_inicial = document.getElementById("fecha_inicial").value;
         var fecha_final = document.getElementById("fecha_final").value;
-        var periodo = document.getElementById("periodo").value;
-        $('#reporte_ventas').DataTable().destroy();
 
-        if (periodo == "") {
-            $('#error_buscar').html('Debe seleccionar un criterio de busqueda')
-        } else if (periodo != "") {
+        // 🔥 Mostrar spinner con SweetAlert
+        Swal.fire({
+            title: 'Cargando...',
+            text: 'Procesando información',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
-            /*     // Validación de fechas no vacías
-                if (fecha_inicial === '' || fecha_final === '') {
-                    $('#error_fecha').html('Ingresa ambas fechas ')
-                    return;
-                } */
-
-            /*   $.ajax({
-                  url: url + "/" + "reportes/datos_reportes_ventas",
-                  type: "POST",
-                  data: {
-                      fecha_inicial,
-                      fecha_final
-                  },
-                  success: function(resultado) {
-                      var resultado = JSON.parse(resultado);
-                      if (resultado.resultado == 1) {
-                          $('#datos_costos').html(resultado.datos);
-                          $('#no_hay_datos').html('');
-                          $('#inicial').val(resultado.fecha_inicial);
-                          $('#final').val(resultado.fecha_final);
-                      }
-                      if (resultado.resultado == 0) {
-                          $('#no_hay_datos').html('!No hay datos para el rango de fecha solicitado¡');
-                      }
-                  },
-              }); */
-
-            $('#reporte_ventas').DataTable({
-                serverSide: true,
-                processing: true,
-                searching: false,
-                order: [
-                    [0, 'desc']
-                ],
-                language: {
-                    decimal: "",
-                    emptyTable: "No hay datos",
-                    info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                    infoEmpty: "Mostrando 0 a 0 de 0 registros",
-                    infoFiltered: "(Filtro de _MAX_ total registros)",
-                    infoPostFix: "",
-                    thousands: ",",
-                    lengthMenu: "Mostrar _MENU_ registros",
-                    loadingRecords: "Cargando...",
-                    processing: "Procesando...",
-                    search: "Buscar",
-                    zeroRecords: "No se encontraron coincidencias",
-                    paginate: {
-                        first: "Primero",
-                        last: "Ultimo",
-                        next: "Próximo",
-                        previous: "Anterior"
-                    },
-                    aria: {
-                        sortAscending: ": Activar orden de columna ascendente",
-                        sortDescending: ": Activar orden de columna desendente"
-                    }
-                },
-                ajax: {
-                    url: '<?php echo base_url() ?>' + "/reportes/reporte_de_ventas_fecha",
-                    data: function(d) {
-                        return $.extend({}, d, {
-                            // documento: documento,
-                            fecha_inicial: fecha_inicial,
-                            fecha_final: fecha_final
-                        });
-                    },
-                    dataSrc: function(json) {
-                        /* $('#saldo_total').html(json.total);
-                        $('#saldo_cliente').html(json.saldo);
-                        $('#pagos_factura').html(json.pagos); */
-                        $('#impuestos').html(json.impuestos);
-                        return json.data;
-                    }
-                },
-                columnDefs: [{
-                    targets: [4],
-                    orderable: false
-                }]
-            })
+        // Destruir tabla si ya existe
+        if ($.fn.DataTable.isDataTable('#reporte_ventas')) {
+            $('#reporte_ventas').DataTable().destroy();
         }
+
+        $('#reporte_ventas').DataTable({
+            serverSide: true,
+            processing: true,
+            searching: false,
+            order: [
+                [0, 'desc']
+            ],
+            language: {
+                decimal: "",
+                emptyTable: "No hay datos",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                infoFiltered: "(Filtro de _MAX_ total registros)",
+                thousands: ",",
+                lengthMenu: "Mostrar _MENU_ registros",
+                loadingRecords: "Cargando...",
+                processing: "Procesando...",
+                zeroRecords: "No se encontraron coincidencias",
+                paginate: {
+                    first: "Primero",
+                    last: "Ultimo",
+                    next: "Próximo",
+                    previous: "Anterior"
+                }
+            },
+            ajax: {
+                url: '<?php echo base_url() ?>' + "/reportes/reporte_de_ventas_fecha",
+                data: function(d) {
+                    return $.extend({}, d, {
+                        fecha_inicial: fecha_inicial,
+                        fecha_final: fecha_final
+                    });
+                },
+                dataSrc: function(json) {
+                    $('#impuestos').html(json.impuestos);
+                    return json.data;
+                },
+                complete: function() {
+                    // 🔥 Cerrar spinner cuando termine
+                    Swal.close();
+                },
+                error: function() {
+                    Swal.fire('Error', 'No se pudo cargar la información', 'error');
+                }
+            },
+            columnDefs: [{
+                targets: [4],
+                orderable: false
+            }],
+            initComplete: function() {
+                // 🔥 Seguridad extra por si acaso
+                Swal.close();
+            }
+        });
     }
 </script>
-
 
 <?= $this->endSection('content') ?>

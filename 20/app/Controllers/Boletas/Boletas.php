@@ -911,7 +911,8 @@ class Boletas extends BaseController
                     id_estado,
                     id_factura,
                     saldo,
-                    hora
+                    hora,
+                    forma_pago
                 FROM
                     pagos 
                 where
@@ -940,6 +941,8 @@ class Boletas extends BaseController
 
         $data = [];
         $accion = new data_table();
+
+
 
         foreach ($datos as $detalle) {
             $sub_array = array();
@@ -983,6 +986,14 @@ class Boletas extends BaseController
 
 
             $sub_array[] =  number_format($detalle['total_documento'], 0, ",", ".");
+            $forma_pago = "";
+            if ($detalle['forma_pago'] == 1) {
+                $forma_pago = "Contado";
+            }
+            if ($detalle['forma_pago'] == 2) {
+                $forma_pago = "Credito";
+            }
+            $sub_array[] = $forma_pago;
             $sub_array[] = $detalle['saldo'];
             $tipo_documento = model('estadoModel')->select('descripcionestado')->where('idestado', $detalle['id_estado'])->first();
 
@@ -991,7 +1002,7 @@ class Boletas extends BaseController
             $sub_array[] = $mesa;
 
 
-            $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura']);
+            $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura'], $detalle['saldo']);
 
             $sub_array[] = $acciones;
 
@@ -1215,7 +1226,7 @@ WHERE pagos.id_apertura = $apertura
 
             $sub_array[] = $detalle['mesa'];
 
-            $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura'],$detalle['saldo']);
+            $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura'], $detalle['saldo']);
             $sub_array[] = $acciones;
 
             $data[] = $sub_array;
@@ -1505,6 +1516,7 @@ WHERE pagos.id_apertura = $apertura
         $data = [];
 
 
+
         $accion = new data_table();
         foreach ($datos as $detalle) {
             $sub_array = array();
@@ -1522,13 +1534,23 @@ WHERE pagos.id_apertura = $apertura
             $sub_array[] = $detalle['nit_cliente'];
             $sub_array[] =  $nombre_cliente['nombrescliente'];
             $sub_array[] = $detalle['documento'];
+
+            if ($detalle['forma_pago'] == 1) {
+                $sub_array[] = "Contado";
+            }
+
+            if ($detalle['forma_pago'] == 2) {
+                $sub_array[] = "Crédito";
+            }
+
+
             $sub_array[] =  number_format($detalle['total_documento'], 0, ",", ".");
             $sub_array[] =  number_format($detalle['saldo'], 0, ",", ".");
             $documento = model('estadoModel')->select('descripcionestado')->where('idestado', $detalle['id_estado'])->first();
 
             $sub_array[] = $documento['descripcionestado'];
             $sub_array[] = $mesa;
-            $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura']);
+            $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura'], $detalle['saldo']);
 
             $sub_array[] = $acciones;
 

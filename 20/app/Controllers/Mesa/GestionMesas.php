@@ -57,6 +57,20 @@ class GestionMesas extends BaseController
         }
     }
 
+    public function eliminarMesa()
+    {
+        $json = $this->request->getJSON();
+
+
+
+        // $id = (int) $json->id;
+        $id = 2;
+
+        $delete = model('mesasModel')->delete($id);
+
+     
+    }
+
     function edicionMesa()
     {
 

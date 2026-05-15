@@ -27,7 +27,7 @@ LISTADO DE MESAS
     </div>
 
     <div class="col-lg-auto ms-lg-auto">
-      <p class="text-primary h3">LISTA GENERAL DE MESAS  </p>
+      <p class="text-primary h3">LISTA GENERAL DE MESAS </p>
     </div>
     <div class="col-12 col-lg-auto mt-3 mt-lg-0">
       <a class="nav-link"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" onClick="history.go(-1);" title="Sección anterior"></a>
@@ -40,38 +40,159 @@ LISTADO DE MESAS
     <div class="card">
       <div class="card-body">
         <div class="table-responsive">
-          <table id="mesas" class="table  table-hover">
-            <thead class="table-dark">
-              <tr>
-                <td>Salon</td>
-                <td>Nombre mesa</td>
-                <td></td>
-                <td>Acciones</td>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($mesas as $detalle) { ?>
-                <tr>
-                  <td><?php echo $detalle['nombre_salon'] ?></td>
-                  <td><?php echo $detalle['nombre_mesas'] ?></td>
-                  <td></td>
-                  <td>
-                    <div class="breadcrumb m-0">
-                      <form action="<?= base_url('mesas/editar') ?>" method="POST">
-                        <input type="hidden" value="<?php echo $detalle['id'] ?>" name="id">
-                        <button type="submit" class="btn btn-primary">Editar</button>
-                      </form> &nbsp;
-                    </div>
-                  </td>
-                </tr>
-              <?php } ?>
-            </tbody>
-          </table>
+
+          <?php
+          $salon_actual = '';
+
+          foreach ($mesas as $detalle) {
+
+            // Cuando cambia el salón
+            if ($salon_actual != $detalle['nombre_salon']) {
+
+              // Cierra tabla anterior
+              if ($salon_actual != '') {
+                echo '</tbody></table><br>';
+              }
+
+              $salon_actual = $detalle['nombre_salon'];
+          ?>
+
+              <div class="card mb-3">
+
+                <div class="card-header bg-dark text-white">
+                  <h5 class="m-0">
+                    <?= $detalle['nombre_salon'] ?>
+                  </h5>
+                </div>
+
+                <table class="table table-hover m-0">
+
+                  <thead class="table-light">
+                    <tr>
+                      <th>Mesa</th>
+                      <th width="250">Acciones</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                  <?php } ?>
+
+                  <tr>
+
+                    <td>
+                      <?= $detalle['nombre_mesas'] ?>
+                    </td>
+
+                    <td>
+                      <div class="d-flex">
+
+                        <form action="<?= base_url('mesas/editar') ?>" method="POST">
+
+                          <input type="hidden"
+                            value="<?= $detalle['id'] ?>"
+                            name="id">
+
+                          <button type="submit"
+                            class="btn btn-primary ">
+
+                            Editar
+                          </button>
+                        </form>
+
+                        &nbsp;
+
+                        <button type="submit"
+                          class="btn btn-danger " onclick="eliminarMesa(<?= $detalle['id'] ?>)">
+                          Eliminar
+                        </button>
+
+
+                      </div>
+                    </td>
+
+                  </tr>
+
+                <?php } ?>
+
+                  </tbody>
+                </table>
+
+              </div>
+
         </div>
       </div>
     </div>
   </div>
 </div>
 </div>
+
+
+<script>
+  async function eliminarMesa(id) {
+
+    const confirmar = await Swal.fire({
+        title: '¿Eliminar mesa?',
+        text: 'Esta acción no se puede deshacer',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    });
+
+    if (!confirmar.isConfirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch("<?= base_url('mesas/eliminarMesa') ?>", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            await Swal.fire({
+                icon: 'success',
+                title: 'Mesa eliminada correctamente',
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            location.reload();
+
+        } else {
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: data.message
+            });
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Error del sistema',
+            text: 'No fue posible eliminar la mesa'
+        });
+
+    }
+}
+</script>
+
+
 <?= $this->endSection('content') ?>
 <!-- end row -->

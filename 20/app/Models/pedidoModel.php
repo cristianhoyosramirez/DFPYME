@@ -133,4 +133,43 @@ class pedidoModel extends Model
             return false; // ❌ Error
         }
     }
+
+
+
+    public function existeTabla()
+    {
+        $query = $this->db->query("
+        SELECT EXISTS (
+            SELECT 1
+            FROM information_schema.tables
+            WHERE table_name = 'reservas'
+        ) AS existe
+    ");
+
+        return $query->getRow()->existe;
+    }
+
+    public function actualizarEstadoReserva($id_reserva)
+    {
+        return $this->db->table('reservas')
+            ->where('id', $id_reserva)
+            ->update([
+                'id_estado_reservas' => 7
+            ]);
+    }
+
+
+    public function existeCampoReserva()
+    {
+        $query = $this->db->query("
+        SELECT EXISTS (
+            SELECT 1
+            FROM information_schema.columns
+            WHERE table_name = 'pedido'
+            AND column_name = 'id_reserva'
+        ) AS existe
+    ");
+
+        return $query->getRow()->existe;
+    }
 }

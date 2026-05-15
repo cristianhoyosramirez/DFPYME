@@ -1,4 +1,4 @@
-function pago_efectivo() {
+function pago_transaccion() {
     var tipo_pago = document.getElementById("tipo_pago").value;
     let total_venta = parseFloat(document.getElementById("valor_total_a_pagar").value);
     /*  let propina_parcial = document.getElementById("total_propina").value;
@@ -15,22 +15,25 @@ function pago_efectivo() {
 
     }
 
+    //console.log(tipo_pago)
+
     if (tipo_pago == 1) {
-        $('#efectivo').val(total_venta.toLocaleString('es-CO'))
+        $('#transaccion').val(total_venta.toLocaleString('es-CO'))
+        $('#efectivo').val(0)
         $('#pago').html('Valor pago: ' + total_venta.toLocaleString('es-CO'))
-        $('#faltante').html('Faltante: 0')
+        $('#faltante').html('Faltante: 0 ')
         $('#cambio').html('Cambio: 0')
-        $('#transaccion').val(0)
     }
 
+
     if (tipo_pago == 0) {
-        // Asegúrate de convertir total_propina a número antes de sumarlo
         //let total = total_venta + parseFloat(total_propina);
         let total = total_venta;
-        $('#efectivo').val(total.toLocaleString('es-CO'))
-        $('#pago').html('valor pago: ' + total.toLocaleString('es-CO'))
+        $('#transaccion').val(total.toLocaleString('es-CO'))
+        $('#pago').html('Valor pago: ' + total.toLocaleString('es-CO'))
         $('#faltante').html('Faltante: 0')
         $('#cambio').html('Cambio: 0')
-        $('#transaccion').val(0)
+        $('#efectivo').val(0)
     }
+
 }

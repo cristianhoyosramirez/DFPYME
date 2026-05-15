@@ -11,7 +11,7 @@ class facturaFormaPagoModel extends Model
     // protected $primaryKey = 'id';
     protected $allowedFields = [
         'numerofactura_venta', 'idusuario', 'idcaja', 'idforma_pago', 'fechafactura_forma_pago', 'hora', 'valorfactura_forma_pago', 'idturno', 'valor_pago', 'id_factura',
-        'fecha_y_hora_forma_pago'
+        'fecha_y_hora_forma_pago','id_estado','id_clase_pago'
     ];
     public function id_forma_pago($id_factura)
     {

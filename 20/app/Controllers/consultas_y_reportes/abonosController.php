@@ -22,21 +22,38 @@ class AbonosController extends BaseController
 {
     public function saldo_factura()
     {
+        $data = $this->request->getJSON(true);
 
-        $id_factura = $this->request->getPost('id_factura');
-        //$tipo_factura = model('pagosModel')->select('id_estado')->where('id', $id_factura)->first();
-        $saldo = model('pagosModel')->select('saldo')->where('id_factura', $id_factura)->first();
-        $valor = model('pagosModel')->select('valor')->where('id_factura', $id_factura)->first();
-        $documento = model('pagosModel')->select('documento')->where('id_factura', $id_factura)->first();
+        $id_factura = $data['id_factura'] ?? null;
+        $id_estado  = $data['id_estado'] ?? null;
 
-        $returnData = array(
-            "saldo" => number_format($saldo['saldo'], 0, ",", "."),
-            "valor_factura" => number_format($valor['valor'], 0, ",", "."),
-            "numero_factura" => $documento['documento'],
-            "id_factura" => $id_factura,
+        /*     $pago = model('pagosModel')
+            ->select('saldo, valor, documento,fecha')
+            ->where('id_factura', $id_factura)
+            ->where('id_estado', $id_estado)
+            ->first(); */
+
+
+        $pago = model('pagosModel')->getSaldoFactura($id_factura, $id_estado);
+
+
+        $totalPagado = model('FacturaFormaPagoModel')
+            ->select('COALESCE(SUM(valor_pago), 0) AS total_pagado')
+            ->where('id_factura', 195)
+            ->first()['total_pagado'];
+
+        return $this->response->setJSON([
             "resultado" => 1,
-        );
-        echo  json_encode($returnData);
+            "saldo"     => number_format($pago[0]['saldo'] ?? 0, 0, ",", "."),
+            "valor"     => number_format($pago[0]['total_documento'] ?? 0, 0, ",", "."),
+            "documento" => $pago[0]['documento'] ?? '',
+            'fecha'     => $pago[0]['fecha'] ?? '',
+            'cliente'     => $pago[0]['nombrescliente'] ?? '',
+            'tota_pagado' => number_format($totalPagado ?? 0, 0, ",", "."),
+            'pendiente_de_pago' => $pago[0]['saldo'],
+            'id_factura' => $id_factura,
+            'id_estado' => $id_estado
+        ]);
     }
 
     function actualizar_saldo()
@@ -568,7 +585,7 @@ class AbonosController extends BaseController
         $inventario = model('inventarioModel')->inventario();
         $productos = model('productoModel')->ProductoInventario();
 
-    
+
         return view('inventarios/cruceInventarios', [
             'conteo_manual' => $conteo_manual,
             'inventario_sistema' => $inventario,
@@ -1179,7 +1196,8 @@ class AbonosController extends BaseController
         exit;
     }
 
-    function closeModal(){
+    function closeModal()
+    {
 
         $conteo_manual = model('inventarioModel')->cruce_inventario();
         $inventario = model('inventarioModel')->inventario();
@@ -1187,12 +1205,95 @@ class AbonosController extends BaseController
 
         return $this->response->setJSON([
             'success' => true,
-            'productos'=>view('ventas/ingresoInventario',[
+            'productos' => view('ventas/ingresoInventario', [
                 'conteo_manual' => $conteo_manual,
-            'inventario_sistema' => $inventario,
-            'productos' => $productos
+                'inventario_sistema' => $inventario,
+                'productos' => $productos
             ])
         ]);
-        
+    }
+    public function abonar()
+    {
+        $request = service('request');
+        $data = $request->getJSON(true);
+
+        $id_factura  = $data['id_factura'] ?? null;
+        $id_estado   = $data['id_estado'] ?? null;
+        $efectivo    = (float) ($data['efectivo'] ?? 0);
+        $transaccion = (float) ($data['transaccion'] ?? 0);
+        $clase_pago  = $data['clase_pago'] ?? null;
+        $id_usuario  = $data['id_usuario'] ?? null;
+
+        $modelPago = model('pagosModel');
+        $modelForma = model('facturaFormaPagoModel');
+
+        $datos_factura = $modelPago
+            ->select('saldo, documento')
+            ->where('id_factura', $id_factura)
+            ->where('id_estado', $id_estado)
+            ->first();
+
+        if (!$datos_factura) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Factura no encontrada'
+            ]);
+        }
+
+        $saldoActual = (float) $datos_factura['saldo'];
+
+        $totalPagado = 0;
+
+        if ($efectivo > 0) {
+            $modelForma->insert([
+                'numerofactura_venta' => $datos_factura['documento'],
+                'idusuario' => $id_usuario,
+                'idcaja' => 1,
+                'idforma_pago' => 1,
+                'fechafactura_forma_pago' => date('Y-m-d'),
+                'hora' => date('H:i:s'),
+                'valorfactura_forma_pago' => $saldoActual,
+                'idturno' => 1,
+                'valor_pago' => $efectivo,
+                'id_factura' => $id_factura,
+                'fecha_y_hora_forma_pago' => date('Y-m-d H:i:s'),
+                'id_estado' => $id_estado,
+                'id_clase_pago' => 0
+            ]);
+
+            $totalPagado += $efectivo;
+        }
+
+        if ($transaccion > 0) {
+            $modelForma->insert([
+                'numerofactura_venta' => $datos_factura['documento'],
+                'idusuario' => $id_usuario,
+                'idcaja' => 1,
+                'idforma_pago' => 4,
+                'fechafactura_forma_pago' => date('Y-m-d'),
+                'hora' => date('H:i:s'),
+                'valorfactura_forma_pago' => $saldoActual,
+                'idturno' => 1,
+                'valor_pago' => $transaccion,
+                'id_factura' => $id_factura,
+                'fecha_y_hora_forma_pago' => date('Y-m-d H:i:s'),
+                'id_estado' => $id_estado,
+                'id_clase_pago' => $clase_pago
+            ]);
+
+            $totalPagado += $transaccion;
+        }
+
+        $nuevoSaldo = $saldoActual - $totalPagado;
+
+        $modelPago->set('saldo', $nuevoSaldo)
+            ->where('id_factura', $id_factura)
+            ->where('id_estado', $id_estado)
+            ->update();
+
+        return $this->response->setJSON([
+            'success' => true,
+            'nuevo_saldo' => $nuevoSaldo
+        ]);
     }
 }

@@ -63,7 +63,7 @@ DFpyme
 
 
                                         <button type="submit" class="btn btn-outline-success" onclick="actualizar_estados(<?php echo $detalle['idestado'] ?>)">Actualizar</button>
-                                        <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                                        
 
 
                                     </td>

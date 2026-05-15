@@ -543,16 +543,16 @@ class ReportesController extends BaseController
 
             $sub_array[] = "FE";
             $sub_array[] = $mesa;
+            $sub_array[] = $mesa;
 
 
-            $acciones = $accion->row_data_table(8, $detalle['id']);
+            $acciones = $accion->row_data_table(8, $detalle['id'],$saldo[0]['saldo']);
 
             $sub_array[] = $acciones;
 
 
             $data[] = $sub_array;
         }
-
 
         $total_venta = model('facturaElectronicaModel')->selectSum('neto')->where('id_status', $estado_dian)->findAll();
 

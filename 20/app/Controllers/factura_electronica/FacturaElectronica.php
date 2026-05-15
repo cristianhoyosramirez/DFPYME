@@ -34,10 +34,20 @@ class FacturaElectronica extends BaseController
             $clase_pago = 0;
         }
 
+        $existeCampo = model('pedidoModel')->existeCampoReserva();
+        
 
+         $id_mesa = $this->request->getPost('id_mesa');
 
+         $temp_id_reserva="";
 
-        $id_mesa = $this->request->getPost('id_mesa');
+        if ($existeCampo=="t") {
+            $temp_id_reserva=model('pedidoModel')->select('id_reserva')->where('fk_mesa',$id_mesa)->first();
+
+        }
+
+    
+       
         // $id_mesa = 6;
 
         //var_dump($this->request->getPost());
@@ -664,6 +674,17 @@ class FacturaElectronica extends BaseController
                     }
 
 
+
+                    $existe = model('pedidoModel')->existeTabla();
+
+                    if ($existe=="t") {
+
+                        $actualizar = model('pedidoModel')->actualizarEstadoReserva($temp_id_reserva);
+                    }
+
+
+
+
                     $returnData = array(
                         "resultado" => 1, //Falta plata
                         "total" => "$ " . number_format($valor_venta, 0, ",", "."),
@@ -811,7 +832,7 @@ class FacturaElectronica extends BaseController
                         }
 
 
-                        
+
 
                         if (!empty($movimientos_transaccion) && isset($movimientos_transaccion[0])) {
 

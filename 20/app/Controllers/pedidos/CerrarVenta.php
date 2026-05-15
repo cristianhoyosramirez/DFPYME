@@ -83,7 +83,7 @@ class CerrarVenta extends BaseController
             $tipo_pago = 1; */
 
         //var_dump($this->request->getPost()); exit();
-        $estado = $_POST['estado'];
+        $estado = $_POST['estado']; 
         //$estado=6;
 
         $forma_pago = $_POST['forma_pago'];
@@ -91,6 +91,10 @@ class CerrarVenta extends BaseController
         if ($estado != 6) {
             $efectivo = $_POST['efectivo'];
             $transaccion = $_POST['transaccion'];
+        }
+        if ($estado == 6) {
+            $efectivo = 0;
+            $transaccion = 0;
         }
         if ($forma_pago == 2) {  //ventas a credito 
             $efectivo = 0;
@@ -242,9 +246,14 @@ class CerrarVenta extends BaseController
 
 
 
+
+
+
+
                 $apertura = model('aperturaRegistroModel')->select('numero')->where('idcaja', 1)->first();
                 //$id_mesero = model('mesasModel')->select('id_mesero')->where('id', $id_mesa)->first();
                 $id_mesero = model('pedidoModel')->select('fk_usuario')->where('fk_mesa', $id_mesa)->first();
+
 
                 //Guardar la propina 
                 $data = [
@@ -260,6 +269,8 @@ class CerrarVenta extends BaseController
                 ];
 
                 $propina_factura = model('FacturaPropinaModel')->insert($data);
+
+
 
                 $consecutivo = ['numeroconsecutivo' => $numero_facturas['numeroconsecutivo'] + 1];
                 //$numero_factura = ['numero_factura' => $prefijo_factura['inicialestatica'] . "-" . $numero_facturas['numeroconsecutivo']];
@@ -403,7 +414,7 @@ class CerrarVenta extends BaseController
 
                 //if (empty($id_pedido['id_pedido'])) {
 
-           
+
 
                 $pagos = [
 
@@ -434,6 +445,7 @@ class CerrarVenta extends BaseController
                 ];
 
                 $pagos = model('pagosModel')->insert($pagos);
+                
                 //}
 
                 if ($tipo_pago == 1) {  // si el tipo de pago es 1 quiere decir que se factura el pedido completo 

@@ -98,6 +98,7 @@ $routes->group('mesas', ['namespace' => 'App\Controllers\Mesa', 'filter' => \App
     $routes->POST('eliminar', 'GestionMesas::eliminar');
     $routes->POST('edicionMesa', 'GestionMesas::edicionMesa');
     $routes->post('mesaPedido', 'GestionMesas::mesaPedido');
+    $routes->get('eliminarMesa', 'GestionMesas::eliminarMesa');
 });
 
 $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -457,6 +458,7 @@ $routes->group('consultas_y_reportes', ['namespace' => 'App\Controllers\consulta
     $routes->get('productos_inventario', 'AbonosController::productos_inventario');
     $routes->post('Inventario', 'AbonosController::Inventario');
     $routes->get('closeModal', 'AbonosController::closeModal');
+    $routes->post('abonar', 'AbonosController::abonar');
     
 });
 

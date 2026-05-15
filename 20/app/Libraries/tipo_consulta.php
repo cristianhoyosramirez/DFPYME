@@ -33,7 +33,8 @@ class tipo_consulta
                         id_estado,
                         id_factura,
                         saldo,
-                        hora
+                        hora,
+                        forma_pago
                     FROM
                         pagos
                     $where_clause";

@@ -26,7 +26,7 @@ class App extends BaseConfig
   # public $baseURL = 'http://localhost/dfpyme/';
 
 
-    public $baseURL = 'http://localhostS/dfpyme/';
+    public $baseURL = 'http://localhost/dfpyme/';
 
   /**
    * --------------------------------------------------------------------------
