@@ -74,6 +74,7 @@ $routes->group('habitaciones', ['namespace' => 'App\Controllers\habitaciones'], 
     $routes->post('buscarPlaca', 'HabitacionesController::buscarPlaca');
     $routes->post('nuevaReserva', 'HabitacionesController::nuevaReserva');
     $routes->post('datosReserva', 'HabitacionesController::datosReserva');
+    $routes->post('crearCliente', 'HabitacionesController::crearCliente');
 }); 
 
 /*

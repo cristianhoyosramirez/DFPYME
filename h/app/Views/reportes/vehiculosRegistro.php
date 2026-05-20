@@ -1,22 +1,38 @@
 <?php foreach ($vehiculos as $vehiculo): ?>
-    <tr>
-        <td><?= $vehiculo['tipo'] ?></td>
-        <td><?= $vehiculo['placa'] ?></td>
-        <td>
-            <!-- Editar -->
-            <button class="btn btn-warning btn-sm" title="Editar vehículo" onclick="editarVehiculo(<?= $vehiculo['id'] ?>)">
-                <i class="fas fa-edit"></i>
-            </button>
+                            <tr>
+                                <td>
 
-            <!-- Eliminar -->
-            <button class="btn btn-danger btn-sm" title="Eliminar vehículo" onclick="eliminarVehiculo(<?= $vehiculo['id'] ?>)">
-                <i class="fas fa-trash-alt"></i>
-            </button>
+                                    <select
+                                        class="form-select"
+                                        id="tipoDeVehiculo"
+                                        name="tipo"
+                                        onchange="actualizarTipoVehiculo(this.value, <?= $vehiculo['id'] ?>)"
+                                        required>
 
-            <!-- Ver detalles -->
-            <button class="btn btn-info btn-sm" title="Ver detalles del vehículo" onclick="verDetallesVehiculo(<?= $vehiculo['id'] ?>)">
-                <i class="fas fa-eye"></i>
-            </button>
-        </td>
-    </tr>
-<?php endforeach ?>
+                                        <?php foreach ($tipo_vehiculos as $tipoVehiculo): ?>
+
+                                            <option value="<?= $tipoVehiculo['tipo'] ?>"
+                                                <?= ($vehiculo['tipo'] == $tipoVehiculo['tipo']) ? 'selected' : '' ?>>
+
+                                                <?= $tipoVehiculo['tipo'] ?>
+
+                                            </option>
+
+                                        <?php endforeach; ?>
+
+                                    </select>
+
+                                </td>
+                                <td><input
+                                        type="text"
+                                        class="form-control"
+                                        id="placaDelVehiculo"
+                                        name="placa"
+                                        value="<?= $vehiculo['placa'] ?>"
+                                        placeholder="Ej: ABC-123"
+                                        required
+                                        oninput="this.value = this.value.toUpperCase()"
+                                        onchange="actualizarPlaca(this.value, <?= $vehiculo['id'] ?>)"></td>
+
+                            </tr>
+                        <?php endforeach ?>

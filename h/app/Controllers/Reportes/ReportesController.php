@@ -25,8 +25,11 @@ class ReportesController extends BaseController
     {
         $vehiculos = model('vehiculosModel')->findAll();
         //dd($facturas);
+
+        $tipo_vehiculos=model('tipoVehiculoModel')->findAll();
         return view('reportes/vehiculos', [
-            'vehiculos' => $vehiculos
+            'vehiculos' => $vehiculos,
+            'tipo_vehiculos'=>$tipo_vehiculos
         ]);
     }
     public function registro()

@@ -46,6 +46,25 @@
 <?= $this->include('reservas/modalConfirmarIngreso'); ?>
 <?= $this->include('habitaciones/modalNuevaReserva'); ?>
 
+<!-- Modal -->
+<div class="modal fade" id="crearCliente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="modalEditarReserva" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -173,7 +192,7 @@
                             <!-- Huésped -->
                             <div class="col-12 col-md-3">
                                 <label class="form-label fw-semibold small">
-                                    Hora de salida 
+                                    Hora de salida
                                 </label>
 
                                 <div class="input-group">
@@ -315,36 +334,176 @@
 </div>
 
 <script>
+    function modalCliente() {
 
-    function limpiarReserva() {
-        
+        const modalBootstrap = bootstrap.Modal.getInstance(
+            document.getElementById('confirmar_reserva')
+        );
 
-        document.getElementById('id_de_habitacion').value="";
-        document.getElementById('id_habitacion_reserva').value="";
-        document.getElementById('id_cliente').value="";
-        document.getElementById('id_reserva_edicion').value="";
-        document.getElementById('nombre_completo').value="";
-        document.getElementById('telefono_cliente').value="";
-        document.getElementById('id_placa').value="";
-        document.getElementById('placavehiculo').value="";
-        document.getElementById('id_procedencia').value="";
-        document.getElementById('procedencia').value="";
-        document.getElementById('id_procedenciaError').value="";
-        document.getElementById('id_destino').value="";
-        document.getElementById('destino').value="";
-        document.getElementById('hora_salida').value="";
-        document.getElementById('notas_reserva').value="";
+        modalBootstrap.hide();
 
-        document.getElementById('listaClientes').innerHTML="";
-        document.getElementById('id_clienteError').innerHTML="";
-        document.getElementById('id_placaError').innerHTML="";
-        document.getElementById('listaVehiculos').innerHTML="";
-        document.getElementById('listaMunicipiosProcedencia').innerHTML="";
-        document.getElementById('id_destinoError').innerHTML="";
-        document.getElementById('listaMunicipiosDestino').innerHTML="";
+        Swal.fire({
+
+            title: 'Crear cliente',
+
+            html: `
+                <input 
+                    type="text" 
+                    id="cedula" 
+                    class="swal2-input" 
+                    placeholder="Número de cédula">
+
+                <input 
+                    type="text" 
+                    id="nombres" 
+                    class="swal2-input" 
+                    placeholder="Nombres">
+
+                <input 
+                    type="text" 
+                    id="telefono" 
+                    class="swal2-input" 
+                    placeholder="Teléfono">
+            `,
+
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+            cancelButtonText: 'Cancelar',
+
+            preConfirm: () => {
+
+                const popup = Swal.getPopup();
+
+                const cedula = popup.querySelector('#cedula').value.trim();
+                const nombres = popup.querySelector('#nombres').value.trim();
+                const telefono = popup.querySelector('#telefono').value.trim();
+
+                if (cedula === '') {
+
+                    Swal.showValidationMessage(
+                        'Debe ingresar la cédula'
+                    );
+
+                    return false;
+                }
+
+                if (nombres === '') {
+
+                    Swal.showValidationMessage(
+                        'Debe ingresar los nombres'
+                    );
+
+                    return false;
+                }
+
+                if (telefono === '') {
+
+                    Swal.showValidationMessage(
+                        'Debe ingresar el teléfono'
+                    );
+
+                    return false;
+                }
+
+                return {
+
+                    cedula: cedula,
+                    nombres: nombres,
+                    telefono: telefono
+
+                };
+
+            }
+
+        }).then((result) => {
+
+            modalBootstrap.show();
+
+            if (result.isConfirmed) {
+
+                $.ajax({
+
+                    url: "<?= base_url('habitaciones/crearCliente') ?>",
+                    type: "POST",
+                    dataType: "json",
+                    data: result.value,
+
+                    success: function(response) {
+
+                        if (response.success==true) {
+
+                        document.getElementById('listaClientes').innerHTML="";
+                        document.getElementById('id_cliente').value=response.id_cliente;
+                        document.getElementById('nombre_completo').value=response.nombres;
+                        document.getElementById('telefono_cliente').value=response.telefono;
+
+                            Swal.fire(
+                                'Correcto',
+                                response.mensaje,
+                                'success'
+                            );
+
+                        } else {
+
+                            Swal.fire(
+                                'Correcto',
+                                response.mensaje,
+                                'error'
+                            );
+
+                        }
+
+                    },
+
+                    error: function() {
+
+                        Swal.fire(
+                            'Error',
+                            'Ocurrió un error',
+                            'error'
+                        );
+
+                    }
+
+                });
+
+            }
+
+        });
 
     }
+</script>
 
+<script>
+    function limpiarReserva() {
+
+
+        document.getElementById('id_de_habitacion').value = "";
+        document.getElementById('id_habitacion_reserva').value = "";
+        document.getElementById('id_cliente').value = "";
+        document.getElementById('id_reserva_edicion').value = "";
+        document.getElementById('nombre_completo').value = "";
+        document.getElementById('telefono_cliente').value = "";
+        document.getElementById('id_placa').value = "";
+        document.getElementById('placavehiculo').value = "";
+        document.getElementById('id_procedencia').value = "";
+        document.getElementById('procedencia').value = "";
+        document.getElementById('id_procedenciaError').value = "";
+        document.getElementById('id_destino').value = "";
+        document.getElementById('destino').value = "";
+        document.getElementById('hora_salida').value = "";
+        document.getElementById('notas_reserva').value = "";
+
+        document.getElementById('listaClientes').innerHTML = "";
+        document.getElementById('id_clienteError').innerHTML = "";
+        document.getElementById('id_placaError').innerHTML = "";
+        document.getElementById('listaVehiculos').innerHTML = "";
+        document.getElementById('listaMunicipiosProcedencia').innerHTML = "";
+        document.getElementById('id_destinoError').innerHTML = "";
+        document.getElementById('listaMunicipiosDestino').innerHTML = "";
+
+    }
 </script>
 
 <script>

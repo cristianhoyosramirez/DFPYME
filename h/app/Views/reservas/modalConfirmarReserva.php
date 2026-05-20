@@ -125,6 +125,13 @@
                                         <i class="fas fa-times"></i>
 
                                     </button>
+                                    <button type="button"
+                                        class="btn btn-outline-secondary"
+                                        onclick="modalCliente()" title="Crear cliente">
+
+                                       <i class="fas fa-plus-circle"></i>
+
+                                    </button>
 
                                 </div>
 

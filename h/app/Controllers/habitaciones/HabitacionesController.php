@@ -78,7 +78,7 @@ class HabitacionesController extends BaseController
         }
     }
 
-    public function crearVehiculo()
+    /*   public function crearVehiculo()
     {
         $input = $this->request->getJSON(true);
 
@@ -112,6 +112,65 @@ class HabitacionesController extends BaseController
                 ])
             ]);
         } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ]);
+        }
+    } */
+
+    public function crearVehiculo()
+    {
+        $input = $this->request->getJSON(true);
+
+        $tipo  = trim($input['tipo'] ?? '');
+        $placa = strtoupper(trim($input['placa'] ?? ''));
+
+        // Validación básica
+        if (empty($tipo) || empty($placa)) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Todos los campos son obligatorios'
+            ]);
+        }
+
+        try {
+
+            $vehiculosModel = model('VehiculosModel');
+
+            // Validar si ya existe la placa
+            $vehiculoExistente = $vehiculosModel
+                ->where('UPPER(placa)', $placa)
+                ->first();
+
+            if ($vehiculoExistente) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Ya existe un vehículo registrado con esa placa'
+                ]);
+            }
+
+            // Insertar vehículo
+            $id = $vehiculosModel->insert([
+                'tipo'  => $tipo,
+                'placa' => $placa
+            ]);
+
+            // Obtener lista actualizada
+            $vehiculos = $vehiculosModel
+                ->orderBy('id', 'DESC')
+                ->findAll();
+            $tipo_vehiculos = model('tipoVehiculoModel')->findAll();
+            return $this->response->setJSON([
+                'success'   => true,
+                'message'   => 'Vehículo creado correctamente',
+                'vehiculos' => view('reportes/vehiculosRegistro', [
+                    'vehiculos' => $vehiculos,
+                    'tipo_vehiculos' => $tipo_vehiculos
+                ])
+            ]);
+        } catch (\Exception $e) {
+
             return $this->response->setJSON([
                 'success' => false,
                 'message' => 'Error: ' . $e->getMessage()
@@ -196,7 +255,7 @@ class HabitacionesController extends BaseController
         $vehiculo = $data->vehiculo;
         //$vehiculo = "Tracto mula";
 
-    
+
 
         $numero_apertura = model('aperturaRegistroModel')->select('numero')->first();
 
@@ -220,7 +279,7 @@ class HabitacionesController extends BaseController
                 //model('mesasModel')->update($id_mesa['id_mesa'], ['id_estado' => 2]);
                 model('mesasModel')->set('id_estado', 2)->where('id', $id_mesa['id_mesa'])->update();
                 // $habitaciones = model('habitacionesModel')->getHabitaciones();
-                $reservas = model('reservasModel')->getResrvasHabitaicones(date('Y-m-d'),date('Y-m-d'));
+                $reservas = model('reservasModel')->getResrvasHabitaicones(date('Y-m-d'), date('Y-m-d'));
                 return $this->response->setJSON([
                     'success' => true,
                     'reservas' => view('reservas/tablaReservas', [
@@ -381,7 +440,7 @@ class HabitacionesController extends BaseController
                     $id_reserva
                 );
 
-                $reservas = model('reservasModel')->getResrvasHabitaicones(date('Y-m-d'),date('Y-m-d'));
+                $reservas = model('reservasModel')->getResrvasHabitaicones(date('Y-m-d'), date('Y-m-d'));
                 return $this->response->setJSON([
                     'success' => true,
                     'id_reserva' => $id_reserva,
@@ -496,4 +555,55 @@ class HabitacionesController extends BaseController
             ])
         ]);
     }
+
+    function crearCliente()
+{
+    $cedula   = trim($this->request->getPost('cedula'));
+    $nombres  = trim($this->request->getPost('nombres'));
+    $telefono = trim($this->request->getPost('telefono'));
+
+    // Validar si ya existe el cliente por NIT/Cédula
+    $clienteExiste = model('clientesModel')
+        ->where('nitcliente', $cedula)
+        ->first();
+
+    if ($clienteExiste) {
+
+        return $this->response->setJSON([
+            'success' => false,
+            'mensaje' => 'Ya existe un cliente con esta cédula o NIT'
+        ]);
+    }
+
+    $data = [
+        'nitcliente'       => $cedula,
+        'idregimen'        => 1,
+        'nombrescliente'   => $nombres,
+        'telefonocliente'  => $telefono,
+        'celularcliente'   => $telefono,
+        'emailcliente'     => "a@gmail.com",
+        'idciudad'         => 29,
+        'direccioncliente' => "Cañas gordas",
+        'estadocliente'    => true,
+        'idtipo_cliente'   => 1,
+        'id_clasificacion' => 1,
+        'name'             => $nombres,
+        'last_name'        => $nombres,
+        'dv'               => 1,
+        'type_person'      => 2,
+        'type_document'    => 13,
+        'name_comercial'   => $nombres,
+        'is_customer'      => true
+    ];
+
+    $insert = model('clientesModel')->insert($data);
+
+    return $this->response->setJSON([
+        'success'    => true,
+        'mensaje'    => "Cliente creado",
+        'id_cliente' => $insert,
+        'nombres'    => $cedula . "/" . $nombres,
+        'telefono'=>$telefono
+    ]);
+}
 }
