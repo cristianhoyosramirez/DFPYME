@@ -735,6 +735,17 @@ Ventas
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/pago_efectivo.js"></script>
 
 <script>
+    function cancelar_pagar() {
+
+
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById('finalizar_venta'));
+        modal.hide();
+
+    }
+</script>
+
+<script>
     async function pagar() {
 
         try {

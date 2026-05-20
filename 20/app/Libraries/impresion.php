@@ -80,69 +80,154 @@ class impresion
 
         $printer->text("\n");
 
-        $printer->text("-----------------------------------------------\n ");
-        $printer->text("INGRESOS \n ");
-        $printer->text("-----------------------------------------------\n ");
-        $printer->text("\n");
+       $printer->text("-----------------------------------------------\n");
+$printer->setEmphasis(true);
+$printer->text("              RESUMEN DE INGRESOS\n");
+$printer->setEmphasis(false);
+$printer->text("-----------------------------------------------\n\n");
 
 
+/**
+ * FUNCION PARA FORMATEAR FILAS
+ */
+function imprimirFila($printer, $texto, $valor)
+{
+    $col1 = str_pad(
+        mb_strimwidth($texto, 0, 28, "", "UTF-8"),
+        28,
+        " ",
+        STR_PAD_RIGHT
+    );
 
-        $ingresos_efectivo = model('pagosModel')->selectSum('efectivo')->where('id_apertura', $id_apertura)->findAll();
-        $efectivo = $ingresos_efectivo[0]['efectivo'];
-        $ingresos_transaccion = model('pagosModel')->selectSum('transferencia')->where('id_apertura', $id_apertura)->findAll();
-        $propinas = model('pagosModel')->selectSum('propina')->where('id_apertura', $id_apertura)->findAll();
+    $col2 = str_pad(
+        "$ " . number_format($valor, 0, ",", "."),
+        16,
+        " ",
+        STR_PAD_LEFT
+    );
 
-        //dd($efectivo);
-        $printer->text("Valor apertura: " . "        $ " . number_format($valor_apertura['valor'], 0, ",", ".") . "\n");
-        $printer->text("Ingresos efectivo:      " . "$ " . number_format($ingresos_efectivo[0]['efectivo'], 0, ",", ".") . "\n");
-        //$printer->text("Ingresos transacción: " . "  $ " . number_format($ingresos_transaccion[0]['transferencia'], 0, ",", ".") . "\n");
-        //$total_ingresos = model('facturaFormaPagoModel')->total_ingresos($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_actual);
-
-        $result = model('pagosModel')->medioPago($id_apertura);
-
-
-        foreach ($result as $resultado) {
-            // Sumar transferencias
-            $total = model('pagosModel')
-                ->selectSum('transferencia', 'suma_transferencia')
-                ->where('id_clase_pago', $resultado['id_clase_pago'])
-                ->where('id_apertura', $id_apertura)
-                ->get()
-                ->getRow();
-
-            $total = $total ? $total->suma_transferencia : 0;
-
-            // Buscar nombre del medio de pago
-            $nombreMedio = model('clasePagoModel')
-                ->select('nombre')
-                ->where('id', $resultado['id_clase_pago'])
-                ->first();
-
-            $nombreMedio = $nombreMedio ? $nombreMedio['nombre'] : 'Desconocido';
-
-            // Definir ancho fijo para las columnas
-            $anchoNombre = 17; // máximo 20 caracteres para la columna de nombres
-            $anchoValor  = 15; // ancho para los valores
-
-            // Cortar el nombre si es más largo que el ancho permitido
-            $col1 = mb_strimwidth($nombreMedio, 0, $anchoNombre, "", "UTF-8");
-
-            // Rellenar a la derecha con espacios hasta el ancho fijo
-            $col1 = str_pad($col1, $anchoNombre, " ", STR_PAD_RIGHT);
-
-            // Alinear el valor a la derecha
-            $col2 = str_pad("$ " . number_format($total, 0, ",", "."), $anchoValor, " ", STR_PAD_LEFT);
-
-            // Imprimir fila
-            $printer->text($col1 . $col2 . "\n");
-        }
+    $printer->text($col1 . $col2 . "\n");
+}
 
 
+$ingresos_efectivo = model('pagosModel')
+    ->selectSum('efectivo')
+    ->where('id_apertura', $id_apertura)
+    ->findAll();
+
+$efectivo = $ingresos_efectivo[0]['efectivo'];
+
+$ingresos_transaccion = model('pagosModel')
+    ->selectSum('transferencia')
+    ->where('id_apertura', $id_apertura)
+    ->findAll();
+
+$propinas = model('pagosModel')
+    ->selectSum('propina')
+    ->where('id_apertura', $id_apertura)
+    ->findAll();
 
 
+/**
+ * INGRESOS
+ */
+imprimirFila(
+    $printer,
+    "Valor apertura",
+    $valor_apertura['valor']
+);
 
-        $printer->text("Total ingresos          " . "$ " . number_format(($ingresos_efectivo[0]['efectivo']  + $valor_apertura['valor'] + $ingresos_transaccion[0]['transferencia']), 0, ",", ".") . "\n");
+imprimirFila(
+    $printer,
+    "Ingresos efectivo",
+    $ingresos_efectivo[0]['efectivo']
+);
 
+
+/**
+ * MEDIOS DE PAGO
+ */
+$result = model('pagosModel')->medioPago($id_apertura);
+
+foreach ($result as $resultado) {
+
+    $total = model('pagosModel')
+        ->selectSum('transferencia', 'suma_transferencia')
+        ->where('id_clase_pago', $resultado['id_clase_pago'])
+        ->where('id_apertura', $id_apertura)
+        ->get()
+        ->getRow();
+
+    $total = $total ? $total->suma_transferencia : 0;
+
+    $nombreMedio = model('clasePagoModel')
+        ->select('nombre')
+        ->where('id', $resultado['id_clase_pago'])
+        ->first();
+
+    $nombreMedio = $nombreMedio
+        ? $nombreMedio['nombre']
+        : 'Desconocido';
+
+    imprimirFila(
+        $printer,
+        $nombreMedio,
+        $total
+    );
+}
+
+
+/**
+ * TOTAL INGRESOS
+ */
+$printer->text("-----------------------------------------------\n");
+
+$printer->setEmphasis(true);
+
+imprimirFila(
+    $printer,
+    "TOTAL INGRESOS",
+    (
+        $ingresos_efectivo[0]['efectivo']
+        + $valor_apertura['valor']
+        + $ingresos_transaccion[0]['transferencia']
+    )
+);
+
+$printer->setEmphasis(false);
+
+$printer->text("-----------------------------------------------\n");
+
+
+/**
+ * INFORMACION HOTEL
+ */
+$hotel = model('configuracionPedidoModel')
+    ->reporte_hotel($id_apertura);
+
+$existeCampo = model('configuracionPedidoModel')
+    ->existeCampo();
+
+if ($existeCampo[0]['exists'] == "t") {
+
+    $printer->text("\n");
+
+    $printer->setEmphasis(true);
+    $printer->text("             INFORMACION HOTEL\n");
+    $printer->setEmphasis(false);
+
+    $printer->text("-----------------------------------------------\n");
+
+    imprimirFila(
+        $printer,
+        "Ingresos hotel",
+        $hotel[0]['total']
+    );
+
+    $printer->text("-----------------------------------------------\n");
+
+    $printer->text(" * Valor solo informativo\n");
+}
 
         $printer->text("\n");
 

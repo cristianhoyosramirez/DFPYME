@@ -46,8 +46,6 @@ class FacturaElectronica extends BaseController
 
         }
 
-    
-       
         // $id_mesa = 6;
 
         //var_dump($this->request->getPost());
@@ -529,6 +527,15 @@ class FacturaElectronica extends BaseController
                 $id_mesa = model('pedidoModel')->select('fk_mesa')->where('id', $numero_pedido)->first();
                 $id_usuario = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
 
+                $tempSaldo="";
+
+                if ($this->request->getPost('formaPago')==1){
+                    $tempSaldo=0;
+                }
+                if ($this->request->getPost('formaPago')==2){
+                    $tempSaldo=$valor_venta;
+                }
+
                 $pagos = [
 
                     'fecha' => date('Y-m-d'),
@@ -550,11 +557,12 @@ class FacturaElectronica extends BaseController
                     'recibido_efectivo' => $recibido_efectivo,
                     'recibido_transferencia' => $recibido_transaccion,
                     'id_factura' => $id_factura,
-                    'saldo' => $saldo,
+                    'saldo' => $tempSaldo,
                     'nit_cliente' => $nit_cliente,
                     'id_pedido' => $numero_pedido,
                     'id_mesa' => $id_mesa['fk_mesa'],
-                    'id_clase_pago' => $clase_pago
+                    'id_clase_pago' => $clase_pago,
+                    'forma_pago'=>$this->request->getPost('formaPago')
                 ];
 
                 $pagos = model('pagosModel')->insert($pagos);
