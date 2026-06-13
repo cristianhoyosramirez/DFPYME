@@ -75,9 +75,9 @@ HOME
                                             </div>
 
                                             <?php $productos_subcategoria = model('productoModel')->select('id,nombreproducto,valorventaproducto,id_impresora')
-                                            ->where('id_subcategoria', $KeySubCategoria['id'])
-                                            ->where('estadoproducto',true)
-                                            ->find(); ?>
+                                                ->where('id_subcategoria', $KeySubCategoria['id'])
+                                                ->where('estadoproducto', true)
+                                                ->find(); ?>
 
 
                                             <?php foreach ($productos_subcategoria as $keyProductoSubCategoria): ?>
@@ -119,7 +119,7 @@ HOME
                                                             </span>
                                                         </div>
                                                     </div>
-                                              <!--       <div class="col-2">
+                                                    <!--       <div class="col-2">
 
                                                         <?php $impresoras = model('impresorasModel')->findAll(); ?>
 
@@ -180,10 +180,10 @@ HOME
 
                                     <?php if ($sub_categoria['subcategoria'] == 'f'): ?>
                                         <?php $productos_subcategoria = model('productoModel')
-                                        ->select('id,nombreproducto,valorventaproducto,codigointernoproducto,aplica_ico')
-                                        ->where('codigocategoria', $KeyCategorias['codigocategoria'])
-                                        ->where('estadoproducto',true)
-                                        ->find();  ?>
+                                            ->select('id,nombreproducto,valorventaproducto,codigointernoproducto,aplica_ico')
+                                            ->where('codigocategoria', $KeyCategorias['codigocategoria'])
+                                            ->where('estadoproducto', true)
+                                            ->find();  ?>
 
                                         <?php foreach ($productos_subcategoria as $keySubCategoria): ?>
                                             <?php $tipo_producto = model('productoModel')->getTipoProducto($keySubCategoria['id']);
@@ -240,7 +240,9 @@ HOME
 
                                                 <div class="col-1">
                                                     <label for="" class="form-label">Inventario</label>
-                                                    <input type="text" class="form-control text-center" value="<?php echo $inventario['cantidad_inventario']; ?>"  onkeyup="actualizarInventario(this.value)">
+                                                   
+                                                    <input type="text" class="form-control text-center" value="<?php echo $inventario['cantidad_inventario'] ?? 0; 
+                                                                                                                ?>" onkeyup="actualizarInventario(this.value)">
 
                                                 </div>
 
@@ -262,7 +264,7 @@ HOME
                                                     <input type="text" class="form-control" value="<?php echo $impuesto . " %"; ?>" disabled>
                                                 </div>
 
-                                             <!--    <div class="col-1">
+                                                <!--    <div class="col-1">
 
                                                     <?php $impresoras = model('impresorasModel')->findAll(); ?>
 

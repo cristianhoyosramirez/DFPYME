@@ -53,7 +53,8 @@
       <div class="modal-body">
 
         <div class="row row-cards">
-          <div class="col-md-5 col-lg-5">
+          <!-- <div class="col-md-6 col-lg-6"> -->
+          <div class="col-12 col-xl-6">
             <div class="card">
               <div class="card-body">
                 <form>
@@ -221,7 +222,8 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 col-lg-4">
+          <!-- <div class="col-md-6 col-lg-6"> -->
+          <div class="col-12 col-xl-6">
             <div class="card">
 
               <div class="card-body">

@@ -39,7 +39,7 @@ class AbonosController extends BaseController
 
         $totalPagado = model('FacturaFormaPagoModel')
             ->select('COALESCE(SUM(valor_pago), 0) AS total_pagado')
-            ->where('id_factura', 195)
+            ->where('id_factura', $id_factura)
             ->first()['total_pagado'];
 
         return $this->response->setJSON([

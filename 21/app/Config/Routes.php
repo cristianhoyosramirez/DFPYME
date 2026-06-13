@@ -721,7 +721,7 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->get('estado_dian', 'ReportesController::estado_dian');
     $routes->post('actualizar_pagos', 'ReportesController::actualizar_pagos');
     
-    $routes->post('datos_pagos', 'ReportesController::datos_pagos');
+    $routes->get('datos_pagos', 'ReportesController::datos_pagos');
     $routes->post('datos_abono', 'ReportesController::datos_abono');
 
     $routes->get('ver_productos_eliminanados', 'ReportesController::ver_productos_eliminanados');

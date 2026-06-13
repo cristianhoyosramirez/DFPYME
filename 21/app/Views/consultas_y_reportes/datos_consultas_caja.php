@@ -1713,7 +1713,7 @@ MOVIMIENTO DE CAJA
                     $('#ingresos_en_efectivo').html(resultado.efectivo)
                     $('#ingresos_banco').html(resultado.transferencia)
                     $('#totalidad_ingresos').html(resultado.total_ingresos)
-                    $('#total_de_ventas').html(resultado.total_ven)
+                    $('#total_de_ventas').html(resultado.total_ventas)
 
                     $("#modal_propinas").modal("show");
 
