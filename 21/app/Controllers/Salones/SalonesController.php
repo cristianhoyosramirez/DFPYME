@@ -306,4 +306,27 @@ class SalonesController extends BaseController
             ]);
         }
     }
+
+    public function listadoMesas()
+    {
+
+
+        $id_salon = $this->request->getPost('id_salon');
+
+        $mesas = model('mesasModel')
+            ->where('fk_salon', $id_salon)
+            ->orderBy('id', 'ASC')
+            ->findAll();
+
+
+
+        $html = view('mesa/tabla_mesas', [
+            'mesas' => $mesas
+        ]);
+
+        return $this->response->setJSON([
+            'resultado' => 1,
+            'html'      => $html
+        ]);
+    }
 }

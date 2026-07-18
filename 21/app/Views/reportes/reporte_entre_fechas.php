@@ -2,7 +2,7 @@
 <?php $user_session = session(); ?>
 <?= $this->extend('template/home') ?>
 <?= $this->section('title') ?>
-REPORTE DE VENTAS POR HORA
+REPORTE DE VENTAS 
 <?= $this->endSection('title') ?>
 
 <?= $this->section('content') ?>

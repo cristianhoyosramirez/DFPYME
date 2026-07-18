@@ -61,14 +61,59 @@ class GestionMesas extends BaseController
     {
         $json = $this->request->getJSON();
 
+        $idMesa = (int) $json->id;
+        //$idMesa = (int) 1;
 
+        $hayPedidos = model('PedidoModel')
+            ->where('fk_mesa', $idMesa)
+            ->countAllResults();
 
-        // $id = (int) $json->id;
-        $id = 2;
+        $hayPagos = model('PagosModel')
+            ->where('id_mesa', $idMesa)
+            ->countAllResults();
 
-        $delete = model('mesasModel')->delete($id);
+        // Hay pedidos y pagos
+        if ($hayPedidos > 0 && $hayPagos > 0) {
 
-     
+            return $this->response->setJSON([
+                'status' => false,
+                'mensaje' => 'La mesa tiene pedidos y pagos asociados.'
+            ]);
+        }
+
+        // Solo pedidos
+        if ($hayPedidos > 0) {
+
+            return $this->response->setJSON([
+                'status' => false,
+                'mensaje' => 'La mesa tiene un pedido activo.'
+            ]);
+        }
+
+        // Solo pagos
+        if ($hayPagos > 0) {
+
+            return $this->response->setJSON([
+                'status' => false,
+                'mensaje' => 'La mesa tiene pagos asociados.'
+            ]);
+        }
+
+        // No hay pedidos ni pagos
+        $delete = model('MesasModel')->delete($idMesa);
+
+        if ($delete) {
+
+            return $this->response->setJSON([
+                'status'  => true,
+                'mensaje' => 'Mesa eliminada correctamente.'
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'status'  => false,
+            'mensaje' => 'No fue posible eliminar la mesa.'
+        ]);
     }
 
     function edicionMesa()

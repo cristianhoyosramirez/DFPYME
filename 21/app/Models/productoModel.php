@@ -201,7 +201,7 @@ FROM
     public.producto
 INNER JOIN categoria ON producto.codigocategoria = categoria.codigocategoria
 WHERE
-    id_tipo_inventario IN (1, 4)  --  Filtro principal
+    id_tipo_inventario IN (1, 4,3)  --  Filtro principal
     AND (
         codigobarrasproducto ILIKE '%$valor%' 
         OR codigointernoproducto ILIKE '%$valor%'

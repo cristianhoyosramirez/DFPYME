@@ -55,6 +55,8 @@ class FacturaElectronica extends BaseController
 
         //var_dump($this->request->getPost());
 
+
+
         $pedido = model('pedidoModel')->select('id')->where('fk_mesa', $id_mesa)->first();
         $numero_pedido = $pedido['id'];
         $imprime_boucher = model('cajaModel')->select('imp_comprobante_transferencia')->where('numerocaja', 1)->first();
@@ -622,7 +624,7 @@ class FacturaElectronica extends BaseController
                     $total_ventas_electronicas = model('pagosModel')->get_total_ventas_electronicas($id_apertura['numero']);
 
 
-                    if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
+                    /*  if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
 
                         //$idUlt = model('pagosModel')->insertID();
 
@@ -631,7 +633,8 @@ class FacturaElectronica extends BaseController
                         $idUlt = $ultimoPago['id'];
 
 
-                        $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
+
+                        $movimientos_transaccion = model('pagosModel')->pagoTransferencia($idUlt);
                         $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);
 
                         if (empty($movimientos_efectivo[0]['recibido_efectivo'])) {
@@ -644,24 +647,6 @@ class FacturaElectronica extends BaseController
 
 
 
-                        /*    if (!empty($movimientos_transaccion)) {
-                            if ($movimientos_transaccion[0]['recibido_transferencia'] > 0) {
-                                $imp = new impresion();
-
-                                if (empty($movimientos_efectivo[0]['total_pago'])) {
-                                    $total_efectivo = 0;
-                                    $efectivo = 0;
-                                } else if (empty($movimientos_efectivo[0]['total_pago'])) {
-                                    $total_efectivo = $movimientos_efectivo[0]['total_pago'];
-                                    $efectivo = $total_efectivo;
-                                }
-
-                                $imprimir = $imp->imprimir_comprobnate_transferencia($idUlt, $movimientos_transaccion[0]['recibido_transferencia'], $efectivo, $total_efectivo);
-                            }
-                        } */
-
-                        //var_dump($movimientos_transaccion);
-                        //exit();
 
                         if (!empty($movimientos_transaccion)) {
                             if ($movimientos_transaccion[0]['recibido_transferencia'] > 0) {
@@ -684,6 +669,53 @@ class FacturaElectronica extends BaseController
                                     $efectivo,
                                     $total_efectivo
                                 );
+                            }
+                        }
+                    }  */
+
+
+                    if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
+
+                        $pagosModel = model('pagosModel');
+                        $ultimoPago = $pagosModel->orderBy('id', 'DESC')->first();
+
+                        if (!empty($ultimoPago)) {
+
+                            $idUlt = $ultimoPago['id'];
+
+                            $movimientos_transaccion = $pagosModel->pagoTransferencia($idUlt);
+                            $movimientos_efectivo    = $pagosModel->pago_efectivo($idUlt);
+
+                            // Valores por defecto
+                            $efectivo = 0;
+                            $total_efectivo = 0;
+
+                            // Si existe un pago en efectivo
+                            if (
+                                !empty($movimientos_efectivo) &&
+                                isset($movimientos_efectivo[0]['recibido_efectivo'])
+                            ) {
+                                $efectivo = $movimientos_efectivo[0]['recibido_efectivo'];
+                                $total_efectivo = $movimientos_efectivo[0]['recibido_efectivo'];
+                            }
+
+                            // Si existe un pago por transferencia
+                            if (
+                                !empty($movimientos_transaccion) &&
+                                isset($movimientos_transaccion[0]['recibido_transferencia']) &&
+                                $movimientos_transaccion[0]['recibido_transferencia'] > 0
+                            ) {
+
+                                $imp = new impresion();
+
+                                // $imp->imprimir_comprobnate_transferencia($idUlt);
+
+                                 $imp->imprimirComprobnateTransferencia(
+                                    $idUlt,
+                                    $movimientos_transaccion[0]['recibido_transferencia'],
+                                    $efectivo,
+                                    $total_efectivo
+                                ); 
                             }
                         }
                     }
@@ -836,14 +868,14 @@ class FacturaElectronica extends BaseController
 
                     $total_ventas_electronicas = model('pagosModel')->get_total_ventas_electronicas($id_apertura['numero']);
 
-                    if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
+                    /*  if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
 
                         //$id_ultimo = model('pagosModel')->insertID();
                         $id_ultimo = model('pagosModel')->selectMax('id')->first();
 
                         $idUlt = $id_ultimo['id'];
 
-                        $movimientos_transaccion = model('pagosModel')->pago_transferencia($idUlt);
+                        $movimientos_transaccion = model('pagosModel')->pagoTransferencia($idUlt);
                         $movimientos_efectivo = model('pagosModel')->pago_efectivo($idUlt);
 
                         if (!empty($movimientos_transaccion)) {
@@ -889,7 +921,7 @@ class FacturaElectronica extends BaseController
                                 );
                             }
                         }
-                    }
+                    } */
 
 
                     $returnData = array(

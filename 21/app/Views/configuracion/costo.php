@@ -60,10 +60,10 @@ Reporte de costos
                 <label for="" class="form-label">Fecha final </label>
                 <input type="text" class="form-control" value="<?php echo date('Y-m-d') ?>" id="fecha_final" name="fecha_final">
             </div>
-            <div class="col-2">
+            <!-- <div class="col-2">
                 <label for="" class="form-label text-light">Fech </label>
                 <a href="#" class="btn btn-outline-success w-100">Buscar</a>
-            </div>
+            </div> -->
             <div class="col-2">
                 <label for="" class="form-label text-light">Fech </label>
                 <button type="submit" class="btn btn-outline-success "> Excel </button>

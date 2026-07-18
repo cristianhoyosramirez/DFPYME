@@ -1,133 +1,104 @@
-<?= $this->extend('template/mesas') ?>
-<?= $this->section('title') ?>
-LISTADO DE CUENTAS RERIRO DE DINERO
-<?= $this->endSection('title') ?>
-<?= $this->section('content') ?>
-<!--Sart row-->
-<div class="container">
-    <div class="row text-center align-items-center flex-row-reverse">
-        <div class="col-lg-auto ms-lg-auto">
-            <a href="<?php echo base_url('devolucion/crear_rubro'); ?>" class="btn btn-warning btn-pill w-100">Agregar rubro</a>
-        </div>
-        <div class="col-lg-auto ms-lg-auto">
-            <p class="text-primary h3">LISTA GENERAL CUENTAS DE RUBROS DE DINERO </p>
-        </div>
-        <div class="col-12 col-lg-auto mt-3 mt-lg-0">
-            <a class="nav-link"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" onClick="history.go(-1);" title="Sección anterior"></a>
-        </div>
-    </div>
-</div>
-<br>
-<div class="container">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
+<?php foreach ($rubros as $detalleRubro): ?>
+    <tr id="fila<?= $detalleRubro['id']; ?>">
+        <td>
+            <div class="input-group">
 
-                <div class="accordion" id="accordionExample">
-                    <?php foreach ($rubros as $detalle) { ?>
-                        <div class="accordion-item mb-3" style="border: 1px solid #dee2e6; border-radius: 5px;">
-                            <h2 class="accordion-header" id="heading<?php echo $detalle['id']; ?>">
-                                <button class="accordion-button collapsed" type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#collapse<?php echo $detalle['id']; ?>"
-                                    aria-expanded="false"
-                                    aria-controls="collapse<?php echo $detalle['id']; ?>">
-                                    <?php echo $detalle['nombre_cuenta'] ?>
-                                </button>
-                            </h2>
-                            <div id="collapse<?php echo $detalle['id']; ?>"
-                                class="accordion-collapse collapse"
-                                aria-labelledby="heading<?php echo $detalle['id']; ?>"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <p class="text-primary h3">Rubros</p>
-                                    <?php
-                                    $rubrosLista = model('rubrosModel')
-                                        ->where('id_cuenta_retiro', $detalle['id'])
-                                        ->orderBy('nombre_rubro', 'asc')
-                                        ->findAll();
-                                    ?>
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <?php foreach ($rubrosLista as $detalleRubro): ?>
-                                            <span class="badge rounded-pill btn-outline-primary d-flex align-items-center p-3 fs-5"
-                                                style="min-width: 150px; max-width: 250px; justify-content: space-between;"
-                                                id="badge<?php echo $detalleRubro['id']; ?>">
-                                                <?php echo $detalleRubro['nombre_rubro']; ?>
-                                                <button type="button" class="btn-close ms-2" aria-label="Close"
-                                                    onclick="eliminarBadge(<?php echo $detalleRubro['id']; ?>, '<?php echo $detalleRubro['nombre_rubro']; ?>')">
-                                                </button>
-                                            </span>
-                                        <?php endforeach; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
+                <input
+                    type="text"
+                    class="form-control"
+                    value="<?= $detalleRubro['nombre_rubro']; ?>"
+                    id="rubro<?= $detalleRubro['id']; ?>">
+
+                <button
+                    type="button"
+                    class="btn btn-outline-success btn-icon"
+                    title="Editar"
+                    onclick="editarRubro(<?= $detalleRubro['id']; ?>)">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/pencil -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                        <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                    </svg>
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-outline-danger btn-icon"
+                    title="Eliminar"
+                    onclick="eliminarRubro(<?= $detalleRubro['id']; ?>)">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/trash -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <line x1="4" y1="7" x2="20" y2="7" />
+                        <line x1="10" y1="11" x2="10" y2="17" />
+                        <line x1="14" y1="11" x2="14" y2="17" />
+                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    </svg>
+                </button>
+
             </div>
-        </div>
-    </div>
-</div>
-</div>
-<!-- Sweet alert -->
-<script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
-<script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
+        </td>
 
-<script>
-    async function eliminarBadge(id, nombre) {
-        const confirmacion = await Swal.fire({
-            title: "¿Estás seguro de eliminar ? " + nombre,
-            text: "Esta acción no se puede deshacer.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
-        });
-
-        if (!confirmacion.isConfirmed) {
-            return; // Si el usuario cancela, no hace nada
-        }
-
-        try {
-            const response = await fetch("<?= base_url('devolucion/deleteRubro') ?>", {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    id: id
-                }) // Enviar el ID en JSON
-            });
+    </tr>
+<?php endforeach; ?>
 
 
-            const resultado = await response.json(); // Esperar la respuesta JSON
+<!--  <script>
+     async function eliminarBadge(id, nombre) {
+         const confirmacion = await Swal.fire({
+             title: "¿Estás seguro de eliminar ? " + nombre,
+             text: "Esta acción no se puede deshacer.",
+             icon: "warning",
+             showCancelButton: true,
+             confirmButtonColor: "#d33",
+             cancelButtonColor: "#3085d6",
+             confirmButtonText: "Sí, eliminar",
+             cancelButtonText: "Cancelar"
+         });
 
-            if (resultado.response = "success") {
-                // Eliminar el elemento del DOM
-                document.getElementById('badge' + resultado.id).remove();
+         if (!confirmacion.isConfirmed) {
+             return; // Si el usuario cancela, no hace nada
+         }
 
-                // Mostrar alerta de éxito
-                sweet_alert_centrado('success', 'Rubro eliminando')
-            } else {
-                Swal.fire({
-                    title: "Error",
-                    text: "No se pudo eliminar el componente.",
-                    icon: "error"
-                });
-            }
-        } catch (error) {
-            console.error("Error en la petición:", error);
-            Swal.fire({
-                title: "Error",
-                text: "Ocurrió un problema con la eliminación.",
-                icon: "error"
-            });
-        }
-    }
-</script>
+         try {
+             const response = await fetch("<?= base_url('devolucion/deleteRubro') ?>", {
+                 method: "DELETE",
+                 headers: {
+                     "Content-Type": "application/json"
+                 },
+                 body: JSON.stringify({
+                     id: id
+                 }) // Enviar el ID en JSON
+             });
 
 
-<?= $this->endSection('content') ?>
+             const resultado = await response.json(); // Esperar la respuesta JSON
+
+             if (resultado.response = "success") {
+                 // Eliminar el elemento del DOM
+                 document.getElementById('badge' + resultado.id).remove();
+
+                 // Mostrar alerta de éxito
+                 sweet_alert_centrado('success', 'Rubro eliminando')
+             } else {
+                 Swal.fire({
+                     title: "Error",
+                     text: "No se pudo eliminar el componente.",
+                     icon: "error"
+                 });
+             }
+         } catch (error) {
+             console.error("Error en la petición:", error);
+             Swal.fire({
+                 title: "Error",
+                 text: "Ocurrió un problema con la eliminación.",
+                 icon: "error"
+             });
+         }
+     }
+ </script> -->
+
+
 <!-- end row -->

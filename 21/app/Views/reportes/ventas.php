@@ -51,7 +51,7 @@ $movimientosCaja = [];
 | INGRESOS
 |--------------------------------------------------------------------------
 */
-
+//d($movimientos);
 foreach ($movimientos as $movimiento) {
 
     $movimientosCaja[] = [
@@ -103,7 +103,8 @@ foreach ($movimientos as $movimiento) {
 
         'id' => $movimiento['id'],
         'nit_cliente' => $movimiento['nit_cliente'],
-        'nombre_cliente' => $movimiento['nombrescliente']
+        'nombre_cliente' => $movimiento['nombrescliente'],
+        'id_estado' => $movimiento['id_estado']
     ];
 }
 
@@ -112,7 +113,7 @@ foreach ($movimientos as $movimiento) {
 | ABONOS
 |--------------------------------------------------------------------------
 */
-//dd($abonos);
+//d($abonos);
 if (!empty($abonos)) {
 
     foreach ($abonos as $abono) {
@@ -141,7 +142,8 @@ if (!empty($abonos)) {
 
             'id' => $abono['idfactura_forma_pago'],
             'nit_cliente' => null,
-            'nombre_cliente' => null
+            'nombre_cliente' => null,
+            'id_estado' => 200
         ];
     }
 }
@@ -325,27 +327,27 @@ usort($movimientosCaja, function ($a, $b) {
                     </td>
 
                     <td>
-                        $ <?php echo number_format($movimiento['venta'], 0, ",", ".") ?>
+                        <?php echo number_format($movimiento['venta'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                        $ <?php echo number_format($movimiento['propina'], 0, ",", ".") ?>
+                        <?php echo number_format($movimiento['propina'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                        $ <?php echo number_format($movimiento['total'], 0, ",", ".") ?>
+                        <?php echo number_format($movimiento['total'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                        $ <?php echo number_format($movimiento['efectivo'], 0, ",", ".") ?>
+                        <?php echo number_format($movimiento['efectivo'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                        $ <?php echo number_format($movimiento['transferencia'], 0, ",", ".") ?>
+                        <?php echo number_format($movimiento['transferencia'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                        $ <?php echo number_format($movimiento['total_pago'], 0, ",", ".") ?>
+                        <?php echo number_format($movimiento['total_pago'], 0, ",", ".") ?>
                     </td>
 
                     <td>
@@ -368,8 +370,6 @@ usort($movimientosCaja, function ($a, $b) {
                                 //d($pago);
 
                                 echo $movimiento['clase_pago'];
-
-                                
                             }
                         }
 
@@ -390,7 +390,7 @@ usort($movimientosCaja, function ($a, $b) {
                             <a
                                 href="#"
                                 class="btn btn-outline-dark btn-icon"
-                                onclick="editar_abono(<?php echo $movimiento['id'] ?>)">
+                                onclick="editar_abono(<?php echo $movimiento['id'] ?>,<?php echo $movimiento['id_estado'] ?>)">
 
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     class="icon"
@@ -418,7 +418,7 @@ usort($movimientosCaja, function ($a, $b) {
                             <a
                                 href="#"
                                 class="btn btn-outline-dark btn-icon"
-                                onclick="editar_pago(<?php echo $movimiento['id'] ?>)">
+                                onclick="editar_pago(<?php echo $movimiento['id'] ?>,<?php echo $movimiento['id_estado'] ?>)">
 
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     class="icon"
@@ -464,8 +464,9 @@ usort($movimientosCaja, function ($a, $b) {
 
 
 <script>
-    async function editar_abono(id) {
+    async function editar_abono(id, id_estado) {
 
+    
         try {
 
             $("#modal_propinas").modal("hide");
@@ -474,7 +475,8 @@ usort($movimientosCaja, function ($a, $b) {
 
             let response = await $.ajax({
                 data: {
-                    id: id
+                    id: id,
+                    id_estado
                 },
                 url: url + "/reportes/datos_abono",
                 type: "POST"
@@ -526,15 +528,17 @@ usort($movimientosCaja, function ($a, $b) {
 
 
 <script>
-    function editar_pago(id) {
+    function editar_pago(id, id_estado) {
 
+    
         $("#modal_propinas").modal("hide");
 
         var url = document.getElementById("url").value;
 
         $.ajax({
             data: {
-                id
+                id,
+                id_estado
             },
             url: url +
                 "/" +

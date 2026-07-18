@@ -154,7 +154,7 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="nombreAtributo" >
+                                    <input type="text" class="form-control" id="nombreAtributo">
                                     <span id="nombreAtributoError" class="text-danger"></span>
                                 </div>
                             </div>
@@ -313,7 +313,7 @@
                 }
             </script>
 
-            <script>
+            <!--  <script>
                 async function eliminarBadge(id, nombre) {
                     const confirmacion = await Swal.fire({
                         title: "¿Estás seguro de eliminar ? " + nombre,
@@ -350,7 +350,7 @@
 
                             // Mostrar alerta de éxito
                             sweet_alert_centrado('success', 'componente eliminando')
-                        } else {
+                        } else if (resultado.response = "false") {
                             Swal.fire({
                                 title: "Error",
                                 text: "No se pudo eliminar el componente.",
@@ -365,6 +365,77 @@
                             icon: "error"
                         });
                     }
+                }
+            </script> -->
+
+            <script>
+                async function eliminarBadge(id, nombre) {
+
+                    const confirmacion = await Swal.fire({
+                        title: `¿Estás seguro de eliminar ${nombre}?`,
+                        text: "Esta acción no se puede deshacer.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Sí, eliminar",
+                        cancelButtonText: "Cancelar"
+                    });
+
+                    if (!confirmacion.isConfirmed) {
+                        return;
+                    }
+
+                    try {
+
+                        const response = await fetch("<?= base_url('producto/deleteComponente') ?>", {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                id: id
+                            })
+                        });
+
+                        if (!response.ok) {
+                            throw new Error("Error en la respuesta del servidor.");
+                        }
+
+                        const resultado = await response.json();
+
+                        if (resultado.response === true) {
+
+                            const badge = document.getElementById('badge' + resultado.id);
+
+                            if (badge) {
+                                badge.remove();
+                            }
+
+                            sweet_alert_centrado('success', resultado.mensaje);
+
+                        } else {
+
+                            Swal.fire({
+                                icon: "warning",
+                                title: "No fue posible eliminar",
+                                text: resultado.mensaje
+                            });
+
+                        }
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Ocurrió un problema al comunicarse con el servidor."
+                        });
+
+                    }
+
                 }
             </script>
 

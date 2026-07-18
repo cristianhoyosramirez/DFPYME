@@ -8,17 +8,12 @@
       </div>
       <div class="modal-body">
         <form class="row g-3" action="<?= base_url('categoria/guardar') ?>" method="POST" id="crear_categoria">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label for="inputEmail4" class="form-label">Nombre categoria</label>
             <input type="text" class="form-control" id="nombre_categoria" name="nombre_categoria">
             <span class="text-danger error-text nombre_categoria_error"></span>
           </div>
-          <div class="col-md-6">
-            <label for="inputPassword4" class="form-label">Impresora asociada</label>
-            <select class="form-select" aria-label="Default select example" id="impresora_categoria" name="impresora_categoria">
-              <option value="1">FACTURACION</option?>
-            </select>
-          </div>
+         
 
           <div class="modal-footer">
             <button type="submit" class="btn btn-success" id="btn_crear_categoria">Crear categoria</button>

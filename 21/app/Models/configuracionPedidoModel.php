@@ -61,7 +61,8 @@ class configuracionPedidoModel extends Model
         'borrarFe',
         'reporte_hotel',
         'propina_auto',
-        'propina_manual'
+        'propina_manual',
+        'titulo_pedido'
     ];
 
     public function reporte_hotel($id_apertura)

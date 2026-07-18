@@ -18,6 +18,9 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Font;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
 
 
 class facturaDirectaController extends BaseController
@@ -838,6 +841,7 @@ class facturaDirectaController extends BaseController
         $total = model('ReporteImpuestosModel')->getTotal($fechaInicial, $fechaFinal);
 
 
+
         return view('reportes/costo_producto', [
             'productos' => $productos,
             'total' => $total
@@ -974,7 +978,7 @@ class facturaDirectaController extends BaseController
         ]);
     }
 
-    public function exportCostoExcel()
+    /* public function exportCostoExcel()
     {
         $fechaInicial = $this->request->getPost('fecha_inicial');
         $fechaFinal = $this->request->getPost('fecha_final');
@@ -1114,6 +1118,253 @@ class facturaDirectaController extends BaseController
         flush();
         readfile($file_name);
         exit;
+    } */
+
+
+    public function exportCostoExcel()
+    {
+        $fechaInicial = $this->request->getPost('fecha_inicial');
+        $fechaFinal   = $this->request->getPost('fecha_final');
+
+        $empresaModel = model('empresaModel');
+        $facturaModel = model('facturaElectronicaModel');
+        $itemModel    = model('itemFacturaElectronicaModel');
+
+        $datos_empresa = $empresaModel->datosEmpresa();
+
+        // Buscar factura inicial
+        $tempIdInicial = $facturaModel
+            ->selectMin('id')
+            ->where('fecha >=', $fechaInicial)
+            ->where('fecha <=', $fechaFinal)
+            ->first();
+
+        $idInicial = $tempIdInicial['id'] ?? null;
+
+        // Buscar factura final
+        $idFinal = null;
+
+        if ($idInicial !== null) {
+
+            $tempIdFinal = $facturaModel
+                ->selectMax('id')
+                ->where('fecha >=', $fechaInicial)
+                ->where('fecha <=', $fechaFinal)
+                ->first();
+
+            $idFinal = $tempIdFinal['id'] ?? null;
+
+            if ($idFinal === null) {
+
+                $tempIdFinalAlt = $facturaModel
+                    ->selectMax('id')
+                    ->where('fecha', $fechaInicial)
+                    ->first();
+
+                $idFinal = $tempIdFinalAlt['id'] ?? null;
+            }
+        }
+
+        if ($idInicial === null || $idFinal === null) {
+            return redirect()->back()->with('error', 'No se encontraron facturas en el rango de fechas.');
+        }
+
+        $productos = $itemModel->getProducto($idInicial, $idFinal);
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $spreadsheet->getDefaultStyle()->getFont()
+            ->setName('Aptos Narrow')
+            ->setSize(11);
+
+        $headerStyle = [
+            'font' => [
+                'bold' => true,
+                'size' => 12,
+                'name' => 'Aptos Narrow'
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ];
+
+        // Encabezado
+        $sheet->setCellValue('A1', $datos_empresa[0]['nombrejuridicoempresa']);
+        $sheet->mergeCells('A1:O1');
+
+        $sheet->setCellValue('A2', 'NIT: ' . $datos_empresa[0]['nitempresa']);
+        $sheet->mergeCells('A2:O2');
+
+        $sheet->setCellValue('A3', 'PUNTO DE VENTA ' . $datos_empresa[0]['nombrecomercialempresa']);
+        $sheet->mergeCells('A3:O3');
+
+        foreach (['A1:O1', 'A2:O2', 'A3:O3'] as $rango) {
+            $sheet->getStyle($rango)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        }
+
+        $fmt = new IntlDateFormatter(
+            'es_ES',
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::NONE,
+            'America/Bogota',
+            IntlDateFormatter::GREGORIAN,
+            "EEEE d 'de' MMMM 'de' y"
+        );
+
+        $sheet->setCellValue(
+            'A4',
+            'REPORTE COSTO DE VENTA POR UNIDAD DE PRODUCTO PERIODO: ' .
+                strtoupper($fmt->format(new DateTime($fechaInicial))) .
+                ' AL ' .
+                strtoupper($fmt->format(new DateTime($fechaFinal)))
+        );
+
+        $sheet->mergeCells('A4:O4');
+        $sheet->getStyle('A4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $encabezados = [
+            'Factura',
+            'Fecha',
+            'Código',
+            'Producto',
+            'Cantidad',
+            'Costo base sin IVA unidad',
+            'Costo base sin IVA total',
+            'Costo + IVA unidad',
+            'Costo + IVA total',
+            'Valor venta base unidad',
+            'Valor venta base total',
+            'ICO 8 % total',
+            'IVA 5 % total',
+            'IVA 19 % total',
+            'Total venta'
+        ];
+
+        $col = 'A';
+
+        foreach ($encabezados as $titulo) {
+            $sheet->setCellValue($col . '8', $titulo);
+            $col++;
+        }
+
+        $sheet->getStyle('A8:O8')->applyFromArray($headerStyle);
+
+        // Totales
+        $totalCantidad = 0;
+        $totalCostoUnidad = 0;
+        $totalCosto = 0;
+        $totalCostoIVAUnidad = 0;
+        $totalCostoIVA = 0;
+        $totalVentaUnidad = 0;
+        $totalVentaBase = 0;
+        $totalICO = 0;
+        $totalIVA5 = 0;
+        $totalIVA19 = 0;
+        $granTotal = 0;
+
+        $fila = 9;
+
+        foreach ($productos as $detalle) {
+
+            $costoUnidad = round($detalle['costo'], 0);
+            $costoTotal = round($detalle['costo'] * $detalle['cantidad'], 0);
+
+            $valorConIVAUnidad = round($detalle['costo'] * (1 + ($detalle['iva'] / 100)), 0);
+            $valorConIVATotal = round($valorConIVAUnidad * $detalle['cantidad'], 0);
+
+            $ventaUnidad = round($detalle['precio_unitario'], 0);
+            $ventaTotal = round($detalle['precio_unitario'] * $detalle['cantidad'], 0);
+
+            $ico = ($detalle['icn'] == 8)
+                ? round(($detalle['neto'] - $detalle['precio_unitario']) * $detalle['cantidad'], 0)
+                : 0;
+
+            $iva5 = ($detalle['icn'] == 0 && $detalle['iva'] == 5)
+                ? round(($detalle['neto'] - $detalle['precio_unitario']) * $detalle['cantidad'], 0)
+                : 0;
+
+            $iva19 = ($detalle['icn'] == 0 && $detalle['iva'] == 19)
+                ? round(($detalle['neto'] - $detalle['precio_unitario']) * $detalle['cantidad'], 0)
+                : 0;
+
+            $totalVenta = round($detalle['total'], 0);
+
+            $sheet->setCellValue("A$fila", $detalle['numero']);
+            $sheet->setCellValue("B$fila", date('d/m/Y', strtotime($detalle['fecha'])));
+            $sheet->setCellValue("C$fila", $detalle['codigo']);
+            $sheet->setCellValue("D$fila", $detalle['nombreproducto']);
+            $sheet->setCellValue("E$fila", $detalle['cantidad']);
+            $sheet->setCellValue("F$fila", $costoUnidad);
+            $sheet->setCellValue("G$fila", $costoTotal);
+            $sheet->setCellValue("H$fila", $valorConIVAUnidad);
+            $sheet->setCellValue("I$fila", $valorConIVATotal);
+            $sheet->setCellValue("J$fila", $ventaUnidad);
+            $sheet->setCellValue("K$fila", $ventaTotal);
+            $sheet->setCellValue("L$fila", $ico);
+            $sheet->setCellValue("M$fila", $iva5);
+            $sheet->setCellValue("N$fila", $iva19);
+            $sheet->setCellValue("O$fila", $totalVenta);
+
+            // Acumular
+            $totalCantidad += $detalle['cantidad'];
+            $totalCostoUnidad += $costoUnidad;
+            $totalCosto += $costoTotal;
+            $totalCostoIVAUnidad += $valorConIVAUnidad;
+            $totalCostoIVA += $valorConIVATotal;
+            $totalVentaUnidad += $ventaUnidad;
+            $totalVentaBase += $ventaTotal;
+            $totalICO += $ico;
+            $totalIVA5 += $iva5;
+            $totalIVA19 += $iva19;
+            $granTotal += $totalVenta;
+
+            $fila++;
+        }
+
+        // Totales
+        $sheet->mergeCells("A$fila:D$fila");
+        $sheet->setCellValue("A$fila", "TOTAL GENERAL");
+
+        $sheet->setCellValue("E$fila", $totalCantidad);
+        $sheet->setCellValue("F$fila", $totalCostoUnidad);
+        $sheet->setCellValue("G$fila", $totalCosto);
+        $sheet->setCellValue("H$fila", $totalCostoIVAUnidad);
+        $sheet->setCellValue("I$fila", $totalCostoIVA);
+        $sheet->setCellValue("J$fila", $totalVentaUnidad);
+        $sheet->setCellValue("K$fila", $totalVentaBase);
+        $sheet->setCellValue("L$fila", $totalICO);
+        $sheet->setCellValue("M$fila", $totalIVA5);
+        $sheet->setCellValue("N$fila", $totalIVA19);
+        $sheet->setCellValue("O$fila", $granTotal);
+
+        $sheet->getStyle("A$fila:O$fila")->getFont()->setBold(true);
+
+        $sheet->getStyle("A$fila:O$fila")->getFill()
+            ->setFillType(Fill::FILL_SOLID)
+            ->getStartColor()
+            ->setARGB('D9EAD3');
+
+        // Formato numérico
+        $sheet->getStyle("E9:O$fila")
+            ->getNumberFormat()
+            ->setFormatCode('#,##0');
+
+        // Autoajustar columnas
+        foreach (range('A', 'O') as $column) {
+            $sheet->getColumnDimension($column)->setAutoSize(true);
+        }
+
+        $fileName = 'Reporte_Costos_' . $fechaInicial . '_al_' . $fechaFinal . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $fileName . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
 
@@ -1223,11 +1474,11 @@ class facturaDirectaController extends BaseController
 
         $formasPago = model('formaPagoModel')->getFacturas(date('Y-m-d'), date('Y-m-d'));
 
-        $total=model('formaPagoModel')->totalVentas(date('Y-m-d'), date('Y-m-d'));
+        $total = model('formaPagoModel')->totalVentas(date('Y-m-d'), date('Y-m-d'));
 
         return view('reportes/formas_pago', [
             'formasPago' => $formasPago,
-            'total_ventas'=>number_format($total[0]['total'], 0, ",", ".")
+            'total_ventas' => number_format($total[0]['total'], 0, ",", ".")
         ]);
     }
 }

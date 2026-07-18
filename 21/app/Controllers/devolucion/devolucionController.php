@@ -12,12 +12,13 @@ use Dompdf\Dompdf;
 
 use \DateTime;
 use \DateTimeZone;
+use App\Libraries\Inventario;
 
 class devolucionController extends BaseController
 {
     public function index() {}
 
-    public function guardar_devolucion()
+    /* public function guardar_devolucion()
     {
         $usuario = $_POST['usuario'];
         //$nit_cliente = $_POST['nit_cliente'];
@@ -32,12 +33,12 @@ class devolucionController extends BaseController
 
         if (!empty($id_apertura)) {
 
-            /*   $usuario = 6;
-        $nit_cliente = 22222222;
-        $codigo_producto_devolucion = '5660';
-        $cantidad_devolucion = 1;
-        $precio_devo = 4.100;
-        $precio_devolucion =  str_replace('.', '', $precio_devo); */
+        //   $usuario = 6;
+        // $nit_cliente = 22222222;
+        // $codigo_producto_devolucion = '5660';
+        // $cantidad_devolucion = 1;
+        // $precio_devo = 4.100;
+        // $precio_devolucion =  str_replace('.', '', $precio_devo); 
 
             $valor_total_producto = $precio_devolucion * $cantidad_devolucion;
 
@@ -212,6 +213,47 @@ class devolucionController extends BaseController
                 );
                 echo  json_encode($returnData);
             }
+        }
+        if (empty($id_apertura)) {
+            $returnData = array(
+                "resultado" => 2,
+            );
+            echo  json_encode($returnData);
+        }
+    } */
+
+
+    public function guardar_devolucion()
+    {
+        $usuario = $_POST['usuario'];
+        //$nit_cliente = $_POST['nit_cliente'];
+        $nit_cliente = 222222222222;
+        $codigo_producto_devolucion = $_POST['codigo_producto_devolucion'];
+        $cantidad_devolucion = $_POST['cantidad_devolucion'];
+        $precio_devo = $_POST['precio_devolucion'];
+        $precio_devolucion =  str_replace('.', '', $precio_devo);
+
+
+        $id_apertura = model('aperturaRegistroModel')->select('numero')->first();
+
+        if (!empty($id_apertura)) {
+
+            //   $usuario = 6;
+            // $nit_cliente = 22222222;
+            // $codigo_producto_devolucion = '5660';
+            // $cantidad_devolucion = 1;
+            // $precio_devo = 4.100;
+            // $precio_devolucion =  str_replace('.', '', $precio_devo); 
+
+            $inventario = new Inventario();
+            $actualizar_inventario = $inventario->devolucion($usuario, $nit_cliente, $codigo_producto_devolucion, $cantidad_devolucion, $precio_devo, $precio_devolucion, $id_apertura);
+
+            $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $codigo_producto_devolucion)->first();
+            $returnData = array(
+                "resultado" => 1,
+                "nombre_producto" => $nombre_producto['nombreproducto']
+            );
+            echo  json_encode($returnData);
         }
         if (empty($id_apertura)) {
             $returnData = array(
@@ -650,7 +692,7 @@ class devolucionController extends BaseController
     } */
 
 
-       function actualizar_retiro()
+    function actualizar_retiro()
     {
 
         $json = $this->request->getJSON();
@@ -672,18 +714,10 @@ class devolucionController extends BaseController
         $update = model('retiroFormaPagoModel')->set($data)->where('idretiro', $id)->update();
 
         if ($update) {
-               return $this->response->setJSON([
+            return $this->response->setJSON([
                 'status' => 'success',
                 'mensaje' => 'Retiro actualizado correctamente.'
             ]);
         }
-    } 
-    
-
- 
-
-
-    
-
-
+    }
 }

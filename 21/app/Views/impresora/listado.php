@@ -49,16 +49,27 @@ LISTADO DE IMPRESORAS
                         </thead>
                         <tbody>
                             <?php foreach ($impresoras as $detalle) { ?>
-                                <tr>
+                                <tr impresora<?php echo $detalle['id'] ?>>
                                     <td><?php echo $detalle['id'] ?></td>
                                     <td><?php echo $detalle['nombre'] ?></td>
                                     <td></td>
 
                                     <td>
-                                        <form action="<?= base_url('impresora/editar') ?>" method="POST">
-                                            <input type="hidden" value="<?php echo $detalle['id'] ?>" name="id_impresora">
-                                            <button type="submit" class="btn btn-success" data-bs-toggle="modal">Editar</button>
-                                        </form>
+                                        <div class="d-flex gap-2">
+                                            <form action="<?= base_url('impresora/editar') ?>" method="POST" class="m-0">
+                                                <input type="hidden" name="id_impresora" value="<?= $detalle['id'] ?>">
+                                                <button type="submit" class="btn btn-success ">
+                                                    Editar
+                                                </button>
+                                            </form>
+
+                                            <form action="<?= base_url('impresora/eliminar') ?>" method="POST" class="m-0">
+                                                <input type="hidden" name="id_impresora" value="<?= $detalle['id'] ?>">
+                                                <button type="submit" class="btn btn-danger">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php } ?>

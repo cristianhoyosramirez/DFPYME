@@ -17,7 +17,7 @@ PIN USUARIOS
             </nav>
         </div>
         <div class="col-lg-auto ms-lg-auto">
-            <p class="text-primary h3">CAMBIAR DATOS DE LOS USUARIOS </p>
+            <p class="text-primary h3">Cambiar datos de los usuarios  </p>
         </div>
         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
             <a class="nav-link"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" onClick="history.go(-1);" title="Sección anterior"></a>
@@ -133,7 +133,7 @@ PIN USUARIOS
                 </div>
             </div>
             <div class="mt-4">
-                <button type="submit" class="btn btn-primary w-md"> Actualizar registro</button>
+                <button type="submit" class="btn btn-outline-primary w-md"> Actualizar</button>
             </div>
         </form>
     </div>

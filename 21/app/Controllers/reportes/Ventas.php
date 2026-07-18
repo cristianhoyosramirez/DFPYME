@@ -412,7 +412,8 @@ class Ventas extends BaseController
             $sheet->setCellValue('L' . $row, $valor['total_pago']);
             $sheet->setCellValue('M' . $row, $valor['clase_pago']);
             $sheet->setCellValue('N' . $row, $valor['forma_pago']);
-            $sheet->setCellValue('O' . $row, $valor['usuario']);
+            $nombreUsuario=model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema',$valor['usuario'])->first();
+            $sheet->setCellValue('O' . $row, $nombreUsuario['nombresusuario_sistema']);
 
             $row++;
         }

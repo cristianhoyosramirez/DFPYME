@@ -863,6 +863,7 @@ class Boletas extends BaseController
 
         $documentos = model('pagosModel')->get_ventas_credito($consulta);
 
+
         return view('ventas/ventas', [
             'estado' => $estado,
             'documentos' => $documentos
@@ -1006,7 +1007,9 @@ class Boletas extends BaseController
 
             $sub_array[] = $acciones;
 
-
+            $sub_array[] = model('notaCreditoModel')
+                ->where('id_factura', $detalle['id_factura'])
+                ->countAllResults() > 0 ? 1 : 0;
             $data[] = $sub_array;
         }
 
@@ -1188,7 +1191,7 @@ WHERE pagos.id_apertura = $apertura
         $accion = new data_table();
 
 
-
+        /* 
         foreach ($datos as $detalle) {
 
             $sub_array = [];
@@ -1228,7 +1231,81 @@ WHERE pagos.id_apertura = $apertura
 
             $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura'], $detalle['saldo']);
             $sub_array[] = $acciones;
+            $sub_array[] = 1;
 
+           $data[] = $sub_array;
+        } */
+
+
+        foreach ($datos as $detalle) {
+
+            $sub_array = [];
+
+            // 📅 FECHA
+            $sub_array[] = $detalle['fecha'];
+
+            // ⏰ HORA FORMATEADA (segura)
+            $hora = $detalle['hora'] ?? '';
+            $hora_limpia = preg_replace('/[+-]\d{2}$/', '', $hora);
+            $hora_formateada = date('h:i A', strtotime($hora_limpia));
+            $sub_array[] = $hora_formateada;
+
+            // 👤 CLIENTE
+            $sub_array[] = $detalle['nit_cliente'];
+            $sub_array[] = $detalle['nombrescliente'];
+
+            // 📄 DOCUMENTO (FE o POS)
+            if ($detalle['id_estado'] == 8) {
+                $numero_documento = $detalle['numero_fe'];
+                $tipoDocumento = "FE";
+            } else {
+                $numero_documento = $detalle['documento'];
+                $tipoDocumento = "POS";
+            }
+
+            $sub_array[] = $numero_documento;
+
+            // 💳 FORMA DE PAGO
+            if ($detalle['forma_pago'] == 1) {
+                $forma_pago = "Contado";
+            } elseif ($detalle['forma_pago'] == 2) {
+                $forma_pago = "Crédito";
+            } else {
+                $forma_pago = "N/A";
+            }
+
+            $sub_array[] = $forma_pago;
+
+            // 💰 VALORES
+            $sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
+            $sub_array[] = number_format($detalle['saldo'], 0, ",", ".");
+
+            // 🧾 TIPO DOCUMENTO
+            $sub_array[] = $tipoDocumento;
+
+            // 🪑 MESA
+            $sub_array[] = $detalle['mesa'] ?? '';
+
+            // ⚙️ ACCIONES
+            $acciones = $accion->row_data_table(
+                $detalle['id_estado'],
+                $detalle['id_factura'],
+                $detalle['saldo']
+            );
+
+            $sub_array[] = $acciones;
+
+            // 🚨 BANDERA NOTA CRÉDITO (IMPORTANTE PARA FRONT)
+
+            /*       $tieneNC=model('notaCreditoModel')->select('id')->where('id_factura',$detalle['id_factura'])->first();
+
+            $sub_array[] = $tieneNC['id'] ?? 0; */
+
+            $sub_array[] = model('notaCreditoModel')
+                ->where('id_factura', $detalle['id_factura'])
+                ->countAllResults() > 0 ? 1 : 0;
+
+            // 📦 DATA FINAL
             $data[] = $sub_array;
         }
 
@@ -1631,7 +1708,7 @@ WHERE pagos.id_apertura = $apertura
         $sql_data = $acci['sql_data'];
 
 
-    
+
 
         $condition = "";
 
@@ -1677,12 +1754,12 @@ WHERE pagos.id_apertura = $apertura
                 $sub_array[] = $detalle['documento'];
             }
 
-            $forma_pago="";
-            if($detalle['forma_pago']==1){
-                $forma_pago="Contado";
+            $forma_pago = "";
+            if ($detalle['forma_pago'] == 1) {
+                $forma_pago = "Contado";
             }
-            if($detalle['forma_pago']==2){
-                $forma_pago="Crédito";
+            if ($detalle['forma_pago'] == 2) {
+                $forma_pago = "Crédito";
             }
 
             $sub_array[] =  $forma_pago;
@@ -1702,6 +1779,10 @@ WHERE pagos.id_apertura = $apertura
             $acciones = $accion->row_data_table($detalle['id_estado'], $detalle['id_factura'], $detalle['saldo']);
 
             $sub_array[] = $acciones;
+
+                 $sub_array[] = model('notaCreditoModel')
+                ->where('id_factura', $detalle['id'])
+                ->countAllResults() > 0 ? 1 : 0;
 
 
             $data[] = $sub_array;

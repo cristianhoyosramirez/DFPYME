@@ -45,51 +45,96 @@ class impresion
         $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
         $hora_apertura = model('aperturaModel')->select('hora')->where('id', $id_apertura)->first();
 
+        $printer->setEmphasis(true);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->text("**CUADRE DE CAJA** \n");
+        $printer->text("CUADRE DE CAJA \n");
+        $printer->setEmphasis(false);
+
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("Fecha apertura:  " . $fecha_apertura['fecha'] . " " . date("g:i a", strtotime($hora_apertura['hora'])) . "\n");
 
 
         $cierre = model('cierreModel')->select('fecha')->where('idapertura', $id_apertura)->first();
 
+        $textoCierre = "Sin cierre";
         if (!empty($cierre)) {
-            $hora = model('cierreModel')->select('hora')->where('idapertura', $id_apertura)->first();
-            $printer->text("Fecha cierre:    " . $cierre['fecha'] . " " . date("g:i a", strtotime($hora['hora'])) . "\n");
+            $hora = model('cierreModel')
+                ->select('hora')
+                ->where('idapertura', $id_apertura)
+                ->first();
+
+            $textoCierre = $cierre['fecha'] . " " . date("g:i a", strtotime($hora['hora']));
         }
-        if (empty($cierre)) {
-            $printer->text("Fecha cierre:    Sin cierre " . "\n");
-        }
-
-
-
-
+        $printer->text("Fecha cierre:    {$textoCierre}\n");
         $printer->text("Caja N° : 1 \n");
 
-        $printer->text("\n");
 
         $valor_apertura = model('aperturaModel')->select('valor')->where('id', $id_apertura)->first();
 
-        $ventas_pos = model('pagosModel')->set_ventas_pos($id_apertura);
+        $totalContado = model('pagosModel')
+            ->selectSum('valor')
+            ->where('id_apertura', $id_apertura)
+            ->where('forma_pago', 1) // o el campo que corresponda
+            ->first()['valor'] ?? 0;
 
-        $ventas_electronicas = model('pagosModel')->set_ventas_electronicas($id_apertura);
-        $propinas = model('pagosModel')->selectSum('propina')->where('id_apertura', $id_apertura)->findAll();
-        $printer->text("Ventas POS: " . "             $ " . number_format($ventas_pos[0]['valor'], 0, ",", ".") . "\n");
-        $printer->text("Ventas electrónicas: "  .  "    $ " . number_format($ventas_electronicas[0]['valor'], 0, ",", ".") . "\n");
-        $printer->text("Propinas: "  .  "               $ " . number_format($propinas[0]['propina'], 0, ",", ".") . "\n");
+        $totalCredito = model('pagosModel')
+            ->selectSum('valor')
+            ->where('id_apertura', $id_apertura)
+            ->where('forma_pago', 2) // o el campo que corresponda
+            ->first()['valor'] ?? 0;
+
+        $propinas = model('pagosModel')
+            ->selectSum('propina')
+            ->where('id_apertura', $id_apertura)
+            ->first()['propina'] ?? 0;
+
+        $totalAbonos = model('facturaFormaPagoModel')->selectSum('valor_pago')
+            ->where('id_apertura', $id_apertura)
+            ->first()['valor_pago'] ?? 0;
+
+        $titulo = 22;
+        $valor  = 22;
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
+        $printer->setEmphasis(true);
+        $printer->text("VENTAS" . "\n");
+        $printer->setEmphasis(false);
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text(str_pad("Ventas de contado:", $titulo) . str_pad("$ " . number_format($totalContado, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
+        $printer->text(str_pad("Ventas a credito:", $titulo) . str_pad("$ " . number_format($totalCredito, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
+
+        $totalVentas = $totalContado + $totalCredito;
+
+        $printer->text("------------------------------------------\n");
+        $printer->setEmphasis(true);
+
+        $printer->text(
+            str_pad("TOTAL VENTAS:", $titulo) .
+                str_pad("$ " . number_format($totalVentas, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n"
+        );
+
+        $printer->setEmphasis(false);
+        $printer->text("------------------------------------------\n");
+
 
         $printer->text("\n");
 
-        $printer->text("-----------------------------------------------\n");
+
         $printer->setEmphasis(true);
-        $printer->text("              RESUMEN DE INGRESOS\n");
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("  INGRESOS\n");
         $printer->setEmphasis(false);
-        $printer->text("-----------------------------------------------\n\n");
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text(str_pad("Ventas de contado:", $titulo) . str_pad("$ " . number_format($totalContado, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
+        $printer->text(str_pad("Abonos a credito:", $titulo) . str_pad("$ " . number_format($totalCredito, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
+        $printer->text(str_pad("Propinas:", $titulo) . str_pad("$ " . number_format($propinas, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
 
 
-        /**
-         * FUNCION PARA FORMATEAR FILAS
-         */
+        $printer->setEmphasis(true);
+        $printer->text("              FORMAS DE PAGO \n");
+        $printer->setEmphasis(false);
         function imprimirFila($printer, $texto, $valor)
         {
             $col1 = str_pad(
@@ -127,10 +172,11 @@ class impresion
             ->where('id_apertura', $id_apertura)
             ->findAll();
 
+        $efectivo_abonos = model('facturaFormaPagoModel')->selectSum('efectivo')
+            ->where('id_apertura', $id_apertura)
+            ->first()['efectivo'] ?? 0;
 
-        /**
-         * INGRESOS
-         */
+
         imprimirFila(
             $printer,
             "Valor apertura",
@@ -140,25 +186,19 @@ class impresion
         imprimirFila(
             $printer,
             "Ingresos efectivo",
-            $ingresos_efectivo[0]['efectivo']
+            $ingresos_efectivo[0]['efectivo'] + $efectivo_abonos
         );
 
 
-        /**
-         * MEDIOS DE PAGO
-         */
+
         $result = model('pagosModel')->medioPago($id_apertura);
+        $electronico_abonos = model('facturaFormaPagoModel')->selectSum('electronico')
+            ->where('id_apertura', $id_apertura)
+            ->first()['electronico'] ?? 0;
 
         foreach ($result as $resultado) {
 
-            $total = model('pagosModel')
-                ->selectSum('transferencia', 'suma_transferencia')
-                ->where('id_clase_pago', $resultado['id_clase_pago'])
-                ->where('id_apertura', $id_apertura)
-                ->get()
-                ->getRow();
-
-            $total = $total ? $total->suma_transferencia : 0;
+            $total = $resultado['total'];
 
             $nombreMedio = model('clasePagoModel')
                 ->select('nombre')
@@ -176,10 +216,6 @@ class impresion
             );
         }
 
-
-        /**
-         * TOTAL INGRESOS
-         */
         $printer->text("-----------------------------------------------\n");
 
         $printer->setEmphasis(true);
@@ -189,12 +225,15 @@ class impresion
             "TOTAL INGRESOS",
             (
                 $ingresos_efectivo[0]['efectivo']
+                + $efectivo_abonos
                 + $valor_apertura['valor']
                 + $ingresos_transaccion[0]['transferencia']
+                + $electronico_abonos
             )
         );
 
         $printer->setEmphasis(false);
+
 
         $printer->text("-----------------------------------------------\n");
 
@@ -229,25 +268,18 @@ class impresion
             $printer->text(" * Valor solo informativo\n");
         }
 
-        $printer->text("\n");
 
-        $printer->text("------------------------------------------------\n ");
+        $printer->setEmphasis(true);
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
         $printer->text("RETIROS \n");
-        $printer->text("------------------------------------------------\n ");
+        $printer->setEmphasis(false);
         $retiros = model('retiroModel')->select('*')->where('id_apertura', $id_apertura)->findAll();
 
-        $printer->text("\n");
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+
         foreach ($retiros as $detalle) {
             $printer->text("FECHA: " . $detalle['fecha'] . " " . date("g:i a", strtotime($detalle['hora'])) . "\n");
             $concepto = model('retiroFormaPagoModel')->select('concepto')->where('idretiro', $detalle['id'])->first();
-
-            //echo $concepto['concepto']. "</br>";
-            //var_dump($concepto);
-            //dd($concepto);
-
-            //$printer->text($concepto['concepto']. "\n");
-
-            //$concepto = "empacado crem helado";
 
             $concepto = trim($concepto['concepto'] ?? ''); // Elimina espacios en blanco
             $concepto = htmlspecialchars($concepto, ENT_QUOTES, 'UTF-8');
@@ -255,22 +287,16 @@ class impresion
 
             $printer->text($concepto . "\n");
 
-
-
-            /* $valor = model('retiroFormaPagoModel')->select('valor')->where('idretiro', $detalle['id'])->first();
-            $printer->text("VALOR:" . "$" . number_format($valor['valor'], 0, ",", ".") . "\n"); */
-
             $valor = model('retiroFormaPagoModel')->select('valor')->where('idretiro', $detalle['id'])->first();
 
-            // Verifica que el valor existe y es numérico
+
             if (isset($valor['valor'])) {
-                // Elimina cualquier carácter extraño que no sea número, coma o punto
+
                 $monto_limpio = preg_replace('/[^0-9,.-]/', '', $valor['valor']);
 
-                // Convertir a número flotante para evitar errores
+
                 $monto_numerico = floatval(str_replace(',', '.', $monto_limpio));
 
-                // Formatear número
                 $monto = number_format($monto_numerico, 0, ",", ".");
             } else {
                 $monto = "No disponible";
@@ -286,13 +312,6 @@ class impresion
 
         $temp_retiros = 0;
         $total_retiros = 0;
-        /* foreach ($retiros as $detalle) {
-            $valor = model('retiroFormaPagoModel')->select('valor')->where('idretiro', $detalle['id'])->first();
-           
-            $temp_retiros = $temp_retiros + $valor['valor'];
-           
-            $total_retiros = $temp_retiros;
-        } */
 
 
         foreach ($retiros as $detalle) {
@@ -304,16 +323,18 @@ class impresion
             $temp_retiros += $monto; // Sumar correctamente
         }
 
+        $printer->text("------------------------------------------------\n");
 
-        //$printer->text("Total retiros: " . "         $ " . number_format($total_retiros, 0, ",", ".") . "\n");
         $printer->text("Total retiros: " . "         $ " . number_format($temp_retiros, 0, ",", ".") . "\n");
-
+        $printer->text("------------------------------------------------\n");
         $printer->text("\n");
 
-        $printer->text("------------------------------------------------\n ");
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
+
+        $printer->setEmphasis(true);
         $printer->text("DEVOLUCIONES \n");
-        $printer->text("------------------------------------------------\n ");
-        $printer->text("\n");
+        $printer->setEmphasis(false);
 
         $devolucion_venta = model('devolucionModel')->where('id_apertura', $id_apertura)->findAll();
 
@@ -321,35 +342,58 @@ class impresion
         $temp_devoluciones = 0;
         $total_devoluciones = 0;
 
+
         foreach ($devolucion_venta as $detalle) {
 
-            $printer->text("FECHA:" . $detalle['fecha'] . " " . date("g:i a", strtotime($detalle['hora'])) . "\n");
-            $codigo_interno_producto = model('detalleDevolucionVentaModel')->select('codigo')->where('id_devolucion_venta', $detalle['id'])->first();
-            $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $codigo_interno_producto['codigo'])->first();
-            $printer->text("PRODUCTO: " . $nombre_producto['nombreproducto'] . "\n");
-            $valor = model('devolucionVentaEfectivoModel')->select('valor')->where('iddevolucion', $detalle['id'])->first();
-            $printer->text("VALOR " . "$" . number_format($valor['valor'], 0, ",", ".") . "\n");
-            $printer->text("\n");
+            $codigo = model('detalleDevolucionVentaModel')
+                ->select('codigo')
+                ->where('id_devolucion_venta', $detalle['id'])
+                ->first();
 
+            $producto = model('productoModel')
+                ->select('nombreproducto')
+                ->where('codigointernoproducto', $codigo['codigo'])
+                ->first();
 
-            $temp_devoluciones = $temp_devoluciones + $valor['valor'];
-            $total_devoluciones = $temp_devoluciones;
+            $valor = model('devolucionVentaEfectivoModel')
+                ->select('valor')
+                ->where('iddevolucion', $detalle['id'])
+                ->first();
+
+            $fechaHora = $detalle['fecha'] . " " . date("g:i a", strtotime($detalle['hora']));
+            $nombre = substr($producto['nombreproducto'], 0, 18); // Limita el nombre
+            $valorTexto = "$ " . number_format($valor['valor'], 0, ",", ".");
+
+            $printer->text(
+                str_pad($fechaHora, 20) .
+                    str_pad($nombre, 18) .
+                    str_pad($valorTexto, 10, " ", STR_PAD_LEFT) . "\n"
+            );
+
+            $temp_devoluciones += $valor['valor'];
         }
 
+        $total_devoluciones = $temp_devoluciones;
+
+        $printer->text("------------------------------------------------\n");
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("Total devoluciones:" . "     $ " . number_format($total_devoluciones, 0, ",", ".") . "\n");
-
-        $printer->text("\n");
-        $printer->text("------------------------------------------------\n");
-        $printer->text("Ingresos-(Retiros-Devoluciones) \n");
         $printer->text("------------------------------------------------\n");
 
-        $printer->text("Ingresos a caja " . "        $ " . number_format($ingresos_efectivo[0]['efectivo'] + $valor_apertura['valor'], 0, ",", ".") . "\n");
+
+
+        $printer->setEmphasis(true);
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("INGRESOS-(RETIROS-DEVOLUCIONES) \n");
+        $printer->setEmphasis(false);
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text("Ingresos a caja " . "        $ " . number_format($ingresos_efectivo[0]['efectivo'] + $valor_apertura['valor'] + $efectivo_abonos, 0, ",", ".") . "\n");
 
         //$printer->text("(-) Total retiros: " . "     $ " . number_format($total_retiros, 0, ",", ".") . "\n");
         $printer->text("(-) Total retiros: " . "     $ " . number_format($temp_retiros, 0, ",", ".") . "\n");
         $printer->text("(-) Total devoluciones:" . " $ " . number_format($total_devoluciones, 0, ",", ".") . "\n");
 
-        $temp = $ingresos_efectivo[0]['efectivo'] + $valor_apertura['valor'];
+        $temp = $ingresos_efectivo[0]['efectivo'] + $valor_apertura['valor'] + $efectivo_abonos;
         //$total_caja = $total_retiros + $total_devoluciones;
         $total_caja = $temp_retiros + $total_devoluciones;
         $total_en_caja = $temp - $total_caja;
@@ -357,12 +401,14 @@ class impresion
         $printer->text("(=) Efectivo en caja:   $ " . number_format($total_en_caja, 0, ",", ".") . "\n");
 
         $printer->text("\n");
-        $printer->text("-----------------------------------------------\n");
-        $printer->text("Cierre de caja \n");
-        $printer->text("-----------------------------------------------\n");
+
+
+        $printer->setEmphasis(true);
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("CIERRE DE CAJA  \n");
         //$printer->text("Efectivo en caja   " . "     $ " . number_format($total_en_caja, 0, ",", ".") . " \n");
-
-
+        $printer->setEmphasis(false);
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
         $id_cierre = model('cierreModel')->select('id')->where('idapertura', $id_apertura)->first();
 
         if (!empty($id_cierre)) {
@@ -400,11 +446,11 @@ class impresion
             $valor_cierre_transaccion_usuario = $valor_cierre_transaccion_usuari[0]['valor'];
         }
 
-        $printer->text("Efectivo caja: " . "              $ " . number_format($total_en_caja, 0, ",", ".") . "\n");
+        $printer->text("Efectivo caja: " . "              $ " . number_format($total_en_caja + $efectivo_abonos, 0, ",", ".") . "\n");
         $printer->text("Cierre efectivo  " . "            $ " .  number_format($cierre_usuario, 0, ",", ".") .  "\n");
         $printer->text("Diferencia efectivo  " . "        $ " . number_format(($cierre_usuario) - $total_en_caja, 0, ",", ".") . "\n\n");
 
-        $printer->text("Transacciones caja: " . "         $ " . number_format($transaccion, 0, ",", ".") . "\n");
+        $printer->text("Transacciones caja: " . "         $ " . number_format($transaccion + $electronico_abonos, 0, ",", ".") . "\n");
         $printer->text("Cierre transacciones  " . "       $ " .  number_format($valor_cierre_transaccion_usuario, 0, ",", ".") .  "\n");
 
 
@@ -416,7 +462,7 @@ class impresion
         } */
 
 
-        $printer->text("Diferencia transaccion  " .      "     $ " . number_format($valor_cierre_transaccion_usuario -  $transaccion, 0, ",", ".") . "\n");
+        $printer->text("Diferencia transaccion  " .      "     $ " . number_format($valor_cierre_transaccion_usuario -  ($transaccion + $electronico_abonos), 0, ",", ".") . "\n");
 
         $printer->text("\n");
 
@@ -426,7 +472,7 @@ class impresion
         if ($total_en_caja < $cierre_usuario) {
             $printer->text("TOTAL DIFERENCIAS  " . "     $ " . number_format((($cierre_usuario ) - $total_en_caja ) + ($transaccion - $valor_cierre_transaccion_usuario), 0, ",", ".") . "\n");
         } */
-        $printer->text("TOTAL DIFERENCIAS  " . "          $ " . number_format((($cierre_usuario) - $total_en_caja) + ($valor_cierre_transaccion_usuario  - $transaccion), 0, ",", ".") . "\n");
+        $printer->text("TOTAL DIFERENCIAS  " . "          $ " . number_format((($cierre_usuario) - $total_en_caja) + ($valor_cierre_transaccion_usuario  - ($transaccion + $electronico_abonos)), 0, ",", ".") . "\n");
         $printer->text("\n");
 
         $printer->feed(1);
@@ -503,7 +549,7 @@ class impresion
         $printer->text("FECHA:           " . date('Y-m-d') . "\n");
         $printer->text("CAJA:            1"  . "\n");
         $printer->text("CAJERO:          Usuario administrador"  . "\n");
-        $printer->text("\n");
+        //$printer->text("\n");
         $items = model('itemFacturaElectronicaModel')->where('id_de', $id_factura)->findAll();
 
 
@@ -532,7 +578,7 @@ class impresion
                 $printer->text($productos['nota_producto'] . "\n");
             }
 
-            $printer->text("\n");
+            //$printer->text("\n");
         }
 
 
@@ -582,12 +628,12 @@ class impresion
         }
         //$printer->text("\n");
         $printer->text(str_pad("PROPINA", 15) . ": " . str_pad("$ " . number_format($propina['propina'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
-        $printer->text("\n");
+        //$printer->text("\n");
         $printer->setTextSize(1, 2);
         $printer->setEmphasis(true); // Negrita (resaltado)
         $printer->text(str_pad(" TOTAL", 15) . ":" . "$ " . number_format($total[0]['valor'], 0, ",", ".") . "\n");
         $printer->setEmphasis(false); // Desactiva la negrita
-        $printer->text("\n");
+        //$printer->text("\n");
         $printer->setTextSize(1, 1);
 
 
@@ -618,7 +664,7 @@ class impresion
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
 
                 $printer->text(str_pad("TARIFA", 10, " ") . str_pad("BASE", 15, " ") . str_pad(" INC ",  15, " ") .            "VENTA\n");
-                foreach ($inc_tarifa as $detalle) {
+                /* foreach ($inc_tarifa as $detalle) {
                     $inc = model('kardexModel')->get_tarifa_ico($id_factura, $detalle['valor_ico']);
                     $tarifa = $inc_tarifa[0]['valor_ico'] . " %";
                     $base_inc = number_format(($total['total'] - $inc[0]['inc']), 0, ",", ".");
@@ -626,6 +672,24 @@ class impresion
                     $venta = number_format($total['total'], 0, ",", ".");
 
                     $printer->text(str_pad($tarifa, 10, " ") . str_pad($base_inc, 15, " ") . " " .   str_pad($inc, 15, " ") . "  " . $venta . "\n");
+                } */
+
+                foreach ($inc_tarifa as $detalle) {
+
+                    $inc = model('kardexModel')->get_tarifa_ico($id_factura, $detalle['valor_ico']);
+
+                    $tarifa   = $detalle['valor_ico'] . "%";
+                    $base_inc = number_format($total['total'] - $inc[0]['inc'], 0, ",", ".");
+                    $valorInc = number_format($inc[0]['inc'], 0, ",", ".");
+                    $venta    = number_format($total['total'], 0, ",", ".");
+
+                    $printer->text(
+                        str_pad($tarifa, 2, " ", STR_PAD_RIGHT) .
+                            str_pad($base_inc, 14, " ", STR_PAD_LEFT) .
+                            str_pad($valorInc, 14, " ", STR_PAD_LEFT) .
+                            str_pad($venta, 14, " ", STR_PAD_LEFT) .
+                            "\n"
+                    );
                 }
             }
 
@@ -657,14 +721,14 @@ class impresion
 
 
 
-        $printer->text("_______________________________________________ \n\n");
+        $printer->text("_______________________________________________ ");
         $nota = model('facturaElectronicaModel')->select('nota')->where('id', $id_factura)->first();
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         if (!empty($nota['nota'])) {
             $printer->text("Nota:" . $nota['nota']);
         }
-        $printer->text("\n");
-        $printer->text("\n");
+        // $printer->text("\n");
+        //$printer->text("\n");
 
         $mesaMesero = model('pagosModel')->getMesaMesero($id_factura);
 
@@ -677,7 +741,7 @@ class impresion
         $textoPropina = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();
 
 
-        $printer->text("\n");
+        //$printer->text("\n");
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         //$printer->text("Actividad Economica Principal: " . $actividadEconimica['codigo'] . "\n");
 
@@ -928,12 +992,12 @@ class impresion
         }
         //$printer->text("\n");
         $printer->text(str_pad("PROPINA", 15) . ": " . str_pad("$ " . number_format($propina['propina'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
-    
+
         $printer->setTextSize(1, 2);
         $printer->setEmphasis(true); // Negrita (resaltado)
         $printer->text(str_pad(" TOTAL", 15) . ":" . "$ " . number_format($total['valor'] + $propina['propina'], 0, ",", "."));
         $printer->setEmphasis(false); // Desactiva la negrita
-    
+
         $printer->setTextSize(1, 1);
         $printer->text("\n");
         $printer->setTextSize(1, 1);
@@ -953,7 +1017,7 @@ class impresion
 
 
 
-       
+
         $total = model('facturaElectronicaModel')->select('total')->where('id', $id_factura)->first();
 
         $inc_tarifa = model('kardexModel')->get_inc_calc($id_factura);
@@ -1078,13 +1142,13 @@ class impresion
 
         $mesaMesero = model('pagosModel')->getMesaMesero($id_factura);
 
-       if (!empty($mesaMesero)) {
-    $printer->text(
-        "Mesa: " . $mesaMesero[0]['nombre_mesa'] .
-        " | Mesero: " . $mesaMesero[0]['nombre_mesero'] .
-        "\n"
-    );
-}
+        if (!empty($mesaMesero)) {
+            $printer->text(
+                "Mesa: " . $mesaMesero[0]['nombre_mesa'] .
+                    " | Mesero: " . $mesaMesero[0]['nombre_mesero'] .
+                    "\n"
+            );
+        }
 
 
         $textoPropina = model('configuracionPedidoModel')->select('permitir_impresion_texto_propina')->first();
@@ -1423,80 +1487,110 @@ class impresion
             echo  json_encode($returnData);
         }
     }
-
-    function imprimir_comprobnate_transferencia($id_factura, $transferencia, $efectivo, $total)
+    public function imprimir_comprobnate_transferencia($id_factura)
     {
 
+        //try {
+
+        // Impresora
         $id_impresora = model('cajaModel')->select('id_impresora')->first();
-        $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
 
-        $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
-        $printer = new Printer($connector);
-        $id_factura = $id_factura;
+        if (!$id_impresora) {
+            throw new \Exception("No se encontró la configuración de la caja.");
+        }
 
-        $numero_factura = model('pagosModel')->select('documento')->where('id', $id_factura)->first();
-        $fecha_factura_venta = model('pagosModel')->select('fecha')->where('id', $id_factura)->first();
-        $hora_factura = model('pagosModel')->select('hora')->where('id', $id_factura)->first();
-        $total_factura = model('pagosModel')->select('total_documento')->where('id', $id_factura)->first();
-        $id_usuario = model('pagosModel')->select('id_usuario_facturacion')->where('id', $id_factura)->first();
-        $nombre_usuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario['id_usuario_facturacion'])->first();
-        $temp_transferencia = model('pagosModel')->select('transferencia')->where('id', $id_factura)->first();
-        $temp_efectivo = model('pagosModel')->select('recibido_efectivo')->where('id', $id_factura)->first();
-        $cambio = model('pagosModel')->select('cambio')->where('id', $id_factura)->first();
+        $impresora = model('impresorasModel')
+            ->select('nombre')
+            ->where('id', $id_impresora['id_impresora'])
+            ->first();
 
-        $dateTime = new DateTime($hora_factura['hora']);
+        if (!$impresora) {
+            throw new \Exception("No se encontró la impresora.");
+        }
+
+        $connector = new WindowsPrintConnector($impresora['nombre']);
+        $printer   = new Printer($connector);
+
+        // Factura
+        $factura = model('facturaVentaModel')
+            ->where('id', $id_factura)
+            ->first();
+
+        if (!$factura) {
+            throw new \Exception("No existe la factura.");
+        }
+
+        // Usuario
+        $usuario = model('usuariosModel')
+            ->select('nombresusuario_sistema')
+            ->where('idusuario_sistema', $factura['idusuario_sistema'])
+            ->first();
+
+        // Empresa
+        $empresa = model('empresaModel')->datosEmpresa();
+
+        // Formas de pago
+        $movimientos_transaccion = model('facturaformaPagoModel')->valor_pago_transaccion($id_factura);
+        $movimientos_efectivo    = model('facturaformaPagoModel')->valor_pago_efectivo($id_factura);
+
+        // Total factura
+        $total = model('productoFacturaVentaModel')
+            ->selectSum('total')
+            ->where('id_factura', $id_factura)
+            ->first();
+
+        $valorTotal = $total['total'] ?? 0;
+
+        $efectivo = $movimientos_efectivo[0]['valor_pago'] ?? 0;
+        $transferencia = $movimientos_transaccion[0]['valor_pago'] ?? 0;
+
+        $cambio = ($efectivo + $transferencia) - $valorTotal;
+
+        // ================= IMPRESIÓN ===================
+
         $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $hora_am_pm = $dateTime->format('h:i A'); // 'h' para 12 horas y 'A' para AM/PM
-        $datos_empresa = model('empresaModel')->datosEmpresa();
-        $printer->text("SOPORTE TRANSFERENCIA\n");
-        $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
-        $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
-        $printer->text("-------------------------------------------" . "\n");
-        $printer->text("\n");
+
+        $printer->text("SOPORTE TRANSACCIÓN\n");
+        $printer->text($empresa[0]['nombrecomercialempresa'] . "\n");
+        $printer->text("NIT: " . $empresa[0]['nitempresa'] . "\n");
+        $printer->text("----------------------------------------\n");
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
-        $printer->setTextSize(1, 1);
-        $printer->text("FECHA:                " . "" . $fecha_factura_venta['fecha'] . "   " . $hora_factura['hora'] . "\n");
-        $printer->text("CAJA:                 " . "1" . "\n");
-        $printer->text("USUARIO:              " .  $nombre_usuario['nombresusuario_sistema'] . "\n\n");
-        $printer->text("NÚMERO DOCUMENTO:     " . $numero_factura['documento'] . "\n");
-        $printer->text("VALOR  DOCUMENTO:     " . number_format($total_factura['total_documento'], 0, ",", ".") . "\n");
-        $printer->text("VALOR  EFECTIVO:      " . number_format($temp_efectivo['recibido_efectivo'], 0, ",", ".") . "\n");
-        $printer->text("VALOR  TRANSFERENCIA: " . number_format($temp_transferencia['transferencia'], 0, ",", ".") . "\n");
-        $printer->text("CAMBIO:               " . number_format($cambio['cambio'], 0, ",", ".") . "\n");
 
-        //$temp_total = model('pagosModel')->select('total_documento')->where('id', $id_factura)->first();
-        //$temp_efectivo = model('pagosModel')->select('recibido_efectivo')->where('id', $id_factura)->first();
+        $printer->text("FACTURA:        " . $factura['numerofactura_venta'] . "\n");
+        $printer->text("FECHA:          " . $factura['fecha_factura_venta'] . " " . $factura['horafactura_venta'] . "\n");
+        $printer->text("CAJA:           1\n");
+        $printer->text("USUARIO:        " . ($usuario['nombresusuario_sistema'] ?? '') . "\n");
 
-        //$cambio = model('pagosModel')->select('cambio')->where('id', $id_factura)->first();
+        $printer->text("----------------------------------------\n");
 
-
-        /*  $printer->setTextSize(1, 2);
-        $printer->text(
-            str_pad("Pago transferencia :", 20) .
-                str_pad("$" . number_format($temp_transferencia['transferencia'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n"
-        ); */
-
-
-        $printer->text("\n\n");
-        $printer->setTextSize(1, 1);
-
-        $printer->text("Nota:____________________________________" . "\n\n");
-
-
-
+        $printer->text("VALOR FACTURA:  $" . number_format($valorTotal, 0, ",", ".") . "\n");
+        $printer->text("EFECTIVO:       $" . number_format($efectivo, 0, ",", ".") . "\n");
+        $printer->text("TRANSFERENCIA:  $" . number_format($transferencia, 0, ",", ".") . "\n");
+        $printer->text("CAMBIO:         $" . number_format($cambio, 0, ",", ".") . "\n");
 
         $printer->text("\n");
+        $printer->text("Nota:\n");
+        $printer->text("____________________________________\n\n");
+        $printer->text("Nombre: ____________________________\n\n");
+        $printer->text("Identificación: ____________________\n\n");
+        $printer->text("Teléfono: __________________________\n\n");
 
-
-
-        $printer->feed(1);
+        $printer->feed(3);
         $printer->cut();
-        $printer->pulse();
+        //$printer->pulse(); // Descomentar si tu impresora tiene cajón monedero
         $printer->close();
+
+        /*      return true;
+        } catch (\Throwable $e) {
+
+            log_message('error', $e->getMessage());
+
+            return false;
+        } */
     }
 
-    /*   function imprimir_comprobnate_transferencia($id_factura, $transferencia, $efectivo, $total)
+    /*   function imprimirComprobnateTransferencia($id_factura, $transferencia, $efectivo, $total)
     {
 
         $id_impresora = model('cajaModel')->select('id_impresora')->first();
@@ -1523,7 +1617,7 @@ class impresion
         $printer->setTextSize(1, 1);
         $printer->text("SOPORTE TRANSFERENCIA\n");
         $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
-        
+
         $printer->text("NIT :" . $datos_empresa[0]['nitempresa'] . "\n");
 
         $printer->text("\n");
@@ -1549,15 +1643,100 @@ class impresion
         $printer->setTextSize(1, 1);
 
         $printer->text("Nota:____________________________________" . "\n\n");
-        
+
 
 
         $printer->feed(1);
         $printer->cut();
         $printer->pulse();
         $printer->close();
+    } */
+
+
+    public function imprimirComprobnateTransferencia($id_factura, $transferencia, $efectivo, $total)
+    {
+
+        $id_impresora = model('cajaModel')->select('id_impresora')->first();
+        $impresora = model('impresorasModel')
+            ->select('nombre')
+            ->where('id', $id_impresora['id_impresora'])
+            ->first();
+
+        $connector = new WindowsPrintConnector($impresora['nombre']);
+        $printer = new Printer($connector);
+
+        $empresa = model('empresaModel')->datosEmpresa();
+
+        // Una sola consulta para la factura
+        $factura = model('pagosModel')
+            ->select('documento, fecha, hora, total_documento')
+            ->where('id', $id_factura)
+            ->first();
+
+
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setTextSize(1, 1);
+        $printer->text("SOPORTE DE TRANSFERENCIA\n");
+        $printer->text($empresa[0]['nombrecomercialempresa'] . "\n");
+        $printer->text("NIT: " . $empresa[0]['nitempresa'] . "\n\n");
+
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+
+        $printer->text("FACTURA DE VENTA : " . $factura['documento'] . "\n");
+        $printer->text("FECHA   : " . $factura['fecha'] . " " . $factura['hora'] . "\n");
+        $printer->text("CAJA   :  1" . "\n");
+        $printer->text("Valor factura" . "\n\n");
+
+
+
+        $printer->text(
+            str_pad("Efectivo:", 22) .
+                str_pad("$" . number_format($efectivo, 0, ",", "."), 18, " ", STR_PAD_LEFT) . "\n"
+        );
+
+        $printer->text(
+            str_pad("Transaccion:", 22) .
+                str_pad("$" . number_format($transferencia, 0, ",", "."), 18, " ", STR_PAD_LEFT) . "\n"
+        );
+        $printer->text(
+            str_pad("Cambio:", 22) .
+                str_pad("$" . number_format(0, 0, ",", "."), 18, " ", STR_PAD_LEFT) . "\n\n"
+        );
+
+
+        $printer->text("Nota           : ___________________________\n\n");
+        $printer->text("Nombre         : ___________________________\n\n");
+        $printer->text("Identificación : ___________________________\n\n");
+        $printer->text("Teléfono       : ___________________________\n\n");
+
+        $printer->feed(3);
+        $printer->cut();
+        $printer->pulse();
+        $printer->close();
     }
- */
+
+    /*  public function imprimirComprobnateTransferencia($id_factura, $transferencia, $efectivo, $total)
+    {
+
+    //echo "ERROR";
+        
+        $id_impresora = model('cajaModel')->select('id_impresora')->first();
+        $impresora = model('impresorasModel')
+            ->select('nombre')
+            ->where('id', $id_impresora['id_impresora'])
+            ->first();
+        $connector = new WindowsPrintConnector('FACTURACION');
+        $printer = new Printer($connector);
+
+        $printer->text("HOLA MUNDO\n");
+
+        $printer->feed(3);
+        $printer->cut();
+        $printer->close();
+    } */
+
 
 
     function imprimir_comanda() {}

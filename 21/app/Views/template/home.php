@@ -498,7 +498,23 @@
                     columnDefs: [{
                         targets: [4],
                         orderable: false
-                    }]
+                    }],
+                    createdRow: function(row, data) {
+
+                        // forma segura sin romper DataTable
+                        //let tieneNC = Number(data.tiene_nc || 0);
+
+                        let tieneNC = Number((data && data[11]) ? data[11] : 0);
+
+                        if (tieneNC === 1) {
+
+                            $(row).css({
+                                'border-left': '5px solid #dc3545',
+                                'background-color': '#fff1f1'
+                            });
+
+                        }
+                    }
                 });
             }
         </script>
@@ -595,7 +611,23 @@
                         columnDefs: [{
                             targets: [4],
                             orderable: false
-                        }]
+                        }],
+                        createdRow: function(row, data) {
+
+                            // forma segura sin romper DataTable
+                            //let tieneNC = Number(data.tiene_nc || 0);
+
+                            let tieneNC = Number((data && data[11]) ? data[11] : 0);
+
+                            if (tieneNC === 1) {
+
+                                $(row).css({
+                                    'border-left': '5px solid #dc3545',
+                                    'background-color': '#fff1f1'
+                                });
+
+                            }
+                        }
                     });
 
 
@@ -694,7 +726,23 @@
                                 columnDefs: [{
                                     targets: [4],
                                     orderable: false
-                                }]
+                                }],
+                                createdRow: function(row, data) {
+
+                                    // forma segura sin romper DataTable
+                                    //let tieneNC = Number(data.tiene_nc || 0);
+
+                                    let tieneNC = Number((data && data[11]) ? data[11] : 0);
+
+                                    if (tieneNC === 1) {
+
+                                        $(row).css({
+                                            'border-left': '5px solid #dc3545',
+                                            'background-color': '#fff1f1'
+                                        });
+
+                                    }
+                                }
                             });
                         }
 
@@ -755,7 +803,23 @@
                                 columnDefs: [{
                                     targets: [4],
                                     orderable: false
-                                }]
+                                }],
+                                createdRow: function(row, data) {
+
+                        // forma segura sin romper DataTable
+                        //let tieneNC = Number(data.tiene_nc || 0);
+
+                        let tieneNC = Number((data && data[11]) ? data[11] : 0);
+
+                        if (tieneNC === 1) {
+
+                            $(row).css({
+                                'border-left': '5px solid #dc3545',
+                                'background-color': '#fff1f1'
+                            });
+
+                        }
+                    }
                             });
                         }
 
@@ -820,7 +884,23 @@
                             columnDefs: [{
                                 targets: [4],
                                 orderable: false
-                            }]
+                            }],
+                            createdRow: function(row, data) {
+
+                        // forma segura sin romper DataTable
+                        //let tieneNC = Number(data.tiene_nc || 0);
+
+                        let tieneNC = Number((data && data[11]) ? data[11] : 0);
+
+                        if (tieneNC === 1) {
+
+                            $(row).css({
+                                'border-left': '5px solid #dc3545',
+                                'background-color': '#fff1f1'
+                            });
+
+                        }
+                    }
                         });
 
                     }
@@ -910,7 +990,7 @@
         </script>
 
 
-        <script>
+        <!--  <script>
             $(document).ready(function() {
                 $('#consulta_ventas').DataTable({
                     serverSide: true,
@@ -981,6 +1061,101 @@
                         orderable: false
                     }]
                 });
+            });
+        </script> -->
+
+
+        <script>
+            $(document).ready(function() {
+
+                $('#consulta_ventas').DataTable({
+
+                    serverSide: true,
+                    processing: true,
+                    searching: true,
+                    order: [
+                        [0, 'desc']
+                    ],
+
+                    language: {
+                        decimal: "",
+                        emptyTable: "No hay datos",
+                        info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                        infoFiltered: "(Filtro de _MAX_ total registros)",
+                        infoPostFix: "",
+                        thousands: ",",
+                        lengthMenu: "Mostrar _MENU_ registros",
+                        loadingRecords: "Cargando...",
+                        processing: "Procesando...",
+                        search: "Buscar",
+                        zeroRecords: "No se encontraron coincidencias",
+                        paginate: {
+                            first: "Primero",
+                            last: "Ultimo",
+                            next: "Próximo",
+                            previous: "Anterior"
+                        },
+                        aria: {
+                            sortAscending: ": Activar orden de columna ascendente",
+                            sortDescending: ": Activar orden de columna descendente"
+                        }
+                    },
+
+                    ajax: {
+                        url: '<?php echo base_url() ?>' + "/eventos/tipo_documento",
+                        data: function(d) {
+                            return $.extend({}, d, {});
+                        },
+
+                        dataSrc: function(json) {
+
+                            $('#saldo').html(json.saldo_pendiente_por_cobrar);
+                            $('#abonos').html(json.abonos);
+                            $('#total_documentos').html(json.total);
+                            $('#total_ventas').html(json.titulo);
+                            $('#dian_no_enviado').html(json.dian_no_enviado);
+                            $('#dian_aceptado').html(json.dian_aceptado);
+                            $('#dian_rechazado').html(json.dian_rechazado);
+                            $('#dian_error').html(json.dian_error);
+
+                            if (json.abonos_sin_punto > 0) {
+                                document.getElementById("pagos_recibidos").style.display = "block";
+                            }
+
+                            if (json.saldo_pendiente_por_cobrar_sin_punto > 0) {
+                                document.getElementById("saldo_pendiente_pago").style.display = "block";
+                            }
+
+                            return json.data;
+                        }
+                    },
+
+                    columnDefs: [{
+                        targets: [4],
+                        orderable: false
+                    }],
+
+                    // 🔥 AQUÍ ES DONDE PINTAMOS LA FILA
+                    createdRow: function(row, data) {
+
+                        // forma segura sin romper DataTable
+                        //let tieneNC = Number(data.tiene_nc || 0);
+
+                        let tieneNC = Number((data && data[11]) ? data[11] : 0);
+
+                        if (tieneNC === 1) {
+
+                            $(row).css({
+                                'border-left': '5px solid #dc3545',
+                                'background-color': '#fff1f1'
+                            });
+
+                        }
+                    }
+
+                });
+
             });
         </script>
 

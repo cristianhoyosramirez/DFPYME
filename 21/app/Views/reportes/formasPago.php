@@ -36,6 +36,12 @@
             <?php echo $detalle['numero'] ?>
         </td>
         <td>
+            <?php echo $detalle['nit_cliente'] ?>
+        </td>
+        <td>
+            <?php echo $detalle['nombrescliente'] ?>
+        </td>
+        <td>
             <?php echo number_format($detalle['total_documento'], 0, ',', '.'); ?>
         </td>
         <td>
@@ -57,6 +63,9 @@
                 echo 'Efectivo';
             }
             ?>
+        </td>
+        <td>
+            <?php echo $detalle['forma_pago_texto'] ?>
         </td>
     </tr>
 <?php endforeach ?>

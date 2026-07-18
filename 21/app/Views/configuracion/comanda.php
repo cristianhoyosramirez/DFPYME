@@ -92,6 +92,14 @@ Configuración
                     </select>
 
                 </div>
+                <div class="col-3">
+                    <label class="form-label">Tamaño numero pedido   </label>
+                    <select name="" id="reImprimirMesero" class="form-select" onchange="titulo_pedido(this.value)">
+                        <option value="0" <?= $titulo_pedido == 0 ? 'selected' : '' ?>>Tradicional</option>
+                        <option value="1" <?= $titulo_pedido == 1 ? 'selected' : '' ?>>grande</option>
+                    </select>
+
+                </div>
             </div>
         </div>
 
@@ -101,6 +109,43 @@ Configuración
 <!-- Sweet alert -->
 <script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/sweet_alert_centrado.js"></script>
+
+<script>
+    async function titulo_pedido(valor) {
+
+        try {
+            let respuesta = await fetch("<?= base_url('configuracion/titulo_pedido') ?>", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest' // para detectar llamadas AJAX
+                },
+                body: JSON.stringify({
+                    valor: valor
+                })
+            });
+
+            const resultado = await respuesta.json();
+
+            if (resultado.response == "success") {
+                sweet_alert_centrado('success', 'Se imprimen los precios en la comanda');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: resultado.message || 'No se pudo actualizar.'
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error de red o del servidor.'
+            });
+        }
+    }
+</script>
 
 
 

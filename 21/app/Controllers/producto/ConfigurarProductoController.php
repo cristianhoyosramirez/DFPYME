@@ -132,21 +132,47 @@ class ConfigurarProductocontroller extends BaseController
         } */
     }
 
-    function deleteComponente()
-    {
+   public function deleteComponente()
+{
+    $json = $this->request->getJSON();
 
-        $json = $this->request->getJSON();
-        $id = $json->id;
-
-        $borrar = model('componentesAtributosProductoModel')->where('id', $id)->delete();
-
-        if ($borrar) {
-            return $this->response->setJSON([
-                'response' => 'success',
-                'id' => $id
-            ]);
-        }
+    if (!isset($json->id) || empty($json->id)) {
+        return $this->response->setJSON([
+            'response' => false,
+            'mensaje'  => 'No se recibió el identificador del componente.'
+        ]);
     }
+
+    $id = (int) $json->id;
+
+    /* $tieneMovimiento = model('atributosDeProductoModel')
+        ->where('id_componente', $id)
+        ->countAllResults();
+
+    if ($tieneMovimiento > 0) {
+        return $this->response->setJSON([
+            'response' => false,
+            'mensaje'  => 'No es posible eliminar el componente porque ya tiene movimientos asociados.'
+        ]);
+    } */
+
+    $borrar = model('componentesAtributosProductoModel')
+        ->where('id', $id)
+        ->delete();
+
+    if ($borrar) {
+        return $this->response->setJSON([
+            'response' => true,
+            'mensaje'  => 'Componente eliminado correctamente.',
+            'id'       => $id
+        ]);
+    }
+
+    return $this->response->setJSON([
+        'response' => false,
+        'mensaje'  => 'No fue posible eliminar el componente.'
+    ]);
+}
 
     function deleteAtributo()
     {

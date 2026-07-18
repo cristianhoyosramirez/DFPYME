@@ -23,11 +23,12 @@ LISTADO DE MESAS
 <div class="container">
   <div class="row text-center align-items-center flex-row-reverse">
     <div class="col-lg-auto ms-lg-auto">
-      <a href="<?php echo base_url('mesas/add'); ?>" class="btn btn-warning btn-pill w-100">Agregar mesa</a>
+      <!-- <a href="<?php echo base_url('mesas/add'); ?>" class="btn btn-warning btn-pill w-100">Agregar mesa</a> -->
+      <a href="<?php echo base_url('mesas/add'); ?>" class="btn btn-warning btn-pill w-100">Agregar mesas</a>
     </div>
 
     <div class="col-lg-auto ms-lg-auto">
-      <p class="text-primary h3">LISTA GENERAL DE MESAS </p>
+      <p class="text-primary h3">Lista de mesas  </p>
     </div>
     <div class="col-12 col-lg-auto mt-3 mt-lg-0">
       <a class="nav-link"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" onClick="history.go(-1);" title="Sección anterior"></a>
@@ -43,6 +44,8 @@ LISTADO DE MESAS
 
           <?php
           $salon_actual = '';
+
+        
 
           foreach ($mesas as $detalle) {
 
@@ -127,8 +130,10 @@ LISTADO DE MESAS
 </div>
 </div>
 
+<script src="<?= base_url() ?>/Assets/script_js/mesas/eliminarMesa.js"></script>
 
-<script>
+
+<!-- <script>
   async function eliminarMesa(id) {
 
     const confirmar = await Swal.fire({
@@ -158,7 +163,7 @@ LISTADO DE MESAS
 
         const data = await response.json();
 
-        if (data.success) {
+        if (data.status) {
 
             await Swal.fire({
                 icon: 'success',
@@ -174,7 +179,7 @@ LISTADO DE MESAS
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: data.message
+                text: data.mensaje
             });
 
         }
@@ -191,7 +196,7 @@ LISTADO DE MESAS
 
     }
 }
-</script>
+</script> -->
 
 
 <?= $this->endSection('content') ?>

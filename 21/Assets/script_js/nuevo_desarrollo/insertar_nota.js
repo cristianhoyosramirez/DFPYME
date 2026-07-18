@@ -1,6 +1,7 @@
 function insertarDatos(data) {
     let url = document.getElementById("url").value
     let id_mesa = document.getElementById("id_mesa_pedido").value;
+    
     $.ajax({
         type: 'POST',
         url: url + "/" + "pedidos/nota", // Cambia esto a tu script PHP para insertar en la base de datos

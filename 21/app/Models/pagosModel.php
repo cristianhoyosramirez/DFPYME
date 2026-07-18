@@ -48,14 +48,48 @@ class pagosModel extends Model
         return $datos->getResultArray();
     }
 
+    /*    public function medioPago($id_apertura)
+    {
+        $datos = $this->db->query("
+            SELECT DISTINCT id_clase_pago
+        FROM pagos
+        WHERE id_apertura = $id_apertura
+        AND id_clase_pago <> 0;
+
+    ");
+        return $datos->getResultArray();
+    } */
+
+
+
     public function medioPago($id_apertura)
     {
         $datos = $this->db->query("
-    SELECT DISTINCT id_clase_pago
-FROM pagos
-WHERE id_apertura = $id_apertura
-  AND id_clase_pago <> 0;
+          SELECT
+    id_clase_pago,
+    SUM(total) AS total
+FROM (
+    SELECT
+        id_clase_pago,
+        SUM(transferencia) AS total
+    FROM pagos
+    WHERE id_clase_pago <> 0
+      AND id_apertura = $id_apertura
+    GROUP BY id_clase_pago
 
+    UNION ALL
+
+    SELECT
+        id_clase_pago,
+        SUM(electronico) AS total
+    FROM factura_forma_pago
+    WHERE id_apertura = $id_apertura
+      AND id_clase_pago <> 0
+      AND electronico > 0
+    GROUP BY id_clase_pago
+) AS t
+GROUP BY id_clase_pago
+ORDER BY id_clase_pago;
     ");
         return $datos->getResultArray();
     }
@@ -442,6 +476,20 @@ WHERE
     FROM
         pagos
     WHERE
+        id_factura = $id_factura AND recibido_transferencia > 0
+                                 ");
+        return $datos->getResultArray();
+    }
+
+    public function pagoTransferencia($id_factura)
+    {
+
+        $datos = $this->db->query("
+        SELECT
+        recibido_transferencia
+    FROM
+        pagos
+    WHERE
         id = $id_factura AND recibido_transferencia > 0
                                  ");
         return $datos->getResultArray();
@@ -523,35 +571,45 @@ WHERE
         return $datos->getResultArray();
     }
 
-    public function pagos($id)
+    public function pagos($id, $id_estado)
     {
 
         $datos = $this->db->query("
-           SELECT
-    pagos.nit_cliente,
-    cliente.nombrescliente,
-    pagos.fecha,
-    pagos.total_documento,
-    pagos.saldo,
+                SELECT
+                    pagos.nit_cliente,
+                    cliente.nombrescliente,
+                    pagos.fecha,
+                    pagos.total_documento,
+                    pagos.saldo,
+                    pagos.efectivo,
+                    pagos.transferencia,
+                    pagos.id_clase_pago,
 
-    CASE
-        WHEN pagos.id_estado = 8
-            THEN documento_electronico.numero::text
-        ELSE
-            pagos.documento::text
-    END AS numero_factura
+                    CASE
+                        WHEN pagos.id_clase_pago = 0 THEN 'Efectivo'
+                        ELSE clase_pago.nombre
+                    END AS nombre_pago,
 
-FROM pagos
+                    CASE
+                        WHEN pagos.id_estado = $id_estado
+                            THEN documento_electronico.numero::TEXT
+                        ELSE pagos.documento::TEXT
+                    END AS numero_factura
 
-INNER JOIN cliente
-    ON cliente.nitcliente = pagos.nit_cliente
+                FROM pagos
 
-LEFT JOIN documento_electronico
-    ON documento_electronico.id = pagos.id_factura
+                INNER JOIN cliente
+                    ON cliente.nitcliente = pagos.nit_cliente
 
-WHERE pagos.id = $id;
+                LEFT JOIN documento_electronico
+                    ON documento_electronico.id = pagos.id_factura
 
-");
+                LEFT JOIN clase_pago
+                    ON clase_pago.id = pagos.id_clase_pago
+
+                WHERE pagos.id = $id;
+
+            ");
         return $datos->getResultArray();
     }
     public function costo($fecha_inicial, $fecha_final)
@@ -733,48 +791,7 @@ WHERE de.id = $idFactura;
     }
 
 
-    /*       public function getFacturas()
-    {
-        $datos = $this->db->query("
-            
-  INSERT INTO factura_historico (
-    tipo_documento,
-    numero_documento,
-    sub_total,
-    propina,
-    id_apertura,
-    fecha_documento,
-    hora_documento,
-    id_usuario_creacion,
-    id_factura,
-    id_estado
-)
-SELECT DISTINCT ON (p.id_factura, p.id_estado)
-    'FACTURA',
-    p.documento,
-    p.valor,
-    p.propina,
-    p.id_apertura,
-    p.fecha,
-    p.hora::time,
-    p.id_usuario_facturacion,
-    p.id_factura,
-    p.id_estado
-FROM pagos p
-WHERE p.id_factura IS NOT NULL
-AND NOT EXISTS (
-    SELECT 1
-    FROM factura_historico fh
-    WHERE fh.id_factura = p.id_factura
-    AND fh.id_estado = p.id_estado
-)
-ORDER BY p.id_factura, p.id_estado, p.id;
 
-
-            
-            ");
-        
-    } */
 
     public function getFacturas()
     {
@@ -886,6 +903,37 @@ WHERE id_factura = $idFactura
                 INNER JOIN clase_pago 
                     ON clase_pago.id = factura_forma_pago.id_clase_pago
                     where id_factura=$idFactura;
+            
+            ");
+        return $datos->getResultArray();
+    }
+
+    public function getCartera()
+    {
+        $datos = $this->db->query("
+            
+             select fecha , nit_cliente, cliente.nombrescliente,documento,total_documento,estado.descripcionestado,saldo,(total_documento-saldo) as abonado,id_factura,id_estado   from pagos 
+             inner join cliente on  cliente.nitcliente = pagos.nit_cliente
+             inner join estado on estado.idestado=pagos.id_estado
+             where saldo > 0 order by fecha desc limit 100;
+            
+            ");
+        return $datos->getResultArray();
+    }
+    public function getTotalCartera()
+    {
+        $datos = $this->db->query("
+            
+         SELECT
+    COUNT(*) AS cantidad_facturas,
+    SUM(total_documento) AS total_documentos
+FROM (
+    SELECT total_documento
+    FROM pagos
+    WHERE saldo > 0
+    ORDER BY fecha DESC
+    LIMIT 100
+) AS t;
             
             ");
         return $datos->getResultArray();

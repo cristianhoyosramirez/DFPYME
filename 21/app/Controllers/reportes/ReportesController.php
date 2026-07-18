@@ -94,7 +94,11 @@ class ReportesController extends BaseController
             $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $detalle['nit_cliente'])->first();
             $sub_array[] = $detalle['fecha'];
             $sub_array[] = $detalle['nit_cliente'];
-            $sub_array[] =  $nombre_cliente['nombrescliente'];
+            //$sub_array[] =  $nombre_cliente['nombrescliente'];
+
+            $sub_array[] = !empty($nombre_cliente['nombrescliente'])
+                ? $nombre_cliente['nombrescliente']
+                : 'Cliente no registrado';
             // $sub_array[] = $detalle['documento'];
             $sub_array[] = $documento;
             $tipo_documento = model('estadoModel')->select('descripcionestado')->where('idestado', $detalle['id_estado'])->first();
@@ -115,6 +119,7 @@ class ReportesController extends BaseController
 
         $iva = model('kardexModel')->get_iva_reportes($apertura);
         $inc = model('kardexModel')->get_inc_reportes($apertura);
+
 
         //$costo = model('pagosModel')->total_costo($apertura);
         $json_data = [
@@ -477,7 +482,8 @@ class ReportesController extends BaseController
         cliente.nombrescliente,
         numero AS documento,
         neto AS total_documento,
-        hora
+        hora,
+        documento_electronico.id
         FROM documento_electronico
         INNER JOIN cliente ON documento_electronico.nit_cliente = cliente.nitcliente
         WHERE id_status= $estado_dian";
@@ -534,21 +540,22 @@ class ReportesController extends BaseController
             $sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
 
             $saldo = model('pagosModel')->getSaldo($detalle['id']);
-            if (empty($saldo)) {
-                $sub_array[] = 0;
-            }
-            if (!empty($saldo)) {
-                $sub_array[] = $saldo[0]['saldo'];
-            }
+
+            $sub_array[] = $saldo[0]['saldo'] ?? 0;
 
             $sub_array[] = "FE";
             $sub_array[] = $mesa;
             $sub_array[] = $mesa;
 
 
-            $acciones = $accion->row_data_table(8, $detalle['id'], $saldo[0]['saldo']);
+            //$acciones = $accion->row_data_table(8, $detalle['id'], $saldo[0]['saldo']);
+            $acciones = $accion->row_data_table(8, $detalle['id'], 0);
 
             $sub_array[] = $acciones;
+
+            $sub_array[] = model('notaCreditoModel')
+                ->where('id_factura', $detalle['id'])
+                ->countAllResults() > 0 ? 1 : 0;
 
 
             $data[] = $sub_array;
@@ -758,9 +765,18 @@ class ReportesController extends BaseController
     function datos_pagos()
     {
         $id = $this->request->getPost('id');
-        // $id = 4046;
-        $pagos = model('pagosModel')->pagos($id);
+        //$id = 15;
+
+        $id_estado = $this->request->getPost('id_estado');
+        //$id_estado = 1;
+        //$pagos = model('pagosModel')->pagos($id, $id_estado);
         $clasePago = model('clasePagoModel')->where('estado', 'true')->orderby('nombre', 'asc')->findAll();
+
+
+        //$id_estado = 8;
+        $pagos = model('pagosModel')->pagos($id, $id_estado);
+
+
 
         //dd($pagos);
 
@@ -806,10 +822,10 @@ class ReportesController extends BaseController
     {
 
 
-    $id = $this->request->getPost('id');  
-    //$id = 135;  
+        $id = $this->request->getPost('id');
+        // $id = 14;  
 
-        
+
 
         $datos = model('facturaFormaPagoModel')->select('id_factura,id_estado,efectivo,electronico,id_clase_pago,valor_pago')->where('idfactura_forma_pago', $id)->first();
 
@@ -820,7 +836,7 @@ class ReportesController extends BaseController
 
 
         // $id = 4046;
-        $pagos = model('pagosModel')->pagos($id_fact['id']);
+        $pagos = model('pagosModel')->pagos($id_fact['id'], $datos['id_estado']);
         $clasePago = model('clasePagoModel')->where('estado', 'true')->orderby('nombre', 'asc')->findAll();
 
 
@@ -834,7 +850,7 @@ class ReportesController extends BaseController
 
         $returnData = array(
             "resultado" => 1,
-           
+
             "id" => $id,
             "nit_cliente" => $pagos[0]['nit_cliente'],
             "nombre_cliente" => $pagos[0]['nombrescliente'],
@@ -1061,11 +1077,11 @@ class ReportesController extends BaseController
 
 
 
-        /*     $codigo_producto = 10;
-        $movimiento = 3;
-        $fecha_inicial = '2025-01-14';
-        $fecha_final = '2025-01-14';
-        $usuario_consulta = 1; */
+        /*         $codigo_producto = '452';
+        $movimiento = 1;
+        $fecha_inicial = '2026-07-14';
+        $fecha_final = '2026-07-16';
+        $usuario_consulta = 6; */
 
         $id_producto = model('productoModel')->getIdProducto($codigo_producto);
         $tipo_inventario = model('productoModel')->getTipoInventario($codigo_producto);
@@ -1081,15 +1097,16 @@ class ReportesController extends BaseController
 
         // Obtener los movimientos
         if ($id_operacion !== null) {
+
             //$movimientos = model('EntradasSalidasModel')->where('id_operacion', $id_operacion)->findAll();
             $movimientos = model('EntradasSalidasModel')->getMovimientos($movimiento, $fecha_inicial, $fecha_final);
         } else {
+
             $movimientos = model('EntradasSalidasModel')->getMovimientosAll($fecha_inicial, $fecha_final);
         }
 
         $datosParaInsertar = [];
 
-        //var_dump($movimientos);
 
         foreach ($movimientos as $detalle) {
 
@@ -1108,7 +1125,7 @@ class ReportesController extends BaseController
                         $data_temp = [
 
                             //'movimiento' => $movimiento,
-                            'movimiento' => 'Factura proveedor',
+                            'movimiento' => 'Compra proveedor',
                             'producto' =>  $codigo_producto . "/" . $key['nombreproducto'],
                             'cantidad_inicial' => $key['inventario_anterior'],
                             'cantidad_final' => $key['inventario_actual'],
@@ -1119,6 +1136,94 @@ class ReportesController extends BaseController
                             'documento' => $documento['numerofactura_proveedor'],
                             'nota' => $nota['nota'],
                             'hora' => date("g:i A", strtotime($key['hora']))
+                        ];
+                        $insert_temp = model('TempMovModel')->insert($data_temp);
+                    }
+                    break;
+                case $detalle['tabla'] == 'factura_venta':
+                    $fecha = $detalle['fecha'];
+                    //$movimiento = 'Ventas';
+                    $datosFactura = model('facturaVentaModel')->getDatos($detalle['id_documento']);
+                    //$documento = model('FacturaCompraModel')->select('numerofactura_proveedor')->where('numeroconsecutivofactura_proveedor', $detalle['id_documento'])->first();
+                    //dd( $datosFactura);
+                    //$datos = model('kardexModel')->getProductosCompra($detalle['id_documento'], $codigo_producto);
+                    $productos = model('kardexModel')->getProductosKardex($detalle['id_documento'], $datosFactura[0]['idestado'], $codigo_producto);
+
+
+                    // dd($productos);
+
+                    foreach ($productos  as $producto) {
+
+                        $data_temp = [
+
+                            //'movimiento' => $movimiento,
+                            'movimiento' => 'Ventas',
+                            'producto' =>  $producto['codigo'] . "/" . $producto['nombreproducto'],
+                            'cantidad_inicial' => $producto['saldo_anterior'],
+                            'cantidad_final' => $producto['nuevo_saldo'],
+                            'usuario' => $datosFactura[0]['nombresusuario_sistema'],
+                            'id_usuario' => $usuario_consulta,
+                            'cantidad_movi' => $producto['cantidad'],
+                            'fecha' => $fecha,
+                            'documento' => $datosFactura[0]['numerofactura_venta'],
+                            'nota' => '',
+                            'hora' => date("g:i A", strtotime($producto['hora']))
+                        ];
+                        $insert_temp = model('TempMovModel')->insert($data_temp);
+                    }
+                    break;
+                case $detalle['tabla'] == 'devolucion_venta':
+                    $fecha = $detalle['fecha'];
+                    //$movimiento = 'Ventas';
+                    $datosDevolucion = model('devolucionModel')
+                        ->select('devolucion_venta.numero, usuario_sistema.nombresusuario_sistema')
+                        ->join(
+                            'usuario_sistema',
+                            'usuario_sistema.idusuario_sistema = devolucion_venta.idusuario',
+                            'inner'
+                        )
+                        ->where('devolucion_venta.id', $detalle['id_documento'])
+                        ->first();
+                    //$documento = model('FacturaCompraModel')->select('numerofactura_proveedor')->where('numeroconsecutivofactura_proveedor', $detalle['id_documento'])->first();
+                    //dd( $datosFactura);
+                    //$datos = model('kardexModel')->getProductosCompra($detalle['id_documento'], $codigo_producto);
+                    //$productos = model('kardexModel')->getProductosKardex($detalle['id_documento'], $datosFactura[0]['idestado'], $codigo_producto);
+
+                    //dd( $datosDevolucion);
+
+                    // dd($productos);
+
+                    $productos = model('DetalleDevolucionVentaModel')
+                        ->select('producto.nombreproducto, detalle_devolucion_venta.codigo, detalle_devolucion_venta.saldo_anterior, detalle_devolucion_venta.nuevo_saldo,
+                        detalle_devolucion_venta.cantidad,
+                        detalle_devolucion_venta.fecha_y_hora_venta
+                        ')
+                        ->join(
+                            'producto',
+                            'producto.codigointernoproducto = detalle_devolucion_venta.codigo',
+                            'inner'
+                        )
+                        ->where('detalle_devolucion_venta.id_devolucion_venta', $detalle['id_documento'])
+                        ->findAll();
+
+
+
+                    foreach ($productos  as $producto) {
+
+                        $data_temp = [
+
+                            //'movimiento' => $movimiento,
+                            'movimiento' => 'Devolución',
+                            'producto' =>  $producto['codigo'] . "/" . $producto['nombreproducto'],
+                            'cantidad_inicial' => $producto['saldo_anterior'],
+                            'cantidad_final' => $producto['nuevo_saldo'],
+                            'usuario' => $datosDevolucion['nombresusuario_sistema'],
+                            'id_usuario' => $usuario_consulta,
+                            'cantidad_movi' => $producto['cantidad'],
+                            'fecha' => $fecha,
+                            'documento' => $datosDevolucion['numero'],
+                            'nota' => 'Entrada al inventario por devolucion de venta ',
+                            'hora' => date("g:i A", strtotime($producto['fecha_y_hora_venta']))
                         ];
                         $insert_temp = model('TempMovModel')->insert($data_temp);
                     }

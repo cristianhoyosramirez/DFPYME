@@ -10,6 +10,8 @@ class mesaController extends BaseController
     {
         $listado = model('mesasModel')->salonMesas();
 
+    
+
         return view('mesa/listado', [
             'mesas' => $listado
         ]);
@@ -22,7 +24,7 @@ class mesaController extends BaseController
         ]);
     }
 
-    public function save()
+    /*  public function save()
     {
         if (!$this->validate([
             'nombre' => [
@@ -39,6 +41,12 @@ class mesaController extends BaseController
                     'required' => 'Dato necesario',
                     'is_unique' => 'Registro duplicado',
                     'is_not_unique' => 'Registro para el campo salon no válido'
+                ]
+            ],
+            'cantidad' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Dato necesario'
                 ]
             ],
 
@@ -61,6 +69,73 @@ class mesaController extends BaseController
             $session = session();
             $session->setFlashdata('iconoMensaje', 'error');
             return redirect()->to(base_url('mesas/list'))->with('mensaje', 'Hubo errores');
+        }
+    } */
+
+    public function save()
+    {
+        if (!$this->validate([
+            'salon' => [
+                'rules' => 'required|is_not_unique[salones.id]',
+                'errors' => [
+                    'required'      => 'Dato necesario',
+                    'is_not_unique' => 'Registro para el campo salón no válido'
+                ]
+            ],
+            'nombre' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Dato necesario'
+                ]
+            ],
+            'cantidad' => [
+                'rules' => 'required|integer|greater_than[0]',
+                'errors' => [
+                    'required' => 'Dato necesario',
+                    'integer' => 'La cantidad debe ser un número entero',
+                    'greater_than' => 'La cantidad debe ser mayor que cero'
+                ]
+            ],
+
+        ])) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $salon = $this->request->getVar('salon');
+        $nombre = trim($this->request->getVar('nombre'));
+        $cantidad = (int)$this->request->getVar('cantidad');
+
+        $db = \Config\Database::connect();
+
+        // Cantidad actual de mesas del salón
+        $totalMesas = $db->table('mesas')
+            ->where('fk_salon', $salon)
+            ->countAllResults();
+
+        $datos = [];
+
+        for ($i = 1; $i <= $cantidad; $i++) {
+
+            $datos[] = [
+                'fk_salon' => $salon,
+                'nombre'   => $nombre . ' ' . ($totalMesas + $i)
+            ];
+        }
+
+        $insert = model('mesasModel')->insertBatch($datos);
+
+        if ($insert) {
+
+            session()->setFlashdata('iconoMensaje', 'success');
+
+            return redirect()->to(base_url('salones/list'))
+                ->with('mensaje', 'Se crearon correctamente ' . $cantidad . ' mesas.');
+        } else {
+
+            session()->setFlashdata('iconoMensaje', 'error');
+
+            return redirect()->to(base_url('mesas/list'))
+                ->with('mensaje', 'Hubo errores al crear las mesas.');
         }
     }
 
@@ -259,7 +334,7 @@ class mesaController extends BaseController
                 "cantidad_productos" => $cantidad_de_producto[0]['cantidad_producto'],
                 "observaciones_generales" => $observacion_general,
                 "productos_pedido" => $productos_del_pedido,
-                'tipo_pedido'=>$tipo_pedido
+                'tipo_pedido' => $tipo_pedido
             );
             echo  json_encode($returnData);
         }
@@ -306,7 +381,7 @@ class mesaController extends BaseController
                 "cantidad_productos" => $cantidad_de_producto['cantidad_de_productos'],
                 "observaciones_generales" => $observacion_general,
                 "productos_pedido" => $productos_del_pedido,
-                'tipo_pedido'=>$tipo_pedido
+                'tipo_pedido' => $tipo_pedido
             );
             echo  json_encode($returnData);
         }

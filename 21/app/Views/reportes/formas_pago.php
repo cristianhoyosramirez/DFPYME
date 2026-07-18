@@ -19,7 +19,7 @@ Reporte formas pago
 
 
     <input type="hidden" id="url" value="<?php echo base_url() ?>">
-    <form action="<?php echo base_url() ?>/caja_general/exportFormasPagoExcel" method="POST">
+    <form action="<?php echo base_url() ?>/caja_general/exportFormasPagoExcel" method="POST" id="formExcel">
         <div class="row">
             <div class="col-2">
                 <label for="" class="form-label">Fecha inicial </label>
@@ -151,7 +151,7 @@ Reporte formas pago
     <div class="row mb-2">
         <div class="col-md-12 text-end">
             <div class="d-inline-block text-end">
-                <span class="fs-2 fw-bold text-success d-block">
+                <span class="fs-2 fw-bold text-success d-block" id="totalVentasFormaPago">
                     Total ventas <?= $total_ventas ?>
                 </span>
 
@@ -166,6 +166,7 @@ Reporte formas pago
 
 <!-- Sweet alert -->
 <script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
+
 
 <script>
     async function buscarPorFechas() {
@@ -201,6 +202,7 @@ Reporte formas pago
 
             if (data.response == "success") {
                 document.getElementById('resFormasPago').innerHTML = data.formasPago;
+                document.getElementById('totalVentasFormaPago').innerHTML = data.total_ventas;
             } else {
                 Swal.fire('Error', 'No se encontraron resultados', 'warning');
             }

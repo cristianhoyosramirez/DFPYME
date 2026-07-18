@@ -2416,7 +2416,9 @@
 
     <script>
         function cambiar_mesero() {
-            $("#modal_meseros").modal("show");
+            //alert('Hola mundo')
+            //$("#modal_meseros").modal("show");
+            $("#modalModal").modal("show");
         }
     </script>
 

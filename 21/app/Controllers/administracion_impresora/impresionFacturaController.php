@@ -273,14 +273,16 @@ class impresionFacturaController extends BaseController
         $fecha_final = $json->fecha_final;
 
         $formasPago = model('formaPagoModel')->getFacturas($fecha_inicial, $fecha_final);
+        $total = model('formaPagoModel')->totalVentas($fecha_inicial, $fecha_final);
 
-        
+
         if (!empty($formasPago)) {
             return $this->response->setJSON([
                 'response' => 'success',
                 'formasPago' => view('reportes/formasPago', [
                     'formasPago' => $formasPago
-                ])
+                ]),
+                'total_ventas' => "Total ventas ".number_format($total[0]['total'], 0, ",", ".")
             ]);
         }
     }

@@ -11,16 +11,10 @@ class cuentaRetiroModel extends Model
     // protected $primaryKey = 'id';
     protected $allowedFields = ['nombre_cuenta'];
 
-    public function get_cuentas_rubros()
+    public function get_cuentas_rubros($id)
     {
         $datos = $this->db->query("
-        SELECT 
-            rubro_cuenta_retiro.id,
-            nombre_cuenta,
-            nombre_rubro
-        FROM   rubro_cuenta_retiro
-        inner join cuenta_retiro
-                ON rubro_cuenta_retiro.id_cuenta_retiro = cuenta_retiro.id order by nombre_cuenta asc
+                select nombre_rubro,id from rubro_cuenta_retiro  where id_cuenta_retiro= $id;
         ");
         return $datos->getResultArray();
     }

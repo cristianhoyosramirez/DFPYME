@@ -47,6 +47,7 @@
 
                             <input type="hidden" class="form-control w-2" value="<?php echo $detalle['cantidad_producto'] ?>">
                             <input type="text"
+                                maxlength="5"
                                 class="w-3 form-control form-control-sm text-center"
                                 value="<?php echo $detalle['cantidad_producto'] ?>"
                                 oninput="
@@ -76,7 +77,7 @@
                     </td>
 
                     <td>
-                       
+
                         <span id="totalProductoPartir"> <?php echo number_format($detalle['valor_total'], 0, ",", ".") ?> </span>
                     </td>
 
@@ -117,11 +118,11 @@
             const resultado = await response.json();
 
             if (resultado.success == true) {
-                
-                
-                document.getElementById('totalProductoPartir').innerHTML=resultado.total_producto
-                document.getElementById('total_pago_parcial').innerHTML=resultado.total_pedido
-                document.getElementById('valor_total_a_pagar').value=resultado.total_a_pagar
+
+
+                document.getElementById('totalProductoPartir').innerHTML = resultado.total_producto
+                document.getElementById('total_pago_parcial').innerHTML = resultado.total_pedido
+                document.getElementById('valor_total_a_pagar').value = resultado.total_a_pagar
             } else {
 
                 document.getElementById('errorCantidadParcial' + resultado.id).innerHTML = resultado.mensaje

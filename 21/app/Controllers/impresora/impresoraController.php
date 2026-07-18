@@ -80,6 +80,23 @@ class impresoraController extends BaseController
         }
     }
 
+    public function eliminar()
+    {
+        $id_impresora = $_POST['id_impresora'];
+
+       
+        $model = model('impresorasModel');
+        
+        $borrar = $model->where('id', $id_impresora);
+        $borrar = $model->delete();
+
+        if ($borrar) {
+            $session = session();
+            $session->setFlashdata('iconoMensaje', 'success');
+            return redirect()->to(base_url('impresora/listado'))->with('mensaje', 'actualizacion correcta');
+        }
+    }
+
     public function administracion()
     {
         $impresoras = model('impresorasModel')->orderBy('id', 'desc')->find();

@@ -193,7 +193,7 @@ WHERE
         return $datos->getResultArray();
     }
 
-    public function  getDatosFecturaPos($id,$id_estado)
+    public function  getDatosFecturaPos($id, $id_estado)
     {
         $datos = $this->db->query("
  SELECT 
@@ -218,7 +218,23 @@ WHERE
         return $datos->getResultArray();
     }
 
-    public function  regIniRegFin($idInicial,$idFinal)
+    public function  getDocumento($id)
+    {
+        $datos = $this->db->query("
+            SELECT nit_cliente,
+                numero,
+                fecha,
+                cliente.nombrescliente,
+                neto+propina as total, 
+                propina 
+            FROM documento_electronico
+            INNER JOIN cliente ON cliente.nitcliente=documento_electronico.nit_cliente
+            WHERE documento_electronico.id=$id
+    ");
+        return $datos->getResultArray();
+    }
+
+    public function  regIniRegFin($idInicial, $idFinal)
     {
         $datos = $this->db->query("
    WITH numeros AS (
@@ -237,7 +253,7 @@ SELECT
         return $datos->getResultArray();
     }
 
-        public function  getClienteFacturas($nit)
+    public function  getClienteFacturas($nit)
     {
         $datos = $this->db->query("
        SELECT 
@@ -247,6 +263,50 @@ SELECT
         WHERE 
             nit_cliente = '$nit'
             AND id_status = 2;
+    ");
+        return $datos->getResultArray();
+    }
+ /*    public function  getProductos($id)
+    {
+        $datos = $this->db->query("
+                SELECT producto.nombreproducto,
+                kardex.codigo,
+                kardex.cantidad,
+                kardex.iva,
+                kardex.ico,
+                kardex.valor,
+                kardex.total,
+
+            FROM kardex
+            INNER JOIN producto ON producto.codigointernoproducto= kardex.codigo
+            WHERE id_factura = $id
+            AND id_estado =8 ;
+    "); */
+   public function  getProductos($id)
+    {
+        $datos = $this->db->query("
+                        SELECT codigo, descripcion, unidad_medida, cantidad, 
+                            costo, iva, icn, precio_unitario, neto, total,  
+                            imp_ic
+                        FROM item_documento_electronico
+                        WHERE id_de =$id;
+    "); 
+        return $datos->getResultArray();
+    }
+    public function  idUnidadMedida($codigo)
+    {
+        $datos = $this->db->query("
+            select idvalor_unidad_medida from producto_medida where codigointernoproducto='$codigo';
+
+    ");
+        return $datos->getResultArray();
+    }
+
+    public function  valorUnidad($id)
+    {
+        $datos = $this->db->query("
+            select codigo from valor_unidad_medida where idunidad_medida=$id;
+
     ");
         return $datos->getResultArray();
     }

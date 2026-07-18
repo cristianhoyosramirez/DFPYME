@@ -80,6 +80,15 @@ Bienvenido DFpyme
         <input type="hidden" value="<?php echo $user_session->tipo ?>" id="tipo_usuario" name="tipo_usuario">
         <input type="hidden" id="mesero" name="mesero" value="<?php echo $user_session->id_usuario ?>">
         <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="movil">
+
+        <?php
+        $justificacionProducto = model('configuracionPedidoModel')->select('justificacion_producto')->first();
+        $justificacionPedido = model('configuracionPedidoModel')->select('justificacion_pedido')->first();
+        ?>
+
+        <input type="hidden" id="justificacion_eliminar_producto" value="<?= $justificacionProducto['justificacion_producto'] ?>">
+        <input type="hidden" id="justificacion_eliminar_pedido" value="<?= $justificacionPedido['justificacion_pedido'] ?>">
+
         <div class="container-fluid">
             <div class="row row-deck row-cards">
                 <div class="col-md-12 col-xl-12">
@@ -321,20 +330,64 @@ Bienvenido DFpyme
 
                         </select> -->
 
+                                            <?php
+                                            $propina =  model('configuracionPedidoModel')->select('propina_auto')->first();
+                                            $propinaManual =  model('configuracionPedidoModel')->select('propina_manual')->first();
+                                            ?>
+
+                                            <?php if ($propina['propina_auto'] == 't'): ?>
+
+                                                <a href="#" class="btn btn-outline-green col-sm-4"
+                                                    onclick="calculo_propina()"
+                                                    title="Propina"
+                                                    style="width:100px;"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="bottom">
+
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <circle cx="12" cy="12" r="9" />
+                                                        <line x1="9" y1="9" x2="9.01" y2="9" />
+                                                        <line x1="15" y1="9" x2="15.01" y2="9" />
+                                                        <path d="M8 13a4 4 0 1 0 8 0" />
+                                                    </svg>
+                                                </a>
+
+                                                <input type="text" aria-label="Last name" class="form-control w-1" style="width: 50px;" value=0 onkeyup="calcular_propina(this.value)" id="propina_pesos" placeholder="%">
+
+                                            <?php else: ?>
+
+                                                <button type="button"
+                                                    class="btn btn-outline-secondary col-sm-4"
+                                                    style="width:100px;"
+                                                    disabled
+                                                    title="La propina automática está deshabilitada">
+
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <circle cx="12" cy="12" r="9" />
+                                                        <line x1="9" y1="9" x2="9.01" y2="9" />
+                                                        <line x1="15" y1="9" x2="15.01" y2="9" />
+                                                        <path d="M8 13a4 4 0 1 0 8 0" />
+                                                    </svg>
+                                                </button>
 
 
-                                            <a href="#" class="btn btn-outline-green  col-sm-4" onclick="calculo_propina()" title="Propina" style="width: 100px;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-placement="bottom"> <!-- Download SVG icon from http://tabler-icons.io/i/mood-happy -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <circle cx="12" cy="12" r="9" />
-                                                    <line x1="9" y1="9" x2="9.01" y2="9" />
-                                                    <line x1="15" y1="9" x2="15.01" y2="9" />
-                                                    <path d="M8 13a4 4 0 1 0 8 0m0 0h-8" />
-                                                </svg></a>
 
 
-                                            <input type="text" aria-label="Last name" class="form-control w-1" style="width: 50px;" value=0 onkeyup="calcular_propina(this.value)" id="propina_pesos" placeholder="%">
-                                            <input type="text" aria-label="Last name" class="form-control" style="width: 50px;" id="propina_del_pedido" name="propina_del_pedido" onkeyup="total_pedido(this.value)" value=0 placeholder="$">
+                                                <input type="text" aria-label="Last name" class="form-control w-1" style="width: 50px;" value=0 disabled id="propina_pesos" placeholder="%">
+                                            <?php endif; ?>
+
+                                            <?php if ($propinaManual['propina_manual'] == 't'): ?>
+                                                <input type="text" aria-label="Last name" class="form-control" style="width: 50px;" id="propina_del_pedido" name="propina_del_pedido" onkeyup="total_pedido(this.value)" value=0 placeholder="$">
+                                            <?php else: ?>
+                                                <input type="text" aria-label="Last name" class="form-control" style="width: 50px;" id="propina_del_pedido" name="propina_del_pedido" disabled value=0 placeholder="$">
+                                            <?php endif; ?>
+
                                             <a href="#" class="btn btn-outline-warning text-center" onclick="borradoPropinaMovil()" style="width: 1px;" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Eliminar propina" data-bs-original-title="Eliminar propina"> <!-- Download SVG icon from http://tabler-icons.io/i/mood-happy -->
                                                 <!-- Download SVG icon from http://tabler-icons.io/i/trash -->&nbsp;&nbsp;
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon text-center" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -420,19 +473,66 @@ Bienvenido DFpyme
 
 
 
+                                        <?php if ($propina['propina_auto'] == 't'): ?>
 
-                                        <a href="#" class="btn btn-outline-green  col-sm-4" onclick="calculo_propina_movil()" title="Propina" style="width: 100px;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-toggle="tooltip" data-bs-placement="bottom"> <!-- Download SVG icon from http://tabler-icons.io/i/mood-happy -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <circle cx="12" cy="12" r="9" />
-                                                <line x1="9" y1="9" x2="9.01" y2="9" />
-                                                <line x1="15" y1="9" x2="15.01" y2="9" />
-                                                <path d="M8 13a4 4 0 1 0 8 0m0 0h-8" />
-                                            </svg></a>
+                                            <a href="#"
+                                                class="btn btn-outline-green col-sm-4"
+                                                onclick="calculo_propina_movil(); return false;"
+                                                title="Propina"
+                                                style="width:100px;"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="bottom">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                                                    stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <circle cx="12" cy="12" r="9" />
+                                                    <line x1="9" y1="9" x2="9.01" y2="9" />
+                                                    <line x1="15" y1="9" x2="15.01" y2="9" />
+                                                    <path d="M8 13a4 4 0 1 0 8 0m0 0h-8" />
+                                                </svg>
+
+                                            </a>
+
+                                            <input type="text" aria-label="Last name" class="form-control w-1" style="width: 50px;" value=0 onkeyup="calcularPropina(this.value)" id="propina_pesos" placeholder="%">
+
+                                        <?php else: ?>
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-secondary col-sm-4"
+                                                style="width:100px;"
+                                                title="La propina automática está deshabilitada"
+                                                disabled>
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                                                    stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <circle cx="12" cy="12" r="9" />
+                                                    <line x1="9" y1="9" x2="9.01" y2="9" />
+                                                    <line x1="15" y1="9" x2="15.01" y2="9" />
+                                                    <path d="M8 13a4 4 0 1 0 8 0m0 0h-8" />
+                                                </svg>
+
+                                            </button>
+
+                                            <input type="text" aria-label="Last name" class="form-control w-1" style="width: 50px;" value=0 disabled id="propina_pesos" placeholder="%">
+
+                                        <?php endif; ?>
 
 
-                                        <input type="text" aria-label="Last name" class="form-control w-1" style="width: 50px;" value=0 onkeyup="calcularPropina(this.value)" id="propina_pesos" placeholder="%">
-                                        <input type="text" aria-label="Last name" class="form-control" style="width: 50px;" id="propina_movil" name="propina_movil" onkeyup="propinaMovil(this.value)" value=0 placeholder="$">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            style="width: 50px;"
+                                            id="propina_movil"
+                                            name="propina_movil"
+                                            value="0"
+                                            placeholder="$"
+                                            <?= ($propinaManual['propina_manual'] == 't')
+                                                ? 'onkeyup="propinaMovil(this.value)"'
+                                                : 'disabled'; ?>>
+
                                         <a href="#" class="btn btn-outline-warning text-center" onclick="borrarPropinaMovil()" style="width: 1px;" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Eliminar propina" data-bs-original-title="Eliminar propina"> <!-- Download SVG icon from http://tabler-icons.io/i/mood-happy -->
                                             <!-- Download SVG icon from http://tabler-icons.io/i/trash -->&nbsp;&nbsp;
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon text-center" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -517,6 +617,8 @@ Bienvenido DFpyme
 
     }
 </script> -->
+
+<script src="<?= base_url('Assets/script_js/nuevo_desarrollo/guardarImpresora.js') ?>"></script>
 
 <script>
     function actualizar_mesas_pedido() {

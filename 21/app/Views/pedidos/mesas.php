@@ -90,6 +90,13 @@ Bienvenido DFpyme
         <input type="hidden" id="mesero" name="mesero">
         <input type="hidden" id="estado_mesa" name="estado_mesa">
         <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="computador">
+        <?php  
+        $justificacionProducto=model('configuracionPedidoModel')->select('justificacion_producto')->first(); 
+        $justificacionPedido=model('configuracionPedidoModel')->select('justificacion_pedido')->first(); 
+        ?>
+
+        <input type="hidden" id="justificacion_eliminar_producto" value="<?=  $justificacionProducto['justificacion_producto'] ?>">
+        <input type="hidden" id="justificacion_eliminar_pedido" value="<?=  $justificacionPedido['justificacion_pedido'] ?>">
         <div class="container-fluid">
             <div class="row row-deck row-cards">
                 <?php $requiere_mesa = model('configuracionPedidoModel')->select('requiere_mesa')->first(); ?>
@@ -725,7 +732,9 @@ Bienvenido DFpyme
 
     <script src="<?= base_url() ?>/Assets/script_js/bloqueos/licencia/licencia.js"></script>
     <script src="<?= base_url() ?>/Assets/script_js/bloqueos/consumo/consumo.js"></script>
-
+    <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/guardarImpresora.js"></script>
+    
+    
 
 
     <script>
@@ -761,64 +770,6 @@ Bienvenido DFpyme
             } catch (error) {
                 sweet_alert_centrado('error', 'Error de conexión con el servidor');
                 console.error(error);
-            }
-        }
-    </script>
-
-
-
-
-
-
-
-    <script>
-        async function guardarImpresora(id_impresora) {
-            try {
-                let id_mesa = document.getElementById("id_mesa_pedido").value;
-                let tem_propina = document.getElementById("propina_del_pedido").value;
-                let propina = tem_propina.replace(/\./g, '');
-                //let id_impresora = document.getElementById("impresoraOp").value;
-
-                // ✅ Validar que se haya seleccionado una impresora válida
-                if (!id_impresora || id_impresora.trim() === "") {
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Impresora no seleccionada",
-                        text: "Debe seleccionar una impresora válida antes de continuar.",
-                        confirmButtonText: "Entendido",
-                        focusConfirm: true
-                    });
-                    return;
-                }
-
-                let response = await fetch("<?= base_url('pedidos/imprimir_op') ?>", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: JSON.stringify({
-                        idImpresora: id_impresora,
-                        id_mesa: id_mesa,
-                        propina: propina
-                    })
-                });
-
-                let data = await response.json();
-
-                if (data.response == "success") {
-                    // ✅ Mostrar alerta de éxito
-                    sweet_alert_centrado('success', 'Impresión exitosa');
-
-                    // ✅ Cerrar modal
-                    $("#modalConfOp").modal("hide");
-
-
-                } else {
-                    alert("⚠️ Error al guardar la impresora");
-                }
-            } catch (error) {
-                console.error("Error en la petición:", error);
             }
         }
     </script>

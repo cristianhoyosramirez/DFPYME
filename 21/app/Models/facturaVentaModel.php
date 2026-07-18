@@ -448,5 +448,21 @@ class facturaVentaModel extends Model
         return $datos->getResultArray();
     }
 
+    function getDatos($documento)
+    {
+        $datos = $this->db->query("
+        select 
+            usuario_sistema.nombresusuario_sistema,numerofactura_venta,idestado
+        from 
+            factura_venta 
+        inner join
+             usuario_sistema on usuario_sistema.idusuario_sistema = factura_venta.idusuario_sistema
+        where 
+            id=$documento
+            ;
+         ");
+        return $datos->getResultArray();
+    }
+
    
 }

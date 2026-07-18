@@ -281,7 +281,7 @@ HOME
 <script>
     async function actualizarJustificacionProducto() {
 
-        let justificacion = document.getElementById("obligar_justificacion").value;
+        let justificacion = document.getElementById("obligar_justificacion_producto").value;
 
         try {
             const response = await fetch("<?= base_url('actualizacion/actualizarJustificacionProducto') ?>", {

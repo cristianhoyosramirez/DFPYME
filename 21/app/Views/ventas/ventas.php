@@ -496,240 +496,470 @@ Ventas
 
 
 
-<div class="modal fade" id="finalizar_venta" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="row">
-                    <div class="row">
-                        <div class="col-12">
-                            <h5 class="modal-title">Realizar abono</h5>
-                        </div>
-                        <div class="col-12">
-                            <div id="mensaje_factura"></div>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="cancelar_pagar()"></button>
+<?= $this->include('cartera/modal_finalizar_venta') ?>
+
+<!-- Modal 
+<div class="modal fade" id="modalNotaCredito" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-file-invoice-dollar me-2"></i>
+                    Generar Nota Crédito Electrónica
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
             </div>
-            <div class="modal-body">
 
-                <div class="row row-cards">
 
-                    <div class="col-md-6 col-lg-6">
-                        <?= $this->include('cartera/datos_factura_credito') ?>
-                    </div>
+            <form id="formNotaCredito" class="container">
 
-                    <div class="col-md-6 col-lg-6">
-                        <div class="card shadow-sm border-0 w-100 h-100">
+                <input type="hidden"
+                    id="id_factura"
+                    name="id_factura">
 
-                            <div class="card-header bg-dark text-white">
-                                <h5 class="mb-0">Información de pago </h5>
+              
+
+                <div class="card border-0 bg-light mb-3">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                            <div>
+
+                                <small class="text-muted d-block">
+                                    Factura Electrónica
+                                </small>
+
+                                <h4
+                                    class="mb-0 fw-bold text-primary"
+                                    id="numero_factura">
+                                    FE-000001
+                                </h4>
+
                             </div>
 
-                            <div class="card-body">
+                            <span class="badge bg-success fs-6">
+                                <i class="fas fa-check-circle me-1"></i>
+                                Validada DIAN
+                            </span>
 
-                                <form>
-
-                                    <!-- TOTAL -->
-                                    <div class="mb-4 text-center">
-                                        <h1 id="total_pedido" class="fw-bold text-success mb-1"></h1>
-                                        <p id="valor_pago_error" class="text-danger fw-bold mb-0"></p>
-                                    </div>
-
-                                    <input type="text" id="valor_total_a_pagar" hidden>
-                                    <input type="text" id="id_factura_a_pagar" hidden>
-                                    <input type="text" id="estado_factura_a_pagar" hidden>
-                                    <!-- METODOS DE PAGO -->
-                                    <div class="row g-3 mb-4">
-
-                                        <!-- EFECTIVO -->
-                                        <div class="col-md-6">
-
-                                            <label
-                                                class="w-100 p-3 border rounded bg-white"
-                                                style="cursor:pointer;">
-
-                                                <div class="fw-bold mb-2 text-dark">
-                                                    💵 Efectivo
-                                                </div>
-
-                                                <div class="form-floating">
-
-                                                    <input
-                                                        type="text"
-                                                        class="form-control text-dark"
-                                                        id="efectivo"
-                                                        value="0"
-                                                        autocomplete="off"
-                                                        onkeyup="formatearMiles(this); cambio(this.value)"
-                                                        style="
-                    color:#000 !important;
-                    box-shadow:none !important;
-                ">
-
-                                                    <label
-                                                        for="efectivo"
-                                                        class="text-dark"
-                                                        style="color:#000 !important;">
-
-                                                        Valor efectivo
-
-                                                    </label>
-
-                                                </div>
-
-                                            </label>
-
-                                        </div>
-
-                                        <!-- BANCO -->
-                                        <div class="col-md-6">
-
-                                            <label
-                                                class="w-100 p-3 border rounded bg-white"
-                                                style="cursor:pointer;">
-
-                                                <div class="fw-bold mb-2 text-dark">
-                                                    🏦 Banco
-                                                </div>
-
-                                                <div class="form-floating">
-
-                                                    <input
-                                                        type="text"
-                                                        class="form-control text-dark"
-                                                        id="transaccion"
-                                                        value="0"
-                                                        autocomplete="off"
-                                                        onkeyup="formatearMiles(this); cambio_transaccion(this.value)"
-                                                        style="
-                    color:#000 !important;
-                    box-shadow:none !important;
-                ">
-
-                                                    <label
-                                                        for="transaccion"
-                                                        class="text-dark"
-                                                        style="color:#000 !important;">
-
-                                                        Valor banco
-
-                                                    </label>
-
-                                                </div>
-
-                                            </label>
-
-                                        </div>
-
-                                    </div>
-
-                                    <!-- SELECT BANCO -->
-                                    <div class="mb-4">
-
-                                        <label for="clase_pago" class="form-label fw-bold">
-                                            Banco
-                                        </label>
-
-                                        <?php
-                                        $clasePago = model('clasePagoModel')
-                                            ->where('estado', 'true')
-                                            ->orderBy('nombre', 'asc')
-                                            ->findAll();
-                                        ?>
-
-                                        <select
-                                            name="clase_pago"
-                                            id="clase_pago"
-                                            class="form-select"
-                                            onchange="limpiarErrorSelect()">
-
-                                            <option value="">
-                                                Seleccione un banco
-                                            </option>
-
-                                            <?php foreach ($clasePago as $detalleClasePago): ?>
-
-                                                <option
-                                                    value="<?= esc($detalleClasePago['id']) ?>"
-                                                    <?= (count($clasePago) === 1) ? 'selected' : '' ?>>
-
-                                                    <?= esc($detalleClasePago['nombre']) ?>
-
-                                                </option>
-
-                                            <?php endforeach ?>
-
-                                        </select>
-
-                                        <span class="text-danger" id="errorClasePago"></span>
-
-                                    </div>
-
-                                    <span id="abonoSuperior" class="text-danger"> </span>
-
-                                    <!-- RESUMEN -->
-                                    <div class="card border-0 shadow-sm mb-4">
-
-                                        <div class="card-body">
-
-                                            <div class="d-flex justify-content-between mb-2">
-                                                <span class="fw-bold">Valor pago</span>
-                                                <span id="pago" class="h5 mb-0">0</span>
-                                            </div>
-
-                                            <div class="d-flex justify-content-between mb-2">
-                                                <span class="fw-bold">Faltante</span>
-                                                <span id="faltante" class="h5 mb-0 text-danger">0</span>
-                                            </div>
-
-                                            <div class="d-flex justify-content-between">
-                                                <span class="fw-bold">Cambio</span>
-                                                <span id="cambio" class="h5 mb-0 text-success">0</span>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <!-- HIDDEN -->
-                                    <input type="hidden" id="tipo_pago" value="1">
-                                    <input type="hidden" id="requiere_factura_electronica">
-
-                                    <!-- BOTONES -->
-                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-success px-5"
-                                            id="btn_pagar"
-                                            onclick="pagar()">
-                                            Pagar
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline-danger px-5"
-                                            onclick="cancelar_pagar()">
-                                            Cancelar
-                                        </button>
-
-                                    </div>
-
-                                </form>
-                            </div>
                         </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <label class="text-muted small">
+                                    Cliente
+                                </label>
+
+                                <div
+                                    class="fw-semibold"
+                                    id="cliente_factura">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <label class="text-muted small">
+                                    NIT
+                                </label>
+
+                                <div
+                                    class="fw-semibold"
+                                    id="nit_cliente">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3 text-md-end">
+
+                                <label class="text-muted small">
+                                    Total Factura
+                                </label>
+
+                                <div
+                                    class="fw-bold text-success fs-5"
+                                    id="total_factura">
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </div>
+
                 </div>
-            </div>
+
+               
+
+                <div class="card border-0 shadow-sm mb-3">
+
+                    <div class="card-header text-primary">
+
+                        <strong>
+                            Productos Facturados
+                        </strong>
+
+                    </div>
+
+                    <div class="card-body p-0">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover align-middle mb-0">
+
+                                <thead class="table-dark">
+
+                                    <tr>
+
+                                        <td width="120">
+                                            Código
+                                        </td>
+
+                                        <td>
+                                            Descripción
+                                        </td>
+
+                                        <td class="text-center" width="100">
+                                            Cant.
+                                        </td>
+
+                                        <td class="text-end" width="150">
+                                            Vlr Unit.
+                                        </td>
+
+                                        <td class="text-end" width="150">
+                                            Total
+                                        </td>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody id="detalleFactura">
+
+                                    
+
+                                </tbody>
+
+                                <tfoot>
+
+                                    <tr class="table-light">
+
+                                        <th colspan="4" class="text-end">
+
+                                            Total Factura
+
+                                        </th>
+
+                                        <th class="text-end text-success">
+
+                                            <span id="totalFacturaDetalle">
+                                                $0
+                                            </span>
+
+                                        </th>
+
+                                    </tr>
+
+                                </tfoot>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                
+                <div class="card border-0 shadow-sm mb-3">
+
+                    <div class="card-header">
+
+                        <strong>
+                            Información de la Nota Crédito
+                        </strong>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+
+                                Motivo DIAN
+                                <span class="text-danger">*</span>
+
+                            </label>
+
+                            <select
+                                class="form-select"
+                                id="razon"
+                                name="razon"
+                                required>
+
+                                <option value="">
+                                    Seleccione una opción
+                                </option>
+
+                                <option value="ANULACION">
+                                    Anulación de factura electrónica
+                                </option>
+
+                                <option value="DEVOLUCION">
+                                    Devolución parcial de bienes y/o servicios
+                                </option>
+
+                                <option value="REBAJA">
+                                    Rebaja o descuento parcial o total
+                                </option>
+
+                                <option value="AJUSTE">
+                                    Ajuste de precio
+                                </option>
+
+                                <option value="DESCUENTO-PRONTO-PAGO">
+                                    Descuento comercial por pronto pago
+                                </option>
+
+                                <option value="DESCUENTO-VOLUMEN">
+                                    Descuento comercial por volumen
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+
         </div>
+
+      
+
+        <div class="d-flex justify-content-end gap-2">
+
+            <button
+                type="button"
+                class="btn btn-light"
+                data-bs-dismiss="modal">
+
+                Cancelar
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-danger">
+
+                <i class="fas fa-paper-plane me-2"></i>
+
+                Generar Nota Crédito
+
+            </button>
+
+        </div>
+
+        </form>
+
+
+
     </div>
 </div>
+</div>
+</div>-->
+
+<?= $this->include('ventas/modalNotaCredito') ?>
 
 
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/cambio.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/pago_efectivo.js"></script>
+
+
+<!-- <script>
+    async function nota_credito(id) {
+
+        Swal.fire({
+            title: 'Consultando información...',
+            text: 'Por favor espere',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        try {
+
+            const response = await fetch("<?= base_url('actualizacion/consultarFactura') ?>", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id
+                })
+            });
+
+            const data = await response.json();
+
+            Swal.close();
+
+            if (data.status === true) {
+
+
+                document.getElementById('clienteNotaCredito').value = data.cliente;
+                document.getElementById('numeroFacturaNotaCredito').value = data.numero_factura;
+                document.getElementById('facturaNc').innerHTML = data.factura;
+
+                const modal = new bootstrap.Modal(
+                    document.getElementById('modalNotaCredito')
+                );
+
+                modal.show();
+            }
+
+            if (data.status === false) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Atención',
+                    text: data.mensaje ?? 'La factura ya tiene una nota crédito.',
+                    timer: 2500,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+            }
+
+        } catch (error) {
+
+            Swal.close();
+
+            console.error(error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message,
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+
+        }
+
+    }
+</script> -->
+
+<script>
+    async function nota_credito(id) {
+
+        const confirmacion = await Swal.fire({
+            title: '¿Está seguro?',
+            html: '¿Está seguro de que desea <b>generar el borrador de la nota crédito</b> y <b>anular la factura</b>?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, generar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            reverseButtons: true,
+            buttonsStyling: false,
+            customClass: {
+                confirmButton: 'btn btn-outline-success mx-2',
+                cancelButton: 'btn btn-outline-danger mx-2'
+            }
+        });
+
+        if (!confirmacion.isConfirmed) {
+            return;
+        }
+
+        Swal.fire({
+            title: 'Consultando información...',
+            text: 'Por favor espere',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        try {
+
+            const response = await fetch("<?= base_url('actualizacion/consultarFactura') ?>", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id
+                })
+            });
+
+            const data = await response.json();
+
+            Swal.close();
+
+            if (data.status === true) {
+
+                document.getElementById('clienteNotaCredito').value = data.cliente;
+                document.getElementById('numeroFacturaNotaCredito').value = data.numero_factura;
+                document.getElementById('facturaNc').innerHTML = data.factura;
+
+                const modal = new bootstrap.Modal(
+                    document.getElementById('modalNotaCredito')
+                );
+
+                modal.show();
+            }
+
+            if (data.status === false) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Atención',
+                    text: data.mensaje ?? 'La factura ya tiene una nota crédito.',
+                    timer: 2500,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+            }
+
+        } catch (error) {
+
+            Swal.close();
+
+            console.error(error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message,
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+
+        }
+
+    }
+</script>
 
 <script>
     function cancelar_pagar() {
@@ -745,256 +975,7 @@ Ventas
     }
 </script>
 
-<script>
-    /* async function imprimir_comprobante(id) {
 
-        try {
-
-            const url = document.getElementById("url").value;
-
-            const response = await fetch(
-                url + 'caja/imprimir_comprobante/' + id
-            );
-
-            const data = await response.text();
-
-            const ventana = window.open('', '_blank');
-
-            ventana.document.write(data);
-
-            ventana.document.close();
-
-        } catch (error) {
-
-            sweet_alert_centrado(
-                'error',
-                'Error al imprimir el comprobante.'
-            );
-
-            console.error(error);
-
-        }
-
-    } */
-
-
-    async function imprimir_comprobante(id) {
-
-        try {
-
-            Swal.fire({
-                title: 'Procesando...',
-                text: 'Generando comprobante',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            const response = await fetch("<?= base_url('consultas_y_reportes/imprimir_comprobante_ingreso') ?>", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id
-                })
-            });
-
-            const data = await response.json();
-
-            Swal.close();
-
-            if (data.response === 1) {
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Éxito',
-                    text: 'Comprobante generado correctamente',
-                    timer: 1500,
-                    showConfirmButton: false
-                });
-
-            } else {
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'No fue posible generar el comprobante'
-                });
-            }
-
-        } catch (error) {
-
-            Swal.close();
-
-
-        }
-    }
-
-
-    async function pagar() {
-
-        try {
-
-            Swal.fire({
-                title: 'Procesando pago...',
-                html: 'Espere un momento',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            let valor_efectivo =
-                document.getElementById("efectivo").value;
-
-            let id_factura =
-                document.getElementById("id_factura_a_pagar").value;
-
-            let id_estado =
-                document.getElementById("estado_factura_a_pagar").value;
-
-            let efectivoFormat =
-                valor_efectivo.replace(/[.]/g, "");
-
-            let valor_e =
-                efectivoFormat === "" ?
-                0 :
-                parseInt(efectivoFormat);
-
-            let valor_t =
-                document.getElementById("transaccion").value;
-
-            let valor_t_Format =
-                valor_t.replace(/[.]/g, "");
-
-            let transaccion =
-                valor_t_Format === "" ?
-                0 :
-                parseInt(valor_t_Format);
-
-            let clase_pago =
-                document.getElementById("clase_pago").value;
-
-            let id_usuario =
-                document.getElementById("id_usuario").value;
-
-            // VALIDAR BANCO
-            if (transaccion > 0 && clase_pago == "") {
-
-                Swal.close();
-
-                document.getElementById('errorClasePago')
-                    .innerHTML = "Debe seleccionar un banco";
-
-                return;
-            }
-
-            const response = await fetch(
-                "<?= base_url('consultas_y_reportes/abonar') ?>", {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        id_factura: id_factura,
-                        id_estado: id_estado,
-                        efectivo: valor_e,
-                        transaccion: transaccion,
-                        clase_pago: clase_pago,
-                        id_usuario: id_usuario
-                    })
-                }
-            );
-
-            const result = await response.json();
-
-            Swal.close();
-
-            if (result.success == true) {
-
-                $("#efectivo").val(0);
-                $("#transaccion").val(0);
-                document.getElementById('abonoSuperior').innerHTML = '';
-                $('#clase_pago').prop('selectedIndex', 0);
-                $("#finalizar_venta").modal("hide");
-
-                // REFRESCAR DATATABLE
-                $('#consulta_ventas')
-                    .DataTable()
-                    .ajax
-                    .reload(null, false);
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Ingreso registrado',
-                    text: result.message,
-                    showCancelButton: true,
-                    confirmButtonText: '🖨 Imprimir comprobante',
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonColor: '#198754',
-                    reverseButtons: true,
-                    buttonsStyling: false,
-                    customClass: {
-                        popup: 'rounded-4 shadow-lg',
-                        actions: 'gap-4 mt-4',
-                        confirmButton: 'btn btn-success px-4',
-                        cancelButton: 'btn btn-outline-danger px-4'
-                    }
-
-                }).then(async (resultado) => {
-
-                    if (resultado.isConfirmed) {
-
-
-                        //alert(result.id_factura)
-                        await imprimir_comprobante(result.id_transaccion);
-
-                    }
-
-                });
-
-            } else {
-
-         /*        Swal.fire({
-                    icon: 'error',
-                    title: result.mensaje,
-                    timer: 2500,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                    toast: true,
-                    position: 'top-end',
-                    background: '#fef2f2',
-                    color: '#991b1b',
-                    iconColor: '#dc2626',
-                    customClass: {
-                        popup: 'rounded-4 shadow-lg border-0'
-                    }
-                }); */
-
-               document.getElementById('abonoSuperior').innerHTML = 'Abono supera el saldo actual';
-            }
-
-        } catch (error) {
-
-            console.error(error);
-
-            Swal.close();
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error al procesar el pago'
-            });
-
-        }
-
-    }
-</script>
 
 
 <script>
@@ -1014,7 +995,7 @@ Ventas
     }
 </script>
 
-<script>
+<!-- <script>
     async function ver_saldo(id_factura, id_estado) {
         try {
             const response = await fetch("<?= base_url('consultas_y_reportes/saldo_factura') ?>", {
@@ -1056,7 +1037,10 @@ Ventas
             alert("Ocurrió un error al consultar el saldo");
         }
     }
-</script>
+</script> -->
+
+<script src="<?= base_url() ?>/Assets/script_js/cartera/ver_saldo.js"></script>
+<script src="<?= base_url() ?>/Assets/script_js/cartera/formatear_miles.js"></script>
 
 
 

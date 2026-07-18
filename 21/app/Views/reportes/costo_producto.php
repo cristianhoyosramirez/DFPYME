@@ -188,8 +188,8 @@ Reporte de costos
     <?php if (!empty($total)): ?>
         <div class="text-end h3 text-primary">
             <span id="total">Total: <?php echo number_format($total[0]['total'], 0, '.', '.') ?></span><br>
-            <span id="iva">Iva:<?php echo number_format($total[0]['iva'], 0, '.', '.') ?></span><br>
-            <span id="ico">Impoconsumo:<?php echo number_format($total[0]['inc'], 0, '.', '.') ?></span>
+           <!--  <span id="iva">Iva:<?php echo number_format($total[0]['iva'], 0, '.', '.') ?></span><br>
+            <span id="ico">Impoconsumo:<?php echo number_format($total[0]['inc'], 0, '.', '.') ?></span> -->
 
         </div>
     <?php endif ?>

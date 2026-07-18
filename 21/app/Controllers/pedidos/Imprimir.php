@@ -573,8 +573,39 @@ class Imprimir extends BaseController
         $printer->text("** $tipo **" . "\n\n");
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
-        $printer->setTextSize(1, 2);
-        $printer->text("Pedido: " . $numero_pedido . "       Mesa: " . $nombre_mesa . "\n\n");
+        $titulo_pedido = model('configuracionPedidoModel')->select('titulo_pedido')->first();
+        /*   if ($titulo_pedido['titulo_pedido'] == 0) {
+            $printer->setTextSize(1, 2);
+            $printer->text("Pedido: " . $numero_pedido . "       Mesa: " . $nombre_mesa . "\n\n"); aca imprime normal 
+        }
+        if ($titulo_pedido['titulo_pedido'] == 0) {
+            $printer->setTextSize(1, 2);
+            $printer->text("Pedido: " . $numero_pedido . "       Mesa: " . $nombre_mesa . "\n\n");  qeu lo imprima grande 
+        }
+        $printer->setTextSize(1, 1); */
+        switch ($titulo_pedido['titulo_pedido']) {
+
+            case 0: // Normal
+                $printer->setTextSize(1, 1);
+                $printer->text("Pedido: {$numero_pedido}       Mesa: {$nombre_mesa}\n\n");
+                break;
+
+            case 1: // Grande
+                $printer->setTextSize(2, 2);
+                $printer->text("Pedido: {$numero_pedido}\n");
+                $printer->text("Mesa: {$nombre_mesa}\n\n");
+                break;
+
+            default: // Por defecto imprime normal
+                $printer->setTextSize(1, 1);
+                $printer->text("Pedido: {$numero_pedido}       Mesa: {$nombre_mesa}\n\n");
+                break;
+        }
+
+        // Restablecer el tamaño normal para el resto de la impresión
+        $printer->setTextSize(1, 1);    
+
+        // Opcional: Restablecer el tamaño para el resto de la impresión
         $printer->setTextSize(1, 1);
         $printer->text("Mesero: " . $nombre_usuario['nombresusuario_sistema'] . "\n");
 
@@ -1163,9 +1194,11 @@ class Imprimir extends BaseController
     public function imprimir_factura()
     {
 
-        //$id_factura = 35;
+        //$id_factura = 7534;
+        //die('punto de control');
 
         $id_factura = $_POST['numero_de_factura'];
+        //$id_factura = 7547;
 
         $imp = new impresion();
         $impresion = $imp->imprimir_factura($id_factura);
@@ -1173,15 +1206,16 @@ class Imprimir extends BaseController
         $imprime_boucher = model('cajaModel')->select('imp_comprobante_transferencia')->where('numerocaja', 1)->first();
 
 
-
         if ($imprime_boucher['imp_comprobante_transferencia'] == 1) {
+
+
             $movimientos_transaccion = model('pagosModel')->pago_transferencia($id_factura);
             $movimientos_efectivo = model('pagosModel')->pago_efectivo($id_factura);
 
-
             if (!empty($movimientos_transaccion)) {
 
-                $imprimir = $imp->imprimir_comprobnate_transferencia($id_factura, $movimientos_transaccion[0]['recibido_transferencia'], $movimientos_efectivo[0]['recibido_efectivo'], $movimientos_efectivo[0]['total_pago']);
+                //$imprimir = $imp->imprimir_comprobnate_transferencia($id_factura, $movimientos_transaccion[0]['recibido_transferencia'], $movimientos_efectivo[0]['recibido_efectivo'], $movimientos_efectivo[0]['total_pago']);
+                $imprimir = $imp->imprimir_comprobnate_transferencia($id_factura);
             }
         }
     }
@@ -1215,7 +1249,7 @@ class Imprimir extends BaseController
         $imp = new impresion();
 
 
-        $id_factura = $this->request->getPost('id_factura'); 
+        $id_factura = $this->request->getPost('id_factura');
         //$id_factura = 2;
 
         $id_resolucion = model('facturaElectronicaModel')->select('id_resolucion')->where('id', $id_factura)->first();

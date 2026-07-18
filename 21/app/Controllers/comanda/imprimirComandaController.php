@@ -729,9 +729,9 @@ class imprimirComandaController extends BaseController
 
 
         $printer->setTextSize(1, 1);
-        foreach($productos as $detalle){
+        foreach ($productos as $detalle) {
 
-           
+
             //$printer->text("Producto:        " . str_pad($detalle['producto'], 20) . "\n");
             //$printer->text("Fecha:           " . str_pad($detalle['fecha'], 20) . "\n");
             $printer->text("Movimiento:      " . str_pad($detalle['movimiento'], 20) . "\n");
@@ -743,14 +743,8 @@ class imprimirComandaController extends BaseController
             $printer->text("Nota:            " . str_pad($detalle['nota'], 20) . "\n");
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->text("---------------------------------\n");
-             
         }
-       
 
-
-
-
-        
 
         $printer->text("\n");
 
@@ -764,5 +758,166 @@ class imprimirComandaController extends BaseController
         ];
 
         echo  json_encode($json_data);
+    }
+
+
+    public function imprimir_nc()
+    {
+        try {
+
+            // 📥 Recibir JSON
+            $data = $this->request->getJSON(true);
+            $id = $data['id'] ?? null;
+            $datosNc = model('notaCreditoModel')->select('id_factura,prefijo,numero,qrcode,cufe')
+                ->where('id', $id)
+                ->first();
+
+            //$datosNc= ;
+
+            //$datosFe = model('facturaElectronicaModel')->select('numero')->where('id',  $datosNc['id_factura'])->first();
+
+            $datosFe = model('facturaElectronicaModel')
+                ->select('metodo_pago,medio_pago,fecha,fecha_limite,hora,qrcode')
+                ->where('id', $datosNc['id_factura'])->first();
+
+            if ($datosFe['metodo_pago'] == 1) {
+                $venta = "CONTADO";
+            }
+
+            if ($datosFe['metodo_pago'] == 2) {
+                $venta = "CRÉDITO";
+            }
+
+            if (!$id) {
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'ID no recibido'
+                ]);
+            }
+
+            /**
+             * 🏢 Datos empresa
+             */
+            $id_impresora = model('impresionFacturaModel')
+                ->select('id_impresora')
+                ->first();
+
+            $datos_empresa = model('empresaModel')->datosEmpresa();
+
+            $nombre_impresora = model('impresorasModel')
+                ->select('nombre')
+                ->where('id', $id_impresora['id_impresora'])
+                ->first();
+
+            // 🖨️ Conexión impresora
+            $connector = new WindowsPrintConnector($nombre_impresora['nombre']);
+            $printer = new Printer($connector);
+
+            /**
+             * 🧾 ENCABEZADO
+             */
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->setTextSize(1, 1);
+
+            $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
+            $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
+            $printer->text("NIT: " . $datos_empresa[0]['nitempresa'] . "\n");
+            $printer->text($datos_empresa[0]['direccionempresa'] . "\n");
+            $printer->text($datos_empresa[0]['telefonoempresa'] . "\n");
+            $printer->text($datos_empresa[0]['nombreregimen'] . "\n\n");
+
+            /**
+             * 🧾 TITULO
+             */
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text("NOTA CRÉDITO NÚMERO: " . $datosNc['prefijo'] . $datosNc['numero'] . "\n");
+            $printer->text("FORMA DE PAGO: " . $venta . "\n");
+            $printer->text("FECHA DE GENERACIÓN: " . $datosFe['fecha'] . "\n");
+            $printer->text("FECHA LIMITE: " . $datosFe['fecha_limite'] . "\n");
+            $printer->text("CAJA: 1" . "\n");
+            $printer->text("CAJERO:  Usuario administrador" . "\n");
+
+            $nit_cliente = model('facturaElectronicaModel')->select('nit_cliente')->where('id', $datosNc['id_factura'])->first();
+            $nombres_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
+            $direccion = model('clientesModel')->select('direccioncliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
+            $telefono = model('clientesModel')->select('telefonocliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
+            $email = model('clientesModel')->select('emailcliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
+
+
+
+            $printer->text("---------------------------------------------" . "\n");
+            $printer->text("CLIENTE:     " . $nombres_cliente['nombrescliente'] . "\n");
+            $printer->text("NIT/CC:      " . $nit_cliente['nit_cliente']  . "\n");
+            $printer->text("DIRECCIÓN:   " . $direccion['direccioncliente']  . "\n");
+            $printer->text("TELEFÓNO    " . $telefono['telefonocliente'] . "\n");
+            $printer->text("EMAIL:       " . $email['emailcliente'] . "\n");
+
+            $printer->text("\n");
+
+            /**
+             * 📦 DETALLE HEADER
+             */
+            $printer->text("Cant   Descripción        Unitario     Total\n");
+            $printer->text("------------------------------------------\n");
+
+            $items = model('itemNotaCreditoModel')
+                ->select('codigo,descripcion,cantidad,neto,total')
+                ->where('id_nota', $id)
+                ->findAll();
+
+            foreach ($items as $item) {
+
+                $cantidad = str_pad($item['cantidad'], 6, ' ', STR_PAD_RIGHT);
+
+                $descripcion = str_pad(substr($item['descripcion'], 0, 18), 18, ' ', STR_PAD_RIGHT);
+
+                $unitario = str_pad(number_format($item['neto'], 0, ',', '.'), 12, ' ', STR_PAD_LEFT);
+
+                $total = str_pad(number_format($item['total'], 0, ',', '.'), 10, ' ', STR_PAD_LEFT);
+
+                $printer->text(
+                    $cantidad .
+                        $descripcion .
+                        $unitario .
+                        $total . "\n"
+                );
+            }
+            $printer->text("------------------------------------------\n");
+            $printer->text("\n");
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $printer->text(str_pad("SUB TOTAL", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("PROPINA", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("INC", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("IVA", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("TOTAL", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text("\n");
+
+            $printer->qrCode($datosNc['qrcode'], Printer::QR_ECLEVEL_L, 4);
+
+
+            $printer->text("\n");
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("\n");
+            $printer->text("CUFE: \n" . $datosNc['cufe'] . "\n");
+
+            /**
+             * ✂️ CIERRE
+             */
+            $printer->feed(2);
+            $printer->cut();
+            $printer->close();
+
+            return $this->response->setJSON([
+                'status' => true,
+                'message' => 'Impresión realizada correctamente'
+            ]);
+        } catch (\Exception $e) {
+
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

@@ -977,9 +977,10 @@ class Mesas extends BaseController
 
     function nota()
     {
-        $id_mesa = $this->request->getPost('id_mesa');
-        $nota = $this->request->getPost('data');
+         $id_mesa = $this->request->getPost('id_mesa'); 
+         $nota = $this->request->getPost('data');
 
+        
         $nota = [
             'nota_pedido' => $nota
         ];
@@ -2046,6 +2047,8 @@ class Mesas extends BaseController
     {
 
         //$model = model('partirFacturaModel')->truncate();
+
+ 
         $truncate = model('partirFacturaModel')->truncate();
 
         $apertura_registro = model('aperturaRegistroModel')->first();

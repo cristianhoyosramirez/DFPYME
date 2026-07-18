@@ -46,6 +46,7 @@ $routes->group('salones', ['namespace' => 'App\Controllers\Salones', 'filter' =>
     $routes->post('consultar_mesa', 'salonesController::consultar_mesa');
     $routes->post('whatsApp', 'salonesController::whatsApp');
     $routes->post('crearMesas', 'salonesController::crearMesas');
+    $routes->post('listadoMesas', 'salonesController::listadoMesas');
 });
 
 $routes->group('login', ['namespace' => 'App\Controllers\login'], function ($routes) {
@@ -99,7 +100,7 @@ $routes->group('mesas', ['namespace' => 'App\Controllers\Mesa', 'filter' => \App
     $routes->POST('eliminar', 'GestionMesas::eliminar');
     $routes->POST('edicionMesa', 'GestionMesas::edicionMesa');
     $routes->post('mesaPedido', 'GestionMesas::mesaPedido');
-    $routes->get('eliminarMesa', 'GestionMesas::eliminarMesa');
+    $routes->post('eliminarMesa', 'GestionMesas::eliminarMesa');
 });
 
 $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -186,6 +187,7 @@ $routes->group('impresora', ['namespace' => 'App\Controllers\impresora', 'filter
     $routes->get('administracion', 'impresoraController::administracion');
     $routes->post('actualizarEstadoLicencia', 'impresoraController::actualizarEstadoLicencia');
     $routes->post('actualizarEstadoConsumo', 'impresoraController::actualizarEstadoConsumo');
+    $routes->post('eliminar', 'impresoraController::eliminar');
 });
 
 $routes->group('categoria', ['namespace' => 'App\Controllers\categoria', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -254,7 +256,7 @@ $routes->group('comanda', ['namespace' => 'App\Controllers\comanda', 'filter' =>
     $routes->post('directa', 'imprimirComandaController::directa');
     $routes->post('imprimir_compra', 'imprimirComandaController::imprimir_compra');
     $routes->post('impresion_compra', 'imprimirComandaController::impresion_compra');
-    $routes->post('imprimir_movimiento', 'imprimirComandaController::imprimir_movimiento');
+    $routes->post('imprimir_nc', 'imprimirComandaController::imprimir_nc');
 });
 
 $routes->group('clientes', ['namespace' => 'App\Controllers\cliente', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -475,7 +477,7 @@ $routes->group('devolucion', ['namespace' => 'App\Controllers\devolucion', 'filt
     $routes->get('crear_cuenta', 'RetiroController::crear_cuenta');
     $routes->post('agregar_cuenta', 'RetiroController::agregar_cuenta');
     $routes->get('listado', 'RetiroController::listado');
-    $routes->get('rubros_listado', 'RetiroController::rubros_listado');
+    $routes->post('rubros_listado', 'RetiroController::rubros_listado');
     $routes->get('crear_rubro', 'RetiroController::crear_rubro');
     $routes->post('agregar_rubro', 'RetiroController::agregar_rubro');
     $routes->post('cuenta_rubro', 'RetiroController::cuenta_rubro');
@@ -743,6 +745,14 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->post('ventasPorMesero', 'ConsultasController::ventasPorMesero');
     $routes->post('ventasPorApertura', 'ConsultasController::ventasPorApertura');
     $routes->get('ventas_fecha', 'ConsultasController::ventas_fecha');
+    $routes->get('notas_credito', 'ConsultasController::notas_credito');
+    $routes->post('eliminarNotaCredito', 'ConsultasController::eliminarNotaCredito');
+    $routes->post('buscarNcNumero', 'ConsultasController::buscarNcNumero');
+    $routes->post('buscarNcCliente', 'ConsultasController::buscarNcCliente');
+    $routes->post('buscarNcFecha', 'ConsultasController::buscarNcFecha');
+    $routes->get('allNc', 'ConsultasController::allNc');
+    $routes->post('nCEstado', 'ConsultasController::nCEstado');
+    $routes->post('devolucionNc', 'ConsultasController::devolucionNc');
 });
 
 
@@ -814,6 +824,7 @@ $routes->group('configuracion', ['namespace' => 'App\Controllers\configuracion',
     $routes->post('propinaAutomatica', 'Configuracion::propinaAutomatica');
     $routes->post('propinaManual', 'Configuracion::propinaManual');
     $routes->post('reImprimirMesero', 'Configuracion::reImprimirMesero');
+    $routes->post('titulo_pedido', 'Configuracion::titulo_pedido');
 });
 
 
@@ -836,6 +847,10 @@ $routes->group('actualizacion', ['namespace' => 'App\Controllers\actualizaciones
     $routes->post('actualizarJustificacionPedido', 'ParametrizacionController::actualizarJustificacionPedido');  
     $routes->post('actualizarJustificacionProducto', 'ParametrizacionController::actualizarJustificacionProducto');  
     $routes->post('actualizarPrefactura', 'ParametrizacionController::actualizarPrefactura');  
+    $routes->post('consultarFactura', 'ParametrizacionController::consultarFactura');  
+    $routes->post('notaCredito', 'ParametrizacionController::notaCredito');  
+    $routes->post('eliminarNotaCredito', 'ParametrizacionController::eliminarNotaCredito');  
+    $routes->post('detalleNc', 'ParametrizacionController::detalleNc');  
 });
 
 $routes->get('/qr-codes', 'QrCodeGeneratorController::index');
@@ -844,6 +859,16 @@ $routes->group('whatsapp', ['namespace' => 'App\Controllers\whatsapp'], function
     $routes->get('index', 'WhatsappController::index');
     $routes->get('prueba', 'WhatsappController::prueba');
     $routes->post('consultar', 'WhatsappController::consultar');
+});
+
+$routes->group('cartera', [
+    'namespace' => 'App\Controllers\Cartera',
+    'filter'    => \App\Filters\Auth::class
+], function ($routes) {
+    $routes->get('index', 'carteraContoller::index');
+    $routes->post('buscarDocumento', 'carteraContoller::buscarDocumento');
+    $routes->post('buscarCliente', 'carteraContoller::buscarCliente');
+    $routes->post('getCartera', 'carteraContoller::getCartera');
 });
 
 

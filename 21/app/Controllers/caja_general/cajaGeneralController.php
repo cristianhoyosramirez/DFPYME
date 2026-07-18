@@ -755,7 +755,7 @@ class cajaGeneralController extends BaseController
 
         $invoices = model('pagosModel')->getDocumentosCosto($fecha_inicial, $fecha_final);
 
-        exit();
+
 
         $file_name = 'Reporte de costos de ' . $fecha_inicial . ' al ' . $fecha_final . '.xlsx';
 

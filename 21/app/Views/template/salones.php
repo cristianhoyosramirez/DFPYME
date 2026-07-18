@@ -35,6 +35,7 @@
         <script src="<?= base_url() ?>/Assets/js/tabler.min.js"></script>
         <!-- Data tables -->
         <script src="<?= base_url() ?>/Assets/js/jquery-3.5.1.js"></script>
+       
         <script src="<?= base_url() ?>/Assets/plugin/data_tables/jquery.dataTables.min.js"></script>
         <script src="<?= base_url() ?>/Assets/plugin/data_tables/dataTables.bootstrap5.min.js"></script>
         <!-- Script locales -->

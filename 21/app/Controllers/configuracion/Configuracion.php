@@ -680,6 +680,7 @@ class Configuracion extends BaseController
         $tamano = model('configuracionPedidoModel')->select('tamano_comanda')->first();
         $precios = model('configuracionPedidoModel')->select('precios_comanda')->first();
         $reimprimir_meseros = model('configuracionPedidoModel')->select('reimpresion_meseros')->first();
+        $titulo_pedido = model('configuracionPedidoModel')->select('titulo_pedido')->first();
 
         return view(
             'configuracion/comanda',
@@ -689,7 +690,8 @@ class Configuracion extends BaseController
                 'encabezado' => $espaciosEncabezado['espacios_comanda_encabezado'],
                 'tamano' => $tamano['tamano_comanda'],
                 'precios' => $precios['precios_comanda'],
-                'reimprimir_meseros' => $reimprimir_meseros['reimpresion_meseros']
+                'reimprimir_meseros' => $reimprimir_meseros['reimpresion_meseros'],
+                'titulo_pedido' => $titulo_pedido['titulo_pedido']
             ]
         );
     }
@@ -707,6 +709,30 @@ class Configuracion extends BaseController
             );
             echo  json_encode($returnData);
         }
+    }
+
+    public function titulo_pedido()
+    {
+        $data = $this->request->getJSON(true);
+
+        $valor = $data['valor'];
+
+        $actualizar = model('configuracionPedidoModel')
+            ->set('titulo_pedido', $valor)
+            ->update();
+
+        if ($actualizar) {
+
+            return $this->response->setJSON([
+                'response' => 'success',
+                'message'  => 'Actualizado correctamente'
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'response' => 'error',
+            'message'  => 'No fue posible actualizar.'
+        ]);
     }
 
     function productos_favoritos()

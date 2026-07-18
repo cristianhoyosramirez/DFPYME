@@ -14,6 +14,7 @@ use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use App\Libraries\Inventario;
 use App\Libraries\Propina;
 use App\Libraries\Impuestos;
+use App\Libraries\impresion;
 
 class CerrarVenta extends BaseController
 {
@@ -39,23 +40,11 @@ class CerrarVenta extends BaseController
 
         $items = model('productoPedidoModel')->where('numero_de_pedido', $numero_pedido)->find();
 
-
-
-
-        // if ($validar_pedido[0]['total'] == 0 and $suma_pedido[0]['total'] == $total_pedido['valor_total']) {
-        // if ( $suma_pedido[0]['total'] == $total_pedido['valor_total']) {
-
-
-
         $items = model('productoPedidoModel')->where('numero_de_pedido', $numero_pedido)->find();
-
 
 
         $id_impresora = model('impresionFacturaModel')->select('id_impresora')->first();
 
-
-
-        //$datos_empresa = model('empresaModel')->datosEmpresa();
 
         $nombre_impresora = model('impresorasModel')->select('nombre')->where('id', $id_impresora['id_impresora'])->first();
 
@@ -100,6 +89,11 @@ class CerrarVenta extends BaseController
             $efectivo = 0;
             $transaccion = 0;
             $cambio = 0;
+        }
+        if ($forma_pago == 1) {  //ventas a credito 
+            $efectivo = $_POST['efectivo'];
+            $transaccion = $_POST['transaccion'];
+            //$cambio = 0;
         }
         /*  $valor_venta = 475000;
             $nit_cliente = 222222222222;
@@ -244,12 +238,12 @@ class CerrarVenta extends BaseController
 
                 );
 
-
-
-
-
-
-
+                $entradasSalidas = model('EntradasSalidasModel')->insert([
+                    'id_documento' => $factura_venta,
+                    'id_operacion' => 2,
+                    'fecha'        => date('Y-m-d'),
+                    'tabla'        => 'factura_venta'
+                ]);
 
                 $apertura = model('aperturaRegistroModel')->select('numero')->where('idcaja', 1)->first();
                 //$id_mesero = model('mesasModel')->select('id_mesero')->where('id', $id_mesa)->first();
@@ -411,12 +405,6 @@ class CerrarVenta extends BaseController
                 $numero_pedido = $pedido['id'];
                 $id_mesero = model('pedidoModel')->select('fk_usuario')->where('id', $numero_pedido)->first();
 
-                //$id_pedido = model('pagosModel')->select('id_pedido')->where('id_pedido', $numero_pedido)->first();
-
-                //if (empty($id_pedido['id_pedido'])) {
-
-
-
                 $pagos = [
 
                     'fecha' => date('Y-m-d'),
@@ -447,7 +435,7 @@ class CerrarVenta extends BaseController
 
                 $pagos = model('pagosModel')->insert($pagos);
 
-                //}
+
 
                 if ($tipo_pago == 1) {  // si el tipo de pago es 1 quiere decir que se factura el pedido completo 
                     // borrar productos del pedido 
@@ -522,6 +510,8 @@ class CerrarVenta extends BaseController
 
 
                 if ($tipo_pago == 0) {
+
+
                     $returnData = array(
                         "id_factura" => $factura_venta,
                         "resultado" => 1,
@@ -551,6 +541,7 @@ class CerrarVenta extends BaseController
 
 
                 if ($tipo_pago == 1) {
+
 
                     $returnData = array(
                         "id_factura" => $factura_venta,
@@ -597,18 +588,6 @@ class CerrarVenta extends BaseController
                 echo  json_encode($returnData);
             }
         }
-        //} else if ($validar_pedido[0]['total'] > 0) {
-        /* } else if ($validar_pedido[0]['total'] == 0 and $suma_pedido[0]['total'] != $total_pedido['valor_total']) {
-
-       
-            $returnData = array(
-
-                "resultado" => 0,
-                "mensaje" => "Hay productos con cantidad nulas "
-
-            );
-            echo  json_encode($returnData);
-        } */
     }
 
 
@@ -779,7 +758,7 @@ class CerrarVenta extends BaseController
 
 
 
-        if ($tipo_usuario == 1 || $tipo_usuario == 0 || $tipo_usuario == 4 || $tipo_usuario == 5) {
+        if ($tipo_usuario == 1 || $tipo_usuario == 0 || $tipo_usuario == 4 || $tipo_usuario == 5 || $tipo_usuario == 3) {
             $model = model('pedidoModel');
             $actualizar = $model->set('fk_usuario', $id_mesero);
             $actualizar = $model->where('fk_mesa', $this->request->getPost('id_mesa'));

@@ -54,10 +54,25 @@ class RetiroController extends BaseController
     function rubros_listado()
     {
         //$rubros = model('cuentaRetiroModel')->get_cuentas_rubros();
-        $rubros = model('cuentaRetiroModel')->findAll();
+        $data = $this->request->getJSON(true);
 
-        return view('cuentas_retiro_rubros/listado', [
+        $id = $data['id'];
+        //$id=1;
+        
+        $rubros = model('cuentaRetiroModel')->get_cuentas_rubros($id);
+
+        /*  return view('cuentas_retiro_rubros/listado', [
             'rubros' => $rubros
+        ]); */
+
+
+
+        return $this->response->setJSON([
+            'status'   => true,
+            'sub_cuentas'  => view('cuentas_retiro_rubros/listado', [
+                'rubros'   => $rubros
+            ]),
+
         ]);
     }
     function crear_rubro()

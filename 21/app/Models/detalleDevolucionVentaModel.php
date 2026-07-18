@@ -9,7 +9,24 @@ class detalleDevolucionVentaModel extends Model
     protected $table      = 'detalle_devolucion_venta';
     // Uncomment below if you want add primary key
     // protected $primaryKey = 'id';
-    protected $allowedFields = ['id_devolucion_venta', 'codigo', 'idmedida', 'idcolor', 'valor', 'descuento', 'iva', 'cantidad', 'impoconsumo', 'ico', 'valor_total_producto', 'fecha_y_hora_venta', 'fecha_venta', 'id_apertura'];
+    protected $allowedFields = [
+        'id_devolucion_venta',
+        'codigo',
+        'idmedida',
+        'idcolor',
+        'valor',
+        'descuento',
+        'iva',
+        'cantidad',
+        'impoconsumo',
+        'ico',
+        'valor_total_producto',
+        'fecha_y_hora_venta',
+        'fecha_venta',
+        'id_apertura',
+        'saldo_anterior',
+        'nuevo_saldo'
+    ];
 
     public function detalle_devolucion($id_apertura)
     {
