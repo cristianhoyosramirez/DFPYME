@@ -757,8 +757,8 @@ class ReportesController extends BaseController
 
     function datos_pagos()
     {
-        //$id = $this->request->getPost('id'); 
-         $id = 15;
+        $id = $this->request->getPost('id');
+        // $id = 4046;
         $pagos = model('pagosModel')->pagos($id);
         $clasePago = model('clasePagoModel')->where('estado', 'true')->orderby('nombre', 'asc')->findAll();
 

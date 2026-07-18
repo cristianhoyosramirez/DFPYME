@@ -196,38 +196,14 @@ class data_table
     |--------------------------------------------------------------------------
     */
 
- private function dropdownAcciones($acciones)
-{
-    return '
+    private function dropdownAcciones($acciones)
+    {
+        return '
 
-    <div class="d-flex align-items-center gap-2">
-
-        <!-- Nuevo botón -->
-        <button
-            type="button"
-            class="btn btn-primary shadow-sm"
-            title="Nueva acción">
-
-            <svg xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2">
-
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-
-            </svg>
-
-        </button>
-
-        <!-- Dropdown -->
         <div class="dropdown">
 
-            <button
-                class="btn btn-light border shadow-sm"
+            <button 
+                class="btn btn-light border shadow-sm "
                 type="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -255,19 +231,22 @@ class data_table
             </button>
 
             <div class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-4 p-2"
-                style="min-width:270px;">
+                style="
+                    min-width:270px;
+                ">
 
                 <div class="d-flex flex-column gap-1">
+
                     ' . $acciones . '
+
                 </div>
 
             </div>
 
         </div>
+        ';
+    }
 
-    </div>
-    ';
-}
 
 
     /*

@@ -325,27 +325,27 @@ usort($movimientosCaja, function ($a, $b) {
                     </td>
 
                     <td>
-                         <?php echo number_format($movimiento['venta'], 0, ",", ".") ?>
+                        $ <?php echo number_format($movimiento['venta'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                         <?php echo number_format($movimiento['propina'], 0, ",", ".") ?>
+                        $ <?php echo number_format($movimiento['propina'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                         <?php echo number_format($movimiento['total'], 0, ",", ".") ?>
+                        $ <?php echo number_format($movimiento['total'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                         <?php echo number_format($movimiento['efectivo'], 0, ",", ".") ?>
+                        $ <?php echo number_format($movimiento['efectivo'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                         <?php echo number_format($movimiento['transferencia'], 0, ",", ".") ?>
+                        $ <?php echo number_format($movimiento['transferencia'], 0, ",", ".") ?>
                     </td>
 
                     <td>
-                         <?php echo number_format($movimiento['total_pago'], 0, ",", ".") ?>
+                        $ <?php echo number_format($movimiento['total_pago'], 0, ",", ".") ?>
                     </td>
 
                     <td>
