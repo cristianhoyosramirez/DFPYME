@@ -11,38 +11,48 @@ class CarteraModel extends Model
     // protected $primaryKey = 'id';
     //protected $allowedFields = ['id_usuario','fecha_generacion','hora','obserevacion','valor'];
 
-    public function getCartera($estado, $fecha_inicial, $fecha_final)
+    public function getCartera($estado, $fecha_inicial, $fecha_final,$nit_cliente)
     {
         $datos = $this->db->query("
             
-    SELECT
-    p.fecha,
-    p.nit_cliente,
-    c.nombrescliente,
-    p.documento,
-    p.total_documento,
-    e.descripcionestado,
-    p.saldo,
-    (p.total_documento - p.saldo) AS abonado
-FROM pagos p
-INNER JOIN cliente c
-    ON c.nitcliente = p.nit_cliente
-INNER JOIN estado e
-    ON e.idestado = p.id_estado
-WHERE
-    (
-        $estado = 0
-        OR ($estado = 1 AND p.saldo > 0)
-        OR ($estado = 2 AND p.saldo = 0)
-    )
-AND p.fecha BETWEEN
-    COALESCE(NULLIF('$fecha_inicial', '')::date,
-        (SELECT MIN(fecha) FROM pagos))
-AND
-    COALESCE(NULLIF('$fecha_final', '')::date,
-        (SELECT MAX(fecha) FROM pagos))
-AND p.forma_pago = 2
-ORDER BY p.fecha DESC;
+                SELECT
+                    p.fecha,
+                    p.nit_cliente,
+                    c.nombrescliente,
+                    p.documento,
+                    p.total_documento,
+                    e.descripcionestado,
+                    p.saldo,
+                    (p.total_documento - p.saldo) AS abonado,
+                    p.id_factura,
+                    p.id_estado
+                FROM pagos p
+                INNER JOIN cliente c
+                    ON c.nitcliente = p.nit_cliente
+                INNER JOIN estado e
+                    ON e.idestado = p.id_estado
+                WHERE
+                    (
+                        $estado = 0
+                        OR ($estado = 1 AND p.saldo > 0)
+                        OR ($estado = 2 AND p.saldo = 0)
+                    )
+                AND (
+                        NULLIF('$nit_cliente', '') IS NULL
+                        OR p.nit_cliente = '$nit_cliente'
+                    )
+                AND p.fecha BETWEEN
+                    COALESCE(
+                        NULLIF('$fecha_inicial', '')::date,
+                        (SELECT MIN(fecha) FROM pagos)
+                    )
+                AND
+                    COALESCE(
+                        NULLIF('$fecha_final', '')::date,
+                        (SELECT MAX(fecha) FROM pagos)
+                    )
+                AND p.forma_pago = 2
+                ORDER BY p.fecha DESC;
             
             ");
         return $datos->getResultArray();
@@ -75,11 +85,11 @@ ORDER BY p.fecha DESC;
         return $datos->getResultArray();
     }
 
-    public function getDatosCarteraCliente($cliente)
+    /*    public function getDatosCarteraCliente($cliente)
     {
         $datos = $this->db->query("
             
-               SELECT
+           SELECT
             pagos.fecha,
             pagos.nit_cliente,
             cliente.nombrescliente,
@@ -100,11 +110,43 @@ ORDER BY p.fecha DESC;
     OR pagos.nit_cliente ILIKE '%$cliente%'
 )
 AND pagos.saldo > 0
-ORDER BY cliente.nombrescliente ASC;
+ORDER BY cliente.nombrescliente ASC; 
             
             ");
         return $datos->getResultArray();
+    } */
+
+
+    public function getDatosCarteraCliente($id_cliente)
+    {
+        $datos = $this->db->query("
+                    
+                SELECT
+                    pagos.fecha,
+                    pagos.nit_cliente,
+                    cliente.nombrescliente,
+                    pagos.documento,
+                    pagos.total_documento,
+                    estado.descripcionestado,
+                    pagos.saldo,
+                    (pagos.total_documento - pagos.saldo) AS abonado,
+                    id_factura,
+                    id_estado
+                FROM pagos
+                INNER JOIN cliente
+                    ON cliente.nitcliente = pagos.nit_cliente
+                INNER JOIN estado
+                    ON estado.idestado = pagos.id_estado
+                WHERE 
+                    cliente.id=$id_cliente  and saldo > 0
+   
+         ");
+        return $datos->getResultArray();
     }
+
+
+
+
     public function getSumaCartera($documento)
     {
         $datos = $this->db->query("
@@ -117,7 +159,7 @@ ORDER BY cliente.nombrescliente ASC;
             ");
         return $datos->getResultArray();
     }
-    public function getSumaCarteraCliente($documento)
+  /*   public function getSumaCarteraCliente($documento)
     {
         $datos = $this->db->query("
             
@@ -135,12 +177,34 @@ ORDER BY cliente.nombrescliente ASC;
             
             ");
         return $datos->getResultArray();
-    }
+    } */
 
-    public function getSumaCarteraFechas($estado, $fecha_inicial, $fecha_final)
+
+        public function getSumaCarteraCliente($id_cliente)
     {
         $datos = $this->db->query("
+            
         SELECT
+            SUM(p.total_documento) AS total
+        FROM pagos p
+        INNER JOIN cliente c
+            ON c.nitcliente = p.nit_cliente
+        WHERE (
+               
+                c.id = $id_cliente
+            )
+        AND p.saldo > 0;
+            
+            ");
+        return $datos->getResultArray();
+    } 
+
+
+
+    public function getSumaCarteraFechas($estado, $fecha_inicial, $fecha_final,$nit_cliente)
+    {
+        $datos = $this->db->query("
+            SELECT
             COALESCE(SUM(p.total_documento), 0) AS total
         FROM pagos p
         INNER JOIN cliente c
@@ -151,14 +215,22 @@ ORDER BY cliente.nombrescliente ASC;
                 OR ($estado = 1 AND p.saldo > 0)
                 OR ($estado = 2 AND p.saldo = 0)
             )
+        AND (
+                NULLIF('$nit_cliente', '') IS NULL
+                OR p.nit_cliente = '$nit_cliente'
+            )
         AND p.fecha BETWEEN
-            COALESCE(NULLIF('$fecha_inicial', '')::date,
-                (SELECT MIN(fecha) FROM pagos))
+            COALESCE(
+                NULLIF('$fecha_inicial', '')::date,
+                (SELECT MIN(fecha) FROM pagos)
+            )
         AND
-            COALESCE(NULLIF('$fecha_final', '')::date,
-                (SELECT MAX(fecha) FROM pagos))
-        AND p.forma_pago = 2
-    ");
+            COALESCE(
+                NULLIF('$fecha_final', '')::date,
+                (SELECT MAX(fecha) FROM pagos)
+            )
+        AND p.forma_pago = 2;
+            ");
 
         return $datos->getResultArray();
     }
@@ -174,18 +246,17 @@ ORDER BY cliente.nombrescliente ASC;
 
         return $datos->getRowArray();
     }
-    public function getCantidadCarteraCliente($cliente)
+
+    public function getCantidadCarteraCliente($id_cliente)
     {
         $datos = $this->db->query("
-       SELECT
+               SELECT
             COUNT(*) AS cantidad
         FROM pagos p
         INNER JOIN cliente c
             ON c.nitcliente = p.nit_cliente
         WHERE (
-                p.documento::TEXT ILIKE '%$cliente%'
-                OR c.nombrescliente ILIKE '%$cliente%'
-                OR c.nitcliente::TEXT ILIKE '%$cliente%'
+                 c.id = $id_cliente
             )
         AND p.saldo > 0;
     ");
@@ -193,10 +264,10 @@ ORDER BY cliente.nombrescliente ASC;
         return $datos->getRowArray();
     }
 
-    public function getCantidadCarteraFechas($estado, $fecha_inicial, $fecha_final)
+    public function getCantidadCarteraFechas($estado, $fecha_inicial, $fecha_final,$nit_cliente)
     {
         $datos = $this->db->query("
-        SELECT
+            SELECT
             COUNT(*) AS cantidad
         FROM pagos p
         INNER JOIN cliente c
@@ -207,13 +278,21 @@ ORDER BY cliente.nombrescliente ASC;
                 OR ($estado = 1 AND p.saldo > 0)
                 OR ($estado = 2 AND p.saldo = 0)
             )
+        AND (
+                NULLIF('$nit_cliente', '') IS NULL
+                OR p.nit_cliente = '$nit_cliente'
+            )
         AND p.fecha BETWEEN
-            COALESCE(NULLIF('$fecha_inicial', '')::date,
-                (SELECT MIN(fecha) FROM pagos))
+            COALESCE(
+                NULLIF('$fecha_inicial', '')::date,
+                (SELECT MIN(fecha) FROM pagos)
+            )
         AND
-            COALESCE(NULLIF('$fecha_final', '')::date,
-                (SELECT MAX(fecha) FROM pagos))
-        AND p.forma_pago = 2
+            COALESCE(
+                NULLIF('$fecha_final', '')::date,
+                (SELECT MAX(fecha) FROM pagos)
+            )
+        AND p.forma_pago = 2;
     ");
 
         return $datos->getRowArray();
@@ -231,7 +310,7 @@ ORDER BY cliente.nombrescliente ASC;
 
         return $datos->getRowArray();
     }
-    public function totalPagadoCliente($cliente)
+    public function totalPagadoCliente($id_cliente)
     {
         $datos = $this->db->query("
         SELECT
@@ -240,8 +319,7 @@ ORDER BY cliente.nombrescliente ASC;
         INNER JOIN cliente c
             ON c.nitcliente = p.nit_cliente
         WHERE (
-                c.nombrescliente ILIKE '%$cliente%'
-                OR c.nitcliente::TEXT ILIKE '%$cliente%'
+                c.id = $id_cliente
             )
         AND p.saldo > 0;
             ");
@@ -249,10 +327,10 @@ ORDER BY cliente.nombrescliente ASC;
         return $datos->getRowArray();
     }
 
-    public function totalPagadoFechas($estado, $fecha_inicial, $fecha_final)
-{
-    $datos = $this->db->query("
-        SELECT
+    public function totalPagadoFechas($estado, $fecha_inicial, $fecha_final,$nit_cliente)
+    {
+        $datos = $this->db->query("
+                SELECT
             COALESCE(SUM(p.total_documento - p.saldo), 0) AS total
         FROM pagos p
         INNER JOIN cliente c
@@ -263,17 +341,25 @@ ORDER BY cliente.nombrescliente ASC;
                 OR ($estado = 1 AND p.saldo > 0)
                 OR ($estado = 2 AND p.saldo = 0)
             )
+        AND (
+                NULLIF('$nit_cliente', '') IS NULL
+                OR p.nit_cliente = '$nit_cliente'
+            )
         AND p.fecha BETWEEN
-            COALESCE(NULLIF('$fecha_inicial', '')::date,
-                (SELECT MIN(fecha) FROM pagos))
+            COALESCE(
+                NULLIF('$fecha_inicial', '')::date,
+                (SELECT MIN(fecha) FROM pagos)
+            )
         AND
-            COALESCE(NULLIF('$fecha_final', '')::date,
-                (SELECT MAX(fecha) FROM pagos))
-        AND p.forma_pago = 2
+            COALESCE(
+                NULLIF('$fecha_final', '')::date,
+                (SELECT MAX(fecha) FROM pagos)
+            )
+        AND p.forma_pago = 2;
     ");
 
-    return $datos->getRowArray();
-}
+        return $datos->getRowArray();
+    }
 
 
     public function getCarteraFechas($estado, $fecha_inicial, $fecha_final)

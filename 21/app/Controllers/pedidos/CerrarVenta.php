@@ -582,7 +582,7 @@ class CerrarVenta extends BaseController
                 $returnData = array(
 
                     "resultado" => 0,
-                    "mensaje" => "No es posible facturar resolucion pos, vencidad por fecha y numeracion"
+                    "mensaje" => "No es posible facturar resolucion pos, vencidad por fecha y numeracion, debe modificar la resolución desde configuracion"
 
                 );
                 echo  json_encode($returnData);

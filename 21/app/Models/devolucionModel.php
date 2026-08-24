@@ -273,7 +273,7 @@ class devolucionModel extends Model
     }
 
 
-    public function devolucion_iva($tarifa_iva, $fecha_inicial, $fecha_final,$codigo)
+    public function devolucion_iva($tarifa_iva, $fecha_inicial, $fecha_final, $codigo)
     {
         $datos = $this->db->query("
         SELECT
@@ -309,5 +309,66 @@ class devolucionModel extends Model
         fecha_y_hora_venta BETWEEN '$fecha_inicial' AND '$fecha_final' AND ico = $tarifa_ico 
         ");
         return $datos->getResultArray();
+    }
+    public function impuesto_iva($id_apertura)
+    {
+        $datos = $this->db->query("
+SELECT
+    ddv.iva AS porcentaje_iva,
+    SUM(ddv.valor * ddv.cantidad) AS base_gravable,
+    SUM(ddv.valor_iva) AS valor_iva
+FROM detalle_devolucion_venta ddv
+INNER JOIN devolucion_venta dv
+    ON dv.id = ddv.id_devolucion_venta
+WHERE dv.id_apertura = $id_apertura
+  AND ddv.iva > 0
+  AND COALESCE(TRIM(dv.numerofactura), '') <> ''
+  AND UPPER(TRIM(dv.numerofactura)) <> 'DEVOLUCION'
+GROUP BY
+    ddv.iva
+ORDER BY
+    ddv.iva;
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function impuesto_inc($id_apertura)
+    {
+        $datos = $this->db->query("
+           SELECT
+    ddv.ico AS porcentaje_ico,
+    SUM(ddv.valor * ddv.cantidad) AS base_gravable,
+    SUM(ddv.impoconsumo) AS valor_ico
+FROM detalle_devolucion_venta ddv
+INNER JOIN devolucion_venta dv
+    ON dv.id = ddv.id_devolucion_venta
+WHERE dv.id_apertura = $id_apertura
+  AND ddv.ico > 0
+  AND COALESCE(TRIM(dv.numerofactura), '') <> ''
+  AND UPPER(TRIM(dv.numerofactura)) <> 'DEVOLUCION'
+GROUP BY
+    ddv.ico
+ORDER BY
+    ddv.ico;
+        ");
+        return $datos->getResultArray();
+    }
+
+
+
+
+    public function totalImpuestos($id_apertura)
+    {
+        $datos = $this->db->query("
+                SELECT
+                    COALESCE(SUM(ddv.impoconsumo), 0) AS inc,
+                    COALESCE(SUM(ddv.valor_iva), 0) AS iva
+                FROM detalle_devolucion_venta ddv
+                INNER JOIN devolucion_venta dv
+                    ON dv.id = ddv.id_devolucion_venta
+                WHERE dv.id_apertura = ?
+            ", [$id_apertura]);
+
+        return $datos->getRowArray();
     }
 }

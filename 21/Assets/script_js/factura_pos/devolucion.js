@@ -2,9 +2,17 @@ function devolucion() {
   var usuario = document.getElementById("id_usuario").value;
   //var nit_cliente = document.getElementById("id_cliente_factura_pos").value;
   var nit_cliente = '22222222';
-  var codigo_producto_devolucion = document.getElementById(
-    "codigo_producto_devolucion"
-  ).value;
+  var codigo_producto_devolucion = document.getElementById("codigo_producto_devolucion").value;
+
+  if (codigo_producto_devolucion.trim() === "") {
+    Swal.fire({
+      icon: "warning",
+      title: "Producto no seleccionado",
+      text: "Debe seleccionar un producto antes de continuar."
+    });
+
+    return;
+  }
   var cantidad_devolucion = document.getElementById(
     "cantidad_devolucion"
   ).value;

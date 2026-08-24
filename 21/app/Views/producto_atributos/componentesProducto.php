@@ -2,10 +2,21 @@
     $nombre = model('atributosProductoModel')->select('nombre')->where('id', $keyAtributo['id_atributo'])->first();
     $numeroComponentes = model('configuracionAtributosProductoModel')->getNumeroComponentes($idProducto, $keyAtributo['id_atributo']);
     $id = model('configuracionAtributosProductoModel')->getId($idProducto, $keyAtributo['id_atributo']);
+
+    $componentes = model('componentesAtributosProductoModel')->select('nombre')
+        ->where('id_atributo', $keyAtributo['id_atributo'])
+        ->findAll();
+
+    $nombresComponentes = array_column($componentes, 'nombre');
 ?>
     <?php if (!empty($nombre)): ?>
         <tr>
-            <td><?php echo $nombre['nombre']; ?></td>
+            <td><?php echo $nombre['nombre']; ?>
+                <br>
+                <small style="color: blue;">
+                    (<?= implode(', ', $nombresComponentes); ?>)
+                </small>
+            </td>
             <td>
                 <input type="text"
                     class="form-control text-center"

@@ -2,7 +2,7 @@
 <?php $user_session = session(); ?>
 <?= $this->extend('template/home') ?>
 <?= $this->section('title') ?>
-REPORTE DE VENTAS 
+REPORTE DE VENTAS
 <?= $this->endSection('title') ?>
 
 <?= $this->section('content') ?>
@@ -13,31 +13,31 @@ REPORTE DE VENTAS
         <div class="card-body">
             <div class="container mt-4">
 
-                <form id="formReporteVentas" method="GET" action="<?= base_url('reportes/ventas_mensuales') ?>">
-                    <div class="row">
 
-                        <!-- Fecha Inicial -->
-                        <div class="col-md-3">
-                            <label for="fecha_inicio" class="form-label">Fecha Inicial</label>
-                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="<?= date('Y-m-d') ?>" required>
-                        </div>
+                <div class="row">
 
-                        <!-- Fecha Final -->
-                        <div class="col-md-3">
-                            <label for="fecha_fin" class="form-label">Fecha Final</label>
-                            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required value="<?= date('Y-m-d') ?>">
-                        </div>
-
-
-                        <!-- Botón Buscar -->
-                        <div class="col-md-3 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary w-100">
-                                🔍 Consultar
-                            </button>
-                        </div>
-
+                    <!-- Fecha Inicial -->
+                    <div class="col-md-3">
+                        <label for="fecha_inicio" class="form-label">Fecha Inicial</label>
+                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="<?= date('Y-m-d') ?>" required>
                     </div>
-                </form>
+
+                    <!-- Fecha Final -->
+                    <div class="col-md-3">
+                        <label for="fecha_fin" class="form-label">Fecha Final</label>
+                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required value="<?= date('Y-m-d') ?>">
+                    </div>
+
+
+                    <!-- Botón Buscar -->
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-primary w-100" onclick="buscar_ventas_fecha()">
+                            🔍 Consultar
+                        </button>
+                    </div>
+
+                </div>
+
 
 
 
@@ -53,57 +53,12 @@ REPORTE DE VENTAS
                             <td scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>2026-04-01</td>
-                            <td>$100.000</td>
-                            <td>$19.000</td>
-                            <td>$8.000</td>
-                            <td>$127.000</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Ver</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2026-04-05</td>
-                            <td>$250.000</td>
-                            <td>$47.500</td>
-                            <td>$20.000</td>
-                            <td>$317.500</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Ver</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2026-04-10</td>
-                            <td>$80.000</td>
-                            <td>$15.200</td>
-                            <td>$6.400</td>
-                            <td>$101.600</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Ver</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2026-04-12</td>
-                            <td>$150.000</td>
-                            <td>$28.500</td>
-                            <td>$12.000</td>
-                            <td>$190.500</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Ver</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2026-04-15</td>
-                            <td>$300.000</td>
-                            <td>$57.000</td>
-                            <td>$24.000</td>
-                            <td>$381.000</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Ver</button>
-                            </td>
-                        </tr>
+                    <tbody id="ventas_fecha">
+
+
+                        <?= $this->include('reportes/ventas_fechas') ?>
+
+
                     </tbody>
                 </table>
 
@@ -112,6 +67,79 @@ REPORTE DE VENTAS
         </div>
     </div>
 </div>
+
+<script>
+    async function buscar_ventas_fecha() {
+
+        const fecha_inicio = document.getElementById('fecha_inicio').value;
+        const fecha_fin = document.getElementById('fecha_fin').value;
+
+        if (!fecha_inicio || !fecha_fin) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia',
+                text: 'Debe seleccionar ambas fechas.'
+            });
+            return;
+        }
+
+        try {
+
+            Swal.fire({
+                title: 'Consultando información...',
+                html: 'Por favor espere mientras se obtienen los datos.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            const response = await fetch('<?= base_url('reportes/buscar_ventas_fecha') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    fecha_inicial: fecha_inicio,
+                    fecha_final: fecha_fin
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Error en la consulta');
+            }
+
+            const data = await response.json();
+
+            Swal.close();
+
+            document.getElementById('ventas_fecha').innerHTML = data.ventas;
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Consulta realizada',
+                text: 'Los resultados se cargaron correctamente.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+        } catch (error) {
+
+            Swal.close();
+
+            console.error(error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No fue posible consultar la información.'
+            });
+
+        }
+
+    }
+</script>
 
 
 

@@ -2,10 +2,20 @@
 
     $numeroComponentes = model('configuracionAtributosProductoModel')->getNumeroComponentes($idProducto, $detalle['id']);
     $id = model('configuracionAtributosProductoModel')->getId($idProducto, $detalle['id']);
+    $componentes = model('componentesAtributosProductoModel')->select('nombre')
+        ->where('id_atributo', $detalle['id'])
+        ->findAll();
+
+    $nombresComponentes = array_column($componentes, 'nombre');
 ?>
 
     <tr>
-        <td><?php echo $detalle['nombre']; ?></td>
+        <td><?php echo $detalle['nombre']; ?>
+            <br>
+            <small style="color: blue;">
+                (<?= implode(', ', $nombresComponentes); ?>)
+            </small>
+        </td>
         <td><input type="text" class="form-control text-center"
                 value="<?php echo $numeroComponentes[0]['numero_componentes']; ?>"
                 onclick="this.select()"
@@ -15,7 +25,7 @@
         <td>
             <button type="button" class="btn btn-outline-danger btn-icon"
                 onclick="eliminaComponente(<?php echo $id[0]['id']; ?>, <?php echo $idProducto; ?>)">
-                
+
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
                     stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />

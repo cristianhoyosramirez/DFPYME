@@ -238,15 +238,15 @@ class devolucionController extends BaseController
 
         if (!empty($id_apertura)) {
 
-            //   $usuario = 6;
-            // $nit_cliente = 22222222;
-            // $codigo_producto_devolucion = '5660';
-            // $cantidad_devolucion = 1;
-            // $precio_devo = 4.100;
-            // $precio_devolucion =  str_replace('.', '', $precio_devo); 
+            /*  $usuario = 6;
+            $nit_cliente = 222222222222;
+            $codigo_producto_devolucion = '470';
+            $cantidad_devolucion = 1;
+            $precio_devo = 4.100;
+            $precio_devolucion =  str_replace('.', '', $precio_devo); */
 
             $inventario = new Inventario();
-            $actualizar_inventario = $inventario->devolucion($usuario, $nit_cliente, $codigo_producto_devolucion, $cantidad_devolucion, $precio_devo, $precio_devolucion, $id_apertura);
+            $actualizar_inventario = $inventario->devolucion($usuario, $nit_cliente, $codigo_producto_devolucion, $cantidad_devolucion, $precio_devo, $precio_devolucion, $id_apertura, '');
 
             $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $codigo_producto_devolucion)->first();
             $returnData = array(

@@ -254,13 +254,37 @@ class ClienteController extends BaseController
             foreach ($resultado as $row) {
                 $data['value'] =  $row['nitcliente'] . " " . "/" . " " . $row['nombrescliente'];
                 $data['nit_cliente'] = $row['nitcliente'];
-
+                $data['id_cliente'] = $row['id'];
 
                 array_push($returnData, $data);
             }
             echo json_encode($returnData);
         } else {
             $data['value'] = "No hay resultados";
+            array_push($returnData, $data);
+            echo json_encode($returnData);
+        }
+    }
+
+    public function clientes_cartera()
+    {
+        $returnData = array();
+        $valor = $this->request->getVar('buscar');
+        //$valor = 'cr';
+
+        $resultado = model('clientesModel')->clientes_cartera($valor);
+
+        if (!empty($resultado)) {
+            foreach ($resultado as $row) {
+                $data['value'] =  $row['nitcliente'] . " " . "/" . " " . $row['nombrescliente'];
+                $data['nit_cliente'] = $row['nitcliente'];
+                $data['id_cliente'] = $row['id'];
+
+                array_push($returnData, $data);
+            }
+            echo json_encode($returnData);
+        } else {
+            $data['value'] = "Cliente no tiene créditos";
             array_push($returnData, $data);
             echo json_encode($returnData);
         }
@@ -511,7 +535,7 @@ class ClienteController extends BaseController
                 "detalles_rut" => $detallles_rut,
                 "id_cliente" => $id_cliente,
                 'disabled' => $disabled,
-                'tieneMovimiento'=>$tieneMovimiento
+                'tieneMovimiento' => $tieneMovimiento
             ])
         );
         echo  json_encode($returnData);

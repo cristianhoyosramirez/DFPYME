@@ -860,275 +860,275 @@ class Documento extends BaseController
         }
     }
 
-function imprimir_comprobante_ingreso()
-{
-    $json = $this->request->getJSON();
+    function imprimir_comprobante_ingreso()
+    {
+        $json = $this->request->getJSON();
 
-    $id = $json->id;
+        $id = $json->id;
+        //$id = 5;
 
-    $datos = model('facturaFormaPagoModel')
-        ->select('id_factura,id_estado,valor_pago,idusuario,idforma_pago,fecha_y_hora_forma_pago')
-        ->where('idfactura_forma_pago', $id)
-        ->first();
+        $datos = model('facturaFormaPagoModel')
+            ->select('id_factura,id_estado,valor_pago,idusuario,idforma_pago,fecha_y_hora_forma_pago')
+            ->where('idfactura_forma_pago', $id)
+            ->first();
 
-    if (empty($datos)) {
+        if (empty($datos)) {
 
-        return $this->response->setJSON([
-            'response' => 0,
-            'mensaje'  => 'No se encontró el comprobante'
-        ]);
-    }
+            return $this->response->setJSON([
+                'response' => 0,
+                'mensaje'  => 'No se encontró el comprobante'
+            ]);
+        }
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | DOCUMENTO FACTURA
     |--------------------------------------------------------------------------
     */
 
-    $documento = "";
+        $documento = "";
 
-    if ($datos['id_estado'] == 8) {
+        if ($datos['id_estado'] == 8) {
 
-        $numero = model('facturaElectronicaModel')
-            ->select('numero')
-            ->where('id', $datos['id_factura'])
-            ->first();
+            $numero = model('facturaElectronicaModel')
+                ->select('numero')
+                ->where('id', $datos['id_factura'])
+                ->first();
 
-        $documento = $numero['numero'] ?? '';
+            $documento = $numero['numero'] ?? '';
+        } else {
 
-    } else {
+            $numero = model('pagosModel')
+                ->select('documento')
+                ->where('id_factura', $datos['id_factura'])
+                ->where('id_estado', $datos['id_estado'])
+                ->first();
 
-        $numero = model('pagosModel')
-            ->select('documento')
-            ->where('id_factura', $datos['id_factura'])
-            ->where('id_estado', $datos['id_estado'])
-            ->first();
+            $documento = $numero['documento'] ?? '';
+        }
 
-        $documento = $numero['documento'] ?? '';
-    }
-
-    /*
+        /*
     |--------------------------------------------------------------------------
     | DATOS CLIENTE
     |--------------------------------------------------------------------------
     */
 
-    $consulta = model('pagosModel')
-        ->select('cliente.nombrescliente, pagos.nit_cliente, pagos.saldo')
-        ->join('cliente', 'cliente.nitcliente = pagos.nit_cliente')
-        ->where('pagos.id_factura', $datos['id_factura'])
-        ->where('pagos.id_estado', $datos['id_estado'])
-        ->first();
+        $consulta = model('pagosModel')
+            ->select('cliente.nombrescliente, pagos.nit_cliente, pagos.saldo')
+            ->join('cliente', 'cliente.nitcliente = pagos.nit_cliente')
+            ->where('pagos.id_factura', $datos['id_factura'])
+            ->where('pagos.id_estado', $datos['id_estado'])
+            ->first();
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | USUARIO
     |--------------------------------------------------------------------------
     */
 
-    $nombre_usuario = model('usuariosModel')
-        ->select('nombresusuario_sistema')
-        ->where('idusuario_sistema', $datos['idusuario'])
-        ->first();
+        $nombre_usuario = model('usuariosModel')
+            ->select('nombresusuario_sistema')
+            ->where('idusuario_sistema', $datos['idusuario'])
+            ->first();
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | EMPRESA
     |--------------------------------------------------------------------------
     */
 
-    $datos_empresa = model('empresaModel')->datosEmpresa();
+        $datos_empresa = model('empresaModel')->datosEmpresa();
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | FORMA DE PAGO
     |--------------------------------------------------------------------------
     */
 
-    $forma_pago = "OTRO";
+        $forma_pago = "OTRO";
 
-    if ($datos['idforma_pago'] == 1) {
-        $forma_pago = "EFECTIVO";
-    }
+        if ($datos['idforma_pago'] == 1) {
+            $forma_pago = "EFECTIVO";
+        }
 
-    if ($datos['idforma_pago'] == 4) {
-        $forma_pago = "TRANSFERENCIA";
-    }
+        if ($datos['idforma_pago'] == 4) {
+            $forma_pago = "TRANSFERENCIA";
+        }
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | IMPRESORA
     |--------------------------------------------------------------------------
     */
 
-    $connector = new WindowsPrintConnector('FACTURACION');
-    $printer   = new Printer($connector);
+        $connector = new WindowsPrintConnector('FACTURACION');
+        $printer   = new Printer($connector);
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | CONFIGURACIÓN
     |--------------------------------------------------------------------------
     */
 
-    $linea = "------------------------------------------\n";
+        $linea = "------------------------------------------\n";
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | ENCABEZADO
     |--------------------------------------------------------------------------
     */
 
-    $printer->setJustification(Printer::JUSTIFY_CENTER);
-    $printer->setEmphasis(true);
-    $printer->setTextSize(2, 2);
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setEmphasis(true);
+        $printer->setTextSize(1, 2);
 
-    $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombrecomercialempresa'] . "\n");
 
-    $printer->setTextSize(1, 1);
-    $printer->setEmphasis(false);
+        $printer->setTextSize(1, 1);
+        $printer->setEmphasis(false);
 
-    $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
-    $printer->text("NIT: " . $datos_empresa[0]['nitempresa'] . "\n");
-    $printer->text($datos_empresa[0]['direccionempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombrejuridicoempresa'] . "\n");
+        $printer->text("NIT: " . $datos_empresa[0]['nitempresa'] . "\n");
+        $printer->text($datos_empresa[0]['direccionempresa'] . "\n");
 
-    $printer->text(
-        $datos_empresa[0]['nombreciudad'] .
-        " - " .
-        $datos_empresa[0]['nombredepartamento'] .
-        "\n"
-    );
+        $printer->text(
+            $datos_empresa[0]['nombreciudad'] .
+                " - " .
+                $datos_empresa[0]['nombredepartamento'] .
+                "\n"
+        );
 
-    $printer->text("TEL: " . $datos_empresa[0]['telefonoempresa'] . "\n");
-    $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
+        $printer->text("TEL: " . $datos_empresa[0]['telefonoempresa'] . "\n");
+        $printer->text($datos_empresa[0]['nombreregimen'] . "\n");
 
-    $printer->text($linea);
+        $printer->text($linea);
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | TÍTULO
     |--------------------------------------------------------------------------
     */
 
-    $printer->setEmphasis(true);
-    $printer->setTextSize(1, 2);
+        $printer->setEmphasis(true);
+        $printer->setTextSize(1, 2);
 
-    $printer->text("COMPROBANTE DE INGRESO\n");
+        $printer->text("COMPROBANTE DE INGRESO\n");
 
-    $printer->setTextSize(1, 1);
+        $printer->setTextSize(1, 1);
 
-    $printer->text("No. " . str_pad($id, 6, "0", STR_PAD_LEFT) . "\n");
+        $printer->text("No. " . $id . "\n");
 
-    $printer->setEmphasis(false);
+        $printer->setEmphasis(false);
 
-    $printer->text($linea);
+        $printer->text($linea);
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | DATOS GENERALES
     |--------------------------------------------------------------------------
     */
 
-    $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
 
-    $printer->text("FECHA      : " . date('Y-m-d H:i:s') . "\n");
-    $printer->text("CAJERO(A)  : " . $nombre_usuario['nombresusuario_sistema'] . "\n");
-    $printer->text("FACTURA    : " . $documento . "\n");
-    $printer->text("PAGO       : " . $forma_pago . "\n");
+        $printer->text("FECHA      : " . date('Y-m-d H:i:s') . "\n");
+        $printer->text("CAJERO(A)  : " . $nombre_usuario['nombresusuario_sistema'] . "\n");
+        $printer->text("FACTURA    : " . $documento . "\n");
+        $printer->text("PAGO       : " . $forma_pago . "\n");
 
-    $printer->text($linea);
+        $printer->text($linea);
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | CLIENTE
     |--------------------------------------------------------------------------
     */
 
-    $printer->setEmphasis(true);
-    $printer->text("DATOS DEL CLIENTE\n");
-    $printer->setEmphasis(false);
+        $printer->setEmphasis(true);
+        $printer->text("DATOS DEL CLIENTE\n");
+        $printer->setEmphasis(false);
 
-    $printer->text("CLIENTE    : " . $consulta['nombrescliente'] . "\n");
-    $printer->text(
-        "NIT / C.C  : " .
-        number_format($consulta['nit_cliente'], 0, ",", ".") .
-        "\n"
-    );
+        $printer->text("CLIENTE    : " . $consulta['nombrescliente'] . "\n");
+        $printer->text(
+            "NIT / C.C  : " .
+                number_format($consulta['nit_cliente'], 0, ",", ".") .
+                "\n"
+        );
 
-    $printer->text($linea);
+        $printer->text($linea);
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | VALORES
     |--------------------------------------------------------------------------
     */
 
-    $printer->setEmphasis(true);
-    $printer->text("DETALLE DEL ABONO\n");
-    $printer->setEmphasis(false);
+        $printer->setEmphasis(true);
+        $printer->text("DETALLE DEL ABONO\n");
+        $printer->setEmphasis(false);
 
-    $printer->text("\n");
+        $printer->text("\n");
 
-    $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
 
-    $printer->text(
-        str_pad("VALOR ABONO", 24) .
-        "$ " .
-        number_format($datos['valor_pago'], 0, ",", ".") .
-        "\n"
-    );
+        $printer->text(
+            str_pad("VALOR ABONO", 24) .
+                "$ " .
+                number_format($datos['valor_pago'], 0, ",", ".") .
+                "\n"
+        );
 
-    $printer->text(
-        str_pad("SALDO PENDIENTE", 24) .
-        "$ " .
-        number_format($consulta['saldo'], 0, ",", ".") .
-        "\n"
-    );
+        $printer->text(
+            str_pad("SALDO PENDIENTE", 24) .
+                "$ " .
+                number_format($consulta['saldo'], 0, ",", ".") .
+                "\n"
+        );
 
-    $printer->text("\n");
+        $printer->text("\n");
 
-    $printer->text($linea);
+        $printer->text($linea);
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | MENSAJE FINAL
     |--------------------------------------------------------------------------
     */
 
-    $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
 
-    $printer->setEmphasis(true);
-    $printer->text("¡GRACIAS POR SU PAGO!\n");
-    $printer->setEmphasis(false);
+        $printer->setEmphasis(true);
+        $printer->text("¡GRACIAS POR SU PAGO!\n");
+        $printer->setEmphasis(false);
 
-    $printer->text("Conserve este comprobante\n");
+        $printer->text("Conserve este comprobante\n");
 
-    $printer->text("\n");
-    $printer->text("\n");
+        $printer->text("\n");
+        $printer->text("\n");
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | FIRMA
     |--------------------------------------------------------------------------
     */
 
-    $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
 
 
 
-    /*
+        /*
     |--------------------------------------------------------------------------
     | FINALIZAR
     |--------------------------------------------------------------------------
     */
 
-    $printer->feed(3);
-    $printer->cut();
-    $printer->close();
+        $printer->feed(3);
+        $printer->cut();
+        $printer->close();
 
-    return $this->response->setJSON([
-        'response' => 1
-    ]);
-}
+        return $this->response->setJSON([
+            'response' => 1
+        ]);
+    }
 
     function consulta_cartera()
     {

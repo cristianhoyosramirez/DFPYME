@@ -977,10 +977,10 @@ class Mesas extends BaseController
 
     function nota()
     {
-         $id_mesa = $this->request->getPost('id_mesa'); 
-         $nota = $this->request->getPost('data');
+        $id_mesa = $this->request->getPost('id_mesa');
+        $nota = $this->request->getPost('data');
 
-        
+
         $nota = [
             'nota_pedido' => $nota
         ];
@@ -1281,8 +1281,8 @@ class Mesas extends BaseController
                     'hora_eliminacion' => date('H:i:s'),
                     'usuario_eliminacion' => $id_usuario,
                     'pedido' => $item['numero_de_pedido'],
-                    'id_mesero'=>$item['idUsuario'],
-                    'valor_unitario'=>$item['valor_unitario']
+                    'id_mesero' => $item['idUsuario'],
+                    'valor_unitario' => $item['valor_unitario']
                 ];
 
                 $insert = model('productosBorradosModel')->insert($producto);
@@ -2048,7 +2048,7 @@ class Mesas extends BaseController
 
         //$model = model('partirFacturaModel')->truncate();
 
- 
+
         $truncate = model('partirFacturaModel')->truncate();
 
         $apertura_registro = model('aperturaRegistroModel')->first();
@@ -2099,22 +2099,31 @@ class Mesas extends BaseController
     function reporte_propinas()
     {
 
-        //$id_apertura = 851;
+        //$id_apertura = 455;
         $id_apertura = $_REQUEST['id_apertura'];
+
 
         $meseros  = model('facturaPropinaModel')->get_meseros($id_apertura);
 
 
-        $total_propinas = model('FacturaPropinaModel')->selectSum('valor_propina')->where('id_apertura', $id_apertura)->findAll();
+        //$total_propinas = model('FacturaPropinaModel')->selectSum('valor_propina')->where('id_apertura', $id_apertura)->findAll();
+        $resultado = model('pagosModel')
+            ->selectSum('propina', 'valor_propina')
+            ->where('id_apertura', $id_apertura)
+            ->first();
+
+        $total_propinas = $resultado['valor_propina'] ?? 0;
+
+       
 
         $returnData = array(
             "resultado" => 1,
             "propinas" => view('pedidos/propinas', [
                 "meseros" => $meseros,
                 "id_apertura" => $id_apertura,
-                "total_propinas" => $total_propinas[0]['valor_propina']
+                "total_propinas" => $total_propinas
             ]),
-            "total_propinas" => "Total: $ " . number_format($total_propinas[0]['valor_propina'], 0, ",", ".")
+            "total_propinas" => "Total: $ " . number_format($total_propinas, 0, ",", ".")
 
         );
         echo  json_encode($returnData);

@@ -206,7 +206,7 @@ WHERE
         codigobarrasproducto ILIKE '%$valor%' 
         OR codigointernoproducto ILIKE '%$valor%'
         OR nombreproducto ILIKE '%$valor%'
-    ) and producto.estadoproducto=true
+    ) 
 
         ");
         return $datos->getResultArray();

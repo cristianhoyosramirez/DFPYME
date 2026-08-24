@@ -47,6 +47,10 @@
             </span>
         </td>
 
+        <td>
+            <?= number_format($detalle['total'], 0, ',', '.') ?>
+        </td>
+
         <!-- Factura -->
         <td class="py-2">
             <?= $detalle['numero_factura'] ?>
@@ -73,6 +77,34 @@
 
         <td class="py-2">
             <div class="d-flex justify-content-end align-items-center gap-1">
+
+            
+                <!-- Enviar DIAN -->
+                <?php if ($detalle['id_status'] == 1): ?>
+                    <button type="button"
+                        class="btn btn-outline-dark btn-icon d-flex align-items-center justify-content-center"
+                        title="Enviar DIAN"
+                        onclick="enviarNotaCredito(<?= $detalle['id'] ?>)">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round">
+
+                            <path d="M12 19h-7a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5" />
+                            <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                            <path d="M17 21l4 -4" />
+                            <path d="M3 7l9 6l9 -6" />
+
+                        </svg>
+
+                    </button>
+                <?php endif; ?>
 
                 <!-- Imprimir -->
                 <button type="button"
@@ -121,32 +153,6 @@
 
                 </button>
 
-                <!-- Enviar DIAN -->
-                <?php if ($detalle['id_status'] == 1): ?>
-                    <button type="button"
-                        class="btn btn-outline-dark btn-icon d-flex align-items-center justify-content-center"
-                        title="Enviar DIAN"
-                        onclick="enviarNotaCredito(<?= $detalle['id'] ?>)">
-
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round">
-
-                            <path d="M12 19h-7a2 2 0 0 1-2-2v-10a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5" />
-                            <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                            <path d="M17 21l4 -4" />
-                            <path d="M3 7l9 6l9 -6" />
-
-                        </svg>
-
-                    </button>
-                <?php endif; ?>
 
                 <!-- PDF -->
                 <?php if ($detalle['id_status'] == 2): ?>

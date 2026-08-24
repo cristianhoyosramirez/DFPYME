@@ -498,373 +498,15 @@ Ventas
 
 <?= $this->include('cartera/modal_finalizar_venta') ?>
 
-<!-- Modal 
-<div class="modal fade" id="modalNotaCredito" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content border-0 shadow">
-
-            <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-file-invoice-dollar me-2"></i>
-                    Generar Nota Crédito Electrónica
-                </h5>
-
-                <button
-                    type="button"
-                    class="btn-close btn-close-white"
-                    data-bs-dismiss="modal">
-                </button>
-            </div>
-
-
-            <form id="formNotaCredito" class="container">
-
-                <input type="hidden"
-                    id="id_factura"
-                    name="id_factura">
-
-              
-
-                <div class="card border-0 bg-light mb-3">
-
-                    <div class="card-body">
-
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-
-                            <div>
-
-                                <small class="text-muted d-block">
-                                    Factura Electrónica
-                                </small>
-
-                                <h4
-                                    class="mb-0 fw-bold text-primary"
-                                    id="numero_factura">
-                                    FE-000001
-                                </h4>
-
-                            </div>
-
-                            <span class="badge bg-success fs-6">
-                                <i class="fas fa-check-circle me-1"></i>
-                                Validada DIAN
-                            </span>
-
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-md-6">
-
-                                <label class="text-muted small">
-                                    Cliente
-                                </label>
-
-                                <div
-                                    class="fw-semibold"
-                                    id="cliente_factura">
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-3">
-
-                                <label class="text-muted small">
-                                    NIT
-                                </label>
-
-                                <div
-                                    class="fw-semibold"
-                                    id="nit_cliente">
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-3 text-md-end">
-
-                                <label class="text-muted small">
-                                    Total Factura
-                                </label>
-
-                                <div
-                                    class="fw-bold text-success fs-5"
-                                    id="total_factura">
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-               
-
-                <div class="card border-0 shadow-sm mb-3">
-
-                    <div class="card-header text-primary">
-
-                        <strong>
-                            Productos Facturados
-                        </strong>
-
-                    </div>
-
-                    <div class="card-body p-0">
-
-                        <div class="table-responsive">
-
-                            <table class="table table-hover align-middle mb-0">
-
-                                <thead class="table-dark">
-
-                                    <tr>
-
-                                        <td width="120">
-                                            Código
-                                        </td>
-
-                                        <td>
-                                            Descripción
-                                        </td>
-
-                                        <td class="text-center" width="100">
-                                            Cant.
-                                        </td>
-
-                                        <td class="text-end" width="150">
-                                            Vlr Unit.
-                                        </td>
-
-                                        <td class="text-end" width="150">
-                                            Total
-                                        </td>
-
-                                    </tr>
-
-                                </thead>
-
-                                <tbody id="detalleFactura">
-
-                                    
-
-                                </tbody>
-
-                                <tfoot>
-
-                                    <tr class="table-light">
-
-                                        <th colspan="4" class="text-end">
-
-                                            Total Factura
-
-                                        </th>
-
-                                        <th class="text-end text-success">
-
-                                            <span id="totalFacturaDetalle">
-                                                $0
-                                            </span>
-
-                                        </th>
-
-                                    </tr>
-
-                                </tfoot>
-
-                            </table>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                
-                <div class="card border-0 shadow-sm mb-3">
-
-                    <div class="card-header">
-
-                        <strong>
-                            Información de la Nota Crédito
-                        </strong>
-
-                    </div>
-
-                    <div class="card-body">
-
-                        <div class="mb-3">
-
-                            <label class="form-label fw-semibold">
-
-                                Motivo DIAN
-                                <span class="text-danger">*</span>
-
-                            </label>
-
-                            <select
-                                class="form-select"
-                                id="razon"
-                                name="razon"
-                                required>
-
-                                <option value="">
-                                    Seleccione una opción
-                                </option>
-
-                                <option value="ANULACION">
-                                    Anulación de factura electrónica
-                                </option>
-
-                                <option value="DEVOLUCION">
-                                    Devolución parcial de bienes y/o servicios
-                                </option>
-
-                                <option value="REBAJA">
-                                    Rebaja o descuento parcial o total
-                                </option>
-
-                                <option value="AJUSTE">
-                                    Ajuste de precio
-                                </option>
-
-                                <option value="DESCUENTO-PRONTO-PAGO">
-                                    Descuento comercial por pronto pago
-                                </option>
-
-                                <option value="DESCUENTO-VOLUMEN">
-                                    Descuento comercial por volumen
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-
-                    </div>
-
-                </div>
-
-
-        </div>
-
-      
-
-        <div class="d-flex justify-content-end gap-2">
-
-            <button
-                type="button"
-                class="btn btn-light"
-                data-bs-dismiss="modal">
-
-                Cancelar
-
-            </button>
-
-            <button
-                type="submit"
-                class="btn btn-danger">
-
-                <i class="fas fa-paper-plane me-2"></i>
-
-                Generar Nota Crédito
-
-            </button>
-
-        </div>
-
-        </form>
-
-
-
-    </div>
-</div>
-</div>
-</div>-->
 
 <?= $this->include('ventas/modalNotaCredito') ?>
 
 
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/cambio.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/nuevo_desarrollo/pago_efectivo.js"></script>
+<script src="<?= base_url() ?>/Assets/script_js/cartera/imprimir_comprobante.js"></script>
 
 
-<!-- <script>
-    async function nota_credito(id) {
-
-        Swal.fire({
-            title: 'Consultando información...',
-            text: 'Por favor espere',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
-        try {
-
-            const response = await fetch("<?= base_url('actualizacion/consultarFactura') ?>", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id
-                })
-            });
-
-            const data = await response.json();
-
-            Swal.close();
-
-            if (data.status === true) {
-
-
-                document.getElementById('clienteNotaCredito').value = data.cliente;
-                document.getElementById('numeroFacturaNotaCredito').value = data.numero_factura;
-                document.getElementById('facturaNc').innerHTML = data.factura;
-
-                const modal = new bootstrap.Modal(
-                    document.getElementById('modalNotaCredito')
-                );
-
-                modal.show();
-            }
-
-            if (data.status === false) {
-
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Atención',
-                    text: data.mensaje ?? 'La factura ya tiene una nota crédito.',
-                    timer: 2500,
-                    timerProgressBar: true,
-                    showConfirmButton: false
-                });
-            }
-
-        } catch (error) {
-
-            Swal.close();
-
-            console.error(error);
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: error.message,
-                timer: 3000,
-                timerProgressBar: true,
-                showConfirmButton: false
-            });
-
-        }
-
-    }
-</script> -->
 
 <script>
     async function nota_credito(id) {
@@ -971,6 +613,165 @@ Ventas
         document.getElementById('abonoSuperior').innerHTML = '';
         const modal = bootstrap.Modal.getInstance(document.getElementById('finalizar_venta'));
         modal.hide();
+
+    }
+</script>
+
+
+
+<script>
+    async function pagar() {
+
+        try {
+
+            Swal.fire({
+                title: 'Procesando pago...',
+                html: 'Espere un momento',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            let valor_efectivo =
+                document.getElementById("efectivo").value;
+
+            let id_factura =
+                document.getElementById("id_factura_a_pagar").value;
+
+            let id_estado =
+                document.getElementById("estado_factura_a_pagar").value;
+
+            let efectivoFormat =
+                valor_efectivo.replace(/[.]/g, "");
+
+            let valor_e =
+                efectivoFormat === "" ?
+                0 :
+                parseInt(efectivoFormat);
+
+            let valor_t =
+                document.getElementById("transaccion").value;
+
+            let valor_t_Format =
+                valor_t.replace(/[.]/g, "");
+
+            let transaccion =
+                valor_t_Format === "" ?
+                0 :
+                parseInt(valor_t_Format);
+
+            let clase_pago =
+                document.getElementById("clase_pago").value;
+
+            let id_usuario =
+                document.getElementById("id_usuario").value;
+
+            // VALIDAR QUE HAYA UN VALOR PARA APLICAR
+            if (valor_e <= 0 && transaccion <= 0) {
+
+                Swal.close();
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Sin valores para aplicar',
+                    text: 'Debe ingresar un valor mayor a cero en efectivo o en transacción.',
+                    confirmButtonText: 'Aceptar'
+                });
+
+                return;
+            }
+
+            // VALIDAR BANCO
+            if (transaccion > 0 && clase_pago == "") {
+
+                Swal.close();
+
+                document.getElementById('errorClasePago').innerHTML =
+                    "Debe seleccionar un banco";
+
+                return;
+            }
+
+            const response = await fetch(
+                "<?= base_url('consultas_y_reportes/abonar') ?>", {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        id_factura: id_factura,
+                        id_estado: id_estado,
+                        efectivo: valor_e,
+                        transaccion: transaccion,
+                        clase_pago: clase_pago,
+                        id_usuario: id_usuario
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            Swal.close();
+
+            if (result.success == true) {
+
+                $("#efectivo").val(0);
+                $("#transaccion").val(0);
+                document.getElementById('abonoSuperior').innerHTML = '';
+                $('#clase_pago').prop('selectedIndex', 0);
+                $("#finalizar_venta").modal("hide");
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Ingreso registrado',
+                    text: result.message,
+                    showCancelButton: true,
+                    confirmButtonText: '🖨 Imprimir comprobante',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonColor: '#198754',
+                    reverseButtons: true,
+                    buttonsStyling: false,
+                    customClass: {
+                        popup: 'rounded-4 shadow-lg',
+                        actions: 'gap-4 mt-4',
+                        confirmButton: 'btn btn-success px-4',
+                        cancelButton: 'btn btn-outline-danger px-4'
+                    }
+
+                }).then(async (resultado) => {
+
+                    if (resultado.isConfirmed) {
+                        await imprimir_comprobante(result.id_transaccion);
+                    }
+
+                    location.reload();
+
+                });
+
+            } else {
+
+                document.getElementById('abonoSuperior').innerHTML =
+                    'Abono supera el saldo actual';
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            Swal.close();
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al procesar el pago'
+            });
+
+        }
 
     }
 </script>

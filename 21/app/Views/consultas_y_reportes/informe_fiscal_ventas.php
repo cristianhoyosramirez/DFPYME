@@ -93,7 +93,7 @@
             </thead>
             <tbody>
 
-            
+
 
                 <?php foreach ($iva as $detalle) { ?>
                     <tr>
@@ -149,86 +149,158 @@
         </table>
 
 
+
         <p class="h2 text-primary">IVA EN DEVOLUCIONES</p>
 
-        <table class="table">
+        <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
-                    <td scope="col">Numero de factura </th>
-                    <td scope="col">Tarifa</th>
-                    <td scope="col">Base</th>
-                    <td scope="col">Impuesto</th>
-                    <td scope="col">Sub total</th>
+                    <td>Número de factura</th>
+                    <td>Tarifa</th>
+                    <td>Base</th>
+                    <td>IVA</th>
+                    <td>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
 
-                <?php if (!empty($iva_devolucion)): ?>
-                    <?php foreach ($iva_devolucion as $item): ?>
-                        <tr>
-                            <th>Factura General</th> <!-- TARIFA ICO -->
-                            <th><?php echo $item['tarifa']; ?>%</th> <!-- TARIFA ICO -->
-                            <th><?php echo "$" . number_format($item['base'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
-                            <th><?php echo "$" . number_format($item['impuesto'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
-                            <th><?php echo "$" . number_format($item['total'], 0, ",", "."); ?></th> <!-- TARIFA ICO -->
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+                <?php
+                $total_base_iva = 0;
+                $total_impuesto_iva = 0;
+                $total_general_iva = 0;
+
+                foreach ($iva_devolucion as $item):
+
+                    $total_base_iva += $item['base_gravable'];
+                    $total_impuesto_iva += $item['valor_iva'];
+                    $total_general_iva += ($item['base_gravable'] + $item['valor_iva']);
+                ?>
                     <tr>
-                        <th>Factura General</th>
-                        <th>0%</th>
-                        <th>$0</th>
-                        <th>$0</th>
-                        <th>$0</th>
+                        <td>Devolución general</td>
+                        <td><?= $item['porcentaje_iva'] ?>%</td>
+                        <td><?= number_format($item['base_gravable'], 0, ",", ".") ?></td>
+                        <td><?= number_format($item['valor_iva'], 0, ",", ".") ?></td>
+                        <td><?= number_format($item['base_gravable'] + $item['valor_iva'], 0, ",", ".") ?></td>
                     </tr>
-                <?php endif; ?>
+                <?php endforeach; ?>
+
+                <!--   <tr class="bg-muted-lt  fw-bold">
+                    <td colspan="2" class="text-end">TOTAL IVA DEVOLUCIONES</td>
+                    <td><?= number_format($total_base_iva, 0, ",", ".") ?></td>
+                    <td><?= number_format($total_impuesto_iva, 0, ",", ".") ?></td>
+                    <td><?= number_format($total_general_iva, 0, ",", ".") ?></td>
+                </tr> -->
 
             </tbody>
         </table>
-
-
-
 
 
         <p class="h2 text-primary">IMPUESTO AL CONSUMO EN DEVOLUCIONES</p>
-        <table class="table">
+
+        <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
-                    <td scope="col">Numero de factura </th>
-                    <td scope="col">Tarifa</th>
-                    <td scope="col">Base</th>
-                    <td scope="col">Impuesto</th>
-                    <td scope="col">Sub total</th>
+                    <td>Número de factura</th>
+                    <td>Tarifa</th>
+                    <td>Base</th>
+                    <td>INC</th>
+                    <td>Subtotal</th>
                 </tr>
             </thead>
-
             <tbody>
-                <?php foreach ($ico_devolucion as $ico_devolucion) { ?>
-                    <tr>
-                        <th>Factura General</th> <!-- TARIFA ICO  -->
-                        <th><?php echo $ico_devolucion['tarifa'] ?>%</th> <!-- TARIFA ICO  -->
-                        <th><?php echo "$" . number_format($ico_devolucion['base'], 0, ",", ".") ?></th> <!-- TARIFA ICO  -->
-                        <th><?php echo "$" . number_format($ico_devolucion['impuesto'], 0, ",", ".") ?></th> <!-- TARIFA ICO  -->
-                        <th><?php echo "$" . number_format($ico_devolucion['total'], 0, ",", ".") ?></th> <!-- TARIFA ICO  -->
 
+                <?php
+                $total_base_inc = 0;
+                $total_impuesto_inc = 0;
+                $total_general_inc = 0;
+
+                foreach ($ico_devolucion as $item):
+
+                    $total_base_inc += $item['base_gravable'];
+                    $total_impuesto_inc += $item['valor_ico'];
+                    $total_general_inc += ($item['base_gravable'] + $item['valor_ico']);
+                ?>
+                    <tr>
+                        <td>Devolución general</td>
+                        <td><?= $item['porcentaje_ico'] ?>%</td>
+                        <td><?= number_format($item['base_gravable'], 0, ",", ".") ?></td>
+                        <td><?= number_format($item['valor_ico'], 0, ",", ".") ?></td>
+                        <td><?= number_format($item['base_gravable'] + $item['valor_ico'], 0, ",", ".") ?></td>
                     </tr>
-                <?php } ?>
+                <?php endforeach; ?>
+
+                <!--     <tr class="bg-muted-lt fw-bold">
+                    <td colspan="2" class="text-end">TOTAL INC DEVOLUCIONES</td>
+                    <td><?= number_format($total_base_inc, 0, ",", ".") ?></td>
+                    <td><?= number_format($total_impuesto_inc, 0, ",", ".") ?></td>
+                    <td><?= number_format($total_general_inc, 0, ",", ".") ?></td>
+                </tr> -->
+
             </tbody>
         </table>
 
-        <p class="text-start h3 text-primary">Formas de pago </p>
-        <?php foreach ($pago as $keyPago) {
-
-            $nombre_comercial = model('medioPagoModel')->getNombre($keyPago['medio_pago']);
-            $total = model('medioPagoModel')->getTotal($keyPago['medio_pago'], $id_apertura);
-
+        <?php
+        $total_devoluciones = $total_general_iva + $total_general_inc;
         ?>
 
+        <table class="table table-bordered">
+            <tr class="table-dark">
+                <th colspan="2" class="text-center">
+                    RESUMEN GENERAL DE DEVOLUCIONES
+                </th>
+            </tr>
+            <!--  <tr>
+                <td>Total devoluciones IVA</td>
+                <td><?= number_format($total_general_iva, 0, ",", ".") ?></td>
+            </tr>
+            <tr>
+                <td>Total devoluciones INC</td>
+                <td><?= number_format($total_general_inc, 0, ",", ".") ?></td>
+            </tr> -->
+            <tr class="table-success fw-bold fs-4">
+                <td>TOTAL GENERAL DEVOLUCIONES NOTA CRÉDITO </td>
+                <td><?= number_format($total_devoluciones, 0, ",", ".") ?></td>
+            </tr>
+        </table>
 
 
-            <p class="text-start h4 text-dark"> <?php echo $nombre_comercial[0]['nombre_comercial'] . "   " . number_format($total[0]['total'], 0, ",", ".") . "</br>";   ?> </p>
 
-        <?php } ?>
+        <p class="text-start h3 text-primary">Formas de pago </p>
+
+
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <td>Medio de pago</th>
+                    <td class="text-end">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <?php
+                $total_pagos = 0;
+
+                foreach ($pago as $keyPago) {
+
+                    $nombre_comercial = model('medioPagoModel')->getNombre($keyPago['medio_pago']);
+                    $total = model('medioPagoModel')->getTotal($keyPago['medio_pago'], $id_apertura);
+
+                    $valor = $total[0]['total'] ?? 0;
+                    $total_pagos += $valor;
+                ?>
+                    <tr>
+                        <td><?= $nombre_comercial[0]['nombre_comercial'] ?></td>
+                        <td class="text-end"><?= number_format($valor, 0, ",", ".") ?></td>
+                    </tr>
+                <?php } ?>
+
+                <tr class="table-success fw-bold">
+                    <td>TOTAL PAGOS</td>
+                    <td class="text-end"><?= number_format($total_pagos, 0, ",", ".") ?></td>
+                </tr>
+
+            </tbody>
+        </table>
 
 
 

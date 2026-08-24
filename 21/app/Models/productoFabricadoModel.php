@@ -27,7 +27,9 @@ FROM
 INNER JOIN producto ON
     producto.codigointernoproducto = producto_fabricado.prod_proceso
 WHERE
-    producto_fabricado.prod_fabricado = '$receta' order by id desc;
+    producto_fabricado.prod_fabricado = '$receta' 
+    and estadoproducto=true
+    order by id desc;
 
         ");
         return $datos->getResultArray();
@@ -60,6 +62,7 @@ WHERE
             INNER JOIN producto ON producto.codigointernoproducto = producto_fabricado.prod_proceso
             WHERE
                 prod_fabricado = '$codigo'
+                AND producto.estadoproducto = true;
         ");
         return $datos->getResultArray();
     }

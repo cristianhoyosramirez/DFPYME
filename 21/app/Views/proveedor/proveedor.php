@@ -80,7 +80,9 @@ HOME
                                 </div>
                                 <div class="col mb-3">
                                     <label for="direccion" class="form-label">Dirección</label>
-                                    <input type="text" id="direccion" class="form-control" oninput="this.classList.remove('is-invalid')" onkeyup="(saltar_factura_pos(event,'telefono'))">
+                                    <input type="text" id="direccion" class="form-control"
+                                     maxlength="30"
+                                     oninput="this.classList.remove('is-invalid')" onkeyup="(saltar_factura_pos(event,'telefono'))">
                                 </div>
                                 <div class="col mb-3">
                                     <label for="telefono" class="form-label">Teléfono</label>
@@ -524,7 +526,7 @@ HOME
 
                 Swal.close(); // 🔥 cerrar spinner
 
-                if (data.status === 'success') {
+                if (data.status) {
 
                     crearTablaProveedores(data);
 

@@ -49,7 +49,8 @@ SELECT
     nce.razon,
     nce.nota,
     us.nombresusuario_sistema AS usuario,
-    nce.pdf_url
+    nce.pdf_url,
+    nce.total
 FROM nota_credito_electronica AS nce
 INNER JOIN documento_electronico AS de
     ON de.id = nce.id_factura
@@ -57,7 +58,7 @@ INNER JOIN cliente AS c
     ON c.nitcliente = nce.nit_cliente
 INNER JOIN usuario_sistema AS us
     ON us.idusuario_sistema = nce.usuario_id
-ORDER BY nce.fecha DESC
+ORDER BY nce.id DESC
 LIMIT 100;
         
         ");
@@ -229,6 +230,7 @@ SELECT
     nce.id_status,
     nce.razon,
     nce.nota,
+    nce.total,
     us.nombresusuario_sistema AS usuario,
     nce.pdf_url
 FROM nota_credito_electronica AS nce
@@ -240,6 +242,27 @@ INNER JOIN usuario_sistema AS us
     ON us.idusuario_sistema = nce.usuario_id
 WHERE nce.id_status = $id_status
 ORDER BY nce.fecha DESC;
+        
+        ");
+        return $datos->getResultArray();
+    }
+
+
+      public function numeroFe($id_nota)
+    {
+
+        $datos = $this->db->query("
+            SELECT 
+                documento_electronico.numero 
+            FROM 
+                    nota_credito_electronica 
+            INNER JOIN 
+                    documento_electronico
+            ON
+                documento_electronico.id = nota_credito_electronica.id_factura 
+
+            WHERE 
+                nota_credito_electronica.id=$id_nota
         
         ");
         return $datos->getResultArray();

@@ -11,7 +11,17 @@
           <div class="col-md-3">
             <label for="inputEmail4" class="form-label">Producto</label>
             <input type="hidden" class="form-control" id="codigo_producto_devolucion">
-            <input type="text" class="form-control" id="devolucion_producto" onkeyup="saltar_factura_pos(event,'precio_devolucion'),buscar_por_codigo_de_barras_devolucion(event, this.value)">
+
+            <input type="text"
+              class="form-control"
+              id="devolucion_producto"
+              onkeyup="
+            if(this.value.trim()===''){
+                document.getElementById('codigo_producto_devolucion').value='';
+            }
+            saltar_factura_pos(event,'precio_devolucion');
+            buscar_por_codigo_de_barras_devolucion(event,this.value);
+       ">
             <span id="error_producto_devolucion" style="color:#FF0000;"></span>
           </div>
           <div class="col-3">
@@ -31,7 +41,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-success" onclick="devolucion()" id="generar_devolucion">Guardar</button>
-      <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" onclick="cancelar_devolucion()">Cancelar</button>
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" onclick="cancelar_devolucion()">Cancelar</button>
       </div>
     </div>
   </div>
@@ -44,6 +54,6 @@
     document.getElementById('precio_devolucion').value = ''
     document.getElementById('cantidad_devolucion').value = 1
     document.getElementById('total_devolucion').value = ''
-    
+
   }
 </script>

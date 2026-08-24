@@ -873,4 +873,79 @@ WHERE
         ");
         return $datos->getResultArray();
     }
+
+    function getFechas()
+    {
+
+        $datos = $this->db->query("
+            SELECT
+                MIN(fecha) AS fecha_inicial,
+                MAX(fecha) AS fecha_final
+            FROM kardex
+
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function getVentasPorProducto($whereSql)
+    {
+        $sql = "
+            SELECT
+                categoria.nombrecategoria,
+                producto.nombreproducto,
+                usuario_sistema.nombresusuario_sistema,
+                SUM(kardex.cantidad) AS cantidad_vendida,
+                AVG(kardex.valor_unitario) AS valor_unitario,
+                SUM(kardex.cantidad * kardex.valor_unitario) AS valor_total
+            FROM kardex
+            INNER JOIN usuario_sistema
+                ON usuario_sistema.idusuario_sistema = kardex.idusuario
+            INNER JOIN producto
+                ON producto.codigointernoproducto = kardex.codigo
+            INNER JOIN categoria
+                ON categoria.codigocategoria = kardex.id_categoria
+            WHERE {$whereSql}
+            GROUP BY
+                categoria.nombrecategoria,
+                producto.nombreproducto,
+                usuario_sistema.nombresusuario_sistema
+            ORDER BY
+                categoria.nombrecategoria,
+                producto.nombreproducto,
+                usuario_sistema.nombresusuario_sistema
+        ";
+
+        return $sql;
+    }
+    public function getTotalVentasPorProducto($whereSql)
+    {
+        $sql = "
+            SELECT
+            COALESCE(SUM(kardex.cantidad * kardex.valor_unitario), 0) AS total_ventas
+            FROM kardex
+            WHERE {$whereSql}";
+
+        return $sql;
+    }
+    public function reporteKardex($sql)
+    {
+        $datos = $this->db->query("
+            $sql
+
+        ");
+        return $datos->getResultArray();
+    }
+
+    public function fechaMinMax()
+    {
+        $datos = $this->db->query("
+        SELECT 
+            MIN(fecha) AS fecha_inicial,
+            MAX(fecha) AS fecha_final
+        FROM pagos
+        WHERE id_estado = 6;
+
+        ");
+        return $datos->getResultArray();
+    }
 }

@@ -80,7 +80,7 @@ class impresoraController extends BaseController
         }
     }
 
-    public function eliminar()
+    /*     public function eliminar()
     {
         $id_impresora = $_POST['id_impresora'];
 
@@ -95,6 +95,54 @@ class impresoraController extends BaseController
             $session->setFlashdata('iconoMensaje', 'success');
             return redirect()->to(base_url('impresora/listado'))->with('mensaje', 'actualizacion correcta');
         }
+    } */
+
+    public function eliminar()
+    {
+        $id_impresora = $this->request->getPost('id_impresora');
+
+        $session = session();
+
+        // Validar si la impresora está asociada a una pre cuenta
+        $existePreCuenta = model('preCuentaModel')
+            ->where('id_impresora', $id_impresora)
+            ->countAllResults();
+
+            
+
+        if ($existePreCuenta > 0) {
+
+            $session->setFlashdata('iconoMensaje', 'error');
+
+            return redirect()->to(base_url('impresora/listado'))
+                ->with(
+                    'mensaje',
+                    'No es posible eliminar la impresora porque se encuentra asociada a una o más configuraciones de pre cuenta.'
+                );
+        }
+
+        $model = model('impresorasModel');
+
+        $borrar = $model->delete($id_impresora);
+
+        if ($borrar) {
+
+            $session->setFlashdata('iconoMensaje', 'success');
+
+            return redirect()->to(base_url('impresora/listado'))
+                ->with(
+                    'mensaje',
+                    'Impresora eliminada correctamente.'
+                );
+        }
+
+        $session->setFlashdata('iconoMensaje', 'error');
+
+        return redirect()->to(base_url('impresora/listado'))
+            ->with(
+                'mensaje',
+                'No fue posible eliminar la impresora.'
+            );
     }
 
     public function administracion()
@@ -110,25 +158,25 @@ class impresoraController extends BaseController
         $estado = $this->request->getPost('estado');
         $mensaje = $this->request->getPost('mensaje');
 
-        $data=[
+        $data = [
 
-            'estado_licencia'=>$estado,
-            'mensaje_licencia'=>$mensaje
+            'estado_licencia' => $estado,
+            'mensaje_licencia' => $mensaje
         ];
 
-        $update=model('licenciaModel')->set($data)->update();
+        $update = model('licenciaModel')->set($data)->update();
     }
     public function actualizarEstadoConsumo()
     {
         $estado = $this->request->getPost('estado');
         $mensaje = $this->request->getPost('mensaje');
 
-        $data=[
+        $data = [
 
-            'estado_consumo'=>$estado,
-            'mensaje_consumo'=>$mensaje
+            'estado_consumo' => $estado,
+            'mensaje_consumo' => $mensaje
         ];
 
-        $update=model('estadoPagoConsumoModel')->set($data)->update();
+        $update = model('estadoPagoConsumoModel')->set($data)->update();
     }
 }

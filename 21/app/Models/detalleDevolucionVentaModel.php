@@ -25,7 +25,8 @@ class detalleDevolucionVentaModel extends Model
         'fecha_venta',
         'id_apertura',
         'saldo_anterior',
-        'nuevo_saldo'
+        'nuevo_saldo',
+        'valor_iva'
     ];
 
     public function detalle_devolucion($id_apertura)

@@ -243,8 +243,87 @@ HOME
                 </div>
             </div>
         </div>
+
+        <div class="col-4">
+            <div class="accordion" id="accordionListaPreciosMoviles">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingListaPreciosMoviles">
+                        <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseListaPreciosMoviles"
+                            aria-expanded="false"
+                            aria-controls="collapseListaPreciosMoviles">
+                            Lista de precios dispositivos móviles
+                        </button>
+                    </h2>
+
+                    <div id="collapseListaPreciosMoviles"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="headingListaPreciosMoviles"
+                        data-bs-parent="#accordionListaPreciosMoviles">
+
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="obligar_justificacion_producto" class="form-label">
+                                        ¿Visualizar lista de precios en dispositivos móviles ?
+                                    </label>
+
+                                    <select id="lista_precios"
+                                        class="form-select"
+                                        onchange="lista_precios(this.value)">
+
+                                        <option value="f" <?= $lista_precios === 'f' ? 'selected' : '' ?>>
+                                            No
+                                        </option>
+                                        <option value="t" <?= $lista_precios === 't' ? 'selected' : '' ?>>
+                                            Sí
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+
+<script>
+    async function lista_precios() {
+
+        let lista_precios = document.getElementById("lista_precios").value;
+
+        try {
+            const response = await fetch("<?= base_url('actualizacion/lista_precios') ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    lista_precios: lista_precios
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.status == "success") {
+                //console.log("Justificación actualizada correctamente");
+                sweet_alert_centrado('success', 'Parametrizacion correcta ')
+            } else {
+                alert("Error: " + data.mensaje);
+            }
+
+        } catch (error) {
+            console.error("Error en la petición:", error);
+            alert("Ocurrió un error al actualizar la justificación");
+        }
+    }
+</script>
+
 
 <script>
     async function actualizarJustificacionPedido() {
@@ -266,7 +345,7 @@ HOME
 
             if (data.status == "ok") {
                 //console.log("Justificación actualizada correctamente");
-                  sweet_alert_centrado('success','Parametrizacion correcta ')
+                sweet_alert_centrado('success', 'Parametrizacion correcta ')
             } else {
                 alert("Error: " + data.mensaje);
             }
@@ -298,7 +377,7 @@ HOME
 
             if (data.status == "ok") {
                 //console.log("Justificación actualizada correctamente");
-                  sweet_alert_centrado('success','Parametrizacion correcta ')
+                sweet_alert_centrado('success', 'Parametrizacion correcta ')
             } else {
                 alert("Error: " + data.mensaje);
             }

@@ -240,9 +240,9 @@ HOME
 
                                                 <div class="col-1">
                                                     <label for="" class="form-label">Inventario</label>
-                                                   
-                                                    <input type="text" class="form-control text-center" value="<?php echo $inventario['cantidad_inventario'] ?? 0; 
-                                                                                                                ?>" onkeyup="actualizarInventario(this.value)">
+
+                                                    <input type="text" class="form-control text-center"  onclick="this.select();" value="<?php echo $inventario['cantidad_inventario'] ?? 0;
+                                                                                                                ?>" onkeyup="actualizarInventario(this.value,'<?= $codigo_producto['codigointernoproducto'] ?>')">
 
                                                 </div>
 
@@ -469,6 +469,40 @@ HOME
 <script src="<?= base_url() ?>/Assets/script_js/gestionProducto/eliminarComponente.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/gestionProducto/maxComponentes.js"></script>
 <script src="<?= base_url() ?>/Assets/script_js/gestionProducto/seleccionarAtributo.js"></script>
+
+
+<script>
+    async function actualizarInventario(cantidad, codigoProducto) {
+
+        try {
+
+            const response = await fetch("<?= base_url('inventario/ingreso_inventario') ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    cantidad_entrada: cantidad,
+                    id_producto: codigoProducto
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                console.log('Inventario actualizado');
+            } else {
+                console.error(data.mensaje);
+            }
+
+        } catch (error) {
+            console.error('Error al actualizar inventario:', error);
+        }
+    }
+</script>
+
+
+
 
 <script>
     async function productoGrupo(valor, codigo) {

@@ -10,11 +10,27 @@ class facturaVentaModel extends Model
     // Uncomment below if you want a
     // protected $primaryKey = 'id';
     protected $allowedFields = [
-        'numerofactura_venta', 'nitcliente', 'idusuario_sistema',
-        'idcaja', 'idestado', 'fecha_factura_venta', 'horafactura_venta', 'descuentofactura_venta',
-        'fechalimitefactura_venta', 'aplica_descuento', 'estado', 'serie', 'id_resolucion_dian',
-        'observaciones_generales', 'fk_usuario_mesero', 'fk_mesa', 'valor_factura', 'numero_pedido',
-        'saldo', 'fecha_y_hora_factura_venta', 'id_apertura'
+        'numerofactura_venta',
+        'nitcliente',
+        'idusuario_sistema',
+        'idcaja',
+        'idestado',
+        'fecha_factura_venta',
+        'horafactura_venta',
+        'descuentofactura_venta',
+        'fechalimitefactura_venta',
+        'aplica_descuento',
+        'estado',
+        'serie',
+        'id_resolucion_dian',
+        'observaciones_generales',
+        'fk_usuario_mesero',
+        'fk_mesa',
+        'valor_factura',
+        'numero_pedido',
+        'saldo',
+        'fecha_y_hora_factura_venta',
+        'id_apertura'
     ];
 
 
@@ -159,11 +175,13 @@ class facturaVentaModel extends Model
         fecha_factura_venta,
         numerofactura_venta,
         horafactura_venta,
-        nitcliente
+        factura_venta.nitcliente,
+        nombrescliente
     FROM
         factura_venta
+        inner join cliente on cliente.nitcliente = factura_venta.nitcliente
     WHERE
-        id = $id_factura order by id
+        factura_venta.id = $id_factura
          ");
         return $datos->getResultArray();
     }
@@ -463,6 +481,4 @@ class facturaVentaModel extends Model
          ");
         return $datos->getResultArray();
     }
-
-   
 }

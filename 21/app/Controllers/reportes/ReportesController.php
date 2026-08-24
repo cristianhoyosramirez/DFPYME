@@ -587,110 +587,28 @@ class ReportesController extends BaseController
 
 
 
-    /*   public function actualizar_pagos()
-    {
-        $request = $this->request;
 
-        $id = $request->getPost('id');
-
-        // Valores recibidos (pueden venir formateados)
-        $efectivo = $request->getPost('efectivo_factura') ?? 0;
-        $transferencia = $request->getPost('transferencia_factura') ?? 0;
-
-        // Limpiar formato de moneda
-        $efectivo = (int) str_replace([',', '.'], '', $efectivo);
-        $transferencia = (int) str_replace([',', '.'], '', $transferencia);
-
-        $totalPago = $efectivo + $transferencia;
-
-        // Obtener total del documento
-        $factura = model('pagosModel')
-            ->select('total_documento')
-            ->where('id', $id)
-            ->first();
-
-        if (!$factura) {
-           
-            $session = session();
-            $session->setFlashdata('iconoMensaje', 'error');
-            return redirect()->to(base_url('consultas_y_reportes/consultas_caja'))->with('mensaje', 'No se encontró la factura.');
-        }
-
-        $totalDocumento = (int) $factura['total_documento'];
-
-        // ================= VALIDACIONES =================
-
-        // 1. Pago excede el total
-        if ($totalPago > $totalDocumento) {
-            $excedente = $totalPago - $totalDocumento;
-
-          
-
-            $session = session();
-            $session->setFlashdata('iconoMensaje', 'warning');
-
-            return redirect()
-                ->to(base_url('consultas_y_reportes/consultas_caja'))
-                ->with(
-                    'mensaje',
-                    'El valor ingresado excede el total de la factura por $' . number_format($excedente, 0, ',', '.')
-                );
-        }
-
-        // 2. Pago incompleto
-        if ($totalPago < $totalDocumento) {
-            $faltante = $totalDocumento - $totalPago;
-
-
-            $session = session();
-            $session->setFlashdata('iconoMensaje', 'warning');
-
-            return redirect()
-                ->to(base_url('consultas_y_reportes/consultas_caja'))
-                ->with(
-                    'mensaje',
-                    'El pago es insuficiente. Faltan $' . number_format($faltante, 0, ',', '.')
-                );
-        }
-
-        // ================= ACTUALIZACIÓN =================
-
-        $dataPagos = [
-            'efectivo' => $efectivo,
-            'transferencia' => $transferencia,
-            'total_pago' => $totalPago,
-            'recibido_efectivo' => $efectivo,
-            'recibido_transferencia' => $transferencia,
-        ];
-
-        $update = model('pagosModel')
-            ->where('id', $id)
-            ->set($dataPagos)
-            ->update();
-
-        if ($update) {
-          
-
-            $session = session();
-            $session->setFlashdata('iconoMensaje', 'success');
-            return redirect()->to(base_url('consultas_y_reportes/consultas_caja'))->with('mensaje', 'Pago actualizado correctamente.');
-        }
-
-      
-        $session = session();
-            $session->setFlashdata('iconoMensaje', 'error');
-            return redirect()->to(base_url('consultas_y_reportes/consultas_caja'))->with('mensaje', 'No se pudo actualizar el pago.');
-    } */
 
     public function actualizar_pagos()
     {
         $request = $this->request;
 
         $id = $request->getPost('id');
+        //$id = 8479;
 
         $efectivo = $request->getPost('efectivo_factura') ?? 0;
+        //$efectivo = 34.500 ?? 0;
         $transferencia = $request->getPost('transferencia_factura') ?? 0;
-        $id_clase_pago = $request->getPost('forma_pago');
+        // $transferencia = 0;
+        $id_clase_pago = $request->getPost('forma_pago') ?? 0;
+
+        if (empty($id_clase_pago)) {
+            $clase_pago = 0;
+        } else {
+            $clase_pago = $id_clase_pago;
+        }
+
+
 
         // Limpiar formato moneda
         $efectivo = (int) preg_replace('/\D/', '', $efectivo);
@@ -739,7 +657,7 @@ class ReportesController extends BaseController
             'total_pago' => $totalPago,
             'recibido_efectivo' => $efectivo,
             'recibido_transferencia' => $transferencia,
-            'id_clase_pago' => $id_clase_pago
+            'id_clase_pago' => $clase_pago
         ];
 
         $update = model('pagosModel')
@@ -1074,13 +992,10 @@ class ReportesController extends BaseController
         $fecha_final = $this->request->getPost('fecha_final');
         $usuario_consulta = $this->request->getPost('id_usuario');
 
-
-
-
-        /*         $codigo_producto = '452';
-        $movimiento = 1;
-        $fecha_inicial = '2026-07-14';
-        $fecha_final = '2026-07-16';
+        /*    $codigo_producto = '457';
+        $movimiento = 3;
+        $fecha_inicial = '2026-07-21';
+        $fecha_final = '2026-07-21';
         $usuario_consulta = 6; */
 
         $id_producto = model('productoModel')->getIdProducto($codigo_producto);
@@ -1106,6 +1021,7 @@ class ReportesController extends BaseController
         }
 
         $datosParaInsertar = [];
+
 
 
         foreach ($movimientos as $detalle) {
@@ -1150,7 +1066,7 @@ class ReportesController extends BaseController
                     $productos = model('kardexModel')->getProductosKardex($detalle['id_documento'], $datosFactura[0]['idestado'], $codigo_producto);
 
 
-                    // dd($productos);
+                    //d($productos);
 
                     foreach ($productos  as $producto) {
 
@@ -1183,6 +1099,7 @@ class ReportesController extends BaseController
                             'inner'
                         )
                         ->where('devolucion_venta.id', $detalle['id_documento'])
+
                         ->first();
                     //$documento = model('FacturaCompraModel')->select('numerofactura_proveedor')->where('numeroconsecutivofactura_proveedor', $detalle['id_documento'])->first();
                     //dd( $datosFactura);
@@ -1204,8 +1121,11 @@ class ReportesController extends BaseController
                             'inner'
                         )
                         ->where('detalle_devolucion_venta.id_devolucion_venta', $detalle['id_documento'])
+                        ->where('codigo', $codigo_producto)
                         ->findAll();
 
+
+                    // d($productos);
 
 
                     foreach ($productos  as $producto) {

@@ -62,7 +62,8 @@ class configuracionPedidoModel extends Model
         'reporte_hotel',
         'propina_auto',
         'propina_manual',
-        'titulo_pedido'
+        'titulo_pedido',
+        'lista_precios_moviles'
     ];
 
     public function reporte_hotel($id_apertura)

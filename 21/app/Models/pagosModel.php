@@ -938,4 +938,87 @@ FROM (
             ");
         return $datos->getResultArray();
     }
+
+    public function cortesias($fecha_inicial, $fecha_final)
+    {
+        $datos = $this->db->query("
+            
+            select 
+	            fecha, hora , nit_cliente , nombrescliente ,documento ,total_documento,id_factura
+            from 
+	            pagos  
+            inner join 
+	            cliente 
+            on 
+	            cliente.nitcliente=pagos.nit_cliente
+            where 
+	            id_estado = 6  
+            and 
+                fecha between '$fecha_inicial' and '$fecha_final'
+                ORDER BY fecha DESC, hora DESC
+                ;
+            
+            ");
+        return $datos->getResultArray();
+    }
+    /*     public function total_cortesias($fecha_inicial, $fecha_final)
+    {
+        $datos = $this->db->query("
+            
+            select 
+	            sum(total_documento) as total_cortesias
+            from 
+	            pagos  
+            inner join 
+	            cliente 
+            on 
+	            cliente.nitcliente=pagos.nit_cliente
+            where 
+	            id_estado = 6  
+            and 
+                fecha between '$fecha_inicial' and '$fecha_final';
+            
+            ");
+        return $datos->getResultArray();
+    } */
+
+    public function total_cortesias($where)
+    {
+        $sql = "
+        SELECT
+            COALESCE(SUM(pagos.total_documento), 0) AS total_cortesias
+
+        FROM pagos
+
+        INNER JOIN cliente
+            ON cliente.nitcliente = pagos.nit_cliente
+
+        WHERE
+            pagos.id_estado = 6
+            AND {$where}
+    ";
+
+        return $this->db->query($sql)->getResultArray();
+    }
+
+    public function datosCortesias($id_factura)
+    {
+        $datos = $this->db->query("
+            
+             select 
+	            fecha, hora , nit_cliente , nombrescliente ,documento ,total_documento,id_factura
+            from 
+	            pagos  
+            inner join 
+	            cliente 
+            on 
+	            cliente.nitcliente=pagos.nit_cliente
+            where 
+	            id_estado = 6  
+            and 
+                id_factura=$id_factura
+            
+            ");
+        return $datos->getResultArray();
+    }
 }

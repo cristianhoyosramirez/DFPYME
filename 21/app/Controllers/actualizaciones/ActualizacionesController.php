@@ -130,16 +130,29 @@ class ActualizacionesController extends BaseController
         }
     }
 
-function ip()
-{
-    $json = $this->request->getJSON();
-    $ip   = $json->ip;
+    function ip()
+    {
+        $json = $this->request->getJSON();
+        $ip   = $json->ip;
 
-    model('configuracionPedidoModel')
-        ->set(['ip' => $ip])
-        ->where('id', 1)   // <--- MUY IMPORTANTE
-        ->update();
+        model('configuracionPedidoModel')
+            ->set(['ip' => $ip])
+            ->where('id', 1)   // <--- MUY IMPORTANTE
+            ->update();
 
-    return $this->response->setJSON(['status' => 'success']);
-}
+        return $this->response->setJSON(['status' => 'success']);
+    }
+
+    function lista_precios()
+    {
+        $lista_precios = $this->request->getPost('lista_precios');
+
+
+
+        $update = model('configuracionPedidoModel')->set('lista_precios_moviles', $lista_precios)->update();
+
+        return $this->response->setJSON(['status' => 'success']);
+
+        
+    }
 }

@@ -603,7 +603,7 @@ class Imprimir extends BaseController
         }
 
         // Restablecer el tamaño normal para el resto de la impresión
-        $printer->setTextSize(1, 1);    
+        $printer->setTextSize(1, 1);
 
         // Opcional: Restablecer el tamaño para el resto de la impresión
         $printer->setTextSize(1, 1);
@@ -1365,11 +1365,12 @@ class Imprimir extends BaseController
 
 
 
+
     function imprimir_fiscal()
     {
 
         $id_apertura = $this->request->getPost('id_apertura');
-        //$id_apertura = 311;
+        //$id_apertura = 249;
         $id_usuario = $this->request->getPost('id_usuario');
         //$id_usuario = 6;
         $nombreUsuario = model('usuariosModel')->select('nombresusuario_sistema')->where('idusuario_sistema', $id_usuario)->first();
@@ -1608,78 +1609,297 @@ class Imprimir extends BaseController
             // Título de la tabla
             $printer->setEmphasis(true);
 
+            $printer->text("Totales por tarifa IVA\n");
 
-            $printer->text("-----------------------------------------------\n");
-            $printer->text("Tarifa   Base Gravable   Valor IVA   Val Total\n");
-            $printer->text("-----------------------------------------------\n");
+            $printer->setEmphasis(true);
+            $printer->text("------------------------------------------------\n");
+            $printer->text(
+                str_pad("Tarifa", 8) .
+                    str_pad("Base", 14, " ", STR_PAD_LEFT) .
+                    str_pad("IVA", 12, " ", STR_PAD_LEFT) .
+                    str_pad("Total", 12, " ", STR_PAD_LEFT) .
+                    "\n"
+            );
+            $printer->text("------------------------------------------------\n");
             $printer->setEmphasis(false);
 
-            // Añadir los datos de la tabla
             foreach ($array_iva as $detalle) {
 
-                $tarifa       = str_pad($detalle['tarifa_iva'] . "%", 2, " ", STR_PAD_RIGHT);
-                $base         = str_pad("$" . number_format($detalle['base'], 0, ",", "."), 15, " ", STR_PAD_LEFT);
-                $valor_iva    = str_pad("$" . number_format($detalle['total_iva'] ?? 0, 0, ",", "."), 13, " ", STR_PAD_LEFT);
-                $valor_total  = str_pad("$" . number_format($detalle['valor_venta'], 0, ",", "."), 13, " ", STR_PAD_LEFT);
+                $tarifa = str_pad(
+                    $detalle['tarifa_iva'] . "%",
+                    8,
+                    " ",
+                    STR_PAD_RIGHT
+                );
 
-                $printer->text("$tarifa$base$valor_iva$valor_total\n");
+                $base = str_pad(
+                    number_format($detalle['base'], 0, ",", "."),
+                    14,
+                    " ",
+                    STR_PAD_LEFT
+                );
+
+                $iva = str_pad(
+                    number_format($detalle['total_iva'] ?? 0, 0, ",", "."),
+                    12,
+                    " ",
+                    STR_PAD_LEFT
+                );
+
+                $total = str_pad(
+                    number_format($detalle['valor_venta'], 0, ",", "."),
+                    12,
+                    " ",
+                    STR_PAD_LEFT
+                );
+
+                $printer->text($tarifa . $base . $iva . $total . "\n");
             }
 
 
-
-
             $printer->text("\n");
-            $printer->text("-----------------------------------------------\n");
-            $printer->text("Tarifa  Base gravable  Val INC   Val total\n");
-            $printer->text("-----------------------------------------------\n");
+
+            $printer->setEmphasis(true);
+
+            $printer->text("Totales por tarifa IMPOCONSUMO\n");
+            $printer->text("------------------------------------------------\n");
+
+            $printer->text(
+                str_pad("Tarifa", 8) .
+                    str_pad("Base", 14, " ", STR_PAD_LEFT) .
+                    str_pad("INC", 12, " ", STR_PAD_LEFT) .
+                    str_pad("Total", 14, " ", STR_PAD_LEFT) . "\n"
+            );
+
+            $printer->text("------------------------------------------------\n");
+
+            $printer->setEmphasis(false);
 
             foreach ($array_ico as $detalle) {
 
-                $tarifa = str_pad($detalle['tarifa_ico'] . "%", 6, " ", STR_PAD_RIGHT);
+                $tarifa = str_pad($detalle['tarifa_ico'] . "%", 8);
 
-                $base = str_pad(number_format($detalle['base'], 0, ",", "."), 14, " ", STR_PAD_LEFT);
+                $base = str_pad(
+                    number_format($detalle['base'], 0, ",", "."),
+                    14,
+                    " ",
+                    STR_PAD_LEFT
+                );
 
-                $inc = str_pad(number_format($detalle['total_ico'], 0, ",", "."), 10, " ", STR_PAD_LEFT);
+                $inc = str_pad(
+                    number_format($detalle['total_ico'], 0, ",", "."),
+                    12,
+                    " ",
+                    STR_PAD_LEFT
+                );
 
-                $total = str_pad(number_format($detalle['valor_venta'], 0, ",", "."), 12, " ", STR_PAD_LEFT);
+                $total = str_pad(
+                    number_format($detalle['valor_venta'], 0, ",", "."),
+                    14,
+                    " ",
+                    STR_PAD_LEFT
+                );
 
                 $printer->text($tarifa . $base . $inc . $total . "\n");
             }
 
+            $printer->text("\n");
+
+            $resultado = model('facturaElectronicaModel')
+                ->selectSum('total')
+                ->where('id_apertura', $id_apertura)
+                ->where('id_status', 2)
+                ->first();
+
+            $totalVentas = $resultado['total'] ?? 0;
+            $printer->setEmphasis(true);
+
+            $printer->text(
+                str_pad("TOTAL VENTAS", 24, " ", STR_PAD_RIGHT) .
+                    str_pad("$" . number_format($totalVentas, 0, ",", "."), 24, " ", STR_PAD_LEFT) .
+                    "\n"
+            );
+
+            $printer->setEmphasis(false);
+
+            $printer->text("\n");
+
+
+            $iva_devolucion = model('devolucionModel')->impuesto_iva($id_apertura);
+            $inc_devolucion = model('devolucionModel')->impuesto_inc($id_apertura);
+            $totalImpuestos = model('devolucionModel')->totalImpuestos($id_apertura);
+
+
+
+            $printer->setEmphasis(true);
+
+            $printer->text("IVA en devoluciones\n");
+
+            $printer->setEmphasis(true);
+            $printer->text("------------------------------------------------\n");
+            $printer->text(
+                str_pad("Tarifa", 8) .
+                    str_pad("Base", 14, " ", STR_PAD_LEFT) .
+                    str_pad("IVA", 12, " ", STR_PAD_LEFT) .
+                    str_pad("Total", 12, " ", STR_PAD_LEFT) .
+                    "\n"
+            );
+            $printer->text("------------------------------------------------\n");
+            $printer->setEmphasis(false);
+            //dd($iva_devolucion);
+            foreach ($iva_devolucion as $detalle) {
+
+                $tarifa = str_pad(
+                    $detalle['porcentaje_iva'] . "%",
+                    8,
+                    " ",
+                    STR_PAD_RIGHT
+                );
+
+                $base = str_pad(
+                    number_format($detalle['base_gravable'], 0, ",", "."),
+                    14,
+                    " ",
+                    STR_PAD_LEFT
+                );
+
+                $iva = str_pad(
+                    number_format($detalle['valor_iva'] ?? 0, 0, ",", "."),
+                    12,
+                    " ",
+                    STR_PAD_LEFT
+                );
+
+                $total = str_pad(
+                    number_format($detalle['valor_iva'] + $detalle['base_gravable'], 0, ",", "."),
+                    12,
+                    " ",
+                    STR_PAD_LEFT
+                );
+
+                $printer->text($tarifa . $base . $iva . $total . "\n");
+            }
+
+
+            $printer->text("\n");
+            $printer->setEmphasis(true);
+
+            $printer->text("IMPOCONSUMO en devoluciones\n");
+
+            $printer->setEmphasis(true);
+            $printer->text("------------------------------------------------\n");
+            $printer->text(
+                str_pad("Tarifa", 8) .
+                    str_pad("Base", 14, " ", STR_PAD_LEFT) .
+                    str_pad("INC", 12, " ", STR_PAD_LEFT) .
+                    str_pad("Total", 12, " ", STR_PAD_LEFT) .
+                    "\n"
+            );
+            $printer->text("------------------------------------------------\n");
+            $printer->setEmphasis(false);
+            //dd($inc_devolucion);
+            foreach ($inc_devolucion as $detalle) {
+
+                $tarifa = str_pad(
+                    $detalle['porcentaje_ico'] . "%",
+                    8,
+                    " ",
+                    STR_PAD_RIGHT
+                );
+
+                $base = str_pad(
+                    number_format($detalle['base_gravable'], 0, ",", "."),
+                    14,
+                    " ",
+                    STR_PAD_LEFT
+                );
+
+                $inc = str_pad(
+                    number_format($detalle['valor_ico'] ?? 0, 0, ",", "."),
+                    12,
+                    " ",
+                    STR_PAD_LEFT
+                );
+
+                $total = str_pad(
+                    number_format($detalle['valor_ico'] + $detalle['base_gravable'], 0, ",", "."),
+                    12,
+                    " ",
+                    STR_PAD_LEFT
+                );
+
+                $printer->text($tarifa . $base . $inc . $total . "\n");
+            }
+            $totalImpuesto = ($totalImpuestos['inc'] ?? 0) + ($totalImpuestos['iva'] ?? 0);
+
+            $printer->text("------------------------------------------------\n\n");
+
+            $printer->setEmphasis(true);
+            $printer->text(
+                str_pad("TOTAL IMPUESTOS", 24) .
+                    str_pad(
+                        "$" . number_format($totalImpuesto, 0, ",", "."),
+                        24,
+                        " ",
+                        STR_PAD_LEFT
+                    ) .
+                    "\n"
+            );
+            $printer->setEmphasis(false);
+
+
+            $printer->text("\n");
+
+
+
             $pago = model('pagosModel')->total_formas_pago($id_apertura);
             $printer->text("\n");
             $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("-----------------------------------------------\n");
-            $printer->text("\n");
-            $printer->text("**FORMAS DE PAGO** \n\n");
+
+           
             $printer->setJustification(Printer::JUSTIFY_LEFT);
 
             // Imprimir cada forma de pago
+            $printer->setEmphasis(true);
+            $printer->text("FORMAS DE PAGO\n");
+            $printer->text("------------------------------------------------\n");
+
+            $printer->text(
+                str_pad("MEDIO DE PAGO", 32, " ", STR_PAD_RIGHT) .
+                    str_pad("VALOR", 12, " ", STR_PAD_LEFT) .
+                    "\n"
+            );
+
+            $printer->text("------------------------------------------------\n");
+            $printer->setEmphasis(false);
+
             foreach ($pago as $keyPago) {
 
                 $nombre_comercial = model('medioPagoModel')->getNombre($keyPago['medio_pago']);
                 $total = model('medioPagoModel')->getTotal($keyPago['medio_pago'], $id_apertura);
 
-                // Seguridad (evitar errores si vienen vacíos)
                 $nombreTexto = $nombre_comercial[0]['nombre_comercial'] ?? '';
                 $valorTotal  = $total[0]['total'] ?? 0;
 
-                // Anchos de columnas
                 $colNombre = 32;
                 $colValor  = 12;
 
-                // Recortar nombre si es muy largo
                 if (strlen($nombreTexto) > $colNombre) {
                     $nombreTexto = substr($nombreTexto, 0, $colNombre - 3) . '...';
                 }
 
-                // Alinear columnas
                 $nombre = str_pad($nombreTexto, $colNombre, " ", STR_PAD_RIGHT);
-                $monto  = str_pad(number_format($valorTotal, 0, ",", "."), $colValor, " ", STR_PAD_LEFT);
+                $monto  = str_pad(
+                    "$" . number_format($valorTotal, 0, ",", "."),
+                    $colValor,
+                    " ",
+                    STR_PAD_LEFT
+                );
 
-                // Imprimir línea
                 $printer->text($nombre . $monto . "\n");
             }
+
+            $printer->text("------------------------------------------------\n");
 
             // TOTAL FORMAS DE PAGO
             $totalFormasPago = model('medioPagoModel')->getTotalFormas($id_apertura);

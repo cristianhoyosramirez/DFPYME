@@ -953,9 +953,21 @@
                     success: function(resultado) {
                         var resultado = JSON.parse(resultado);
 
-                        if (resultado.resultado == 1) { //El producto no  tiene movimientos 
+                        if (resultado.resultado == 1) { //El producto no  tiene movimientos
+
+                            let mensaje = '';
+
+                            
+
+                            if (resultado.tipo_inventario == 4) {
+                                mensaje = `¿Realmente desea eliminar ${resultado.nombre_producto}?
+                                            Este producto es un insumo y puede estar asociado a una o varias recetas. Al eliminarlo, dichas recetas podrían verse afectadas.`;
+                            } else {
+                                mensaje = `¿Realmente desea eliminar ${resultado.nombre_producto}?`;
+                            }
+
                             Swal.fire({
-                                text: "¿Realmente desea eliminar " + resultado.nombre_producto + "?",
+                                text: mensaje,
                                 icon: 'warning',
                                 showCancelButton: true,
                                 confirmButtonColor: '#2AA13D',

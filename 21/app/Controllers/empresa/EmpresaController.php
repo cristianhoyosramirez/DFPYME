@@ -3,6 +3,7 @@
 namespace App\Controllers\empresa;
 
 use App\Controllers\BaseController;
+use App\Libraries\Inventario;
 
 class EmpresaController extends BaseController
 {
@@ -15,7 +16,7 @@ class EmpresaController extends BaseController
         $tipo_empresa = model('tipoEmpresaModel')->findAll();
         $NombreRegimen = model('regimenModel')->regimen();
 
-        $actividadEconimica=model('empresaCiiuModel')->select('codigo')->first();
+        $actividadEconimica = model('empresaCiiuModel')->select('codigo')->first();
 
         return view('empresa/datos', [
             'regimen' => $regimen,
@@ -24,7 +25,7 @@ class EmpresaController extends BaseController
             'municipios' => $municipios,
             'tipo_empresa' => $tipo_empresa,
             'descriprionRegimen' => $NombreRegimen[0]['descripcion'],
-            'actividadEconomica'=>$actividadEconimica['codigo']
+            'actividadEconomica' => $actividadEconimica['codigo']
         ]);
     }
 
@@ -48,7 +49,7 @@ class EmpresaController extends BaseController
             'iddepartamento' => $this->request->getPost('departamento'),
             'idciudad' => $this->request->getPost('municipio'),
             'direccionempresa' => $this->request->getPost('direccion'),
-            'dv'=>$this->request->getPost('digito_verificacion'),
+            'dv' => $this->request->getPost('digito_verificacion'),
             'estadoempresa' => 'true',
             'descripcion' => '0',
             'recauda_iva' => 'false',
@@ -691,5 +692,245 @@ class EmpresaController extends BaseController
     function bono()
     {
         return view('configuracion/gestionBonos');
+    }
+
+    function ventas_mesero()
+    {
+        $usuarios = model('usuariosModel')->select('idusuario_sistema as id_usuario ,nombresusuario_sistema')->where('estadousuario_sistema', true)->findAll();
+        $productos = model('productoModel')->select('nombreproducto,id')->findAll();
+        $categorias = model('categoriasModel')->select('nombrecategoria,id')->findAll();
+
+        $fecha_inicial = date('Y-m-d');
+        $fecha_final = date('Y-m-d');
+
+        $where[] = "kardex.fecha BETWEEN '{$fecha_inicial}' AND '{$fecha_final}'";
+        $whereSql = implode(' AND ', $where);
+
+        $sql = model('kardexModel')->getVentasPorProducto($whereSql);
+
+        $ventas = model('reporteProductoModel')->reporteKardex($sql);
+
+
+        //dd($ventas);
+
+        $sqlTotal = model('kardexModel')->getTotalVentasPorProducto($whereSql);
+
+        $total_ventas = model('reporteProductoModel')->reporteKardex($sqlTotal);
+
+        // dd($ventas);
+
+        $fechas = model('kardexModel')->getFechas();
+        return view('reportes/ventas_mesero_producto', [
+            'usuarios' => $usuarios,
+            'productos' => $productos,
+            'categorias' => $categorias,
+            'ventas' => $ventas,
+            'total_ventas' => $total_ventas[0]['total_ventas'],
+            'fecha_inicial' => $fechas[0]['fecha_inicial'],
+            'fecha_final' => $fechas[0]['fecha_final']
+        ]);
+    }
+
+    function filtro_fecha()
+    {
+        $json = $this->request->getJSON();
+        $filtro  = $json->filtro;
+
+        $html = "";
+        $abreModal = "";
+
+        switch ($filtro) {
+            case 'tT':
+                $fechas = model('kardexModel')->getFechas();
+                $html = view('fechas/todos_los_tiempos', [
+                    'fecha_inicial' => $fechas[0]['fecha_inicial'],
+                    'fecha_final' => $fechas[0]['fecha_final']
+                ]);
+                $abreModal = false;
+                break;
+            case 'f':
+                $html = view('fechas/fecha');
+                $abreModal = false;
+                break;
+            case 'p':
+                $html = view('fechas/periodo');
+                $abreModal = false;
+                break;
+            case 'mC':
+                $aperturas = model('aperturaModel')->getAperturas();
+                $html = view('fechas/movimientos_de_caja', [
+                    'aperturas' => $aperturas
+                ]);
+                $abreModal = true;
+                break;
+        }
+
+        return $this->response->setJSON([
+            'response' => true,
+            'fecha' => $html,
+            'abreModal' => $abreModal
+
+        ]);
+    }
+
+
+    public function reporteVentasKardex()
+    {
+
+        $fecha_inicial   = $this->request->getPost('fecha_inicial');
+        $fecha_final     = $this->request->getPost('fecha_final');
+        $codigo_producto = trim($this->request->getPost('codigo_producto') ?? '');
+        $id_categoria    = trim($this->request->getPost('id_categoria') ?? '');
+        $id_usuario      = trim($this->request->getPost('id_usuario') ?? '');
+        $id_apertura     = trim($this->request->getPost('id_apertura') ?? '');
+
+
+        /*       $fecha_inicial   = "";
+        $fecha_final     = "";
+        $codigo_producto = "";
+        $id_categoria    = "";
+        $id_usuario      = "";
+        $id_apertura     = 771; */
+
+
+        $where = [];
+
+        // Filtro por fechas, solo si vienen
+        if (!empty($fecha_inicial) && !empty($fecha_final)) {
+
+            $where[] = "kardex.fecha BETWEEN '{$fecha_inicial}' AND '{$fecha_final}'";
+        } elseif (!empty($fecha_inicial)) {
+
+            $where[] = "kardex.fecha >= '{$fecha_inicial}'";
+        } elseif (!empty($fecha_final)) {
+
+            $where[] = "kardex.fecha <= '{$fecha_final}'";
+        }
+
+
+        // Filtro por apertura, si viene
+        if (!empty($id_apertura)) {
+            $where[] = "kardex.id_apertura = '{$id_apertura}'";
+        }
+
+
+        // Solo puede venir producto o categoría
+        if (!empty($codigo_producto)) {
+
+            $where[] = "kardex.codigo = '{$codigo_producto}'";
+        } elseif (!empty($id_categoria)) {
+
+            $where[] = "kardex.id_categoria = '{$id_categoria}'";
+        }
+
+
+        // Usuario opcional
+        if (!empty($id_usuario)) {
+            $where[] = "kardex.idusuario = '{$id_usuario}'";
+        }
+
+
+        // Construir WHERE
+        $whereSql = !empty($where)
+            ? implode(' AND ', $where)
+            : '1=1';
+
+        $sql = model('kardexModel')->getVentasPorProducto($whereSql);
+
+        $ventas = model('reporteProductoModel')->reporteKardex($sql);
+
+        $temp_total_ventas = model('kardexModel')->getTotalVentasPorProducto($whereSql);
+
+
+        $total_ventas = model('kardexModel')->reporteKardex($temp_total_ventas);
+
+
+
+        return $this->response->setJSON([
+            'response' => true,
+            'ventas' => view('fechas/ventas_mesero', [
+                'ventas' => $ventas,
+                'total_ventas' => 0
+            ]),
+            'total_ventas' => number_format($total_ventas[0]['total_ventas'], 0, ',', '.')
+        ]);
+    }
+
+    public function cortesias()
+    {
+
+        $fechas = model('kardexModel')->fechaMinMax();
+        $fecha_inicial = $fechas[0]['fecha_inicial'];
+        $fecha_final   = $fechas[0]['fecha_final'];
+
+        /*  $fecha_inicial   = "2026-08-19";
+        $fecha_final     = "2026-08-19"; */
+
+        $where = [];
+        $where[] = "pagos.fecha BETWEEN '{$fecha_inicial}' AND '{$fecha_final}'";
+        $whereSql = implode(' AND ', $where);
+
+        $kardexConcepto = model('KardexConceptoModel');
+
+        $sql = $kardexConcepto->sqlReporteVentas($whereSql);
+        $cortesias = model('kardexModel')->reporteKardex($sql);
+
+        /*    $total_cortesias = model('pagosModel')->total_cortesias(
+            $fecha_inicial,
+            $fecha_final
+        ); */
+
+        $total_cortesias = model('pagosModel')->total_cortesias($whereSql);
+
+
+        $total_registros = $kardexConcepto->totalRegistros($whereSql);
+
+        return view('reportes/cortesias', [
+            'fecha_inicial' => $fecha_inicial,
+            'fecha_final' =>  $fecha_final,
+            //'documentos' => $documentos,
+            'cortesias' => $cortesias,
+            'total' => number_format($total_cortesias[0]['total_cortesias'], 0, ',', '.'),
+            'total_registros' => $total_registros[0]['total_cortesias']
+        ]);
+    }
+
+    public function reporteCortesias()
+    {
+
+        /*  $fecha_inicial   = "2026-08-19";
+        $fecha_final     = "2026-08-19";
+        $id_apertura     = ""; */
+
+        $fecha_inicial   = $this->request->getPost('fecha_inicial');
+        $fecha_final     = $this->request->getPost('fecha_final');
+        $id_apertura     = trim($this->request->getPost('id_apertura') ?? '');
+
+
+        $filtro_fechas = new Inventario();
+
+        $where = $filtro_fechas->fitro_fechas(
+            $fecha_inicial,
+            $fecha_final,
+            $id_apertura
+        );
+
+        $kardexConcepto = model('KardexConceptoModel');
+        $sql = $kardexConcepto->sqlReporteVentas($where);
+        $cortesias = model('kardexModel')->reporteKardex($sql);
+        $total_registros = $kardexConcepto->totalRegistros($where);
+        $total_cortesias = model('pagosModel')->total_cortesias($where);
+
+
+
+        return $this->response->setJSON([
+            'response' => true,
+            'cortesias' => view('cortesias/cortesias', [
+                'cortesias' => $cortesias,
+            ]),
+            'total_registros' => $total_registros[0]['total_cortesias'],
+            'total' => number_format($total_cortesias[0]['total_cortesias'], 0, ',', '.')
+
+        ]);
     }
 }

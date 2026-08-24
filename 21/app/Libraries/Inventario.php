@@ -88,7 +88,7 @@ class Inventario
         }
     }
 
-    public function devolucion($usuario, $nit_cliente, $codigo_producto_devolucion, $cantidad_devolucion, $precio_devo, $precio_devolucion, $id_apertura)
+    public function devolucion($usuario, $nit_cliente, $codigo_producto_devolucion, $cantidad_devolucion, $precio_devo, $precio_devolucion, $id_apertura, $documento)
     {
         $valor_total_producto = $precio_devolucion * $cantidad_devolucion;
 
@@ -98,6 +98,8 @@ class Inventario
 
 
             $id_tipo_inventario = model('productoModel')->select('id_tipo_inventario')->where('codigointernoproducto', $codigo_producto_devolucion)->first();
+
+            //dd($id_tipo_inventario);
 
             if ($id_tipo_inventario['id_tipo_inventario'] == 1) {
 
@@ -144,36 +146,43 @@ class Inventario
             $fecha->setTimeZone(new DateTimeZone('America/Bogota'));
             $fecha_y_hora = $fecha->format('Y-m-d H:i:s.u');
 
-            $devolucion_venta = [
-                'numero' => $numero_consecutivo['numeroconsecutivo'],
-                'numerofactura' => "",
-                'nitcliente' => $nit_cliente,
-                'fecha' => date('Y-m-d'),
-                'idusuario' => $usuario,
-                'idcaja' => 1,
-                'idturno' => 1,
-                'hora' =>  date("H:i:s"),
-                'id_apertura' => $id_apertura['numero'],
-                'fecha_y_hora_devolucion' => $fecha_y_hora
-            ];
-            $insert = model('devolucionModel')->insert($devolucion_venta);
+
+
+            //dd($documento);
+
+            if ($documento == "") {
+                $devolucion_venta = [
+                    'numero' => $numero_consecutivo['numeroconsecutivo'],
+                    'numerofactura' => 'Devolucion',
+                    'nitcliente' => $nit_cliente,
+                    'fecha' => date('Y-m-d'),
+                    'idusuario' => $usuario,
+                    'idcaja' => 1,
+                    'idturno' => 1,
+                    'hora' =>  date("H:i:s"),
+                    'id_apertura' => $id_apertura['numero'],
+                    'fecha_y_hora_devolucion' => $fecha_y_hora
+                ];
+                $insert = model('devolucionModel')->insert($devolucion_venta);
 
 
 
-            $entradasSalidas = model('EntradasSalidasModel')->insert([
-                'id_documento' => $insert,
-                'id_operacion' => 1,
-                'fecha'        => date('Y-m-d'),
-                'tabla'        => 'devolucion_venta'
-            ]);
+                $entradasSalidas = model('EntradasSalidasModel')->insert([
+                    'id_documento' => $insert,
+                    'id_operacion' => 1,
+                    'fecha'        => date('Y-m-d'),
+                    'tabla'        => 'devolucion_venta'
+                ]);
 
-            $actualizar_consecutivo = [
-                'numeroconsecutivo' => $numero_consecutivo['numeroconsecutivo'] + 1
-            ];
+                $actualizar_consecutivo = [
+                    'numeroconsecutivo' => $numero_consecutivo['numeroconsecutivo'] + 1
+                ];
 
-            $actualizar = model('consecutivosModel')->set($actualizar_consecutivo);
-            $actualizar = model('consecutivosModel')->where('idconsecutivos', 12);
-            $actualizar = model('consecutivosModel')->update();
+                $actualizar = model('consecutivosModel')->set($actualizar_consecutivo);
+                $actualizar = model('consecutivosModel')->where('idconsecutivos', 12);
+                $actualizar = model('consecutivosModel')->update();
+            }
+
             //var_dump($codigo_producto_devolucion);
             $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $codigo_producto_devolucion)->first();
 
@@ -251,7 +260,8 @@ class Inventario
                     'fecha_venta' => date('Y-m-d'),
                     'id_apertura' => $id_apertura['numero'],
                     'saldo_anterior' => $cantidadInventario['cantidad_inventario'],
-                    'nuevo_saldo' => $cantidadInventario['cantidad_inventario'] + $cantidad_devolucion
+                    'nuevo_saldo' => $cantidadInventario['cantidad_inventario'] + $cantidad_devolucion,
+                    'valor_iva' => (($valor_total_producto / $cantidad_devolucion) - $base_iva) * $cantidad_devolucion
                 ];
 
 
@@ -279,5 +289,53 @@ class Inventario
             );
             echo  json_encode($returnData);
         }
+    }
+
+    public function fitro_fechas($fecha_inicial, $fecha_final, $id_apertura)
+    {
+        $where = [];
+
+        /*
+    |--------------------------------------------------------------------------
+    | Filtro por fechas
+    |--------------------------------------------------------------------------
+    */
+
+        if (!empty($fecha_inicial) && !empty($fecha_final)) {
+
+            $where[] = "pagos.fecha BETWEEN '{$fecha_inicial}' AND '{$fecha_final}'";
+        } elseif (!empty($fecha_inicial)) {
+
+            $where[] = "pagos.fecha >= '{$fecha_inicial}'";
+        } elseif (!empty($fecha_final)) {
+
+            $where[] = "pagos.fecha <= '{$fecha_final}'";
+        }
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Filtro por apertura
+    |--------------------------------------------------------------------------
+    */
+
+        if (!empty($id_apertura)) {
+
+            $where[] = "pagos.id_apertura = '{$id_apertura}'";
+        }
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Construir WHERE
+    |--------------------------------------------------------------------------
+    */
+
+        $whereSql = !empty($where)
+            ? implode(' AND ', $where)
+            : '1=1';
+
+
+        return $whereSql;
     }
 }

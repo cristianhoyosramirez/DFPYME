@@ -266,6 +266,7 @@ Notas Crédito
                         <td>Nit cliente</th>
                         <td>Cliente</th>
                         <td>N° nota crédito</th>
+                        <td>Valor</th>
                         <td>N° factura</th>
                         <td>Motivo</th>
 
@@ -315,8 +316,7 @@ Notas Crédito
 
                                 <div
                                     id="numero_factura_nota_credito"
-                                    class="fw-bold text-primary fs-5">
-
+                                    class=" fw-bold">
                                 </div>
                             </div>
 
@@ -328,7 +328,7 @@ Notas Crédito
 
                                 <div
                                     id="numero_nota_credito"
-                                    class="fw-bold text-danger fs-5">
+                                    class="fw-bold">
 
                                 </div>
                             </div>
@@ -341,7 +341,7 @@ Notas Crédito
 
                                 <div
                                     id="fecha_de_factura"
-                                    class="fw-bold text-primary fs-6">
+                                    class="fw-bold">
 
                                 </div>
                             </div>
@@ -354,7 +354,7 @@ Notas Crédito
 
                                 <div
                                     id="fecha_nota_credito"
-                                    class="fw-bold text-success fs-6">
+                                    class=" fw-bold">
 
                                 </div>
                             </div>
@@ -367,7 +367,7 @@ Notas Crédito
 
                                 <div
                                     id="cliente_nota_credito"
-                                    class="fw-bold text-primary fs-5">
+                                    class=" fw-bold">
 
                                 </div>
                             </div>
@@ -380,7 +380,7 @@ Notas Crédito
 
                                 <div
                                     id="nit_cliente"
-                                    class="fw-bold text-primary fs-5">
+                                    class=" fw-bold">
 
                                 </div>
                             </div>
@@ -392,7 +392,7 @@ Notas Crédito
                                 </label>
 
                                 <div>
-                                    <span class="fw-bold text-danger fs-5" id="motivoAnulacion">
+                                    <span class=" fw-bold" id="motivoAnulacion">
 
                                     </span>
                                 </div>
@@ -430,8 +430,8 @@ Notas Crédito
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-outline-success">Imprimir</button>
-                <button type="button" class="btn btn-outline-dark">Enviar a la DIAN </button>
+
+
                 <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
@@ -640,9 +640,154 @@ Notas Crédito
     }
 </script>
 
-
-
 <script>
+    async function enviarNotaCredito(idNotaCredito) {
+
+        const confirmacion = await Swal.fire({
+            title: '¿Confirmar envío?',
+            html: `
+                Está a punto de transmitir la <b>Nota Crédito</b> a la DIAN para su validación.
+                <br><br>
+                <b>Una vez enviada, esta acción no podrá revertirse.</b>
+                <br><br>
+                ¿Desea continuar?
+            `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, enviar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true,
+            buttonsStyling: false,
+            customClass: {
+                actions: 'gap-2',
+                confirmButton: 'btn btn-outline-success',
+                cancelButton: 'btn btn-outline-danger'
+            }
+        });
+
+        if (!confirmacion.isConfirmed) {
+            return;
+        }
+
+        let ip = document.getElementById("ip").value;
+
+        let url = new URL("http://" + ip + ":5000/api/NotaCredito/id");
+        url.search = new URLSearchParams({
+            id: idNotaCredito
+        });
+
+        // Spinner de procesamiento
+        Swal.fire({
+            title: 'Transmitiendo Nota Crédito',
+            html: `
+                <div class="mt-2">
+                    <p class="mb-2">
+                        Enviando la <strong>Nota Crédito</strong> a la DIAN para su validación.
+                    </p>
+                    <small class="text-muted">
+                        Espere mientras recibimos la respuesta. No cierre esta ventana.
+                    </small>
+                </div>
+            `,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        try {
+
+            const response = await fetch(url, {
+                method: "GET"
+            });
+
+            const data = await response.json();
+
+            // Cerrar spinner
+            Swal.close();
+
+            if (response.status === 200) {
+
+                const resultado = await Swal.fire({
+                    title: 'Nota Crédito aceptada',
+                    html: `
+                        <p><strong>${data.order_reference}</strong></p>
+                        <p>${data.dian_status}</p>
+                        <hr>
+                        ¿Desea <b>actualizar el inventario</b> y
+                        <b>registrar la devolución en el cuadre de caja</b>?
+                    `,
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, realizar proceso',
+                    cancelButtonText: 'No',
+                    reverseButtons: true,
+                    buttonsStyling: false,
+                    customClass: {
+                        actions: 'gap-2',
+                        confirmButton: 'btn btn-outline-success',
+                        cancelButton: 'btn btn-outline-danger'
+                    }
+                });
+
+                if (resultado.isConfirmed) {
+                    await cargarInventarioYGenerarDevolucion(idNotaCredito);
+                }
+
+            } else if (response.status === 400) {
+
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'La DIAN rechazó la Nota Crédito',
+                    html: `
+                        <div class="text-start">
+                            ${data.errors[0].error}
+                        </div>
+                    `
+                });
+
+            } else {
+
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Error en la transmisión',
+                    html: `
+                        <div class="text-start">
+                            ${data.errors ? data.errors[0].error : "Error desconocido"}
+                        </div>
+                    `
+                });
+
+            }
+
+        } catch (error) {
+
+            Swal.close();
+
+            console.error(error);
+
+            await Swal.fire({
+                icon: 'error',
+                title: 'No fue posible transmitir la Nota Crédito',
+                html: `
+                    No fue posible establecer comunicación con el servidor de
+                    facturación electrónica.
+                    <br><br>
+                    <small class="text-muted">
+                        Verifique la conexión e inténtelo nuevamente.
+                    </small>
+                `
+            });
+
+        }
+    }
+</script>
+
+
+
+<!-- <script>
     async function enviarNotaCredito(idNotaCredito) {
 
         const confirmacion = await Swal.fire({
@@ -763,9 +908,9 @@ Notas Crédito
             console.error(error);
         }
     }
-</script>
+</script> -->
 
-<script>
+<!-- <script>
     async function cargarInventarioYGenerarDevolucion(idNotaCredito) {
 
         try {
@@ -831,7 +976,75 @@ Notas Crédito
         }
 
     }
+</script> -->
+
+<script>
+    async function cargarInventarioYGenerarDevolucion(idNotaCredito) {
+
+        try {
+
+            Swal.fire({
+                title: 'Procesando...',
+                html: 'Actualizando inventario y caja.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            const response = await fetch('<?= base_url('reportes/devolucionNc') ?>', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id_nota_credito: idNotaCredito
+                })
+            });
+
+            Swal.close();
+
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            await Swal.fire({
+                icon: data.success ? 'success' : 'error',
+                title: data.success ? 'Proceso realizado' : 'Error',
+                text: data.message,
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+            if (data.success) {
+                location.reload();
+            } else {
+                // Aquí puedes dejar el formulario abierto o hacer otra acción
+            }
+
+
+
+        } catch (error) {
+
+            Swal.close();
+
+            await Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error durante el proceso.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+            location.reload();
+        }
+    }
 </script>
+
+
 
 <script>
     async function eliminarNotaCredito(id) {

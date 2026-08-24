@@ -2,16 +2,28 @@
 
     $numeroComponentes = model('configuracionAtributosProductoModel')->getNumeroComponentes($idProducto, $detalle['id']);
     $id = model('configuracionAtributosProductoModel')->getId($idProducto, $detalle['id']);
+    $componentes = model('componentesAtributosProductoModel')->select('nombre')
+        ->where('id_atributo', $detalle['id'])
+        ->findAll();
+
+    $nombresComponentes = array_column($componentes, 'nombre');
+
 ?>
 
     <tr>
-        <td><?php echo $detalle['nombre']; ?></td>
+        <td><?php echo $detalle['nombre']; ?>
+            <?php if (!empty($nombresComponentes)): ?>
+                <br>
+                <small style="color: blue;">
+                    (<?= implode(', ', $nombresComponentes); ?>)
+                </small>
+            <?php endif; ?>
+        </td>
         <td><input type="text" class="form-control text-center"
                 value="<?php echo $numeroComponentes[0]['numero_componentes']; ?>"
                 onclick="this.select()"
                 id="maxComponentes<?php echo $detalle['id'] ?>"
-                onkeyup="maxComponentes(this.value,<?php echo $ultimoId; ?>)"
-                >
+                onkeyup="maxComponentes(this.value,<?php echo $ultimoId; ?>)">
         </td>
         <td>
             <button type="button" class="btn btn-outline-danger btn-icon"

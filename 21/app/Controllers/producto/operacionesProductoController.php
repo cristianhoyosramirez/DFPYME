@@ -826,7 +826,13 @@ class operacionesProductoController extends BaseController
         $tiene_movimientos = model('productoFacturaVentaModel')->where('codigointernoproducto', $this->request->getPost('id_producto'));
 
 
-        $nombre_producto = model('productoModel')->select('nombreproducto')->where('codigointernoproducto', $this->request->getPost('id_producto'))->first();
+        $nombre_producto = model('productoModel')->select('nombreproducto,id_tipo_inventario')->where('codigointernoproducto', $this->request->getPost('id_producto'))->first();
+
+        $tipo_inventario=$nombre_producto['id_tipo_inventario'];
+
+
+    
+
 
         if (empty($tiene_movimientos)) {
             echo json_encode(['resultado' => 0]);
@@ -836,7 +842,8 @@ class operacionesProductoController extends BaseController
                 [
                     'resultado' => 1,
                     'nombre_producto' => $nombre_producto['nombreproducto'],
-                    'codigo_interno_producto' => $this->request->getPost('id_producto')
+                    'codigo_interno_producto' => $this->request->getPost('id_producto'),
+                    'tipo_inventario'=>(int) $tipo_inventario
 
                 ]
             );
@@ -846,8 +853,8 @@ class operacionesProductoController extends BaseController
 
     function borrar_producto_inventario()
     {
-        $codigo_interno_producto = $this->request->getPost('codigo_interno_producto');
-        // $codigo_interno_producto = '3'; 
+        // $codigo_interno_producto = $this->request->getPost('codigo_interno_producto');  
+         $codigo_interno_producto = '149'; 
         //$tiene_movimientos = model('kardexModel')->select('id')->where('codigo', $this->request->getPost('codigo_interno_producto'))->first();
         $tiene_movimientos = model('kardexModel')->get_producto($codigo_interno_producto);
 

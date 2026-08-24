@@ -81,5 +81,17 @@ LISTADO DE IMPRESORAS
     </div>
 </div>
 </div>
+
+
+<script src="<?php echo base_url(); ?>/Assets/plugin/sweet-alert2/sweetalert2@11.js"></script>
+<?php if (session()->getFlashdata('mensaje')): ?>
+    <script>
+        Swal.fire({
+            icon: '<?= session()->getFlashdata('iconoMensaje') ?>',
+            text: '<?= session()->getFlashdata('mensaje') ?>',
+            confirmButtonText: 'Aceptar'
+        });
+    </script>
+<?php endif; ?>
 <?= $this->endSection('content') ?>
 <!-- end row -->

@@ -768,8 +768,19 @@ class imprimirComandaController extends BaseController
             // 📥 Recibir JSON
             $data = $this->request->getJSON(true);
             $id = $data['id'] ?? null;
-            $datosNc = model('notaCreditoModel')->select('id_factura,prefijo,numero,qrcode,cufe')
+            $datosNc
+                = model('notaCreditoModel')
+                ->select('id_factura,prefijo,numero,qrcode,cufe,total,propina')
                 ->where('id', $id)
+                ->first();
+
+
+
+            $impuestos = model('kardexModel')
+                ->selectSum('ico', 'inc')
+                ->selectSum('iva', 'iva')
+                ->where('id_factura', $datosNc['id_factura'])
+                ->where('id_estado', 8)
                 ->first();
 
             //$datosNc= ;
@@ -885,21 +896,31 @@ class imprimirComandaController extends BaseController
             $printer->text("------------------------------------------\n");
             $printer->text("\n");
             $printer->setJustification(Printer::JUSTIFY_RIGHT);
-            $printer->text(str_pad("SUB TOTAL", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
-            $printer->text(str_pad("PROPINA", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
-            $printer->text(str_pad("INC", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
-            $printer->text(str_pad("IVA", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
-            $printer->text(str_pad("TOTAL", 15) . ": " . str_pad("$ " . number_format(0, 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("SUB TOTAL", 15) . ": " . str_pad("$ " . number_format($datosNc['total'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("PROPINA", 15) . ": " . str_pad("$ " . number_format($datosNc['propina'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("INC", 15) . ": " . str_pad("$ " . number_format($impuestos['inc'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("IVA", 15) . ": " . str_pad("$ " . number_format($impuestos['iva'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
+            $printer->text(str_pad("TOTAL", 15) . ": " . str_pad("$ " . number_format($datosNc['total'] + $impuestos['inc'] + $impuestos['iva'], 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n");
             $printer->text("\n");
 
-            $printer->qrCode($datosNc['qrcode'], Printer::QR_ECLEVEL_L, 4);
+            if (!empty($datosNc['qrcode'])) {
+                $printer->qrCode($datosNc['qrcode'], Printer::QR_ECLEVEL_L, 4);
+                $printer->text("\n");
+            }
 
-
-            $printer->text("\n");
-
+            if (!empty($datosNc['cufe'])) {
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->text("\n");
+                $printer->text("CUFE:\n" . $datosNc['cufe'] . "\n");
+            }
             $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->setTextSize(1, 1);
+            $printer->text("SOFTWARE DFPYME INTREDETE. \n");
+            $printer->text("INTREDETE 901448365\n");
             $printer->text("\n");
-            $printer->text("CUFE: \n" . $datosNc['cufe'] . "\n");
+
+            $printer->text("*GRACIAS POR SER NUESTROS CLIENTES* \n");
+
 
             /**
              * ✂️ CIERRE

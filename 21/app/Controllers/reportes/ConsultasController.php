@@ -5,6 +5,9 @@ namespace App\Controllers\reportes;
 use App\Controllers\BaseController;
 use App\Libraries\Inventario;
 
+use \DateTime;
+use \DateTimeZone;
+
 class ConsultasController extends BaseController
 {
     public function index()
@@ -97,7 +100,18 @@ class ConsultasController extends BaseController
     function ventas_fecha()
     {
 
-        return view('reportes/reporte_entre_fechas');
+
+        $fecha_inicial = date('Y-m-d');
+        $fecha_final = date('Y-m-d');
+        //$fecha_inicial='2026-07-01';
+        //$fecha_final='2026-07-31';
+
+        $ventas = model('ReporteImpuestosModel')->ventas($fecha_inicial, $fecha_final);
+
+
+        return view('reportes/reporte_entre_fechas', [
+            'ventas' => $ventas
+        ]);
     }
 
 
@@ -176,9 +190,12 @@ class ConsultasController extends BaseController
 
 
         $notasCredito = model('notaCreditoModel')->datosNc();
+
         $dianAceptado = model('notaCreditoModel')
             ->where('id_status', 2)
             ->countAllResults();
+
+        //dd($notasCredito);
 
         $dianNoAceptado = model('notaCreditoModel')
             ->where('id_status', 1)
@@ -368,6 +385,7 @@ class ConsultasController extends BaseController
         $request = $this->request->getJSON();
 
         $id_status = $request->estado;
+        //$id_status = 2;
 
         /*  $dianEstado = model('notaCreditoModel')
             ->where('id_status', $id_status)
@@ -445,8 +463,10 @@ class ConsultasController extends BaseController
         $request = $this->request->getJSON();
 
         $id_nota = $request->id_nota_credito ?? null;
+        //$id_nota = 56;
 
-        // $id_nota = 48;
+
+
 
         /*  $usuario = $_POST['usuario'];
         //$nit_cliente = $_POST['nit_cliente'];
@@ -470,6 +490,53 @@ class ConsultasController extends BaseController
             // $precio_devo = 4.100;
             // $precio_devolucion =  str_replace('.', '', $precio_devo); 
 
+            $numero_factura = model('notaCreditoModel')->numeroFe($id_nota);
+
+            //$tiene_nota=model('devolucionModel')->where('numerofactura',$numero_factura[0]['numero'])->first();
+
+            $tiene_nota = model('DevolucionModel')
+                ->select('1')
+                ->where('numerofactura', $numero_factura[0]['numero'])
+                ->first() !== null;
+
+            if ($tiene_nota == true) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Nota crédito ya tiene devolución de productos .',
+
+                ]);
+            }
+
+            $numero_consecutivo = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 12)->first();
+            $nit_cliente = 222222222222;
+
+            $fecha = DateTime::createFromFormat('U.u', microtime(TRUE));
+            $fecha->setTimeZone(new DateTimeZone('America/Bogota'));
+            $fecha_y_hora = $fecha->format('Y-m-d H:i:s.u');
+
+            $devolucion_venta = [
+                'numero' => $numero_consecutivo['numeroconsecutivo'],
+                'numerofactura' =>  $numero_factura[0]['numero'],
+                'nitcliente' => $nit_cliente,
+                'fecha' => date('Y-m-d'),
+                'idusuario' => $usuario,
+                'idcaja' => 1,
+                'idturno' => 1,
+                'hora' =>  date("H:i:s"),
+                'id_apertura' => $id_apertura['numero'],
+                'fecha_y_hora_devolucion' => $fecha_y_hora
+            ];
+            $insert = model('devolucionModel')->insert($devolucion_venta);
+
+
+
+            $entradasSalidas = model('EntradasSalidasModel')->insert([
+                'id_documento' => $insert,
+                'id_operacion' => 1,
+                'fecha'        => date('Y-m-d'),
+                'tabla'        => 'devolucion_venta'
+            ]);
+
             $productos = model('itemNotaCreditoModel')->productos($id_nota);
 
 
@@ -482,14 +549,18 @@ class ConsultasController extends BaseController
                     $producto['cantidad'],
                     $producto['neto'],
                     $producto['neto'],
-                    $id_apertura
+                    $id_apertura,
+                    $numero_factura[0]['numero']
                 );
             }
 
-              return $this->response->setJSON([
+
+
+
+            return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Devolucion de productos realizada.',
-            
+
             ]);
         }
 
@@ -499,5 +570,54 @@ class ConsultasController extends BaseController
             );
             echo  json_encode($returnData);
         }
+    }
+
+    public function buscar_ventas_fecha()
+    {
+
+
+        $fecha_inicio = $this->request->getPost('fecha_inicial');
+        $fecha_fin    = $this->request->getPost('fecha_final');
+
+        //$ventas = $this->reporteModel->consultarVentas($fecha_inicio, $fecha_fin);
+
+        $ventas = model('ReporteImpuestosModel')->ventas($fecha_inicio, $fecha_fin);
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'ventas'   => view('reportes/ventas_fechas', [
+                'ventas' => $ventas
+            ])
+        ]);
+    }
+
+    function verDetalle()
+    {
+
+        $id_factura = $this->request->getPost('id_factura');
+        //$datosCortesia = model('pagosModel')->datosCortesias($id_factura);
+        $datos_factura = model('facturaVentaModel')->encabezado_facturas_venta($id_factura);
+        $items = model('productoFacturaVentaModel')->getProductosFacturaVentaModel($id_factura);
+        $forma_pago = model('pagosModel')->select('forma_pago,saldo')->where('id_factura', $id_factura)
+            ->where('id_estado', 6)
+            ->first();
+        $total_factura = model('kardexModel')->selectSum('total')->where('id_factura', $id_factura)->first();
+
+        $documento = view('duplicado_de_factura/productos_factura_duplicado', [
+            'productos' => $items,
+            'fecha_factura' => $datos_factura[0]['fecha_factura_venta'],
+            'numero_factura' => $datos_factura[0]['numerofactura_venta'],
+            'nit_cliente' => $datos_factura[0]['nitcliente']."/".$datos_factura[0]['nombrescliente'],
+            'hora_factura' => $datos_factura[0]['horafactura_venta'],
+            'total_factura' => $total_factura['total'],
+            'abonos' => 0,
+            'forma_pago' => $forma_pago['forma_pago'],
+            'saldo' => 0,
+            'total_abonos' => 0
+        ]);
+        return $this->response->setJSON([
+            'status' => true,
+            'documento'   => $documento
+        ]);
     }
 }

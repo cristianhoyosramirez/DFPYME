@@ -24,7 +24,7 @@ class Inventarios extends BaseController
 
     function ingreso_inventario()
     {
-        $codigo_producto = $this->request->getPost('id_producto');
+        $codigo_producto = $this->request->getPost('id_producto'); 
         $cantidad = $this->request->getPost('cantidad_entrada');
 
         $cantidad_inventario = model('inventarioModel')->select('cantidad_inventario')->where('codigointernoproducto', $codigo_producto)->first();

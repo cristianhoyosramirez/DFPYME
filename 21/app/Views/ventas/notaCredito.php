@@ -22,7 +22,7 @@
 
                      <div
                          id="numero_factura"
-                         class="fw-bold text-primary fs-5">
+                         class="fw-bold ">
                          <?= $factura[0]['numero'] ?>
                      </div>
 
@@ -36,7 +36,7 @@
 
                      <div
                          id="numero_factura"
-                         class="fw-bold text-primary fs-5">
+                         class="fw-bold ">
 
                          <?php
                             $fecha = new DateTime($factura[0]['fecha']);
@@ -83,7 +83,7 @@
 
                      <div
                          id="numero_factura"
-                         class="fw-bold text-primary fs-5">
+                         class="fw-bold ">
                          <?php
                             echo $dias[date('l')] . ', ' .
                                 date('d') . ' de ' .
@@ -105,7 +105,7 @@
 
                      <div
                          id="cliente_factura"
-                         class="fw-bold text-primary fs-5">
+                         class="fw-bold ">
                          <?= $factura[0]['nombrescliente'] ?>
                      </div>
 
@@ -120,7 +120,7 @@
 
                      <div
                          id="nit_cliente"
-                         class="fw-bold text-primary fs-5">
+                         class="fw-bold ">
                          <?= $factura[0]['nit_cliente'] ?>
                      </div>
 

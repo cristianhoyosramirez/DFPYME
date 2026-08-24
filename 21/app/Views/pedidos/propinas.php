@@ -58,8 +58,10 @@
 
               $factura = model('facturaElectronicaModel')->select('numero')->where('id', $detalle['id_factura'])->first();
               $val_factura = model('facturaElectronicaModel')->select('total')->where('id', $detalle['id_factura'])->first();
-              $numero_factura = $factura['numero'];
-              $valor_factura = $val_factura['total'];
+              //$numero_factura = $factura['numero'];
+              $numero_factura = 0;
+             // $valor_factura = $val_factura['total'];
+              $valor_factura = 0;
             }
             ?>
 

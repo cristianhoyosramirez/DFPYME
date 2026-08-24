@@ -2028,8 +2028,10 @@ class cajaDiariaController extends BaseController
     function informe_fiscal_electronico()
     {
 
-        $id_apertura = $this->request->getPost('id_apertura');
-        //$id_apertura = 60;
+        //$id_apertura = $this->request->getPost('id_apertura');
+
+
+        $id_apertura = 772;
         //$id_apertura = 79;
 
         $fecha_y_hora_cierre = "";
@@ -2079,6 +2081,7 @@ class cajaDiariaController extends BaseController
             $numeroInicial = model('facturaElectronicaModel')->select('numero')->where('id', $id_inicial[0]['id'])->first();
             $numeroFinal = model('facturaElectronicaModel')->select('numero')->where('id', $id_final[0]['id'])->first();
 
+            dd($numeroInicial);
 
             /**
              * Discriminación de las bases tributarias tanto iva como impuesto al consumo 
@@ -2193,16 +2196,16 @@ class cajaDiariaController extends BaseController
              */
             //$iva_devolucion = model('devolucionModel')->tarifa_iva($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
-            $iva_devolucion = model('devolucionModel')->tarifa_iva($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+            //$iva_devolucion = model('devolucionModel')->tarifa_iva($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
             $array_devoluciones_iva = array();
             // if (!empty($iva_devolucion)) {
 
-            foreach ($iva_devolucion as $detalle) {
+            //foreach ($iva_devolucion as $detalle) {
 
-                $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
+            // $aplica_ico = model('productoModel')->select('aplica_ico')->where('codigointernoproducto', $detalle['codigo'])->first();
 
-                /* if ($aplica_ico['aplica_ico'] == 't') {
+            /* if ($aplica_ico['aplica_ico'] == 't') {
                     $iva_devolucion = model('devolucionModel')->devolucion_iva($detalle['iva'], $fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre, $detalle['codigo']);
 
                     $temp_porcentaje = $detalle['iva'] / 100;
@@ -2216,14 +2219,14 @@ class cajaDiariaController extends BaseController
                     $data_devo_iva['total'] = $total;
                     array_push($array_devoluciones_iva, $data_devo_iva);
                 } */
-            }
+            // }
 
 
-            $ico_devolucion = model('devolucionModel')->tarifa_ico($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
+            //$ico_devolucion = model('devolucionModel')->tarifa_ico($fecha_y_hora_apertura['fecha_y_hora_apertura'], $fecha_y_hora_cierre);
 
-            $array_devoluciones_ico = array();
+            //$array_devoluciones_ico = array();
             //if (!empty($ico_devolucion)) {
-            if (!empty($ico_devolucion) and $ico_devolucion[0]['ico'] != 0) {
+            /*  if (!empty($ico_devolucion) and $ico_devolucion[0]['ico'] != 0) {
 
                 foreach ($ico_devolucion as $detalle) {
 
@@ -2249,12 +2252,18 @@ class cajaDiariaController extends BaseController
                 $data_devo_ico['impuesto'] = 0;
                 $data_devo_ico['total'] = 0;
                 array_push($array_devoluciones_ico, $data_devo_ico);
-            }
+            } */
 
 
             $fecha_apertura = model('aperturaModel')->select('fecha')->where('id', $id_apertura)->first();
             $consecutivo_fiscal = model('consecutivoInformeModel')->select('numero')->where('id_apertura', $id_apertura)->first();
             $pago = model('pagosModel')->total_formas_pago($id_apertura);
+
+            $iva_devolucion = model('devolucionModel')->impuesto_iva($id_apertura);
+            $inc_devolucion = model('devolucionModel')->impuesto_inc($id_apertura);
+            $totalImpuestos = model('devolucionModel')->totalImpuestos($id_apertura);
+
+
 
             $returnData = array(
                 "resultado" => 1, //Falta plata
@@ -2272,14 +2281,18 @@ class cajaDiariaController extends BaseController
                     "iva" => $array_iva,
                     "ico" => $array_ico,
                     "vantas_contado" => $vantas_contado[0]['total_ventas'],
-                    "iva_devolucion" => $array_devoluciones_iva,
-                    "ico_devolucion" => $array_devoluciones_ico,
+                    //"iva_devolucion" => $array_devoluciones_iva,
+                    "iva_devolucion" => $iva_devolucion,
+                    //"ico_devolucion" => $array_devoluciones_ico,
+                    "ico_devolucion" => $inc_devolucion,
                     "consecutivo" => $consecutivo_fiscal['numero'],
                     "fecha_apertura" => $fecha_apertura['fecha'],
                     "id_apertura" => $id_apertura,
                     "titulo" => "INFORME FISCAL DE VENTAS ELECTRÓNICAS",
                     "action_url" => base_url('consultas_y_reportes/expotar_informe_electronico_pdf'),
-                    "pago" => $pago
+                    "pago" => $pago,
+                    'total_inc' => $totalImpuestos['inc'],
+                    'total_iva' => $totalImpuestos['iva'],
                 ])
             );
 

@@ -97,4 +97,21 @@ class ReporteImpuestosModel extends Model
         ");
         return $datos->getResultArray();
     }
+    public function ventas($fechaInicial, $fechaFinal)
+    {
+        $datos = $this->db->query("
+            SELECT
+                fecha::date AS fecha,
+                SUM(total) AS total_ventas,
+                SUM(iva) AS total_iva,
+                SUM(ico) AS total_ico,
+                SUM(total - iva - ico) AS base
+            FROM kardex
+            WHERE fecha >= '$fechaInicial'
+            AND fecha < '$fechaFinal'
+            GROUP BY fecha::date
+            ORDER BY fecha::date;
+        ");
+        return $datos->getResultArray();
+    }
 }

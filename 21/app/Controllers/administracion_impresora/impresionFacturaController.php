@@ -116,7 +116,7 @@ class impresionFacturaController extends BaseController
         ]);
     }
 
-    function crear_proveedor()
+    /*     function crear_proveedor()
     {
 
 
@@ -125,10 +125,16 @@ class impresionFacturaController extends BaseController
         // Decodifica el JSON a un array asociativo
         $data = json_decode($json, true);
 
-        $nit = $data['nit'];
-        $nombre = $data['nombre'];
-        $direccion = $data['direccion'];
-        $telefono = $data['telefono'];
+           //$nit = $data['nit'];
+          //$nombre = $data['nombre'];
+         //$direccion = $data['direccion'];
+        //$telefono = $data['telefono']; 
+
+
+        $nit = '1234';
+        $nombre = 'SASAS';
+        $direccion = 'dsadsadsad';
+        $telefono = '312321';
 
 
         $consecutivo = model('consecutivosModel')->select('numeroconsecutivo')->where('idconsecutivos', 1)->first();
@@ -168,6 +174,120 @@ class impresionFacturaController extends BaseController
                 'status' => 'success',
                 'message' => 'Datos guardados exitosamente',
                 'proveedores' => $proveedores
+            ]);
+        }
+    } */
+
+    public function crear_proveedor()
+    {
+        try {
+
+            $json = file_get_contents('php://input');
+            $request = json_decode($json, true);
+
+            // Datos recibidos
+            $nit       = trim($request['nit'] ?? '');
+            $nombre    = trim($request['nombre'] ?? '');
+            $direccion = trim($request['direccion'] ?? '');
+            $telefono  = trim($request['telefono'] ?? '');
+
+            // Validaciones básicas
+            if (empty($nit)) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'El NIT es obligatorio'
+                ]);
+            }
+
+            if (empty($nombre)) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'El nombre es obligatorio'
+                ]);
+            }
+
+            // Validar si el NIT ya existe
+            $existeNit = model('ProveedorModel')
+                ->where('nitproveedor', $nit)
+                ->first();
+
+            if ($existeNit) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'El NIT ya se encuentra registrado'
+                ]);
+            }
+
+            // Obtener consecutivo
+            $consecutivo = model('consecutivosModel')
+                ->select('numeroconsecutivo')
+                ->where('idconsecutivos', 1)
+                ->first();
+
+            $data = [
+                'codigointernoproveedor'      => $consecutivo['numeroconsecutivo'],
+                'nitproveedor'               => $nit,
+                'idregimen'                  => 1,
+                'razonsocialproveedor'       => $nombre,
+                'nombrecomercialproveedor'   => $nombre,
+                'descripcionproveedor'       => $nombre,
+                'direccionproveedor'         => $direccion,
+                'idciudad'                   => 319,
+                'telefonoproveedor'          => $telefono,
+                'celularproveedor'           => $telefono,
+                'faxproveedor'               => '00',
+                'emailproveedor'             => '',
+                'webproveedor'               => '',
+                'estadoproveedor'            => true
+            ];
+
+            $insert = model('ProveedorModel')->insert($data);
+
+            if (!$insert) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'No fue posible guardar el proveedor'
+                ]);
+            }
+
+            // Actualizar consecutivo
+            model('consecutivosModel')
+                ->set('numeroconsecutivo', $consecutivo['numeroconsecutivo'] + 1)
+                ->where('idconsecutivos', 1)
+                ->update();
+
+            $proveedores = model('ProveedorModel')
+                ->select('id,nombrecomercialproveedor,nitproveedor,direccionproveedor,telefonoproveedor')
+                ->where('estadoproveedor', true)
+                ->orderBy('id', 'desc')
+                ->findAll();
+
+            return $this->response->setJSON([
+                'status'      => true,
+                'message'     => 'Proveedor creado exitosamente',
+                'proveedores' => $proveedores
+            ]);
+        } catch (\Exception $e) {
+
+            // PostgreSQL: violación de llave única
+            if (strpos($e->getMessage(), 'duplicate key value violates unique constraint') !== false) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'El NIT ya se encuentra registrado'
+                ]);
+            }
+
+            $error = $e->getMessage();
+
+            if (preg_match('/DETAIL:\s*(.*)$/s', $error, $matches)) {
+                $detalle = trim($matches[1]);
+            } else {
+                $detalle = $error;
+            }
+
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => $detalle
             ]);
         }
     }
@@ -282,7 +402,7 @@ class impresionFacturaController extends BaseController
                 'formasPago' => view('reportes/formasPago', [
                     'formasPago' => $formasPago
                 ]),
-                'total_ventas' => "Total ventas ".number_format($total[0]['total'], 0, ",", ".")
+                'total_ventas' => "Total ventas " . number_format($total[0]['total'], 0, ",", ".")
             ]);
         }
     }

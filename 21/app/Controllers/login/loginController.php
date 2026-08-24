@@ -194,6 +194,7 @@ class loginController extends BaseController
         $insumos = model('productoModel')
             ->select('codigointernoproducto,id,nombreproducto,precio_costo,valorventaproducto')
             //->where('id_tipo_inventario', 4)
+            ->where('estadoproducto', true)
             ->whereIn('id_tipo_inventario', [4, 7, 1])
             ->orderBy('nombreproducto', 'asc')->findAll();
         $openModal = model('configuracionPedidoModel')->select('recetasmodal')->first();
@@ -741,7 +742,9 @@ class loginController extends BaseController
     {
         $json = $this->request->getJSON();
         $codigo = (string) ($json->codigo ?? '');
-        //$codigo = (string) (220 ?? '');
+
+
+        // $codigo = (string) (151 ?? '');
 
         if (empty($codigo)) {
             return $this->response->setJSON(['response' => 'error', 'message' => 'Código no proporcionado']);
@@ -759,7 +762,9 @@ class loginController extends BaseController
 
         $tipo = (int) $idTipoInventario['id_tipo_inventario'];
 
-        switch ($tipo) {
+
+
+        /*   switch ($tipo) {
             // Tipos de insumo o productos simples
             case 1:
             case 4:
@@ -777,7 +782,8 @@ class loginController extends BaseController
 
             // Tipo 3: producto con posibles movimientos
             case 3:
-                $tieneMovimientos = model('itemFacturaElectronicaModel')
+                //$tieneMovimientos = model('itemFacturaElectronicaModel')
+                $tieneMovimientos = model('kardexModel')
                     ->where('codigo', $codigo)
                     ->first();
 
@@ -793,7 +799,136 @@ class loginController extends BaseController
 
             default:
                 return $this->response->setJSON(['response' => 'error', 'message' => 'Tipo de inventario no manejado']);
+        } */
+
+
+        switch ($tipo) {
+
+            case 1:
+            case 4:
+            case 7:
+            case 3:
+
+                // Obtener el producto
+                $idProducto = model('productoModel')
+                    ->select('id')
+                    ->where('codigointernoproducto', $codigo)
+                    ->first();
+
+                $tieneMovimientos = false;
+
+                /*
+         * =====================================================
+         * 1. VALIDAR MOVIMIENTOS EN KARDEX
+         * =====================================================
+         */
+                $tieneMovimientoKardex = model('kardexModel')
+                    ->where('codigo', $codigo)
+                    ->first();
+
+                if (!empty($tieneMovimientoKardex)) {
+                    $tieneMovimientos = true;
+                }
+
+                /*
+         * =====================================================
+         * 2. VALIDAR MOVIMIENTOS EN ENTRADAS Y SALIDAS MANUALES
+         * =====================================================
+         */
+                if (!$tieneMovimientos && !empty($idProducto)) {
+
+                    $tieneMovimientoManual = model('EntradasSalidasManualesModel')
+                        ->where('id_producto', $idProducto['id'])
+                        ->first();
+
+                    if (!empty($tieneMovimientoManual)) {
+                        $tieneMovimientos = true;
+                    }
+                }
+
+                /*
+         * =====================================================
+         * 3. SI TIENE MOVIMIENTOS
+         * =====================================================
+         */
+                if ($tieneMovimientos) {
+
+                    $productoModel
+                        ->set('estadoproducto', false)
+                        ->where('codigointernoproducto', $codigo)
+                        ->update();
+                } else {
+
+                    /*
+             * =================================================
+             * 4. VALIDAR SI ESTÁ REFERENCIADO EN
+             *    producto_factura_venta
+             * =================================================
+             */
+                    $tieneFacturaVenta = model('productoFacturaVentaModel')
+                        ->where('codigointernoproducto', $codigo)
+                        ->first();
+
+                    if (!empty($tieneFacturaVenta)) {
+
+                        // No se puede eliminar porque tiene
+                        // referencias en facturas de venta.
+                        $productoModel
+                            ->set('estadoproducto', false)
+                            ->where('codigointernoproducto', $codigo)
+                            ->update();
+                    } else {
+
+                        /*
+                 * =================================================
+                 * 5. NO TIENE MOVIMIENTOS NI REFERENCIAS
+                 *    → SE PUEDE ELIMINAR
+                 * =================================================
+                 */
+
+                        if (!empty($idProducto)) {
+
+                            model('EntradasSalidasManualesModel')
+                                ->where('id_producto', $idProducto['id'])
+                                ->delete();
+                        }
+
+                        model('inventarioFisicoModel')
+                            ->where('codigointernoproducto', $codigo)
+                            ->delete();
+
+                        model('kardexModel')
+                            ->where('codigo', $codigo)
+                            ->delete();
+
+                        model('itemFacturaElectronicaModel')
+                            ->where('codigo', $codigo)
+                            ->delete();
+
+                        model('inventarioModel')
+                            ->where('codigointernoproducto', $codigo)
+                            ->delete();
+
+                        model('productoFabricadoModel')
+                            ->where('prod_proceso', $codigo)
+                            ->delete();
+
+                        $productoModel
+                            ->where('codigointernoproducto', $codigo)
+                            ->delete();
+                    }
+                }
+
+                break;
+
+            default:
+
+                return $this->response->setJSON([
+                    'response' => 'error',
+                    'message' => 'Tipo de inventario no manejado'
+                ]);
         }
+
 
         return $this->response->setJSON(['response' => 'success']);
     }

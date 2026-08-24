@@ -16,6 +16,9 @@ class ParametrizacionController extends BaseController
         $nota = model('configuracionPedidoModel')->select('notaPedido')->first();
         $justificaionPedido = model('configuracionPedidoModel')->select('justificacion_pedido')->first();
         $justificaionProducto = model('configuracionPedidoModel')->select('justificacion_producto')->first();
+        $listaPrecios = model('configuracionPedidoModel')->select('lista_precios_moviles')->first();
+
+       // dd($listaPrecios);
 
 
         return view('parametrizacion/parametrizacion', [
@@ -26,6 +29,7 @@ class ParametrizacionController extends BaseController
             'nota' => $nota['notaPedido'],
             'justificacionPedido' => $justificaionPedido['justificacion_pedido'],
             'justificacionProducto' => $justificaionProducto['justificacion_producto'],
+            'lista_precios'=>$listaPrecios['lista_precios_moviles']
         ]);
     }
 
@@ -498,12 +502,12 @@ class ParametrizacionController extends BaseController
         $productos = model('itemNotaCreditoModel')->select('codigo,descripcion,neto,total,cantidad,iva,icn')->where('id_nota', $id)->findAll();
 
         $total_ico = model('kardexModel')
-            ->selectSum('ico')->where('id_factura', $id)
+            ->selectSum('ico')->where('id_factura', $idFactura['id_factura'])
             ->where('id_estado', 8)
             ->first();
 
         $total_iva = model('kardexModel')
-            ->selectSum('iva')->where('id_factura', $id)
+            ->selectSum('iva')->where('id_factura',$idFactura['id_factura'])
             ->where('id_estado', 8)
             ->first();
 
@@ -528,7 +532,8 @@ class ParametrizacionController extends BaseController
             'cliente' => $factura[0]['nombrescliente'],
             'nit' => $factura[0]['nit_cliente'],
             'razon' => $nota_credito['razon'],
-            'nota' => $nota_credito['nota']
+            'nota' => $nota_credito['nota'],
+            'iva'=>number_format($total_iva['iva']?? 0, 0, ',', '.')
         ]);
     }
 }

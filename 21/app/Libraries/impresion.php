@@ -384,7 +384,7 @@ class impresion
 
         $printer->setEmphasis(true);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->text("INGRESOS-(RETIROS-DEVOLUCIONES) \n");
+        $printer->text("INGRESOS-(RETIROS+DEVOLUCIONES) \n");
         $printer->setEmphasis(false);
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text("Ingresos a caja " . "        $ " . number_format($ingresos_efectivo[0]['efectivo'] + $valor_apertura['valor'] + $efectivo_abonos, 0, ",", ".") . "\n");
@@ -472,7 +472,19 @@ class impresion
         if ($total_en_caja < $cierre_usuario) {
             $printer->text("TOTAL DIFERENCIAS  " . "     $ " . number_format((($cierre_usuario ) - $total_en_caja ) + ($transaccion - $valor_cierre_transaccion_usuario), 0, ",", ".") . "\n");
         } */
-        $printer->text("TOTAL DIFERENCIAS  " . "          $ " . number_format((($cierre_usuario) - $total_en_caja) + ($valor_cierre_transaccion_usuario  - ($transaccion + $electronico_abonos)), 0, ",", ".") . "\n");
+        // $printer->text("TOTAL DIFERENCIAS  " . "          $ " . number_format((($cierre_usuario) - $total_en_caja) + ($valor_cierre_transaccion_usuario  - ($transaccion + $electronico_abonos)), 0, ",", ".") . "\n");
+        $printer->text(
+            "TOTAL DIFERENCIAS            $ " .
+                number_format(
+                    (
+                        ($cierre_usuario - $total_en_caja) +
+                        ($valor_cierre_transaccion_usuario - ($transaccion + $electronico_abonos))
+                    ) - $temp_devoluciones,
+                    0,
+                    ",",
+                    "."
+                ) . "\n"
+        );
         $printer->text("\n");
 
         $printer->feed(1);
@@ -1244,8 +1256,20 @@ class impresion
             }
 
 
+            $forma_pago = model('pagosModel')->select('forma_pago')
+                ->where('id_factura', $id_factura)
+                ->where('id_estado', $estado_factura[0]['idestado'])
+                ->first()['forma_pago'];
 
-            $printer->text("TIPO DE VENTA:" . $estado_factura[0]['descripcionestado'] . "\n");
+
+
+            $tipoVenta = ($forma_pago == 1)
+                ? 'CONTADO'
+                : 'CRÉDITO';
+
+            $printer->text("TIPO DE VENTA: {$tipoVenta}\n");
+
+
 
             $printer->text("FECHA:" . " " . $fecha_factura_venta['fecha_factura_venta'] . "  " . date("g:i a", strtotime($hora_factura_venta['horafactura_venta'])) . "\n");
             if ($estado_factura[0]['idestado'] == 2) {
@@ -1316,10 +1340,25 @@ class impresion
             // $printer->text("DESCUENTO :" . "$" . number_format($descuento['descuento'], 0, ",", ".") . "\n");
 
             $propina = model('facturaVentaModel')->select('propina')->where('id', $id_factura)->first();
-            //$printer->text("PROPINA :" . "$" . number_format($propina['propina'], 0, ",", ".") . "\n\n");
-            $printer->setTextSize(2, 2);
-            $printer->text("TOTAL :" . "$" . number_format(($total[0]['total'] - $descuento['descuento']) + $propina['propina'], 0, ",", ".") . "\n\n");
+            $printer->text(str_pad("PROPINA", 20) . "$" . str_pad(number_format($propina['propina'], 0, ",", "."), 12, " ", STR_PAD_LEFT) . "\n");
 
+            $printer->text(str_pad("SUBTOTAL", 20) . "$" . str_pad(number_format(
+                ($total[0]['total'] - $descuento['descuento']) - $propina['propina'],
+                0,
+                ",",
+                "."
+            ), 12, " ", STR_PAD_LEFT) . "\n");
+
+            $printer->text(str_repeat("-", 32) . "\n");
+
+            $printer->selectPrintMode(Printer::MODE_EMPHASIZED);
+            $printer->text(str_pad("TOTAL", 20) . "$" . str_pad(number_format(
+                ($total[0]['total'] - $descuento['descuento']) + $propina['propina'],
+                0,
+                ",",
+                "."
+            ), 12, " ", STR_PAD_LEFT) . "\n");
+            $printer->selectPrintMode();
             $efectivo = model('facturaFormaPagoModel')->selectSum('valor_pago')->where('id_factura', $id_factura)->find();
             $printer->setTextSize(1, 1);
             $id_forma_pago = model('facturaFormaPagoModel')->id_forma_pago($id_factura);
@@ -1338,7 +1377,14 @@ class impresion
                 $printer->text("Cambio   : 0\n");
             }
             if ($estado_factura[0]['idestado'] == 1 or $estado_factura[0]['idestado'] == 7) {
-                $printer->text("CAMBIO: " . "$" . number_format($efectivo[0]['valor_pago'] - (($total[0]['total'] - $descuento['descuento']) + $propina['propina']), 0, ",", ".") . "\n");
+                // $printer->text("CAMBIO: " . "$" . number_format($efectivo[0]['valor_pago'] - (($total[0]['total'] - $descuento['descuento']) + $propina['propina']), 0, ",", ".") . "\n");
+
+                $cambio = ($forma_pago == 2)
+                    ? 0
+                    : $efectivo[0]['valor_pago'] - (($total[0]['total'] - $descuento['descuento']) + $propina['propina']);
+
+                $printer->text("CAMBIO: $" . number_format($cambio, 0, ",", ".") . "\n");
+
                 $printer->text("-----------------------------------------------" . "\n");
             }
             $regimen = model('empresaModel')->select('idregimen')->first();

@@ -20,6 +20,7 @@ use PhpOffice\PhpSpreadsheet\Style\Font;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use App\Libraries\Inventario;
 
 
 
@@ -1481,4 +1482,1610 @@ class facturaDirectaController extends BaseController
             'total_ventas' => number_format($total[0]['total'], 0, ",", ".")
         ]);
     }
+
+
+    /*   public function reporteCortesias()
+    {
+        $fechaInicial = $this->request->getPost('fecha_inicio');
+
+        $empresaModel = model('empresaModel');
+        $datos_empresa = $empresaModel->datosEmpresa();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Estilo encabezado
+        $headerStyle = [
+            'font' => ['bold' => true, 'size' => 12, 'color' => ['argb' => '000000']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+        ];
+
+        $spreadsheet->getDefaultStyle()->getFont()->setName('Aptos Narrow')->setSize(11);
+
+        $row = 1;
+
+        // Encabezado empresa
+        $sheet->setCellValue("A$row", $datos_empresa[0]['nombrejuridicoempresa']);
+        $sheet->mergeCells("A{$row}:E{$row}");
+        $sheet->getStyle("A{$row}")->applyFromArray($headerStyle);
+        $row++;
+
+        $sheet->setCellValue("A$row", "NIT: " . $datos_empresa[0]['nitempresa']);
+        $sheet->mergeCells("A{$row}:E{$row}");
+        $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $row++;
+
+        $sheet->setCellValue("A$row", "PUNTO DE VENTA: " . $datos_empresa[0]['nombrecomercialempresa']);
+        $sheet->mergeCells("A{$row}:E{$row}");
+        $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $row++;
+
+        // Espacio
+        $row++;
+
+        // Título reporte
+        $sheet->setCellValue("A$row", "Reporte de cortesias - " . $fechaInicial);
+        $sheet->mergeCells("A{$row}:E{$row}");
+        $sheet->getStyle("A{$row}")->getFont()->setBold(true)->setSize(12);
+        $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $row++;
+
+        // Encabezados
+        $sheet->setCellValue("A$row", "Hora");
+        $sheet->setCellValue("B$row", "Código");
+        $sheet->setCellValue("C$row", "Producto");
+        $sheet->setCellValue("D$row", "Cantidad");
+        $sheet->setCellValue("E$row", "Total");
+        $sheet->getStyle("A{$row}:E{$row}")->applyFromArray($headerStyle);
+        $row++;
+
+        
+
+        // Descargar archivo
+        $nombreArchivo = 'Reporte de cortesias_' . $fechaInicial . '.xlsx';
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($nombreArchivo);
+
+        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header("Content-Disposition: attachment; filename=\"$nombreArchivo\"");
+        header("Cache-Control: max-age=0");
+        readfile($nombreArchivo);
+        exit;
+    } */
+
+   public function reporteCortesias()
+{
+    /*
+     * =========================================================
+     * DATOS RECIBIDOS
+     * =========================================================
+     */
+
+    $fecha_inicial = $this->request->getPost('fecha_inicial');
+    $fecha_final   = $this->request->getPost('fecha_final');
+    $id_apertura   = $this->request->getPost('id_apertura');
+
+
+    /*
+     * =========================================================
+     * CONSULTAR CORTESÍAS
+     * =========================================================
+     */
+
+    $filtro_fechas = new Inventario();
+
+    $where = $filtro_fechas->fitro_fechas(
+        $fecha_inicial,
+        $fecha_final,
+        $id_apertura
+    );
+
+    $kardexConcepto = model('KardexConceptoModel');
+
+    $sql = $kardexConcepto->sqlReporteVentas($where);
+
+    $cortesias = model('kardexModel')->reporteKardex($sql);
+
+    $total_registros = $kardexConcepto->totalRegistros($where);
+
+    $total_cortesias = model('pagosModel')->total_cortesias($where);
+
+
+    /*
+     * =========================================================
+     * DATOS EMPRESA
+     * =========================================================
+     */
+
+    $empresaModel = model('empresaModel');
+
+    $datos_empresa = $empresaModel->datosEmpresa();
+
+
+    /*
+     * =========================================================
+     * CREAR EXCEL
+     * =========================================================
+     */
+
+    $spreadsheet = new Spreadsheet();
+
+
+    /*
+     * =========================================================
+     * HOJA CORTESÍAS
+     * =========================================================
+     */
+
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $sheet->setTitle('Cortesías');
+
+
+    /*
+     * =========================================================
+     * HOJA DETALLE PRODUCTOS
+     * =========================================================
+     */
+
+    $sheetProductos = $spreadsheet->createSheet();
+
+    $sheetProductos->setTitle('Detalle Productos');
+
+
+    /*
+     * =========================================================
+     * CONFIGURACIÓN GENERAL
+     * =========================================================
+     */
+
+    $spreadsheet
+        ->getDefaultStyle()
+        ->getFont()
+        ->setName('Aptos')
+        ->setSize(10);
+
+
+    /*
+     * =========================================================
+     * COLORES
+     * =========================================================
+     */
+
+    $colorSecundario = 'EAF4EE';
+    $colorBorde      = 'D9E2DC';
+    $colorTexto      = '212529';
+    $colorBlanco     = 'FFFFFF';
+
+
+    /*
+     * =========================================================
+     * ESTILO EMPRESA
+     * =========================================================
+     */
+
+    $estiloEmpresa = [
+
+        'font' => [
+            'bold' => true,
+            'size' => 15,
+            'color' => [
+                'argb' => $colorTexto
+            ]
+        ],
+
+        'alignment' => [
+            'horizontal' => Alignment::HORIZONTAL_CENTER,
+            'vertical'   => Alignment::VERTICAL_CENTER
+        ]
+    ];
+
+
+    /*
+     * =========================================================
+     * ESTILO INFORMACIÓN
+     * =========================================================
+     */
+
+    $estiloInformacion = [
+
+        'font' => [
+            'size' => 10,
+            'color' => [
+                'argb' => $colorTexto
+            ]
+        ],
+
+        'alignment' => [
+            'horizontal' => Alignment::HORIZONTAL_CENTER,
+            'vertical'   => Alignment::VERTICAL_CENTER
+        ]
+    ];
+
+
+    /*
+     * =========================================================
+     * ESTILO TÍTULO
+     * =========================================================
+     */
+
+    $estiloTitulo = [
+
+        'font' => [
+            'bold' => true,
+            'size' => 14,
+            'color' => [
+                'argb' => '000000'
+            ]
+        ],
+
+        'alignment' => [
+            'horizontal' => Alignment::HORIZONTAL_CENTER,
+            'vertical'   => Alignment::VERTICAL_CENTER
+        ]
+    ];
+
+
+    /*
+     * =========================================================
+     * ESTILO ENCABEZADO
+     * =========================================================
+     */
+
+    $estiloEncabezado = [
+
+        'font' => [
+            'bold' => true,
+            'size' => 10,
+            'color' => [
+                'argb' => $colorBlanco
+            ]
+        ],
+
+        'fill' => [
+            'fillType' => Fill::FILL_SOLID,
+
+            'startColor' => [
+                'argb' => '000000'
+            ]
+        ],
+
+        'alignment' => [
+            'horizontal' => Alignment::HORIZONTAL_CENTER,
+            'vertical'   => Alignment::VERTICAL_CENTER,
+            'wrapText'   => true
+        ],
+
+        'borders' => [
+
+            'left' => [
+                'borderStyle' => Border::BORDER_THIN,
+                'color' => [
+                    'argb' => '000000'
+                ]
+            ],
+
+            'right' => [
+                'borderStyle' => Border::BORDER_THIN,
+                'color' => [
+                    'argb' => '000000'
+                ]
+            ],
+
+            'top' => [
+                'borderStyle' => Border::BORDER_THIN,
+                'color' => [
+                    'argb' => '000000'
+                ]
+            ],
+
+            'bottom' => [
+                'borderStyle' => Border::BORDER_NONE
+            ]
+        ]
+    ];
+
+
+    /*
+     * =========================================================
+     * ESTILO DATOS
+     * =========================================================
+     */
+
+    $estiloDatos = [
+
+        'font' => [
+            'size' => 10,
+            'color' => [
+                'argb' => $colorTexto
+            ]
+        ],
+
+        'borders' => [
+
+            'allBorders' => [
+                'borderStyle' => Border::BORDER_THIN,
+                'color' => [
+                    'argb' => $colorBorde
+                ]
+            ]
+        ],
+
+        'alignment' => [
+            'vertical' => Alignment::VERTICAL_CENTER
+        ]
+    ];
+
+
+    /*
+     * =========================================================
+     * ESTILO TOTAL
+     * =========================================================
+     */
+
+    $estiloTotal = [
+
+        'font' => [
+            'bold' => true,
+            'size' => 11
+        ],
+
+        'fill' => [
+            'fillType' => Fill::FILL_SOLID,
+
+            'startColor' => [
+                'argb' => $colorSecundario
+            ]
+        ],
+
+        'borders' => [
+
+            'allBorders' => [
+                'borderStyle' => Border::BORDER_THIN,
+                'color' => [
+                    'argb' => $colorBorde
+                ]
+            ]
+        ]
+    ];
+
+
+    /*
+     * =========================================================
+     * ENCABEZADO EMPRESA - CORTESÍAS
+     * =========================================================
+     */
+
+    $row = 1;
+
+    $sheet->setCellValue(
+        "A{$row}",
+        $datos_empresa[0]['nombrejuridicoempresa']
+    );
+
+    $sheet->mergeCells("A{$row}:I{$row}");
+
+    $sheet
+        ->getStyle("A{$row}:I{$row}")
+        ->applyFromArray($estiloEmpresa);
+
+    $sheet
+        ->getRowDimension($row)
+        ->setRowHeight(25);
+
+    $row++;
+
+
+    /*
+     * NIT
+     */
+
+    $sheet->setCellValue(
+        "A{$row}",
+        "NIT: " . $datos_empresa[0]['nitempresa']
+    );
+
+    $sheet->mergeCells("A{$row}:I{$row}");
+
+    $sheet
+        ->getStyle("A{$row}:I{$row}")
+        ->applyFromArray($estiloInformacion);
+
+    $row++;
+
+
+    /*
+     * PUNTO DE VENTA
+     */
+
+    $sheet->setCellValue(
+        "A{$row}",
+        "PUNTO DE VENTA: " .
+            $datos_empresa[0]['nombrecomercialempresa']
+    );
+
+    $sheet->mergeCells("A{$row}:I{$row}");
+
+    $sheet
+        ->getStyle("A{$row}:I{$row}")
+        ->applyFromArray($estiloInformacion);
+
+    $row++;
+
+    $row++;
+
+
+    /*
+     * =========================================================
+     * TÍTULO CORTESÍAS
+     * =========================================================
+     */
+
+    $sheet->setCellValue(
+        "A{$row}",
+        "REPORTE DE CORTESÍAS"
+    );
+
+    $sheet->mergeCells("A{$row}:I{$row}");
+
+    $sheet
+        ->getStyle("A{$row}:I{$row}")
+        ->applyFromArray($estiloTitulo);
+
+    $sheet
+        ->getRowDimension($row)
+        ->setRowHeight(25);
+
+    $row++;
+
+
+    /*
+     * =========================================================
+     * PERIODO
+     * =========================================================
+     */
+
+    if (empty($fecha_inicial) && empty($fecha_final)) {
+
+        $fechas = model('KardexConceptoModel')->fechasApertura($id_apertura);
+
+        if (!empty($fechas)) {
+
+            $fecha_apertura = $fechas[0]['fecha_apertura'];
+
+            $hora_apertura = date(
+                'h:i A',
+                strtotime($fechas[0]['hora_apertura'])
+            );
+
+            $fecha_cierre = $fechas[0]['fecha_cierre'];
+
+            $hora_cierre = !empty($fechas[0]['hora_cierre'])
+                ? date(
+                    'h:i A',
+                    strtotime($fechas[0]['hora_cierre'])
+                )
+                : null;
+
+            $textoFecha = "Apertura de caja: {$fecha_apertura} {$hora_apertura}";
+
+            if (!empty($fecha_cierre)) {
+
+                $textoFecha .=
+                    " | Cierre de caja: {$fecha_cierre} {$hora_cierre}";
+
+            } else {
+
+                $textoFecha .= " | Caja sin cierre registrado";
+            }
+
+        } else {
+
+            $textoFecha =
+                "No se encontró información de la apertura de caja.";
+        }
+
+    } else {
+
+        $textoFecha = "Periodo: " . $fecha_inicial;
+
+        if ($fecha_final != $fecha_inicial) {
+            $textoFecha .= " hasta " . $fecha_final;
+        }
+    }
+
+
+    $sheet->setCellValue(
+        "A{$row}",
+        $textoFecha
+    );
+
+    $sheet->mergeCells("A{$row}:I{$row}");
+
+    $sheet
+        ->getStyle("A{$row}:I{$row}")
+        ->applyFromArray($estiloInformacion);
+
+    $row++;
+
+    $row++;
+
+
+    /*
+     * =========================================================
+     * ENCABEZADOS CORTESÍAS
+     * =========================================================
+     */
+
+    $filaEncabezado = $row;
+
+    $encabezados = [
+        'Fecha',
+        'Hora',
+        'NIT',
+        'Cliente',
+        'Documento',
+        'Base',
+        'Valor',
+        'IVA',
+        'INC'
+    ];
+
+    $columna = 'A';
+
+    foreach ($encabezados as $encabezado) {
+
+        $sheet->setCellValue(
+            "{$columna}{$row}",
+            $encabezado
+        );
+
+        $columna++;
+    }
+
+
+    /*
+     * IMPORTANTE:
+     * Las cortesías tienen 9 columnas = A:I
+     */
+
+    $sheet
+        ->getStyle("A{$row}:I{$row}")
+        ->applyFromArray($estiloEncabezado);
+
+    $sheet
+        ->getRowDimension($row)
+        ->setRowHeight(25);
+
+    $row++;
+
+
+    /*
+     * =========================================================
+     * ENCABEZADO EMPRESA - PRODUCTOS
+     * =========================================================
+     */
+
+    $filaProductos = 1;
+
+
+    /*
+     * Empresa
+     */
+
+    $sheetProductos->setCellValue(
+        "A{$filaProductos}",
+        $datos_empresa[0]['nombrejuridicoempresa']
+    );
+
+    $sheetProductos->mergeCells(
+        "A{$filaProductos}:M{$filaProductos}"
+    );
+
+    $sheetProductos
+        ->getStyle("A{$filaProductos}:M{$filaProductos}")
+        ->applyFromArray($estiloEmpresa);
+
+    $sheetProductos
+        ->getRowDimension($filaProductos)
+        ->setRowHeight(25);
+
+    $filaProductos++;
+
+
+    /*
+     * NIT
+     */
+
+    $sheetProductos->setCellValue(
+        "A{$filaProductos}",
+        "NIT: " . $datos_empresa[0]['nitempresa']
+    );
+
+    $sheetProductos->mergeCells(
+        "A{$filaProductos}:M{$filaProductos}"
+    );
+
+    $sheetProductos
+        ->getStyle("A{$filaProductos}:M{$filaProductos}")
+        ->applyFromArray($estiloInformacion);
+
+    $filaProductos++;
+
+
+    /*
+     * Punto de venta
+     */
+
+    $sheetProductos->setCellValue(
+        "A{$filaProductos}",
+        "PUNTO DE VENTA: " .
+            $datos_empresa[0]['nombrecomercialempresa']
+    );
+
+    $sheetProductos->mergeCells(
+        "A{$filaProductos}:M{$filaProductos}"
+    );
+
+    $sheetProductos
+        ->getStyle("A{$filaProductos}:M{$filaProductos}")
+        ->applyFromArray($estiloInformacion);
+
+    $filaProductos++;
+
+    $filaProductos++;
+
+
+    /*
+     * =========================================================
+     * TÍTULO PRODUCTOS
+     * =========================================================
+     */
+
+    $sheetProductos->setCellValue(
+        "A{$filaProductos}",
+        "DETALLE DE PRODUCTOS - CORTESÍAS"
+    );
+
+    $sheetProductos->mergeCells(
+        "A{$filaProductos}:M{$filaProductos}"
+    );
+
+    $sheetProductos
+        ->getStyle("A{$filaProductos}:M{$filaProductos}")
+        ->applyFromArray($estiloTitulo);
+
+    $sheetProductos
+        ->getRowDimension($filaProductos)
+        ->setRowHeight(25);
+
+    $filaProductos++;
+
+
+    /*
+     * =========================================================
+     * PERIODO PRODUCTOS
+     * =========================================================
+     */
+
+    $sheetProductos->setCellValue(
+        "A{$filaProductos}",
+        $textoFecha
+    );
+
+    $sheetProductos->mergeCells(
+        "A{$filaProductos}:M{$filaProductos}"
+    );
+
+    $sheetProductos
+        ->getStyle("A{$filaProductos}:M{$filaProductos}")
+        ->applyFromArray($estiloInformacion);
+
+    $filaProductos++;
+
+    $filaProductos++;
+
+
+    /*
+     * =========================================================
+     * ENCABEZADOS PRODUCTOS
+     * =========================================================
+     */
+
+    $filaEncabezadoProductos = $filaProductos;
+
+    $encabezadosProductos = [
+
+        'Fecha',
+        'Hora',
+        'NIT',
+        'Cliente',
+        'Documento',
+        'Código',
+        'Producto',
+        'Cantidad',
+        'Base unidad',
+        'Vr. Unitario',
+        'IVA',
+        'Imp. Consumo',
+        'Total'
+    ];
+
+    $columna = 'A';
+
+    foreach ($encabezadosProductos as $encabezado) {
+
+        $sheetProductos->setCellValue(
+            "{$columna}{$filaProductos}",
+            $encabezado
+        );
+
+        $columna++;
+    }
+
+
+    /*
+     * 13 columnas = A:M
+     */
+
+    $sheetProductos
+        ->getStyle("A{$filaProductos}:M{$filaProductos}")
+        ->applyFromArray($estiloEncabezado);
+
+    $sheetProductos
+        ->getRowDimension($filaProductos)
+        ->setRowHeight(25);
+
+    $filaProductos++;
+
+
+    /*
+     * =========================================================
+     * VARIABLES DE TOTALES
+     * =========================================================
+     */
+
+    $filaInicioDatos = $row;
+
+    $total = 0;
+
+    $totalProductos = 0;
+
+    $totalIva = 0;
+
+    $totalIco = 0;
+
+
+    /*
+     * =========================================================
+     * MODELO PRODUCTOS
+     * =========================================================
+     */
+
+    $productoModel = model('productoFacturaVentaModel');
+
+
+    /*
+     * =========================================================
+     * RECORRER CORTESÍAS
+     * =========================================================
+     */
+
+    foreach ($cortesias as $cortesia) {
+
+
+        /*
+         * =====================================================
+         * PRODUCTOS DE LA FACTURA
+         * =====================================================
+         */
+
+        $productos = model('productoFacturaVentaModel')->productosCortesia(
+            $cortesia['id_factura']
+        );
+
+
+        /*
+         * =====================================================
+         * RECORRER PRODUCTOS
+         * =====================================================
+         */
+
+        foreach ($productos as $producto) {
+
+
+            /*
+             * Fecha
+             */
+
+            $sheetProductos->setCellValue(
+                "A{$filaProductos}",
+                $cortesia['fecha']
+            );
+
+
+            /*
+             * Hora
+             */
+
+            $sheetProductos->setCellValue(
+                "B{$filaProductos}",
+                date(
+                    'h:i A',
+                    strtotime(
+                        substr(
+                            $cortesia['hora'],
+                            0,
+                            8
+                        )
+                    )
+                )
+            );
+
+
+            /*
+             * NIT
+             */
+
+            $sheetProductos->setCellValueExplicit(
+                "C{$filaProductos}",
+                (string) $cortesia['nit_cliente'],
+                DataType::TYPE_STRING
+            );
+
+
+            /*
+             * Cliente
+             */
+
+            $sheetProductos->setCellValue(
+                "D{$filaProductos}",
+                $cortesia['nombrescliente']
+            );
+
+
+            /*
+             * Documento
+             */
+
+            $sheetProductos->setCellValueExplicit(
+                "E{$filaProductos}",
+                (string) $cortesia['documento'],
+                DataType::TYPE_STRING
+            );
+
+
+            /*
+             * Código
+             */
+
+            $sheetProductos->setCellValueExplicit(
+                "F{$filaProductos}",
+                (string) $producto['codigo'],
+                DataType::TYPE_STRING
+            );
+
+
+            /*
+             * Producto
+             */
+
+            $sheetProductos->setCellValue(
+                "G{$filaProductos}",
+                $producto['nombreproducto']
+            );
+
+
+            /*
+             * Cantidad
+             */
+
+            $cantidad = (float) (
+                $producto['cantidad']
+            );
+
+            $sheetProductos->setCellValue(
+                "H{$filaProductos}",
+                $cantidad
+            );
+
+
+            /*
+             * Base unidad
+             */
+
+            $baseUnidad = (float) (
+                $producto['base_unidad'] ?? 0
+            );
+
+            $sheetProductos->setCellValue(
+                "I{$filaProductos}",
+                $baseUnidad
+            );
+
+
+            /*
+             * Valor unitario
+             */
+
+            $valorUnitario = (float) (
+                $producto['valor_unitario'] ?? 0
+            );
+
+            $sheetProductos->setCellValue(
+                "J{$filaProductos}",
+                $valorUnitario
+            );
+
+
+            /*
+             * IVA
+             */
+
+            $iva = (float) (
+                $producto['iva'] ?? 0
+            );
+
+            $sheetProductos->setCellValue(
+                "K{$filaProductos}",
+                $iva
+            );
+
+
+            /*
+             * Impoconsumo
+             */
+
+            $ico = (float) (
+                $producto['ico'] ?? 0
+            );
+
+            $sheetProductos->setCellValue(
+                "L{$filaProductos}",
+                $ico
+            );
+
+
+            /*
+             * Total
+             */
+
+            $valorTotal = (float) (
+                $producto['total'] ?? 0
+            );
+
+            $sheetProductos->setCellValue(
+                "M{$filaProductos}",
+                $valorTotal
+            );
+
+
+            /*
+             * =================================================
+             * ACUMULAR TOTALES
+             * =================================================
+             */
+
+            $totalProductos += $valorTotal;
+
+            $totalIva += $iva;
+
+            $totalIco += $ico;
+
+
+            $filaProductos++;
+        }
+
+
+        /*
+         * =====================================================
+         * INSERTAR CORTESÍA
+         * =====================================================
+         */
+
+
+        /*
+         * Fecha
+         */
+
+        $sheet->setCellValue(
+            "A{$row}",
+            $cortesia['fecha']
+        );
+
+
+        /*
+         * Hora
+         */
+
+        $sheet->setCellValue(
+            "B{$row}",
+            date(
+                'h:i A',
+                strtotime(
+                    substr(
+                        $cortesia['hora'],
+                        0,
+                        8
+                    )
+                )
+            )
+        );
+
+
+        /*
+         * NIT
+         */
+
+        $sheet->setCellValueExplicit(
+            "C{$row}",
+            (string) $cortesia['nit_cliente'],
+            DataType::TYPE_STRING
+        );
+
+
+        /*
+         * Cliente
+         */
+
+        $sheet->setCellValue(
+            "D{$row}",
+            $cortesia['nombrescliente']
+        );
+
+
+        /*
+         * Documento
+         */
+
+        $sheet->setCellValueExplicit(
+            "E{$row}",
+            (string) $cortesia['documento'],
+            DataType::TYPE_STRING
+        );
+
+
+        /*
+         * Base
+         *
+         * Ejemplo: 0
+         */
+
+        $base = 0;
+
+        $sheet->setCellValue(
+            "F{$row}",
+            $base
+        );
+
+
+        /*
+         * Valor
+         */
+
+        $valor = (float) $cortesia['total_documento'];
+
+       
+
+        $sheet->setCellValue(
+            "G{$row}",
+            $valor
+        );
+
+
+        /*
+         * IVA
+         *
+         * Ejemplo: 0
+         */
+
+        $ivaCortesia = 0;
+
+        $sheet->setCellValue(
+            "H{$row}",
+            $ivaCortesia
+        );
+
+
+        /*
+         * INC
+         *
+         * Ejemplo: 0
+         */
+
+        $incCortesia = 0;
+
+        $sheet->setCellValue(
+            "I{$row}",
+            $incCortesia
+        );
+
+
+        $total += $valor;
+
+        $row++;
+    }
+
+
+    /*
+     * =========================================================
+     * ESTILO DATOS CORTESÍAS
+     * =========================================================
+     */
+
+    if ($row > $filaInicioDatos) {
+
+        $ultimaFilaDatos = $row - 1;
+
+        $sheet
+            ->getStyle(
+                "A{$filaInicioDatos}:I{$ultimaFilaDatos}"
+            )
+            ->applyFromArray($estiloDatos);
+
+
+        /*
+         * Moneda
+         */
+
+        $sheet
+            ->getStyle(
+                "F{$filaInicioDatos}:I{$ultimaFilaDatos}"
+            )
+            ->getNumberFormat()
+            ->setFormatCode('$ #,##0');
+
+
+        /*
+         * Centrar
+         */
+
+        $sheet
+            ->getStyle(
+                "A{$filaInicioDatos}:C{$ultimaFilaDatos}"
+            )
+            ->getAlignment()
+            ->setHorizontal(
+                Alignment::HORIZONTAL_CENTER
+            );
+
+
+        $sheet
+            ->getStyle(
+                "E{$filaInicioDatos}:E{$ultimaFilaDatos}"
+            )
+            ->getAlignment()
+            ->setHorizontal(
+                Alignment::HORIZONTAL_CENTER
+            );
+
+
+        /*
+         * Valores monetarios a la derecha
+         */
+
+        $sheet
+            ->getStyle(
+                "F{$filaInicioDatos}:I{$ultimaFilaDatos}"
+            )
+            ->getAlignment()
+            ->setHorizontal(
+                Alignment::HORIZONTAL_RIGHT
+            );
+
+
+        /*
+         * Filtro
+         */
+
+        $sheet->setAutoFilter(
+            "A{$filaEncabezado}:I{$ultimaFilaDatos}"
+        );
+    }
+
+
+    /*
+     * =========================================================
+     * TOTAL CORTESÍAS
+     * =========================================================
+     */
+
+    $sheet->setCellValue(
+        "F{$row}",
+        "TOTAL"
+    );
+
+    $sheet->setCellValue(
+        "G{$row}",
+        $total
+    );
+
+    $sheet
+        ->getStyle("F{$row}:I{$row}")
+        ->applyFromArray($estiloTotal);
+
+    $sheet
+        ->getStyle("G{$row}:I{$row}")
+        ->getNumberFormat()
+        ->setFormatCode('$ #,##0');
+
+    $sheet
+        ->getStyle("G{$row}:I{$row}")
+        ->getAlignment()
+        ->setHorizontal(
+            Alignment::HORIZONTAL_RIGHT
+        );
+
+
+    /*
+     * =========================================================
+     * FORMATO PRODUCTOS
+     * =========================================================
+     */
+
+    $filaDatosProductos = $filaEncabezadoProductos + 1;
+
+    $ultimaFilaProductos = $filaProductos - 1;
+
+
+    if ($ultimaFilaProductos >= $filaDatosProductos) {
+
+
+        /*
+         * Estilo general
+         */
+
+        $sheetProductos
+            ->getStyle(
+                "A{$filaDatosProductos}:M{$ultimaFilaProductos}"
+            )
+            ->applyFromArray($estiloDatos);
+
+
+        /*
+         * Cantidad
+         */
+
+        $sheetProductos
+            ->getStyle(
+                "H{$filaDatosProductos}:H{$ultimaFilaProductos}"
+            )
+            ->getNumberFormat()
+            ->setFormatCode('0');
+
+
+        /*
+         * Base unidad
+         */
+
+        $sheetProductos
+            ->getStyle(
+                "I{$filaDatosProductos}:I{$ultimaFilaProductos}"
+            )
+            ->getNumberFormat()
+            ->setFormatCode('$ #,##0');
+
+
+        /*
+         * Valor unitario
+         */
+
+        $sheetProductos
+            ->getStyle(
+                "J{$filaDatosProductos}:J{$ultimaFilaProductos}"
+            )
+            ->getNumberFormat()
+            ->setFormatCode('$ #,##0');
+
+
+        /*
+         * IVA
+         */
+
+        $sheetProductos
+            ->getStyle(
+                "K{$filaDatosProductos}:K{$ultimaFilaProductos}"
+            )
+            ->getNumberFormat()
+            ->setFormatCode('$ #,##0');
+
+
+        /*
+         * Impoconsumo
+         */
+
+        $sheetProductos
+            ->getStyle(
+                "L{$filaDatosProductos}:L{$ultimaFilaProductos}"
+            )
+            ->getNumberFormat()
+            ->setFormatCode('$ #,##0');
+
+
+        /*
+         * Total
+         */
+
+        $sheetProductos
+            ->getStyle(
+                "M{$filaDatosProductos}:M{$ultimaFilaProductos}"
+            )
+            ->getNumberFormat()
+            ->setFormatCode('$ #,##0');
+
+
+        /*
+         * Centrar datos generales
+         */
+
+        $sheetProductos
+            ->getStyle(
+                "A{$filaDatosProductos}:H{$ultimaFilaProductos}"
+            )
+            ->getAlignment()
+            ->setHorizontal(
+                Alignment::HORIZONTAL_CENTER
+            );
+
+
+        /*
+         * Valores monetarios a la derecha
+         */
+
+        $sheetProductos
+            ->getStyle(
+                "I{$filaDatosProductos}:M{$ultimaFilaProductos}"
+            )
+            ->getAlignment()
+            ->setHorizontal(
+                Alignment::HORIZONTAL_RIGHT
+            );
+
+
+        /*
+         * Filtro
+         */
+
+        $sheetProductos->setAutoFilter(
+            "A{$filaEncabezadoProductos}:M{$ultimaFilaProductos}"
+        );
+    }
+
+
+    /*
+     * =========================================================
+     * TOTALES PRODUCTOS
+     * =========================================================
+     */
+
+    $filaTotalProductos = $filaProductos;
+
+
+    /*
+     * Texto TOTAL
+     */
+
+    $sheetProductos->setCellValue(
+        "J{$filaTotalProductos}",
+        "TOTAL"
+    );
+
+
+    /*
+     * TOTAL IVA
+     */
+
+    $sheetProductos->setCellValue(
+        "K{$filaTotalProductos}",
+        $totalIva
+    );
+
+
+    /*
+     * TOTAL IMP. CONSUMO
+     */
+
+    $sheetProductos->setCellValue(
+        "L{$filaTotalProductos}",
+        $totalIco
+    );
+
+
+    /*
+     * TOTAL PRODUCTOS
+     */
+
+    $sheetProductos->setCellValue(
+        "M{$filaTotalProductos}",
+        $totalProductos
+    );
+
+
+    /*
+     * Aplicar estilo a toda la zona de totales
+     */
+
+    $sheetProductos
+        ->getStyle(
+            "J{$filaTotalProductos}:M{$filaTotalProductos}"
+        )
+        ->applyFromArray($estiloTotal);
+
+
+    /*
+     * Formato IVA
+     */
+
+    $sheetProductos
+        ->getStyle("K{$filaTotalProductos}")
+        ->getNumberFormat()
+        ->setFormatCode('$ #,##0');
+
+
+    /*
+     * Formato Impoconsumo
+     */
+
+    $sheetProductos
+        ->getStyle("L{$filaTotalProductos}")
+        ->getNumberFormat()
+        ->setFormatCode('$ #,##0');
+
+
+    /*
+     * Formato Total
+     */
+
+    $sheetProductos
+        ->getStyle("M{$filaTotalProductos}")
+        ->getNumberFormat()
+        ->setFormatCode('$ #,##0');
+
+
+    /*
+     * Alinear
+     */
+
+    $sheetProductos
+        ->getStyle(
+            "J{$filaTotalProductos}:M{$filaTotalProductos}"
+        )
+        ->getAlignment()
+        ->setHorizontal(
+            Alignment::HORIZONTAL_RIGHT
+        );
+
+
+    /*
+     * =========================================================
+     * ANCHOS CORTESÍAS
+     * =========================================================
+     */
+
+    $sheet->getColumnDimension('A')->setWidth(14);
+    $sheet->getColumnDimension('B')->setWidth(12);
+    $sheet->getColumnDimension('C')->setWidth(18);
+    $sheet->getColumnDimension('D')->setWidth(35);
+    $sheet->getColumnDimension('E')->setWidth(18);
+    $sheet->getColumnDimension('F')->setWidth(18);
+    $sheet->getColumnDimension('G')->setWidth(18);
+    $sheet->getColumnDimension('H')->setWidth(15);
+    $sheet->getColumnDimension('I')->setWidth(15);
+
+
+    /*
+     * =========================================================
+     * ANCHOS PRODUCTOS
+     * =========================================================
+     */
+
+    $sheetProductos->getColumnDimension('A')->setWidth(14);
+    $sheetProductos->getColumnDimension('B')->setWidth(12);
+    $sheetProductos->getColumnDimension('C')->setWidth(18);
+    $sheetProductos->getColumnDimension('D')->setWidth(30);
+    $sheetProductos->getColumnDimension('E')->setWidth(18);
+    $sheetProductos->getColumnDimension('F')->setWidth(16);
+    $sheetProductos->getColumnDimension('G')->setWidth(40);
+    $sheetProductos->getColumnDimension('H')->setWidth(12);
+    $sheetProductos->getColumnDimension('I')->setWidth(16);
+    $sheetProductos->getColumnDimension('J')->setWidth(18);
+    $sheetProductos->getColumnDimension('K')->setWidth(15);
+    $sheetProductos->getColumnDimension('L')->setWidth(18);
+    $sheetProductos->getColumnDimension('M')->setWidth(18);
+
+
+    /*
+     * =========================================================
+     * CONGELAR ENCABEZADOS
+     * =========================================================
+     */
+
+    $sheet->freezePane(
+        "A{$filaInicioDatos}"
+    );
+
+    $sheetProductos->freezePane(
+        "A{$filaDatosProductos}"
+    );
+
+
+    /*
+     * =========================================================
+     * CONFIGURACIÓN IMPRESIÓN
+     * =========================================================
+     */
+
+    foreach ([$sheet, $sheetProductos] as $hoja) {
+
+        $hoja->getPageSetup()
+            ->setOrientation(
+                \PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE
+            );
+
+        $hoja->getPageSetup()
+            ->setPaperSize(
+                \PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_LETTER
+            );
+
+        $hoja->getPageSetup()
+            ->setFitToWidth(1);
+
+        $hoja->getPageMargins()
+            ->setTop(0.5)
+            ->setRight(0.3)
+            ->setLeft(0.3)
+            ->setBottom(0.5);
+    }
+
+
+    /*
+     * =========================================================
+     * DESCARGA
+     * =========================================================
+     */
+
+    $nombreArchivo =
+        'Reporte_Cortesias_' .
+        date('Y-m-d_H-i-s') .
+        '.xlsx';
+
+
+    $writer = new Xlsx($spreadsheet);
+
+
+    /*
+     * Limpiar cualquier salida previa
+     */
+
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+
+
+    /*
+     * Headers
+     */
+
+    header(
+        'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+
+    header(
+        'Content-Disposition: attachment; filename="' .
+            $nombreArchivo .
+            '"'
+    );
+
+    header('Cache-Control: max-age=0');
+    header('Pragma: public');
+
+
+    /*
+     * Generar Excel
+     */
+
+    $writer->save('php://output');
+
+    exit;
+}
 }

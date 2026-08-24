@@ -137,7 +137,8 @@ class cerrarVentaModel extends Model
             $data_kardex = [
                 'idcompra' => 0,
                 'codigo' => $detalle['codigointernoproducto'],
-                'idusuario' => $id_usuario,
+                'idusuario' => $detalle['idUsuario'],
+                //'idusuario' => $id_usuario,
                 'idconcepto' => 10,
                 'numerodocumento' => $numero_factura,
                 'fecha' => date('Y-m-d'),

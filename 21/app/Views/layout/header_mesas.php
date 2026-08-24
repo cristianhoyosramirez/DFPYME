@@ -780,6 +780,26 @@
                     </svg>
                     Reporte de ventas por rango de fechas
                   </a>
+                  <a class="dropdown-item" href="<?= base_url() ?>/empresa/ventas_mesero">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M3 19h18" />
+                      <path d="M3 11h18a8 8 0 0 1 -8 8h-2a8 8 0 0 1 -8 -8z" />
+                      <path d="M9 8v-3" />
+                      <path d="M12 5v3" />
+                      <path d="M15 5v3" />
+                    </svg>
+                    Reporte de Ventas por Mesero y Producto
+                  </a>
+                  <a class="dropdown-item" href="<?= base_url() ?>/empresa/cortesias">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/mug -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M4.083 5h10.834a1.08 1.08 0 0 1 1.083 1.077v8.615c0 2.38 -1.94 4.308 -4.333 4.308h-4.334c-2.393 0 -4.333 -1.929 -4.333 -4.308v-8.615a1.08 1.08 0 0 1 1.083 -1.077" />
+                      <path d="M16 8h2.5c1.38 0 2.5 1.045 2.5 2.333v2.334c0 1.288 -1.12 2.333 -2.5 2.333h-2.5" />
+                    </svg>
+                    Reporte de Cortesías
+                  </a>
                 </div>
               </div>
 
@@ -823,12 +843,12 @@
               <a class="dropdown-item " href="<?= base_url() ?>/cartera/index">
                 <!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
                 <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
-                <svg 
-                xmlns="http://www.w3.org/2000/svg" class="icon " width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg" class="icon " width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M12 9v2m0 4v.01" />
                   <path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
-                </svg>  Cartera 
+                </svg> Cartera
               </a>
 
 

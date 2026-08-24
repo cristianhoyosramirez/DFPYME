@@ -735,4 +735,37 @@ class productoFacturaVentaModel extends Model
         ");
         return $datos->getResultArray();
     }
+    public function productosCortesia($id_factura)
+    {
+
+        $datos = $this->db->query("
+            SELECT 
+                producto.nombreproducto,
+                kardex.cantidad,
+                kardex.iva,
+                kardex.ico,
+                kardex.valor_unitario,
+                pagos.documento,
+                kardex.codigo,
+                (
+        kardex.valor_unitario 
+        - kardex.iva 
+        - kardex.ico
+    ) AS base_unidad,
+     (valor_unitario*cantidad) as total
+            FROM kardex
+
+            INNER JOIN producto 
+                ON producto.codigointernoproducto = kardex.codigo
+
+            INNER JOIN pagos 
+                ON pagos.id_factura = kardex.id_factura
+                AND pagos.id_estado = kardex.id_estado
+
+            WHERE kardex.id_factura = $id_factura 
+            AND kardex.id_estado = 6;
+
+        ");
+        return $datos->getResultArray();
+    }
 }

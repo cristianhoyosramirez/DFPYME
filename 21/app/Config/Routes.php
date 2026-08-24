@@ -144,7 +144,7 @@ $routes->group('producto', ['namespace' => 'App\Controllers\producto', 'filter' 
     $routes->post('editar_precios', 'operacionesProductoController::editar_precios');
     $routes->post('actualizar_precio_producto', 'operacionesProductoController::actualizar_precio_producto');
     $routes->post('eliminar_producto_inventario', 'operacionesProductoController::eliminar_producto_inventario');
-    $routes->post('borrar_producto_inventario', 'operacionesProductoController::borrar_producto_inventario');
+    $routes->get('borrar_producto_inventario', 'operacionesProductoController::borrar_producto_inventario');
     $routes->post('eliminacion_de_pedido_desde_pedido', 'operacionesProductoController::eliminacion_de_pedido_desde_pedido');
     $routes->post('actualizacion_cantidades', 'productoController::actualizacion_cantidades');
     $routes->post('autorizacion_pin', 'operacionesProductoController::autorizacion_pin');
@@ -270,6 +270,7 @@ $routes->group('clientes', ['namespace' => 'App\Controllers\cliente', 'filter' =
     $routes->post('editar_cliente', 'clienteController::editar_cliente');
     $routes->post('actualizar_datos_cliente', 'clienteController::actualizar_datos_cliente');
     $routes->post('deleteCliente', 'clienteController::deleteCliente');
+    $routes->post('clientes_cartera', 'clienteController::clientes_cartera');
 });
 
 $routes->group('pre_factura', ['namespace' => 'App\Controllers\pre_factura', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -312,6 +313,7 @@ $routes->group('factura_directa', ['namespace' => 'App\Controllers\factura_pos',
     $routes->get('formas_pago', 'facturaDirectaController::formas_pago');
     $routes->post('ventasHora', 'facturaDirectaController::ventasHora');
     $routes->post('exportPedidosBorrados', 'facturaDirectaController::exportPedidosBorrados');
+    $routes->post('reporteCortesias', 'facturaDirectaController::reporteCortesias');
 });
 
 $routes->group('administracion_impresora', ['namespace' => 'App\Controllers\administracion_impresora', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -432,7 +434,7 @@ $routes->group('consultas_y_reportes', ['namespace' => 'App\Controllers\consulta
     $routes->post('pedidos_borrados', 'cajaDiariaController::pedidos_borrados');
     $routes->post('pedidos_borrados', 'cajaDiariaController::pedidos_borrados');
     $routes->post('informe_fiscal_desde_caja', 'cajaDiariaController::informe_fiscal_desde_caja');
-    $routes->post('informe_fiscal_electronico', 'cajaDiariaController::informe_fiscal_electronico');
+    $routes->get('informe_fiscal_electronico', 'cajaDiariaController::informe_fiscal_electronico');
     $routes->post('expotar_informe_ventas_pdf', 'informeFiscalVentasController::expotar_informe_ventas_pdf');
     $routes->post('fiscal_manual_pdf', 'informeFiscalVentasController::fiscal_manual_pdf');
     $routes->get('documento', 'Documento::documento');
@@ -529,6 +531,11 @@ $routes->group('empresa', ['namespace' => 'App\Controllers\empresa', 'filter' =>
     $routes->post('actualizarSerieConsecutivo', 'EmpresaController::actualizarSerieConsecutivo');
     $routes->post('crearConsecutivo', 'EmpresaController::crearConsecutivo');
     $routes->get('bono', 'EmpresaController::bono');
+    $routes->get('ventas_mesero', 'EmpresaController::ventas_mesero');
+    $routes->post('filtro_fecha', 'EmpresaController::filtro_fecha');
+    $routes->post('reporteVentasKardex', 'EmpresaController::reporteVentasKardex');
+    $routes->get('cortesias', 'EmpresaController::cortesias');
+    $routes->post('reporteCortesias', 'EmpresaController::reporteCortesias');
 });
 
 $routes->group('caja_general', ['namespace' => 'App\Controllers\caja_general', 'filter' => \App\Filters\Auth::class], function ($routes) {
@@ -753,6 +760,9 @@ $routes->group('reportes', ['namespace' => 'App\Controllers\reportes', 'filter' 
     $routes->get('allNc', 'ConsultasController::allNc');
     $routes->post('nCEstado', 'ConsultasController::nCEstado');
     $routes->post('devolucionNc', 'ConsultasController::devolucionNc');
+    $routes->post('buscar_ventas_fecha', 'ConsultasController::buscar_ventas_fecha');
+    $routes->post('verDetalle', 'ConsultasController::verDetalle');
+    
 });
 
 
@@ -851,6 +861,7 @@ $routes->group('actualizacion', ['namespace' => 'App\Controllers\actualizaciones
     $routes->post('notaCredito', 'ParametrizacionController::notaCredito');  
     $routes->post('eliminarNotaCredito', 'ParametrizacionController::eliminarNotaCredito');  
     $routes->post('detalleNc', 'ParametrizacionController::detalleNc');  
+    $routes->post('lista_precios', 'ActualizacionesController::lista_precios');  
 });
 
 $routes->get('/qr-codes', 'QrCodeGeneratorController::index');
@@ -869,6 +880,8 @@ $routes->group('cartera', [
     $routes->post('buscarDocumento', 'carteraContoller::buscarDocumento');
     $routes->post('buscarCliente', 'carteraContoller::buscarCliente');
     $routes->post('getCartera', 'carteraContoller::getCartera');
+    $routes->post('excel', 'carteraContoller::excel');
+    $routes->get('datos_cartera', 'carteraContoller::datos_cartera');
 });
 
 

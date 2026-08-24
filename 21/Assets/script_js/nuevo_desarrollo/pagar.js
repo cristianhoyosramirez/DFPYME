@@ -311,6 +311,7 @@ function pagar() {
                                     });
                                 }
                                 if (resultado.resultado == 0) {
+                                    $('#btn_pagar').prop('disabled', false);
                                     Swal.fire({
                                         title: resultado.mensaje,
                                         icon: "warning",
@@ -516,6 +517,7 @@ function pagar() {
                             }
 
                             if (resultado.resultado == 0) {
+                                $('#btn_pagar').prop('disabled', false);
                                 Swal.fire({
                                     title: resultado.mensaje,
                                     icon: "warning",
@@ -787,6 +789,7 @@ function pagar() {
                                     });
                                 }
                                 if (resultado.resultado == 0) {
+                                    $('#btn_pagar').prop('disabled', false);
                                     Swal.fire({
                                         title: resultado.mensaje,
                                         icon: "warning",
@@ -979,6 +982,7 @@ function pagar() {
                             }
 
                             if (resultado.resultado == 0) {
+                                $('#btn_pagar').prop('disabled', false);
                                 Swal.fire({
                                     title: resultado.mensaje,
                                     icon: "warning",

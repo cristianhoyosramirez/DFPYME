@@ -44,7 +44,15 @@ CAJA
                             <path d="M12 3v3m0 12v3" />
                         </svg>
                     </span>
-                    <input type="text" class="form-control" name="efectivo_de_cierre" id="efectivo_de_cierre" value=0 onkeyup="saltar_apertura(event,'transaccion_cierre')" autofocus>
+                    <input type="text"
+                        class="form-control"
+                        name="efectivo_de_cierre"
+                        id="efectivo_de_cierre"
+                        value="0"
+                        onfocus="if(this.value=='0') this.value='';"
+                        onblur="if(this.value=='') this.value='0';"
+                        onkeyup="saltar_apertura(event,'transaccion_cierre')"
+                        autofocus>
                 </div>
             </div>
             <div class="col-md-3">

@@ -41,10 +41,13 @@
                 var resultado = JSON.parse(resultado);
                 if (resultado.resultado == 1) {
 
+
+                    $('#productos_eliminados').modal('hide');
+
                     table = $('#example').DataTable();
                     table.draw();
 
-                    sweet_alert_start('success', 'Propina actualizada  ');
+                    sweet_alert_start('success', 'Producto activado ');
 
 
                 }

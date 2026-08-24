@@ -157,7 +157,9 @@
                 $('#clase_pago').prop('selectedIndex', 0);
                 $("#finalizar_venta").modal("hide");
 
-                location.reload();
+                datos_cartera();
+
+                //location.reload();
                 Swal.fire({
                     icon: 'success',
                     title: 'Ingreso registrado',
@@ -185,9 +187,7 @@
 
                     }
 
-                    setTimeout(() => {
-                        location.reload();
-                    }, 2000);
+                    
 
                 });
 

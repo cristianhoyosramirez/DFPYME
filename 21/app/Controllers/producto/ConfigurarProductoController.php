@@ -350,7 +350,8 @@ class ConfigurarProductocontroller extends BaseController
                 'atributos' => view('producto_atributos/componentesProducto', [
                     'idAtributos' => $idAtributos,
                     'idProducto' => $idProducto
-                ])
+                ]),
+                'pr'=>1
             ]);
         }
         if (empty($exiteProducto)) {  // El producto tiene atributos asociados 

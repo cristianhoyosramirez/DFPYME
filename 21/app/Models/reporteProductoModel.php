@@ -101,4 +101,11 @@ WHERE
          ");
         return $datos->getResultArray();
     }
+    public function reporteKardex($consulta)
+    {
+        $datos = $this->db->query("
+                            $consulta
+         ");
+        return $datos->getResultArray();
+    }
 }

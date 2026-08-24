@@ -347,8 +347,6 @@ class reporteDeVentasController extends BaseController
         $ultimo_id = $ultimo_apertura['id'];
 
 
-
-
         $estado = "";
         $movimientos = "";
         $fecha_cierre = "";
@@ -523,8 +521,8 @@ class reporteDeVentasController extends BaseController
             ]);
         } else if (empty($aperturas)) {
             $session = session();
-            $session->setFlashdata('iconoMensaje', 'success');
-            return redirect()->to(base_url('consultas_y_reportes/consultas_caja'))->with('mensaje', 'No hay registros disponibles para consultar  ');
+            $session->setFlashdata('iconoMensaje', 'warning');
+            return redirect()->to(base_url('pedidos/mesas'))->with('mensaje', 'No hay movimientos de caja para consultar');
         }
     }
 

@@ -1123,27 +1123,29 @@ class Boletas extends BaseController
         $apertura = $id_apertura[0]['id'];
 
 
-        $sql_count = '';
-        $sql_data = '';
+        if (!empty($apertura)) {
 
-        $table_map = [
-            0 => 'id',
-            1 => 'fecha',
-            2 => 'nit_cliente',
-            3 => 'nombrescliente',
-            4 => 'documento',
-            5 => 'total_documento',
+            $sql_count = '';
+            $sql_data = '';
 
-        ];
+            $table_map = [
+                0 => 'id',
+                1 => 'fecha',
+                2 => 'nit_cliente',
+                3 => 'nombrescliente',
+                4 => 'documento',
+                5 => 'total_documento',
 
-        $sql_count = "SELECT 
+            ];
+
+            $sql_count = "SELECT 
                             COUNT(pagos.id) AS total
                     FROM
                     pagos 
                      inner join cliente on cliente.nitcliente=nit_cliente
                     where id_apertura=$apertura";
 
-        $sql_data = "
+            $sql_data = "
         SELECT
     pagos.id,
     pagos.fecha,
@@ -1170,28 +1172,28 @@ WHERE pagos.id_apertura = $apertura
                     
                     ";
 
-        $condition = "";
+            $condition = "";
 
-        if (!empty($valor_buscado)) {
-            $condition .= " AND cliente.nitcliente ILIKE '%" . $valor_buscado . "%'";
-            $condition .= " OR cliente.nombrescliente ILIKE '%" . $valor_buscado . "%'";
-            $condition .= " OR documento ILIKE '%" . $valor_buscado . "%'";
-        }
+            if (!empty($valor_buscado)) {
+                $condition .= " AND cliente.nitcliente ILIKE '%" . $valor_buscado . "%'";
+                $condition .= " OR cliente.nombrescliente ILIKE '%" . $valor_buscado . "%'";
+                $condition .= " OR documento ILIKE '%" . $valor_buscado . "%'";
+            }
 
-        $sql_count .= $condition;
-        $sql_data .= $condition;
+            $sql_count .= $condition;
+            $sql_data .= $condition;
 
-        $total_count = $this->db->query($sql_count)->getRow();
+            $total_count = $this->db->query($sql_count)->getRow();
 
-        $sql_data .= " ORDER BY " . $table_map[$_GET['order'][0]['column']] . " " . $_GET['order'][0]['dir'] . " " . "LIMIT " . $_GET['length'] . " OFFSET " . $_GET['start'];
+            $sql_data .= " ORDER BY " . $table_map[$_GET['order'][0]['column']] . " " . $_GET['order'][0]['dir'] . " " . "LIMIT " . $_GET['length'] . " OFFSET " . $_GET['start'];
 
-        $datos = $this->db->query($sql_data)->getResultArray();
-        $data = [];
+            $datos = $this->db->query($sql_data)->getResultArray();
+            $data = [];
 
-        $accion = new data_table();
+            $accion = new data_table();
 
 
-        /* 
+            /* 
         foreach ($datos as $detalle) {
 
             $sub_array = [];
@@ -1237,115 +1239,135 @@ WHERE pagos.id_apertura = $apertura
         } */
 
 
-        foreach ($datos as $detalle) {
+            foreach ($datos as $detalle) {
 
-            $sub_array = [];
+                $sub_array = [];
 
-            // 📅 FECHA
-            $sub_array[] = $detalle['fecha'];
+                // 📅 FECHA
+                $sub_array[] = $detalle['fecha'];
 
-            // ⏰ HORA FORMATEADA (segura)
-            $hora = $detalle['hora'] ?? '';
-            $hora_limpia = preg_replace('/[+-]\d{2}$/', '', $hora);
-            $hora_formateada = date('h:i A', strtotime($hora_limpia));
-            $sub_array[] = $hora_formateada;
+                // ⏰ HORA FORMATEADA (segura)
+                $hora = $detalle['hora'] ?? '';
+                $hora_limpia = preg_replace('/[+-]\d{2}$/', '', $hora);
+                $hora_formateada = date('h:i A', strtotime($hora_limpia));
+                $sub_array[] = $hora_formateada;
 
-            // 👤 CLIENTE
-            $sub_array[] = $detalle['nit_cliente'];
-            $sub_array[] = $detalle['nombrescliente'];
+                // 👤 CLIENTE
+                $sub_array[] = $detalle['nit_cliente'];
+                $sub_array[] = $detalle['nombrescliente'];
 
-            // 📄 DOCUMENTO (FE o POS)
-            if ($detalle['id_estado'] == 8) {
-                $numero_documento = $detalle['numero_fe'];
-                $tipoDocumento = "FE";
-            } else {
-                $numero_documento = $detalle['documento'];
-                $tipoDocumento = "POS";
-            }
+                // 📄 DOCUMENTO (FE o POS)
+                if ($detalle['id_estado'] == 8) {
+                    $numero_documento = $detalle['numero_fe'];
+                    $tipoDocumento = "FE";
+                } else {
+                    $numero_documento = $detalle['documento'];
+                    $tipoDocumento = "POS";
+                }
 
-            $sub_array[] = $numero_documento;
+                $sub_array[] = $numero_documento;
 
-            // 💳 FORMA DE PAGO
-            if ($detalle['forma_pago'] == 1) {
-                $forma_pago = "Contado";
-            } elseif ($detalle['forma_pago'] == 2) {
-                $forma_pago = "Crédito";
-            } else {
-                $forma_pago = "N/A";
-            }
+                // 💳 FORMA DE PAGO
+                if ($detalle['forma_pago'] == 1) {
+                    $forma_pago = "Contado";
+                } elseif ($detalle['forma_pago'] == 2) {
+                    $forma_pago = "Crédito";
+                } else {
+                    $forma_pago = "N/A";
+                }
 
-            $sub_array[] = $forma_pago;
+                $sub_array[] = $forma_pago;
 
-            // 💰 VALORES
-            $sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
-            $sub_array[] = number_format($detalle['saldo'], 0, ",", ".");
+                // 💰 VALORES
+                $sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
+                $sub_array[] = number_format($detalle['saldo'], 0, ",", ".");
 
-            // 🧾 TIPO DOCUMENTO
-            $sub_array[] = $tipoDocumento;
+                // 🧾 TIPO DOCUMENTO
+                $sub_array[] = $tipoDocumento;
 
-            // 🪑 MESA
-            $sub_array[] = $detalle['mesa'] ?? '';
+                // 🪑 MESA
+                $sub_array[] = $detalle['mesa'] ?? '';
 
-            // ⚙️ ACCIONES
-            $acciones = $accion->row_data_table(
-                $detalle['id_estado'],
-                $detalle['id_factura'],
-                $detalle['saldo']
-            );
+                // ⚙️ ACCIONES
+                $acciones = $accion->row_data_table(
+                    $detalle['id_estado'],
+                    $detalle['id_factura'],
+                    $detalle['saldo']
+                );
 
-            $sub_array[] = $acciones;
+                $sub_array[] = $acciones;
 
-            // 🚨 BANDERA NOTA CRÉDITO (IMPORTANTE PARA FRONT)
+                // 🚨 BANDERA NOTA CRÉDITO (IMPORTANTE PARA FRONT)
 
-            /*       $tieneNC=model('notaCreditoModel')->select('id')->where('id_factura',$detalle['id_factura'])->first();
+                /*       $tieneNC=model('notaCreditoModel')->select('id')->where('id_factura',$detalle['id_factura'])->first();
 
             $sub_array[] = $tieneNC['id'] ?? 0; */
 
-            $sub_array[] = model('notaCreditoModel')
-                ->where('id_factura', $detalle['id_factura'])
-                ->countAllResults() > 0 ? 1 : 0;
+                $sub_array[] = model('notaCreditoModel')
+                    ->where('id_factura', $detalle['id_factura'])
+                    ->countAllResults() > 0 ? 1 : 0;
 
-            // 📦 DATA FINAL
-            $data[] = $sub_array;
+                // 📦 DATA FINAL
+                $data[] = $sub_array;
+            }
+
+
+
+            $temp_abonos = model('pagosModel')->abonos_generales();
+            $saldo = model('pagosModel')->selectSum('saldo')->findAll();
+
+            if (empty($temp_abonos)) {
+                $abonos = 0;
+            }
+            if (!empty($temp_abonos)) {
+                //$abonos = $temp_abonos[0]['pagos_recibidos'];
+                $abonos = 0;
+            }
+            $total_ventas = model('pagosModel')->total_venta($id_apertura[0]['id']);
+
+            $dian_aceptado = model('facturaElectronicaModel')->dian_ceptado();
+            $dian_no_enviado = model('facturaElectronicaModel')->dian_no_enviado($id_apertura[0]['id']);
+            $dian_rechazado = model('facturaElectronicaModel')->dian_rechazado();
+            $dian_error = model('facturaElectronicaModel')->dian_error();
+
+            $json_data = [
+                'draw' => intval($this->request->getGEt(index: 'draw')),
+                'recordsTotal' => $total_count->total,
+                'recordsFiltered' => $total_count->total,
+                'data' => $data,
+                'total' => "$ " . number_format($total_ventas[0]['total'], 0, ",", "."),
+                'titulo' => "Total ventas ",
+                'abonos' => "$ " . number_format($abonos, 0, ",", "."),
+                'abonos_sin_punto' => $abonos,
+                'saldo_pendiente_por_cobrar' => "$ " . number_format($saldo[0]['saldo'], 0, ",", "."),
+                'saldo_pendiente_por_cobrar_sin_punto' => $saldo[0]['saldo'],
+                'dian_aceptado' => $dian_aceptado[0]['dian_aceptado'],
+                'dian_no_enviado' => $dian_no_enviado[0]['dian_no_enviado'],
+                'dian_rechazado' => $dian_rechazado[0]['dian_rechazado'],
+                'dian_error' => $dian_error[0]['dian_error'],
+            ];
+
+            echo  json_encode($json_data);
+        } else if (empty($apertura)) {
+            $json_data = [
+                'draw' => intval($this->request->getGet('draw') ?? 1),
+                'recordsTotal' => 0,
+                'recordsFiltered' => 0,
+                'data' => [],
+                'total' => '$ 0',
+                'titulo' => 'Total ventas',
+                'abonos' => '$ 0',
+                'abonos_sin_punto' => 0,
+                'saldo_pendiente_por_cobrar' => '$ 0',
+                'saldo_pendiente_por_cobrar_sin_punto' => 0,
+                'dian_aceptado' => 0,
+                'dian_no_enviado' => 0,
+                'dian_rechazado' => 0,
+                'dian_error' => 0,
+            ];
+
+            echo  json_encode($json_data);
         }
-
-
-
-        $temp_abonos = model('pagosModel')->abonos_generales();
-        $saldo = model('pagosModel')->selectSum('saldo')->findAll();
-
-        if (empty($temp_abonos)) {
-            $abonos = 0;
-        }
-        if (!empty($temp_abonos)) {
-            //$abonos = $temp_abonos[0]['pagos_recibidos'];
-            $abonos = 0;
-        }
-        $total_ventas = model('pagosModel')->total_venta($id_apertura[0]['id']);
-
-        $dian_aceptado = model('facturaElectronicaModel')->dian_ceptado();
-        $dian_no_enviado = model('facturaElectronicaModel')->dian_no_enviado($id_apertura[0]['id']);
-        $dian_rechazado = model('facturaElectronicaModel')->dian_rechazado();
-        $dian_error = model('facturaElectronicaModel')->dian_error();
-
-        $json_data = [
-            'draw' => intval($this->request->getGEt(index: 'draw')),
-            'recordsTotal' => $total_count->total,
-            'recordsFiltered' => $total_count->total,
-            'data' => $data,
-            'total' => "$ " . number_format($total_ventas[0]['total'], 0, ",", "."),
-            'titulo' => "Total ventas ",
-            'abonos' => "$ " . number_format($abonos, 0, ",", "."),
-            'abonos_sin_punto' => $abonos,
-            'saldo_pendiente_por_cobrar' => "$ " . number_format($saldo[0]['saldo'], 0, ",", "."),
-            'saldo_pendiente_por_cobrar_sin_punto' => $saldo[0]['saldo'],
-            'dian_aceptado' => $dian_aceptado[0]['dian_aceptado'],
-            'dian_no_enviado' => $dian_no_enviado[0]['dian_no_enviado'],
-            'dian_rechazado' => $dian_rechazado[0]['dian_rechazado'],
-            'dian_error' => $dian_error[0]['dian_error'],
-        ];
-
-        echo  json_encode($json_data);
     }
 
 
@@ -1780,7 +1802,7 @@ WHERE pagos.id_apertura = $apertura
 
             $sub_array[] = $acciones;
 
-                 $sub_array[] = model('notaCreditoModel')
+            $sub_array[] = model('notaCreditoModel')
                 ->where('id_factura', $detalle['id'])
                 ->countAllResults() > 0 ? 1 : 0;
 

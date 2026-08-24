@@ -18,7 +18,7 @@ class FacturaPropinaModel extends Model
         SELECT DISTINCT
             (id_mesero)
         FROM
-            factura_propina
+            pagos
         WHERE
             id_apertura = $id_apertura
          ");
