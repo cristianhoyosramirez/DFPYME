@@ -8,16 +8,7 @@ RESOLUCIÓN ElECTRÓNICA
 
 <div class="container">
   <div class="row text-center align-items-center flex-row-reverse">
-    <div class="col-lg-auto ms-lg-auto">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Salones</a></li>
-          <li class="breadcrumb-item"><a href="#">Mesas</a></li>
-          <li class="breadcrumb-item"><a href="#">Usuarios</a></li>
-          <li class="breadcrumb-item"><a href="#">Empresa</a></li>
-        </ol>
-      </nav>
-    </div>
+
   </div>
 </div>
 <br>
@@ -47,10 +38,10 @@ RESOLUCIÓN ElECTRÓNICA
       <table class="table">
         <thead class="table-dark">
           <tr>
-
-            <td>Prefijo</td>
             <td>Número resolución</td>
-            
+            <td>Prefijo</td>
+
+
             <td>Rango inicial</td>
             <td>Rango final</td>
             <td>Fecha inicial</td>
@@ -65,17 +56,15 @@ RESOLUCIÓN ElECTRÓNICA
           <input type="hidden" id="url" value="<?php echo base_url() ?>">
           <?php foreach ($resoluciones_dian as $detalle) { ?>
             <tr>
-
-              <td><?php echo $detalle['prefijo'] ?></td>
               <td><?php echo $detalle['numero'] ?></td>
-            
+              <td><?php echo $detalle['prefijo'] ?></td>
               <td><?php echo $detalle['number_begin'] ?></td>
               <td><?php echo $detalle['number_end'] ?></td>
               <td><?php echo $detalle['date_begin'] ?></td>
               <td><?php echo $detalle['date_end'] ?></td>
               <td><?php echo $detalle['vigency'] ?></td>
               <td><?php echo $detalle['consecutive'] ?></td>
-              <td><?php echo $detalle['alerta'] 
+              <td><?php echo $detalle['alerta']
                   ?></td>
               <td>
 
@@ -299,9 +288,9 @@ RESOLUCIÓN ElECTRÓNICA
       if (consecutivo == "") {
         $('#error_alerta').html('No hay alerta definida')
       }
-      if (numero != "" && fecha_inicial != "" && fecha_final != "" && numero_inicial != "" && numero_final != "" && vigencia != "" 
-      && alerta != "" && consecutivo != ""
-    ) {
+      if (numero != "" && fecha_inicial != "" && fecha_final != "" && numero_inicial != "" && numero_final != "" && vigencia != "" &&
+        alerta != "" && consecutivo != ""
+      ) {
         $.ajax({
           data: {
             numero,

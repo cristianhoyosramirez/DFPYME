@@ -123,14 +123,23 @@ class impresion
 
         $printer->setEmphasis(true);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->text("  INGRESOS\n");
+        $printer->text("  INGRESOS A CAJA\n");
         $printer->setEmphasis(false);
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->text(str_pad("Valor apertura:", $titulo) . str_pad("$ " . number_format($valor_apertura['valor'], 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
         $printer->text(str_pad("Ventas de contado:", $titulo) . str_pad("$ " . number_format($totalContado, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
         $printer->text(str_pad("Abonos a credito:", $titulo) . str_pad("$ " . number_format($totalCredito, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
         $printer->text(str_pad("Propinas:", $titulo) . str_pad("$ " . number_format($propinas, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
 
+        $printer->text("-----------------------------------------------\n");
+        $totalIngresos = $valor_apertura['valor'] + $totalContado + $propinas;
+
+        $linea = str_pad("TOTAL INGRESOS", 27, ' ', STR_PAD_RIGHT)
+            . str_pad("$" . number_format($totalIngresos, 0, ',', '.'), 17, ' ', STR_PAD_LEFT);
+
+        $printer->text($linea . "\n");
+        $printer->text("-----------------------------------------------\n");
 
         $printer->setEmphasis(true);
         $printer->text("              FORMAS DE PAGO \n");
@@ -177,11 +186,11 @@ class impresion
             ->first()['efectivo'] ?? 0;
 
 
-        imprimirFila(
+        /*   imprimirFila(
             $printer,
             "Valor apertura",
             $valor_apertura['valor']
-        );
+        ); */
 
         imprimirFila(
             $printer,
@@ -218,15 +227,16 @@ class impresion
 
         $printer->text("-----------------------------------------------\n");
 
+
         $printer->setEmphasis(true);
 
         imprimirFila(
             $printer,
-            "TOTAL INGRESOS",
+            "TOTAL FORMAS DE PAGO",
             (
                 $ingresos_efectivo[0]['efectivo']
                 + $efectivo_abonos
-                + $valor_apertura['valor']
+                //+ $valor_apertura['valor']
                 + $ingresos_transaccion[0]['transferencia']
                 + $electronico_abonos
             )
@@ -236,6 +246,7 @@ class impresion
 
 
         $printer->text("-----------------------------------------------\n");
+
 
 
         /**

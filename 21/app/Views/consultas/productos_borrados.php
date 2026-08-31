@@ -62,7 +62,7 @@ Reporte de costos
                         class="btn btn-outline-primary w-100"
                         onclick="buscar()"
                         title="Buscar datos">
-                        🔍 Buscar
+                         Buscar
                     </button>
                 </div>
 
@@ -71,7 +71,7 @@ Reporte de costos
                     <button class="btn btn-outline-success w-100"
                         type="submit"
                         title="Exportar a Excel">
-                        📊 Excel
+                         Excel
                     </button>
                 </div>
 
@@ -90,63 +90,131 @@ Reporte de costos
 
 
     <div class="my-3"></div> <!-- Added space between the buttons and the table -->
-    <div class="table-responsive" style="max-height: 50vh; overflow-y: auto;">
-        <table class="table">
-            <thead class="table-dark">
-                <td scope="col">Pedido</th>
-                <td scope="col">Código </th>
-                <td scope="col">Producto </th>
-                <td scope="col">Cantidad </th>
-                <td scope="col">Fecha</th>
-                <td scope="col">Hora</th>
-                <td scope="col">Usuario creacion</th>
-                <td scope="col">Usuario eliminación</th>
-                <td>Justificación</td>
-
+    <div class="table-responsive" style="max-height: 65vh; overflow-y: auto;">
+        <table class="table ">
+            <thead class="table-dark text-center">
+                <tr>
+                    <td scope="col">Fecha</th>
+                    <td scope="col">Código</th>
+                    <td scope="col">Producto</th>
+                    <td scope="col">V. unitario</th>
+                    <td scope="col">V. total</th>
+                    <td scope="col">C. eliminada</th>
+                    <td scope="col">C. pedido</th>
+                    <td scope="col">Comandados</th>
+                    <td scope="col">Pedido</th>
+                    <td scope="col">Hora</th>
+                    <td scope="col">U. creación</th>
+                    <td scope="col">U. eliminación</th>
+                    <td scope="col">Justificación</th>
+                </tr>
             </thead>
+
             <tbody id="productos_borrados">
 
-                <?php if (!empty($productos)) {  ?>
+                <?php
+                $total_general = 0;
+                ?>
+
+                <?php if (!empty($productos)) { ?>
+
                     <?php foreach ($productos as $detalle) : ?>
+
+                        <?php
+                        $valor_total = $detalle['valor_unitario'] * $detalle['cantidad'];
+                        $total_general += $valor_total;
+
+                        $fecha = $detalle['fecha_eliminacion'];
+
+                        $fmt = new IntlDateFormatter(
+                            'es_ES',
+                            IntlDateFormatter::FULL,
+                            IntlDateFormatter::NONE
+                        );
+
+                        $fecha_formateada = $fmt->format(new DateTime($fecha));
+
+                        $hora = $detalle['hora_eliminacion'];
+                        $hora_formateada = date("h:i A", strtotime($hora));
+                        ?>
 
                         <tr>
 
-                            <td><?php echo $detalle['pedido']
-                                ?></td>
-                            <td><?php echo $detalle['codigointernoproducto'] ?></td>
-                            <td><?php echo $detalle['nombreproducto'] ?></td>
-                            <td><?php echo $detalle['cantidad'] ?></td>
                             <td>
-                                <?php
-                                $fecha = $detalle['fecha_eliminacion']; // ejemplo "2025-09-26"
-                                $fmt = new IntlDateFormatter(
-                                    'es_ES',
-                                    IntlDateFormatter::FULL,  // Muestra día de la semana, día, mes y año
-                                    IntlDateFormatter::NONE   // Sin hora
-                                );
-
-                                echo $fmt->format(new DateTime($fecha));
-                                ?>
+                                <?= $fecha_formateada ?>
                             </td>
 
-                            <td><?php
-                                $hora = $detalle['hora_eliminacion'];
-                                $hora_formateada = date("h:i A", strtotime($hora));
-                                echo $hora_formateada; ?></td>
-                            <td><?php echo $detalle['nombresusuario_sistema'] ?></td>
-                            <td><?php echo $detalle['mesero_nombre'] ?></td>
-                            <td><?php echo $detalle['justificacion'] ?></td>
+                            <td>
+                                <?= $detalle['codigointernoproducto'] ?>
+                            </td>
+
+                            <td>
+                                <?= $detalle['nombreproducto'] ?>
+                            </td>
+
+                            <td class="text-end">
+                                <?= number_format($detalle['valor_unitario'], 0, ',', '.') ?>
+                            </td>
+
+                            <td class="text-end">
+                                <?= number_format($valor_total, 0, ',', '.') ?>
+                            </td>
+
+                            <td class="text-center">
+                                <?= $detalle['cantidad'] ?>
+                            </td>
+
+                            <td class="text-center">
+                                <?= $detalle['cantidad_pedido'] ?>
+                            </td>
+
+                            <td class="text-center">
+                                <?= $detalle['comandados'] ?>
+                            </td>
+
+                            <td>
+                                <?= $detalle['pedido'] ?>
+                            </td>
+
+                            <td>
+                                <?= $hora_formateada ?>
+                            </td>
+
+                            <td>
+                                <?= $detalle['nombresusuario_sistema'] ?>
+                            </td>
+
+                            <td>
+                                <?= $detalle['mesero_nombre'] ?>
+                            </td>
+
+                            <td>
+                                <?= $detalle['justificacion'] ?>
+                            </td>
 
                         </tr>
 
                     <?php endforeach ?>
+
                 <?php } ?>
 
             </tbody>
-        </table>
 
+     
+
+        </table>
         <br>
-        <p class="text-primary h1 text-center " id="no_hay_datos"> </p>
+        <p class="text-primary h1 text-center" id="no_hay_datos"></p>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr class="table-dark">
+                <th class="text-end">TOTAL:</th>
+                <th class="text-end">
+                    <?php echo number_format($total_general, 0, ',', '.'); ?>
+                </th>
+            </tr>
+        </table>
     </div>
 </div>
 

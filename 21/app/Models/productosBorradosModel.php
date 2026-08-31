@@ -19,7 +19,9 @@ class productosBorradosModel extends Model
         'pedido',
         'id_mesero',
         'valor_unitario',
-        'justificacion'
+        'justificacion',
+        'comandados',
+        'cantidad_pedido'
     ];
 
     public function getProductosBorrados($fecha_inicial, $fecha_final)
@@ -34,7 +36,11 @@ class productosBorradosModel extends Model
         cantidad,
         pedido,
         mesero.nombresusuario_sistema AS mesero_nombre,
-        justificacion
+        justificacion,
+        valor_unitario,
+        cantidad as cantidad_eliminada,
+        comandados,
+        cantidad_pedido
     FROM 
         productos_borrados 
     INNER JOIN 
@@ -47,7 +53,7 @@ class productosBorradosModel extends Model
         fecha_eliminacion BETWEEN '$fecha_inicial' AND '$fecha_final'
 
         ORDER BY 
-    productos_borrados.pedido ASC,
+    productos_borrados.pedido DESC,
     productos_borrados.fecha_eliminacion DESC,
     productos_borrados.hora_eliminacion DESC;
         

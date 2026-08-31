@@ -9,5 +9,17 @@ class borrar_productosModel extends Model
     protected $table      = 'productos_borrados';
     // Uncomment below if you want add primary key
     // protected $primaryKey = 'id';
-    protected $allowedFields = ['codigointernoproducto', 'cantidad','fecha_eliminacion','hora_eliminacion','usuario_eliminacion','pedido'];
+    protected $allowedFields = [
+        'codigointernoproducto',
+        'cantidad',
+        'fecha_eliminacion',
+        'hora_eliminacion',
+        'usuario_eliminacion',
+        'pedido',
+        'id_mesero',
+        'valor_unitario',
+        'justificacion',
+        'comandados',
+        'cantidad_pedido'
+    ];
 }

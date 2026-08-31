@@ -87,7 +87,7 @@ class EmpresaController extends BaseController
     function resolucion_electronica()
     {
 
-        $resoluciones_dian = model('resolElectronicaModel')->findAll();
+        $resoluciones_dian = model('resolElectronicaModel')->orderBy('id','desc')->findAll();
 
 
 

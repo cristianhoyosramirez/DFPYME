@@ -125,7 +125,7 @@ class usuariosController extends BaseController
             if ($actualizar) {
                 $session = session();
                 $session->setFlashdata('iconoMensaje', 'success');
-                return redirect()->to(base_url('usuarios/list'))->with('mensaje', 'actualizacion correcta');
+                return redirect()->to(base_url('usuarios/list'))->with('mensaje', 'Actualización correcta');
             } else {
                 $session = session();
                 $session->setFlashdata('iconoMensaje', 'error');
