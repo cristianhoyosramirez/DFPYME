@@ -87,7 +87,7 @@ class EmpresaController extends BaseController
     function resolucion_electronica()
     {
 
-        $resoluciones_dian = model('resolElectronicaModel')->orderBy('id','desc')->findAll();
+        $resoluciones_dian = model('resolElectronicaModel')->orderBy('id', 'desc')->findAll();
 
 
 
@@ -859,16 +859,39 @@ class EmpresaController extends BaseController
     public function cortesias()
     {
 
-        $fechas = model('kardexModel')->fechaMinMax();
+        /* $fechas = model('kardexModel')->fechaMinMax();
         $fecha_inicial = $fechas[0]['fecha_inicial'];
         $fecha_final   = $fechas[0]['fecha_final'];
-
-        /*  $fecha_inicial   = "2026-08-19";
-        $fecha_final     = "2026-08-19"; */
 
         $where = [];
         $where[] = "pagos.fecha BETWEEN '{$fecha_inicial}' AND '{$fecha_final}'";
         $whereSql = implode(' AND ', $where);
+ */
+
+
+        $fechas = model('kardexModel')->fechaMinMax();
+
+        $where = [];
+
+        if (!empty($fechas) && isset($fechas[0])) {
+
+            $fecha_inicial = $fechas[0]['fecha_inicial'] ?? date('Y-m-d');
+            $fecha_final   = $fechas[0]['fecha_final'] ?? date('Y-m-d');
+
+            if (!empty($fecha_inicial) && !empty($fecha_final)) {
+                $where[] = "pagos.fecha BETWEEN '{$fecha_inicial}' AND '{$fecha_final}'";
+            }
+        }
+
+        $whereSql = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
+
+
+
+        if (!empty($where)) {
+            $whereSql = implode(' AND ', $where);
+        }
+
+
 
         $kardexConcepto = model('KardexConceptoModel');
 
@@ -879,6 +902,7 @@ class EmpresaController extends BaseController
             $fecha_inicial,
             $fecha_final
         ); */
+
 
         $total_cortesias = model('pagosModel')->total_cortesias($whereSql);
 

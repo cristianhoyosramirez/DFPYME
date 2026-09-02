@@ -746,11 +746,12 @@ class productoFacturaVentaModel extends Model
                 kardex.ico,
                 kardex.valor_unitario,
                 pagos.documento,
+                kardex.costo,
                 kardex.codigo,
                 (
         kardex.valor_unitario 
-        - kardex.iva 
-        - kardex.ico
+        - kardex.iva/kardex.cantidad 
+        - kardex.ico/kardex.cantidad
     ) AS base_unidad,
      (valor_unitario*cantidad) as total
             FROM kardex

@@ -1,7 +1,7 @@
 <?php $session = session(); ?>
 <!doctype html>
 
-<html lang="en">
+<html lang="es-CO">
 
 <head>
     <meta charset="utf-8" />
