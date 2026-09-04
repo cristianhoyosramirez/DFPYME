@@ -1,6 +1,6 @@
  <?php foreach ($mesas as $mesa): ?>
      <tr>
-         <th><?= $mesa['nombre'] ?></th>
+         <td><?= $mesa['nombre'] ?></th>
          <td>
              <div class="d-flex">
 
@@ -11,7 +11,7 @@
                          name="id">
 
                      <button type="submit"
-                         class="btn btn-primary ">
+                         class="btn btn-outline-primary ">
 
                          Editar
                      </button>
@@ -20,7 +20,7 @@
                  &nbsp;
 
                  <button type="submit"
-                     class="btn btn-danger " onclick="eliminarMesa(<?= $mesa['id'] ?>)">
+                     class="btn btn-outline-danger " onclick="eliminarMesa(<?= $mesa['id'] ?>)">
                      Eliminar
                  </button>
 

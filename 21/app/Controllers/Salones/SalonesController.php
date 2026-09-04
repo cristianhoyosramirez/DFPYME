@@ -13,8 +13,11 @@ class SalonesController extends BaseController
     public function index()
     {
         $salones = model('salonesModel')->orderBy('id', 'asc')->find();
+       $mesas = model('mesasModel')->getMesas();
+
         return view('salones/listado', [
-            'salones' => $salones
+            'salones' => $salones,
+            'mesas' => $mesas
         ]);
     }
     /**

@@ -64,6 +64,7 @@ WHERE
             INNER JOIN categoria ON categoria.codigocategoria = kardex.id_categoria
             WHERE
                 fecha_y_hora_factura_venta BETWEEN '$inicial' AND '$final'
+                ORDER BY categoria.nombrecategoria ASC
          ");
         return $datos->getResultArray();
     }

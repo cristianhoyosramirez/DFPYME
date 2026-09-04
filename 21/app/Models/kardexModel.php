@@ -107,11 +107,14 @@ class kardexModel extends Model
     {
         $datos = $this->db->query("
         SELECT DISTINCT
-            id_categoria
+            id_categoria,
+            categoria.nombrecategoria 
         FROM
             kardex
+        INNER JOIN categoria ON categoria.codigocategoria = kardex.id_categoria
         WHERE
         id_apertura = '$id_apertura'
+        ORDER BY categoria.nombrecategoria ASC
         ");
         return $datos->getResultArray();
     }

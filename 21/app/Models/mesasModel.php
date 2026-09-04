@@ -125,4 +125,14 @@ WHERE
         ");
         return $datos->getResultArray();
     }
+
+    public function getMesas()
+    {
+        $datos = $this->db->query("
+            select id , nombre from mesas 
+            WHERE estado= 0
+            order by id desc;
+        ");
+        return $datos->getResultArray();
+    }
 }

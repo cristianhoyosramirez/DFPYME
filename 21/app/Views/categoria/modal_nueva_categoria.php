@@ -10,14 +10,8 @@
                         <input type="text" class="form-control" id="nombre_categoria" name="nombre_categoria">
                         <span class="text-danger error-text nombre_categoria_error"></span>
                     </div>
-                    <div class="col-md-6">
-                        <label for="inputPassword4" class="form-label">Impresora asociada</label>
-                        <select class="form-select" aria-label="Default select example" id="impresora_categoria" name="impresora_categoria">
-                            <?php foreach ($impresoras as $detalle) { ?>
-                                <option value="<?php echo $detalle['id'] ?>"><?php echo $detalle['nombre'] ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
+
+                    <input type="text" value=1 id="impresora_categoria" hidden>
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success" id="btn_crear_categoria">Crear categoria</button>

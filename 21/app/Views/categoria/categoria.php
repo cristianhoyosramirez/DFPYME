@@ -49,14 +49,16 @@ CATEGORIAS
                         </svg>
 
                     </td>
-                    <td title="Asignar impresora ">IMPRESORA ASIGNADA <!-- Download SVG icon from http://tabler-icons.io/i/info-circle -->
+
+                    <!--<td title="Asignar impresora ">IMPRESORA ASIGNADA  Download SVG icon from http://tabler-icons.io/i/info-circle
                         <svg xmlns="http://www.w3.org/2000/svg" title="Activar o inactivar" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <circle cx="12" cy="12" r="9" />
                             <line x1="12" y1="8" x2="12.01" y2="8" />
                             <polyline points="11 12 12 12 12 16 13 16" />
                         </svg>
-                    </td>
+                    </td> -->
+
                     <td>
                         Subcategoria
                     </td>
@@ -82,21 +84,6 @@ CATEGORIAS
                                     <p class="text-success">INACTIVA</p>
                                 </option>
                             </select>
-                        </td>
-                        <td>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <select class="form-select" id="id_impresora" name="id_impresora" onchange="asociar_impresora(this.options[this.selectedIndex].value,<?php echo $detalle['codigocategoria'] ?>)">
-                                        <?php foreach ($impresoras as $detalles) { ?>
-                                            <?php if (empty($detalle['impresora'])) { ?>
-                                                <option>CATEGORIA NO TIENE IMPRESORA ASOCIADA </option>
-                                            <?php } ?>
-                                            <option value="<?php echo $detalles['id'] ?>" <?php if ($detalles['id'] == $detalle['impresora']) : ?>selected <?php endif; ?>><?php echo "Cód:" . " " . $detalles['id'] . "-" . $detalles['nombre'] ?></option>
-                                        <?php } ?>
-                                    </select>
-
-                                </div>
-                            </div>
                         </td>
                         <td>
 

@@ -48,7 +48,8 @@ class productoController extends BaseController
 
             $condition .= " AND (nombreproducto ILIKE '%" . $valor_buscado . "%'";
             $condition .= " OR nombrecategoria ILIKE '%" . $valor_buscado . "%'";
-            $condition .= " OR codigointernoproducto ILIKE '%" . $valor_buscado . "%')";
+            $condition .= " OR codigointernoproducto ILIKE '%" . $valor_buscado . "%'";
+            $condition .= " OR codigobarrasproducto ILIKE '%" . $valor_buscado . "%')";
         }
 
         $sql_count = $sql_count . $condition;

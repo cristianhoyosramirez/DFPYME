@@ -8,14 +8,26 @@ class mesaController extends BaseController
 {
     public function index()
     {
-        $listado = model('mesasModel')->salonMesas();
+        //$listado = model('mesasModel')->salonMesas();
 
+
+        $salones = model('salonesModel')->orderBy('id', 'asc')->find();
+        $mesas = model('mesasModel')->getMesas();
     
 
-        return view('mesa/listado', [
-            'mesas' => $listado
+        return view('salones/listado', [
+            'salones' => $salones,
+            'mesas' => $mesas,
+            'titulo' => 'Listado completo de mesas '
         ]);
+
+
+        // return view('mesa/listado', [
+        //     'mesas' => $listado
+        // ]);
     }
+
+
     public function datos_iniciales()
     {
         $salones = model('salonesModel')->find();
@@ -24,55 +36,9 @@ class mesaController extends BaseController
         ]);
     }
 
-    /*  public function save()
-    {
-        if (!$this->validate([
-            'nombre' => [
-                'rules' => 'required|is_unique[mesas.nombre]',
-                'errors' => [
-                    'required' => 'Dato necesario',
-                    'is_unique' => 'Ya hay una mesa con ese nombre'
 
-                ]
-            ],
-            'salon' => [
-                'rules' => 'required|is_not_unique[salones.id]',
-                'errors' => [
-                    'required' => 'Dato necesario',
-                    'is_unique' => 'Registro duplicado',
-                    'is_not_unique' => 'Registro para el campo salon no válido'
-                ]
-            ],
-            'cantidad' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Dato necesario'
-                ]
-            ],
 
-        ])) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        $data = [
-            'fk_salon' => $this->request->getVar('salon'),
-            'nombre' => $this->request->getVar('nombre'),
-        ];
-
-        $insert = model('mesasModel')->insert($data);
-        if ($insert) {
-            $session = session();
-            $session->setFlashdata('iconoMensaje', 'success');
-
-            return redirect()->to(base_url('mesas/list'))->with('mensaje', 'Creación correcta');
-        } else {
-            $session = session();
-            $session->setFlashdata('iconoMensaje', 'error');
-            return redirect()->to(base_url('mesas/list'))->with('mensaje', 'Hubo errores');
-        }
-    } */
-
-    public function save()
+    /*   public function save()
     {
         if (!$this->validate([
             'salon' => [
@@ -137,6 +103,172 @@ class mesaController extends BaseController
             return redirect()->to(base_url('mesas/list'))
                 ->with('mensaje', 'Hubo errores al crear las mesas.');
         }
+    } */
+
+    public function save()
+    {
+        if (!$this->validate([
+            'salon' => [
+                'rules' => 'required|is_not_unique[salones.id]',
+                'errors' => [
+                    'required'      => 'Dato necesario',
+                    'is_not_unique' => 'Registro para el campo salón no válido'
+                ]
+            ],
+            'nombre' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Dato necesario'
+                ]
+            ],
+            'cantidad' => [
+                'rules' => 'permit_empty|integer|greater_than[0]',
+                'errors' => [
+                    'integer'      => 'La cantidad debe ser un número entero',
+                    'greater_than' => 'La cantidad debe ser mayor que cero'
+                ]
+            ],
+        ])) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+
+        $salon = $this->request->getVar('salon');
+        $nombre = trim($this->request->getVar('nombre'));
+        $cantidad = $this->request->getVar('cantidad');
+
+        $db = \Config\Database::connect();
+
+        /*
+     * ==========================================================
+     * CASO 1: NO SE INDICA CANTIDAD
+     * ==========================================================
+     *
+     * Se crea una sola mesa con el nombre exactamente como
+     * lo escribió el usuario.
+     *
+     * Ejemplo:
+     * nombre = Exterior
+     *
+     * Resultado:
+     * Exterior
+     */
+        if ($cantidad === null || $cantidad === '') {
+
+            $datos = [
+                'fk_salon' => $salon,
+                'nombre'   => $nombre
+            ];
+
+            $insert = model('mesasModel')->insert($datos);
+
+            if ($insert) {
+                session()->setFlashdata('iconoMensaje', 'success');
+
+                return redirect()
+                    ->to(base_url('salones/list'))
+                    ->with(
+                        'mensaje',
+                        'Se creó correctamente la mesa.'
+                    );
+            }
+
+            session()->setFlashdata('iconoMensaje', 'error');
+
+            return redirect()
+                ->to(base_url('mesas/list'))
+                ->with(
+                    'mensaje',
+                    'Hubo errores al crear la mesa.'
+                );
+        }
+
+        /*
+     * ==========================================================
+     * CASO 2: SE INDICA CANTIDAD
+     * ==========================================================
+     *
+     * Se conserva la lógica actual.
+     *
+     * Ejemplo:
+     * nombre   = Exterior
+     * cantidad = 20
+     *
+     * Resultado:
+     * Exterior 1
+     * Exterior 2
+     * ...
+     * Exterior 20
+     */
+
+        $cantidad = (int) $cantidad;
+
+        /*
+     * Buscar el número más alto de las mesas existentes
+     * en este salón.
+     */
+        $mesas = $db->table('mesas')
+            ->select('nombre')
+            ->where('fk_salon', $salon)
+            ->get()
+            ->getResultArray();
+
+        $ultimoNumero = 0;
+
+        foreach ($mesas as $mesa) {
+
+            /*
+         * Busca el número al final del nombre.
+         *
+         * Ejemplo:
+         * Exterior 20 -> 20
+         * Mesa 15     -> 15
+         */
+            if (preg_match('/(\d+)$/', trim($mesa['nombre']), $match)) {
+
+                $numero = (int) $match[1];
+
+                if ($numero > $ultimoNumero) {
+                    $ultimoNumero = $numero;
+                }
+            }
+        }
+
+        $datos = [];
+
+        for ($i = 1; $i <= $cantidad; $i++) {
+
+            $numeroMesa = $ultimoNumero + $i;
+
+            $datos[] = [
+                'fk_salon' => $salon,
+                'nombre'   => $nombre . ' ' . $numeroMesa
+            ];
+        }
+
+        $insert = model('mesasModel')->insertBatch($datos);
+
+        if ($insert) {
+
+            session()->setFlashdata('iconoMensaje', 'success');
+
+            return redirect()
+                ->to(base_url('salones/list'))
+                ->with(
+                    'mensaje',
+                    'Se crearon correctamente ' . $cantidad . ' mesas.'
+                );
+        }
+
+        session()->setFlashdata('iconoMensaje', 'error');
+
+        return redirect()
+            ->to(base_url('mesas/list'))
+            ->with(
+                'mensaje',
+                'Hubo errores al crear las mesas.'
+            );
     }
 
     public function MesaPedido()
