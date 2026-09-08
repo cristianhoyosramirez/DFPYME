@@ -25,7 +25,7 @@ LISTADO DE IMPRESORAS
             <a href="<?php echo base_url('impresora/datos_iniciales'); ?>" class="btn btn-warning btn-pill w-100">Agregar impresora</a>
         </div>
         <div class="col-lg-auto ms-lg-auto">
-            <p class="text-primary h3">LISTA GENERAL DE IMPRESORAS </p>
+            <p class="text-primary h3">Impresoras  </p>
         </div>
         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
             <a class="nav-link"><img style="cursor:pointer;" src="<?php echo base_url(); ?>/Assets/img/atras.png" width="20" height="20" onClick="history.go(-1);" title="Sección anterior"></a>

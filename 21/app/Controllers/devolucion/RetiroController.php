@@ -72,6 +72,7 @@ class RetiroController extends BaseController
             'sub_cuentas'  => view('cuentas_retiro_rubros/listado', [
                 'rubros'   => $rubros
             ]),
+            'id'=>$id
 
         ]);
     }

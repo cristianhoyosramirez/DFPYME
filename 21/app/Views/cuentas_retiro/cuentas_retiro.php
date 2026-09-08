@@ -27,20 +27,7 @@ CUENTAS RETIRO DE DINERO
 
 <div class="card container">
     <div class="card-body">
-        <form action="<?= base_url('devolucion/agregar_cuenta') ?>" method="POST">
-            <input type="hidden" value="<?php echo $user_session->id_usuario; ?>" name="usuario_apertura">
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="inputEmail4" class="form-label">Nombre de la cuenta</label>
-                    <input type="text" class="form-control" id="nombre_cuenta" name="nombre_cuenta" autofocus>
-                    <div class="text-danger"><?= session('errors.nombre_cuenta') ?></div>
-                </div>
-
-            </div>
-            <div class="mt-4">
-                <button type="submit" class="btn btn-success w-md"> Crear cuenta</button>
-            </div>
-        </form>
+      
     </div>
 </div>
 

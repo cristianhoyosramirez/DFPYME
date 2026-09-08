@@ -435,6 +435,20 @@ class CerrarVenta extends BaseController
 
                 $pagos = model('pagosModel')->insert($pagos);
 
+                if ($estado == 6) {
+                    $idPago = model('pagosModel')->getInsertID();
+                    $campos = [
+                        'valor' => 0,
+                        'total_documento' => 0,
+                        'efectivo' => 0,
+                        'trnasferencia' => 0,
+                        'total_pago' => 0,
+                        'recibido_efectivo' => 0
+                    ];
+
+                    $actualizar = model('pagosModel')->set($campos)->where('id', $idPago)->update();
+                }
+
 
 
                 if ($tipo_pago == 1) {  // si el tipo de pago es 1 quiere decir que se factura el pedido completo 

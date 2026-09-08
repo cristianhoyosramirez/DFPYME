@@ -62,4 +62,15 @@ class retiroModel extends Model
 
     }
 
+       public function getFechas(){
+        $datos = $this->db->query("
+        SELECT 
+        MIN(fecha) AS fecha_inicial,
+        MAX(fecha) AS fecha_final
+        FROM retiro;
+         ");
+        return $datos->getResultArray();
+
+    }
+
 }

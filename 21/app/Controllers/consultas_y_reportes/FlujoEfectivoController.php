@@ -8,7 +8,11 @@ class FlujoEfectivoController extends BaseController
 {
     public function reporte_flujo_efectivo()
     {
-        return view('consultas_y_reportes/flujo_efectivo');
+        $fechas = model('retiroModel')->getFechas();
+        return view('consultas_y_reportes/flujo_efectivo', [
+            'fecha_inicial' => $fechas[0]['fecha_inicial'],
+            'fecha_final' => $fechas[0]['fecha_final']
+        ]);
     }
 
     function datos_reporte_flujo_efectivo()
@@ -29,12 +33,12 @@ class FlujoEfectivoController extends BaseController
 
     function excel_reporte_flujo_efectivo()
     {
-        $datos_empresa=model('empresaModel')->findAll();
-        
-        return view('consultas_y_reportes/excel_flujo_efectivo',[
-            'fecha_inicial'=>$this->request->getPost('fecha_inicial'),
-            'fecha_final'=>$this->request->getPost('fecha_final'),
-            'datos_empresa'=>$datos_empresa
+        $datos_empresa = model('empresaModel')->findAll();
+
+        return view('consultas_y_reportes/excel_flujo_efectivo', [
+            'fecha_inicial' => $this->request->getPost('fecha_inicial'),
+            'fecha_final' => $this->request->getPost('fecha_final'),
+            'datos_empresa' => $datos_empresa
         ]);
     }
 }
