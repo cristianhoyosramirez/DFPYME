@@ -1289,17 +1289,8 @@ class AbonosController extends BaseController
             ]);
         }
 
-        /*
-    |--------------------------------------------------------------------------
-    | VALIDAR QUE NO SUPERE EL SALDO
-    |--------------------------------------------------------------------------
-    */
-        if ($totalPagado > $saldoActual) {
-            return $this->response->setJSON([
-                'success' => false,
-                'mensaje' => 'Los abonos superan el saldo pendiente'
-            ]);
-        }
+
+
 
         /*
     |--------------------------------------------------------------------------

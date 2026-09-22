@@ -1289,7 +1289,7 @@ class Imprimir extends BaseController
         }
     }
 
-    function detalle_f_e()
+    /*   function detalle_f_e()
     {
         $id_factura = $this->request->getPost('id_factura');
         $items = model('itemFacturaElectronicaModel')->where('id_de', $id_factura)->findAll();
@@ -1312,6 +1312,72 @@ class Imprimir extends BaseController
 
             ]),
             "total" => "Total $ " . number_format($total['total'], 0, ',', '.')
+        );
+        echo  json_encode($returnData);
+    } */
+
+    function detalle_f_e()
+    {
+        $id_factura = $_POST['id_factura'];
+        //$id_factura = 10163;
+
+
+
+
+        $forma_pago = model('pagosModel')->select('forma_pago,saldo')->where('id_factura', $id_factura)
+            ->where('id_estado', 8)
+            ->first();
+
+        $items = model('itemFacturaElectronicaModel')->getProductosFe($id_factura);
+        //dd($items);
+
+        $numero = model('facturaElectronicaModel')->select('numero')->where('id', $id_factura)->first();
+        $nit_cliente = model('facturaElectronicaModel')->select('nit_cliente')->where('id', $id_factura)->first();
+        $nit_cliente = model('facturaElectronicaModel')->select('nit_cliente')->where('id', $id_factura)->first();
+        $fecha = model('facturaElectronicaModel')->select('fecha')->where('id', $id_factura)->first();
+        $nombre_cliente = model('clientesModel')->select('nombrescliente')->where('nitcliente', $nit_cliente['nit_cliente'])->first();
+
+        $propina = model('pagosModel')->select('propina')->where('id_factura', $id_factura)->where('id_estado', 8)->first()['propina'] ?? 0;
+        $total = model('facturaElectronicaModel')->select('total')->where('id', $id_factura)->first();
+
+        $abonos = "";
+        $total_abonos = "";
+        if ($forma_pago['forma_pago'] == 2) {
+            $abonos = model('facturaFormaPagoModel')->where('id_factura', $id_factura)->where('id_estado', 8)->findAll();
+            $temp_abonos = model('facturaFormaPagoModel')
+                ->selectSum('valor_pago')
+                ->where('id_factura', $id_factura)
+                ->where('id_estado', 8)
+                ->first()['valor_pago'];
+            $total_abonos = $temp_abonos;
+        }
+
+        $productos = view('duplicado_de_factura/productos_factura_duplicado', [
+            'productos' => $items,
+            'fecha_factura' => $fecha['fecha'],
+            'numero_factura' => $numero['numero'],
+            'nit_cliente' => $nit_cliente['nit_cliente'] . "/" . $nombre_cliente['nombrescliente'],
+            'hora_factura' => "",
+            'total_factura' => $total['total'],
+            'abonos' => $abonos,
+            'forma_pago' => $forma_pago['forma_pago'],
+            'saldo' => $forma_pago['saldo'],
+            'total_abonos' => $total_abonos,
+            'propina' => $propina
+        ]);
+
+        /*  $returnData = array(
+            "resultado" => 1, //Hay numero de pedido
+            "productos" => $productos
+
+
+        );
+        echo  json_encode($returnData); */
+
+        $returnData = array(
+            "resultado" => 1,
+            "f_e" => $productos,
+            "total" => ""
         );
         echo  json_encode($returnData);
     }
@@ -1856,7 +1922,7 @@ class Imprimir extends BaseController
             $printer->text("\n");
             $printer->setJustification(Printer::JUSTIFY_CENTER);
 
-           
+
             $printer->setJustification(Printer::JUSTIFY_LEFT);
 
             // Imprimir cada forma de pago

@@ -540,7 +540,7 @@ class FacturaElectronica extends BaseController
                     $tempSaldo = 0;
                 }
                 if ($this->request->getPost('formaPago') == 2) {
-                    $tempSaldo = $valor_venta;
+                    $tempSaldo = $valor_venta+$propina;
                 }
 
 

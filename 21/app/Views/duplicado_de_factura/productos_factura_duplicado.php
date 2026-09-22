@@ -533,6 +533,14 @@
                                             '.'
                                         ); ?>
                                 </td>
+                                <td class="total text-end">
+                                    $<?= number_format(
+                                            $total,
+                                            0,
+                                            ',',
+                                            '.'
+                                        ); ?>
+                                </td>
 
                             </tr>
 
@@ -567,11 +575,29 @@
 
     <tr>
         <td>
-            <strong>Total </strong>
+            <strong>Sub total  </strong>
         </td>
 
         <td class="text-right">
             <?php echo "$" . number_format($total_factura, 0, ',', '.'); ?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Propina </strong>
+        </td>
+
+        <td class="text-right">
+            <?php echo "$" . number_format($propina, 0, ',', '.'); ?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Total </strong>
+        </td>
+
+        <td class="text-right">
+            <?php echo "$" . number_format($total_factura+$propina, 0, ',', '.'); ?>
         </td>
     </tr>
 

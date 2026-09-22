@@ -94,6 +94,8 @@ class duplicadoFacturaController extends BaseController
         //$total_factura = model('facturaVentaModel')->select('valor_factura')->where('id', $id_factura)->first();
         $total_factura = model('kardexModel')->selectSum('total')->where('id_factura', $id_factura)->first();
 
+        $propina = model('pagosModel')->select('propina')->where('id_factura', $id_factura)->where('id_estado', $id_estado['idestado'])->first()['propina'] ?? 0;
+
 
         $abonos = "";
         $total_abonos = "";
@@ -111,13 +113,14 @@ class duplicadoFacturaController extends BaseController
             'productos' => $items,
             'fecha_factura' => $datos_factura[0]['fecha_factura_venta'],
             'numero_factura' => $datos_factura[0]['numerofactura_venta'],
-            'nit_cliente' => $datos_factura[0]['nitcliente'],
+            'nit_cliente' => $datos_factura[0]['nitcliente']."/".$datos_factura[0]['nombrescliente'],
             'hora_factura' => $datos_factura[0]['horafactura_venta'],
             'total_factura' => $total_factura['total'],
             'abonos' => $abonos,
             'forma_pago' => $forma_pago['forma_pago'],
             'saldo' => $forma_pago['saldo'],
-            'total_abonos' => $total_abonos
+            'total_abonos' => $total_abonos,
+            'propina' => $propina
         ]);
 
         $returnData = array(

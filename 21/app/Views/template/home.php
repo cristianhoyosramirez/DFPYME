@@ -592,7 +592,8 @@
                                 return $.extend({}, d, {
                                     // documento: documento,
                                     fecha_inicial: fecha_inicial,
-                                    fecha_final: fecha_final
+                                    fecha_final: fecha_final,
+                                    documento:tipo_documento
                                 });
                             },
                             dataSrc: function(json) {

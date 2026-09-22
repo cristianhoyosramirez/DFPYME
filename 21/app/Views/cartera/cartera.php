@@ -1,514 +1,346 @@
-<!doctype html>
-<html lang="es">
+<?php $session = session(); ?>
+<?= $this->extend('template/home') ?>
 
-<head>
+<?= $this->section('title') ?>
+VENTAS CRÉDITO
+<?= $this->endSection('title') ?>
 
-    <meta charset="utf-8">
+<?= $this->section('content') ?>
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover">
+<p class="text-primary text-center">Consulta ventas crédito</p>
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>
-        <?= $this->renderSection('title') ?> DFPYME
-    </title>
-
-    <!-- ===========================================================
-        Favicon
-    ============================================================ -->
-
-    <link rel="shortcut icon"
-        href="<?= base_url('Assets/img/favicon.png') ?>">
-
-    <!-- ===========================================================
-        TABLER
-    ============================================================ -->
-
-    <link rel="stylesheet"
-        href="<?= base_url('Assets/css/tabler.min.css') ?>">
-
-    <!-- ===========================================================
-        SELECT2
-    ============================================================ -->
-
-    <link rel="stylesheet"
-        href="<?= base_url('Assets/plugin/select2/select2-bootstrap-5-theme.min.css') ?>">
-
-    <!-- ===========================================================
-        JQuery UI
-    ============================================================ -->
-
-    <link rel="stylesheet"
-        href="<?= base_url('Assets/plugin/jquery-ui/jquery-ui.css') ?>">
-
-    <?= $this->renderSection('styles') ?>
-
-    <style>
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-        }
-
-        body {
-            background: #f5f7fb;
-        }
-
-        .wrapper {
-            height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .page-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .page-body {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-        }
-
-        .container-principal {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            padding: .8rem;
-        }
-
-        .card-principal {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .card-principal>.card-body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            padding: 1rem;
-        }
-
-        .filtros,
-        .indicadores,
-        .total {
-            flex-shrink: 0;
-        }
-
-        .tabla-creditos {
-            flex: 1;
-            overflow: auto;
-            border: 1px solid #dee2e6;
-            border-radius: .5rem;
-            margin-top: 20px;
-            /* <-- aumenta este valor */
-        }
-
-        .tabla-creditos table {
-            margin-bottom: 0;
-        }
-
-        .tabla-creditos thead th {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: #182433;
-            color: #fff;
-            white-space: nowrap;
-        }
-
-        .tabla-creditos tbody td {
-            white-space: nowrap;
-            vertical-align: middle;
-        }
-
-        .indicadores .card {
-            height: 100%;
-        }
-
-        @media (max-width:768px) {
-
-            .container-principal {
-                padding: .5rem;
-            }
-
-            .card-principal>.card-body {
-                padding: .75rem;
-            }
-
-            .tabla-creditos {
-                font-size: .85rem;
-            }
-
-        }
-    </style>
-
-</head>
-
-<body>
-
-    <div class="wrapper">
-
-        <!-- HEADER -->
-        <?= $this->include('layout/header_mesas') ?>
-
-        <div class="page-wrapper">
-
-            <div class="page-body">
+<div class="card container">
+    <div class="card-body">
 
 
-                <div class="container-principal">
+        <form action="<?= base_url('cartera/excel') ?>" method="POST">
 
-                    <div class="card shadow-sm card-principal">
+            <div class="row g-3 align-items-end filtros mb-3">
 
-                        <div class="card-header">
+                <!-- ========================================================= -->
+                <!-- NÚMERO DE FACTURA -->
+                <!-- ========================================================= -->
+                <div class="col-xl-4 col-lg-4 col-md-6">
 
-                            <h2 class="card-title mb-0">
-                                Consulta de Créditos Vigentes
-                            </h2>
+                    <label class="form-label">Número de factura</label>
+
+                    <input
+                        type="hidden"
+                        id="id_cliente"
+                        name="id_cliente">
+
+                    <div class="input-group">
+
+                        <input
+                            type="text"
+                            id="documento"
+                            class="form-control"
+                            placeholder="Buscar factura"
+                            onkeyup="buscarDocumento(this.value);controlFiltrosFactura();document.getElementById('errorFactura').innerHTML=''">
+
+                        <span
+                            class="input-group-text cursor-pointer"
+                            role="button"
+                            title="Limpiar factura"
+                            onclick="
+                        document.getElementById('documento').value='';
+                        document.getElementById('errorFactura').innerHTML='';
+                        document.getElementById('documento').focus();
+
+                        document.getElementById('EstadoCartera').disabled=false;
+                        document.getElementById('EstadoCartera').value='0';
+
+                        document.getElementById('tipo_fecha').disabled=false;
+                        document.getElementById('tipo_fecha').value='t';
+
+                        document.getElementById('fecha_inicial').disabled=false;
+                        document.getElementById('fecha_final').disabled=false;
+
+                        datos_cartera();
+                    ">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <line x1="4" y1="7" x2="20" y2="7" />
+                                <line x1="10" y1="11" x2="10" y2="17" />
+                                <line x1="14" y1="11" x2="14" y2="17" />
+                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                            </svg>
+
+                        </span>
+
+                    </div>
+
+                    <small id="errorFactura" class="text-danger"></small>
+
+                </div>
+
+
+                <!-- ========================================================= -->
+                <!-- CLIENTE -->
+                <!-- ========================================================= -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+
+                    <label class="form-label">Cliente</label>
+
+                    <div class="input-group">
+
+                        <input
+                            type="text"
+                            id="buscarCliente"
+                            name="buscarCliente"
+                            class="form-control"
+                            placeholder="Nombre o NIT"
+                            oninput="
+                        document.getElementById('clienteNotiene').innerHTML='';
+                        controlFiltrosCliente()
+                    ">
+
+                        <span
+                            class="input-group-text cursor-pointer"
+                            role="button"
+                            title="Limpiar cliente"
+                            onclick="
+                        document.getElementById('buscarCliente').value='';
+                        document.getElementById('id_cliente').value='';
+                        document.getElementById('clienteNotiene').innerHTML='';
+                        document.getElementById('buscarCliente').focus();
+                        datos_cartera();
+                    ">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <line x1="4" y1="7" x2="20" y2="7" />
+                                <line x1="10" y1="11" x2="10" y2="17" />
+                                <line x1="14" y1="11" x2="14" y2="17" />
+                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+
+                            </svg>
+
+                        </span>
+
+                    </div>
+
+                    <small id="clienteNotiene" class="text-danger"></small>
+
+                </div>
+
+
+                <!-- ========================================================= -->
+                <!-- ESTADO -->
+                <!-- ========================================================= -->
+                <div class="col-xl-1 col-lg-2 col-md-4">
+
+                    <label class="form-label">Estado</label>
+
+                    <select
+                        class="form-select"
+                        id="EstadoCartera"
+                        name="EstadoCartera">
+
+                        <option value="0">Todos</option>
+                        <option value="1">Con saldo</option>
+                        <option value="2">Sin saldo</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ========================================================= -->
+                <!-- TIPO DE PERÍODO -->
+                <!-- ========================================================= -->
+                <div class="col-xl-2 col-lg-3 col-md-4">
+
+                    <label class="form-label">Período</label>
+
+                    <select
+                        id="tipo_fecha"
+                        name="tipo_fecha"
+                        class="form-select"
+                        onchange="cambiarTipoFecha()">
+
+                        <option value="t">Todos los tiempos</option>
+                        <option value="f">Una fecha</option>
+                        <option value="pp">Por período</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ========================================================= -->
+                <!-- FECHA -->
+                <!-- ========================================================= -->
+                <div
+                    class="col-xl-2 col-lg-3 col-md-4"
+                    id="divFecha"
+                    style="display:none;">
+
+                    <label class="form-label">Fecha</label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="fecha"
+                        name="fecha"
+                        value="<?= date('Y-m-d') ?>">
+
+                </div>
+
+
+                <!-- ========================================================= -->
+                <!-- PERÍODO -->
+                <!-- ========================================================= -->
+                <div
+                    class="col-xl-4 col-lg-6 col-md-8"
+                    id="divPeriodo"
+                    style="display:none;">
+
+                    <div class="row g-2">
+
+                        <!-- Fecha inicial -->
+                        <div class="col-6">
+
+                            <label class="form-label">Fecha inicial</label>
+
+                            <input
+                                type="date"
+                                class="form-control"
+                                id="fecha_inicial"
+                                name="fecha_inicial"
+                                value="<?= date('Y-m-01') ?>">
 
                         </div>
 
-                        <div class="card-body">
-
-
-                            <form action="<?= base_url('cartera/excel') ?>" method="POST">
-
-                                <div class="row g-3 align-items-end filtros mb-3">
-
-                                    <!-- Número de factura -->
-                                    <div class="col-xl-2 col-lg-2 col-md-3">
-                                        <label class="form-label">Número de factura</label>
-
-                                        <input type="hidden" id="id_cliente" name="id_cliente">
-
-                                        <div class="input-group">
-                                            <input
-                                                type="text"
-                                                id="documento"
-                                                class="form-control"
-                                                placeholder="Buscar factura"
-                                                onkeyup="buscarDocumento(this.value);controlFiltrosFactura();document.getElementById('errorFactura').innerHTML=''">
-
-                                            <span
-                                                class="input-group-text cursor-pointer"
-                                                onclick="
-                                                    document.getElementById('documento').value='';
-                                                    document.getElementById('errorFactura').innerHTML='';
-                                                    document.getElementById('documento').focus();
-                                                    document.getElementById('EstadoCartera').disabled = false;
-                                                    document.getElementById('EstadoCartera').value = '0';
-                                                     // Período
-                                                    document.getElementById('tipo_fecha').disabled = false;
-                                                    document.getElementById('tipo_fecha').value = 't';
-
-                                                    // Fechas
-                                                    document.getElementById('fecha_inicial').disabled = false;
-                                                    document.getElementById('fecha_final').disabled = false;
-                                                    datos_cartera();
-
-                                                ">
-
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="icon"
-                                                    width="22"
-                                                    height="22"
-                                                    viewBox="0 0 24 24"
-                                                    stroke-width="2"
-                                                    stroke="currentColor"
-                                                    fill="none"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <line x1="4" y1="7" x2="20" y2="7" />
-                                                    <line x1="10" y1="11" x2="10" y2="17" />
-                                                    <line x1="14" y1="11" x2="14" y2="17" />
-                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                                </svg>
-
-                                            </span>
-                                        </div>
-
-                                        <small id="errorFactura" class="text-danger"></small>
-                                    </div>
-
-                                    <!-- Cliente -->
-                                    <div class="col-xl-3 col-lg-3 col-md-3">
-
-                                        <label class="form-label">Cliente</label>
-
-                                        <div class="input-group">
-
-                                            <input
-                                                type="text"
-                                                id="buscarCliente"
-                                                name="buscarCliente"
-                                                class="form-control"
-                                                placeholder="Nombre o NIT"
-                                                oninput="document.getElementById('clienteNotiene').innerHTML='';controlFiltrosCliente()">
-
-                                            <span
-                                                class="input-group-text cursor-pointer"
-                                                onclick="
-                                                document.getElementById('buscarCliente').value='';
-                                                document.getElementById('id_cliente').value='';
-                                                document.getElementById('clienteNotiene').innerHTML='';
-                                                document.getElementById('buscarCliente').focus();
-                                                datos_cartera()
-                                            ">
-
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="icon"
-                                                    width="22"
-                                                    height="22"
-                                                    viewBox="0 0 24 24"
-                                                    stroke-width="2"
-                                                    stroke="currentColor"
-                                                    fill="none"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <line x1="4" y1="7" x2="20" y2="7" />
-                                                    <line x1="10" y1="11" x2="10" y2="17" />
-                                                    <line x1="14" y1="11" x2="14" y2="17" />
-                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                                </svg>
-
-                                            </span>
-
-                                        </div>
-
-                                        <small id="clienteNotiene" class="text-danger"></small>
-
-                                    </div>
-
-                                    <!-- Estado -->
-                                    <div class="col-xl-1 col-lg-2 col-md-2">
-
-                                        <label class="form-label">Estado</label>
-
-                                        <select class="form-select" id="EstadoCartera" name="EstadoCartera">
-                                            <option value="0">Todos</option>
-                                            <option value="1">Con saldo</option>
-                                            <option value="2">Sin saldo</option>
-                                        </select>
-
-                                    </div>
-
-                                    <!-- Tipo de periodo -->
-                                    <div class="col-xl-2 col-lg-2 col-md-2">
-
-                                        <label class="form-label">Período</label>
-
-                                        <select
-                                            id="tipo_fecha"
-                                            name="tipo_fecha"
-                                            class="form-select"
-                                            onchange="cambiarTipoFecha()">
-
-                                            <option value="t">Todos los tiempos</option>
-                                            <option value="f">Una fecha</option>
-                                            <option value="pp">Por período</option>
-
-                                        </select>
-
-                                    </div>
-
-                                    <!-- Fecha -->
-                                    <div class="col" id="divFecha" style="display:none;">
-
-                                        <label class="form-label">Fecha</label>
-
-                                        <input
-                                            type="date"
-                                            class="form-control"
-                                            id="fecha"
-                                            name="fecha"
-                                            value="<?= date('Y-m-d') ?>">
-
-                                    </div>
-
-                                    <!-- Periodo -->
-                                    <div class="col" id="divPeriodo" style="display:none;">
-
-                                        <div class="row g-2">
-
-                                            <div class="col">
-
-                                                <label class="form-label">Fecha inicial</label>
-
-                                                <input
-                                                    type="date"
-                                                    class="form-control"
-                                                    id="fecha_inicial"
-                                                    name="fecha_inicial"
-                                                    value="<?= date('Y-m-01') ?>">
-
-                                            </div>
-
-                                            <div class="col">
-
-                                                <label class="form-label">Fecha final</label>
-
-                                                <input
-                                                    type="date"
-                                                    class="form-control"
-                                                    id="fecha_final"
-                                                    name="fecha_final"
-                                                    value="<?= date('Y-m-d') ?>">
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <!-- Botones -->
-                                    <div class="col-auto">
-
-                                        <div class="d-flex gap-2">
-
-                                            <button
-                                                type="button"
-                                                class="btn btn-outline-success"
-                                                onclick="buscarCartera()">
-                                                Buscar
-                                            </button>
-
-                                            <button
-                                                type="submit"
-                                                class="btn btn-outline-primary">
-                                                Excel
-                                            </button>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </form>
-
-
-
-
-                            <!-- INDICADORES -->
-
-                            <div class="row g-3 indicadores mb-3">
-
-                                <div class="col-lg-4">
-
-                                    <div class="card bg-light shadow-sm">
-
-                                        <div class="card-body text-center">
-
-                                            <div class="text-danger fw-bold">
-                                                Cartera Vigente
-                                            </div>
-
-                                            <h3 class="mb-0" id="carteraVigente">
-                                                <?= number_format($total, 0, ',', '.'); ?>
-                                            </h3>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-lg-4">
-
-                                    <div class="card bg-light shadow-sm">
-
-                                        <div class="card-body text-center">
-
-                                            <div class="text-muted">
-                                                Créditos
-                                            </div>
-
-                                            <h2 class="mb-0" id="cantidadFacturas">
-                                                <?= $cantidad_facturas; ?>
-                                            </h2>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-4">
-
-                                    <div class="card bg-light shadow-sm">
-
-                                        <div class="card-body text-center">
-
-                                            <div class="text-muted">
-                                                Valor pagado
-                                            </div>
-
-                                            <h2 class="mb-0" id="valorPagado">
-                                                <?= $cantidad_facturas; ?>
-                                            </h2>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
+                        <!-- Fecha final -->
+                        <div class="col-6">
+
+                            <label class="form-label">Fecha final</label>
+
+                            <input
+                                type="date"
+                                class="form-control"
+                                id="fecha_final"
+                                name="fecha_final"
+                                value="<?= date('Y-m-d') ?>">
 
                         </div>
 
-                        <!-- TABLA -->
+                    </div>
 
-                        <div class="table-responsive tabla-creditos">
-
-                            <table class="table table-hover table-striped table-vcenter card-table align-middle">
-
-                                <thead>
-
-                                    <tr>
-
-                                        <th>Fecha</th>
-                                        <th>NIT</th>
-                                        <th>Cliente</th>
-                                        <th>Documento</th>
-                                        <th>Valor factura </th>
-                                        <th>Valor pagado </th>
-                                        <th>Saldo</th>
-                                        <th>Tipo documento</th>
-                                        <th>
-                                            Acciones
-                                        </th>
-
-                                    </tr>
-
-                                </thead>
-
-                                <tbody id="datosConsultaCartera">
-
-                                    <?= $this->include('cartera/datosCartera') ?>
+                </div>
 
 
-                                </tbody>
+                <!-- ========================================================= -->
+                <!-- BOTONES -->
+                <!-- ========================================================= -->
+                <div class="col-xl-2 col-lg-3 col-md-4">
 
-                            </table>
+                    <div class="d-flex gap-2">
 
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary flex-fill"
+                            onclick="buscarCartera()">
+
+                            Buscar
+
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn btn-outline-success flex-fill">
+
+                            Excel
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+
+        <div class="row g-3 indicadores mb-3">
+
+            <div class="col-lg-4">
+
+                <div class="card bg-light shadow-sm">
+
+                    <div class="card-body text-center">
+
+                        <div class="text-danger fw-bold">
+                            Ventas a crédito 
                         </div>
 
+                        <h3 class="mb-0" id="carteraVigente">
+                            <?= number_format($total, 0, ',', '.'); ?>
+                        </h3>
 
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="card bg-light shadow-sm">
+
+                    <div class="card-body text-center">
+
+                        <div class="text-muted">
+                            Pago a facturas crédito 
+                        </div>
+
+                        <h2 class="mb-0" id="cantidadFacturas">
+                            <?= $cantidad_facturas; ?>
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-lg-4">
+
+                <div class="card bg-light shadow-sm">
+
+                    <div class="card-body text-center">
+
+                        <div class="text-muted">
+                            Saldo por cobrar 
+                        </div>
+
+                        <h2 class="mb-0" id="valorPagado">
+                            <?= $cantidad_facturas; ?>
+                        </h2>
 
                     </div>
 
@@ -518,15 +350,37 @@
 
         </div>
 
+
     </div>
 
-    <!-- FOOTER -->
+    <table class="table table-striped table-hover">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <td>Fecha</th>
+                <td>NIT</th>
+                <td>Cliente</th>
+                <td>Documento</th>
+                <td>Valor factura </th>
+                <td>Valor pagado </th>
+                <td>Saldo</th>
+                <td>Tipo documento</th>
+                <td>
+                    Acciones
+                    </th>
+            </tr>
+        </thead>
+
+        <tbody id="datosConsultaCartera">
+            <?= $this->include('cartera/datosCartera') ?>
+        </tbody>
+
+    </table>
     <input type="hidden" value="<?= base_url() ?>" id="url">
 
     <?= $this->include('layout/footer') ?>
-
-    </div>
-
 
 
     <!-- ===========================================================
@@ -555,41 +409,7 @@ JQUERY UI
     <script src="<?= base_url() ?>/Assets/script_js/cartera/imprimir_comprobante.js"></script>
 
 
-    <!-- <script>
-        async function imprimir_comprobante(id) {
 
-            try {
-
-                const response = await fetch(
-                    url + '/consultas_y_reportes/imprimir_comprobante_ingreso', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            id: id
-                        })
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error('No fue posible generar el comprobante');
-                }
-
-               
-
-            } catch (error) {
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error.message
-                });
-
-            }
-
-        }
-    </script> -->
 
 
     <script>
@@ -1009,7 +829,37 @@ JQUERY UI
     </script>
 
 
+</div>
+</div>
 
-</body>
 
-</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?= $this->endSection('content') ?>

@@ -2746,7 +2746,21 @@
             let url = document.getElementById("url").value;
             let id_mesa = document.getElementById("id_mesa_pedido").value;
             let criterio_propina = document.getElementById("criterio_propina_final").value;
+            let documento = document.getElementById("documento").value;
 
+            if (documento == 6) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No se puede colocar propina',
+                    text: 'Este documento corresponde a una cortesía y no permite agregar propina.',
+                    timer: 2500,
+                    showConfirmButton: false,
+                    timerProgressBar: true
+                });
+
+                return;
+            }
             if (criterio_propina == 1) {
 
                 $.ajax({

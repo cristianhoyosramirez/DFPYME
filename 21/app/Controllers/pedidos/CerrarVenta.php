@@ -204,7 +204,7 @@ class CerrarVenta extends BaseController
                 $saldo = 0;
             }
             if ($forma_pago == 2) {  //Venta a credito 
-                $saldo = $valor_total['valor_total'];
+                $saldo = $valor_total['valor_total']+$propina;
             }
 
             $fech = DateTime::createFromFormat('U.u', microtime(TRUE));
@@ -438,8 +438,8 @@ class CerrarVenta extends BaseController
                 if ($estado == 6) {
                     $idPago = model('pagosModel')->getInsertID();
                     $campos = [
-                        'valor' => 0,
-                        'total_documento' => 0,
+                        //'valor' => 0,
+                        //'total_documento' => 0,
                         'efectivo' => 0,
                         'trnasferencia' => 0,
                         'total_pago' => 0,

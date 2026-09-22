@@ -45,9 +45,9 @@ class productoFacturaVentaModel extends Model
     {
         $datos = $this->db->query("
         SELECT
-            producto.codigointernoproducto,
+            producto.codigointernoproducto as codigointernoproducto,
             producto.nombreproducto,
-            cantidadproducto_factura_venta,
+            cantidadproducto_factura_venta as cantidadproducto_factura_venta,
             valor_venta_real,
             total
         FROM

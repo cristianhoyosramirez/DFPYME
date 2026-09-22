@@ -1150,7 +1150,7 @@ class Boletas extends BaseController
     pagos.id,
     pagos.fecha,
     pagos.documento,
-    pagos.valor as total_documento,
+    pagos.total_documento as total_documento,
     pagos.id_factura,
     pagos.id_estado,
     pagos.nit_cliente,
@@ -1571,7 +1571,7 @@ WHERE pagos.id_apertura = $apertura
         $tipo_documento = $this->request->getGet('tipo_documento');
         //$tipo_documento = 5;
 
-
+        
         $acciones = new tipo_consulta();
         $acci = $acciones->consulta($fecha_inicial, $fecha_final, $tipo_documento);
 

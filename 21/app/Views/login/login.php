@@ -68,8 +68,8 @@
         /* ========================================================= CONTENEDOR PRINCIPAL ========================================================= */
         .login-container {
             width: 100%;
-            max-width: 900px;
-            min-height: calc(100vh - 44px);
+            max-width: 620px;
+            min-height: auto;
             display: flex;
             flex-direction: column;
             background: var(--blanco);
@@ -82,9 +82,9 @@
         /* ========================================================= CONTENIDO ========================================================= */
         .login-content {
             width: 100%;
-            max-width: 800px;
+            max-width: 560px;
             margin: auto;
-            padding: 38px 45px 28px;
+            padding: 28px 26px 22px;
         }
 
         /* ========================================================= LOGO ========================================================= */
@@ -135,6 +135,7 @@
 
         /* ========================================================= PIN ========================================================= */
         .pin-container {
+            position: relative;
             display: flex;
             justify-content: center;
             gap: 15px;
@@ -142,8 +143,8 @@
         }
 
         .pin-box {
-            width: 108px;
-            height: 108px;
+            width: 72px;
+            height: 72px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -151,7 +152,7 @@
             border: 2px solid var(--borde);
             border-radius: 17px;
             color: var(--azul-oscuro);
-            font-size: 46px;
+            font-size: 34px;
             font-weight: 600;
             transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
         }
@@ -233,11 +234,26 @@
         /* ========================================================= INPUT OCULTO ========================================================= */
         #code {
             position: absolute;
-            width: 1px;
-            height: 1px;
-            opacity: 0;
-            pointer-events: none;
-            left: -9999px;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 76px;
+            opacity: 0.01;
+            z-index: 10;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: transparent;
+            caret-color: transparent;
+            padding: 0;
+            margin: 0;
+            cursor: text;
+        }
+
+        #code:focus {
+            outline: none;
+            box-shadow: none;
         }
 
         /* ========================================================= TECLADO ========================================================= */
@@ -247,8 +263,10 @@
 
         .table-numeric {
             width: 100%;
+            max-width: 430px;
+            margin: 0 auto;
             border-collapse: separate;
-            border-spacing: 9px;
+            border-spacing: 7px;
         }
 
         .table-numeric td {
@@ -259,7 +277,7 @@
         /* ========================================================= BOTONES ========================================================= */
         .numeric-button {
             width: 100%;
-            height: 82px;
+            height: 64px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -267,7 +285,7 @@
             background: #ffffff;
             border: 1px solid #dce3eb !important;
             color: var(--azul-oscuro);
-            font-size: 34px;
+            font-size: 29px;
             font-weight: 600;
             box-shadow: var(--sombra-boton);
             transition: transform 0.08s ease, box-shadow 0.12s ease, background 0.12s ease, border-color 0.12s ease;
@@ -929,7 +947,7 @@
                     name="pin"
                     maxlength="4"
                     autocomplete="off"
-                    tabindex="-1">
+                    inputmode="numeric">
 
 
                 <!-- =================================================
@@ -1360,192 +1378,142 @@
        ELEMENTOS
     ========================================================= */
 
-        const inputPin =
-            document.getElementById('code');
+        const inputPin = document.getElementById('code');
+        const pinBoxes = document.querySelectorAll('.pin-box');
+        const errorLogin = document.getElementById('error_login');
+        const pinProgress = document.getElementById('pinProgress');
+        const pinCount = document.getElementById('pinCount');
+        const form = document.getElementById('form');
 
-        const pinBoxes =
-            document.querySelectorAll('.pin-box');
+        let enviando = false;
 
-        const errorLogin =
-            document.getElementById('error_login');
+        function enfocarPin() {
+            if (!enviando) {
+                inputPin.focus({ preventScroll: true });
+            }
+        }
 
-        const pinProgress =
-            document.getElementById('pinProgress');
+        function actualizarPinVisual() {
 
-        const pinCount =
-            document.getElementById('pinCount');
+            const valor = inputPin.value
+                .replace(/\D/g, '')
+                .slice(0, 4);
 
+            inputPin.value = valor;
 
-        /* =========================================================
-           AGREGAR DIGITO
-        ========================================================= */
+            pinBoxes.forEach((box, index) => {
+
+                box.classList.remove('active', 'filled');
+
+                if (index < valor.length) {
+                    box.textContent = '•';
+                    box.classList.add('filled');
+                } else {
+                    box.textContent = '';
+                }
+            });
+
+            if (valor.length < 4) {
+                pinBoxes[valor.length].classList.add('active');
+            }
+
+            pinCount.textContent = valor.length;
+            pinProgress.style.width =
+                ((valor.length / 4) * 100) + '%';
+        }
 
         function agregarDigito(digito) {
 
-            if (inputPin.value.length >= 4) {
-
+            if (enviando || inputPin.value.length >= 4) {
                 return;
             }
 
-
-            inputPin.value += digito;
-
+            inputPin.value += String(digito);
 
             actualizarPinVisual();
-
-
             borrar_error();
-
-
-            /*
-             * Cuando completa los 4 dígitos
-             * realiza automáticamente el login.
-             */
+            enfocarPin();
 
             if (inputPin.value.length === 4) {
-
-                setTimeout(() => {
-
-                    login();
-
-                }, 100);
-
+                setTimeout(login, 100);
             }
-
         }
 
-
-        /* =========================================================
-           BORRAR DIGITO
-        ========================================================= */
-
         function borrarDigito() {
+
+            if (enviando) {
+                return;
+            }
 
             inputPin.value =
                 inputPin.value.slice(0, -1);
 
-
             actualizarPinVisual();
-
-
             borrar_error();
-
+            enfocarPin();
         }
 
+        /*
+         * TECLADO FÍSICO
+         *
+         * Ya no dependemos de document.keydown para los números.
+         * El teclado escribe directamente en #code y el evento
+         * input actualiza los cuadros inmediatamente.
+         */
+        inputPin.addEventListener('input', function () {
 
-        /* =========================================================
-           ACTUALIZAR PIN VISUAL
-        ========================================================= */
-
-        function actualizarPinVisual() {
-
-            const valor =
-                inputPin.value;
-
-
-            pinBoxes.forEach((box, index) => {
-
-                box.classList.remove('active');
-
-                box.classList.remove('filled');
-
-
-                if (index < valor.length) {
-
-                    box.textContent = '•';
-
-                    box.classList.add('filled');
-
-                } else {
-
-                    box.textContent = '';
-
-                }
-
-            });
-
-
-            /*
-             * Siguiente posición activa
-             */
-
-            if (valor.length < 4) {
-
-                pinBoxes[valor.length]
-                    .classList.add('active');
-
+            if (enviando) {
+                return;
             }
 
+            inputPin.value =
+                inputPin.value
+                    .replace(/\D/g, '')
+                    .slice(0, 4);
 
-            /*
-             * Contador
-             */
+            actualizarPinVisual();
+            borrar_error();
 
-            pinCount.textContent =
-                valor.length;
+            if (inputPin.value.length === 4) {
+                setTimeout(login, 100);
+            }
+        });
 
+        inputPin.addEventListener('keydown', function (event) {
 
-            /*
-             * Barra de progreso
-             */
-
-            const porcentaje =
-                (valor.length / 4) * 100;
-
-
-            pinProgress.style.width =
-                porcentaje + '%';
-
-        }
-
-
-        /* =========================================================
-           LOGIN
-        ========================================================= */
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                login();
+            }
+        });
 
         function login() {
 
-            const pin =
-                inputPin.value;
+            if (enviando) {
+                return;
+            }
 
+            const pin = inputPin.value;
 
             if (pin === '') {
-
                 errorLogin.textContent =
                     'No hay definido PIN.';
-
                 actualizarPinVisual();
-
+                enfocarPin();
                 return;
             }
-
 
             if (pin.length !== 4) {
-
                 errorLogin.textContent =
                     'El PIN debe tener 4 dígitos.';
-
                 actualizarPinVisual();
-
+                enfocarPin();
                 return;
             }
 
-
-            /*
-             * Mantiene exactamente
-             * el formulario y endpoint actual.
-             */
-
-            document
-                .getElementById('form')
-                .submit();
-
+            enviando = true;
+            form.submit();
         }
-
-
-        /* =========================================================
-           LIMPIAR ERROR
-        ========================================================= */
 
         function borrar_error() {
 
@@ -1559,66 +1527,28 @@
                 errorLogin.textContent = '';
 
             <?php endif; ?>
-
         }
 
+        /*
+         * Cualquier clic dentro del formulario vuelve a enfocar
+         * el input real del PIN.
+         */
+        document.addEventListener('click', function (event) {
 
-        /* =========================================================
-           TECLADO FISICO
-        ========================================================= */
-
-        document.addEventListener(
-            'keydown',
-            function(event) {
-
-
-                /*
-                 * Números
-                 */
-
-                if (/^[0-9]$/.test(event.key)) {
-
-                    event.preventDefault();
-
-                    agregarDigito(event.key);
-
-                    return;
-                }
-
-
-                /*
-                 * Backspace
-                 */
-
-                if (event.key === 'Backspace') {
-
-                    event.preventDefault();
-
-                    borrarDigito();
-
-                    return;
-                }
-
-
-                /*
-                 * Enter
-                 */
-
-                if (event.key === 'Enter') {
-
-                    event.preventDefault();
-
-                    login();
-
-                }
-
+            if (
+                event.target.closest('.numeric-button') ||
+                event.target.closest('.pin-container') ||
+                event.target.closest('.login-content')
+            ) {
+                setTimeout(enfocarPin, 0);
             }
-        );
+        });
 
+        actualizarPinVisual();
 
-        /* =========================================================
-           MENSAJES DE SESION
-        ========================================================= */
+        window.addEventListener('load', function () {
+            setTimeout(enfocarPin, 100);
+        });
 
         const mensaje =
             <?= json_encode(session()->getFlashdata('mensaje')) ?>;
@@ -1652,11 +1582,6 @@
         }
 
 
-        /* =========================================================
-           ESTADO INICIAL
-        ========================================================= */
-
-        actualizarPinVisual();
     </script>
 
 

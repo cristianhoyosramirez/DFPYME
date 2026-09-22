@@ -47,7 +47,7 @@ class impresion
 
         $printer->setEmphasis(true);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
-        $printer->text("CUADRE DE CAJA \n");
+        $printer->text("MOVIMIENTO DE CAJA \n");
         $printer->setEmphasis(false);
 
         $printer->setJustification(Printer::JUSTIFY_LEFT);
@@ -72,16 +72,16 @@ class impresion
         $valor_apertura = model('aperturaModel')->select('valor')->where('id', $id_apertura)->first();
 
         $totalContado = model('pagosModel')
-            ->selectSum('valor')
+            ->selectSum('total_documento')
             ->where('id_apertura', $id_apertura)
             ->where('forma_pago', 1) // o el campo que corresponda
-            ->first()['valor'] ?? 0;
+            ->first()['total_documento'] ?? 0;
 
         $totalCredito = model('pagosModel')
-            ->selectSum('valor')
+            ->selectSum('total_documento')
             ->where('id_apertura', $id_apertura)
             ->where('forma_pago', 2) // o el campo que corresponda
-            ->first()['valor'] ?? 0;
+            ->first()['total_documento'] ?? 0;
 
         $propinas = model('pagosModel')
             ->selectSum('propina')
@@ -129,14 +129,19 @@ class impresion
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer->text(str_pad("Valor apertura:", $titulo) . str_pad("$ " . number_format($valor_apertura['valor'], 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
         $printer->text(str_pad("Ventas de contado:", $titulo) . str_pad("$ " . number_format($totalContado, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
-        $printer->text(str_pad("Abonos a credito:", $titulo) . str_pad("$ " . number_format($totalCredito, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
-        $printer->text(str_pad("Propinas:", $titulo) . str_pad("$ " . number_format($propinas, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
+        $printer->text(str_pad("Abonos a credito:", $titulo) . str_pad("$ " . number_format($totalAbonos, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
+        //$printer->text(str_pad("Propinas:", $titulo) . str_pad("$ " . number_format($propinas, 0, ',', '.'), $valor, " ", STR_PAD_LEFT) . "\n");
+
+        $devoluciones=model('pagosModel')->selectSum('total_documento')->where('id_estado',6)->where('id_apertura',$id_apertura)->first()['total_documento'] ?? 0;
 
         $printer->text("-----------------------------------------------\n");
-        $totalIngresos = $valor_apertura['valor'] + $totalContado + $propinas;
+        $totalIngresos = $valor_apertura['valor'] + $totalContado +
+            $totalAbonos;
+
+            $ingresos=$totalIngresos-$devoluciones;
 
         $linea = str_pad("TOTAL INGRESOS", 27, ' ', STR_PAD_RIGHT)
-            . str_pad("$" . number_format($totalIngresos, 0, ',', '.'), 17, ' ', STR_PAD_LEFT);
+            . str_pad("$" . number_format($ingresos, 0, ',', '.'), 17, ' ', STR_PAD_LEFT);
 
         $printer->text($linea . "\n");
         $printer->text("-----------------------------------------------\n");
@@ -236,10 +241,33 @@ class impresion
             (
                 $ingresos_efectivo[0]['efectivo']
                 + $efectivo_abonos
-                //+ $valor_apertura['valor']
+
                 + $ingresos_transaccion[0]['transferencia']
-                + $electronico_abonos
+                //+ $electronico_abonos
             )
+        );
+
+        $printer->setEmphasis(false);
+
+
+        $printer->text("-----------------------------------------------\n\n");
+
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+
+        $printer->setEmphasis(true);
+        $printer->text("PROPINAS " . "\n");
+        $printer->setEmphasis(false);
+
+        $printer->text("-----------------------------------------------\n");
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+        $printer->setEmphasis(true);
+
+        $propina = number_format($propinas[0]['propina'], 0, ',', '.');
+
+        $printer->text(
+            sprintf("%-32s%16s\n", "TOTAL PROPINAS:", "$ ".$propina)
         );
 
         $printer->setEmphasis(false);
@@ -490,12 +518,24 @@ class impresion
                     (
                         ($cierre_usuario - $total_en_caja) +
                         ($valor_cierre_transaccion_usuario - ($transaccion + $electronico_abonos))
-                    ) - $temp_devoluciones,
+                    ),
                     0,
                     ",",
                     "."
                 ) . "\n"
         );
+        /*     $printer->text(
+            "TOTAL DIFERENCIAS            $ " .
+                number_format(
+                    (
+                        ($cierre_usuario - $total_en_caja) +
+                        ($valor_cierre_transaccion_usuario - ($transaccion + $electronico_abonos))
+                    ) - $temp_devoluciones,
+                    0,
+                    ",",
+                    "."
+                ) . "\n"
+        ); */
         $printer->text("\n");
 
         $printer->feed(1);

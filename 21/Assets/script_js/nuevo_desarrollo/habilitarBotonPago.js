@@ -13,6 +13,7 @@ function habilitarBotonPago() {
 
         // Deshabilitar
         formaPago.disabled = true;
+        borrar_propina()
 
     } else {
 

@@ -266,7 +266,7 @@ class Ventas extends BaseController
                 'total' => $movimiento['total_documento'],
 
                 'efectivo' => $movimiento['efectivo'],
-                'transferencia' => $movimiento['recibido_transferencia'],
+                'transferencia' => $movimiento['transferencia'],
                 'total_pago' => $movimiento['total_pago'],
 
                 'usuario' => $movimiento['id_usuario_facturacion'],

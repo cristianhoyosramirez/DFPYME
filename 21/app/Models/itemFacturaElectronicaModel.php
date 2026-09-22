@@ -98,4 +98,20 @@ class itemFacturaElectronicaModel extends Model
          ");
         return $datos->getResultArray();
     }
+
+    public function getProductosFe($id_factura)
+    { 
+        $datos = $this->db->query("
+
+    
+        select 
+                cantidad as cantidadproducto_factura_venta,nombreproducto,cantidad as cantidadproducto_factura_venta,total,codigo as codigointernoproducto
+        from item_documento_electronico 
+        inner join producto on producto.codigointernoproducto=item_documento_electronico.codigo
+        where id_de=$id_factura
+
+
+         ");
+        return $datos->getResultArray();
+    }
 }
