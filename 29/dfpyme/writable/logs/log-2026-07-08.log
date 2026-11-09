@@ -1,0 +1,51 @@
+CRITICAL - 2026-07-08 07:38:33 --> Unclosed '[' on line 493 does not match '}'
+#0 C:\xampp\htdocs\development\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs...')
+#1 C:\xampp\htdocs\development\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers...')
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(797): class_exists('\\App\\Controller...', true)
+#4 C:\xampp\htdocs\development\system\CodeIgniter.php(406): CodeIgniter\CodeIgniter->startController()
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-07-08 07:40:32 --> Unclosed '[' on line 493 does not match '}'
+#0 C:\xampp\htdocs\development\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs...')
+#1 C:\xampp\htdocs\development\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers...')
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(797): class_exists('\\App\\Controller...', true)
+#4 C:\xampp\htdocs\development\system\CodeIgniter.php(406): CodeIgniter\CodeIgniter->startController()
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-07-08 13:23:33 --> Undefined variable $dian_aceptado
+#0 C:\xampp\htdocs\development\app\Views\ventas\notas_credito.php(129): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 129)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('ventas/notas_cr...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\reportes\ConsultasController.php(253): view('ventas/notas_cr...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\ConsultasController->buscarNcNumero()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ConsultasController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-07-08 13:23:34 --> Undefined variable $dian_aceptado
+#0 C:\xampp\htdocs\development\app\Views\ventas\notas_credito.php(129): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 129)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('ventas/notas_cr...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\reportes\ConsultasController.php(253): view('ventas/notas_cr...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\ConsultasController->buscarNcNumero()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ConsultasController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-07-08 13:28:27 --> Undefined variable $dian_aceptado
+#0 C:\xampp\htdocs\development\app\Views\ventas\notas_credito.php(129): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 129)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('ventas/notas_cr...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\reportes\ConsultasController.php(254): view('ventas/notas_cr...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\ConsultasController->buscarNcNumero()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ConsultasController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}

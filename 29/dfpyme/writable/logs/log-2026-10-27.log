@@ -1,0 +1,42 @@
+CRITICAL - 2026-10-27 08:23:06 --> Undefined array key "descuentos"
+#0 C:\xampp\htdocs\development\app\Controllers\reportes\Ventas.php(415): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 415)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\Ventas->exportar_excel()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\Ventas))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-10-27 08:25:35 --> Undefined array key "descuentos"
+#0 C:\xampp\htdocs\development\app\Controllers\reportes\Ventas.php(416): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 416)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\Ventas->exportar_excel()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\Ventas))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-10-27 16:12:26 --> Undefined array key "descuentos"
+#0 C:\xampp\htdocs\development\app\Controllers\reportes\Ventas.php(416): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 416)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\Ventas->exportar_excel()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\Ventas))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-10-27 19:30:08 --> Undefined array key "precio_original"
+#0 C:\xampp\htdocs\development\app\Controllers\factura_electronica\FacturaElectronica.php(444): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 444)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-10-27 19:30:59 --> Undefined array key "precio_original"
+#0 C:\xampp\htdocs\development\app\Controllers\factura_electronica\FacturaElectronica.php(444): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 444)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-10-27 19:36:56 --> Undefined array key "id_tabla_producto_pedido"
+#0 C:\xampp\htdocs\development\app\Controllers\factura_electronica\FacturaElectronica.php(415): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 415)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}

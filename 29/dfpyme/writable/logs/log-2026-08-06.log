@@ -1,0 +1,109 @@
+CRITICAL - 2026-08-06 10:24:00 --> Undefined property: stdClass::$filto
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(707): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined prope...', 'C:\\xampp\\htdocs...', 707)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-08-06 10:24:11 --> Undefined property: stdClass::$filto
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(707): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined prope...', 'C:\\xampp\\htdocs...', 707)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-08-06 10:54:27 --> Undefined array key "fecha_inicial"
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(715): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 715)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-08-06 10:55:07 --> Invalid file: fehas/todos_los_tiempos.php
+#0 C:\xampp\htdocs\dfpyme\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('fehas/todos_los...')
+#1 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('fehas/todos_los...', Array, true)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(716): view('fehas/todos_los...', Array)
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-08-06 10:56:06 --> Invalid file: fehas/todos_los_tiempos.php
+#0 C:\xampp\htdocs\dfpyme\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('fehas/todos_los...')
+#1 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('fehas/todos_los...', Array, true)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(716): view('fehas/todos_los...', Array)
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-08-06 10:58:27 --> Undefined variable $fecha_incial
+#0 C:\xampp\htdocs\dfpyme\app\Views\fechas\todos_los_tiempos.php(5): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 5)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('fechas/todos_lo...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(716): view('fechas/todos_lo...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-08-06 11:03:37 --> Invalid file: fechas/perido.php
+#0 C:\xampp\htdocs\dfpyme\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('fechas/perido.p...')
+#1 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('fechas/perido', Array, true)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(723): view('fechas/perido')
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-08-06 11:14:32 --> Invalid file: fechas/movimientos_de_caja.php
+#0 C:\xampp\htdocs\dfpyme\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('fechas/movimien...')
+#1 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('fechas/movimien...', Array, true)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(727): view('fechas/movimien...')
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-08-06 11:14:43 --> Invalid file: fechas/movimientos_de_caja.php
+#0 C:\xampp\htdocs\dfpyme\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('fechas/movimien...')
+#1 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('fechas/movimien...', Array, true)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(727): view('fechas/movimien...')
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-08-06 11:16:07 --> Invalid file: fechas/movimientos_de_caja.php
+#0 C:\xampp\htdocs\dfpyme\system\View\View.php(198): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('fechas/movimien...')
+#1 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('fechas/movimien...', Array, true)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(727): view('fechas/movimien...')
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-08-06 11:30:56 --> Undefined variable $aperturas
+#0 C:\xampp\htdocs\dfpyme\app\Views\fechas\movimientos_de_caja.php(11): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 11)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('fechas/movimien...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(731): view('fechas/movimien...')
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->filtro_fecha()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-08-06 14:56:46 --> syntax error, unexpected end of file
+#0 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#1 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('reportes/ventas...', Array, true)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\empresa\EmpresaController.php(705): view('reportes/ventas...', Array)
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\empresa\EmpresaController->ventas_mesero()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\empresa\EmpresaController))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-08-06 22:46:55 --> Maximum execution time of 300 seconds exceeded
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}

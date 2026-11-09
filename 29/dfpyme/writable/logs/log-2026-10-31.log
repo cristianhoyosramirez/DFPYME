@@ -1,0 +1,14 @@
+CRITICAL - 2026-10-31 17:40:37 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\development\app\Controllers\caja_general\cajaGeneralController.php(1499): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 1499)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\caja_general\cajaGeneralController->exportFormasPagoExcel()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\caja_general\cajaGeneralController))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-10-31 17:42:47 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\development\app\Controllers\caja_general\cajaGeneralController.php(1501): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 1501)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\caja_general\cajaGeneralController->exportFormasPagoExcel()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\caja_general\cajaGeneralController))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
