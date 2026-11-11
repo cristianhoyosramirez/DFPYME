@@ -1,0 +1,253 @@
+CRITICAL - 2026-01-21 09:47:54 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ep0<x')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(56): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-01-21 09:47:56 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ep0<x')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(56): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-01-21 09:47:58 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ep0<x')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(56): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-01-21 09:47:58 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ep0<x')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(56): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-01-21 09:47:59 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ep0<x')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(56): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-01-21 09:47:59 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ep0<x')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(56): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-01-21 09:47:59 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ep0<x')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(56): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-01-21 09:47:59 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ep0<x')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(56): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-01-21 10:21:42 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(827): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 827)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:21:45 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(40): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 40)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:21:47 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(40): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 40)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:21:49 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(40): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 40)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:21:51 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(40): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 40)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:21:53 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(40): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 40)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:21:56 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(40): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 40)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:22:06 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(40): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 40)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:25:04 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Mesas.php(935): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 935)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Mesas->pedido()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Mesas))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:25:34 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Mesas.php(1104): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 1104)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Mesas->eliminar_producto()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Mesas))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:25:40 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Mesas.php(1104): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 1104)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Mesas->eliminar_producto()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Mesas))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:27:20 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(133): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 133)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:28:48 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(133): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 133)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:29:43 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(133): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 133)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:32:00 --> Undefined array key "estado"
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(85): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 85)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:33:31 --> Undefined array key "efectivo"
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(90): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 90)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:34:47 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(133): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 133)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:35:59 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(130): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 130)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:41:15 --> Undefined variable $valor_pago_efectivo
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(407): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 407)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-01-21 10:41:52 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ea\x01')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_pos\facturacionConImpuestosController.php(900): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_pos\facturacionConImpuestosController->modulo_facturacion()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_pos\facturacionConImpuestosController))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-01-21 10:43:25 --> copy(\\DESKTOP-33GR05N\FACTURACION): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\DESKTOP-...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\DESKTOP-33GR0...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ea\x01')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Controllers\factura_pos\facturacionConImpuestosController.php(900): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_pos\facturacionConImpuestosController->modulo_facturacion()
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_pos\facturacionConImpuestosController))
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}

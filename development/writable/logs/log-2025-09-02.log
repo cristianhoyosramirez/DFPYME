@@ -1,0 +1,44 @@
+CRITICAL - 2025-09-02 20:23:33 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Views\mesa\mesasWhatsapp.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 9)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('mesa/mesasWhats...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\Salones\SalonesController.php(294): view('mesa/mesasWhats...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\Salones\SalonesController->crearMesas()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Salones\SalonesController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-02 20:25:52 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Views\mesa\mesasWhatsapp.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 9)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('mesa/mesasWhats...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\Salones\SalonesController.php(297): view('mesa/mesasWhats...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\Salones\SalonesController->crearMesas()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Salones\SalonesController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-02 20:26:31 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Views\mesa\mesasWhatsapp.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 9)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('mesa/mesasWhats...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\Salones\SalonesController.php(297): view('mesa/mesasWhats...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\Salones\SalonesController->crearMesas()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Salones\SalonesController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-02 22:58:16 --> Undefined variable $consulta
+#0 C:\xampp\htdocs\dfpyme\app\Views\home\home.php(14): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 14)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('home/home', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\whatsapp\whatsappController.php(170): view('home/home')
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\whatsapp\whatsappController->prueba()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\whatsapp\whatsappController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}

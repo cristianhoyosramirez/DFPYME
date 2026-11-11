@@ -1,0 +1,1234 @@
+ERROR - 2026-05-12 12:47:37 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «facturacion»
+LINE 1: SELECT &quot;facturacion&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "factura...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "factura...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "factura...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "factura...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(557): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->consultarFe()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 12:47:37 --> pg_query(): Query failed: ERROR:  no existe la columna «facturacion»
+LINE 1: SELECT &quot;facturacion&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "factura...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "factura...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "factura...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "factura...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(557): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->consultarFe()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 12:47:37 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 12:47:42 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «facturacion»
+LINE 1: SELECT &quot;facturacion&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "factura...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "factura...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "factura...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "factura...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(557): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->consultarFe()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 12:47:42 --> pg_query(): Query failed: ERROR:  no existe la columna «facturacion»
+LINE 1: SELECT &quot;facturacion&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "factura...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "factura...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "factura...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "factura...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(557): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->consultarFe()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 12:47:42 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 17:06:10 --> unlink(C:\xampp\htdocs\dfpyme\writable\debugbar/debugbar_1778616763.json): No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'unlink(C:\\xampp...', 'C:\\xampp\\htdocs...', 74)
+#1 C:\xampp\htdocs\dfpyme\system\Debug\Toolbar\Collectors\History.php(74): unlink('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\Debug\Toolbar.php(487): CodeIgniter\Debug\Toolbar\Collectors\History->setFiles(1778623568, 20)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Toolbar.php(464): CodeIgniter\Debug\Toolbar->format(Array, 'html')
+#4 C:\xampp\htdocs\dfpyme\app\Config\Events.php(48): CodeIgniter\Debug\Toolbar->respond()
+#5 C:\xampp\htdocs\dfpyme\system\Events\Events.php(149): CodeIgniter\Events\Events::Config\{closure}()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(308): CodeIgniter\Events\Events::trigger('pre_system')
+#7 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2026-05-12 18:31:42 --> Undefined array key "id_producto"
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\producto\productoController.php(576): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 576)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\producto\productoController->agregar_productos_x_categoria()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\productoController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:43:17 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\PartirFactura.php(200): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 200)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->valor()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:10 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:10 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:58:15 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:15 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:58:20 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:20 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:58:25 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:25 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:58:30 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:30 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:58:35 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:35 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:58:40 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:40 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:58:45 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:45 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:58:50 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:50 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:58:55 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:58:55 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-05-12 18:59:00 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\reportes\ReportesController.php(838): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 838)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->total_ventas_electronicas()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-05-12 18:59:00 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:35 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:35 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:35 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:39 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:39 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:39 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:39 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:39 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:39 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:40 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:40 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:40 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:40 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:40 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:40 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:40 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:40 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:40 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:41 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:41 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:41 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:42 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:42 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:42 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:42 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:42 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:42 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:43 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:43 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:43 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:43 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:43 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:43 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:45 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:45 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:45 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:45 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:45 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:45 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:57 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:57 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:57 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:58 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:58 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:58 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:06:58 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:58 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:06:58 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:07:00 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:00 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:00 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:07:00 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:00 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:00 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:07:01 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:01 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:01 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:07:01 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:01 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:01 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-05-12 19:07:01 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:01 --> pg_query(): Query failed: ERROR:  no existe la columna «id_reserva»
+LINE 1: SELECT &quot;id_reserva&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #156, 'SELECT "id_rese...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "id_rese...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "id_rese...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "id_rese...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(45): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-05-12 19:07:01 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}

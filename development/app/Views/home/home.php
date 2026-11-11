@@ -1,0 +1,19 @@
+<?php $session = session(); ?>
+<?php $user_session = session(); ?>
+<?= $this->extend('template/home') ?>
+<?= $this->section('title') ?>
+HOME
+<?= $this->endSection('title') ?>
+
+<?= $this->section('content') ?>
+
+<input type="text" id="url" value="<?php echo base_url() ?>" hidden>
+
+
+
+
+
+
+
+
+<?= $this->endSection('content') ?>

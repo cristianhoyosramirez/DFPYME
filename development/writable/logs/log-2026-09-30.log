@@ -1,0 +1,6 @@
+CRITICAL - 2026-09-30 21:37:30 --> Division by zero
+#0 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\producto\operacionesProductoController->actualizar_precio_producto()
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\operacionesProductoController))
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}

@@ -1,0 +1,227 @@
+CRITICAL - 2026-06-19 11:20:03 --> Undefined variable $user_session
+#0 C:\xampp\htdocs\development\app\Views\ventas\notas_credito.php(12): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 12)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('ventas/notas_cr...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\reportes\ConsultasController.php(176): view('ventas/notas_cr...')
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\ConsultasController->notas_credito()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ConsultasController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-06-19 11:49:17 --> Undefined array key "numro"
+#0 C:\xampp\htdocs\development\app\Views\ventas\notas_credito.php(198): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 198)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('ventas/notas_cr...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\reportes\ConsultasController.php(180): view('ventas/notas_cr...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\ConsultasController->notas_credito()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ConsultasController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-06-19 11:49:28 --> Undefined array key "numero"
+#0 C:\xampp\htdocs\development\app\Views\ventas\notas_credito.php(198): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 198)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('ventas/notas_cr...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\reportes\ConsultasController.php(180): view('ventas/notas_cr...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\ConsultasController->notas_credito()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ConsultasController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+ERROR - 2026-06-19 11:57:15 --> ErrorException: pg_query(): Query failed: ERROR:  referencia a la entrada de la cláusula FROM para la tabla «nota_credito_electronica» no válida
+LINE 9:                     nota_credito_electronica.id
+                            ^
+HINT:  Probablemente quiera hacer referencia al alias de la tabla «nce». in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, '\r\n             ...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n             ...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n             ...')
+#4 C:\xampp\htdocs\development\app\Models\notaCreditoModel.php(39): CodeIgniter\Database\BaseConnection->query('\r\n             ...')
+#5 C:\xampp\htdocs\development\app\Controllers\reportes\ConsultasController.php(176): App\Models\notaCreditoModel->datosNc()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\ConsultasController->notas_credito()
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ConsultasController))
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-06-19 11:57:15 --> pg_query(): Query failed: ERROR:  referencia a la entrada de la cláusula FROM para la tabla «nota_credito_electronica» no válida
+LINE 9:                     nota_credito_electronica.id
+                            ^
+HINT:  Probablemente quiera hacer referencia al alias de la tabla «nce».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, '\r\n             ...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('\r\n             ...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n             ...')
+#4 C:\xampp\htdocs\development\app\Models\notaCreditoModel.php(39): CodeIgniter\Database\BaseConnection->query('\r\n             ...')
+#5 C:\xampp\htdocs\development\app\Controllers\reportes\ConsultasController.php(176): App\Models\notaCreditoModel->datosNc()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\ConsultasController->notas_credito()
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ConsultasController))
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2026-06-19 12:13:16 --> Attempt to read property "documento" on null
+#0 C:\xampp\htdocs\development\app\Controllers\actualizaciones\ParametrizacionController.php(267): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read...', 'C:\\xampp\\htdocs...', 267)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\actualizaciones\ParametrizacionController->notaCredito()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\actualizaciones\ParametrizacionController))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+ERROR - 2026-06-19 15:37:55 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «usuario» en la relación «nota_credito_electronica»
+LINE 1: ...ectronica&quot; (&quot;tipo_ambiente&quot;, &quot;id_status&quot;, &quot;caja&quot;, &quot;usuario&quot;,...
+                                                             ^ in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'INSERT INTO "no...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "no...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "no...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "no...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\development\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\development\app\Controllers\actualizaciones\ParametrizacionController.php(328): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\actualizaciones\ParametrizacionController->notaCredito()
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\actualizaciones\ParametrizacionController))
+#11 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-19 15:37:55 --> pg_query(): Query failed: ERROR:  no existe la columna «usuario» en la relación «nota_credito_electronica»
+LINE 1: ...ectronica&quot; (&quot;tipo_ambiente&quot;, &quot;id_status&quot;, &quot;caja&quot;, &quot;usuario&quot;,...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'INSERT INTO "no...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "no...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "no...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "no...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\development\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\development\app\Controllers\actualizaciones\ParametrizacionController.php(328): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\actualizaciones\ParametrizacionController->notaCredito()
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\actualizaciones\ParametrizacionController))
+#11 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-19 15:37:55 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\development\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\development\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\development\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\development\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\development\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-06-19 15:38:29 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «usuario» en la relación «nota_credito_electronica»
+LINE 1: ...ectronica&quot; (&quot;tipo_ambiente&quot;, &quot;id_status&quot;, &quot;caja&quot;, &quot;usuario&quot;,...
+                                                             ^ in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'INSERT INTO "no...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "no...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "no...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "no...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\development\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\development\app\Controllers\actualizaciones\ParametrizacionController.php(328): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\actualizaciones\ParametrizacionController->notaCredito()
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\actualizaciones\ParametrizacionController))
+#11 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-19 15:38:29 --> pg_query(): Query failed: ERROR:  no existe la columna «usuario» en la relación «nota_credito_electronica»
+LINE 1: ...ectronica&quot; (&quot;tipo_ambiente&quot;, &quot;id_status&quot;, &quot;caja&quot;, &quot;usuario&quot;,...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'INSERT INTO "no...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "no...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "no...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "no...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\development\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\development\app\Controllers\actualizaciones\ParametrizacionController.php(328): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\actualizaciones\ParametrizacionController->notaCredito()
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\actualizaciones\ParametrizacionController))
+#11 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-19 15:38:29 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\development\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\development\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\development\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\development\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\development\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-06-19 21:37:15 --> Undefined array key 10
+#0 C:\xampp\htdocs\development\app\Controllers\reportes\ReportesController.php(506): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 506)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\reportes\ReportesController->estado_dian()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\reportes\ReportesController))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-06-19 21:37:15 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\development\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\development\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\development\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\development\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\development\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-06-19 21:39:46 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «usuario» en la relación «nota_credito_electronica»
+LINE 1: ...ectronica&quot; (&quot;tipo_ambiente&quot;, &quot;id_status&quot;, &quot;caja&quot;, &quot;usuario&quot;,...
+                                                             ^ in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'INSERT INTO "no...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "no...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "no...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "no...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\development\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\development\app\Controllers\actualizaciones\ParametrizacionController.php(332): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\actualizaciones\ParametrizacionController->notaCredito()
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\actualizaciones\ParametrizacionController))
+#11 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-19 21:39:46 --> pg_query(): Query failed: ERROR:  no existe la columna «usuario» en la relación «nota_credito_electronica»
+LINE 1: ...ectronica&quot; (&quot;tipo_ambiente&quot;, &quot;id_status&quot;, &quot;caja&quot;, &quot;usuario&quot;,...
+                                                             ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'INSERT INTO "no...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('INSERT INTO "no...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO "no...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1771): CodeIgniter\Database\BaseConnection->query('INSERT INTO "no...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(239): CodeIgniter\Database\BaseBuilder->insert()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(738): CodeIgniter\Model->doInsert(Array)
+#7 C:\xampp\htdocs\development\system\Model.php(625): CodeIgniter\BaseModel->insert(Array, true)
+#8 C:\xampp\htdocs\development\app\Controllers\actualizaciones\ParametrizacionController.php(332): CodeIgniter\Model->insert(Array)
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\actualizaciones\ParametrizacionController->notaCredito()
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\actualizaciones\ParametrizacionController))
+#11 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-19 21:39:46 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\development\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\development\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\development\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\development\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\development\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}

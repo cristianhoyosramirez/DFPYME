@@ -1,0 +1,41 @@
+ERROR - 2026-08-04 09:33:06 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «justificacion_producto»
+LINE 1: SELECT &quot;justificacion_producto&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "justifi...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "justifi...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "justifi...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "justifi...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Views\pedidos\mesas.php(94): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#9 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#10 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('pedidos/mesas', Array, true)
+#11 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Mesas.php(57): view('pedidos/mesas', Array)
+#12 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Mesas->index()
+#13 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Mesas))
+#14 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#15 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#16 {main}
+CRITICAL - 2026-08-04 09:33:06 --> pg_query(): Query failed: ERROR:  no existe la columna «justificacion_producto»
+LINE 1: SELECT &quot;justificacion_producto&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "justifi...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "justifi...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "justifi...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "justifi...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Views\pedidos\mesas.php(94): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#9 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#10 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('pedidos/mesas', Array, true)
+#11 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Mesas.php(57): view('pedidos/mesas', Array)
+#12 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Mesas->index()
+#13 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Mesas))
+#14 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#15 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#16 {main}

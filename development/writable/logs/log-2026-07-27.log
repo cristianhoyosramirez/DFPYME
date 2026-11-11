@@ -1,0 +1,262 @@
+ERROR - 2026-07-27 10:08:54 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^ in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 10:08:54 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 10:08:54 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\development\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\development\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\development\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\development\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\development\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-07-27 12:11:34 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^ in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 12:11:34 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 12:11:34 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\development\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\development\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\development\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\development\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\development\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-07-27 17:19:26 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^ in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 17:19:26 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 17:19:27 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\development\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\development\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\development\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\development\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\development\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-07-27 17:19:35 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^ in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 17:19:35 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 17:19:35 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\development\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\development\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\development\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\development\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\development\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-07-27 17:26:14 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^ in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 17:26:14 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+ERROR - 2026-07-27 17:26:47 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^ in C:\xampp\htdocs\development\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 17:26:47 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;id&quot; = ''
+                     ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\development\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "nitclie...')
+#2 C:\xampp\htdocs\development\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "nitclie...')
+#3 C:\xampp\htdocs\development\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "nitclie...')
+#4 C:\xampp\htdocs\development\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "nitclie...', Array, false)
+#5 C:\xampp\htdocs\development\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\development\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(169): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->getCartera()
+#9 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#10 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2026-07-27 21:57:26 --> Undefined constant "catera"
+#0 C:\xampp\htdocs\development\system\View\View.php(210): include()
+#1 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#2 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('cartera/cartera', Array, true)
+#3 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(22): view('cartera/cartera', Array)
+#4 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->index()
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2026-07-27 21:57:53 --> Undefined constant "cartera"
+#0 C:\xampp\htdocs\development\system\View\View.php(210): include()
+#1 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#2 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('cartera/cartera', Array, true)
+#3 C:\xampp\htdocs\development\app\Controllers\Cartera\carteraContoller.php(22): view('cartera/cartera', Array)
+#4 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\Cartera\carteraContoller->index()
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Cartera\carteraContoller))
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}

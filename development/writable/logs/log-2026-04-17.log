@@ -1,0 +1,118 @@
+ERROR - 2026-04-17 10:12:10 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «borrarFe»
+LINE 1: SELECT &quot;borrarFe&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #169, 'SELECT "borrarF...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "borrarF...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "borrarF...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "borrarF...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Libraries\data_table.php(23): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\Boletas\Boletas.php(1209): App\Libraries\data_table->row_data_table('8', '5766')
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\Boletas\Boletas->tipo_documento()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Boletas\Boletas))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-04-17 10:12:10 --> pg_query(): Query failed: ERROR:  no existe la columna «borrarFe»
+LINE 1: SELECT &quot;borrarFe&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #169, 'SELECT "borrarF...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "borrarF...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "borrarF...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "borrarF...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Libraries\data_table.php(23): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\Boletas\Boletas.php(1209): App\Libraries\data_table->row_data_table('8', '5766')
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\Boletas\Boletas->tipo_documento()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Boletas\Boletas))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-04-17 10:12:10 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-04-17 10:29:10 --> copy(\\EINSTEIN\IMPREPOS): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\EINSTEIN...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\EINSTEIN\\IMPR...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\EINSTEIN\\IMPR...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ea\x01\x1D!\x00VIVERES...')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Libraries\impresion.php(976): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(1249): App\Libraries\impresion->impresion_factura_electronica('12564')
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->impresion_factura_electronica()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2026-04-17 10:29:10 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Malformed UTF-8 characters, possibly incorrectly encoded". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Malformed UTF-8...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-04-17 10:29:13 --> copy(\\EINSTEIN\IMPREPOS): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\EINSTEIN...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\EINSTEIN\\IMPR...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\EINSTEIN\\IMPR...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ea\x01\x1D!\x00VIVERES...')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Libraries\impresion.php(976): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(1249): App\Libraries\impresion->impresion_factura_electronica('12564')
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->impresion_factura_electronica()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2026-04-17 10:29:13 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Malformed UTF-8 characters, possibly incorrectly encoded". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Malformed UTF-8...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-04-17 10:29:23 --> copy(\\EINSTEIN\IMPREPOS): Failed to open stream: No such file or directory
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'copy(\\\\EINSTEIN...', 'C:\\xampp\\htdocs...', 372)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(372): copy('C:\\Windows\\Temp...', '\\\\EINSTEIN\\IMPR...')
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(290): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->runCopy('C:\\Windows\\Temp...', '\\\\EINSTEIN\\IMPR...')
+#3 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\PrintConnectors\WindowsPrintConnector.php(173): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalizeWin('\e@\ea\x01\x1D!\x00VIVERES...')
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\mike42\src\Mike42\Escpos\Printer.php(503): Mike42\Escpos\PrintConnectors\WindowsPrintConnector->finalize()
+#5 C:\xampp\htdocs\dfpyme\app\Libraries\impresion.php(976): Mike42\Escpos\Printer->close()
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(1249): App\Libraries\impresion->impresion_factura_electronica('12564')
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->impresion_factura_electronica()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2026-04-17 10:29:23 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Malformed UTF-8 characters, possibly incorrectly encoded". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Malformed UTF-8...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}

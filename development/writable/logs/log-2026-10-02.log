@@ -1,0 +1,173 @@
+CRITICAL - 2026-10-02 16:56:26 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\development\app\Controllers\pedidos\PartirFactura.php(200): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 200)
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->valor()
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#3 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-10-02 20:24:24 --> number_format(): Argument #1 ($num) must be of type float, array given
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(144): number_format(Array, 0, ',', '.')
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2251): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 20:24:30 --> number_format(): Argument #1 ($num) must be of type float, array given
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(144): number_format(Array, 0, ',', '.')
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2251): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 20:29:28 --> foreach() argument must be of type array|object, int given
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(172): CodeIgniter\Debug\Exceptions->errorHandler(2, 'foreach() argum...', 'C:\\xampp\\htdocs...', 172)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2258): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 20:29:36 --> foreach() argument must be of type array|object, int given
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(172): CodeIgniter\Debug\Exceptions->errorHandler(2, 'foreach() argum...', 'C:\\xampp\\htdocs...', 172)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2258): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 20:30:34 --> foreach() argument must be of type array|object, int given
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(172): CodeIgniter\Debug\Exceptions->errorHandler(2, 'foreach() argum...', 'C:\\xampp\\htdocs...', 172)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2259): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 20:32:14 --> foreach() argument must be of type array|object, int given
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(172): CodeIgniter\Debug\Exceptions->errorHandler(2, 'foreach() argum...', 'C:\\xampp\\htdocs...', 172)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2260): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 20:32:30 --> foreach() argument must be of type array|object, int given
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(172): CodeIgniter\Debug\Exceptions->errorHandler(2, 'foreach() argum...', 'C:\\xampp\\htdocs...', 172)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2260): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 20:47:25 --> Trying to access array offset on value of type int
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(174): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 174)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2265): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 21:21:59 --> Trying to access array offset on value of type int
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(174): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 174)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2265): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 21:22:01 --> Trying to access array offset on value of type int
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(174): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 174)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2265): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 21:22:02 --> Trying to access array offset on value of type int
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(174): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 174)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2265): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 21:22:04 --> Trying to access array offset on value of type int
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(174): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 174)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2265): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 21:24:23 --> foreach() argument must be of type array|object, int given
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(224): CodeIgniter\Debug\Exceptions->errorHandler(2, 'foreach() argum...', 'C:\\xampp\\htdocs...', 224)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2265): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 21:25:03 --> foreach() argument must be of type array|object, int given
+#0 C:\xampp\htdocs\development\app\Views\consultas_y_reportes\informe_fiscal_ventas.php(297): CodeIgniter\Debug\Exceptions->errorHandler(2, 'foreach() argum...', 'C:\\xampp\\htdocs...', 297)
+#1 C:\xampp\htdocs\development\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\development\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\development\system\Common.php(1089): CodeIgniter\View\View->render('consultas_y_rep...', Array, true)
+#4 C:\xampp\htdocs\development\app\Controllers\consultas_y_reportes\cajaDiariaController.php(2265): view('consultas_y_rep...', Array)
+#5 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\consultas_y_reportes\cajaDiariaController->informe_fiscal_electronico()
+#6 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\consultas_y_reportes\cajaDiariaController))
+#7 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2026-10-02 21:41:07 --> Division by zero
+#0 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\producto\operacionesProductoController->actualizar_precio_producto()
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\operacionesProductoController))
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2026-10-02 21:45:09 --> Division by zero
+#0 C:\xampp\htdocs\development\system\CodeIgniter.php(832): App\Controllers\producto\operacionesProductoController->actualizar_precio_producto()
+#1 C:\xampp\htdocs\development\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\operacionesProductoController))
+#2 C:\xampp\htdocs\development\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\development\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}

@@ -1,0 +1,565 @@
+ERROR - 2026-06-06 11:49:18 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «componentes» viola la llave foránea «fk_componentes» en la tabla «atributos_producto»
+DETAIL:  La llave (id)=(11) todavía es referida desde la tabla «atributos_producto». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'DELETE FROM "co...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "co...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "co...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "co...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\producto\ConfigurarProductoController.php(141): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\producto\ConfigurarProductocontroller->deleteComponente()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\ConfigurarProductocontroller))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:49:18 --> pg_query(): Query failed: ERROR:  update o delete en «componentes» viola la llave foránea «fk_componentes» en la tabla «atributos_producto»
+DETAIL:  La llave (id)=(11) todavía es referida desde la tabla «atributos_producto».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'DELETE FROM "co...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "co...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "co...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "co...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\producto\ConfigurarProductoController.php(141): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\producto\ConfigurarProductocontroller->deleteComponente()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\ConfigurarProductocontroller))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:49:18 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-06-06 11:53:25 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(775): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:53:25 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(775): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:53:25 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-06-06 11:53:36 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(775): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:53:36 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(775): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:53:36 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-06-06 11:54:12 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\producto\operacionesProductoController.php(877): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\producto\operacionesProductoController->borrar_producto_inventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\operacionesProductoController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:54:12 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\producto\operacionesProductoController.php(877): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\producto\operacionesProductoController->borrar_producto_inventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\operacionesProductoController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:54:12 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-06-06 11:55:50 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(775): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:55:50 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(775): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:55:50 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-06-06 11:56:52 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\producto\operacionesProductoController.php(877): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\producto\operacionesProductoController->borrar_producto_inventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\operacionesProductoController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:56:52 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «fk_producto_factura_venta» en la tabla «producto_factura_venta»
+DETAIL:  La llave (codigointernoproducto)=(210) todavía es referida desde la tabla «producto_factura_venta».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #155, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\producto\operacionesProductoController.php(877): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\producto\operacionesProductoController->borrar_producto_inventario()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\producto\operacionesProductoController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:56:52 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+ERROR - 2026-06-06 11:59:07 --> ErrorException: pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «codigo_interno_producto» en la tabla «producto_pedido»
+DETAIL:  La llave (codigointernoproducto)=(211) todavía es referida desde la tabla «producto_pedido». in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(775): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:59:07 --> pg_query(): Query failed: ERROR:  update o delete en «producto» viola la llave foránea «codigo_interno_producto» en la tabla «producto_pedido»
+DETAIL:  La llave (codigointernoproducto)=(211) todavía es referida desde la tabla «producto_pedido».
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #147, 'DELETE FROM "pr...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('DELETE FROM "pr...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('DELETE FROM "pr...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(2225): CodeIgniter\Database\BaseConnection->query('DELETE FROM "pr...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Builder.php(204): CodeIgniter\Database\BaseBuilder->delete('', NULL, true)
+#6 C:\xampp\htdocs\dfpyme\system\Model.php(359): CodeIgniter\Database\Postgre\Builder->delete()
+#7 C:\xampp\htdocs\dfpyme\system\BaseModel.php(963): CodeIgniter\Model->doDelete(NULL, false)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\login\loginController.php(775): CodeIgniter\BaseModel->delete()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\login\loginController->eliminarProducto()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\login\loginController))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 11:59:07 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-06-06 14:11:21 --> Call to a member function select() on null
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2026-06-06 14:13:16 --> Call to a member function select() on null
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+ERROR - 2026-06-06 14:14:49 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «valor_unitario * cantidad_producto»
+LINE 1: SELECT &quot;valor_unitario * cantidad_producto&quot; AS &quot;total&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "valor_u...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "valor_u...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "valor_u...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "valor_u...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(728): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\PartirFactura.php(561): CodeIgniter\Model->__call('get', Array)
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2026-06-06 14:14:49 --> pg_query(): Query failed: ERROR:  no existe la columna «valor_unitario * cantidad_producto»
+LINE 1: SELECT &quot;valor_unitario * cantidad_producto&quot; AS &quot;total&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'SELECT "valor_u...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "valor_u...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "valor_u...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "valor_u...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(728): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\PartirFactura.php(561): CodeIgniter\Model->__call('get', Array)
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+ERROR - 2026-06-06 14:19:19 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «valor_unitario * cantidad_producto»
+LINE 1: SELECT &quot;valor_unitario * cantidad_producto&quot; AS &quot;total&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'SELECT "valor_u...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "valor_u...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "valor_u...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "valor_u...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(728): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\PartirFactura.php(561): CodeIgniter\Model->__call('get', Array)
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2026-06-06 14:19:19 --> pg_query(): Query failed: ERROR:  no existe la columna «valor_unitario * cantidad_producto»
+LINE 1: SELECT &quot;valor_unitario * cantidad_producto&quot; AS &quot;total&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'SELECT "valor_u...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "valor_u...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "valor_u...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "valor_u...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(728): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\PartirFactura.php(561): CodeIgniter\Model->__call('get', Array)
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2026-06-06 16:10:41 --> Undefined array key "total"
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\PartirFactura.php(558): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 558)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2026-06-06 16:55:55 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Libraries\Inventario.php(16): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 16)
+#1 C:\xampp\htdocs\dfpyme\app\Models\cerrarVentaModel.php(88): App\Libraries\Inventario->actualizar_inventario('210', '1', '1', 'CORTESIAS', 7528)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(292): App\Models\cerrarVentaModel->producto_pedido(Array, 7528, '92165', Array, '2026-06-06 16:5...', '0', '6', '1039', '1')
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-06-06 16:56:29 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Models\itemFacturaElectronicaModel.php(53): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 53)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(313): App\Models\itemFacturaElectronicaModel->set_item_factura('87677', '211', Array, '1', Array, '19', 0, 2521.0084033613, '3000', Array)
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-06-06 16:57:04 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Libraries\Inventario.php(16): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 16)
+#1 C:\xampp\htdocs\dfpyme\app\Models\cerrarVentaModel.php(88): App\Libraries\Inventario->actualizar_inventario('210', '1', '1', 'CORTESIAS', 7529)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\CerrarVenta.php(292): App\Models\cerrarVentaModel->producto_pedido(Array, 7529, '92165', Array, '2026-06-06 16:5...', '0', '6', '1039', '1')
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\CerrarVenta->cerrar_venta()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\CerrarVenta))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2026-06-06 16:59:11 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Models\itemFacturaElectronicaModel.php(53): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 53)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(313): App\Models\itemFacturaElectronicaModel->set_item_factura('87678', '211', Array, '1', Array, '19', 0, 2521.0084033613, '3000', Array)
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-06-06 17:00:11 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Models\itemFacturaElectronicaModel.php(53): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 53)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(313): App\Models\itemFacturaElectronicaModel->set_item_factura('87679', '210', Array, '1', Array, '19', 0, 2100.8403361345, '2500', Array)
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-06-06 17:00:13 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Models\itemFacturaElectronicaModel.php(53): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 53)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(313): App\Models\itemFacturaElectronicaModel->set_item_factura('87680', '210', Array, '1', Array, '19', 0, 2100.8403361345, '2500', Array)
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-06-06 17:02:14 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Models\itemFacturaElectronicaModel.php(53): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 53)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(313): App\Models\itemFacturaElectronicaModel->set_item_factura('87681', '210', Array, '1', Array, '19', 0, 2100.8403361345, '2500', Array)
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-06-06 17:02:21 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Models\itemFacturaElectronicaModel.php(53): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 53)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(313): App\Models\itemFacturaElectronicaModel->set_item_factura('87682', '210', Array, '1', Array, '19', 0, 2100.8403361345, '2500', Array)
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-06-06 17:05:14 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Models\itemFacturaElectronicaModel.php(53): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 53)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(313): App\Models\itemFacturaElectronicaModel->set_item_factura('87683', '210', Array, '1', Array, '19', 0, 2100.8403361345, '2500', Array)
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-06-06 17:12:20 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Models\itemFacturaElectronicaModel.php(53): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 53)
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\factura_electronica\FacturaElectronica.php(313): App\Models\itemFacturaElectronicaModel->set_item_factura('87684', '210', Array, '1', Array, '19', 0, 2100.8403361345, '2500', Array)
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\factura_electronica\FacturaElectronica->pre_factura()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\factura_electronica\FacturaElectronica))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2026-06-06 17:16:47 --> Unsupported operand types: string * string
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+ERROR - 2026-06-06 17:17:22 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «0.»
+LINE 1: UPDATE &quot;partir_factura&quot; SET &quot;cantidad_producto&quot; = '0.', &quot;val...
+                                                          ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'UPDATE "partir_...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('UPDATE "partir_...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE "partir_...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1913): CodeIgniter\Database\BaseConnection->query('UPDATE "partir_...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(298): CodeIgniter\Database\BaseBuilder->update()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(865): CodeIgniter\Model->doUpdate(NULL, Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(651): CodeIgniter\BaseModel->update(NULL, Array)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\PartirFactura.php(560): CodeIgniter\Model->update()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 17:17:22 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «0.»
+LINE 1: UPDATE &quot;partir_factura&quot; SET &quot;cantidad_producto&quot; = '0.', &quot;val...
+                                                          ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #157, 'UPDATE "partir_...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('UPDATE "partir_...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE "partir_...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1913): CodeIgniter\Database\BaseConnection->query('UPDATE "partir_...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(298): CodeIgniter\Database\BaseBuilder->update()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(865): CodeIgniter\Model->doUpdate(NULL, Array)
+#7 C:\xampp\htdocs\dfpyme\system\Model.php(651): CodeIgniter\BaseModel->update(NULL, Array)
+#8 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\PartirFactura.php(560): CodeIgniter\Model->update()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#11 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#13 {main}
+CRITICAL - 2026-06-06 17:17:23 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2026-06-06 17:17:25 --> Unsupported operand types: string * string
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2026-06-06 17:17:49 --> Unsupported operand types: string * string
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2026-06-06 17:18:18 --> Unsupported operand types: string * string
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2026-06-06 17:18:46 --> Unsupported operand types: string * string
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2026-06-06 17:18:51 --> Unsupported operand types: string * string
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2026-06-06 17:18:58 --> Unsupported operand types: string * string
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2026-06-06 17:19:06 --> Unsupported operand types: string * string
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\PartirFactura->actualizarCantidad()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\PartirFactura))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}

@@ -1,0 +1,221 @@
+ERROR - 2025-09-24 14:58:29 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «terminos_condiones»
+LINE 1: SELECT &quot;terminos_condiones&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #160, 'SELECT "termino...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "termino...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "termino...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "termino...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\configuracion\Configuracion.php(1200): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\configuracion\Configuracion->configuracionBono()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\configuracion\Configuracion))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2025-09-24 14:58:29 --> Call to a member function getFirstRow() on bool
+#0 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\configuracion\Configuracion.php(1200): CodeIgniter\BaseModel->first()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\configuracion\Configuracion->configuracionBono()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\configuracion\Configuracion))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+ERROR - 2025-09-24 14:58:53 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «terminos_condiones»
+LINE 1: SELECT &quot;terminos_condiones&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #160, 'SELECT "termino...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "termino...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "termino...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "termino...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\configuracion\Configuracion.php(1200): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\configuracion\Configuracion->configuracionBono()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\configuracion\Configuracion))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2025-09-24 14:58:53 --> Call to a member function getFirstRow() on bool
+#0 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\configuracion\Configuracion.php(1200): CodeIgniter\BaseModel->first()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\configuracion\Configuracion->configuracionBono()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\configuracion\Configuracion))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+ERROR - 2025-09-24 14:58:55 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «terminos_condiones»
+LINE 1: SELECT &quot;terminos_condiones&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #160, 'SELECT "termino...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "termino...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "termino...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "termino...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\configuracion\Configuracion.php(1200): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\configuracion\Configuracion->configuracionBono()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\configuracion\Configuracion))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2025-09-24 14:58:55 --> Call to a member function getFirstRow() on bool
+#0 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#1 C:\xampp\htdocs\dfpyme\app\Controllers\configuracion\Configuracion.php(1200): CodeIgniter\BaseModel->first()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\configuracion\Configuracion->configuracionBono()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\configuracion\Configuracion))
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+ERROR - 2025-09-24 14:59:04 --> ErrorException: pg_query(): Query failed: ERROR:  no existe la columna «terminos_condiones»
+LINE 1: SELECT &quot;terminos_condiones&quot;
+               ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #170, 'SELECT "termino...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "termino...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "termino...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "termino...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\configuracion\Configuracion.php(1200): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\configuracion\Configuracion->configuracionBono()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\configuracion\Configuracion))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2025-09-24 14:59:04 --> pg_query(): Query failed: ERROR:  no existe la columna «terminos_condiones»
+LINE 1: SELECT &quot;terminos_condiones&quot;
+               ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #170, 'SELECT "termino...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "termino...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "termino...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "termino...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\configuracion\Configuracion.php(1200): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\configuracion\Configuracion->configuracionBono()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\configuracion\Configuracion))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2025-09-24 16:14:28 --> Trying to access array offset on value of type null
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(898): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to acces...', 'C:\\xampp\\htdocs...', 898)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->imprimir_prefactura()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+ERROR - 2025-09-24 17:06:23 --> ErrorException: pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;fk_mesa&quot; = ''
+                          ^ in C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php:135
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'SELECT "propina...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "propina...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "propina...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "propina...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(1038): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->imprimir_op()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2025-09-24 17:06:23 --> pg_query(): Query failed: ERROR:  la sintaxis de entrada no es válida para integer: «»
+LINE 3: WHERE &quot;fk_mesa&quot; = ''
+                          ^
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 135)
+#1 C:\xampp\htdocs\dfpyme\system\Database\Postgre\Connection.php(135): pg_query(Resource id #158, 'SELECT "propina...')
+#2 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(670): CodeIgniter\Database\Postgre\Connection->execute('SELECT "propina...')
+#3 C:\xampp\htdocs\dfpyme\system\Database\BaseConnection.php(598): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "propina...')
+#4 C:\xampp\htdocs\dfpyme\system\Database\BaseBuilder.php(1455): CodeIgniter\Database\BaseConnection->query('SELECT "propina...', Array, false)
+#5 C:\xampp\htdocs\dfpyme\system\Model.php(210): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\dfpyme\system\BaseModel.php(622): CodeIgniter\Model->doFirst()
+#7 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Imprimir.php(1038): CodeIgniter\BaseModel->first()
+#8 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Imprimir->imprimir_op()
+#9 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Imprimir))
+#10 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2025-09-24 17:06:23 --> Uncaught CodeIgniter\Format\Exceptions\FormatException: Failed to parse json string, error: "Type is not supported". in C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php:41
+Stack trace:
+#0 C:\xampp\htdocs\dfpyme\system\Format\JSONFormatter.php(41): CodeIgniter\Format\Exceptions\FormatException::forInvalidJSON('Type is not sup...')
+#1 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(341): CodeIgniter\Format\JSONFormatter->format(Array)
+#2 C:\xampp\htdocs\dfpyme\system\API\ResponseTrait.php(99): CodeIgniter\Debug\Exceptions->format(Array)
+#3 C:\xampp\htdocs\dfpyme\system\Debug\Exceptions.php(115): CodeIgniter\Debug\Exceptions->respond(Array, 500)
+#4 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler(Object(ErrorException))
+#5 {main}
+  thrown
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2025-09-24 18:24:52 --> Attempt to read property "facturar_cero" on string
+#0 C:\xampp\htdocs\dfpyme\app\Views\menu\facturacion.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read...', 'C:\\xampp\\htdocs...', 22)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('menu/facturacio...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(547): view('menu/facturacio...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->facturacion()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-24 18:28:52 --> Undefined property: stdClass::$preguntar_impresora_prefactura
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedido\edicionEliminacionFacturaPedidoController.php(531): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined prope...', 'C:\\xampp\\htdocs...', 531)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedido\edicionEliminacionFacturaPedidoController->updateConfOrdenPedido()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedido\edicionEliminacionFacturaPedidoController))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2025-09-24 18:43:38 --> There is no data to update.
+#0 C:\xampp\htdocs\dfpyme\system\BaseModel.php(846): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+#1 C:\xampp\htdocs\dfpyme\system\Model.php(651): CodeIgniter\BaseModel->update(NULL, Array)
+#2 C:\xampp\htdocs\dfpyme\app\Controllers\configuracion\Configuracion.php(1316): CodeIgniter\Model->update()
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\configuracion\Configuracion->reImprimirMesero()
+#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\configuracion\Configuracion))
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2025-09-24 18:46:37 --> Undefined array key "reimpresion_comanda"
+#0 C:\xampp\htdocs\dfpyme\app\Views\toma_pedidos\pedidos.php(215): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 215)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('toma_pedidos/pe...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\TomaPedidosController.php(51): view('toma_pedidos/pe...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\TomaPedidosController->index()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\TomaPedidosController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-24 18:47:10 --> Undefined array key "reimpresion_comanda"
+#0 C:\xampp\htdocs\dfpyme\app\Views\toma_pedidos\pedidos.php(249): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array...', 'C:\\xampp\\htdocs...', 249)
+#1 C:\xampp\htdocs\dfpyme\system\View\View.php(210): include('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\dfpyme\system\View\View.php(213): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#3 C:\xampp\htdocs\dfpyme\system\Common.php(1089): CodeIgniter\View\View->render('toma_pedidos/pe...', Array, true)
+#4 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\TomaPedidosController.php(51): view('toma_pedidos/pe...', Array)
+#5 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\TomaPedidosController->index()
+#6 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\TomaPedidosController))
+#7 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2025-09-24 19:44:11 --> Undefined constant "App\Controllers\pedidos\justicacion"
+#0 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Mesas->eliminar_producto()
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Mesas))
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#3 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#4 {main}
+CRITICAL - 2025-09-24 19:44:56 --> Undefined variable $justicacion
+#0 C:\xampp\htdocs\dfpyme\app\Controllers\pedidos\Mesas.php(1159): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined varia...', 'C:\\xampp\\htdocs...', 1159)
+#1 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\pedidos\Mesas->eliminar_producto()
+#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\pedidos\Mesas))
+#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
