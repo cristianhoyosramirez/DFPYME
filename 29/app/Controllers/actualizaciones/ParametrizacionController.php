@@ -18,7 +18,7 @@ class ParametrizacionController extends BaseController
         $justificaionProducto = model('configuracionPedidoModel')->select('justificacion_producto')->first();
         $listaPrecios = model('configuracionPedidoModel')->select('lista_precios_moviles')->first();
 
-       // dd($listaPrecios);
+        // dd($listaPrecios);
 
 
         return view('parametrizacion/parametrizacion', [
@@ -29,7 +29,7 @@ class ParametrizacionController extends BaseController
             'nota' => $nota['notaPedido'],
             'justificacionPedido' => $justificaionPedido['justificacion_pedido'],
             'justificacionProducto' => $justificaionProducto['justificacion_producto'],
-            'lista_precios'=>$listaPrecios['lista_precios_moviles']
+            'lista_precios' => $listaPrecios['lista_precios_moviles']
         ]);
     }
 
@@ -302,7 +302,7 @@ class ParametrizacionController extends BaseController
                     'icn' => number_format($total_ico['ico'] ?? 0, 0, ',', '.')
                 ]),
                 'numero_factura' => $factura[0]['numero'],
-                'cliente'=>$factura[0]['nombrescliente']
+                'cliente' => $factura[0]['nombrescliente']
             ]);
         }
     }
@@ -314,11 +314,11 @@ class ParametrizacionController extends BaseController
         $id_usuario = $json->id_usuario;
         $nota = $json->nota;
         $razon = $json->razon;
-        //$razon ='ANULACION';
-        //$nota = '';
-        //$id_usuario = 6;
-        //$id = 87669;
-
+        /*   $razon = 'ANULACION';
+        $nota = '';
+        $id_usuario = 6;
+        $id = 29210;
+ */
         $factura = model('facturaElectronicaModel')->getDocumento($id);
         //dd($factura);
         $productos = model('facturaElectronicaModel')->getProductos($id);
@@ -399,6 +399,18 @@ class ParametrizacionController extends BaseController
         $db->transStart();
 
         $insertar = model('notaCreditoModel')->insert($data);
+        $descuento = model('facturaElectronicaModel')->getDescuento($id);
+
+
+
+        $descuentoNota = [
+            'id_nota'   => $insertar,
+            'concepto'  => $razon,
+            'valor'     => $descuento[0]['valor'],
+            'descuento' => true
+        ];
+
+        $descuento_nota = model('notaCreditoDescuentoModel')->insert($descuentoNota);
 
         if ($insertar) {
             model('consecutivosModel')
@@ -507,7 +519,7 @@ class ParametrizacionController extends BaseController
             ->first();
 
         $total_iva = model('kardexModel')
-            ->selectSum('iva')->where('id_factura',$idFactura['id_factura'])
+            ->selectSum('iva')->where('id_factura', $idFactura['id_factura'])
             ->where('id_estado', 8)
             ->first();
 
@@ -533,7 +545,7 @@ class ParametrizacionController extends BaseController
             'nit' => $factura[0]['nit_cliente'],
             'razon' => $nota_credito['razon'],
             'nota' => $nota_credito['nota'],
-            'iva'=>number_format($total_iva['iva']?? 0, 0, ',', '.')
+            'iva' => number_format($total_iva['iva'] ?? 0, 0, ',', '.')
         ]);
     }
 }
