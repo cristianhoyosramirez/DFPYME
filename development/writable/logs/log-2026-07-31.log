@@ -1,8 +1,0 @@
-CRITICAL - 2026-07-31 08:18:02 --> A non-numeric value encountered
-#0 C:\xampp\htdocs\dfpyme\app\Libraries\Inventario.php(93): CodeIgniter\Debug\Exceptions->errorHandler(2, 'A non-numeric v...', 'C:\\xampp\\htdocs...', 93)
-#1 C:\xampp\htdocs\dfpyme\app\Controllers\devolucion\devolucionController.php(249): App\Libraries\Inventario->devolucion('6', 222222222222, '25025210', '1jnjn\xC3\xB1k', '28.000', '28000', Array, '')
-#2 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(832): App\Controllers\devolucion\devolucionController->guardar_devolucion()
-#3 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(419): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\devolucion\devolucionController))
-#4 C:\xampp\htdocs\dfpyme\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
-#5 C:\xampp\htdocs\dfpyme\index.php(37): CodeIgniter\CodeIgniter->run()
-#6 {main}
