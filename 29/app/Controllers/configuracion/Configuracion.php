@@ -951,7 +951,11 @@ class Configuracion extends BaseController
                 }
             } else {
                 $esCredito = model('pagosModel')->select('forma_pago')->where('id_factura', $idFactura)->where('id_estado', 8)->first();
-                if ($esCredito['forma_pago'] == 1) {
+                if (
+                    $esCredito !== null &&
+                    isset($esCredito['forma_pago']) &&
+                    $esCredito['forma_pago'] == 1
+                ) {
                     $this->eliminarFacturaCompleta($idFactura);
                 }
             }

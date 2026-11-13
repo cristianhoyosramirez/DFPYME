@@ -706,10 +706,10 @@ class Boletas extends BaseController
         // Inicializar resultado para evitar Undefined variable
         $resultado = 0;
 
-         $id_tabla_producto = $this->request->getPost('id_producto');
+        $id_tabla_producto = $this->request->getPost('id_producto');
         //$id_tabla_producto = 16948;
 
-         $cantidad_actualizar = $this->request->getPost('cantidad_producto');
+        $cantidad_actualizar = $this->request->getPost('cantidad_producto');
         //$cantidad_actualizar = 10;
 
         $temPConvertirNumero = new convertirAdecimal();
@@ -718,7 +718,7 @@ class Boletas extends BaseController
         $numeroDecimal = $numero;
 
         // $cantidad_actualizar = 1;
-         $id_usuario = $this->request->getPost('id_usuario');
+        $id_usuario = $this->request->getPost('id_usuario');
         //$id_usuario = 6;
 
         $numero_pedido = model('productoPedidoModel')
@@ -1414,6 +1414,9 @@ WHERE pagos.id_apertura = $apertura
 
             $dian_aceptado = model('facturaElectronicaModel')->dian_ceptado();
             $dian_no_enviado = model('facturaElectronicaModel')->dian_no_enviado($id_apertura[0]['id']);
+
+       
+
             $dian_rechazado = model('facturaElectronicaModel')->dian_rechazado();
             $dian_error = model('facturaElectronicaModel')->dian_error();
 

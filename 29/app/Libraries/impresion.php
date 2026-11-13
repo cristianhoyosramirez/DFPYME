@@ -1070,7 +1070,16 @@ class impresion
         $propina =  model('pagosModel')->select('propina')->where('id_factura', $id_factura)->first();
 
         //$sub_total = ($total[0]['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva'])) - $propina['propina'];
-        $sub_total = ($total['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva']));
+        //$sub_total = ($total['valor'] - ($inc[0]['total_inc'] + $iva[0]['total_iva']));
+
+        $sub_total = (
+            $total['valor'] -
+            (
+                ($inc[0]['total_inc'] ?? 0) +
+                ($iva[0]['total_iva'] ?? 0) +
+                ($propina['propina'] ?? 0)
+            )
+        );
 
 
         $printer->setJustification(Printer::JUSTIFY_RIGHT);
@@ -1106,7 +1115,7 @@ class impresion
 
         $printer->text(
             str_pad("TOTAL", 15) . ": " .
-                str_pad("$ " . number_format(($total['valor'] ?? 0) + ($propina['propina'] ?? 0), 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n"
+                str_pad("$ " . number_format(($total['valor'] ?? 0) , 0, ",", "."), 10, " ", STR_PAD_LEFT) . "\n"
         );
 
         $printer->setEmphasis(false);
@@ -1123,7 +1132,7 @@ class impresion
             str_pad("TOTAL A PAGAR", 15) . ": " .
                 str_pad(
                     "$ " . number_format(
-                        (($total['valor'] ?? 0) + ($propina['propina'] ?? 0)) - ($descuentos[0]['descuento'] ?? 0),
+                        (($total['valor'] ?? 0) ) - ($descuentos[0]['descuento'] ?? 0),
                         0,
                         ",",
                         "."
