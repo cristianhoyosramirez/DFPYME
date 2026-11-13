@@ -401,17 +401,17 @@ class ParametrizacionController extends BaseController
         $insertar = model('notaCreditoModel')->insert($data);
         $descuento = model('facturaElectronicaModel')->getDescuento($id);
 
+        if (!empty($descuento) && ($descuento[0]['valor'] ?? 0) > 0) {
 
+            $descuentoNota = [
+                'id_nota'   => $insertar,
+                'concepto'  => $descuento[0]['concepto'],
+                'valor'     => $descuento[0]['valor'],
+                'descuento' => true
+            ];
 
-        $descuentoNota = [
-            'id_nota'   => $insertar,
-            'concepto'  => $razon,
-            'valor'     => $descuento[0]['valor'],
-            'descuento' => true
-        ];
-
-        $descuento_nota = model('notaCreditoDescuentoModel')->insert($descuentoNota);
-
+            $descuento_nota = model('notaCreditoDescuentoModel')->insert($descuentoNota);
+        }
         if ($insertar) {
             model('consecutivosModel')
                 ->set('numeroconsecutivo', (int) $numeroNc['numeroconsecutivo'] + 1, false)

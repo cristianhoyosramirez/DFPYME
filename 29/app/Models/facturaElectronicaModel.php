@@ -313,7 +313,7 @@ SELECT
     public function  getDescuento($id)
     {
         $datos = $this->db->query("
-            select valor from documento_electronico_descuento where id_de = $id
+            select valor,concepto from documento_electronico_descuento where id_de = $id
 
     ");
         return $datos->getResultArray();
