@@ -1413,7 +1413,7 @@ WHERE pagos.id_apertura = $apertura
             $total_ventas = model('pagosModel')->total_venta($id_apertura[0]['id']);
 
             $dian_aceptado = model('facturaElectronicaModel')->dian_ceptado();
-            $dian_no_enviado = model('facturaElectronicaModel')->dian_no_enviado($id_apertura[0]['id']);
+            $dian_no_enviado = model('facturaElectronicaModel')->dian_no_enviado();
 
        
 

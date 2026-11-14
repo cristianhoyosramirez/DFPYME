@@ -64,7 +64,7 @@ class facturaElectronicaModel extends Model
     ");
         return $datos->getResultArray();
     }
-    public function  dian_no_enviado($id_apertura)
+    public function  dian_no_enviado()
     {
         $datos = $this->db->query("
             SELECT
@@ -72,7 +72,7 @@ class facturaElectronicaModel extends Model
             FROM
                     documento_electronico
             WHERE
-            id_status = 1  and id_apertura = $id_apertura
+            id_status = 1  
     ");
         return $datos->getResultArray();
     }

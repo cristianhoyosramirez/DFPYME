@@ -92,7 +92,7 @@
                     </div>
                   </div>
                   <div class="row mb-2">
-                    <label for="inputEmail3" class="col-sm-4 col-form-label">Documento</label>
+                    <label for="inputEmail3" class="col-sm-4 col-form-label">Documentosdsadsa</label>
                     <?php $estados = model('estadoModel')->estados(); ?>
 
                     <div class="col-sm-8">
@@ -414,33 +414,26 @@
 </div>
 
 
-<!-- <script>
-  function calcular_descuento(valor) {
 
-    let total = document.getElementById('valor_total_a_pagar');
-
-    // Quitar puntos y comas; si está vacío, usar cero
-    let valor_limpio = String(valor ?? '').replace(/[.,]/g, '');
-    let descuento = parseFloat(valor_limpio) || 0;
-
-    let total_descuento = (parseFloat(total.value) || 0) - descuento;
-
-    let total_final = Math.max(0, total_descuento);
-
-    document.getElementById('total_pedido').innerHTML =
-      "Valor pago: " + total_final.toLocaleString('es-CO');
-
-    document.getElementById('efectivo').value =
-      total_final.toLocaleString('es-CO');
-
-       document.getElementById('transaccion').value =0
-  }
-</script> -->
 
 
 <script>
-  function calcular_descuento(valor) {
+  function calcular_descuento(valor, evento) {
 
+    // Limpiar mensaje de error
+
+
+    // Ejecutar únicamente si es factura electrónica (documento = 8)
+    if (document.getElementById('documento').value != 8) {
+
+      document.getElementById('valor_descuento').value = 0
+      document.getElementById('errorValorDescuento').innerHTML =
+        "El descuento solo es permitido para facturas electrónicas";
+
+      return;
+    }
+
+    document.getElementById('errorValorDescuento').innerHTML = "";
     let total = document.getElementById('valor_total_a_pagar');
 
     // Obtener el valor de la venta, quitando puntos y comas
@@ -452,12 +445,13 @@
     let descuento = parseFloat(valor_limpio) || 0;
 
     // El descuento no puede ser negativo ni superar el valor de la venta
+    let descuento_original = descuento;
+
     descuento = Math.max(0, Math.min(descuento, valor_venta));
 
-    // Si supera el valor de la venta, actualizar el campo del descuento
-    if (descuento !== (parseFloat(valor_limpio) || 0)) {
-      // Mostrar el descuento máximo permitido
-      event?.target && (event.target.value = descuento.toLocaleString('es-CO'));
+    // Actualizar el campo si el descuento supera el valor permitido
+    if (descuento !== descuento_original && evento) {
+      evento.target.value = descuento.toLocaleString('es-CO');
     }
 
     // Calcular el total después del descuento
@@ -483,8 +477,6 @@
     // Desmarcar Banco
     document.getElementById('radio_transaccion').checked = false;
 
-    // Actualizar el medio de pago a efectivo
-    //document.getElementById('medio_de_pago').value = 1;
   }
 </script>
 

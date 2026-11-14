@@ -523,6 +523,12 @@ class ReportesController extends BaseController
                 ->where('id_estado', 8)
                 ->first();
 
+            $formaPago = model('pagosModel')
+                ->select('forma_pago')
+                ->where('id_factura', $detalle['id'])
+                ->where('id_estado', 8)
+                ->first()['forma_pago'];
+
             if (!empty($idMesa)) {
                 $tempNombreMesa = model('mesasModel')->select('nombre')->where('id', $idMesa['id_mesa'])->first();
                 $mesa = $tempNombreMesa['nombre'] ?? '';
@@ -537,14 +543,24 @@ class ReportesController extends BaseController
             $sub_array[] = $detalle['nit_cliente'];
             $sub_array[] = $detalle['nombrescliente'];
             $sub_array[] = $detalle['documento'];
+            //$sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
+            if ($formaPago == 1) {
+                $sub_array[] = "Contado";
+            }
+            if ($formaPago == 2) {
+                $sub_array[] = "Crédito";
+            }
+
             $sub_array[] = number_format($detalle['total_documento'], 0, ",", ".");
 
             $saldo = model('pagosModel')->getSaldo($detalle['id']);
 
+
+
             $sub_array[] = $saldo[0]['saldo'] ?? 0;
 
             $sub_array[] = "FE";
-            $sub_array[] = $mesa;
+
             $sub_array[] = $mesa;
 
 

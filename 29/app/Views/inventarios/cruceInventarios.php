@@ -204,7 +204,7 @@ HOME
                                 <td><?php echo $unidadMedida['descripcionvalor_unidad_medida']; ?></td>
                                 <td>
                                     <input type="text" class="form-control input-inventario"
-                                        value="<?php echo $keyProducto['cantidad_inventario']; ?>">
+                                        value="<?php echo $keyProducto['cantidad_inventario']; ?>" readonly>
                                 </td>
                                 <?php
                                 //$registro = model('inventarioFisicoModel')->select('cantidad_inventario_fisico')->where('codigointernoproducto', $keyProducto['codigointernoproducto'])->first();  

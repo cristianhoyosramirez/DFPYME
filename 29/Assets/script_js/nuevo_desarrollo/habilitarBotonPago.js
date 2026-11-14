@@ -7,6 +7,7 @@ function habilitarBotonPago() {
     let formaPago = document.getElementById("formaPago");
     let efectivo = document.getElementById("efectivo");
     let transaccion = document.getElementById("transaccion");
+    document.getElementById('errorValorDescuento').innerHTML="";
 
     if (select == 6) {
 
@@ -31,6 +32,8 @@ function habilitarBotonPago() {
 
         // Habilitar forma de pago
         formaPago.disabled = false;
+
+       
     }
 
     if (select == 2) {
@@ -39,5 +42,9 @@ function habilitarBotonPago() {
 
         $('#efectivo').val(0);
         $('#transaccion').val(0);
+    }
+
+    if (select != 8){
+         document.getElementById('valor_descuento').value = 0;
     }
 }
