@@ -2,7 +2,7 @@ function limpiar_todo() {
 
     var radio_transaccion = document.getElementById("radio_transaccion");
     // Desmarca el elemento
-    
+
     if (radio_transaccion) {
         radio_transaccion.checked = false;
     }
@@ -50,6 +50,10 @@ function limpiar_todo() {
     $('#efectivo').select()
     document.getElementById('medio_de_pago').value = '10';
     document.getElementById('formaPago').value = '1';
-    document.getElementById('descuento_por_porcentaje').value = '';
+    const descuentoPorPorcentaje = document.getElementById('descuento_por_porcentaje');
+
+    if (descuentoPorPorcentaje) {
+        descuentoPorPorcentaje.value = '';
+    }
 
 }
