@@ -1110,15 +1110,18 @@
 
                     <div id="error_login">
 
-                        <?php if (session('errors.pin')): ?>
 
-                            <?= session('errors.pin') ?>
+                        <?php
+                        $erroresLogin = session()->getFlashdata('errors');
+                        $errorPin = is_array($erroresLogin)
+                            ? ($erroresLogin['pin'] ?? '')
+                            : '';
+                        ?>
 
-                        <?php else: ?>
+                        <div id="error_login">
+                            <?= esc($errorPin ?: 'Ingresa tu PIN para continuar') ?>
+                        </div>
 
-                            Ingresa tu PIN para continuar
-
-                        <?php endif; ?>
 
                     </div>
 
@@ -1425,6 +1428,8 @@
     <!-- =========================================================
      LIBRERIAS
 ========================================================= -->
+
+    <input type="text" id="url" value="<?= base_url() ?>">
 
     <script src="<?= base_url() ?>/Assets/js/jquery-3.5.1.js"></script>
 

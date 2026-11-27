@@ -2,9 +2,16 @@ function mesas_salon(id_salon) {
 
 
 
-    let descuento_porcentaje = document.getElementById("descuento_por_porcentaje").value=0;
-    let descuento_dinero = document.getElementById("descuento_dinero").value=0;
-    
+    let inputDescuento = document.getElementById("descuento_por_porcentaje");
+
+    if (inputDescuento) {
+        inputDescuento.value = 0;
+        let descuento_porcentaje = 0;
+    } else {
+        console.warn("No se encontró el input descuento_por_porcentaje");
+    }
+    //let descuento_dinero = document.getElementById("descuento_dinero").value = 0;
+
     let mesas = document.getElementById("todas_las_mesas");
     mesas.style.display = "block";
     let tipo_pedido = document.getElementById("tipo_pedido").value;

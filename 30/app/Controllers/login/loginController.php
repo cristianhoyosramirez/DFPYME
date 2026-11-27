@@ -13,20 +13,22 @@ class loginController extends BaseController
 
     public function login()
     {
-
         if (!$this->validate([
             'pin' => [
                 'rules' => 'required|is_not_unique[usuario_sistema.pinusuario_sistema]|max_length[4]',
                 'errors' => [
-                    'required' => 'El pin es requerido',
-                    'is_not_unique' => 'Pin inexistente',
-                    'max_length' => 'Longitud máxima de 4 digitos'
-
+                    'required' => 'El PIN es requerido',
+                    'is_not_unique' => 'PIN inexistente',
+                    'max_length' => 'Longitud máxima de 4 dígitos'
                 ]
-            ],
-
+            ]
         ])) {
-            return redirect()->to(base_url('/'))->withInput()->with('errors', $this->validator->getErrors());
+            $errores = $this->validator->getErrors();
+
+            return redirect()
+                ->to(base_url('/'))
+                ->withInput()
+                ->with('errors', $errores);
         }
 
         $db = \Config\Database::connect();
